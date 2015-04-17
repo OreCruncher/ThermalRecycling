@@ -1,10 +1,6 @@
-# ModpackInfo
+# Thermal Recycling
 
-When added to a modpack ModpackInfo will do the following things:
-
-* It will generate a log file to the ./minecraft directory which contains information about each of the loaded mods.  The information is sourced from the mods themselves.  The format of the output file can be configured to text, XML, json, or BBCode.
-* If configured to do so a player will be sent modpack information via in-game chat when they log in.  This information would have to be configured by the modpack authors prior to deployment.
-* Players will have access to a /modpackinfo command in-game.  This command will retrieve additional information about the modpack that has been deployed.
+Thermal Recycling is an addon for Thermal Expansion 4.x that adds a bunch of furnace, pulverizer, sawmill, and smelter recipes that allow for "recycling" of various blocks and items.
 
 Further information can be found on the Wiki.
 
