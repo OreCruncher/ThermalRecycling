@@ -2,10 +2,10 @@
 	{
 		"modid": "recycling",
 		"name": "Thermal Recycling",
-		"description": "Spoon!",
-		"version": "0.0.1",
+		"description": "Thermal Expansion 4.x add-on that provides additional recipes for recycling",
+		"version": "0.0.2",
 		"mcversion": "1.7.10",
-		"url": "",
+		"url": "https://github.com/OreCruncher/ThermalRecycling/wiki/Welcome-to-Recycling,-Thermally!",
 		"updateUrl": "",
 		"authorList": [ "OreCruncher" ],
 		"credits": "",
