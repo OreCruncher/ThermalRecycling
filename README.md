@@ -8,7 +8,6 @@ Further information can be found on the Wiki.
 The MIT License (MIT)
 
 Copyright (c) 2015 OreCruncher
-Copyright (c) 2015 Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
