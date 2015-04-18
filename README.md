@@ -1,10 +1,10 @@
-# Thermal Recycling
+###Thermal Recycling
 
 Thermal Recycling is an addon for Thermal Expansion 4.x that adds a bunch of furnace, pulverizer, sawmill, and smelter recipes that allow for "recycling" of various blocks and items.
 
 Further information can be found on the [Wiki](https://github.com/OreCruncher/ThermalRecycling/wiki).
 
-#License
+###License
 The MIT License (MIT)
 
 Copyright (c) 2015 OreCruncher
