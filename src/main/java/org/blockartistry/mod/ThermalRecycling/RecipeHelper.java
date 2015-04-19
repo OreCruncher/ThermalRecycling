@@ -32,6 +32,8 @@ import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeHelper {
@@ -41,6 +43,7 @@ public class RecipeHelper {
 	protected ItemStack output;
 	protected ItemStack secondary;
 	protected int secondaryChance;
+	protected FluidStack fluid;
 
 	public static ItemStack getItemStack(String name, int quantity) {
 		return getItemStack(name, quantity, 0);
@@ -65,6 +68,66 @@ public class RecipeHelper {
 			ModLog.info("Unable to locate item: " + name);
 
 		return result;
+	}
+
+	public static FluidStack getFluidStack(String name, int quantity) {
+
+		return FluidRegistry.getFluidStack(name, quantity);
+
+	}
+
+	protected static String resolveName(ItemStack stack) {
+		String result = null;
+
+		if (stack != null) {
+
+			try {
+				result = stack.getDisplayName();
+			} catch (Exception e) {
+			}
+
+			if (result == null) {
+				try {
+					result = stack.getUnlocalizedName();
+				} catch (Exception e) {
+					;
+				}
+			}
+		}
+
+		return result == null ? "UNKNOWN" : result;
+	}
+
+	protected void log(String machine) {
+
+		StringBuilder builder = new StringBuilder();
+
+		if ("Fluid Transposer".compareTo(machine) == 0) {
+			builder.append(String.format("%s [%dx %s] => [%dx %s, %dmb %s]",
+					machine, input.stackSize, resolveName(input),
+					output.stackSize, resolveName(output), fluid.amount,
+					fluid.getLocalizedName()));
+		} else if ("Induction Smelter".compareTo(machine) == 0) {
+			builder.append(String.format("%s [%dx %s, %dx %s] => [%dx %s]",
+					machine, input.stackSize, resolveName(input),
+					secondary.stackSize, resolveName(secondary),
+					output.stackSize, resolveName(output)));
+
+		} else {
+			builder.append(String.format("%s [%dx %s] => [%dx %s", machine,
+					input.stackSize, resolveName(input), output.stackSize,
+					resolveName(output)));
+
+			if (secondary != null) {
+				builder.append(String.format(", %dx %s @%d",
+						secondary.stackSize, resolveName(secondary),
+						secondaryChance));
+			}
+
+			builder.append("]");
+		}
+
+		ModLog.info(builder.toString());
 	}
 
 	public RecipeHelper() {
@@ -179,6 +242,11 @@ public class RecipeHelper {
 		return this;
 	}
 
+	public RecipeHelper resetSecondary() {
+		this.secondary = null;
+		return this;
+	}
+
 	public RecipeHelper setSecondary(Block block) {
 		return setSecondary(block, 1);
 	}
@@ -225,37 +293,76 @@ public class RecipeHelper {
 		return this;
 	}
 
+	public RecipeHelper setFluid(String fluidId) {
+		setFluid(getFluidStack(fluidId, 1000));
+		return this;
+	}
+
+	public RecipeHelper setFluid(String fluidId, int quantity) {
+		setFluid(getFluidStack(fluidId, quantity));
+		return this;
+	}
+
+	public RecipeHelper setFluid(FluidStack stack) {
+		this.fluid = stack;
+		return this;
+	}
+
+	public RecipeHelper setFluidQuantity(int quantity) {
+		if (this.fluid != null)
+			this.fluid.amount = quantity;
+		return this;
+	}
+
 	public RecipeHelper addAsFurnaceRecipe() {
 
-		if (input != null && output != null)
+		if (input != null && output != null) {
 			ThermalExpansionHelper.addFurnaceRecipe(energy, input, output);
+			log("Furnace");
+		}
 
 		return this;
 	}
 
 	public RecipeHelper addAsPulverizerRecipe() {
 
-		if (input != null && output != null)
+		if (input != null && output != null) {
 			ThermalExpansionHelper.addPulverizerRecipe(energy, input, output,
 					secondary, secondaryChance);
+			log("Pulverizer");
+		}
 
 		return this;
 	}
 
 	public RecipeHelper addAsSmelterRecipe() {
 
-		if (input != null && output != null)
+		if (input != null && output != null) {
 			ThermalExpansionHelper.addSmelterRecipe(energy, input, secondary,
 					output);
+			log("Induction Smelter");
+		}
 
 		return this;
 	}
 
 	public RecipeHelper addAsSawmillRecipe() {
 
-		if (input != null && output != null)
+		if (input != null && output != null) {
 			ThermalExpansionHelper.addSawmillRecipe(energy, input, output,
 					secondary, secondaryChance);
+			log("Sawmill");
+		}
+
+		return this;
+	}
+
+	public RecipeHelper addAsFluidTransposerRecipe() {
+		if (input != null && output != null && fluid != null) {
+			ThermalExpansionHelper.addTransposerExtract(energy, input, output,
+					fluid, 100, false);
+			log("Fluid Transposer");
+		}
 
 		return this;
 	}

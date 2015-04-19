@@ -25,8 +25,13 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import org.blockartistry.mod.ThermalRecycling.support.ModBuildCraft;
+import org.blockartistry.mod.ThermalRecycling.support.ModMinefactoryReloaded;
+import org.blockartistry.mod.ThermalRecycling.support.ModThaumcraft;
+import org.blockartistry.mod.ThermalRecycling.support.ModThermalDynamics;
 import org.blockartistry.mod.ThermalRecycling.support.ModThermalExpansion;
 import org.blockartistry.mod.ThermalRecycling.support.ModThermalFoundation;
+import org.blockartistry.mod.ThermalRecycling.support.ModTweaks;
 import org.blockartistry.mod.ThermalRecycling.support.VanillaMinecraft;
 
 import net.minecraft.item.ItemStack;
@@ -34,7 +39,7 @@ import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = ThermalRecycling.MOD_ID, useMetadata = true, dependencies = ThermalRecycling.DEPENDENCIES, version = ThermalRecycling.VERSION)
@@ -44,7 +49,7 @@ public final class ThermalRecycling {
 	public static ThermalRecycling instance = new ThermalRecycling();
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.0.2";
+	public static final String VERSION = "0.1.0";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion";
 
 	private ModOptions options = new ModOptions();
@@ -80,36 +85,40 @@ public final class ThermalRecycling {
 		config.save();
 	}
 
+	protected void handle(ModTweaks tweaks) {
+
+		if (!tweaks.isModLoaded()) {
+			ModLog.info("Mod [%s] not loaded - skipping", tweaks.getName());
+			return;
+		}
+
+		ModLog.info("Adding recipes for items from [%s]", tweaks.getName());
+
+		try {
+
+			tweaks.apply(options);
+
+		} catch (Exception e) {
+
+			ModLog.warn("Exception processing recipes for [%s]",
+					tweaks.getName());
+			e.printStackTrace();
+
+		}
+
+	}
+
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void postInit(FMLPostInitializationEvent event) {
 		// some example code
 		ModLog.info("CoFH API I see: " + cofh.api.CoFHAPIProps.VERSION);
 
-		/*
-		 * dumpSubItems("ThermalExpansion:Machine");
-		 * dumpSubItems("ThermalExpansion:Device");
-		 * dumpSubItems("ThermalExpansion:Dynamo");
-		 * dumpSubItems("ThermalExpansion:Cell");
-		 * dumpSubItems("ThermalExpansion:Tank");
-		 * dumpSubItems("ThermalExpansion:Strongbox");
-		 * dumpSubItems("ThermalExpansion:Cache");
-		 * dumpSubItems("ThermalExpansion:Tesseract");
-		 * dumpSubItems("ThermalExpansion:Plate");
-		 * dumpSubItems("ThermalExpansion:Light");
-		 * dumpSubItems("ThermalExpansion:Frame");
-		 * dumpSubItems("ThermalExpansion:Glass");
-		 * dumpSubItems("ThermalExpansion:Rockwool");
-		 * dumpSubItems("ThermalExpansion:Sponge");
-		 * dumpSubItems("ThermalExpansion:capacitor");
-		 * dumpSubItems("ThermalExpansion:satchel");
-		 * dumpSubItems("ThermalExpansion:diagram");
-		 * dumpSubItems("ThermalExpansion:material");
-		 * dumpSubItems("ThermalExpansion:augment");
-		 * dumpSubItems("ThermalExpansion:florb");
-		 */
-
-		(new VanillaMinecraft()).apply(options);
-		(new ModThermalFoundation()).apply(options);
-		(new ModThermalExpansion()).apply(options);
+		handle(new VanillaMinecraft());
+		handle(new ModThermalFoundation());
+		handle(new ModThermalExpansion());
+		handle(new ModThermalDynamics());
+		handle(new ModThaumcraft());
+		handle(new ModBuildCraft());
+		handle(new ModMinefactoryReloaded());
 	}
 }

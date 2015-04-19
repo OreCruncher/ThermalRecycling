@@ -27,7 +27,17 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
+import cpw.mods.fml.common.Loader;
+
 public abstract class ModTweaks {
+
+	protected boolean isModLoaded(String modName) {
+		return Loader.isModLoaded(modName);
+	}
+
+	public abstract String getName();
+
+	public abstract boolean isModLoaded();
 
 	public abstract void apply(ModOptions options);
 

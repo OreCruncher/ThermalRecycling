@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
 
@@ -37,13 +35,34 @@ public class VanillaMinecraft extends ModTweaks {
 	protected void recycleSaplings() {
 
 		RecipeHelper helper = new RecipeHelper();
-		ItemStack sapling = new ItemStack(Blocks.sapling, 8);
 
-		helper.setEnergy(1200).setInput(sapling).setOutput(Blocks.dirt);
+		helper.setEnergy(1200).setInput(Blocks.sapling, 8)
+				.setOutput(Blocks.dirt);
 
 		for (int i = 0; i < 6; i++) {
 			helper.setInputSubtype(i).addAsPulverizerRecipe();
 		}
+	}
+
+	protected void recycleFish() {
+
+		RecipeHelper helper = new RecipeHelper();
+
+		helper.setInput(Items.fish, 8).setOutput(Items.rotten_flesh);
+
+		for (int i = 0; i < 4; i++) {
+			helper.setInputSubtype(i).addAsPulverizerRecipe();
+		}
+	}
+
+	@Override
+	public String getName() {
+		return "Vanilla Minecraft";
+	}
+
+	@Override
+	public boolean isModLoaded() {
+		return true;
 	}
 
 	@Override
@@ -70,6 +89,8 @@ public class VanillaMinecraft extends ModTweaks {
 		helper.setInput(Items.leather_leggings).setOutputQuantity(7)
 				.addAsPulverizerRecipe();
 		helper.setInput(Items.leather_boots).setOutputQuantity(4)
+				.addAsPulverizerRecipe();
+		helper.setInput(Items.saddle).setOutputQuantity(5)
 				.addAsPulverizerRecipe();
 
 		helper.reset();
@@ -131,6 +152,8 @@ public class VanillaMinecraft extends ModTweaks {
 		helper.setInput(Items.bucket).setOutputQuantity(3).addAsFurnaceRecipe();
 		helper.setInput(Items.milk_bucket).setOutputQuantity(3)
 				.addAsFurnaceRecipe();
+		helper.setInput(Items.water_bucket).setOutputQuantity(3)
+				.addAsFurnaceRecipe();
 		helper.setInput(Blocks.hopper).setOutputQuantity(5)
 				.addAsFurnaceRecipe();
 		helper.setInput(Items.minecart).setOutputQuantity(5)
@@ -158,7 +181,6 @@ public class VanillaMinecraft extends ModTweaks {
 				.addAsFurnaceRecipe();
 		helper.setInput(Items.chicken, 4).setOutput(Items.rotten_flesh)
 				.addAsPulverizerRecipe();
-		helper.setInput(Items.fish, 8).addAsPulverizerRecipe();
 		helper.setInput(Items.beef, 2).setSecondary(Items.bone)
 				.setSecondaryChance(25).addAsPulverizerRecipe();
 		helper.setInput(Items.porkchop, 4).setSecondaryChance(10)
@@ -208,12 +230,24 @@ public class VanillaMinecraft extends ModTweaks {
 		helper.setInput(Items.golden_horse_armor).setOutputQuantity(5)
 				.addAsFurnaceRecipe();
 
+		helper.reset();
+		helper.setInput(Blocks.light_weighted_pressure_plate)
+				.setOutput("ingotGold", 2).addAsFurnaceRecipe();
+		helper.setInput(Blocks.heavy_weighted_pressure_plate)
+				.setOutput("ingotIron", 2).addAsFurnaceRecipe();
+
 		helper.reset().setEnergy(1200).setOutput(Blocks.dirt);
 		helper.setInput(Items.apple, 16).addAsPulverizerRecipe();
 		helper.setInput(Items.carrot, 16).addAsPulverizerRecipe();
 		helper.setInput(Items.potato, 16).addAsPulverizerRecipe();
 
+		helper.reset().setEnergy(1200).setInput(Blocks.wooden_door)
+				.setOutput(Blocks.planks).addAsSawmillRecipe();
+		helper.setInput(Blocks.trapdoor).setOutputQuantity(3)
+				.addAsSawmillRecipe();
+
 		recycleSaplings();
+		recycleFish();
 	}
 
 }

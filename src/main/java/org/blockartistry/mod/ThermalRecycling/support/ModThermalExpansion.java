@@ -33,6 +33,16 @@ import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
 public class ModThermalExpansion extends ModTweaks {
 
 	@Override
+	public String getName() {
+		return "Thermal Expansion";
+	}
+
+	@Override
+	public boolean isModLoaded() {
+		return isModLoaded("ThermalExpansion");
+	}
+
+	@Override
 	public void apply(ModOptions options) {
 
 		RecipeHelper helper = new RecipeHelper();

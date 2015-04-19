@@ -40,4 +40,8 @@ public final class ModLog {
 			logger.info(String.format(msg, parms));
 	}
 
+	public static void warn(String msg, Object... parms) {
+		if (logger != null)
+			logger.warn(String.format(msg, parms));
+	}
 }

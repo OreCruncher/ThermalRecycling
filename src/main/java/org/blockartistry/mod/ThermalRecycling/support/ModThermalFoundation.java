@@ -35,7 +35,7 @@ public class ModThermalFoundation extends ModTweaks {
 
 	protected static ItemStack pyrotheumDust;
 
-	protected ItemStack getPyrotheumDust(int quantity) {
+	public static ItemStack getPyrotheumDust(int quantity) {
 
 		if (pyrotheumDust == null) {
 			pyrotheumDust = RecipeHelper.getItemStack(
@@ -91,15 +91,23 @@ public class ModThermalFoundation extends ModTweaks {
 	}
 
 	@Override
+	public String getName() {
+		return "Thermal Foundation";
+	}
+
+	@Override
+	public boolean isModLoaded() {
+		return isModLoaded("ThermalFoundation");
+	}
+
+	@Override
 	public void apply(ModOptions options) {
 
 		RecipeHelper helper = new RecipeHelper();
 
 		// Big daddy golden apple
-		ItemStack apple = new ItemStack(Items.golden_apple, 1, 1);
-		ItemStack pyro = getPyrotheumDust(8);
-		helper.reset().setEnergy(72000);
-		helper.setInput(apple).setSecondary(pyro).setOutput("blockGold", 8)
+		helper.setEnergy(72000).setInput(Items.golden_apple).setInputSubtype(1)
+				.setSecondary(getPyrotheumDust(8)).setOutput("blockGold", 8)
 				.addAsSmelterRecipe();
 
 		// Smelt some blocks!
