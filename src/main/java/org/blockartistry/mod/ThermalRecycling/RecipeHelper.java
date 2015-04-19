@@ -118,7 +118,7 @@ public class RecipeHelper {
 					input.stackSize, resolveName(input), output.stackSize,
 					resolveName(output)));
 
-			if (secondary != null) {
+			if (secondary != null && "Furnace".compareTo(machine) != 0) {
 				builder.append(String.format(", %dx %s @%d",
 						secondary.stackSize, resolveName(secondary),
 						secondaryChance));
