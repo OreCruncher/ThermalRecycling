@@ -27,13 +27,18 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
 public class ModBuildCraft extends ModTweaks {
+
+	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -48,114 +53,188 @@ public class ModBuildCraft extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
-
 		// Gears - metalic gears handled via Thermal Expansion
-		helper.setInput("BuildCraft|Core:woodenGearItem")
-				.setOutput("dustWood", 4).addAsSawmillRecipe();
-		helper.setInput("BuildCraft|Core:stoneGearItem")
-				.setOutput(Blocks.cobblestone, 4).setSecondary("dustWood")
-				.setSecondaryChance(100).addAsPulverizerRecipe();
-		helper.setInput("BuildCraft|Core:diamondGearItem")
-				.setOutput(Items.diamond, 4).setSecondary("ingotGold", 4)
-				.addAsPulverizerRecipe();
+		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
+				.save();
+		pulverizer.append("BuildCraft|Core:stoneGearItem")
+				.output(Blocks.cobblestone, 4).secondaryOutput("dustWood")
+				.save();
+		pulverizer.append("BuildCraft|Core:diamondGearItem")
+				.output(Items.diamond, 4).secondaryOutput("ingotGold", 4)
+				.save();
 
 		// Misc block machines
-		helper.reset();
-		helper.setInput("BuildCraft|Builders:libraryBlock")
-				.setOutput(Blocks.planks, 6).setSecondary(Items.book, 3)
-				.setSecondaryChance(100).addAsSawmillRecipe();
+		sawmill.append("BuildCraft|Builders:libraryBlock")
+				.output(Blocks.planks, 6).secondaryOutput(Items.book, 3).save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Builders:builderBlock")
-				.setOutput(Blocks.planks, 12).setSecondary(Items.diamond, 8)
-				.setSecondaryChance(100).addAsSawmillRecipe();
+		sawmill.append("BuildCraft|Builders:builderBlock")
+				.output(Blocks.planks, 12).secondaryOutput(Items.diamond, 8)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Builders:architectBlock")
-				.setOutput(Blocks.planks, 4).setSecondary(Items.diamond, 8)
-				.setSecondaryChance(100).addAsSawmillRecipe();
+		sawmill.append("BuildCraft|Builders:architectBlock")
+				.output(Blocks.planks, 4).secondaryOutput(Items.diamond, 8)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Builders:fillerBlock")
-				.setOutput(Blocks.planks, 12).setSecondary("ingotGold", 8)
-				.setSecondaryChance(100).addAsSawmillRecipe();
-
-		helper.reset();
+		sawmill.append("BuildCraft|Builders:fillerBlock")
+				.output(Blocks.planks, 12).secondaryOutput("ingotGold", 8)
+				.save();
 
 		// Redstone Engine
-		helper.setInput("BuildCraft|Energy:engineBlock")
-				.setOutput(Blocks.planks, 6).setSecondary("ingotIron")
-				.setSecondaryChance(100).addAsSawmillRecipe();
+		sawmill.append("BuildCraft|Energy:engineBlock")
+				.output(Blocks.planks, 6).secondaryOutput("ingotIron").save();
 
 		// Stirling Engine
-		helper.setInputSubtype(1).setOutput(Blocks.cobblestone, 15)
-				.addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Energy:engineBlock:1")
+				.output(Blocks.cobblestone, 15).secondaryOutput("ingotIron")
+				.save();
 
 		// Combustion Engine
-		helper.setInputSubtype(2).setOutput("ingotIron", 12)
-				.addAsFurnaceRecipe();
+		furnace.append("BuildCraft|Energy:engineBlock:2")
+				.output("ingotIron", 12).save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:autoWorkbenchBlock")
-				.setOutput(Blocks.planks, 4).setSecondary("dustWood", 16)
-				.setSecondaryChance(100).addAsSawmillRecipe();
+		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock")
+				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:miningWellBlock")
-				.setOutput("ingotIron", 13).addAsFurnaceRecipe();
-		helper.setInput("BuildCraft|Factory:pumpBlock").addAsFurnaceRecipe();
+		furnace.append("BuildCraft|Factory:miningWellBlock",
+				"BuildCraft|Factory:pumpBlock").output("ingotIron", 13).save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:blockHopper")
-				.setOutput("ingotIron", 5).setSecondary(Blocks.planks, 8)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Factory:blockHopper")
+				.output("ingotIron", 5).secondaryOutput(Blocks.planks, 8)
+				.save();
 
 		// Quarry
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:machineBlock")
-				.setOutput(Items.diamond, 11).setSecondary("ingotGold", 8)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Factory:machineBlock")
+				.output(Items.diamond, 11).secondaryOutput("ingotGold", 8)
+				.save();
 
 		// Floodgate
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:floodGateBlock")
-				.setOutput("ingotIron", 9).addAsFurnaceRecipe();
+		furnace.append("BuildCraft|Factory:floodGateBlock")
+				.output("ingotIron", 9).save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Factory:refineryBlock")
-				.setOutput(Items.diamond, 4).setSecondary("ingotGold", 4)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Factory:refineryBlock")
+				.output(Items.diamond, 4).secondaryOutput("ingotGold", 4)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Silicon:laserBlock")
-				.setOutput(Items.diamond, 2).setSecondary(Blocks.obsidian, 2)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
-		helper.setInput("BuildCraft|Silicon:laserTableBlock")
-				.setOutputQuantity(5).setSecondaryQuantity(6)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setOutput(Blocks.obsidian, 6)
-				.setSecondary(Blocks.planks, 12).addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setSecondary(Items.diamond, 4)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setSecondary("ingotGold", 4)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setOutput(Items.emerald)
-				.setSecondary(Items.diamond, 4).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Silicon:laserBlock")
+				.output(Items.diamond, 2).secondaryOutput(Blocks.obsidian, 2)
+				.save();
+		pulverizer.append("BuildCraft|Silicon:laserTableBlock")
+				.output(Items.diamond, 5).secondaryOutput(Blocks.obsidian, 6)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Silicon:requester")
-				.setOutput("ingotIron", 13).setSecondary(Blocks.planks, 11)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Silicon:laserTableBlock:1")
+				.output(Blocks.obsidian, 6).secondaryOutput(Blocks.planks, 12)
+				.save();
+		pulverizer.append("BuildCraft|Silicon:laserTableBlock:2")
+				.secondaryOutput(Items.diamond, 4).save();
+		pulverizer.append("BuildCraft|Silicon:laserTableBlock:3")
+				.secondaryOutput("ingotGold", 4).save();
+		pulverizer.append("BuildCraft|Silicon:laserTableBlock:4")
+				.output(Items.emerald).secondaryOutput(Items.diamond, 4).save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Silicon:zonePlan")
-				.setOutput(Items.diamond, 4).setSecondary("ingotGold", 8)
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Silicon:requester")
+				.output("ingotIron", 13).secondaryOutput(Blocks.planks, 11)
+				.save();
 
-		helper.reset();
-		helper.setInput("BuildCraft|Transport:filteredBufferBlock")
-				.setOutput(Blocks.planks, 17).setSecondary("ingotIron")
-				.setSecondaryChance(100).addAsPulverizerRecipe();
+		pulverizer.append("BuildCraft|Silicon:zonePlan")
+				.output(Items.diamond, 4).secondaryOutput("ingotGold", 8)
+				.save();
+
+		pulverizer.append("BuildCraft|Transport:filteredBufferBlock")
+				.output(Blocks.planks, 17).secondaryOutput("ingotIron").save();
+
+		// Pipes! Fluid and Kinesis have crafting recipes that return them to
+		// base types already.
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemswood",
+						4).output(Blocks.planks).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsemerald",
+						4).output(Items.emerald).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemscobblestone",
+						4).output(Blocks.cobblestone).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsstone",
+						4).output(Blocks.cobblestone).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsquartz",
+						4).output(Items.quartz, 4).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsiron",
+						4).output("ingotIron").save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsgold",
+						4).output("ingotGold").save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsdiamond",
+						4).output(Items.diamond).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsobsidian",
+						4).output(Blocks.obsidian).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemslapis",
+						4).output("blockLapis").save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsdaizuli",
+						8).output(Items.diamond).secondaryOutput("blockLapis")
+				.save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemssandstone",
+						4).output(Blocks.sandstone).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsemzuli",
+						8).output(Items.emerald).secondaryOutput("blockLapis")
+				.save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsstripes",
+						4).output("ingotGold", 4)
+				.secondaryOutput("ingotIron", 4).save();
+		pulverizer
+				.setEnergy(1200)
+				.append("BuildCraft|Transport:item.buildcraftPipe.pipeitemsclay",
+						4).output(Items.clay_ball, 4).save();
+
+		// Silicon
+		pulverizer.setEnergy(600).append("BuildCraft|Silicon:redstoneChipset")
+				.output(Items.redstone).save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:1")
+				.output("ingotIron").save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:2")
+				.output("ingotGold").save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:3")
+				.output(Items.diamond).save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:4", 2)
+				.output(Items.ender_pearl).save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:5")
+				.output(Items.quartz).save();
+		// pulverizer.setEnergy(600).append("BuildCraft|Silicon:redstoneChipset:6").output(Items.diamond).save();
+		pulverizer.setEnergy(600)
+				.append("BuildCraft|Silicon:redstoneChipset:7")
+				.output(Items.emerald).save();
+
+		// Pipe Wire
+		furnace.appendSubtypeRange("BuildCraft|Transport:pipeWire", 0, 3, 4)
+				.output("nuggetIron", 4).save();
 	}
 }

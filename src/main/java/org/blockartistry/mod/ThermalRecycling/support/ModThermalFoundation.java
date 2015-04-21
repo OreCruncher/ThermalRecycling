@@ -27,11 +27,17 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
 public class ModThermalFoundation extends ModTweaks {
+
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
 	protected static ItemStack pyrotheumDust;
 
@@ -50,44 +56,36 @@ public class ModThermalFoundation extends ModTweaks {
 
 	protected void furnaceRecycleHelperTE(String oreName) {
 
-		RecipeHelper helper = new RecipeHelper();
+		String ingot = "ingot" + oreName;
 
-		helper.setOutput("ingot" + oreName, 1);
+		furnace.append("ThermalFoundation:armor.helmet" + oreName)
+				.output(ingot, 5).save();
+		furnace.append("ThermalFoundation:armor.plate" + oreName)
+				.output(ingot, 8).save();
+		furnace.append("ThermalFoundation:armor.legs" + oreName)
+				.output(ingot, 7).save();
+		furnace.append("ThermalFoundation:armor.boots" + oreName)
+				.output(ingot, 4).save();
 
-		helper.setInput("ThermalFoundation:armor.helmet" + oreName, 1)
-				.setOutputQuantity(5).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:armor.plate" + oreName, 1)
-				.setOutputQuantity(8).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:armor.legs" + oreName, 1)
-				.setOutputQuantity(7).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:armor.boots" + oreName, 1)
-				.setOutputQuantity(4).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.sword" + oreName, 1)
-				.setOutputQuantity(2).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.shovel" + oreName, 1)
-				.setOutputQuantity(1).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.pickaxe" + oreName, 1)
-				.setOutputQuantity(3).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.axe" + oreName, 1)
-				.setOutputQuantity(3).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.hoe" + oreName, 1)
-				.setOutputQuantity(2).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.shears" + oreName, 1)
-				.setOutputQuantity(2).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.fishingRod" + oreName, 1)
-				.setOutputQuantity(2).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.sickle" + oreName, 1)
-				.setOutputQuantity(3).addAsFurnaceRecipe();
-		helper.setInput("ThermalFoundation:tool.bow" + oreName, 1)
-				.setOutputQuantity(2).addAsFurnaceRecipe();
+		furnace.append("ThermalFoundation:tool.sword" + oreName,
+				"ThermalFoundation:tool.hoe" + oreName,
+				"ThermalFoundation:tool.shears" + oreName,
+				"ThermalFoundation:tool.fishingRod" + oreName,
+				"ThermalFoundation:tool.bow" + oreName).output(ingot, 2).save();
+
+		furnace.append("ThermalFoundation:tool.shovel" + oreName).output(ingot)
+				.save();
+
+		furnace.append("ThermalFoundation:tool.pickaxe" + oreName,
+				"ThermalFoundation:tool.axe" + oreName,
+				"ThermalFoundation:tool.sickle" + oreName).output(ingot, 3)
+				.save();
 	}
 
 	protected void recycleGearTE(String type) {
 
-		RecipeHelper helper = new RecipeHelper();
-
-		helper.setInput("gear" + type, 1).setOutput("ingot" + type, 4)
-				.addAsFurnaceRecipe();
+		furnace.append(OreDictionary.getOres("gear" + type))
+				.output("ingot" + type, 4).save();
 	}
 
 	@Override
@@ -103,21 +101,21 @@ public class ModThermalFoundation extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
-
 		// Big daddy golden apple
-		helper.setEnergy(72000).setInput(Items.golden_apple).setInputSubtype(1)
-				.setSecondary(getPyrotheumDust(8)).setOutput("blockGold", 8)
-				.addAsSmelterRecipe();
+		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1)
+				.secondaryInput(getPyrotheumDust(8)).output("blockGold", 8)
+				.save();
 
 		// Smelt some blocks!
-		helper.setEnergy(21600);
-		helper.setInput("blockTin").setSecondary("blockCopper", 3)
-				.setOutput("blockBronze", 4).addAsSmelterRecipe();
-		helper.setInput("blockGold").setSecondary("blockSilver")
-				.setOutput("blockElectrum", 2).addAsSmelterRecipe();
-		helper.setInput("blockIron", 2).setSecondary("blockNickel")
-				.setOutput("blockInvar", 3).addAsSmelterRecipe();
+		smelter.setEnergy(21600).append("blockTin")
+				.secondaryInput("blockCopper", 3).output("blockBronze", 4)
+				.save();
+		smelter.setEnergy(21600).append("blockGold")
+				.secondaryInput("blockSilver", 3).output("blockElectrum", 4)
+				.save();
+		smelter.setEnergy(21600).append("blockIron")
+				.secondaryInput("blockNickel", 3).output("blockInvar", 4)
+				.save();
 
 		furnaceRecycleHelperTE("Copper");
 		furnaceRecycleHelperTE("Tin");

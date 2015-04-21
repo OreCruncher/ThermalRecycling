@@ -27,13 +27,18 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
-
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import cpw.mods.fml.common.Loader;
 
 public class ModMinefactoryReloaded extends ModTweaks {
+
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -48,52 +53,73 @@ public class ModMinefactoryReloaded extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
-		
-		// Add the rubber saplings for recycling.  We don't want the big daddy.
-		helper.setInput("MineFactoryReloaded:rubberwood.sapling", 8).setOutput(Blocks.dirt).addAsPulverizerRecipe();
-		helper.setInputSubtype(1).addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setInputQuantity(2).addAsPulverizerRecipe();
-		
+		// Add the rubber saplings for recycling. We don't want the big daddy.
+		pulverizer
+				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling", 0, 2, 8)
+				.output(Blocks.dirt).save();
+
 		// Range upgrades
-		helper.reset().setSecondary("nuggetGold").setSecondaryChance(100);
-		helper.setInput("MineFactoryReloaded:upgrade.radius").setOutput(Items.dye, 3).setOutputSubtype(4).addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setOutput("ingotTin", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setOutput("ingotIron", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setOutput("ingotCopper", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setOutput("ingotBronze", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(5).setOutput("ingotSilver", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(6).setOutput("ingotGold", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(7).setOutput(Items.quartz, 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(8).setOutput(Items.diamond, 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(9).setOutput("ingotPlatinum", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(10).setOutput(Items.emerald, 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(11).setOutput(Blocks.cobblestone, 3).addAsPulverizerRecipe();
-		
-		//	Laser Focii
-		helper.reset().setInput("MineFactoryReloaded:laserfocus").setOutput(Items.emerald, 4).setSecondary("nuggetGold", 4).setSecondaryChance(100);
-		for(int i = 0; i < 16; i++) {
-			helper.setInputSubtype(i).addAsPulverizerRecipe();
-		}
-		
+		ItemStack is = RecipeHelper.getItemStack(
+				"MineFactoryReloaded:upgrade.radius", 1);
+		pulverizer.append(is).output("minecraft:dye:4", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 1).output("ingotTin", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 2).output("ingotIron", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 3).output("ingotCopper", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 4).output("ingotBronze", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 5).output("ingotSilver", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 6).output("ingotGold", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 7).output(Items.quartz, 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 8).output(Items.diamond, 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 9).output("ingotPlatinum", 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 10).output(Items.emerald, 3)
+				.secondaryOutput("nuggetGold").save();
+		pulverizer.appendSubtype(is, 11).output(Blocks.cobblestone, 3)
+				.secondaryOutput("nuggetGold").save();
+
+		// Laser Focii
+		pulverizer.appendSubtypeRange("MineFactoryReloaded:laserfocus", 0, 15)
+				.output(Items.emerald, 4).secondaryOutput("nuggetGold", 4)
+				.save();
+
 		// Syringe
-		helper.reset().setInput("MineFactoryReloaded:syringe.empty").setOutput("ingotIron").addAsFurnaceRecipe();
-		helper.setInput("MineFactoryReloaded:syringe.zombie").addAsFurnaceRecipe();
-		helper.setInput("MineFactoryReloaded:syringe.cure").addAsFurnaceRecipe();
-		helper.setInput("MineFactoryReloaded:syringe.growth").addAsFurnaceRecipe();
-		helper.setInput("MineFactoryReloaded:syringe.slime").addAsFurnaceRecipe();
-		helper.setInput("MineFactoryReloaded:syringe.health").addAsFurnaceRecipe();
-		
+		furnace.reset()
+				.append("MineFactoryReloaded:syringe.empty",
+						"MineFactoryReloaded:syringe.zombie",
+						"MineFactoryReloaded:syringe.cure",
+						"MineFactoryReloaded:syringe.growth",
+						"MineFactoryReloaded:syringe.slime",
+						"MineFactoryReloaded:syringe.health")
+				.output("ingotIron").save();
+
 		// Plastic
-		helper.reset().setInput("MineFactoryReloaded:plastic.sheet").setOutput("MineFactoryReloaded:plastic.raw").addAsPulverizerRecipe();
-		helper.setInput("MineFactoryReloaded:xpextractor").setOutputQuantity(5).addAsPulverizerRecipe();
-		helper.setInput("MineFactoryReloaded:straw").setOutputQuantity(4).addAsPulverizerRecipe();
-		helper.setInput("MineFactoryReloaded:plastic.boots").addAsPulverizerRecipe();
-		helper.setInput("MineFactoryReloaded:record.blank").setOutputQuantity(8).addAsPulverizerRecipe();
-		
+		pulverizer.append("MineFactoryReloaded:plastic.sheet")
+				.output("MineFactoryReloaded:plastic.raw").save();
+		pulverizer.append("MineFactoryReloaded:xpextractor")
+				.output("MineFactoryReloaded:plastic.raw", 5).save();
+		pulverizer
+				.append("MineFactoryReloaded:straw",
+						"MineFactoryReloaded:plastic.boots")
+				.output("MineFactoryReloaded:plastic.raw", 4).save();
+		pulverizer.append("MineFactoryReloaded:record.blank")
+				.output("MineFactoryReloaded:plastic.raw", 8).save();
+
 		// Misc
-		helper.setInput("MineFactoryReloaded:needlegun.ammo.empty").setOutputQuantity(1).setSecondary("nuggetIron", 2).setSecondaryChance(100).addAsPulverizerRecipe();
-		helper.setInput("MineFactoryReloaded:spyglass").setOutput("ingotBronze", 2).setSecondary("MineFactoryReloaded:plastic.raw", 2).addAsPulverizerRecipe();
-		
+		pulverizer.append("MineFactoryReloaded:needlegun.ammo.empty")
+				.output("MineFactoryReloaded:plastic.raw")
+				.secondaryOutput("nuggetIron", 2).save();
+		pulverizer.append("MineFactoryReloaded:spyglass")
+				.output("ingotBronze", 2)
+				.secondaryOutput("MineFactoryReloaded:plastic.raw", 2).save();
+
 	}
 }

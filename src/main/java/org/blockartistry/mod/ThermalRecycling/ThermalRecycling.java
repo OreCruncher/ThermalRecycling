@@ -25,8 +25,12 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.support.ModAdvancedGenerators;
 import org.blockartistry.mod.ThermalRecycling.support.ModBuildCraft;
+import org.blockartistry.mod.ThermalRecycling.support.ModForestry;
 import org.blockartistry.mod.ThermalRecycling.support.ModMinefactoryReloaded;
+import org.blockartistry.mod.ThermalRecycling.support.ModRailcraft;
 import org.blockartistry.mod.ThermalRecycling.support.ModThaumcraft;
 import org.blockartistry.mod.ThermalRecycling.support.ModThermalDynamics;
 import org.blockartistry.mod.ThermalRecycling.support.ModThermalExpansion;
@@ -49,10 +53,13 @@ public final class ThermalRecycling {
 	public static ThermalRecycling instance = new ThermalRecycling();
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.1.0";
-	public static final String DEPENDENCIES = "required-after:ThermalExpansion";
-
-	private ModOptions options = new ModOptions();
+	public static final String VERSION = "0.2.0";
+	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
+			+ "after:BuildCraft|Core;"
+			+ "after:ThermalDynamics;"
+			+ "after:Forestry;"
+			+ "after:MineFactoryReloaded;"
+			+ "after:Thaumcraft;" + "after:Railcraft;" + "after:advgenerators";
 
 	protected void dumpSubItems(String itemId) {
 		ItemStack stack = RecipeHelper.getItemStack(itemId, 1);
@@ -81,7 +88,7 @@ public final class ThermalRecycling {
 				event.getSuggestedConfigurationFile());
 
 		config.load();
-		options.load(config);
+		ModOptions.instance.load(config);
 		config.save();
 	}
 
@@ -96,14 +103,13 @@ public final class ThermalRecycling {
 
 		try {
 
-			tweaks.apply(options);
+			tweaks.apply(ModOptions.instance);
 
 		} catch (Exception e) {
 
 			ModLog.warn("Exception processing recipes for [%s]",
 					tweaks.getName());
-			e.printStackTrace();
-
+			ModLog.catching(e);
 		}
 
 	}
@@ -120,5 +126,9 @@ public final class ThermalRecycling {
 		handle(new ModThaumcraft());
 		handle(new ModBuildCraft());
 		handle(new ModMinefactoryReloaded());
+		handle(new ModForestry());
+		handle(new ModRailcraft());
+		handle(new ModAdvancedGenerators());
+
 	}
 }

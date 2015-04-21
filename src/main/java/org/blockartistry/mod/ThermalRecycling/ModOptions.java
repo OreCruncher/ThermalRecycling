@@ -29,23 +29,42 @@ import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
 
+	public static ModOptions instance = new ModOptions();
+
 	protected static final String CATEGORY_RECYCLE_RECIPIES_CONTROL = "recycle.recipe.control";
+	protected static final String CATEGORY_LOGGING_CONTROL = "logging";
+	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DIAMOND_RECIPIES = "Enable Diamond Recycling";
 	protected static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";
+	protected static final String CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER = "Quantity Rotten Flesh to Leather";
 
 	protected boolean enableDiamondRecycle = true;
 	protected boolean enableNetherStarRecycle = true;
+	protected int quantityRottenFleshToLeather = 2;
+	protected boolean enableRecipeLogging = true;
 
 	public void load(Configuration config) {
 
-		enableDiamondRecycle = config.getBoolean("Enable Diamond Recycling",
+		enableRecipeLogging = config
+				.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
+						CATEGORY_LOGGING_CONTROL, enableRecipeLogging,
+						"Enables/disables logging of recipes to the Forge log during startup");
+
+		enableDiamondRecycle = config.getBoolean(
+				CONFIG_ENABLE_DIAMOND_RECIPIES,
 				CATEGORY_RECYCLE_RECIPIES_CONTROL, enableDiamondRecycle,
 				"Controls whether recycling items for diamonds is enabled");
 
 		enableNetherStarRecycle = config.getBoolean(
-				"Enable Nether Star Recycling",
+				CONFIG_ENABLE_NETHER_STAR_RECIPIES,
 				CATEGORY_RECYCLE_RECIPIES_CONTROL, enableNetherStarRecycle,
 				"Controls whether recycling items for nether stars is enabled");
+
+		quantityRottenFleshToLeather = config
+				.getInt(CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER,
+						CATEGORY_RECYCLE_RECIPIES_CONTROL,
+						quantityRottenFleshToLeather, 0, 64,
+						"Amount of Rotten Flesh to use to create a piece of leather (0 to disable)");
 
 	}
 
@@ -55,5 +74,13 @@ public final class ModOptions {
 
 	public boolean getEnableNetherStarRecycle() {
 		return enableNetherStarRecycle;
+	}
+
+	public boolean getEnableRecipeLogging() {
+		return enableRecipeLogging;
+	}
+
+	public int getQuantityRottenFleshToLeather() {
+		return quantityRottenFleshToLeather;
 	}
 }

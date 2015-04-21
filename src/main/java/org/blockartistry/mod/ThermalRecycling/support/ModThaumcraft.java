@@ -26,13 +26,20 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.BlastRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
 public class ModThaumcraft extends ModTweaks {
+
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	BlastRecipeBuilder blast = new BlastRecipeBuilder();
+	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -47,76 +54,65 @@ public class ModThaumcraft extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
+		// Saplings
+		pulverizer.setEnergy(1200)
+				.appendSubtypeRange("Thaumcraft:blockCustomPlant", 0, 1, 8)
+				.output(Blocks.dirt).save();
 
 		// Basic Thaumcraft tools and stuff
-		helper.setInput("Thaumcraft:ItemThaumometer").setOutput("ingotGold", 2)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:blockCustomPlant", 8)
-				.setOutput(Blocks.dirt).addAsPulverizerRecipe();
-		helper.setInputSubtype(1).addAsPulverizerRecipe();
-		helper.setInput("Thaumcraft:ItemBaubleBlanks").setOutput("ingotGold")
-				.addAsFurnaceRecipe();
-		helper.setInputSubtype(2).addAsFurnaceRecipe();
-		helper.setInputSubtype(1).setOutput("nuggetGold", 4)
-				.addAsFurnaceRecipe();
+		furnace.append("Thaumcraft:ItemThaumometer").output("ingotGold", 2)
+				.save();
+		furnace.append("Thaumcraft:ItemBaubleBlanks",
+				"Thaumcraft:ItemBaubleBlanks:2").output("ingotGold").save();
+		furnace.append("Thaumcraft:ItemBaubleBlanks:1").output("nuggetGold", 4)
+				.save();
 
 		// Recycle Thaumium armor and tools
-		helper.setOutput("ingotThaumium");
-		helper.setInput("Thaumcraft:ItemHelmetThaumium").setOutputQuantity(5)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemChestplateThaumium")
-				.setOutputQuantity(8).addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemLeggingsThaumium").setOutputQuantity(7)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemBootsThaumium").setOutputQuantity(4)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemShovelThaumium").setOutputQuantity(1)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemPickThaumium").setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemAxeThaumium").setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemSwordThaumium").setOutputQuantity(2)
-				.addAsFurnaceRecipe();
-		helper.setInput("Thaumcraft:ItemHoeThaumium").setOutputQuantity(2)
-				.addAsFurnaceRecipe();
+		furnace.append("Thaumcraft:ItemHelmetThaumium")
+				.output("ingotThaumium", 5).save();
+		furnace.append("Thaumcraft:ItemChestplateThaumium")
+				.output("ingotThaumium", 8).save();
+		furnace.append("Thaumcraft:ItemLeggingsThaumium")
+				.output("ingotThaumium", 7).save();
+		furnace.append("Thaumcraft:ItemBootsThaumium")
+				.output("ingotThaumium", 5).save();
+		furnace.append("Thaumcraft:ItemShovelThaumium").output("ingotThaumium")
+				.save();
+		furnace.append("Thaumcraft:ItemPickThaumium",
+				"Thaumcraft:ItemAxeThaumium").output("ingotThaumium", 3).save();
+		furnace.append("Thaumcraft:ItemSwordThaumium",
+				"Thaumcraft:ItemHoeThaumium").output("ingotThaumium", 2).save();
 
 		// Recycle magic tools - require smelter because the magic bindings need
 		// to be broken
-		helper.setEnergy(4800).setSecondary(
-				ModThermalFoundation.getPyrotheumDust(1));
-		helper.setInput("Thaumcraft:ItemSwordElemental").setOutputQuantity(2)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemShovelElemental").setOutputQuantity(1)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemPickaxeElemental").setOutputQuantity(3)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemAxeElemental").setOutputQuantity(3)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemHoeElemental").setOutputQuantity(2)
-				.addAsSmelterRecipe();
+		blast.setEnergy(4800)
+				.append("Thaumcraft:ItemSwordElemental",
+						"Thaumcraft:ItemHoeElemental")
+				.output("ingotThaumium", 2).save();
+		blast.append("Thaumcraft:ItemShovelElemental").output("ingotThaumium")
+				.save();
+		blast.append("Thaumcraft:ItemPickaxeElemental",
+				"Thaumcraft:ItemAxeElemental").output("ingotThaumium", 3)
+				.save();
 
 		// Recycle Void armor and tools; sand has a grounding effect when
 		// smelting
-		helper.setOutput("ingotVoid").setSecondary(Blocks.sand);
-		helper.setInput("Thaumcraft:ItemHelmetVoid").setOutputQuantity(5)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemChestplateVoid").setOutputQuantity(8)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemLeggingsVoid").setOutputQuantity(7)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemBootsVoid").setOutputQuantity(4)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemShovelVoid").setOutputQuantity(1)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemPickVoid").setOutputQuantity(3)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemAxeVoid").setOutputQuantity(3)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemSwordVoid").setOutputQuantity(2)
-				.addAsSmelterRecipe();
-		helper.setInput("Thaumcraft:ItemHoeVoid").setOutputQuantity(2)
-				.addAsSmelterRecipe();
+		smelter.append("Thaumcraft:ItemHelmetVoid").secondaryInput(Blocks.sand)
+				.output("ingotVoid", 5).save();
+		smelter.append("Thaumcraft:ItemChestplateVoid")
+				.secondaryInput(Blocks.sand).output("ingotVoid", 8).save();
+		smelter.append("Thaumcraft:ItemLeggingsVoid")
+				.secondaryInput(Blocks.sand).output("ingotVoid", 7).save();
+		smelter.append("Thaumcraft:ItemBootsVoid").secondaryInput(Blocks.sand)
+				.output("ingotVoid", 4).save();
+
+		smelter.append("Thaumcraft:ItemPickVoid", "Thaumcraft:ItemAxeVoid")
+				.secondaryInput(Blocks.sand).output("ingotVoid", 3).save();
+
+		smelter.append("Thaumcraft:ItemSwordVoid", "Thaumcraft:ItemHoeVoid")
+				.secondaryInput(Blocks.sand).output("ingotVoid", 2).save();
+
+		smelter.append("Thaumcraft:ItemShovelVoid").secondaryInput(Blocks.sand)
+				.output("ingotVoid").save();
 	}
 }

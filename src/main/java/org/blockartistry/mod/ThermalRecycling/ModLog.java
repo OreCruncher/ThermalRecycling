@@ -44,4 +44,11 @@ public final class ModLog {
 		if (logger != null)
 			logger.warn(String.format(msg, parms));
 	}
+
+	public static void catching(Throwable t) {
+		if (logger != null) {
+			logger.catching(t);
+			t.printStackTrace();
+		}
+	}
 }

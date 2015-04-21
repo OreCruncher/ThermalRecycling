@@ -26,9 +26,13 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.FluidTransposerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
 public class ModThermalDynamics extends ModTweaks {
+
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -43,110 +47,92 @@ public class ModThermalDynamics extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		if (!isModLoaded())
-			return;
-
-		RecipeHelper helper = new RecipeHelper();
-
-		// Servos
-		helper.setEnergy(1200).setSecondaryChance(100);
-		helper.setInput("ThermalDynamics:servo").setOutput("nuggetIron")
-				.setSecondary("dustIron").addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setSecondary("dustInvar")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setSecondary("dustElectrum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setSecondary("dustSignalum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setSecondary("dustEnderium")
-				.addAsPulverizerRecipe();
-
-		// Filters
-		helper.setEnergy(1200).setSecondaryChance(100);
-		helper.setInput("ThermalDynamics:filter").setOutput("nuggetIron")
-				.setSecondary("dustIron").addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setSecondary("dustInvar")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setSecondary("dustElectrum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setSecondary("dustSignalum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setSecondary("dustEnderium")
-				.addAsPulverizerRecipe();
+		// Servos, Filters
+		pulverizer.setEnergy(1200)
+				.append("ThermalDynamics:servo", "ThermalDynamics:filter")
+				.output("nuggetIron").secondaryOutput("ingotIron").save();
+		pulverizer.setEnergy(1200)
+				.append("ThermalDynamics:servo:1", "ThermalDynamics:filter:1")
+				.output("nuggetIron").secondaryOutput("ingotInvar").save();
+		pulverizer.setEnergy(1200)
+				.append("ThermalDynamics:servo:2", "ThermalDynamics:filter:2")
+				.output("nuggetIron").secondaryOutput("ingotElectrum").save();
+		pulverizer.setEnergy(1200)
+				.append("ThermalDynamics:servo:3", "ThermalDynamics:filter:3")
+				.output("nuggetIron").secondaryOutput("ingotSignalum").save();
+		pulverizer.setEnergy(1200)
+				.append("ThermalDynamics:servo:4", "ThermalDynamics:filter:4")
+				.output("nuggetIron").secondaryOutput("ingotEnderium").save();
 
 		// Retrievers
-		helper.reset().setEnergy(1200).setSecondaryChance(100);
-		helper.setInput("ThermalDynamics:retriever")
-				.setOutput("nuggetEnderium").setSecondary("dustIron")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setSecondary("dustInvar")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setSecondary("dustElectrum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setSecondary("dustSignalum")
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setSecondary("dustEnderium")
-				.addAsPulverizerRecipe();
+		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever")
+				.output("nuggetEnderium").secondaryOutput("ingotIron").save();
+		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:1")
+				.output("nuggetEnderium").secondaryOutput("ingotInvar").save();
+		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:2")
+				.output("nuggetEnderium").secondaryOutput("ingotElectrum")
+				.save();
+		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:3")
+				.output("nuggetEnderium").secondaryOutput("ingotSignalum")
+				.save();
+		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:4")
+				.output("nuggetEnderium").secondaryOutput("ingotEnderium")
+				.save();
 
 		// Structural Duct
-		helper.reset();
-		helper.setInput("ThermalDynamics:ThermalDynamics_48")
-				.setOutput("nuggetLead").addAsPulverizerRecipe();
-
-		helper.reset().setSecondaryChance(100);
+		pulverizer.append("ThermalDynamics:ThermalDynamics_48")
+				.output("nuggetLead").save();
 
 		// Item Duct (Standard + Opaque)
-		helper.setInput("ThermalDynamics:ThermalDynamics_32")
-				.setOutput("nuggetTin", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setSecondary("nuggetLead")
-				.addAsPulverizerRecipe();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_32")
+				.output("nuggetTin", 3).save();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_32:1")
+				.output("nuggetTin", 3).secondaryOutput("nuggetLead").save();
 
 		// Impulse Ducts (Standard + Opaque) - drain and turn into a base type
-		helper.setInputSubtype(2)
-				.setOutput("ThermalDynamics:ThermalDynamics_32")
-				.setFluid("glowstone", 200).addAsFluidTransposerRecipe();
-		helper.setInputSubtype(3).setOutputSubtype(1)
-				.addAsFluidTransposerRecipe();
+		fluid.append("ThermalDynamics:ThermalDynamics_32:2")
+				.output("ThermalDynamics:ThermalDynamics_32")
+				.fluid("glowstone", 200).save();
+		fluid.append("ThermalDynamics:ThermalDynamics_32:3")
+				.output("ThermalDynamics:ThermalDynamics_32:1").save();
 
 		// Item Duct (Warp + Opaque)
-		helper.reset().setInput("ThermalDynamics:ThermalDynamics_32")
-				.setSecondaryChance(100);
-		helper.setInputSubtype(5).setOutput("nuggetTin", 3)
-				.setSecondary("nuggetEnderium").addAsPulverizerRecipe();
-		helper.setInputSubtype(4).addAsPulverizerRecipe();
+		pulverizer
+				.append("ThermalDynamics:ThermalDynamics_32:5",
+						"ThermalDynamics:ThermalDynamics_32:4")
+				.output("nuggetTin", 3).secondaryOutput("nuggetEnderium")
+				.save();
 
 		// Fluxuating Duct (Standard + Opaque) - drain and turn into a base type
 		// for further recycling
-		helper.setInputSubtype(6)
-				.setOutput("ThermalDynamics:ThermalDynamics_32")
-				.setFluid("redstone", 50).addAsFluidTransposerRecipe();
-		helper.setInputSubtype(7).setOutputSubtype(1)
-				.addAsFluidTransposerRecipe();
+		fluid.append("ThermalDynamics:ThermalDynamics_32:6")
+				.output("ThermalDynamics:ThermalDynamics_32")
+				.fluid("redstone", 50).save();
+		fluid.append("ThermalDynamics:ThermalDynamics_32:7")
+				.output("ThermalDynamics:ThermalDynamics_32:1").save();
 
 		// Flux ducts - drain and smash the base type
-		helper.reset().setInput("ThermalDynamics:ThermalDynamics_0")
-				.setSecondaryChance(100);
-		helper.setInputSubtype(3).setOutput("nuggetElectrum", 3)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(2)
-				.setOutput("ThermalDynamics:ThermalDynamics_0")
-				.setOutputSubtype(3).setFluid("redstone", 200)
-				.addAsFluidTransposerRecipe();
-		helper.setInputSubtype(4).setOutputSubtype(5)
-				.addAsFluidTransposerRecipe();
-		helper.setInputSubtype(5).setOutput("nuggetEnderium", 3)
-				.setSecondary("nuggetElectrum", 3).addAsPulverizerRecipe();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_0:3")
+				.output("nuggetElectrum", 3).save();
+		fluid.append("ThermalDynamics:ThermalDynamics_0:2")
+				.output("ThermalDynamics:ThermalDynamics_0:3")
+				.fluid("redstone", 200).save();
+		fluid.append("ThermalDynamics:ThermalDynamics_0:4")
+				.output("ThermalDynamics:ThermalDynamics_0:5").save();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_0:5")
+				.output("nuggetEnderium", 3)
+				.secondaryOutput("nuggetElectrum", 3).save();
 
 		// Fluid ducts
-		helper.reset().setInput("ThermalDynamics:ThermalDynamics_16")
-				.setSecondaryChance(100);
-		helper.setInputSubtype(2).setOutput("nuggetInvar", 3)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setSecondary("nuggetLead")
-				.addAsPulverizerRecipe();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_16:2")
+				.output("nuggetInvar", 3).save();
+		pulverizer.append("ThermalDynamics:ThermalDynamics_16:3")
+				.output("nuggetInvar", 3).secondaryOutput("nuggetLead").save();
 
-		helper.setInputSubtype(4).setOutput("nuggetElectrum", 3)
-				.setSecondary("nuggetSignalum", 3).addAsPulverizerRecipe();
-		helper.setInputSubtype(5).addAsPulverizerRecipe();
+		pulverizer
+				.append("ThermalDynamics:ThermalDynamics_16:4",
+						"ThermalDynamics:ThermalDynamics_16:5")
+				.output("nuggetElectrum", 3)
+				.secondaryOutput("nuggetSignalum", 3).save();
 	}
 }

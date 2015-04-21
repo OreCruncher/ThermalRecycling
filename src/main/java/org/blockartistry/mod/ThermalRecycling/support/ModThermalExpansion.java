@@ -25,12 +25,14 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import net.minecraft.item.ItemStack;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
 public class ModThermalExpansion extends ModTweaks {
+
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -45,33 +47,31 @@ public class ModThermalExpansion extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
-
-		ItemStack is = RecipeHelper
-				.getItemStack("ThermalExpansion:material", 1);
-
 		// Misc parts
-		helper.setInput(is).setOutput("ingotIron", 2).addAsFurnaceRecipe();
-		helper.setInputSubtype(1).setOutput("ingotGold").addAsFurnaceRecipe();
-		helper.setInputSubtype(2).setOutput("ingotSilver").addAsFurnaceRecipe();
-		helper.setInputSubtype(3).setOutput("ingotElectrum")
-				.addAsFurnaceRecipe();
-		helper.setInputSubtype(16).setOutput("nuggetSignalum", 6)
-				.addAsFurnaceRecipe();
+		furnace.append("ThermalExpansion:material").output("ingotIron", 2)
+				.save();
+		furnace.append("ThermalExpansion:material:1").output("ingotGold")
+				.save();
+		furnace.append("ThermalExpansion:material:2").output("ingotSilver")
+				.save();
+		furnace.append("ThermalExpansion:material:3").output("ingotElectrum")
+				.save();
+		furnace.append("ThermalExpansion:material:16")
+				.output("nuggetSignalum", 6).save();
 
 		// Dynamos
-		is = RecipeHelper.getItemStack("ThermalExpansion:Dynamo", 1);
-		helper.reset().setInput(is).setSecondary("ingotSilver")
-				.setSecondaryChance(100);
-		helper.setOutput("ingotCopper", 11).addAsPulverizerRecipe();
-		helper.setInputSubtype(1).setOutput("ingotInvar", 11)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(2).setOutput("ingotTin", 11)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(3).setOutput("ingotBronze", 11)
-				.addAsPulverizerRecipe();
-		helper.setInputSubtype(4).setOutput("ingotElectrum", 11)
-				.addAsPulverizerRecipe();
+		pulverizer.append("ThermalExpansion:Dynamo").output("ingotCopper", 11)
+				.secondaryOutput("ingotSilver").save();
+		pulverizer.append("ThermalExpansion:Dynamo:1").output("ingotInvar", 11)
+				.secondaryOutput("ingotSilver").save();
+		pulverizer.append("ThermalExpansion:Dynamo:2").output("ingotTin", 11)
+				.secondaryOutput("ingotSilver").save();
+		pulverizer.append("ThermalExpansion:Dynamo:3")
+				.output("ingotBronze", 11).secondaryOutput("ingotSilver")
+				.save();
+		pulverizer.append("ThermalExpansion:Dynamo:4")
+				.output("ingotElectrum", 11).secondaryOutput("ingotSilver")
+				.save();
 
 	}
 }

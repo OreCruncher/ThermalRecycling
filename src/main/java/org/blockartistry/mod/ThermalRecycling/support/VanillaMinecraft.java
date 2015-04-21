@@ -28,32 +28,15 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
 public class VanillaMinecraft extends ModTweaks {
 
-	protected void recycleSaplings() {
-
-		RecipeHelper helper = new RecipeHelper();
-
-		helper.setEnergy(1200).setInput(Blocks.sapling, 8)
-				.setOutput(Blocks.dirt);
-
-		for (int i = 0; i < 6; i++) {
-			helper.setInputSubtype(i).addAsPulverizerRecipe();
-		}
-	}
-
-	protected void recycleFish() {
-
-		RecipeHelper helper = new RecipeHelper();
-
-		helper.setInput(Items.fish, 8).setOutput(Items.rotten_flesh);
-
-		for (int i = 0; i < 4; i++) {
-			helper.setInputSubtype(i).addAsPulverizerRecipe();
-		}
-	}
+	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	@Override
 	public String getName() {
@@ -68,186 +51,138 @@ public class VanillaMinecraft extends ModTweaks {
 	@Override
 	public void apply(ModOptions options) {
 
-		RecipeHelper helper = new RecipeHelper();
-
 		// Recycle some parts!!
-		helper.reset().setEnergy(800);
-		helper.setInput(Blocks.ladder).setOutput("dustWood", 2)
-				.addAsSawmillRecipe();
-		helper.setInput(Blocks.pumpkin).setOutput(Items.pumpkin_seeds, 4)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.melon).setOutput(Items.melon_seeds)
-				.addAsPulverizerRecipe();
-		helper.setInput(Blocks.melon_block).setOutput(Items.melon_seeds, 8)
-				.addAsPulverizerRecipe();
-		helper.setInput(Blocks.lit_pumpkin).setOutput(Blocks.torch)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.leather_helmet).setOutput(Items.leather, 5)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.leather_chestplate).setOutputQuantity(8)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.leather_leggings).setOutputQuantity(7)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.leather_boots).setOutputQuantity(4)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.saddle).setOutputQuantity(5)
-				.addAsPulverizerRecipe();
+		sawmill.setEnergy(800).append(Blocks.ladder).output("dustWood", 2)
+				.save();
+		pulverizer.setEnergy(800).append(Blocks.pumpkin)
+				.output(Items.pumpkin_seeds, 4).save();
 
-		helper.reset();
-		helper.setInput(Blocks.redstone_lamp).setOutput("dustGlowstone", 4)
-				.setSecondary("dustRedstone", 4).setSecondaryChance(100)
-				.addAsPulverizerRecipe();
-		helper.setInput(Blocks.brewing_stand).setOutput(Blocks.cobblestone, 3)
-				.setSecondary(Items.blaze_powder, 4).setSecondaryChance(100)
-				.addAsPulverizerRecipe();
+		pulverizer.setEnergy(800).append(Items.melon).output(Items.melon_seeds)
+				.save();
+		pulverizer.setEnergy(800).append(Blocks.melon_block)
+				.output(Items.melon_seeds, 8).save();
+		pulverizer.setEnergy(800).append(Blocks.lit_pumpkin)
+				.output(Blocks.torch).save();
 
-		helper.reset().setEnergy(1600);
-		helper.setInput(Blocks.clay).setOutput(Items.clay_ball, 4)
-				.addAsPulverizerRecipe();
+		pulverizer.setEnergy(800).append(Items.leather_helmet, Items.saddle)
+				.output(Items.leather, 5).save();
+		pulverizer.setEnergy(800).append(Items.leather_chestplate)
+				.output(Items.leather, 8).save();
+		pulverizer.setEnergy(800).append(Items.leather_leggings)
+				.output(Items.leather, 7).save();
+		pulverizer.setEnergy(800).append(Items.leather_boots)
+				.output(Items.leather, 4).save();
+
+		pulverizer.append(Blocks.redstone_lamp).output("dustGlowstone", 4)
+				.secondaryOutput("dustRedstone", 4).save();
+		pulverizer.append(Items.brewing_stand).output(Blocks.cobblestone, 3)
+				.secondaryOutput(Items.blaze_powder, 4).save();
+
+		pulverizer.setEnergy(1600).append(Blocks.clay)
+				.output(Items.clay_ball, 4).save();
 
 		if (options.getEnableDiamondRecycle()) {
-
-			helper.reset();
-			helper.setOutput(Items.diamond);
-
-			helper.setInput(Items.diamond_helmet).setOutputQuantity(5)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_chestplate).setOutputQuantity(8)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_leggings).setOutputQuantity(7)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_boots).setOutputQuantity(4)
-					.addAsPulverizerRecipe();
-
-			helper.setInput(Items.diamond_sword).setOutputQuantity(2)
-					.setSecondary("dustWood", 2).setSecondaryChance(100)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_hoe).addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_axe).setOutputQuantity(3)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_pickaxe).addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_shovel).setOutputQuantity(1)
-					.addAsPulverizerRecipe();
-
-			helper.setInput(Blocks.enchanting_table).setOutputQuantity(2)
-					.setSecondary(Blocks.obsidian, 4).setSecondaryChance(100)
-					.addAsPulverizerRecipe();
-			helper.setInput(Items.diamond_horse_armor).setOutputQuantity(5)
-					.setSecondary(Items.leather).setSecondaryChance(50)
-					.addAsPulverizerRecipe();
+			pulverizer.append(Items.diamond_helmet).output(Items.diamond, 5)
+					.save();
+			pulverizer.append(Items.diamond_chestplate)
+					.output(Items.diamond, 8).save();
+			pulverizer.append(Items.diamond_leggings).output(Items.diamond, 7)
+					.save();
+			pulverizer.append(Items.diamond_boots).output(Items.diamond, 4)
+					.save();
+			pulverizer.append(Items.diamond_sword, Items.diamond_hoe)
+					.output(Items.diamond, 2).secondaryOutput("dustWood", 2)
+					.save();
+			pulverizer.append(Items.diamond_axe, Items.diamond_pickaxe)
+					.output(Items.diamond, 3).secondaryOutput("dustWood", 2)
+					.save();
+			pulverizer.append(Items.diamond_shovel).output(Items.diamond)
+					.secondaryOutput("dustWood", 2).save();
+			pulverizer.append(Blocks.enchanting_table).output(Items.diamond, 2)
+					.secondaryOutput(Blocks.obsidian, 4).save();
+			pulverizer.append(Items.diamond_horse_armor)
+					.output(Items.diamond, 5).secondaryOutput(Items.leather)
+					.chance(50).save();
 		}
 
 		if (options.getEnableNetherStarRecycle()) {
 
-			helper.reset().setEnergy(21600);
-			helper.setInput(Blocks.beacon).setOutput(Items.nether_star)
-					.setSecondary(Blocks.obsidian, 3).setSecondaryChance(100)
-					.addAsPulverizerRecipe();
+			pulverizer.setEnergy(21600).append(Blocks.beacon)
+					.output(Items.nether_star)
+					.secondaryOutput(Blocks.obsidian, 3).save();
 		}
 
-		helper.reset().setOutput(Items.iron_ingot);
-		helper.setInput(Blocks.iron_door).setOutputQuantity(6)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.shears).setOutputQuantity(2).addAsFurnaceRecipe();
-		helper.setInput(Items.bucket).setOutputQuantity(3).addAsFurnaceRecipe();
-		helper.setInput(Items.milk_bucket).setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.water_bucket).setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput(Blocks.hopper).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.minecart).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
-		helper.setInput(Blocks.cauldron).setOutputQuantity(7)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.compass).setOutputQuantity(4)
-				.addAsFurnaceRecipe();
+		furnace.append(Items.iron_door).output("ingotIron", 6).save();
+		furnace.append(Items.shears).output("ingotIron", 2).save();
+		furnace.append(Blocks.hopper).output("ingotIron", 5).save();
+		furnace.append(Items.minecart).output("ingotIron", 5).save();
+		furnace.append(Items.cauldron).output("ingotIron", 7).save();
+		furnace.append(Items.compass).output("ingotIron", 4).save();
 
-		helper.reset().setOutput("nuggetGold", 8);
-		helper.setInput(Items.golden_apple).addAsFurnaceRecipe();
-		helper.setInput(Items.golden_carrot).addAsFurnaceRecipe();
-		helper.setInput(Items.speckled_melon).addAsFurnaceRecipe();
+		furnace.append(Items.bucket, Items.milk_bucket, Items.water_bucket)
+				.output("ingotIron", 3).save();
 
-		helper.reset().setEnergy(150);
-		helper.setInput(Blocks.iron_bars).setOutput("nuggetIron", 3)
-				.addAsFurnaceRecipe();
+		furnace.append(Items.golden_apple, Items.golden_carrot,
+				Items.speckled_melon).output("nuggetGold", 8).save();
 
-		helper.reset();
-		helper.setInput(Items.clock).setOutput("ingotGold", 4)
-				.addAsFurnaceRecipe();
+		furnace.setEnergy(150).append(Blocks.iron_bars).output("nuggetIron", 3)
+				.save();
 
-		helper.reset();
-		helper.setInput(Items.rotten_flesh, 2).setOutput(Items.leather)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.chicken, 4).setOutput(Items.rotten_flesh)
-				.addAsPulverizerRecipe();
-		helper.setInput(Items.beef, 2).setSecondary(Items.bone)
-				.setSecondaryChance(25).addAsPulverizerRecipe();
-		helper.setInput(Items.porkchop, 4).setSecondaryChance(10)
-				.addAsPulverizerRecipe();
+		furnace.append(Items.clock).output("ingotGold", 4).save();
 
-		helper.reset();
-		helper.setOutput(Items.iron_ingot);
-		helper.setInput(Items.iron_helmet).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_chestplate).setOutputQuantity(8)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_leggings).setOutputQuantity(7)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_boots).setOutputQuantity(4)
-				.addAsFurnaceRecipe();
+		int amount = options.getQuantityRottenFleshToLeather();
+		if (amount > 0) {
+			furnace.append(Items.rotten_flesh, amount).output(Items.leather)
+					.save();
+		}
 
-		helper.setInput(Items.iron_sword).setOutputQuantity(2)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_hoe).addAsFurnaceRecipe();
-		helper.setInput(Items.iron_axe).setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_pickaxe).addAsFurnaceRecipe();
-		helper.setInput(Items.iron_shovel).setOutputQuantity(1)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.iron_horse_armor).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
+		pulverizer.append(Items.chicken, 4).output(Items.rotten_flesh).save();
+		pulverizer.append(Items.beef, 2).output(Items.rotten_flesh)
+				.secondaryOutput(Items.bone).chance(25).save();
+		pulverizer.append(Items.porkchop, 4).output(Items.rotten_flesh)
+				.secondaryOutput(Items.bone).chance(10).save();
 
-		helper.reset();
-		helper.setOutput(Items.gold_ingot);
-		helper.setInput(Items.golden_helmet).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_chestplate).setOutputQuantity(8)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_leggings).setOutputQuantity(7)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_boots).setOutputQuantity(4)
-				.addAsFurnaceRecipe();
+		furnace.append(Items.iron_helmet, Items.iron_horse_armor)
+				.output("ingotIron", 5).save();
+		furnace.append(Items.iron_chestplate).output("ingotIron", 8).save();
+		furnace.append(Items.iron_leggings).output("ingotIron", 7).save();
+		furnace.append(Items.iron_boots).output("ingotIron", 4).save();
 
-		helper.setInput(Items.golden_sword).setOutputQuantity(2)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_hoe).addAsFurnaceRecipe();
-		helper.setInput(Items.golden_axe).setOutputQuantity(3)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_pickaxe).addAsFurnaceRecipe();
-		helper.setInput(Items.golden_shovel).setOutputQuantity(1)
-				.addAsFurnaceRecipe();
-		helper.setInput(Items.golden_horse_armor).setOutputQuantity(5)
-				.addAsFurnaceRecipe();
+		furnace.append(Items.iron_sword, Items.iron_hoe).output("ingotIron", 2)
+				.save();
+		furnace.append(Items.iron_axe, Items.iron_pickaxe)
+				.output("ingotIron", 3).save();
+		furnace.append(Items.iron_shovel).output("ingotIron").save();
 
-		helper.reset();
-		helper.setInput(Blocks.light_weighted_pressure_plate)
-				.setOutput("ingotGold", 2).addAsFurnaceRecipe();
-		helper.setInput(Blocks.heavy_weighted_pressure_plate)
-				.setOutput("ingotIron", 2).addAsFurnaceRecipe();
+		furnace.append(Items.golden_helmet, Items.golden_horse_armor)
+				.output("ingotGold", 5).save();
+		furnace.append(Items.golden_chestplate).output("ingotGold", 8).save();
+		furnace.append(Items.golden_leggings).output("ingotGold", 7).save();
+		furnace.append(Items.golden_boots).output("ingotGold", 4).save();
 
-		helper.reset().setEnergy(1200).setOutput(Blocks.dirt);
-		helper.setInput(Items.apple, 16).addAsPulverizerRecipe();
-		helper.setInput(Items.carrot, 16).addAsPulverizerRecipe();
-		helper.setInput(Items.potato, 16).addAsPulverizerRecipe();
+		furnace.append(Items.golden_sword, Items.golden_hoe)
+				.output("ingotGold", 2).save();
+		furnace.append(Items.golden_axe, Items.golden_pickaxe)
+				.output("ingotGold", 3).save();
+		furnace.append(Items.golden_shovel).output("ingotGold").save();
 
-		helper.reset().setEnergy(1200).setInput(Blocks.wooden_door)
-				.setOutput(Blocks.planks).addAsSawmillRecipe();
-		helper.setInput(Blocks.trapdoor).setOutputQuantity(3)
-				.addAsSawmillRecipe();
+		furnace.append(Blocks.light_weighted_pressure_plate)
+				.output("ingotGold", 2).save();
+		furnace.append(Blocks.heavy_weighted_pressure_plate)
+				.output("ingotIron", 2).save();
 
-		recycleSaplings();
-		recycleFish();
+		pulverizer.setEnergy(1200).append(Items.apple, 16)
+				.append(Items.carrot, 16).append(Items.potato, 16)
+				.output(Blocks.dirt).save();
+
+		sawmill.setEnergy(1200).append(Items.wooden_door)
+				.output(Blocks.planks, 6).save();
+		sawmill.append(Blocks.trapdoor).output(Blocks.planks, 3).save();
+
+		pulverizer.setEnergy(1200).appendSubtypeRange(Blocks.sapling, 0, 5, 8)
+				.output(Blocks.dirt).save();
+
+		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
+				.output(Items.rotten_flesh).save();
 	}
-
 }
