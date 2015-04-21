@@ -148,7 +148,7 @@ public class ModRailcraft extends ModTweaks {
 				.secondaryOutput(Items.emerald, 2).save();
 
 		// Hobbyist Steam Engine
-		pulverizer.append("Railcraft:machine.alpha:7").output("nuggetGold", 12)
+		pulverizer.append("Railcraft:machine.beta:7").output("nuggetGold", 12)
 				.secondaryOutput("ingotIron").save();
 
 		// Gears
@@ -160,9 +160,11 @@ public class ModRailcraft extends ModTweaks {
 		pulverizer.append("Railcraft:part.gear:2").output("ingotSteel", 4)
 				.secondaryOutput("ingotTin", 2).save();
 
+		/*
 		// Metal posts and platforms
 		furnace.append("Railcraft:post.metal:2").output("nuggetIron", 3).save();
 		furnace.append("Railcraft:post.metal:6").output("nuggetIron", 11)
 				.save();
+				*/
 	}
 }
