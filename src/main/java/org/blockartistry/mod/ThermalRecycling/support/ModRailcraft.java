@@ -160,11 +160,9 @@ public class ModRailcraft extends ModTweaks {
 		pulverizer.append("Railcraft:part.gear:2").output("ingotSteel", 4)
 				.secondaryOutput("ingotTin", 2).save();
 
-		/*
 		// Metal posts and platforms
-		furnace.append("Railcraft:post.metal:2").output("nuggetIron", 3).save();
-		furnace.append("Railcraft:post.metal:6").output("nuggetIron", 11)
+		furnace.append("Railcraft:post:2").output("nuggetSteel", 1).save();
+		furnace.append("Railcraft:post:6").output("nuggetSteel", 5)
 				.save();
-				*/
 	}
 }
