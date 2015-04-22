@@ -33,7 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModThaumcraft extends ModTweaks {
+public class ModThaumcraft extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();

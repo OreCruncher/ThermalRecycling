@@ -34,7 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import cpw.mods.fml.common.Loader;
 
-public class ModRailcraft extends ModTweaks {
+public class ModRailcraft extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
@@ -161,7 +161,6 @@ public class ModRailcraft extends ModTweaks {
 
 		// Metal posts and platforms
 		furnace.append("Railcraft:post:2").output("nuggetSteel", 1).save();
-		furnace.append("Railcraft:post:6").output("nuggetSteel", 5)
-				.save();
+		furnace.append("Railcraft:post:6").output("nuggetSteel", 5).save();
 	}
 }

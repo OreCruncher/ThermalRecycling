@@ -24,11 +24,14 @@
 
 package org.blockartistry.mod.ThermalRecycling.recipe;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public abstract class SecondaryOutputRecipeBuilder extends RecipeBuilder {
+public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputRecipeBuilder<This>>
+		extends RecipeBuilder<This> {
 
 	protected ItemStack secondaryOutput;
 	protected int secondaryChance;
@@ -39,70 +42,81 @@ public abstract class SecondaryOutputRecipeBuilder extends RecipeBuilder {
 	}
 
 	@Override
-	public RecipeBuilder reset() {
+	public This reset() {
 		secondaryOutput = null;
 		secondaryChance = 100;
 		return super.reset();
 	}
 
-	/*
-	 * public RecipeBuilder resetSecondary() { this.secondary = null; return
-	 * this; }
-	 */
+	public This secondaryOutput(Block block) {
 
-	@Override
-	public RecipeBuilder secondaryOutput(Block block) {
-		return secondaryOutput(block, 1);
+		Preconditions.checkNotNull(block,
+				"Secondary output ItemStack cannot be null");
+
+		return secondaryOutput(new ItemStack(block));
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(Block block, int quantity) {
+	public This secondaryOutput(Block block, int quantity) {
+
+		Preconditions.checkNotNull(block,
+				"Secondary output ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greater than 0");
+
 		return secondaryOutput(new ItemStack(block, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(Item item) {
-		return secondaryOutput(item, 1);
+	public This secondaryOutput(Item item) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary output ItemStack cannot be null");
+
+		return secondaryOutput(new ItemStack(item));
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(Item item, int quantity) {
+	public This secondaryOutput(Item item, int quantity) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary output ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greater than 0");
+
 		return secondaryOutput(new ItemStack(item, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(String item) {
+	public This secondaryOutput(String item) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary output ItemStack cannot be null");
+
 		return secondaryOutput(item, 1);
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(String item, int quantity) {
+	public This secondaryOutput(String item, int quantity) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary output ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greater than 0");
+
 		return secondaryOutput(RecipeHelper.getItemStack(item, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutput(ItemStack sec) {
+	public This secondaryOutput(ItemStack sec) {
+
+		Preconditions.checkNotNull(sec,
+				"Secondary output ItemStack cannot be null");
+
 		this.secondaryOutput = sec;
-		return this;
+		return THIS;
 	}
 
-	@Override
-	public RecipeBuilder secondaryOutputSubtype(int type) {
-		if (this.secondaryOutput != null)
-			this.secondaryOutput.setItemDamage(type);
-		return this;
-	}
+	public This chance(int chance) {
 
-	@Override
-	public RecipeBuilder secondaryOutputQuantity(int quantity) {
-		if (this.secondaryOutput != null)
-			this.secondaryOutput.stackSize = quantity;
-		return this;
-	}
+		Preconditions.checkArgument(chance > 0 && chance <= 100,
+				"Secondary chance must be 1-100");
 
-	@Override
-	public RecipeBuilder chance(int chance) {
 		this.secondaryChance = chance;
-		return this;
+		return THIS;
 	}
 }

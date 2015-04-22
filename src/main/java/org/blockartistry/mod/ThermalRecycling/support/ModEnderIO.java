@@ -30,7 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModEnderIO extends ModTweaks {
+public class ModEnderIO extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();

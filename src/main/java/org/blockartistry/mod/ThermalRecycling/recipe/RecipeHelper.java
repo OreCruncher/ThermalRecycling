@@ -202,4 +202,27 @@ public final class RecipeHelper {
 	public static FluidStack getFluidStack(String name, int quantity) {
 		return FluidRegistry.getFluidStack(name, quantity);
 	}
+
+	public static String resolveName(ItemStack stack) {
+		String result = null;
+
+		if (stack != null) {
+
+			try {
+				result = stack.getDisplayName();
+			} catch (Exception e) {
+				;
+			}
+
+			if (result == null) {
+				try {
+					result = stack.getUnlocalizedName();
+				} catch (Exception e) {
+					;
+				}
+			}
+		}
+
+		return result == null ? "UNKNOWN" : result;
+	}
 }

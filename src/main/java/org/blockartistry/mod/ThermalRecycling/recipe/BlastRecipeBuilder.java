@@ -24,16 +24,25 @@
 
 package org.blockartistry.mod.ThermalRecycling.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.support.ModThermalFoundation;
+import net.minecraft.item.ItemStack;
 
 public class BlastRecipeBuilder extends SmelterRecipeBuilder {
+
+	protected static ItemStack PYROTHEUM_DUST = null;
+
+	public BlastRecipeBuilder() {
+
+		if (PYROTHEUM_DUST == null)
+			PYROTHEUM_DUST = RecipeHelper.getItemStack(
+					"ThermalFoundation:material:512", 1);
+	}
 
 	@Override
 	public void save() {
 
 		if (energy < 8000)
 			energy = 8000;
-		secondaryInput = ModThermalFoundation.getPyrotheumDust(1);
+		secondaryInput = PYROTHEUM_DUST;
 		super.save();
 	}
 }

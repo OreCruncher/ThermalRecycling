@@ -31,7 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import cpw.mods.fml.common.Loader;
 
-public class ModAdvancedGenerators extends ModTweaks {
+public class ModAdvancedGenerators extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 

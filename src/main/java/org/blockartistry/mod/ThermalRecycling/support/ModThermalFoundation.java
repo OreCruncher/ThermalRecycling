@@ -33,7 +33,9 @@ import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
-public class ModThermalFoundation extends ModTweaks {
+import cpw.mods.fml.common.Loader;
+
+public class ModThermalFoundation extends ModSupportPlugin {
 
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
@@ -44,8 +46,7 @@ public class ModThermalFoundation extends ModTweaks {
 
 		if (pyrotheumDust == null) {
 			pyrotheumDust = RecipeHelper.getItemStack(
-					"ThermalFoundation:material", 1);
-			pyrotheumDust.setItemDamage(512);
+					"ThermalFoundation:material:512", 1);
 		}
 
 		ItemStack result = pyrotheumDust.copy();
@@ -94,7 +95,7 @@ public class ModThermalFoundation extends ModTweaks {
 
 	@Override
 	public boolean isModLoaded() {
-		return isModLoaded("ThermalFoundation");
+		return Loader.isModLoaded("ThermalFoundation");
 	}
 
 	@Override

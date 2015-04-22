@@ -33,7 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModBuildCraft extends ModTweaks {
+public class ModBuildCraft extends ModSupportPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
@@ -126,9 +126,11 @@ public class ModBuildCraft extends ModTweaks {
 				.output(Blocks.obsidian, 6).secondaryOutput(Blocks.planks, 12)
 				.save();
 		pulverizer.append("BuildCraft|Silicon:laserTableBlock:2")
-				.secondaryOutput(Items.diamond, 4).save();
+				.output(Blocks.obsidian, 6).secondaryOutput(Items.diamond, 4)
+				.save();
 		pulverizer.append("BuildCraft|Silicon:laserTableBlock:3")
-				.secondaryOutput("ingotGold", 4).save();
+				.output(Blocks.obsidian, 6).secondaryOutput("ingotGold", 4)
+				.save();
 		pulverizer.append("BuildCraft|Silicon:laserTableBlock:4")
 				.output(Items.emerald).secondaryOutput(Items.diamond, 4).save();
 

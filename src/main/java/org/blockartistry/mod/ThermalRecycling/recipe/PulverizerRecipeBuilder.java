@@ -24,21 +24,22 @@
 
 package org.blockartistry.mod.ThermalRecycling.recipe;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class PulverizerRecipeBuilder extends SecondaryOutputRecipeBuilder {
+public class PulverizerRecipeBuilder extends
+		SecondaryOutputRecipeBuilder<PulverizerRecipeBuilder> {
 
 	@Override
-	protected boolean saveImpl(ItemStack stack) {
+	protected void saveImpl(ItemStack stack) {
 
-		if (output != null) {
-			ThermalExpansionHelper.addPulverizerRecipe(energy, stack, output,
-					secondaryOutput, secondaryChance);
-			return true;
-		}
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
-		return false;
+		ThermalExpansionHelper.addPulverizerRecipe(energy, stack, output,
+				secondaryOutput, secondaryChance);
 	}
 
 	@Override
@@ -47,13 +48,13 @@ public class PulverizerRecipeBuilder extends SecondaryOutputRecipeBuilder {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Pulverizer [%dx %s] => [%dx %s",
-				in.stackSize, resolveName(in), output.stackSize,
-				resolveName(output)));
+				in.stackSize, RecipeHelper.resolveName(in), output.stackSize,
+				RecipeHelper.resolveName(output)));
 
 		if (secondaryOutput != null) {
 			builder.append(String.format(", %dx %s @%d",
-					secondaryOutput.stackSize, resolveName(secondaryOutput),
-					secondaryChance));
+					secondaryOutput.stackSize,
+					RecipeHelper.resolveName(secondaryOutput), secondaryChance));
 		}
 
 		builder.append("]");

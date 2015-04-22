@@ -25,19 +25,8 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
-import org.blockartistry.mod.ThermalRecycling.support.ModAdvancedGenerators;
-import org.blockartistry.mod.ThermalRecycling.support.ModBuildCraft;
-import org.blockartistry.mod.ThermalRecycling.support.ModEnderIO;
-import org.blockartistry.mod.ThermalRecycling.support.ModForestry;
-import org.blockartistry.mod.ThermalRecycling.support.ModMinefactoryReloaded;
-import org.blockartistry.mod.ThermalRecycling.support.ModRailcraft;
-import org.blockartistry.mod.ThermalRecycling.support.ModThaumcraft;
-import org.blockartistry.mod.ThermalRecycling.support.ModThermalDynamics;
-import org.blockartistry.mod.ThermalRecycling.support.ModThermalExpansion;
-import org.blockartistry.mod.ThermalRecycling.support.ModThermalFoundation;
-import org.blockartistry.mod.ThermalRecycling.support.ModTweaks;
-import org.blockartistry.mod.ThermalRecycling.support.VanillaMinecraft;
-
+import org.blockartistry.mod.ThermalRecycling.support.ModSupportPlugin;
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
@@ -53,13 +42,16 @@ public final class ThermalRecycling {
 	public static ThermalRecycling instance = new ThermalRecycling();
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.2.2";
+	public static final String VERSION = "0.2.3";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
 			+ "after:Forestry;"
 			+ "after:MineFactoryReloaded;"
-			+ "after:Thaumcraft;" + "after:Railcraft;" + "after:advgenerators";
+			+ "after:Thaumcraft;"
+			+ "after:Railcraft;"
+			+ "after:advgenerators;"
+			+ "after:EnderIO;";
 
 	protected void dumpSubItems(String itemId) {
 		ItemStack stack = RecipeHelper.getItemStack(itemId, 1);
@@ -92,23 +84,23 @@ public final class ThermalRecycling {
 		config.save();
 	}
 
-	protected void handle(ModTweaks tweaks) {
+	protected void handle(ModSupportPlugin plugin) {
 
-		if (!tweaks.isModLoaded()) {
-			ModLog.info("Mod [%s] not loaded - skipping", tweaks.getName());
+		if (!plugin.isModLoaded()) {
+			ModLog.info("Mod [%s] not loaded - skipping", plugin.getName());
 			return;
 		}
 
-		ModLog.info("Adding recipes for items from [%s]", tweaks.getName());
+		ModLog.info("Adding recipes for items from [%s]", plugin.getName());
 
 		try {
 
-			tweaks.apply(ModOptions.instance);
+			plugin.apply(ModOptions.instance);
 
 		} catch (Exception e) {
 
 			ModLog.warn("Exception processing recipes for [%s]",
-					tweaks.getName());
+					plugin.getName());
 			ModLog.catching(e);
 		}
 
@@ -119,17 +111,15 @@ public final class ThermalRecycling {
 		// some example code
 		ModLog.info("CoFH API I see: " + cofh.api.CoFHAPIProps.VERSION);
 
-		handle(new VanillaMinecraft());
-		handle(new ModThermalFoundation());
-		handle(new ModThermalExpansion());
-		handle(new ModThermalDynamics());
-		handle(new ModThaumcraft());
-		handle(new ModBuildCraft());
-		handle(new ModMinefactoryReloaded());
-		handle(new ModForestry());
-		handle(new ModRailcraft());
-		handle(new ModAdvancedGenerators());
-		handle(new ModEnderIO());
+		for (SupportedMod mod : SupportedMod.values()) {
 
+			try {
+				handle(mod.getPlugin());
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

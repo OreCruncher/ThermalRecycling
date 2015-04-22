@@ -34,7 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import cpw.mods.fml.common.Loader;
 
-public class ModMinefactoryReloaded extends ModTweaks {
+public class ModMinefactoryReloaded extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
@@ -54,8 +54,8 @@ public class ModMinefactoryReloaded extends ModTweaks {
 
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer
-				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling", 0, 2, 8)
-				.output(Blocks.dirt).save();
+				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling",
+						0, 2, 8).output(Blocks.dirt).save();
 
 		// Range upgrades
 		ItemStack is = RecipeHelper.getItemStack(

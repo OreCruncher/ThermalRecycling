@@ -30,194 +30,295 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
-public abstract class RecipeBuilder {
+public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
+
+	protected final int DEFAULT_ENERGY = 2400;
+
+	@SuppressWarnings("unchecked")
+	protected final This THIS = (This) this;
 
 	protected int energy;
 	protected List<ItemStack> input;
 	protected ItemStack output;
-
-	protected static String resolveName(ItemStack stack) {
-		String result = null;
-
-		if (stack != null) {
-
-			try {
-				result = stack.getDisplayName();
-			} catch (Exception e) {
-				;
-			}
-
-			if (result == null) {
-				try {
-					result = stack.getUnlocalizedName();
-				} catch (Exception e) {
-					;
-				}
-			}
-		}
-
-		return result == null ? "UNKNOWN" : result;
-	}
-
-	protected void log(String msg) {
-
-		if (!ModOptions.instance.getEnableRecipeLogging())
-			return;
-
-		ModLog.info(msg);
-	}
 
 	public RecipeBuilder() {
 
 		reset();
 	}
 
-	public RecipeBuilder reset() {
-		this.energy = 2400;
+	public This reset() {
+		this.energy = DEFAULT_ENERGY;
 		this.input = new ArrayList<ItemStack>();
 		this.output = null;
-		return this;
+		return THIS;
 	}
 
-	public RecipeBuilder setEnergy(int energy) {
+	public This setEnergy(int energy) {
+
+		Preconditions
+				.checkArgument(energy > 0, "Energy must be greater than 0");
+
 		this.energy = energy;
-		return this;
+		return THIS;
 	}
 
-	public RecipeBuilder append(String... items) {
+	public This append(String... items) {
+
+		Preconditions.checkArgument(items != null && items.length > 0,
+				"Input ItemStacks cannot be null");
+
 		for (String s : items)
 			append(s, 1);
-		return this;
+
+		return THIS;
 	}
 
-	public RecipeBuilder append(String item, int quantity) {
+	public This append(String item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		return append(RecipeHelper.getItemStack(item, quantity));
 	}
 
-	public RecipeBuilder append(Block... blocks) {
+	public This append(Block... blocks) {
+
+		Preconditions.checkArgument(blocks != null && blocks.length > 0,
+				"Input ItemStacks cannot be null");
+
 		for (Block b : blocks)
-			append(b, 1);
-		return this;
+			append(new ItemStack(b));
+
+		return THIS;
 	}
 
-	public RecipeBuilder append(Block block, int quantity) {
+	public This append(Block block, int quantity) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		return append(new ItemStack(block, quantity));
 	}
 
-	public RecipeBuilder append(Item... items) {
+	public This append(Item... items) {
+
+		Preconditions.checkArgument(items != null && items.length > 0,
+				"Input ItemStacks cannot be null");
+
 		for (Item i : items)
-			append(i, 1);
-		return this;
+			append(new ItemStack(i));
+
+		return THIS;
 	}
 
-	public RecipeBuilder append(Item item, int quantity) {
+	public This append(Item item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		return append(new ItemStack(item, quantity));
 	}
 
-	public RecipeBuilder append(List<ItemStack> stacks) {
+	public This append(List<ItemStack> stacks) {
+
+		Preconditions.checkArgument(stacks != null && !stacks.isEmpty(),
+				"Input ItemStacks cannot be null");
+
 		for (ItemStack stack : stacks) {
 			this.input.add(stack);
 		}
-		return this;
+
+		return THIS;
 	}
 
-	public RecipeBuilder append(ItemStack... stacks) {
+	public This append(ItemStack... stacks) {
+
+		Preconditions.checkArgument(stacks != null && stacks.length > 0,
+				"Input ItemStacks cannot be null");
+
 		for (ItemStack stack : stacks) {
 			this.input.add(stack);
 		}
-		return this;
+
+		return THIS;
 	}
 
-	public RecipeBuilder appendSubtype(ItemStack stack, int subtype) {
+	public This appendSubtype(ItemStack stack, int subtype) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(subtype >= 0,
+				"Subtype has to be greater than or equal to 0");
+
 		ItemStack s = stack.copy();
 		s.setItemDamage(subtype);
 		return append(s);
 	}
 
-	public RecipeBuilder appendSubtype(Item item, int subtype) {
+	public This appendSubtype(Item item, int subtype) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(subtype >= 0,
+				"Subtype has to be greater than or equal to 0");
+
 		return append(new ItemStack(item, 1, subtype));
 	}
 
-	public RecipeBuilder appendSubtypeRange(String item, int start, int end, int quantity) {
-		return append(RecipeHelper.getItemStackRange(item, start, end, quantity));
+	public This appendSubtypeRange(String item, int start, int end, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		return append(RecipeHelper
+				.getItemStackRange(item, start, end, quantity));
 	}
-	
-	public RecipeBuilder appendSubtypeRange(String item, int start, int end) {
+
+	public This appendSubtypeRange(String item, int start, int end) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
 		return append(RecipeHelper.getItemStackRange(item, start, end, 1));
 	}
 
-	public RecipeBuilder appendSubtypeRange(Item item, int start, int end, int quantity) {
-		return append(RecipeHelper.getItemStackRange(item, start, end, quantity));
+	public This appendSubtypeRange(Item item, int start, int end, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		return append(RecipeHelper
+				.getItemStackRange(item, start, end, quantity));
 	}
-	
-	public RecipeBuilder appendSubtypeRange(Item item, int start, int end) {
+
+	public This appendSubtypeRange(Item item, int start, int end) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
 		return append(RecipeHelper.getItemStackRange(item, start, end, 1));
 	}
 
-	public RecipeBuilder appendSubtypeRange(Block block, int start, int end, int quantity) {
-		return append(RecipeHelper.getItemStackRange(block, start, end, quantity));
+	public This appendSubtypeRange(Block block, int start, int end, int quantity) {
+		return append(RecipeHelper.getItemStackRange(block, start, end,
+				quantity));
 	}
-	
-	public RecipeBuilder appendSubtypeRange(Block block, int start, int end) {
+
+	public This appendSubtypeRange(Block block, int start, int end) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
 		return append(RecipeHelper.getItemStackRange(block, start, end, 1));
 	}
 
-	public RecipeBuilder appendSubtypeRange(ItemStack stack, int start, int end) {
+	public This appendSubtypeRange(ItemStack stack, int start, int end) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(end >= start && start > -1,
+				"The subtype range is not valid");
+
 		for (int i = start; i <= end; i++) {
 			ItemStack s = stack.copy();
 			s.setItemDamage(i);
 			input.add(s);
 		}
 
-		return this;
+		return THIS;
 	}
 
-	public RecipeBuilder output(Block block) {
-		return output(block, 1);
+	public This output(Block block) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+
+		return output(new ItemStack(block));
 	}
 
-	public RecipeBuilder output(Block block, int quantity) {
+	public This output(Block block, int quantity) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		return output(new ItemStack(block, quantity));
 	}
 
-	public RecipeBuilder output(Item item) {
-		return output(item, 1);
+	public This output(Item item) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+
+		return output(new ItemStack(item));
 	}
 
-	public RecipeBuilder output(Item item, int quantity) {
+	public This output(Item item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
 
 		return output(new ItemStack(item, quantity));
 	}
 
-	public RecipeBuilder output(String item) {
+	public This output(String item) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+
 		return output(item, 1);
 	}
 
-	public RecipeBuilder output(String item, int quantity) {
+	public This output(String item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		return output(RecipeHelper.getItemStack(item, quantity));
 	}
 
-	public RecipeBuilder output(ItemStack out, int quantity) {
+	public This output(ItemStack out, int quantity) {
+
+		Preconditions.checkNotNull(out, "Output ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
 		this.output = out;
 		this.output.stackSize = quantity;
-		return this;
+		return THIS;
 	}
 
-	public RecipeBuilder output(ItemStack out) {
+	public This output(ItemStack out) {
+
+		Preconditions.checkNotNull(out, "Output ItemStack cannot be null");
+
 		this.output = out;
-		return this;
+		return THIS;
 	}
 
 	public void save() {
 
+		Preconditions.checkState(!input.isEmpty(),
+				"No input ItemStacks were specified");
+
 		for (ItemStack i : input) {
-			if (saveImpl(i))
-				log(toString(i));
+			saveImpl(i);
+			if (ModOptions.instance.getEnableRecipeLogging())
+				ModLog.info(toString(i));
 		}
 
 		reset();
@@ -225,93 +326,5 @@ public abstract class RecipeBuilder {
 
 	protected abstract String toString(ItemStack stack);
 
-	protected abstract boolean saveImpl(ItemStack stack);
-
-	public RecipeBuilder secondaryInput(Block block) {
-		throw new UnsupportedOperationException("secondaryInput(Block)");
-	}
-
-	public RecipeBuilder secondaryInput(Block block, int quantity) {
-		throw new UnsupportedOperationException("secondaryInput(Block, quantity)");
-	}
-
-	public RecipeBuilder secondaryInput(Item item) {
-		throw new UnsupportedOperationException("secondaryInput(Item)");
-	}
-
-	public RecipeBuilder secondaryInput(Item item, int quantity) {
-		throw new UnsupportedOperationException("secondaryInput(Item, quantity)");
-	}
-
-	public RecipeBuilder secondaryInput(String item) {
-		throw new UnsupportedOperationException("secondaryInput(String)");
-	}
-
-	public RecipeBuilder secondaryInput(String item, int quantity) {
-		throw new UnsupportedOperationException("secondaryInput(String, quantity)");
-	}
-
-	public RecipeBuilder secondaryInput(ItemStack sec) {
-		throw new UnsupportedOperationException("secondaryInput(ItemStack)");
-	}
-
-	public RecipeBuilder secondaryInputSubtype(int type) {
-		throw new UnsupportedOperationException("secondaryInputSubtype(type)");
-	}
-
-	public RecipeBuilder secondaryOutput(Block block) {
-		throw new UnsupportedOperationException("secondaryOutput(Block)");
-	}
-
-	public RecipeBuilder secondaryOutput(Block block, int quantity) {
-		throw new UnsupportedOperationException("secondaryOutput(Block, quantity)");
-	}
-
-	public RecipeBuilder secondaryOutput(Item item) {
-		throw new UnsupportedOperationException("secondaryOutput(Item)");
-	}
-
-	public RecipeBuilder secondaryOutput(Item item, int quantity) {
-		throw new UnsupportedOperationException("secondaryOutput(Item, quantity)");
-	}
-
-	public RecipeBuilder secondaryOutput(String item) {
-		throw new UnsupportedOperationException("secondaryOutput(String)");
-	}
-
-	public RecipeBuilder secondaryOutput(String item, int quantity) {
-		throw new UnsupportedOperationException("secondaryOutput(String, quantity)");
-	}
-
-	public RecipeBuilder secondaryOutput(ItemStack sec) {
-		throw new UnsupportedOperationException("secondaryOutput(ItemStack)");
-	}
-
-	public RecipeBuilder secondaryOutputSubtype(int type) {
-		throw new UnsupportedOperationException("secondaryOutputSubtype(type)");
-	}
-
-	public RecipeBuilder secondaryOutputQuantity(int quantity) {
-		throw new UnsupportedOperationException("secondaryOutputQuantity(quantity)");
-	}
-
-	public RecipeBuilder chance(int chance) {
-		throw new UnsupportedOperationException("chance(chance)");
-	}
-
-	public RecipeBuilder fluid(String fluidId) {
-		throw new UnsupportedOperationException("fluid(fluidId)");
-	}
-
-	public RecipeBuilder fluid(String fluidId, int quantity) {
-		throw new UnsupportedOperationException("fluid(fluidId, quantity)");
-	}
-
-	public RecipeBuilder fluid(FluidStack stack) {
-		throw new UnsupportedOperationException("fluid(fluidStack)");
-	}
-
-	public RecipeBuilder fluidQuantity(int quantity) {
-		throw new UnsupportedOperationException("fluidQuantity(quantity)");
-	}
+	protected abstract void saveImpl(ItemStack stack);
 }

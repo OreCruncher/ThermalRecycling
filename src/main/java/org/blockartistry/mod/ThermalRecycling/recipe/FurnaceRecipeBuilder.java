@@ -24,27 +24,27 @@
 
 package org.blockartistry.mod.ThermalRecycling.recipe;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class FurnaceRecipeBuilder extends RecipeBuilder {
+public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 
 	@Override
-	protected boolean saveImpl(ItemStack stack) {
+	protected void saveImpl(ItemStack stack) {
 
-		if (output != null) {
-			ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
-			return true;
-		}
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
-		return false;
+		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
 	}
 
 	@Override
 	protected String toString(ItemStack in) {
 
 		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
-				in.stackSize, resolveName(in), output.stackSize,
-				resolveName(output));
+				in.stackSize, RecipeHelper.resolveName(in), output.stackSize,
+				RecipeHelper.resolveName(output));
 	}
 }

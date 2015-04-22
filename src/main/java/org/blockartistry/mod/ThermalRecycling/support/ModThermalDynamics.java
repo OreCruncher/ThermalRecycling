@@ -28,7 +28,9 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
-public class ModThermalDynamics extends ModTweaks {
+import cpw.mods.fml.common.Loader;
+
+public class ModThermalDynamics extends ModSupportPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
@@ -40,7 +42,7 @@ public class ModThermalDynamics extends ModTweaks {
 
 	@Override
 	public boolean isModLoaded() {
-		return isModLoaded("ThermalDynamics");
+		return Loader.isModLoaded("ThermalDynamics");
 	}
 
 	@Override
@@ -93,7 +95,8 @@ public class ModThermalDynamics extends ModTweaks {
 				.output("ThermalDynamics:ThermalDynamics_32")
 				.fluid("glowstone", 200).save();
 		fluid.append("ThermalDynamics:ThermalDynamics_32:3")
-				.output("ThermalDynamics:ThermalDynamics_32:1").save();
+				.output("ThermalDynamics:ThermalDynamics_32:1")
+				.fluid("glowstone", 200).save();
 
 		// Item Duct (Warp + Opaque)
 		pulverizer
@@ -108,7 +111,8 @@ public class ModThermalDynamics extends ModTweaks {
 				.output("ThermalDynamics:ThermalDynamics_32")
 				.fluid("redstone", 50).save();
 		fluid.append("ThermalDynamics:ThermalDynamics_32:7")
-				.output("ThermalDynamics:ThermalDynamics_32:1").save();
+				.output("ThermalDynamics:ThermalDynamics_32:1")
+				.fluid("redstone", 50).save();
 
 		// Flux ducts - drain and smash the base type
 		pulverizer.append("ThermalDynamics:ThermalDynamics_0:3")
@@ -117,7 +121,8 @@ public class ModThermalDynamics extends ModTweaks {
 				.output("ThermalDynamics:ThermalDynamics_0:3")
 				.fluid("redstone", 200).save();
 		fluid.append("ThermalDynamics:ThermalDynamics_0:4")
-				.output("ThermalDynamics:ThermalDynamics_0:5").save();
+				.output("ThermalDynamics:ThermalDynamics_0:5")
+				.fluid("redstone", 200).save();
 		pulverizer.append("ThermalDynamics:ThermalDynamics_0:5")
 				.output("nuggetEnderium", 3)
 				.secondaryOutput("nuggetElectrum", 3).save();

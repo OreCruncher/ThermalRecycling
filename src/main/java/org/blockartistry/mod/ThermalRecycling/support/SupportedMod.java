@@ -22,35 +22,41 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.support;
 
-import com.google.common.base.Preconditions;
+public enum SupportedMod {
 
-import net.minecraft.item.ItemStack;
-import cofh.api.modhelpers.ThermalExpansionHelper;
+	VANILLA(VanillaMinecraft.class),
 
-public class SmelterRecipeBuilder extends
-		SecondaryInputRecipeBuilder<SmelterRecipeBuilder> {
+	THERMAL_FOUNDATION(ModThermalFoundation.class),
 
-	@Override
-	protected void saveImpl(ItemStack stack) {
+	THERMAL_EXPANSION(ModThermalExpansion.class),
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(secondaryInput,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+	THERMAL_DYNAMICS(ModThermalDynamics.class),
 
-		ThermalExpansionHelper.addSmelterRecipe(energy, stack, secondaryInput,
-				output);
+	MINEFACTORY_RELOADED(ModMinefactoryReloaded.class),
+
+	THAUMCRAFT(ModThaumcraft.class),
+
+	BUILDCRAFT(ModBuildCraft.class),
+
+	FORESTRY(ModForestry.class),
+
+	RAILCRAFT(ModRailcraft.class),
+
+	ADVANCED_GENERATORS(ModAdvancedGenerators.class),
+
+	ENDERIO(ModEnderIO.class);
+
+	private final Class<? extends ModSupportPlugin> pluginFactory;
+
+	private SupportedMod(Class<? extends ModSupportPlugin> clazz) {
+
+		pluginFactory = clazz;
 	}
 
-	@Override
-	protected String toString(ItemStack in) {
-
-		return String.format("Induction Smelter [%dx %s, %dx %s] => [%dx %s]",
-				in.stackSize, RecipeHelper.resolveName(in),
-				secondaryInput.stackSize,
-				RecipeHelper.resolveName(secondaryInput), output.stackSize,
-				RecipeHelper.resolveName(output));
+	public ModSupportPlugin getPlugin() throws InstantiationException,
+			IllegalAccessException {
+		return pluginFactory.newInstance();
 	}
 }

@@ -36,7 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModForestry extends ModTweaks {
+public class ModForestry extends ModSupportPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();

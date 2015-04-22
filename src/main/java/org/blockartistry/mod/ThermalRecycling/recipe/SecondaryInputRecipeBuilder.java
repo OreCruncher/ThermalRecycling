@@ -24,11 +24,14 @@
 
 package org.blockartistry.mod.ThermalRecycling.recipe;
 
+import com.google.common.base.Preconditions;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public abstract class SecondaryInputRecipeBuilder extends RecipeBuilder {
+public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRecipeBuilder<This>>
+		extends RecipeBuilder<This> {
 
 	protected ItemStack secondaryInput;
 
@@ -37,62 +40,71 @@ public abstract class SecondaryInputRecipeBuilder extends RecipeBuilder {
 	}
 
 	@Override
-	public RecipeBuilder reset() {
+	public This reset() {
 		secondaryInput = null;
 		return super.reset();
 	}
 
-	/*
-	 * public RecipeBuilder resetSecondaryInput() { this.secondaryInput = null;
-	 * return this; }
-	 */
+	public This secondaryInput(Block block) {
 
-	@Override
-	public RecipeBuilder secondaryInput(Block block) {
-		return secondaryInput(block, 1);
+		Preconditions.checkNotNull(block,
+				"Secondary input ItemStack cannot be null");
+
+		return secondaryInput(new ItemStack(block));
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(Block block, int quantity) {
+	public This secondaryInput(Block block, int quantity) {
+
+		Preconditions.checkNotNull(block,
+				"Secondary input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greather than 0");
+
 		return secondaryInput(new ItemStack(block, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(Item item) {
-		return secondaryInput(item, 1);
+	public This secondaryInput(Item item) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary input ItemStack cannot be null");
+
+		return secondaryInput(new ItemStack(item));
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(Item item, int quantity) {
+	public This secondaryInput(Item item, int quantity) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greather than 0");
+
 		return secondaryInput(new ItemStack(item, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(String item) {
+	public This secondaryInput(String item) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary input ItemStack cannot be null");
+
 		return secondaryInput(item, 1);
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(String item, int quantity) {
+	public This secondaryInput(String item, int quantity) {
+
+		Preconditions.checkNotNull(item,
+				"Secondary input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity must be greather than 0");
+
 		return secondaryInput(RecipeHelper.getItemStack(item, quantity));
 	}
 
-	@Override
-	public RecipeBuilder secondaryInput(ItemStack sec) {
+	public This secondaryInput(ItemStack sec) {
+
+		Preconditions.checkNotNull(sec,
+				"Secondary input ItemStack cannot be null");
+
 		this.secondaryInput = sec;
-		return this;
-	}
-
-	@Override
-	public RecipeBuilder secondaryInputSubtype(int type) {
-		if (this.secondaryInput != null)
-			this.secondaryInput.setItemDamage(type);
-		return this;
-	}
-
-	public RecipeBuilder setSecondaryInputQuantity(int quantity) {
-		if (this.secondaryInput != null)
-			this.secondaryInput.stackSize = quantity;
-		return this;
+		return THIS;
 	}
 }
