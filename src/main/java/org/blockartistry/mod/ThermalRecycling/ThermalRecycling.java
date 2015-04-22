@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.support.ModAdvancedGenerators;
 import org.blockartistry.mod.ThermalRecycling.support.ModBuildCraft;
+import org.blockartistry.mod.ThermalRecycling.support.ModEnderIO;
 import org.blockartistry.mod.ThermalRecycling.support.ModForestry;
 import org.blockartistry.mod.ThermalRecycling.support.ModMinefactoryReloaded;
 import org.blockartistry.mod.ThermalRecycling.support.ModRailcraft;
@@ -52,7 +53,7 @@ public final class ThermalRecycling {
 	public static ThermalRecycling instance = new ThermalRecycling();
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.2.1";
+	public static final String VERSION = "0.2.2";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -128,6 +129,7 @@ public final class ThermalRecycling {
 		handle(new ModForestry());
 		handle(new ModRailcraft());
 		handle(new ModAdvancedGenerators());
+		handle(new ModEnderIO());
 
 	}
 }

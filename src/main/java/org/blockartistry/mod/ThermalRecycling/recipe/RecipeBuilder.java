@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
@@ -229,90 +228,90 @@ public abstract class RecipeBuilder {
 	protected abstract boolean saveImpl(ItemStack stack);
 
 	public RecipeBuilder secondaryInput(Block block) {
-		throw new NotImplementedException("secondaryInput(Block)");
+		throw new UnsupportedOperationException("secondaryInput(Block)");
 	}
 
 	public RecipeBuilder secondaryInput(Block block, int quantity) {
-		throw new NotImplementedException("secondaryInput(Block, quantity)");
+		throw new UnsupportedOperationException("secondaryInput(Block, quantity)");
 	}
 
 	public RecipeBuilder secondaryInput(Item item) {
-		throw new NotImplementedException("secondaryInput(Item)");
+		throw new UnsupportedOperationException("secondaryInput(Item)");
 	}
 
 	public RecipeBuilder secondaryInput(Item item, int quantity) {
-		throw new NotImplementedException("secondaryInput(Item, quantity)");
+		throw new UnsupportedOperationException("secondaryInput(Item, quantity)");
 	}
 
 	public RecipeBuilder secondaryInput(String item) {
-		throw new NotImplementedException("secondaryInput(String)");
+		throw new UnsupportedOperationException("secondaryInput(String)");
 	}
 
 	public RecipeBuilder secondaryInput(String item, int quantity) {
-		throw new NotImplementedException("secondaryInput(String, quantity)");
+		throw new UnsupportedOperationException("secondaryInput(String, quantity)");
 	}
 
 	public RecipeBuilder secondaryInput(ItemStack sec) {
-		throw new NotImplementedException("secondaryInput(ItemStack)");
+		throw new UnsupportedOperationException("secondaryInput(ItemStack)");
 	}
 
 	public RecipeBuilder secondaryInputSubtype(int type) {
-		throw new NotImplementedException("secondaryInputSubtype(type)");
+		throw new UnsupportedOperationException("secondaryInputSubtype(type)");
 	}
 
 	public RecipeBuilder secondaryOutput(Block block) {
-		throw new NotImplementedException("secondaryOutput(Block)");
+		throw new UnsupportedOperationException("secondaryOutput(Block)");
 	}
 
 	public RecipeBuilder secondaryOutput(Block block, int quantity) {
-		throw new NotImplementedException("secondaryOutput(Block, quantity)");
+		throw new UnsupportedOperationException("secondaryOutput(Block, quantity)");
 	}
 
 	public RecipeBuilder secondaryOutput(Item item) {
-		throw new NotImplementedException("secondaryOutput(Item)");
+		throw new UnsupportedOperationException("secondaryOutput(Item)");
 	}
 
 	public RecipeBuilder secondaryOutput(Item item, int quantity) {
-		throw new NotImplementedException("secondaryOutput(Item, quantity)");
+		throw new UnsupportedOperationException("secondaryOutput(Item, quantity)");
 	}
 
 	public RecipeBuilder secondaryOutput(String item) {
-		throw new NotImplementedException("secondaryOutput(String)");
+		throw new UnsupportedOperationException("secondaryOutput(String)");
 	}
 
 	public RecipeBuilder secondaryOutput(String item, int quantity) {
-		throw new NotImplementedException("secondaryOutput(String, quantity)");
+		throw new UnsupportedOperationException("secondaryOutput(String, quantity)");
 	}
 
 	public RecipeBuilder secondaryOutput(ItemStack sec) {
-		throw new NotImplementedException("secondaryOutput(ItemStack)");
+		throw new UnsupportedOperationException("secondaryOutput(ItemStack)");
 	}
 
 	public RecipeBuilder secondaryOutputSubtype(int type) {
-		throw new NotImplementedException("secondaryOutputSubtype(type)");
+		throw new UnsupportedOperationException("secondaryOutputSubtype(type)");
 	}
 
 	public RecipeBuilder secondaryOutputQuantity(int quantity) {
-		throw new NotImplementedException("secondaryOutputQuantity(quantity)");
+		throw new UnsupportedOperationException("secondaryOutputQuantity(quantity)");
 	}
 
 	public RecipeBuilder chance(int chance) {
-		throw new NotImplementedException("chance(chance)");
+		throw new UnsupportedOperationException("chance(chance)");
 	}
 
 	public RecipeBuilder fluid(String fluidId) {
-		throw new NotImplementedException("fluid(fluidId)");
+		throw new UnsupportedOperationException("fluid(fluidId)");
 	}
 
 	public RecipeBuilder fluid(String fluidId, int quantity) {
-		throw new NotImplementedException("fluid(fluidId, quantity)");
+		throw new UnsupportedOperationException("fluid(fluidId, quantity)");
 	}
 
 	public RecipeBuilder fluid(FluidStack stack) {
-		throw new NotImplementedException("fluid(fluidStack)");
+		throw new UnsupportedOperationException("fluid(fluidStack)");
 	}
 
 	public RecipeBuilder fluidQuantity(int quantity) {
-		throw new NotImplementedException("fluidQuantity(quantity)");
+		throw new UnsupportedOperationException("fluidQuantity(quantity)");
 	}
 }
