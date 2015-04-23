@@ -24,10 +24,10 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.support.ModSupportPlugin;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
-import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -53,23 +53,6 @@ public final class ThermalRecycling {
 			+ "after:advgenerators;"
 			+ "after:EnderIO;";
 
-	protected void dumpSubItems(String itemId) {
-		ItemStack stack = RecipeHelper.getItemStack(itemId, 1);
-		if (stack != null) {
-
-			try {
-				for (int i = 0; i < 1024; i++) {
-					stack.setItemDamage(i);
-					String name = stack.getDisplayName();
-					if (!name.contains("(Destroy)"))
-						ModLog.info("%s:%d = %s", itemId, i, name);
-				}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				;
-			}
-		}
-	}
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
@@ -87,11 +70,21 @@ public final class ThermalRecycling {
 	protected void handle(ModSupportPlugin plugin) {
 
 		if (!plugin.isModLoaded()) {
-			ModLog.info("Mod [%s] not loaded - skipping", plugin.getName());
+			ModLog.info("Mod [%s] not detected - skipping", plugin.getName());
 			return;
 		}
 
-		ModLog.info("Adding recipes for items from [%s]", plugin.getName());
+		boolean doLogging = ModOptions.instance.getEnableRecipeLogging();
+
+		if (doLogging) {
+			ModLog.info("");
+		}
+
+		ModLog.info("Loading recipes for [%s]", plugin.getName());
+
+		if (doLogging) {
+			ModLog.info(StringUtils.repeat('-', 64));
+		}
 
 		try {
 
@@ -108,8 +101,8 @@ public final class ThermalRecycling {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// some example code
-		ModLog.info("CoFH API I see: " + cofh.api.CoFHAPIProps.VERSION);
+
+		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
 
 		for (SupportedMod mod : SupportedMod.values()) {
 

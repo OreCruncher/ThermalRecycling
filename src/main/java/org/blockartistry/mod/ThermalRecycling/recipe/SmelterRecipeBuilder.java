@@ -45,10 +45,15 @@ public class SmelterRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack in) {
+	protected String toString(ItemStack stack) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(secondaryInput,
+				"Secondary input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Induction Smelter [%dx %s, %dx %s] => [%dx %s]",
-				in.stackSize, RecipeHelper.resolveName(in),
+				stack.stackSize, RecipeHelper.resolveName(stack),
 				secondaryInput.stackSize,
 				RecipeHelper.resolveName(secondaryInput), output.stackSize,
 				RecipeHelper.resolveName(output));

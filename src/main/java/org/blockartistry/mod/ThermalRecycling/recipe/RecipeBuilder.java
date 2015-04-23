@@ -323,7 +323,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		reset();
 	}
-
+	
 	protected abstract String toString(ItemStack stack);
 
 	protected abstract void saveImpl(ItemStack stack);

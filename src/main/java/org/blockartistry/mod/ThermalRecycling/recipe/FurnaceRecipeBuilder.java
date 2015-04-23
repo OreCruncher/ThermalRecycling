@@ -41,10 +41,13 @@ public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 	}
 
 	@Override
-	protected String toString(ItemStack in) {
+	protected String toString(ItemStack stack) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
-				in.stackSize, RecipeHelper.resolveName(in), output.stackSize,
+				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
 				RecipeHelper.resolveName(output));
 	}
 }

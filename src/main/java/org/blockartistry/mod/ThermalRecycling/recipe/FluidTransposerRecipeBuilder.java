@@ -48,10 +48,14 @@ public class FluidTransposerRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack in) {
+	protected String toString(ItemStack stack) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
-				in.stackSize, RecipeHelper.resolveName(in), output.stackSize,
+				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
 				RecipeHelper.resolveName(output), fluid.amount,
 				fluid.getLocalizedName());
 	}

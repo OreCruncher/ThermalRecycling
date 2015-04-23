@@ -43,12 +43,15 @@ public class PulverizerRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack in) {
+	protected String toString(ItemStack stack) {
+		
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Pulverizer [%dx %s] => [%dx %s",
-				in.stackSize, RecipeHelper.resolveName(in), output.stackSize,
+				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
 				RecipeHelper.resolveName(output)));
 
 		if (secondaryOutput != null) {

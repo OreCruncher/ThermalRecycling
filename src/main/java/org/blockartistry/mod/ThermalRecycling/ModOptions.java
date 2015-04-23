@@ -64,7 +64,6 @@ public final class ModOptions {
 						CATEGORY_RECYCLE_RECIPIES_CONTROL,
 						quantityRottenFleshToLeather, 0, 64,
 						"Amount of Rotten Flesh to use to create a piece of leather (0 to disable)");
-
 	}
 
 	public boolean getEnableDiamondRecycle() {

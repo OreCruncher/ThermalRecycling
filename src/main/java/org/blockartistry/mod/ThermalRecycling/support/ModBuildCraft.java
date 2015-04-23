@@ -235,7 +235,8 @@ public class ModBuildCraft extends ModSupportPlugin {
 				.output(Items.emerald).save();
 
 		// Pipe Wire
-		furnace.appendSubtypeRange("BuildCraft|Transport:pipeWire", 0, 3, 4)
+		furnace.setEnergy(600)
+				.appendSubtypeRange("BuildCraft|Transport:pipeWire", 0, 3, 4)
 				.output("nuggetIron", 4).save();
 	}
 }

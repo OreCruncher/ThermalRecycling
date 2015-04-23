@@ -27,8 +27,10 @@ package org.blockartistry.mod.ThermalRecycling.recipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Logger;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 
 import cpw.mods.fml.common.registry.GameData;
@@ -37,6 +39,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -113,6 +116,7 @@ public final class RecipeHelper {
 		if (preferred == null)
 			initializePreferred();
 
+		// Check our preferred list first.  If we have a hit, use it.
 		ItemStack result = preferred.get(name);
 
 		if (result != null) {
@@ -122,20 +126,23 @@ public final class RecipeHelper {
 
 		} else {
 
-			// See if the name has a subtype appended
-			String workingName = name;
+			// Parse out the possible subtype from the end of the string
 			int subType = -1;
-			int secondColon = StringUtils.ordinalIndexOf(name, ":", 2);
-			if (secondColon != -1) {
+			String workingName = StringUtils.substringBeforeLast(name, ":");
+			String num = StringUtils.substringAfterLast(name, ":");
+			
+			if (num != null && !num.isEmpty()) {
 				try {
-					String num = name.substring(secondColon + 1);
 					subType = Integer.parseInt(num);
-					workingName = name.substring(0, secondColon);
 				} catch (Exception e) {
-					;
+					// It appears malformed - assume the incoming name is
+					// the real name and continue.
+					workingName = name;
 				}
 			}
 
+			// Check the OreDictionary first for any alias matches.  Otherwise
+			// go to the game registry to find a match.
 			ArrayList<ItemStack> ores = OreDictionary.getOres(workingName);
 			if (!ores.isEmpty()) {
 				result = ores.get(0).copy();
@@ -147,11 +154,15 @@ public final class RecipeHelper {
 				}
 			}
 
+			// If we did have a hit on a base item, set the subtype
+			// as needed.
 			if (result != null && subType != -1) {
 				result.setItemDamage(subType);
 			}
 		}
 
+		// Log if we didn't find an item - it's possible that the recipe has a type
+		// or the mod has changed where the item no longer exists.
 		if (result == null)
 			ModLog.info("Unable to locate item: " + name);
 
@@ -223,6 +234,53 @@ public final class RecipeHelper {
 			}
 		}
 
-		return result == null ? "UNKNOWN" : result;
+		return result == null || result.isEmpty() ? "UNKNOWN" : result;
+	}
+
+	public void dumpSubItems(Logger log, String itemId) {
+		ItemStack stack = getItemStack(itemId, 1);
+		if (stack != null) {
+
+			try {
+				for (int i = 0; i < 1024; i++) {
+					stack.setItemDamage(i);
+					String name = resolveName(stack);
+					if (name != null && !name.isEmpty()
+							&& !name.contains("(Destroy)"))
+						log.info(String.format("%s:%d = %s", itemId, i, name));
+				}
+			} catch (ArrayIndexOutOfBoundsException e) {
+				;
+			}
+		}
+	}
+
+	public void dumpItemStack(Logger log, String title, ItemStack... items) {
+
+		log.info("");
+		log.info(title);
+		log.info(StringUtils.repeat('-', 32));
+
+		if (items == null || items.length == 0) {
+			log.info("No items in list");
+			return;
+		}
+
+		for (ItemStack stack : items) {
+			log.info(String.format("%s (%s)", resolveName(stack),
+					stack.toString()));
+		}
+		log.info(StringUtils.repeat('-', 32));
+		log.info(String.format("Total: %d item stacks", items.length));
+	}
+
+	public static void dumpFluidRegistry(Logger log) {
+
+		log.info("Fluid Registry:");
+
+		for (Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids()
+				.entrySet()) {
+			log.info(String.format("%s: %s", e.getKey(), e.getValue().getName()));
+		}
 	}
 }
