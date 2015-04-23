@@ -28,22 +28,10 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModThermalExpansion extends ModSupportPlugin {
+public class ModThermalExpansion implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Thermal Expansion";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("ThermalExpansion");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

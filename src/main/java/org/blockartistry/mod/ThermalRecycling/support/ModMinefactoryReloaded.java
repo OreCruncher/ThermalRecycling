@@ -32,22 +32,11 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import cpw.mods.fml.common.Loader;
 
-public class ModMinefactoryReloaded extends ModSupportPlugin {
+public class ModMinefactoryReloaded implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "MineFactory Reloaded";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("MineFactoryReloaded");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

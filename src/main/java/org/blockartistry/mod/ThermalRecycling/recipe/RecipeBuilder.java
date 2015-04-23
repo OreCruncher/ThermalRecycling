@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 
 public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
-	protected final int DEFAULT_ENERGY = 2400;
+	protected static final int DEFAULT_ENERGY = 2400;
 
 	@SuppressWarnings("unchecked")
 	protected final This THIS = (This) this;
@@ -68,13 +68,19 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
+	protected This _append(ItemStack stack) {
+
+		input.add(stack);
+		return THIS;
+	}
+
 	public This append(String... items) {
 
 		Preconditions.checkArgument(items != null && items.length > 0,
 				"Input ItemStacks cannot be null");
 
 		for (String s : items)
-			append(s, 1);
+			_append(RecipeHelper.getItemStack(s));
 
 		return THIS;
 	}
@@ -85,7 +91,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return append(RecipeHelper.getItemStack(item, quantity));
+		return _append(RecipeHelper.getItemStack(item, quantity));
 	}
 
 	public This append(Block... blocks) {
@@ -94,7 +100,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"Input ItemStacks cannot be null");
 
 		for (Block b : blocks)
-			append(new ItemStack(b));
+			_append(new ItemStack(b));
 
 		return THIS;
 	}
@@ -105,7 +111,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return append(new ItemStack(block, quantity));
+		return _append(new ItemStack(block, quantity));
 	}
 
 	public This append(Item... items) {
@@ -114,7 +120,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"Input ItemStacks cannot be null");
 
 		for (Item i : items)
-			append(new ItemStack(i));
+			_append(new ItemStack(i));
 
 		return THIS;
 	}
@@ -125,7 +131,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return append(new ItemStack(item, quantity));
+		return _append(new ItemStack(item, quantity));
 	}
 
 	public This append(List<ItemStack> stacks) {
@@ -134,7 +140,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"Input ItemStacks cannot be null");
 
 		for (ItemStack stack : stacks) {
-			this.input.add(stack);
+			_append(stack);
 		}
 
 		return THIS;
@@ -146,7 +152,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"Input ItemStacks cannot be null");
 
 		for (ItemStack stack : stacks) {
-			this.input.add(stack);
+			_append(stack);
 		}
 
 		return THIS;
@@ -160,7 +166,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		ItemStack s = stack.copy();
 		s.setItemDamage(subtype);
-		return append(s);
+		return _append(s);
 	}
 
 	public This appendSubtype(Item item, int subtype) {
@@ -169,7 +175,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(subtype >= 0,
 				"Subtype has to be greater than or equal to 0");
 
-		return append(new ItemStack(item, 1, subtype));
+		return _append(new ItemStack(item, 1, subtype));
 	}
 
 	public This appendSubtypeRange(String item, int start, int end, int quantity) {
@@ -180,8 +186,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return append(RecipeHelper
-				.getItemStackRange(item, start, end, quantity));
+		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+				quantity))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(String item, int start, int end) {
@@ -190,7 +199,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		return append(RecipeHelper.getItemStackRange(item, start, end, 1));
+		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+				1))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(Item item, int start, int end, int quantity) {
@@ -201,8 +214,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return append(RecipeHelper
-				.getItemStackRange(item, start, end, quantity));
+		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+				quantity))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(Item item, int start, int end) {
@@ -211,12 +227,24 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		return append(RecipeHelper.getItemStackRange(item, start, end, 1));
+		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+				1))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(Block block, int start, int end, int quantity) {
-		return append(RecipeHelper.getItemStackRange(block, start, end,
-				quantity));
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
+		for (ItemStack stack : RecipeHelper.getItemStackRange(block, start,
+				end, quantity))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(Block block, int start, int end) {
@@ -225,7 +253,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		return append(RecipeHelper.getItemStackRange(block, start, end, 1));
+		for (ItemStack stack : RecipeHelper.getItemStackRange(block, start,
+				end, 1))
+			_append(stack);
+
+		return THIS;
 	}
 
 	public This appendSubtypeRange(ItemStack stack, int start, int end) {
@@ -237,7 +269,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		for (int i = start; i <= end; i++) {
 			ItemStack s = stack.copy();
 			s.setItemDamage(i);
-			input.add(s);
+			_append(s);
 		}
 
 		return THIS;
@@ -323,7 +355,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		reset();
 	}
-	
+
 	protected abstract String toString(ItemStack stack);
 
 	protected abstract void saveImpl(ItemStack stack);

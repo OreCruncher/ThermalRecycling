@@ -28,22 +28,10 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModEnderIO extends ModSupportPlugin {
+public class ModEnderIO implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "EnderIO";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("EnderIO");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

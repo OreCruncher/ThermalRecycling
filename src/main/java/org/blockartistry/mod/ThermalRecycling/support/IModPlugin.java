@@ -26,12 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
-public abstract class ModSupportPlugin {
+public interface IModPlugin {
 
-	public abstract String getName();
-
-	public abstract boolean isModLoaded();
-
-	public abstract void apply(ModOptions options);
+	public void apply(ModOptions options);
 
 }

@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.apache.commons.lang3.StringUtils;
-import org.blockartistry.mod.ThermalRecycling.support.ModSupportPlugin;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 
 import net.minecraftforge.common.config.Configuration;
@@ -46,6 +45,7 @@ public final class ThermalRecycling {
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
+			+ "after:ThermalFoundation;"
 			+ "after:Forestry;"
 			+ "after:MineFactoryReloaded;"
 			+ "after:Thaumcraft;"
@@ -67,51 +67,54 @@ public final class ThermalRecycling {
 		config.save();
 	}
 
-	protected void handle(ModSupportPlugin plugin) {
-
-		if (!plugin.isModLoaded()) {
-			ModLog.info("Mod [%s] not detected - skipping", plugin.getName());
-			return;
-		}
-
-		boolean doLogging = ModOptions.instance.getEnableRecipeLogging();
-
-		if (doLogging) {
-			ModLog.info("");
-		}
-
-		ModLog.info("Loading recipes for [%s]", plugin.getName());
-
-		if (doLogging) {
-			ModLog.info(StringUtils.repeat('-', 64));
-		}
-
-		try {
-
-			plugin.apply(ModOptions.instance);
-
-		} catch (Exception e) {
-
-			ModLog.warn("Exception processing recipes for [%s]",
-					plugin.getName());
-			ModLog.catching(e);
-		}
-
-	}
-
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+
+		boolean doLogging = ModOptions.instance.getEnableRecipeLogging();
 
 		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
 
 		for (SupportedMod mod : SupportedMod.values()) {
 
-			try {
-				handle(mod.getPlugin());
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+			if (!mod.isLoaded()) {
+
+				ModLog.info("Mod [%s (%s)] not detected - skipping",
+						mod.getName(), mod.getModId());
+
+			} else if (!ModOptions.instance.getModProcessingEnabled(mod)) {
+
+				ModLog.info("Mod [%s (%s)] not enabled - skipping",
+						mod.getName(), mod.getModId());
+
+			} else {
+
+				if (doLogging) {
+					ModLog.info("");
+				}
+
+				ModLog.info("Loading recipes for [%s]", mod.getName());
+
+				if (doLogging) {
+					ModLog.info(StringUtils.repeat('-', 64));
+				}
+
+				try {
+
+					mod.getPlugin().apply(ModOptions.instance);
+
+				} catch (InstantiationException e) {
+					ModLog.warn("Exception processing recipes for [%s]",
+							mod.getName());
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					ModLog.warn("Exception processing recipes for [%s]",
+							mod.getName());
+					e.printStackTrace();
+				} catch(Exception e) {
+					ModLog.warn("Exception processing recipes for [%s]",
+							mod.getName());
+					e.printStackTrace();
+				}
 			}
 		}
 	}

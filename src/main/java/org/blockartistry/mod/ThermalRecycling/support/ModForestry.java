@@ -34,23 +34,11 @@ import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModForestry extends ModSupportPlugin {
+public class ModForestry implements IModPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Forestry";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("Forestry");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

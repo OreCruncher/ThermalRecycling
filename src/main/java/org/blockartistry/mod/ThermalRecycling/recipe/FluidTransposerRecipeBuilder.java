@@ -33,7 +33,7 @@ import cofh.api.modhelpers.ThermalExpansionHelper;
 public class FluidTransposerRecipeBuilder extends
 		RecipeBuilder<FluidTransposerRecipeBuilder> {
 
-	protected final int DEFAULT_FLUID_AMOUNT = 1000;
+	protected static final int DEFAULT_FLUID_AMOUNT = 1000;
 
 	protected FluidStack fluid;
 
@@ -55,9 +55,9 @@ public class FluidTransposerRecipeBuilder extends
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
-				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
-				RecipeHelper.resolveName(output), fluid.amount,
-				fluid.getLocalizedName());
+				stack.stackSize, RecipeHelper.resolveName(stack),
+				output.stackSize, RecipeHelper.resolveName(output),
+				fluid.amount, fluid.getLocalizedName());
 	}
 
 	@Override

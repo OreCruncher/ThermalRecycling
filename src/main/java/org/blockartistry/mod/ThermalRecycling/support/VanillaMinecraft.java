@@ -31,21 +31,11 @@ import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
-public class VanillaMinecraft extends ModSupportPlugin {
+public class VanillaMinecraft implements IModPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Vanilla Minecraft";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return true;
-	}
 
 	@Override
 	public void apply(ModOptions options) {

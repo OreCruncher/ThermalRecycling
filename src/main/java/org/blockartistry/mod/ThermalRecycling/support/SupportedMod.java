@@ -24,39 +24,64 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import cpw.mods.fml.common.Loader;
+
 public enum SupportedMod {
 
-	VANILLA(VanillaMinecraft.class),
+	VANILLA("Minecraft", "vanilla", VanillaMinecraft.class),
 
-	THERMAL_FOUNDATION(ModThermalFoundation.class),
+	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation",
+			ModThermalFoundation.class),
 
-	THERMAL_EXPANSION(ModThermalExpansion.class),
+	THERMAL_EXPANSION("Thermal Expansion", "ThermalExpansion",
+			ModThermalExpansion.class),
 
-	THERMAL_DYNAMICS(ModThermalDynamics.class),
+	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics",
+			ModThermalDynamics.class),
 
-	MINEFACTORY_RELOADED(ModMinefactoryReloaded.class),
+	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded",
+			ModMinefactoryReloaded.class),
 
-	THAUMCRAFT(ModThaumcraft.class),
+	THAUMCRAFT("Thaumcraft", "Thaumcraft", ModThaumcraft.class),
 
-	BUILDCRAFT(ModBuildCraft.class),
+	BUILDCRAFT("BuidlCraft", "BuildCraft|Core", ModBuildCraft.class),
 
-	FORESTRY(ModForestry.class),
+	FORESTRY("Forestry", "Forestry", ModForestry.class),
 
-	RAILCRAFT(ModRailcraft.class),
+	RAILCRAFT("Railcraft", "Railcraft", ModRailcraft.class),
 
-	ADVANCED_GENERATORS(ModAdvancedGenerators.class),
+	ADVANCED_GENERATORS("Advanced Generators", "advgenerators",
+			ModAdvancedGenerators.class),
 
-	ENDERIO(ModEnderIO.class);
+	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class);
 
-	private final Class<? extends ModSupportPlugin> pluginFactory;
+	private final String name;
+	private final String modId;
+	private final Class<? extends IModPlugin> pluginFactory;
 
-	private SupportedMod(Class<? extends ModSupportPlugin> clazz) {
+	private SupportedMod(String name, String modId,
+			Class<? extends IModPlugin> clazz) {
 
+		this.name = name;
+		this.modId = modId;
 		pluginFactory = clazz;
+
 	}
 
-	public ModSupportPlugin getPlugin() throws InstantiationException,
+	public IModPlugin getPlugin() throws InstantiationException,
 			IllegalAccessException {
 		return pluginFactory.newInstance();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getModId() {
+		return modId;
+	}
+
+	public boolean isLoaded() {
+		return this == VANILLA || Loader.isModLoaded(modId);
 	}
 }

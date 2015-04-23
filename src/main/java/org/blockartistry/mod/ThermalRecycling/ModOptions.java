@@ -24,12 +24,17 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import java.util.HashMap;
+
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
 
 	public static ModOptions instance = new ModOptions();
 
+	protected static final String CATEGORY_RECYCLE_ENABLE = "recycle.enable";
 	protected static final String CATEGORY_RECYCLE_RECIPIES_CONTROL = "recycle.recipe.control";
 	protected static final String CATEGORY_LOGGING_CONTROL = "logging";
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
@@ -37,6 +42,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";
 	protected static final String CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER = "Quantity Rotten Flesh to Leather";
 
+	protected HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected boolean enableDiamondRecycle = true;
 	protected boolean enableNetherStarRecycle = true;
 	protected int quantityRottenFleshToLeather = 2;
@@ -64,6 +70,20 @@ public final class ModOptions {
 						CATEGORY_RECYCLE_RECIPIES_CONTROL,
 						quantityRottenFleshToLeather, 0, 64,
 						"Amount of Rotten Flesh to use to create a piece of leather (0 to disable)");
+
+		for (SupportedMod mod : SupportedMod.values()) {
+
+			boolean b = config
+					.getBoolean(
+							mod.getModId(),
+							CATEGORY_RECYCLE_ENABLE,
+							true,
+							String.format(
+									"Enable/Disable whether recycling recipes for items from [%s] are added",
+									mod.getName()));
+
+			enableModProcessing.put(mod, b);
+		}
 	}
 
 	public boolean getEnableDiamondRecycle() {
@@ -80,5 +100,9 @@ public final class ModOptions {
 
 	public int getQuantityRottenFleshToLeather() {
 		return quantityRottenFleshToLeather;
+	}
+
+	public boolean getModProcessingEnabled(SupportedMod mod) {
+		return enableModProcessing.getOrDefault(mod, false);
 	}
 }

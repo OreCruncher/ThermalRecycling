@@ -33,9 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModThermalFoundation extends ModSupportPlugin {
+public class ModThermalFoundation implements IModPlugin {
 
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
@@ -86,16 +84,6 @@ public class ModThermalFoundation extends ModSupportPlugin {
 
 		furnace.append(OreDictionary.getOres("gear" + type))
 				.output("ingot" + type, 4).save();
-	}
-
-	@Override
-	public String getName() {
-		return "Thermal Foundation";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("ThermalFoundation");
 	}
 
 	@Override

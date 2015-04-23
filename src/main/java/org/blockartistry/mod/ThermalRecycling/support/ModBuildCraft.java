@@ -31,23 +31,11 @@ import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModBuildCraft extends ModSupportPlugin {
+public class ModBuildCraft implements IModPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "BuildCraft";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("BuildCraft|Core");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

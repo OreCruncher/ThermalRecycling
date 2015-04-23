@@ -28,22 +28,10 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModThermalDynamics extends ModSupportPlugin {
+public class ModThermalDynamics implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Thermal Dynamics";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("ThermalDynamics");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

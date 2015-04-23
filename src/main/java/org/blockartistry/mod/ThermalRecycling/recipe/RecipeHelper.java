@@ -111,12 +111,16 @@ public final class RecipeHelper {
 		preferred.put("blockEnderium", new ItemStack(storageBase, 1, 12));
 	}
 
+	public static ItemStack getItemStack(String name) {
+		return getItemStack(name, 1);
+	}
+	
 	public static ItemStack getItemStack(String name, int quantity) {
 
 		if (preferred == null)
 			initializePreferred();
 
-		// Check our preferred list first.  If we have a hit, use it.
+		// Check our preferred list first. If we have a hit, use it.
 		ItemStack result = preferred.get(name);
 
 		if (result != null) {
@@ -130,7 +134,7 @@ public final class RecipeHelper {
 			int subType = -1;
 			String workingName = StringUtils.substringBeforeLast(name, ":");
 			String num = StringUtils.substringAfterLast(name, ":");
-			
+
 			if (num != null && !num.isEmpty()) {
 				try {
 					subType = Integer.parseInt(num);
@@ -141,7 +145,7 @@ public final class RecipeHelper {
 				}
 			}
 
-			// Check the OreDictionary first for any alias matches.  Otherwise
+			// Check the OreDictionary first for any alias matches. Otherwise
 			// go to the game registry to find a match.
 			ArrayList<ItemStack> ores = OreDictionary.getOres(workingName);
 			if (!ores.isEmpty()) {
@@ -161,7 +165,8 @@ public final class RecipeHelper {
 			}
 		}
 
-		// Log if we didn't find an item - it's possible that the recipe has a type
+		// Log if we didn't find an item - it's possible that the recipe has a
+		// type
 		// or the mod has changed where the item no longer exists.
 		if (result == null)
 			ModLog.info("Unable to locate item: " + name);
@@ -172,18 +177,8 @@ public final class RecipeHelper {
 	public static List<ItemStack> getItemStackRange(String name,
 			int startSubtype, int endSubtype, int quantity) {
 
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-
-		ItemStack stack = getItemStack(name, 1);
-
-		for (int i = startSubtype; i <= endSubtype; i++) {
-			ItemStack s = stack.copy();
-			s.stackSize = quantity;
-			s.setItemDamage(i);
-			result.add(s);
-		}
-
-		return result;
+		return getItemStackRange(getItemStack(name).getItem(), startSubtype,
+				endSubtype, quantity);
 	}
 
 	public static List<ItemStack> getItemStackRange(Item item, int start,

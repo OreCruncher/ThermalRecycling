@@ -25,40 +25,21 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import cpw.mods.fml.common.Loader;
 
-public class ModRailcraft extends ModSupportPlugin {
+public class ModRailcraft implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
 	@Override
-	public String getName() {
-		return "Railcraft";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("Railcraft");
-	}
-
-	@Override
 	public void apply(ModOptions options) {
 
-		ItemStack ironPlate = RecipeHelper.getItemStack("Railcraft:part.plate",
-				1);
-		ItemStack steelPlate = ironPlate.copy();
-		steelPlate.setItemDamage(1);
-
-		blast.append(steelPlate).output("ingotSteel").save();
+		blast.append("Railcraft:part.plate:1").output("ingotSteel").save();
 
 		// Steel Armor and Tools
 		blast.append("Railcraft:armor.steel.helmet").output("ingotSteel", 5)
@@ -94,7 +75,7 @@ public class ModRailcraft extends ModSupportPlugin {
 				.save();
 
 		// Regular iron items
-		furnace.append(ironPlate).output("ingotIron").save();
+		furnace.append("Railcraft:part.plate").output("ingotIron").save();
 		furnace.append("Railcraft:tool.crowbar").output("ingotIron", 3).save();
 		// Rolling Machine
 		furnace.append("Railcraft:machine.alpha:8").output("ingotIron", 8)
@@ -131,7 +112,8 @@ public class ModRailcraft extends ModSupportPlugin {
 				.save();
 
 		// Liquid Fuel Firebox
-		pulverizer.append("Railcraft:machine.beta:6").output(steelPlate, 4)
+		pulverizer.append("Railcraft:machine.beta:6")
+				.output("Railcraft:part.plate:1", 4)
 				.secondaryOutput("ingotIron", 3).save();
 
 		// Rock Crusher
@@ -139,11 +121,13 @@ public class ModRailcraft extends ModSupportPlugin {
 				.secondaryOutput(Items.diamond).save();
 
 		// Feed Station
-		pulverizer.append("Railcraft:machine.alpha:11").output(steelPlate, 1)
+		pulverizer.append("Railcraft:machine.alpha:11")
+				.output("Railcraft:part.plate:1", 1)
 				.secondaryOutput("ingotGold", 3).save();
 
 		// Trade Station
-		pulverizer.append("Railcraft:machine.alpha:6").output(steelPlate, 4)
+		pulverizer.append("Railcraft:machine.alpha:6")
+				.output("Railcraft:part.plate:1", 4)
 				.secondaryOutput(Items.emerald, 2).save();
 
 		// Hobbyist Steam Engine

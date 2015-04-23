@@ -51,8 +51,8 @@ public class SawmillRecipeBuilder extends
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Sawmill [%dx %s] => [%dx %s",
-				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
-				RecipeHelper.resolveName(output)));
+				stack.stackSize, RecipeHelper.resolveName(stack),
+				output.stackSize, RecipeHelper.resolveName(output)));
 
 		if (secondaryOutput != null) {
 			builder.append(String.format(", %dx %s @%d",

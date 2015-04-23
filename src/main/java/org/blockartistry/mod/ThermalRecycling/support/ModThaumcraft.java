@@ -31,24 +31,12 @@ import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModThaumcraft extends ModSupportPlugin {
+public class ModThaumcraft implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	BlastRecipeBuilder blast = new BlastRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Thaumcraft";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("Thaumcraft");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

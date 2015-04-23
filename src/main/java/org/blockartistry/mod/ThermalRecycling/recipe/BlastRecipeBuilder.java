@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack;
 
 public class BlastRecipeBuilder extends SmelterRecipeBuilder {
 
+	protected static final int MINIMUM_BLAST_ENERGY = 8000;
 	protected static ItemStack PYROTHEUM_DUST = null;
 
 	public BlastRecipeBuilder() {
@@ -40,9 +41,11 @@ public class BlastRecipeBuilder extends SmelterRecipeBuilder {
 	@Override
 	public void save() {
 
-		if (energy < 8000)
-			energy = 8000;
+		if (energy < MINIMUM_BLAST_ENERGY)
+			energy = MINIMUM_BLAST_ENERGY;
+		
 		secondaryInput = PYROTHEUM_DUST;
+		
 		super.save();
 	}
 }

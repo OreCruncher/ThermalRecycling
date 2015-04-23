@@ -30,21 +30,9 @@ import net.minecraft.init.Items;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
-import cpw.mods.fml.common.Loader;
-
-public class ModAdvancedGenerators extends ModSupportPlugin {
+public class ModAdvancedGenerators implements IModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-
-	@Override
-	public String getName() {
-		return "Advanced Generators";
-	}
-
-	@Override
-	public boolean isModLoaded() {
-		return Loader.isModLoaded("advgenerators");
-	}
 
 	@Override
 	public void apply(ModOptions options) {

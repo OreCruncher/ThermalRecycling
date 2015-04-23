@@ -47,7 +47,7 @@ public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
-				stack.stackSize, RecipeHelper.resolveName(stack), output.stackSize,
-				RecipeHelper.resolveName(output));
+				stack.stackSize, RecipeHelper.resolveName(stack),
+				output.stackSize, RecipeHelper.resolveName(output));
 	}
 }
