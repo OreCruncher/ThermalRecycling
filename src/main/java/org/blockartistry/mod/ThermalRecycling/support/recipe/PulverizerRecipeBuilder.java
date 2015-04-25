@@ -22,7 +22,9 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.support.recipe;
+
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -51,13 +53,13 @@ public class PulverizerRecipeBuilder extends
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Pulverizer [%dx %s] => [%dx %s",
-				stack.stackSize, RecipeHelper.resolveName(stack),
-				output.stackSize, RecipeHelper.resolveName(output)));
+				stack.stackSize, ItemHelper.resolveName(stack),
+				output.stackSize, ItemHelper.resolveName(output)));
 
 		if (secondaryOutput != null) {
 			builder.append(String.format(", %dx %s @%d",
 					secondaryOutput.stackSize,
-					RecipeHelper.resolveName(secondaryOutput), secondaryChance));
+					ItemHelper.resolveName(secondaryOutput), secondaryChance));
 		}
 
 		builder.append("]");

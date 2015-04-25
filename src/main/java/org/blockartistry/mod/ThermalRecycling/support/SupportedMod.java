@@ -57,10 +57,10 @@ public enum SupportedMod {
 
 	private final String name;
 	private final String modId;
-	private final Class<? extends IModPlugin> pluginFactory;
+	private final Class<? extends ModPlugin> pluginFactory;
 
 	private SupportedMod(String name, String modId,
-			Class<? extends IModPlugin> clazz) {
+			Class<? extends ModPlugin> clazz) {
 
 		this.name = name;
 		this.modId = modId;
@@ -68,9 +68,16 @@ public enum SupportedMod {
 
 	}
 
-	public IModPlugin getPlugin() throws InstantiationException,
-			IllegalAccessException {
-		return pluginFactory.newInstance();
+	public ModPlugin getPlugin() {
+		try {
+			return pluginFactory.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public String getName() {

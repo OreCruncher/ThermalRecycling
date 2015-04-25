@@ -22,13 +22,14 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -80,7 +81,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"Input ItemStacks cannot be null");
 
 		for (String s : items)
-			_append(RecipeHelper.getItemStack(s));
+			_append(ItemHelper.getItemStack(s));
 
 		return THIS;
 	}
@@ -91,7 +92,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return _append(RecipeHelper.getItemStack(item, quantity));
+		return _append(ItemHelper.getItemStack(item, quantity));
 	}
 
 	public This append(Block... blocks) {
@@ -186,7 +187,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+		for (ItemStack stack : ItemHelper.getItemStackRange(item, start, end,
 				quantity))
 			_append(stack);
 
@@ -199,8 +200,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
-				1))
+		for (ItemStack stack : ItemHelper
+				.getItemStackRange(item, start, end, 1))
 			_append(stack);
 
 		return THIS;
@@ -214,7 +215,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
+		for (ItemStack stack : ItemHelper.getItemStackRange(item, start, end,
 				quantity))
 			_append(stack);
 
@@ -227,8 +228,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(item, start, end,
-				1))
+		for (ItemStack stack : ItemHelper
+				.getItemStackRange(item, start, end, 1))
 			_append(stack);
 
 		return THIS;
@@ -240,8 +241,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(block, start,
-				end, quantity))
+		for (ItemStack stack : ItemHelper.getItemStackRange(block, start, end,
+				quantity))
 			_append(stack);
 
 		return THIS;
@@ -253,8 +254,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : RecipeHelper.getItemStackRange(block, start,
-				end, 1))
+		for (ItemStack stack : ItemHelper.getItemStackRange(block, start, end,
+				1))
 			_append(stack);
 
 		return THIS;
@@ -320,7 +321,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return output(RecipeHelper.getItemStack(item, quantity));
+		return output(ItemHelper.getItemStack(item, quantity));
 	}
 
 	public This output(ItemStack out, int quantity) {
@@ -349,7 +350,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		for (ItemStack i : input) {
 			saveImpl(i);
-			if (ModOptions.instance.getEnableRecipeLogging())
+			if (ModOptions.getEnableRecipeLogging())
 				ModLog.info(toString(i));
 		}
 

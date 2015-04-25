@@ -1,2 +1,7 @@
 # US English Translations
+itemGroup.ThermalRecycling=Thermal Recycling
+item.RecyclingScrap.poor.name=Poor Scrap
+item.RecyclingScrap.standard.name=Scrap
+item.RecyclingScrap.superior.name=Superior Scrap
 
+tile.Test.item1.name=Test Block (WIP)

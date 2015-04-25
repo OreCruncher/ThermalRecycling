@@ -24,17 +24,20 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 
-public class ModEnderIO implements IModPlugin {
+public class ModEnderIO extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
+	public ModEnderIO() {
+		super(SupportedMod.ENDERIO);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Armor and tools
 		smelter.append("EnderIO:item.darkSteel_helmet")

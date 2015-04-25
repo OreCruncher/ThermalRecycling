@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public final class RecipeHelper {
+public final class ItemHelper {
 
 	protected static HashMap<String, ItemStack> preferred = null;
 
@@ -114,7 +114,7 @@ public final class RecipeHelper {
 	public static ItemStack getItemStack(String name) {
 		return getItemStack(name, 1);
 	}
-	
+
 	public static ItemStack getItemStack(String name, int quantity) {
 
 		if (preferred == null)

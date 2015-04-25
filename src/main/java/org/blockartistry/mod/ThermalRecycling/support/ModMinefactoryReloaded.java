@@ -28,18 +28,21 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
-public class ModMinefactoryReloaded implements IModPlugin {
+public class ModMinefactoryReloaded extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
+	public ModMinefactoryReloaded() {
+		super(SupportedMod.MINEFACTORY_RELOADED);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer
@@ -47,7 +50,7 @@ public class ModMinefactoryReloaded implements IModPlugin {
 						0, 2, 8).output(Blocks.dirt).save();
 
 		// Range upgrades
-		ItemStack is = RecipeHelper.getItemStack(
+		ItemStack is = ItemHelper.getItemStack(
 				"MineFactoryReloaded:upgrade.radius", 1);
 		pulverizer.append(is).output("minecraft:dye:4", 3)
 				.secondaryOutput("nuggetGold").save();

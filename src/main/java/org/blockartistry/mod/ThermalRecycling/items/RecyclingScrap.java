@@ -22,30 +22,27 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.items;
+
+import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlastRecipeBuilder extends SmelterRecipeBuilder {
+public class RecyclingScrap extends ItemBase {
 
-	protected static final int MINIMUM_BLAST_ENERGY = 8000;
-	protected static ItemStack PYROTHEUM_DUST = null;
+	public RecyclingScrap() {
+		super("superior", "standard", "poor");
 
-	public BlastRecipeBuilder() {
-
-		if (PYROTHEUM_DUST == null)
-			PYROTHEUM_DUST = RecipeHelper.getItemStack(
-					"ThermalFoundation:material:512", 1);
+		setUnlocalizedName("RecyclingScrap");
+		setMaxStackSize(64);
 	}
 
 	@Override
-	public void save() {
-
-		if (energy < MINIMUM_BLAST_ENERGY)
-			energy = MINIMUM_BLAST_ENERGY;
-		
-		secondaryInput = PYROTHEUM_DUST;
-		
-		super.save();
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack stack, int pass) {
+		// Superior scrap has a glow
+		return pass == 0 && stack.getItemDamage() == 0;
 	}
 }

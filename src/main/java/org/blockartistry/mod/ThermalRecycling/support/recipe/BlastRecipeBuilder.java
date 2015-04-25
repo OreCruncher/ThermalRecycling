@@ -22,12 +22,32 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
-public interface IModPlugin {
+import net.minecraft.item.ItemStack;
 
-	public void apply(ModOptions options);
+public class BlastRecipeBuilder extends SmelterRecipeBuilder {
 
+	protected static final int MINIMUM_BLAST_ENERGY = 8000;
+	protected static ItemStack PYROTHEUM_DUST = null;
+
+	public BlastRecipeBuilder() {
+
+		if (PYROTHEUM_DUST == null)
+			PYROTHEUM_DUST = ItemHelper.getItemStack(
+					"ThermalFoundation:material:512", 1);
+	}
+
+	@Override
+	public void save() {
+
+		if (energy < MINIMUM_BLAST_ENERGY)
+			energy = MINIMUM_BLAST_ENERGY;
+
+		secondaryInput = PYROTHEUM_DUST;
+
+		super.save();
+	}
 }

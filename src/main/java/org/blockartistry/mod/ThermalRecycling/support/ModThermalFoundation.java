@@ -28,22 +28,25 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
-import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
-public class ModThermalFoundation implements IModPlugin {
+public class ModThermalFoundation extends ModPlugin {
 
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
+
+	public ModThermalFoundation() {
+		super(SupportedMod.THERMAL_FOUNDATION);
+	}
 
 	protected static ItemStack pyrotheumDust;
 
 	public static ItemStack getPyrotheumDust(int quantity) {
 
 		if (pyrotheumDust == null) {
-			pyrotheumDust = RecipeHelper.getItemStack(
+			pyrotheumDust = ItemHelper.getItemStack(
 					"ThermalFoundation:material:512", 1);
 		}
 
@@ -87,7 +90,7 @@ public class ModThermalFoundation implements IModPlugin {
 	}
 
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Big daddy golden apple
 		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1)

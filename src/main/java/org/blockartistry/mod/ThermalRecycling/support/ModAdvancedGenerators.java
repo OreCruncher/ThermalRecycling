@@ -27,15 +27,18 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 
-public class ModAdvancedGenerators implements IModPlugin {
+public class ModAdvancedGenerators extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 
+	public ModAdvancedGenerators() {
+		super(SupportedMod.ADVANCED_GENERATORS);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Parts
 		pulverizer.setEnergy(400)

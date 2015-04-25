@@ -26,19 +26,53 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
+import net.minecraftforge.common.config.Configuration;
 
-public class VanillaMinecraft implements IModPlugin {
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
+
+public class VanillaMinecraft extends ModPlugin {
+
+	static final String CONFIG_ENABLE_DIAMOND_RECIPIES = "Enable Diamond Recycling";
+	static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";
+	static final String CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER = "Quantity Rotten Flesh to Leather";
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
+	static boolean enableDiamondRecycle = true;
+	static boolean enableNetherStarRecycle = true;
+	static int quantityRottenFleshToLeather = 2;
+
+	public VanillaMinecraft() {
+		super(SupportedMod.VANILLA);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void init(Configuration config) {
+
+		enableDiamondRecycle = config.getBoolean(
+				CONFIG_ENABLE_DIAMOND_RECIPIES, MOD_CONFIG_SECTION,
+				enableDiamondRecycle,
+				"Controls whether recycling items for diamonds is enabled");
+
+		enableNetherStarRecycle = config.getBoolean(
+				CONFIG_ENABLE_NETHER_STAR_RECIPIES, MOD_CONFIG_SECTION,
+				enableNetherStarRecycle,
+				"Controls whether recycling items for nether stars is enabled");
+
+		quantityRottenFleshToLeather = config
+				.getInt(CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER,
+						MOD_CONFIG_SECTION, quantityRottenFleshToLeather, 0,
+						64,
+						"Amount of Rotten Flesh to use to create a piece of leather (0 to disable)");
+
+	}
+
+	@Override
+	public void apply() {
 
 		// Recycle some parts!!
 		sawmill.setEnergy(800).append(Blocks.ladder).output("dustWood", 2)
@@ -70,7 +104,7 @@ public class VanillaMinecraft implements IModPlugin {
 		pulverizer.setEnergy(1600).append(Blocks.clay)
 				.output(Items.clay_ball, 4).save();
 
-		if (options.getEnableDiamondRecycle()) {
+		if (enableDiamondRecycle) {
 			pulverizer.append(Items.diamond_helmet).output(Items.diamond, 5)
 					.save();
 			pulverizer.append(Items.diamond_chestplate)
@@ -94,7 +128,7 @@ public class VanillaMinecraft implements IModPlugin {
 					.chance(50).save();
 		}
 
-		if (options.getEnableNetherStarRecycle()) {
+		if (enableNetherStarRecycle) {
 
 			pulverizer.setEnergy(21600).append(Blocks.beacon)
 					.output(Items.nether_star)
@@ -119,10 +153,9 @@ public class VanillaMinecraft implements IModPlugin {
 
 		furnace.append(Items.clock).output("ingotGold", 4).save();
 
-		int amount = options.getQuantityRottenFleshToLeather();
-		if (amount > 0) {
-			furnace.append(Items.rotten_flesh, amount).output(Items.leather)
-					.save();
+		if (quantityRottenFleshToLeather > 0) {
+			furnace.append(Items.rotten_flesh, quantityRottenFleshToLeather)
+					.output(Items.leather).save();
 		}
 
 		pulverizer.append(Items.chicken, 4).output(Items.rotten_flesh).save();

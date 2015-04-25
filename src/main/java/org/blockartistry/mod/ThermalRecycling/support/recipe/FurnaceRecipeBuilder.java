@@ -22,70 +22,34 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.support.recipe;
+
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
 import com.google.common.base.Preconditions;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class FluidTransposerRecipeBuilder extends
-		RecipeBuilder<FluidTransposerRecipeBuilder> {
-
-	protected static final int DEFAULT_FLUID_AMOUNT = 1000;
-
-	protected FluidStack fluid;
-
-	public FluidTransposerRecipeBuilder() {
-		fluid = null;
-	}
+public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 
 	@Override
-	public FluidTransposerRecipeBuilder reset() {
-		fluid = null;
-		return super.reset();
+	protected void saveImpl(ItemStack stack) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+
+		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
 	}
 
 	@Override
 	protected String toString(ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
-		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
-				stack.stackSize, RecipeHelper.resolveName(stack),
-				output.stackSize, RecipeHelper.resolveName(output),
-				fluid.amount, fluid.getLocalizedName());
-	}
-
-	@Override
-	protected void saveImpl(ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		ThermalExpansionHelper.addTransposerExtract(energy, stack, output,
-				fluid, 100, false);
-	}
-
-	public FluidTransposerRecipeBuilder fluid(String fluidId) {
-
-		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
-
-		this.fluid = RecipeHelper.getFluidStack(fluidId, DEFAULT_FLUID_AMOUNT);
-		return THIS;
-	}
-
-	public FluidTransposerRecipeBuilder fluid(String fluidId, int quantity) {
-
-		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Fluid quantity must be greater than 0");
-
-		this.fluid = RecipeHelper.getFluidStack(fluidId, quantity);
-		return THIS;
+		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
+				stack.stackSize, ItemHelper.resolveName(stack),
+				output.stackSize, ItemHelper.resolveName(output));
 	}
 }

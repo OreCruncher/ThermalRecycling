@@ -22,7 +22,9 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.support.recipe;
+
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -99,7 +101,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity must be greater than 0");
 
-		return secondaryOutput(RecipeHelper.getItemStack(item, quantity));
+		return secondaryOutput(ItemHelper.getItemStack(item, quantity));
 	}
 
 	public This secondaryOutput(ItemStack sec) {

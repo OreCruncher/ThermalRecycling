@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,40 +21,45 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.util;
 
 import com.google.common.base.Preconditions;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import cofh.api.modhelpers.ThermalExpansionHelper;
+import net.minecraft.util.MathHelper;
 
-public class SmelterRecipeBuilder extends
-		SecondaryInputRecipeBuilder<SmelterRecipeBuilder> {
+public abstract class MultiItemBlock extends ItemBlock {
 
-	@Override
-	protected void saveImpl(ItemStack stack) {
+	//	These are shared with the associated MultiBlock.  MultiBlock
+	//	"owns" the information that goes into these values.
+	protected final String[] names;
+	protected final String myUnlocalizedName;
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(secondaryInput,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+	protected MultiItemBlock(Block block) {
+		super(block);
+		
+		// MultiBlock and MultiItemBlock are tied at the hip
+		MultiBlock b = (MultiBlock)block;
+		Preconditions.checkNotNull(b, "Block is not a MultiBlock!");
+		
+		names = b.names;
+		myUnlocalizedName = b.myUnlocalizedName;
 
-		ThermalExpansionHelper.addSmelterRecipe(energy, stack, secondaryInput,
-				output);
+		setHasSubtypes(names.length > 1);
+		setUnlocalizedName(myUnlocalizedName);
 	}
 
 	@Override
-	protected String toString(ItemStack stack) {
+	public int getMetadata(int damage) {
+		return damage;
+	}
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(secondaryInput,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		return String.format("Induction Smelter [%dx %s, %dx %s] => [%dx %s]",
-				stack.stackSize, RecipeHelper.resolveName(stack),
-				secondaryInput.stackSize,
-				RecipeHelper.resolveName(secondaryInput), output.stackSize,
-				RecipeHelper.resolveName(output));
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		int i = MathHelper
+				.clamp_int(stack.getItemDamage(), 0, names.length - 1);
+		return getUnlocalizedName() + "." + names[i];
 	}
 }

@@ -25,21 +25,25 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.BlastRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.SmelterRecipeBuilder;
 
-public class ModThaumcraft implements IModPlugin {
+import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
+
+public class ModThaumcraft extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	BlastRecipeBuilder blast = new BlastRecipeBuilder();
 	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
+	public ModThaumcraft() {
+		super(SupportedMod.THAUMCRAFT);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Saplings
 		pulverizer.setEnergy(1200)

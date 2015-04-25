@@ -22,32 +22,19 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import com.google.common.base.Preconditions;
+import net.minecraft.nbt.NBTTagCompound;
 
-import net.minecraft.item.ItemStack;
-import cofh.api.modhelpers.ThermalExpansionHelper;
+/**
+ * Interface that should be implemented by objects that need to serialize
+ * and deserialize from NBT data streams.  Used mostly to keep things in
+ * compliance and facilitate development.
+ *
+ */
+public interface INBTSerializer {
 
-public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
-
-	@Override
-	protected void saveImpl(ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
-	}
-
-	@Override
-	protected String toString(ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
-				stack.stackSize, RecipeHelper.resolveName(stack),
-				output.stackSize, RecipeHelper.resolveName(output));
-	}
+	public void readFromNBT(NBTTagCompound nbt);
+	
+	public void writeToNBT(NBTTagCompound nbt);
 }

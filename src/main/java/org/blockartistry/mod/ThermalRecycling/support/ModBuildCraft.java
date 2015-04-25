@@ -26,19 +26,23 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
 
-public class ModBuildCraft implements IModPlugin {
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
+
+public class ModBuildCraft extends ModPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
+	public ModBuildCraft() {
+		super(SupportedMod.BUILDCRAFT);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)

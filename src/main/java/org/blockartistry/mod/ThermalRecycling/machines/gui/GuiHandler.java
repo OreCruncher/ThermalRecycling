@@ -22,47 +22,44 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.recipe;
+package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-import com.google.common.base.Preconditions;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 
-import net.minecraft.item.ItemStack;
-import cofh.api.modhelpers.ThermalExpansionHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
-public class SawmillRecipeBuilder extends
-		SecondaryOutputRecipeBuilder<SawmillRecipeBuilder> {
+public class GuiHandler implements IGuiHandler {
 
-	@Override
-	protected void saveImpl(ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		ThermalExpansionHelper.addSawmillRecipe(energy, stack, output,
-				secondaryOutput, secondaryChance);
+	public GuiHandler() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(ThermalRecycling.instance(), this);
 	}
-
+	
 	@Override
-	protected String toString(ItemStack stack) {
+	public Object getClientGuiElement(int id, EntityPlayer player, World world,
+			int x, int y, int z) {
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
-
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(String.format("Sawmill [%dx %s] => [%dx %s",
-				stack.stackSize, RecipeHelper.resolveName(stack),
-				output.stackSize, RecipeHelper.resolveName(output)));
-
-		if (secondaryOutput != null) {
-			builder.append(String.format(", %dx %s @%d",
-					secondaryOutput.stackSize,
-					RecipeHelper.resolveName(secondaryOutput), secondaryChance));
+		TileEntity te = world.getTileEntity(x, y, z);
+		if (te instanceof TileEntityBase) {
+			return ((TileEntityBase) te).getGuiClient(player.inventory);
 		}
 
-		builder.append("]");
-
-		return builder.toString();
+		return null;
 	}
 
+	@Override
+	public Object getServerGuiElement(int id, EntityPlayer player, World world,
+			int x, int y, int z) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		if (te instanceof TileEntityBase) {
+			return ((TileEntityBase) te).getGuiServer(player.inventory);
+		}
+
+		return null;
+	}
 }

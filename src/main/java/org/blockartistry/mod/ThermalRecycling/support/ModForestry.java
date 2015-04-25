@@ -28,20 +28,23 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.RecipeHelper;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.SawmillRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
 
-public class ModForestry implements IModPlugin {
+public class ModForestry extends ModPlugin {
 
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
+	public ModForestry() {
+		super(SupportedMod.FORESTRY);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Machine casings
 		sawmill.append("Forestry:impregnatedCasing").output(Blocks.planks, 32)
@@ -59,7 +62,7 @@ public class ModForestry implements IModPlugin {
 				.secondaryOutput("ingotGold", 4).save();
 
 		// Tubes
-		ItemStack is = RecipeHelper.getItemStack("Forestry:thermionicTubes", 1);
+		ItemStack is = ItemHelper.getItemStack("Forestry:thermionicTubes", 1);
 		pulverizer.append(is).output("nuggetCopper", 11)
 				.secondaryOutput(Items.redstone).chance(20).save();
 		pulverizer.appendSubtype(is, 1).output("nuggetTin", 11)

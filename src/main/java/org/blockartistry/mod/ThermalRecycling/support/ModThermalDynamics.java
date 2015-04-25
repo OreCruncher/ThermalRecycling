@@ -24,17 +24,20 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.FluidTransposerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 
-public class ModThermalDynamics implements IModPlugin {
+public class ModThermalDynamics extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
 
+	public ModThermalDynamics() {
+		super(SupportedMod.THERMAL_DYNAMICS);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		// Servos, Filters
 		pulverizer.setEnergy(1200)

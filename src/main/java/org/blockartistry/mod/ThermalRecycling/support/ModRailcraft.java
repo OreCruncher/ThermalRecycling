@@ -25,19 +25,23 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.recipe.BlastRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.recipe.PulverizerRecipeBuilder;
 
-public class ModRailcraft implements IModPlugin {
+import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+
+public class ModRailcraft extends ModPlugin {
 
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 	BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
+	public ModRailcraft() {
+		super(SupportedMod.RAILCRAFT);
+	}
+
 	@Override
-	public void apply(ModOptions options) {
+	public void apply() {
 
 		blast.append("Railcraft:part.plate:1").output("ingotSteel").save();
 
