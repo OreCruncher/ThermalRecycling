@@ -86,5 +86,8 @@ public class ThermalRecyclerGui extends GuiBase {
 		// GUI dimension is width 427, height 240
 		ElementEnergyStored e = new ElementEnergyStored(this, 12, 18, new EnergyStorageAdapter(tileEntity));
 		addElement(e);
+		
+		ElementProgress ep = new ElementProgress(this, 76, 34, tileEntity);
+		addElement(ep);
 	}
 }

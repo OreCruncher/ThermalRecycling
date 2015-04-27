@@ -94,14 +94,12 @@ public final class ThermalRecycling {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-
-		/*
+/*
 		ItemManager.registerItems();
 		BlockManager.registerBlocks();
 		
 		new GuiHandler();
-		*/
-		
+*/		
 		proxy.init(event);
 	}
 

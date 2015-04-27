@@ -32,15 +32,18 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.Tuple;
 
+import cofh.lib.util.WeightedRandomItemStack;
 import cofh.lib.util.helpers.InventoryHelper;
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class RecipeManager {
 
+	static ArrayList<WeightedRandomItemStack> loots = new ArrayList<WeightedRandomItemStack>();
 	static HashMap<ItemStack, ItemStack[]> thermalRecipes = new HashMap<ItemStack, ItemStack[]>();
 	static ArrayList<ItemStack> thermalBlackList;
 	

@@ -30,6 +30,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
 import org.blockartistry.mod.ThermalRecycling.util.INBTSerializer;
@@ -50,7 +51,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ThermalRecyclerTileEntity extends TileEntityBase implements
-		ISidedInventory, IEnergyReceiver, IEnergyInfo, INBTSerializer {
+		ISidedInventory, IEnergyReceiver, IEnergyInfo, IJobProgress, INBTSerializer {
 
 	// Update actions
 	public static final int UPDATE_ACTION_ENERGY = 0;
@@ -81,6 +82,8 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	static final int ENERGY_PER_TICK = 40;
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
 	static final int RECYCLE_DUST_CHANCE = 25;
+	
+	static boolean isJammed = false;
 
 	public ThermalRecyclerTileEntity() {
 	}
@@ -131,6 +134,28 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		writeToNBT(syncData);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
 				this.zCoord, 1, syncData);
+	}
+
+
+	// /////////////////////////////////////
+	//
+	// IJobProgress
+	//
+	// /////////////////////////////////////
+
+	@Override
+	public int getPercentComplete() {
+		return (progress * 100) / ENERGY_PER_OPERATION;
+	}
+
+	@Override
+	public boolean isActive() {
+		return inventory[INPUT] != null;
+	}
+
+	@Override
+	public boolean isJammed() {
+		return isJammed;
 	}
 
 	// /////////////////////////////////////
@@ -314,21 +339,23 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public ItemStack decrStackSize(int index, int count) {
 
 		if (inventory[index] != null) {
-			ItemStack itemstack;
 
+			ItemStack stack;
+			
 			if (inventory[index].stackSize <= count) {
-				itemstack = inventory[index];
+				stack = inventory[index];
 				inventory[index] = null;
-				return itemstack;
+				return stack;
 			} else {
-				itemstack = inventory[index].splitStack(count);
+				stack = inventory[index].splitStack(count);
 
 				if (inventory[index].stackSize == 0) {
 					inventory[index] = null;
 				}
 
-				return itemstack;
+				return stack;
 			}
+			
 		} else {
 			return null;
 		}
@@ -336,14 +363,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int index) {
-
-		if (inventory[index] != null) {
-			ItemStack itemstack = inventory[index];
-			inventory[index] = null;
-			return itemstack;
-		} else {
-			return null;
-		}
+		return null;
 	}
 
 	@Override
@@ -362,6 +382,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// if input slot reset progress
 		if (index == INPUT && !isSameItemStackAlreadyInSlot) {
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			progress = 0;
 			markDirty();
 		}
@@ -417,6 +438,9 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		return slot != INPUT;
 	}
 	
+	// Toggles the machine meta data so that it is considered active.
+	// This will result in the active face being displayed as well as
+	// have a little bit of light.
 	protected void setMachineActive(boolean toggle) {
 		if(!worldObj.isRemote) {
 			
@@ -450,7 +474,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 			// If there is nothing to process, then there is nothing
 			// to do.
-			if (!canRecycleItem()) {
+			if (!hasItemToRecycle()) {
 				setMachineActive(false);
 				progress = 0;
 				energyRate = 0;
@@ -474,20 +498,22 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			if (progress >= ENERGY_PER_OPERATION) {
 				if (recycleItem()) {
 					progress = 0;
-					markDirty();
 				}
 			}
 		}
 	}
 
-	protected boolean canRecycleItem() {
+	protected boolean hasItemToRecycle() {
 		return inventory[INPUT] != null;
 	}
 
 	protected boolean flushBuffer() {
 
 		if (buffer == null)
+		{
+			isJammed = false;
 			return true;
+		}
 
 		boolean isEmpty = true;
 
@@ -504,6 +530,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		if (isEmpty)
 			buffer = null;
+		else
+			isJammed = true;
+		
+		markDirty();
 
 		return isEmpty;
 	}

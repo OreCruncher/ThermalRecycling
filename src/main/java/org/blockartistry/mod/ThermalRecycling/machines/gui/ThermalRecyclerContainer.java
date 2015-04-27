@@ -132,63 +132,53 @@ public class ThermalRecyclerContainer extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
-		ItemStack itemStack1 = null;
+
+		ItemStack stack = null;
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
 
+		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slot != null && slot.getHasStack()) {
-			ItemStack itemStack2 = slot.getStack();
-			itemStack1 = itemStack2.copy();
 
-			if (contains(ThermalRecyclerTileEntity.OUTPUT_SLOTS, slotIndex)) {
-				if (!mergeItemStack(itemStack2, sizeInventory,
-						sizeInventory + 36, true)) {
+			ItemStack stackInSlot = slot.getStack();
+			stack = stackInSlot.copy();
+
+			// If the slot is INPUT or one of the OUTPUTs, move the contents
+			// to the player inventory
+			if (contains(ThermalRecyclerTileEntity.ALL_SLOTS, slotIndex)) {
+
+				if (!mergeItemStack(stackInSlot, sizeInventory,
+						sizeInventory + 36, false)) {
 					return null;
 				}
 
-				slot.onSlotChange(itemStack2, itemStack1);
-			} else if (slotIndex != ThermalRecyclerTileEntity.INPUT) {
-/*
-				// check if there is a grinding recipe for the stack
-				if (GrinderRecipes.instance().getGrindingResult(itemStack2) != null) {
-					if (!mergeItemStack(itemStack2, 0, 1, false)) {
-						return null;
-					}
-				} else 
-	*/				
-				if (slotIndex >= sizeInventory
-						&& slotIndex < sizeInventory + 27) // player inventory
-															// slots
-				{
-					if (!mergeItemStack(itemStack2, sizeInventory + 27,
-							sizeInventory + 36, false)) {
-						return null;
-					}
-				} else if (slotIndex >= sizeInventory + 27
-						&& slotIndex < sizeInventory + 36
-						&& !mergeItemStack(itemStack2, sizeInventory + 1,
-								sizeInventory + 27, false)) // hotbar slots
-				{
+				slot.onSlotChange(stackInSlot, stack);
+
+			} else if (entity.isItemValidForSlot(
+					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
+
+				// Try moving to the input slot
+				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
 					return null;
 				}
-				 
-			} else if (!mergeItemStack(itemStack2, sizeInventory,
-					sizeInventory + 36, false)) {
-				return null;
+
+				slot.onSlotChange(stackInSlot, stack);
 			}
 
-			if (itemStack2.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			// Cleanup the stack
+			if (stackInSlot.stackSize == 0) {
+				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();
 			}
 
-			if (itemStack2.stackSize == itemStack1.stackSize) {
+			// Nothing changed
+			if (stackInSlot.stackSize == stack.stackSize) {
 				return null;
 			}
-
-			slot.onPickupFromSlot(playerIn, itemStack2);
+			
+			slot.onPickupFromSlot(playerIn, stackInSlot);
 		}
-
-		return itemStack1;
+		
+		return stack;
 	}
 }
