@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,17 +21,22 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import net.minecraft.block.Block;
+import java.util.Map.Entry;
 
-import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
+public class Tuple<X, Y> {
+	
+	public final X x;
+	public final Y y;
 
-public class TestMachineItemBlock  extends MultiItemBlock {
-
-	public TestMachineItemBlock(Block block) {
-
-		super(block);
-
+	public Tuple(X x, Y y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Tuple(Entry<X,Y> entry) {
+		this.x = entry.getKey();
+		this.y = entry.getValue();
 	}
 }

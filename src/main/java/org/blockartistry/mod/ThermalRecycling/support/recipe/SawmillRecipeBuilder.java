@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -53,13 +53,13 @@ public class SawmillRecipeBuilder extends
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Sawmill [%dx %s] => [%dx %s",
-				stack.stackSize, ItemHelper.resolveName(stack),
-				output.stackSize, ItemHelper.resolveName(output)));
+				stack.stackSize, ItemStackHelper.resolveName(stack),
+				output.stackSize, ItemStackHelper.resolveName(output)));
 
 		if (secondaryOutput != null) {
 			builder.append(String.format(", %dx %s @%d",
 					secondaryOutput.stackSize,
-					ItemHelper.resolveName(secondaryOutput), secondaryChance));
+					ItemStackHelper.resolveName(secondaryOutput), secondaryChance));
 		}
 
 		builder.append("]");

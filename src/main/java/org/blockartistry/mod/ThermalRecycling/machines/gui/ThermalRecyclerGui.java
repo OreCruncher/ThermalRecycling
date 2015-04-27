@@ -25,27 +25,66 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import cofh.api.energy.IEnergyStorage;
 import cofh.lib.gui.GuiBase;
+import cofh.lib.gui.element.ElementEnergyStored;
 
 public class ThermalRecyclerGui extends GuiBase {
 
+	ThermalRecyclerTileEntity tileEntity;
+	
+	class EnergyStorageAdapter implements IEnergyStorage {
+		
+		ThermalRecyclerTileEntity tileEntity;
+		
+		public EnergyStorageAdapter(ThermalRecyclerTileEntity entity) {
+			tileEntity = entity;
+		}
+
+		@Override
+		public int extractEnergy(int arg0, boolean arg1) {
+			return 0;
+		}
+
+		@Override
+		public int getEnergyStored() {
+			return tileEntity.getInfoEnergyStored();
+		}
+
+		@Override
+		public int getMaxEnergyStored() {
+			return tileEntity.getInfoMaxEnergyStored();
+		}
+
+		@Override
+		public int receiveEnergy(int arg0, boolean arg1) {
+			return 0;
+		}
+		
+	}
+	
 	public ThermalRecyclerGui(InventoryPlayer playerInventory,
 			IInventory entity) {
 		super(new ThermalRecyclerContainer(playerInventory, entity),
-				new ResourceLocation(ThermalRecycling.MOD_ID,
-						"textures/default_gui_background.png"));
+				new ResourceLocation(ThermalRecycling.MOD_ID, "textures/thermalrecycler_gui.png"));
 
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 		
 		name = "Thermal Recycler";
+		tileEntity = (ThermalRecyclerTileEntity) entity;
 	}
 	
 	@Override
 	public void initGui() {
 		super.initGui();
+		// GUI dimension is width 427, height 240
+		ElementEnergyStored e = new ElementEnergyStored(this, 12, 18, new EnergyStorageAdapter(tileEntity));
+		addElement(e);
 	}
 }

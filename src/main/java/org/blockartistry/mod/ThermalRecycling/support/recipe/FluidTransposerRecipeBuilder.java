@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -57,8 +57,8 @@ public class FluidTransposerRecipeBuilder extends
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
-				stack.stackSize, ItemHelper.resolveName(stack),
-				output.stackSize, ItemHelper.resolveName(output), fluid.amount,
+				stack.stackSize, ItemStackHelper.resolveName(stack),
+				output.stackSize, ItemStackHelper.resolveName(output), fluid.amount,
 				fluid.getLocalizedName());
 	}
 
@@ -77,7 +77,7 @@ public class FluidTransposerRecipeBuilder extends
 
 		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
 
-		this.fluid = ItemHelper.getFluidStack(fluidId, DEFAULT_FLUID_AMOUNT);
+		this.fluid = ItemStackHelper.getFluidStack(fluidId, DEFAULT_FLUID_AMOUNT);
 		return THIS;
 	}
 
@@ -87,7 +87,7 @@ public class FluidTransposerRecipeBuilder extends
 		Preconditions.checkArgument(quantity > 0,
 				"Fluid quantity must be greater than 0");
 
-		this.fluid = ItemHelper.getFluidStack(fluidId, quantity);
+		this.fluid = ItemStackHelper.getFluidStack(fluidId, quantity);
 		return THIS;
 	}
 }

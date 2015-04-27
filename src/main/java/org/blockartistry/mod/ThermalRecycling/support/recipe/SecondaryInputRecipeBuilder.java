@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -98,7 +98,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity must be greather than 0");
 
-		return secondaryInput(ItemHelper.getItemStack(item, quantity));
+		return secondaryInput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
 	public This secondaryInput(ItemStack sec) {

@@ -26,8 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
+import org.blockartistry.mod.ThermalRecycling.machines.entity.RecipeManager;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
@@ -206,5 +208,10 @@ public class VanillaMinecraft extends ModPlugin {
 
 		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
 				.output(Items.rotten_flesh).save();
+		
+		// Add TR recipe for testing
+		ItemStack input = new ItemStack(Blocks.clay);
+		ItemStack output = new ItemStack(Items.clay_ball, 4);
+		RecipeManager.addThermalRecyclerRecipe(input, new ItemStack[] { output });
 	}
 }

@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -101,7 +101,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity must be greater than 0");
 
-		return secondaryOutput(ItemHelper.getItemStack(item, quantity));
+		return secondaryOutput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
 	public This secondaryOutput(ItemStack sec) {

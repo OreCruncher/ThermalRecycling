@@ -30,7 +30,7 @@ import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModMinefactoryReloaded extends ModPlugin {
 
@@ -50,7 +50,7 @@ public class ModMinefactoryReloaded extends ModPlugin {
 						0, 2, 8).output(Blocks.dirt).save();
 
 		// Range upgrades
-		ItemStack is = ItemHelper.getItemStack(
+		ItemStack is = ItemStackHelper.getItemStack(
 				"MineFactoryReloaded:upgrade.radius", 1);
 		pulverizer.append(is).output("minecraft:dye:4", 3)
 				.secondaryOutput("nuggetGold").save();

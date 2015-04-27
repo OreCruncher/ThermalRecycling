@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -49,7 +49,7 @@ public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
-				stack.stackSize, ItemHelper.resolveName(stack),
-				output.stackSize, ItemHelper.resolveName(output));
+				stack.stackSize, ItemStackHelper.resolveName(stack),
+				output.stackSize, ItemStackHelper.resolveName(output));
 	}
 }

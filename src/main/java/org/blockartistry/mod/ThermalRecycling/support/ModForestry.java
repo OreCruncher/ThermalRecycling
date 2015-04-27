@@ -31,7 +31,7 @@ import net.minecraft.item.ItemStack;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModForestry extends ModPlugin {
 
@@ -62,7 +62,7 @@ public class ModForestry extends ModPlugin {
 				.secondaryOutput("ingotGold", 4).save();
 
 		// Tubes
-		ItemStack is = ItemHelper.getItemStack("Forestry:thermionicTubes", 1);
+		ItemStack is = ItemStackHelper.getItemStack("Forestry:thermionicTubes", 1);
 		pulverizer.append(is).output("nuggetCopper", 11)
 				.secondaryOutput(Items.redstone).chance(20).save();
 		pulverizer.appendSubtype(is, 1).output("nuggetTin", 11)

@@ -24,38 +24,15 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.block.Block;
 
-public class TestMachine extends MachineBase {
-	
-	
-	public TestMachine() {
-		super("TestMachine");
-	}
+import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new ThermalRecyclerTileEntity();
-	}
+public class MachineThermalRecyclerBlock  extends MultiItemBlock {
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		
-		super.registerBlockIcons(iconRegister);
-		icons[BLOCK_FRONT] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":Machine_front");
-	}
-	
-	@Override
-	public void register() {
-		super.register();
-		GameRegistry.registerTileEntity(ThermalRecyclerTileEntity.class, "thermalRecyclerTileEntity");
+	public MachineThermalRecyclerBlock(Block block) {
+
+		super(block);
+
 	}
 }

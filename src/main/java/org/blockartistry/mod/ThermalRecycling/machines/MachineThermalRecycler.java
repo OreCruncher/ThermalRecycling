@@ -22,32 +22,40 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.entity;
+package org.blockartistry.mod.ThermalRecycling.machines;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public abstract class TileEntityBase extends TileEntity {
-
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float a, float b, float c) {
-
-		return false;
-	}
+public class MachineThermalRecycler extends MachineBase {
 	
-	public Object getGuiClient(InventoryPlayer inventory) {
-		return null;
-	}
 	
-	public Object getGuiServer(InventoryPlayer inventory) {
-		return null;
-	}
-	
-	public void sendDeltaUpdate(int action, int value) {
-		if(!worldObj.isRemote) {
-			this.worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), action, value);
-		}
+	public MachineThermalRecycler() {
+		super("MachineThermalRecycler");
 	}
 
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new ThermalRecyclerTileEntity();
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		
+		super.registerBlockIcons(iconRegister);
+		icons[BLOCK_FRONT] = iconRegister.registerIcon("minecraft:furnace_front_off");
+		icons[BLOCK_ACTIVE] = iconRegister.registerIcon("minecraft:furnace_front_on");
+	}
+	
+	@Override
+	public void register() {
+		super.register();
+		GameRegistry.registerTileEntity(ThermalRecyclerTileEntity.class, "thermalRecyclerTileEntity");
+	}
 }

@@ -100,7 +100,7 @@ public final class ThermalRecycling {
 		BlockManager.registerBlocks();
 		
 		new GuiHandler();
-		 */
+		*/
 		
 		proxy.init(event);
 	}
@@ -158,7 +158,6 @@ public final class ThermalRecycling {
 		}
 
 		config.save();
-
 		proxy.postInit(event);
 	}
 }

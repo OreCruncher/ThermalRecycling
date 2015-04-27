@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
 
@@ -36,7 +36,7 @@ public class BlastRecipeBuilder extends SmelterRecipeBuilder {
 	public BlastRecipeBuilder() {
 
 		if (PYROTHEUM_DUST == null)
-			PYROTHEUM_DUST = ItemHelper.getItemStack(
+			PYROTHEUM_DUST = ItemStackHelper.getItemStack(
 					"ThermalFoundation:material:512", 1);
 	}
 

@@ -25,7 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.blocks.TestMultiBlock;
-import org.blockartistry.mod.ThermalRecycling.machines.TestMachine;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
 
 /**
  * Contains references to all Blocks in the mod as well as logic for
@@ -36,7 +36,7 @@ public final class BlockManager {
 
 	public static TestMultiBlock test = new TestMultiBlock();
 	
-	public static TestMachine machine = new TestMachine();
+	public static MachineThermalRecycler machine = new MachineThermalRecycler();
 
 	public static void registerBlocks() {
 

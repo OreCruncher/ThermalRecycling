@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
@@ -69,210 +69,88 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
-	protected This _append(ItemStack stack) {
-
-		input.add(stack);
-		return THIS;
-	}
-
 	public This append(String... items) {
-
-		Preconditions.checkArgument(items != null && items.length > 0,
-				"Input ItemStacks cannot be null");
-
-		for (String s : items)
-			_append(ItemHelper.getItemStack(s));
-
+		ItemStackHelper.append(input, items);
 		return THIS;
 	}
 
 	public This append(String item, int quantity) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity has to be greater than 0");
-
-		return _append(ItemHelper.getItemStack(item, quantity));
+		ItemStackHelper.append(input, item, quantity);
+		return THIS;
 	}
 
 	public This append(Block... blocks) {
-
-		Preconditions.checkArgument(blocks != null && blocks.length > 0,
-				"Input ItemStacks cannot be null");
-
-		for (Block b : blocks)
-			_append(new ItemStack(b));
-
+		ItemStackHelper.append(input, blocks);
 		return THIS;
 	}
 
 	public This append(Block block, int quantity) {
-
-		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity has to be greater than 0");
-
-		return _append(new ItemStack(block, quantity));
+		ItemStackHelper.append(input, block, quantity);
+		return THIS;
 	}
 
 	public This append(Item... items) {
-
-		Preconditions.checkArgument(items != null && items.length > 0,
-				"Input ItemStacks cannot be null");
-
-		for (Item i : items)
-			_append(new ItemStack(i));
-
+		ItemStackHelper.append(input, items);
 		return THIS;
 	}
 
 	public This append(Item item, int quantity) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity has to be greater than 0");
-
-		return _append(new ItemStack(item, quantity));
+		ItemStackHelper.append(input, item, quantity);
+		return THIS;
 	}
 
 	public This append(List<ItemStack> stacks) {
-
-		Preconditions.checkArgument(stacks != null && !stacks.isEmpty(),
-				"Input ItemStacks cannot be null");
-
-		for (ItemStack stack : stacks) {
-			_append(stack);
-		}
-
+		ItemStackHelper.append(input, stacks);
 		return THIS;
 	}
 
 	public This append(ItemStack... stacks) {
-
-		Preconditions.checkArgument(stacks != null && stacks.length > 0,
-				"Input ItemStacks cannot be null");
-
-		for (ItemStack stack : stacks) {
-			_append(stack);
-		}
-
+		ItemStackHelper.append(input, stacks);
 		return THIS;
 	}
 
 	public This appendSubtype(ItemStack stack, int subtype) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(subtype >= 0,
-				"Subtype has to be greater than or equal to 0");
-
-		ItemStack s = stack.copy();
-		s.setItemDamage(subtype);
-		return _append(s);
+		ItemStackHelper.appendSubtype(input, stack, subtype);
+		return THIS;
 	}
 
 	public This appendSubtype(Item item, int subtype) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(subtype >= 0,
-				"Subtype has to be greater than or equal to 0");
-
-		return _append(new ItemStack(item, 1, subtype));
+		ItemStackHelper.appendSubtype(input, item, subtype);
+		return THIS;
 	}
 
 	public This appendSubtypeRange(String item, int start, int end, int quantity) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity has to be greater than 0");
-
-		for (ItemStack stack : ItemHelper.getItemStackRange(item, start, end,
-				quantity))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(String item, int start, int end) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-
-		for (ItemStack stack : ItemHelper
-				.getItemStackRange(item, start, end, 1))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(Item item, int start, int end, int quantity) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity has to be greater than 0");
-
-		for (ItemStack stack : ItemHelper.getItemStackRange(item, start, end,
-				quantity))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(Item item, int start, int end) {
-
-		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-
-		for (ItemStack stack : ItemHelper
-				.getItemStackRange(item, start, end, 1))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(Block block, int start, int end, int quantity) {
-
-		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-
-		for (ItemStack stack : ItemHelper.getItemStackRange(block, start, end,
-				quantity))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, block, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(Block block, int start, int end) {
-
-		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(start >= 0 && end >= start,
-				"The subtype range is invalid");
-
-		for (ItemStack stack : ItemHelper.getItemStackRange(block, start, end,
-				1))
-			_append(stack);
-
+		ItemStackHelper.appendSubtypeRange(input, block, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(ItemStack stack, int start, int end) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkArgument(end >= start && start > -1,
-				"The subtype range is not valid");
-
-		for (int i = start; i <= end; i++) {
-			ItemStack s = stack.copy();
-			s.setItemDamage(i);
-			_append(s);
-		}
-
+		ItemStackHelper.appendSubtypeRange(input, stack, start, end);
 		return THIS;
 	}
 
@@ -321,7 +199,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		return output(ItemHelper.getItemStack(item, quantity));
+		return output(ItemStackHelper.getItemStack(item, quantity));
 	}
 
 	public This output(ItemStack out, int quantity) {

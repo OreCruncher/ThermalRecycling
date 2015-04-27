@@ -41,17 +41,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class MachineBase extends BlockContainer {
 
-	protected static int BLOCK_BOTTOM = 0;
-	protected static int BLOCK_TOP = 1;
-	protected static int BLOCK_SIDE = 2;
-	protected static int BLOCK_FRONT = 3;
+	public static int BLOCK_BOTTOM = 0;
+	public static int BLOCK_TOP = 1;
+	public static int BLOCK_SIDE = 2;
+	public static int BLOCK_FRONT = 3;
+	public static int BLOCK_ACTIVE = 4;
+	
+	public static int META_ACTIVE_INDICATOR = 8;
 
 	@SideOnly(Side.CLIENT)
-	protected IIcon[] icons = new IIcon[4];
+	protected IIcon[] icons = new IIcon[5];
 
 	public final String[] names;
 	public final String myUnlocalizedName;
@@ -89,11 +93,22 @@ public abstract class MachineBase extends BlockContainer {
 
 			((TileEntityBase) te).onBlockActivated(world, x, y, z, player,
 					side, a, b, c);
+			
+			return true;
 		}
 
 		return false;
 	}
-
+	
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		int meta = world.getBlockMetadata(x, y, z);
+		meta = meta & META_ACTIVE_INDICATOR;
+		
+		return meta != 0 ? 8: 0;
+	}
+	
 	/**
 	 * Derived class should override this method to ensure that BLOCK_FRONT is
 	 * set to an appropriate icon. Otherwise the machine will have a side
@@ -114,6 +129,8 @@ public abstract class MachineBase extends BlockContainer {
 
 		if (icons[BLOCK_FRONT] == null)
 			icons[BLOCK_FRONT] = icons[BLOCK_SIDE];
+		if( icons[BLOCK_ACTIVE] == null)
+			icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
 	}
 
 	// http://www.minecraftforge.net/forum/index.php/topic,13626.0.html
@@ -121,17 +138,25 @@ public abstract class MachineBase extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int metadata) {
+		// Take off bit 4 since that indicates active
+		int frontId = BLOCK_FRONT;
+		
+		if((metadata & META_ACTIVE_INDICATOR) != 0)
+			frontId = BLOCK_ACTIVE;
+		
+		metadata &= ~META_ACTIVE_INDICATOR;
+		
 		if (side == 0 || side == 1)
 			return icons[side];
 
 		if (metadata == 2 && side == 2)
-			return icons[BLOCK_FRONT];
+			return icons[frontId];
 		else if (metadata == 3 && side == 5)
-			return icons[BLOCK_FRONT];
+			return icons[frontId];
 		else if (metadata == 0 && side == 3)
-			return icons[BLOCK_FRONT];
+			return icons[frontId];
 		else if (metadata == 1 && side == 4)
-			return icons[BLOCK_FRONT];
+			return icons[frontId];
 
 		return icons[BLOCK_SIDE];
 	}

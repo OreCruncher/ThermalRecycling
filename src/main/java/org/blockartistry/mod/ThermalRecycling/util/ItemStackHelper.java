@@ -33,6 +33,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 
+import com.google.common.base.Preconditions;
+
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -44,7 +46,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public final class ItemHelper {
+public final class ItemStackHelper {
 
 	protected static HashMap<String, ItemStack> preferred = null;
 
@@ -109,6 +111,22 @@ public final class ItemHelper {
 		preferred.put("blockSignalum", new ItemStack(storageBase, 1, 10));
 		preferred.put("blockLumium", new ItemStack(storageBase, 1, 11));
 		preferred.put("blockEnderium", new ItemStack(storageBase, 1, 12));
+		
+		preferred.put("gearIron", new ItemStack(materialBase, 1, 12));
+		preferred.put("gearGold", new ItemStack(materialBase, 1, 13));
+		preferred.put("gearCopper", new ItemStack(materialBase, 1, 128));
+		preferred.put("gearTin", new ItemStack(materialBase, 1, 129));
+		preferred.put("gearSilver", new ItemStack(materialBase, 1, 130));
+		preferred.put("gearLead", new ItemStack(materialBase, 1, 131));
+		preferred.put("gearNickel", new ItemStack(materialBase, 1, 132));
+		preferred.put("gearPlatinum", new ItemStack(materialBase, 1, 133));
+		preferred.put("gearManaInfused", new ItemStack(materialBase, 1, 134));
+		preferred.put("gearElectrum", new ItemStack(materialBase, 1, 135));
+		preferred.put("gearInvar", new ItemStack(materialBase, 1, 136));
+		preferred.put("gearBronze", new ItemStack(materialBase, 1, 137));
+		preferred.put("gearSignalum", new ItemStack(materialBase, 1, 138));
+		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
+		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
 	}
 
 	public static ItemStack getItemStack(String name) {
@@ -276,6 +294,203 @@ public final class ItemHelper {
 		for (Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids()
 				.entrySet()) {
 			log.info(String.format("%s: %s", e.getKey(), e.getValue().getName()));
+		}
+	}
+	
+	public static ItemStack[] clone(ItemStack... stacks) {
+		ItemStack[] result = new ItemStack[stacks.length];
+		for(int i = 0; i < result.length; i++)
+			result[i] = stacks[i].copy();
+		return result;
+	}
+
+	public static void append(List<ItemStack> list, ItemStack stack) {
+		list.add(stack);
+	}
+
+	public static void append(List<ItemStack> list, String... items) {
+
+		Preconditions.checkArgument(items != null && items.length > 0,
+				"Input ItemStacks cannot be null");
+
+		for (String s : items)
+			list.add(ItemStackHelper.getItemStack(s));
+	}
+
+	public static void append(List<ItemStack> list, String item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		list.add(ItemStackHelper.getItemStack(item, quantity));
+	}
+
+	public static void append(List<ItemStack> list, Block... blocks) {
+
+		Preconditions.checkArgument(blocks != null && blocks.length > 0,
+				"Input ItemStacks cannot be null");
+
+		for (Block b : blocks)
+			list.add(new ItemStack(b));
+	}
+
+	public static void append(List<ItemStack> list, Block block, int quantity) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		list.add(new ItemStack(block, quantity));
+	}
+
+	public static void append(List<ItemStack> list, Item... items) {
+
+		Preconditions.checkArgument(items != null && items.length > 0,
+				"Input ItemStacks cannot be null");
+
+		for (Item i : items)
+			list.add(new ItemStack(i));
+	}
+
+	public static void append(List<ItemStack> list, Item item, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		list.add(new ItemStack(item, quantity));
+	}
+
+	public static void append(List<ItemStack> list, List<ItemStack> stacks) {
+
+		Preconditions.checkArgument(stacks != null && !stacks.isEmpty(),
+				"Input ItemStacks cannot be null");
+
+		for (ItemStack stack : stacks) {
+			list.add(stack);
+		}
+	}
+
+	public static void append(List<ItemStack> list, ItemStack... stacks) {
+
+		Preconditions.checkArgument(stacks != null && stacks.length > 0,
+				"Input ItemStacks cannot be null");
+
+		for (ItemStack stack : stacks) {
+			list.add(stack);
+		}
+	}
+
+	public static void appendSubtype(List<ItemStack> list, ItemStack stack,
+			int subtype) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(subtype >= 0,
+				"Subtype has to be greater than or equal to 0");
+
+		ItemStack s = stack.copy();
+		s.setItemDamage(subtype);
+		list.add(s);
+	}
+
+	public static void appendSubtype(List<ItemStack> list, Item item,
+			int subtype) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(subtype >= 0,
+				"Subtype has to be greater than or equal to 0");
+
+		list.add(new ItemStack(item, 1, subtype));
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, String item,
+			int start, int end, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start, end,
+				quantity))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, String item,
+			int start, int end) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
+		for (ItemStack stack : ItemStackHelper
+				.getItemStackRange(item, start, end, 1))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, Item item,
+			int start, int end, int quantity) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+		Preconditions.checkArgument(quantity > 0,
+				"Quantity has to be greater than 0");
+
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start, end,
+				quantity))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, Item item,
+			int start, int end) {
+
+		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
+		for (ItemStack stack : ItemStackHelper
+				.getItemStackRange(item, start, end, 1))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, Block block,
+			int start, int end, int quantity) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start, end,
+				quantity))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list, Block block,
+			int start, int end) {
+
+		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(start >= 0 && end >= start,
+				"The subtype range is invalid");
+
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start, end,
+				1))
+			list.add(stack);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list,
+			ItemStack stack, int start, int end) {
+
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		Preconditions.checkArgument(end >= start && start > -1,
+				"The subtype range is not valid");
+
+		for (int i = start; i <= end; i++) {
+			ItemStack s = stack.copy();
+			s.setItemDamage(i);
+			list.add(s);
 		}
 	}
 }

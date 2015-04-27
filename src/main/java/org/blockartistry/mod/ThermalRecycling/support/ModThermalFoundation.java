@@ -30,7 +30,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.util.ItemHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModThermalFoundation extends ModPlugin {
 
@@ -46,7 +46,7 @@ public class ModThermalFoundation extends ModPlugin {
 	public static ItemStack getPyrotheumDust(int quantity) {
 
 		if (pyrotheumDust == null) {
-			pyrotheumDust = ItemHelper.getItemStack(
+			pyrotheumDust = ItemStackHelper.getItemStack(
 					"ThermalFoundation:material:512", 1);
 		}
 
