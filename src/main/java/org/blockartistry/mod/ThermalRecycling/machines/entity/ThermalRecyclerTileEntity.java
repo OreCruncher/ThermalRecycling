@@ -25,22 +25,15 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
-import org.blockartistry.mod.ThermalRecycling.util.INBTSerializer;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
-import cofh.lib.util.helpers.InventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -51,21 +44,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ThermalRecyclerTileEntity extends TileEntityBase implements
-		ISidedInventory, IEnergyReceiver, IEnergyInfo, IJobProgress, INBTSerializer {
+		IEnergyReceiver, IEnergyInfo, IJobProgress {
 
 	// Update actions
 	public static final int UPDATE_ACTION_ENERGY = 0;
 	public static final int UPDATE_ACTION_PROGRESS = 1;
 	public static final int UPDATE_ACTION_ENERGY_RATE = 2;
 
-	// Slot geometry for the machine
+	// Slot geometry for the thermalRecycler
 	public static final int INPUT = 0;
 	public static final int[] INPUT_SLOTS = { INPUT };
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-	protected ItemStack[] inventory = new ItemStack[INPUT_SLOTS.length
-			+ OUTPUT_SLOTS.length];
 
 	// Internal buffer for funneling results into output grid. This is
 	// in the case of when the output grid gets filled and there is no
@@ -78,14 +68,22 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected int energyRate = 0;
 
 	static final int ENERGY_MAX_STORAGE = 32000;
-	static final int ENERGY_PER_OPERATION = 2000;
+	static final int ENERGY_PER_OPERATION = 2400;
 	static final int ENERGY_PER_TICK = 40;
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
 	static final int RECYCLE_DUST_CHANCE = 25;
-	
+
 	static boolean isJammed = false;
 
 	public ThermalRecyclerTileEntity() {
+		SidedInventoryComponent inv = new SidedInventoryComponent(this, 10);
+		inv.setInputRange(0, 1).setOutputRange(1, 9);
+		setMachineInventory(inv);
+	}
+
+	@Override
+	public boolean isWhitelisted(ItemStack stack) {
+		return ThermalRecyclerTables.isThermalRecyclerWhitelisted(stack);
 	}
 
 	// /////////////////////////////////////
@@ -136,7 +134,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 				this.zCoord, 1, syncData);
 	}
 
-
 	// /////////////////////////////////////
 	//
 	// IJobProgress
@@ -150,7 +147,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public boolean isActive() {
-		return inventory[INPUT] != null;
+		return this.getStackInSlot(INPUT) != null;
 	}
 
 	@Override
@@ -167,6 +164,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+
 		energy = nbt.getShort("energy");
 		energyRate = nbt.getShort("energyRate");
 		progress = nbt.getShort("progress");
@@ -179,23 +177,12 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 						.getCompoundTagAt(i));
 			}
 		}
-
-		nbttaglist = nbt.getTagList("Items", 10);
-		inventory = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
-			byte b0 = nbtTagCompound.getByte("Slot");
-
-			if (b0 >= 0 && b0 < inventory.length) {
-				inventory[b0] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
-			}
-		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+
 		nbt.setShort("energy", (short) energy);
 		nbt.setShort("energyRate", (short) energyRate);
 		nbt.setShort("progress", (short) progress);
@@ -213,18 +200,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		}
 
 		nbt.setTag("buffer", nbttaglist);
-
-		nbttaglist = new NBTTagList();
-		for (int i = 0; i < inventory.length; ++i) {
-			if (inventory[i] != null) {
-				NBTTagCompound nbtTagCompound = new NBTTagCompound();
-				nbtTagCompound.setByte("Slot", (byte) i);
-				inventory[i].writeToNBT(nbtTagCompound);
-				nbttaglist.appendTag(nbtTagCompound);
-			}
-		}
-
-		nbt.setTag("Items", nbttaglist);
 	}
 
 	// /////////////////////////////////////
@@ -273,8 +248,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getInfoEnergyPerTick() {
-		return (progress != -1 && progress != 100) ? Math.min(ENERGY_PER_TICK,
-				energy) : 0;
+		return isActive() ? Math.min(ENERGY_PER_TICK, energy) : 0;
 	}
 
 	@Override
@@ -319,148 +293,12 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		return new ThermalRecyclerContainer(inventory, this);
 	}
 
-	// /////////////////////////////////////
-	//
-	// ISidedInventory
-	//
-	// /////////////////////////////////////
-
-	@Override
-	public int getSizeInventory() {
-		return inventory.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int slot) {
-		return inventory[slot];
-	}
-
-	@Override
-	public ItemStack decrStackSize(int index, int count) {
-
-		if (inventory[index] != null) {
-
-			ItemStack stack;
-			
-			if (inventory[index].stackSize <= count) {
-				stack = inventory[index];
-				inventory[index] = null;
-				return stack;
-			} else {
-				stack = inventory[index].splitStack(count);
-
-				if (inventory[index].stackSize == 0) {
-					inventory[index] = null;
-				}
-
-				return stack;
-			}
-			
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
-		return null;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-
-		boolean isSameItemStackAlreadyInSlot = stack != null
-				&& inventory[index] != null
-				&& stack.isItemEqual(inventory[index])
-				&& ItemStack.areItemStackTagsEqual(stack, inventory[index]);
-
-		inventory[index] = stack;
-
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
-		}
-
-		// if input slot reset progress
-		if (index == INPUT && !isSameItemStackAlreadyInSlot) {
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			progress = 0;
-			markDirty();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return "container.thermalRecycler";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return player
-				.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
-	}
-
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return slot == INPUT
-				&& !RecipeManager.isThermalRecyclerBlacklisted(stack);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
-		return ALL_SLOTS;
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int facing) {
-		return isItemValidForSlot(slot, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int facing) {
-		return slot != INPUT;
-	}
-	
-	// Toggles the machine meta data so that it is considered active.
-	// This will result in the active face being displayed as well as
-	// have a little bit of light.
-	protected void setMachineActive(boolean toggle) {
-		if(!worldObj.isRemote) {
-			
-			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			int temp = meta;
-			
-			if(toggle)
-				meta |= MachineBase.META_ACTIVE_INDICATOR;
-			else
-				meta &= ~MachineBase.META_ACTIVE_INDICATOR;
-			
-			if(meta != temp)
-				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);
-		}
-	}
-
 	@Override
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
+
+			// worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 			// If we have residual items in the buffer, attempt
 			// to flush. If not successful, return. We have more
@@ -504,13 +342,12 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		return inventory[INPUT] != null;
+		return getStackInSlot(INPUT) != null;
 	}
 
 	protected boolean flushBuffer() {
 
-		if (buffer == null)
-		{
+		if (buffer == null) {
 			isJammed = false;
 			return true;
 		}
@@ -519,8 +356,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		for (int i = 0; i < buffer.length; i++) {
 			if (buffer[i] != null) {
-				if (InventoryHelper.addItemStackToInventory(inventory,
-						buffer[i], 1, OUTPUT_SLOTS.length)) {
+				if (addStackToOutput(buffer[i])) {
 					buffer[i] = null;
 				} else {
 					isEmpty = false;
@@ -532,7 +368,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			buffer = null;
 		else
 			isJammed = true;
-		
+
 		markDirty();
 
 		return isEmpty;
@@ -541,7 +377,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected boolean recycleItem() {
 
 		// Sanity check...
-		if (inventory[INPUT] == null)
+		if (!hasItemToRecycle())
 			return true;
 
 		// Decrement our input slot. The decrStackSize
@@ -551,25 +387,20 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Get the results of recycling. The stacks already
 		// have been cloned so they are safe to hold onto.
-		buffer = RecipeManager.getResultStacks(justRecycled);
+		buffer = ThermalRecyclerTables.getResultStacks(justRecycled);
 
 		// If there isn't a recipe defined, generate some
 		// recycling scrap consolation prizes.
-		if (buffer == null)
-			buffer = getConsolationPrizes();
-		else
+		if (buffer == null) {
+			ItemStack cupieDoll = ThermalRecyclerTables
+					.pickStackFrom(ThermalRecyclerTables.unknownScrap);
+			if (cupieDoll != null)
+				buffer = new ItemStack[] { cupieDoll };
+		} else
 			buffer = breakItDown(buffer);
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();
-	}
-
-	// Generate a list of results in the case an item does not have
-	// a recipe. Chances are it will be a bunch of dust.
-	protected ItemStack[] getConsolationPrizes() {
-		ItemStack[] result = new ItemStack[1];
-		result[0] = new ItemStack(ItemManager.recyclingScrap, 1, 2);
-		return result;
 	}
 
 	// Iterate through the results of the recipe randomly
@@ -577,28 +408,31 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected ItemStack[] breakItDown(ItemStack[] in) {
 
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		Random rnd = new Random();
 
 		for (int i = 0; i < in.length; i++) {
 
 			int count = in[i].stackSize;
-			int dustAmount = 0;
 
-			for (int j = 0; j < count; j++)
-				if (rnd.nextInt(100) < RECYCLE_DUST_CHANCE)
-					dustAmount++;
+			for (int j = 0; j < count; j++) {
+				ItemStack cupieDoll = ThermalRecyclerTables
+						.pickStackFrom(ThermalRecyclerTables.componentScrap);
 
-			if (dustAmount == 0)
-				result.add(in[i]);
-			else {
-				result.add(new ItemStack(ItemManager.recyclingScrap,
-						dustAmount, 2));
-				if (dustAmount != count) {
-					in[i].stackSize -= dustAmount;
-					result.add(in[i]);
-				}
+				// Fix this compare!
+				if (cupieDoll != null
+						&& ThermalRecyclerTables.keep.isItemEqual(cupieDoll))
+					continue;
 
+				// Reduce stack size by one
+				in[i].stackSize--;
+
+				// If we have a result add it to the list
+				if (cupieDoll != null)
+					result.add(cupieDoll);
 			}
+
+			// If we have anything left over keep
+			if (in[i].stackSize > 0)
+				result.add(in[i]);
 		}
 
 		return result.toArray(new ItemStack[result.size()]);

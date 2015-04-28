@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import java.util.Map.Entry;
 
 public class Tuple<X, Y> {
-	
+
 	public final X x;
 	public final Y y;
 
@@ -34,8 +34,8 @@ public class Tuple<X, Y> {
 		this.x = x;
 		this.y = y;
 	}
-	
-	public Tuple(Entry<X,Y> entry) {
+
+	public Tuple(Entry<X, Y> entry) {
 		this.x = entry.getKey();
 		this.y = entry.getValue();
 	}

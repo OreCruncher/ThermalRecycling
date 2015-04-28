@@ -78,7 +78,7 @@ public abstract class ItemBase extends Item {
 
 		names = n;
 		icons = new IIcon[names.length];
-		
+
 		setHasSubtypes(names.length > 1);
 		setCreativeTab(CreativeTabManager.tab);
 	}
@@ -97,7 +97,8 @@ public abstract class ItemBase extends Item {
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
 		for (int i = 0; i < icons.length; i++) {
-			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":" + myUnlocalizedName + i);
+			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":"
+					+ myUnlocalizedName + i);
 		}
 	}
 

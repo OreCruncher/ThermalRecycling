@@ -26,13 +26,12 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
-import org.blockartistry.mod.ThermalRecycling.machines.entity.RecipeManager;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
 
 public class VanillaMinecraft extends ModPlugin {
 
@@ -43,6 +42,7 @@ public class VanillaMinecraft extends ModPlugin {
 	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
 	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
 
 	static boolean enableDiamondRecycle = true;
 	static boolean enableNetherStarRecycle = true;
@@ -97,11 +97,6 @@ public class VanillaMinecraft extends ModPlugin {
 				.output(Items.leather, 7).save();
 		pulverizer.setEnergy(800).append(Items.leather_boots)
 				.output(Items.leather, 4).save();
-
-		pulverizer.append(Blocks.redstone_lamp).output("dustGlowstone", 4)
-				.secondaryOutput("dustRedstone", 4).save();
-		pulverizer.append(Items.brewing_stand).output(Blocks.cobblestone, 3)
-				.secondaryOutput(Items.blaze_powder, 4).save();
 
 		pulverizer.setEnergy(1600).append(Blocks.clay)
 				.output(Items.clay_ball, 4).save();
@@ -208,10 +203,23 @@ public class VanillaMinecraft extends ModPlugin {
 
 		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
 				.output(Items.rotten_flesh).save();
-		
-		// Add TR recipe for testing
-		ItemStack input = new ItemStack(Blocks.clay);
-		ItemStack output = new ItemStack(Items.clay_ball, 4);
-		RecipeManager.addThermalRecyclerRecipe(input, new ItemStack[] { output });
+
+		// Add Thermal Recycler recipes
+		recycler.input(Blocks.piston).append("ingotIron")
+				.append(Blocks.planks, 3).append(Blocks.cobblestone, 4)
+				.append(Items.redstone).save();
+		recycler.input(Blocks.sticky_piston).append(Items.slime_ball)
+				.append("ingotIron").append(Blocks.planks, 3)
+				.append(Blocks.cobblestone, 4).append(Items.redstone).save();
+		recycler.input(Blocks.redstone_lamp).append(Items.redstone, 4)
+				.append(Blocks.glowstone).save();
+		recycler.input(Blocks.daylight_detector).append(Blocks.glass, 3)
+				.append(Items.quartz, 3).append(Blocks.wooden_slab, 3).save();
+		recycler.input(Items.brewing_stand).append(Blocks.cobblestone, 3)
+				.append(Items.blaze_rod, 2).save();
+		recycler.input(Items.repeater).append(Blocks.redstone_torch, 2)
+				.append(Items.redstone).append(Blocks.stone, 3).save();
+		recycler.input(Items.comparator).append(Blocks.redstone_torch, 3)
+				.append(Items.quartz).append(Blocks.stone, 3).save();
 	}
 }

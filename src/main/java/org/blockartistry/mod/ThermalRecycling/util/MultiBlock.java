@@ -94,32 +94,30 @@ public abstract class MultiBlock extends Block {
 	}
 
 	public String[] getBlockSideTextures(int subType) {
-		
+
 		ArrayList<String> textures = new ArrayList<String>();
 		int sides = icons[subType].length;
-		
-		
+
 		String s = ThermalRecycling.MOD_ID + ":" + myUnlocalizedName + "_"
 				+ names[subType];
 
-		if(sides == 1) {
+		if (sides == 1) {
 			textures.add(s);
-		}
-		else {
-			for(int i = 0; i < sides; i++) {
+		} else {
+			for (int i = 0; i < sides; i++) {
 				textures.add(s + "_" + BlockSide.lookup[i].sideName);
 			}
 		}
 
 		return (String[]) textures.toArray();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		for (int i = 0; i < names.length; i++) {
 			String[] textures = getBlockSideTextures(i);
-			for(int j = 0; j < textures.length; j++) {
+			for (int j = 0; j < textures.length; j++) {
 				icons[i][j] = iconRegister.registerIcon(textures[j]);
 			}
 		}

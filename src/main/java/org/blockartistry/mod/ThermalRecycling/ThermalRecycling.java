@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
@@ -94,12 +95,13 @@ public final class ThermalRecycling {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-/*
+
 		ItemManager.registerItems();
 		BlockManager.registerBlocks();
-		
+		ThermalRecyclerTables.initialize();
+
 		new GuiHandler();
-*/		
+
 		proxy.init(event);
 	}
 

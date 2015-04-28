@@ -28,9 +28,12 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTil
 
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotRemoveOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -44,7 +47,7 @@ public class ThermalRecyclerContainer extends Container {
 
 	ThermalRecyclerTileEntity entity;
 	int sizeInventory;
-	
+
 	int currentProgress;
 	int currentEnergy;
 	int currentEnergyRate;
@@ -66,11 +69,12 @@ public class ThermalRecyclerContainer extends Container {
 		entity = (ThermalRecyclerTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
 
-		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT, 56, 34);
+		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT,
+				56, 34);
 		addSlotToContainer(s);
 
-		for(int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
-			
+		for (int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
+
 			int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
 
 			int h = (i % 3) * 18 + 106;
@@ -80,7 +84,7 @@ public class ThermalRecyclerContainer extends Container {
 			addSlotToContainer(s);
 		}
 
-		//	Add the player inventory
+		// Add the player inventory
 		for (int i = 0; i < 27; ++i) {
 
 			// The constants are offsets from the left and top edge
@@ -88,13 +92,13 @@ public class ThermalRecyclerContainer extends Container {
 			int h = (i % 9) * 18 + 8;
 			int v = (i / 9) * 18 + 84;
 
-			//	We offset by 9 to skip the hotbar slots - they
-			//	come next
+			// We offset by 9 to skip the hotbar slots - they
+			// come next
 			s = new Slot(inv, i + 9, h, v);
 			addSlotToContainer(s);
 		}
-		
-		//	Add the hotbar
+
+		// Add the hotbar
 		for (int i = 0; i < 9; ++i) {
 			s = new Slot(inv, i, 8 + i * 18, 142);
 			addSlotToContainer(s);
@@ -106,23 +110,39 @@ public class ThermalRecyclerContainer extends Container {
 	 */
 	@Override
 	public void detectAndSendChanges() {
-		
+
 		super.detectAndSendChanges();
-		
+
 		int progress = entity.getProgress();
 		int energy = entity.getInfoEnergyStored();
 		int energyRate = entity.getInfoEnergyPerTick();
-		
-		if(progress != currentProgress)
-			entity.sendDeltaUpdate(ThermalRecyclerTileEntity.UPDATE_ACTION_PROGRESS, progress);
-		if(energy != currentEnergy)
-			entity.sendDeltaUpdate(ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY, energy);
-		if(energyRate != currentEnergyRate)
-			entity.sendDeltaUpdate(ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY_RATE, energyRate);
-		
+
+		for (int i = 0; i < crafters.size(); ++i) {
+
+			ICrafting icrafting = (ICrafting) crafters.get(i);
+
+			if (progress != currentProgress)
+				icrafting.sendProgressBarUpdate(this,
+						ThermalRecyclerTileEntity.UPDATE_ACTION_PROGRESS,
+						progress);
+			if (energy != currentEnergy)
+				icrafting.sendProgressBarUpdate(this,
+						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY, energy);
+			if (energyRate != currentEnergyRate)
+				icrafting.sendProgressBarUpdate(this,
+						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY_RATE,
+						energyRate);
+		}
+
 		currentProgress = progress;
 		currentEnergy = energy;
 		currentEnergyRate = energyRate;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int id, int data) {
+		entity.receiveClientEvent(id, data);
 	}
 
 	@Override
@@ -175,10 +195,10 @@ public class ThermalRecyclerContainer extends Container {
 			if (stackInSlot.stackSize == stack.stackSize) {
 				return null;
 			}
-			
+
 			slot.onPickupFromSlot(playerIn, stackInSlot);
 		}
-		
+
 		return stack;
 	}
 }

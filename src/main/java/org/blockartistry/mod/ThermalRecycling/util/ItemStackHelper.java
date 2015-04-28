@@ -111,7 +111,7 @@ public final class ItemStackHelper {
 		preferred.put("blockSignalum", new ItemStack(storageBase, 1, 10));
 		preferred.put("blockLumium", new ItemStack(storageBase, 1, 11));
 		preferred.put("blockEnderium", new ItemStack(storageBase, 1, 12));
-		
+
 		preferred.put("gearIron", new ItemStack(materialBase, 1, 12));
 		preferred.put("gearGold", new ItemStack(materialBase, 1, 13));
 		preferred.put("gearCopper", new ItemStack(materialBase, 1, 128));
@@ -149,17 +149,21 @@ public final class ItemStackHelper {
 		} else {
 
 			// Parse out the possible subtype from the end of the string
+			String workingName = name;
 			int subType = -1;
-			String workingName = StringUtils.substringBeforeLast(name, ":");
-			String num = StringUtils.substringAfterLast(name, ":");
-
-			if (num != null && !num.isEmpty()) {
-				try {
-					subType = Integer.parseInt(num);
-				} catch (Exception e) {
-					// It appears malformed - assume the incoming name is
-					// the real name and continue.
-					workingName = name;
+			
+			if(StringUtils.countMatches(name, ":") == 2) {
+				workingName = StringUtils.substringBeforeLast(name, ":");
+				String num = StringUtils.substringAfterLast(name, ":");
+	
+				if (num != null && !num.isEmpty()) {
+					try {
+						subType = Integer.parseInt(num);
+					} catch (Exception e) {
+						// It appears malformed - assume the incoming name is
+						// the real name and continue.
+						;
+					}
 				}
 			}
 
@@ -296,10 +300,10 @@ public final class ItemStackHelper {
 			log.info(String.format("%s: %s", e.getKey(), e.getValue().getName()));
 		}
 	}
-	
+
 	public static ItemStack[] clone(ItemStack... stacks) {
 		ItemStack[] result = new ItemStack[stacks.length];
-		for(int i = 0; i < result.length; i++)
+		for (int i = 0; i < result.length; i++)
 			result[i] = stacks[i].copy();
 		return result;
 	}
@@ -413,8 +417,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start, end,
-				quantity))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
+				end, quantity))
 			list.add(stack);
 	}
 
@@ -425,8 +429,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper
-				.getItemStackRange(item, start, end, 1))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
+				end, 1))
 			list.add(stack);
 	}
 
@@ -439,8 +443,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start, end,
-				quantity))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
+				end, quantity))
 			list.add(stack);
 	}
 
@@ -451,8 +455,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper
-				.getItemStackRange(item, start, end, 1))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
+				end, 1))
 			list.add(stack);
 	}
 
@@ -463,8 +467,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start, end,
-				quantity))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start,
+				end, quantity))
 			list.add(stack);
 	}
 
@@ -475,8 +479,8 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start, end,
-				1))
+		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start,
+				end, 1))
 			list.add(stack);
 	}
 

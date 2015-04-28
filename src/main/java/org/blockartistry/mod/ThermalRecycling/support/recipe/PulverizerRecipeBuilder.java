@@ -59,7 +59,8 @@ public class PulverizerRecipeBuilder extends
 		if (secondaryOutput != null) {
 			builder.append(String.format(", %dx %s @%d",
 					secondaryOutput.stackSize,
-					ItemStackHelper.resolveName(secondaryOutput), secondaryChance));
+					ItemStackHelper.resolveName(secondaryOutput),
+					secondaryChance));
 		}
 
 		builder.append("]");

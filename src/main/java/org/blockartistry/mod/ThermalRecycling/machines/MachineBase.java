@@ -32,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -51,7 +52,7 @@ public abstract class MachineBase extends BlockContainer {
 	public static int BLOCK_SIDE = 2;
 	public static int BLOCK_FRONT = 3;
 	public static int BLOCK_ACTIVE = 4;
-	
+
 	public static int META_ACTIVE_INDICATOR = 8;
 
 	@SideOnly(Side.CLIENT)
@@ -75,6 +76,10 @@ public abstract class MachineBase extends BlockContainer {
 
 		setBlockName(name);
 		setCreativeTab(CreativeTabManager.tab);
+		setHardness(5.0F);
+		setResistance(10.0F);
+		setStepSound(soundTypeMetal);
+		setHarvestLevel("pickaxe", 3);
 	}
 
 	/*
@@ -93,25 +98,37 @@ public abstract class MachineBase extends BlockContainer {
 
 			((TileEntityBase) te).onBlockActivated(world, x, y, z, player,
 					side, a, b, c);
-			
+
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z)
-	{
+	public void breakBlock(World world, int x, int y, int z, Block oldBlock,
+			int oldMeta) {
+		if (!world.isRemote) {
+			TileEntity te = world.getTileEntity(x, y, z);
+			if (te instanceof TileEntityBase) {
+				((TileEntityBase) te).dropInventory(oldBlock, oldMeta, x, y, z);
+			}
+		}
+
+		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		meta = meta & META_ACTIVE_INDICATOR;
-		
-		return meta != 0 ? 8: 0;
+
+		return meta != 0 ? 8 : 0;
 	}
-	
+
 	/**
 	 * Derived class should override this method to ensure that BLOCK_FRONT is
-	 * set to an appropriate icon. Otherwise the machine will have a side
+	 * set to an appropriate icon. Otherwise the thermalRecycler will have a side
 	 * texture for the front.
 	 * 
 	 * @param iconRegister
@@ -129,7 +146,7 @@ public abstract class MachineBase extends BlockContainer {
 
 		if (icons[BLOCK_FRONT] == null)
 			icons[BLOCK_FRONT] = icons[BLOCK_SIDE];
-		if( icons[BLOCK_ACTIVE] == null)
+		if (icons[BLOCK_ACTIVE] == null)
 			icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
 	}
 
@@ -140,12 +157,12 @@ public abstract class MachineBase extends BlockContainer {
 	public IIcon getIcon(int side, int metadata) {
 		// Take off bit 4 since that indicates active
 		int frontId = BLOCK_FRONT;
-		
-		if((metadata & META_ACTIVE_INDICATOR) != 0)
+
+		if ((metadata & META_ACTIVE_INDICATOR) != 0)
 			frontId = BLOCK_ACTIVE;
-		
+
 		metadata &= ~META_ACTIVE_INDICATOR;
-		
+
 		if (side == 0 || side == 1)
 			return icons[side];
 

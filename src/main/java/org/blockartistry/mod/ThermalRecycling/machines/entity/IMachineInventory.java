@@ -22,14 +22,15 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
-public interface IJobProgress {
+import org.blockartistry.mod.ThermalRecycling.util.INBTSerializer;
 
-	int getPercentComplete();
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
 
-	boolean isActive();
+public interface IMachineInventory extends INBTSerializer, ISidedInventory {
 
-	boolean isJammed();
+	boolean addStackToOutput(ItemStack stack);
 
 }

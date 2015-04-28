@@ -58,8 +58,8 @@ public class FluidTransposerRecipeBuilder extends
 
 		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
 				stack.stackSize, ItemStackHelper.resolveName(stack),
-				output.stackSize, ItemStackHelper.resolveName(output), fluid.amount,
-				fluid.getLocalizedName());
+				output.stackSize, ItemStackHelper.resolveName(output),
+				fluid.amount, fluid.getLocalizedName());
 	}
 
 	@Override
@@ -77,7 +77,8 @@ public class FluidTransposerRecipeBuilder extends
 
 		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
 
-		this.fluid = ItemStackHelper.getFluidStack(fluidId, DEFAULT_FLUID_AMOUNT);
+		this.fluid = ItemStackHelper.getFluidStack(fluidId,
+				DEFAULT_FLUID_AMOUNT);
 		return THIS;
 	}
 

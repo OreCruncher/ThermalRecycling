@@ -27,14 +27,14 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
- * Interface that should be implemented by objects that need to serialize
- * and deserialize from NBT data streams.  Used mostly to keep things in
- * compliance and facilitate development.
+ * Interface that should be implemented by objects that need to serialize and
+ * deserialize from NBT data streams. Used mostly to keep things in compliance
+ * and facilitate development.
  *
  */
 public interface INBTSerializer {
 
 	public void readFromNBT(NBTTagCompound nbt);
-	
+
 	public void writeToNBT(NBTTagCompound nbt);
 }

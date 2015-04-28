@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
+import java.util.List;
+
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.lwjgl.opengl.GL11;
 
@@ -33,40 +35,62 @@ import cofh.lib.gui.element.ElementBase;
 import cofh.lib.render.RenderHelper;
 
 public class ElementProgress extends ElementBase {
-	
-	static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ThermalRecycling.MOD_ID, "textures/progress_indicator.png");
-	static final ResourceLocation JAMMED_TEXTURE = new ResourceLocation(ThermalRecycling.MOD_ID, "textures/jammed_indicator.png");
-	
+
+	public static final int DEFAULT_SCALE = 42;
+	static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(
+			ThermalRecycling.MOD_ID, "textures/progress_indicator.png");
+	static final ResourceLocation JAMMED_TEXTURE = new ResourceLocation(
+			ThermalRecycling.MOD_ID, "textures/jammed_indicator.png");
+
 	IJobProgress progress;
 
 	public ElementProgress(GuiBase base, int x, int y, IJobProgress progress) {
 		super(base, x, y);
-		
+
 		this.texture = DEFAULT_TEXTURE;
 		this.progress = progress;
-		this.texH = 8;
+		this.sizeX = 24;
+		this.sizeY = 17;
 		this.texW = 24;
+		this.texH = 17;
 	}
-	
+
+	protected int getScaled() {
+		return (sizeX * progress.getPercentComplete()) / 100;
+	}
+
 	@Override
 	public void drawBackground(int mouseX, int mouseY, float gameTicks) {
 
-		if(progress.isActive()) {
-			//	Need to scale our X size based on progress
+		if (progress.isActive()) {
+			int scaledX = getScaled();
+
+			// Need to scale our X size based on progress
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderHelper.bindTexture(DEFAULT_TEXTURE);
-			int scaledX = (24 * progress.getPercentComplete()) / 100;
-			drawTexturedModalRect(posX, posY, 1, 1, scaledX, 8);
+			drawTexturedModalRect(posX, posY, 0, 0, scaledX, sizeY);
 		}
 	}
 
 	@Override
 	public void drawForeground(int mouseX, int mouseY) {
 
-		if(progress.isJammed()) {
+		if (progress.isJammed()) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderHelper.bindTexture(JAMMED_TEXTURE);
-			drawTexturedModalRect(posX, posY, 1, 1, 24, 8);
+			drawTexturedModalRect(posX, posY, 0, 0, sizeX, sizeY);
+		}
+	}
+
+	@Override
+	public void addTooltip(List<String> list) {
+		if (progress.isJammed()) {
+			list.add("Jammed!");
+		} else if (progress.isActive()) {
+			list.add(String.format("Completion: %d%%",
+					progress.getPercentComplete()));
+		} else {
+			list.add("Idle");
 		}
 	}
 }

@@ -28,8 +28,8 @@ package org.blockartistry.mod.ThermalRecycling.util;
  */
 public enum BlockSide {
 
-	BOTTOM(0, "bottom"), TOP(1, "top"), NORTH(2, "north"), SOUTH(3, "south"), EAST(4, "east"),
-		WEST(5, "west"), ;
+	BOTTOM(0, "bottom"), TOP(1, "top"), NORTH(2, "north"), SOUTH(3, "south"), EAST(
+			4, "east"), WEST(5, "west"), ;
 
 	private BlockSide(int v, String n) {
 		value = v;

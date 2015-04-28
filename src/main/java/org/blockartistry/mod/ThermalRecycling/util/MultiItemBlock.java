@@ -32,18 +32,18 @@ import net.minecraft.util.MathHelper;
 
 public abstract class MultiItemBlock extends ItemBlock {
 
-	//	These are shared with the associated MultiBlock.  MultiBlock
-	//	"owns" the information that goes into these values.
+	// These are shared with the associated MultiBlock. MultiBlock
+	// "owns" the information that goes into these values.
 	protected final String[] names;
 	protected final String myUnlocalizedName;
 
 	protected MultiItemBlock(Block block) {
 		super(block);
-		
+
 		// MultiBlock and MultiItemBlock are tied at the hip
-		MultiBlock b = (MultiBlock)block;
+		MultiBlock b = (MultiBlock) block;
 		Preconditions.checkNotNull(b, "Block is not a MultiBlock!");
-		
+
 		names = b.names;
 		myUnlocalizedName = b.myUnlocalizedName;
 

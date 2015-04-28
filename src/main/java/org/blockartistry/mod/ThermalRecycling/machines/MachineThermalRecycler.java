@@ -24,17 +24,21 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class MachineThermalRecycler extends MachineBase {
-	
-	
+
 	public MachineThermalRecycler() {
 		super("MachineThermalRecycler");
 	}
@@ -47,15 +51,28 @@ public class MachineThermalRecycler extends MachineBase {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		
+
 		super.registerBlockIcons(iconRegister);
-		icons[BLOCK_FRONT] = iconRegister.registerIcon("minecraft:furnace_front_off");
-		icons[BLOCK_ACTIVE] = iconRegister.registerIcon("minecraft:furnace_front_on");
+		icons[BLOCK_FRONT] = iconRegister
+				.registerIcon("minecraft:furnace_front_off");
+		icons[BLOCK_ACTIVE] = iconRegister
+				.registerIcon("minecraft:furnace_front_on");
 	}
-	
+
 	@Override
 	public void register() {
 		super.register();
-		GameRegistry.registerTileEntity(ThermalRecyclerTileEntity.class, "thermalRecyclerTileEntity");
+		GameRegistry.registerTileEntity(ThermalRecyclerTileEntity.class,
+				"thermalRecyclerTileEntity");
+		
+		ShapedOreRecipe recipe = new ShapedOreRecipe(
+				BlockManager.thermalRecycler, "PSP", "BMB", "GRG",
+				Character.valueOf('P'), Blocks.piston,
+				Character.valueOf('S'), ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"),
+				Character.valueOf('B'), ItemStackHelper.getItemStack("ThermalExpansion:tool.battleWrenchInvar"),
+				Character.valueOf('M'), ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				Character.valueOf('G'), "gearCopper",
+				Character.valueOf('R'), ItemStackHelper.getItemStack("ThermalExpansion:material:1"));
+		GameRegistry.addRecipe(recipe);
 	}
 }

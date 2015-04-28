@@ -27,8 +27,11 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.Tuple;
 
@@ -36,51 +39,68 @@ import cofh.lib.util.WeightedRandomItemStack;
 import cofh.lib.util.helpers.InventoryHelper;
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
 
-public final class RecipeManager {
+public final class ThermalRecyclerTables {
 
-	static ArrayList<WeightedRandomItemStack> loots = new ArrayList<WeightedRandomItemStack>();
-	static HashMap<ItemStack, ItemStack[]> thermalRecipes = new HashMap<ItemStack, ItemStack[]>();
-	static ArrayList<ItemStack> thermalBlackList;
-	
+	public static final ItemStack keep = new ItemStack(Blocks.dirt);
+	public static final ArrayList<WeightedRandomItemStack> unknownScrap = new ArrayList<WeightedRandomItemStack>();
+	public static final ArrayList<WeightedRandomItemStack> componentScrap = new ArrayList<WeightedRandomItemStack>();
+
+	static final ArrayList<WeightedRandomItemStack> loots = new ArrayList<WeightedRandomItemStack>();
+	static final HashMap<ItemStack, ItemStack[]> thermalRecipes = new HashMap<ItemStack, ItemStack[]>();
+	static final ArrayList<ItemStack> thermalWhitelist = new ArrayList<ItemStack>();
+	static final Random rnd = new Random();
+	static boolean inited = false;
+
 	public static void initialize() {
-		if(thermalBlackList != null)
+		if (inited)
 			return;
-		
-		thermalBlackList = new ArrayList<ItemStack>();
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.cobblestone, 1, OreDictionary.WILDCARD_VALUE));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.stone, 1, OreDictionary.WILDCARD_VALUE));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.netherrack));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.nether_brick));
-		addThermalRecyclerBlacklist(new ItemStack(Items.netherbrick, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.stone_slab, 1, OreDictionary.WILDCARD_VALUE));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.wooden_slab, 1, OreDictionary.WILDCARD_VALUE));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.acacia_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.oak_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.spruce_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.jungle_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.birch_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.dark_oak_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.quartz_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.stone_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.brick_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.stone_brick_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.nether_brick_stairs, 1));
-		addThermalRecyclerBlacklist(new ItemStack(Blocks.sandstone_stairs, 1));
+
+		inited = true;
+
+		// This table is for when an unknown item gets scrapped. Null means they
+		// get
+		// nuttin.
+		unknownScrap.add(new WeightedRandomItemStack(null, 100));
+		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
+		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 25));
+		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 45));
+
+		// This table is for when a component of an item gets scrapped. Null
+		// means they get nuttin.
+		// A dirt block indicates they get back the original component.
+		componentScrap.add(new WeightedRandomItemStack(keep, 150));
+		componentScrap.add(new WeightedRandomItemStack(null, 30));
+		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
+		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 25));
+		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 45));
 	}
-	
+
+	public static ItemStack pickStackFrom(
+			ArrayList<WeightedRandomItemStack> table) {
+		WeightedRandom.Item item = WeightedRandom.getRandomItem(new Random(),
+				table);
+		return ((WeightedRandomItemStack) item).getStack();
+	}
+
 	public static void addThermalRecyclerRecipe(ItemStack input,
 			ItemStack[] output) {
 
 		// See if we have an existing mapping
 		Tuple<ItemStack, ItemStack[]> result = _getResultStacks(input);
 
-		// If we don't, or the mapping that exists is a wild card and the incoming
-		// recipe is specific, we want to add to the dictionary.  The dictionary
+		// If we don't, or the mapping that exists is a wild card and the
+		// incoming
+		// recipe is specific, we want to add to the dictionary. The dictionary
 		// will prefer specific recipes over wild cards if possible.
 		if (result == null
 				|| (result.x.getItemDamage() == OreDictionary.WILDCARD_VALUE && input
@@ -90,8 +110,7 @@ public final class RecipeManager {
 			ItemStack[] workingSet = InventoryHelper.cloneInventory(output);
 
 			// Traverse the list replacing WILDCARD stacks with concrete ones.
-			// The logic
-			// prefers Thermal Foundation equivalents if found.
+			// The logic prefers Thermal Foundation equivalents if found.
 			for (int i = 0; i < workingSet.length; i++) {
 
 				if (workingSet[i].getItemDamage() == OreDictionary.WILDCARD_VALUE) {
@@ -117,13 +136,15 @@ public final class RecipeManager {
 			}
 
 			// Consolidated has already been cloned
+			addThermalRecyclerWhitelist(input.copy());
 			thermalRecipes.put(input.copy(), shrink(consolidated));
 		}
 	}
-	
+
 	public static ItemStack[] getResultStacks(ItemStack stack) {
 		Tuple<ItemStack, ItemStack[]> result = _getResultStacks(stack);
-		return result == null ? null : InventoryHelper.cloneInventory(result.y);
+		return result == null || result.y == null ? null : InventoryHelper
+				.cloneInventory(result.y);
 	}
 
 	public static Tuple<ItemStack, ItemStack[]> _getResultStacks(ItemStack stack) {
@@ -143,22 +164,23 @@ public final class RecipeManager {
 		return fuzzyMatch;
 	}
 
-	public static void addThermalRecyclerBlacklist(ItemStack item) {
+	public static void addThermalRecyclerWhitelist(ItemStack item) {
 
-		if (!isThermalRecyclerBlacklisted(item))
-			thermalBlackList.add(item.copy());
+		if (!isThermalRecyclerWhitelisted(item))
+			thermalWhitelist.add(item.copy());
 	}
 
-	public static boolean isThermalRecyclerBlacklisted(ItemStack item) {
+	public static boolean isThermalRecyclerWhitelisted(ItemStack item) {
 
 		initialize();
-		
-		for (ItemStack stack : thermalBlackList) {
+
+		for (ItemStack stack : thermalWhitelist) {
 			// Highly specific match?
-			if(ItemHelper.itemsEqualWithMetadata(item, stack))
+			if (ItemHelper.itemsEqualWithMetadata(item, stack))
 				return true;
 			// Wildcard match?
-			if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE && ItemHelper.itemsEqualWithoutMetadata(item, stack))
+			if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE
+					&& ItemHelper.itemsEqualWithoutMetadata(item, stack))
 				return true;
 		}
 

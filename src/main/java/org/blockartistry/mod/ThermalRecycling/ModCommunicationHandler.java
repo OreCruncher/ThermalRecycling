@@ -46,44 +46,53 @@ public class ModCommunicationHandler {
 
 	@EventHandler
 	public void receive(FMLInterModComms.IMCEvent event) {
-		
+
 		for (final FMLInterModComms.IMCMessage msg : event.getMessages()) {
-			
-			if("ThermalRecyclerRecipe".compareTo(msg.key) == 0) {
-				
-				if(msg.isNBTMessage()) {
-					
+
+			if ("ThermalRecyclerRecipe".compareTo(msg.key) == 0) {
+
+				if (msg.isNBTMessage()) {
+
 					try {
-						
+
 						NBTTagCompound nbt = msg.getNBTValue();
 						Preconditions.checkNotNull(nbt, "Invalid NBT value");
-						
-						ItemStack input = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Input"));
+
+						ItemStack input = ItemStack.loadItemStackFromNBT(nbt
+								.getCompoundTag("Input"));
 						Preconditions.checkNotNull(input, "Invalid Input");
-						
+
 						ArrayList<ItemStack> output = new ArrayList<ItemStack>();
-						
+
 						NBTTagList nbttaglist = nbt.getTagList("Output", 10);
 
 						for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-							output.add(ItemStack.loadItemStackFromNBT(nbttaglist.getCompoundTagAt(i)));
+							output.add(ItemStack
+									.loadItemStackFromNBT(nbttaglist
+											.getCompoundTagAt(i)));
 						}
-						
-						Preconditions.checkState(!output.isEmpty(), "No output ItemStacks were specified");
-						
-						//	Make the call to set the recipe here
-						
-					} catch(Exception e) {
-						ModLog.info("[%s; '%s'] Exception processing IMC recipe message", msg.getSender(), msg.key);
+
+						Preconditions.checkState(!output.isEmpty(),
+								"No output ItemStacks were specified");
+
+						// Make the call to set the recipe here
+
+					} catch (Exception e) {
+						ModLog.info(
+								"[%s; '%s'] Exception processing IMC recipe message",
+								msg.getSender(), msg.key);
 						e.printStackTrace();
 					}
-					
+
 				} else {
-					ModLog.info("[%s; '%s'] ThermalRecyclerRecipe messages must be NBTTagCompound", msg.getSender(), msg.key);
+					ModLog.info(
+							"[%s; '%s'] ThermalRecyclerRecipe messages must be NBTTagCompound",
+							msg.getSender(), msg.key);
 				}
-				
+
 			} else {
-				ModLog.info("[%s; '%s'] Unknown message", msg.getSender(), msg.key);
+				ModLog.info("[%s; '%s'] Unknown message", msg.getSender(),
+						msg.key);
 			}
 		}
 	}

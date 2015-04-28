@@ -26,23 +26,19 @@ package org.blockartistry.mod.ThermalRecycling.items;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class RecyclingScrap extends ItemBase {
 
+	public static final int POOR = 0;
+	public static final int STANDARD = 1;
+	public static final int SUPERIOR = 2;
+
+	private static final String[] types = new String[] { "poor", "standard",
+			"superior" };
+
 	public RecyclingScrap() {
-		super("superior", "standard", "poor");
+		super(types);
 
 		setUnlocalizedName("RecyclingScrap");
 		setMaxStackSize(64);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack stack, int pass) {
-		// Superior scrap has a glow
-		return pass == 0 && stack.getItemDamage() == 0;
 	}
 }

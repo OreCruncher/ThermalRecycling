@@ -35,12 +35,12 @@ import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
 public final class BlockManager {
 
 	public static TestMultiBlock test = new TestMultiBlock();
-	
-	public static MachineThermalRecycler machine = new MachineThermalRecycler();
+
+	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
 
 	public static void registerBlocks() {
 
 		test.register();
-		machine.register();
+		thermalRecycler.register();
 	}
 }
