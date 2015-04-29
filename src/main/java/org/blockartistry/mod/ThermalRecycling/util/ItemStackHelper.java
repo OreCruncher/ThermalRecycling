@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,10 +38,13 @@ import com.google.common.base.Preconditions;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -48,6 +52,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public final class ItemStackHelper {
 
+	protected static final Random rand = new Random();
 	protected static HashMap<String, ItemStack> preferred = null;
 
 	protected static void initializePreferred() {
@@ -151,11 +156,11 @@ public final class ItemStackHelper {
 			// Parse out the possible subtype from the end of the string
 			String workingName = name;
 			int subType = -1;
-			
-			if(StringUtils.countMatches(name, ":") == 2) {
+
+			if (StringUtils.countMatches(name, ":") == 2) {
 				workingName = StringUtils.substringBeforeLast(name, ":");
 				String num = StringUtils.substringAfterLast(name, ":");
-	
+
 				if (num != null && !num.isEmpty()) {
 					try {
 						subType = Integer.parseInt(num);
@@ -495,6 +500,36 @@ public final class ItemStackHelper {
 			ItemStack s = stack.copy();
 			s.setItemDamage(i);
 			list.add(s);
+		}
+	}
+
+	public static void spawnIntoWorld(World world, ItemStack stack, int x, int y, int z) {
+
+		if (stack == null)
+			return;
+
+		float f = rand.nextFloat() * 0.8F + 0.1F;
+		float f1 = rand.nextFloat() * 0.8F + 0.1F;
+		float f2 = rand.nextFloat() * 0.8F + 0.1F;
+
+		while (stack.stackSize > 0) {
+			int j = rand.nextInt(21) + 10;
+
+			if (j > stack.stackSize) {
+				j = stack.stackSize;
+			}
+
+			stack.stackSize -= j;
+
+			EntityItem item = new EntityItem(world, x + f, y + f1, z + f2,
+					new ItemStack(stack.getItem(), j, stack.getItemDamage()));
+
+			if (stack.hasTagCompound()) {
+				item.getEntityItem().setTagCompound(
+						(NBTTagCompound) stack.getTagCompound().copy());
+			}
+
+			world.spawnEntityInWorld(item);
 		}
 	}
 }

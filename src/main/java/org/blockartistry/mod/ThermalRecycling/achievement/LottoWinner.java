@@ -22,11 +22,16 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.achievement;
 
-public interface IJobProgress {
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 
-	int getPercentComplete();
+public class LottoWinner extends Achievement {
 	
-	MachineStatus getStatus();
+	public LottoWinner() {
+		super("lottoWinner", "lottoWinner", -3/* x */, -2 /* y */, new ItemStack(Items.nether_star),
+				null);
+	}
 }

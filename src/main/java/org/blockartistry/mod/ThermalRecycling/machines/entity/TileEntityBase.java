@@ -24,15 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
-import java.util.Random;
-
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -89,47 +83,8 @@ public abstract class TileEntityBase extends TileEntity implements
 		return true;
 	}
 
-	public void dropInventory(Block oldBlock, int oldMeta, int x, int y, int z) {
-
-		if (this instanceof IInventory) {
-
-			IInventory inv = this;
-
-			Random rand = new Random();
-
-			for (int i = 0; i < inv.getSizeInventory(); i++) {
-
-				ItemStack stack = inv.getStackInSlot(i);
-
-				if (stack != null) {
-					float f = rand.nextFloat() * 0.8F + 0.1F;
-					float f1 = rand.nextFloat() * 0.8F + 0.1F;
-					float f2 = rand.nextFloat() * 0.8F + 0.1F;
-
-					while (stack.stackSize > 0) {
-						int j = rand.nextInt(21) + 10;
-
-						if (j > stack.stackSize) {
-							j = stack.stackSize;
-						}
-
-						stack.stackSize -= j;
-
-						EntityItem item = new EntityItem(worldObj, x + f, y
-								+ f1, z + f2, new ItemStack(stack.getItem(), j,
-								stack.getItemDamage()));
-
-						if (stack.hasTagCompound()) {
-							item.getEntityItem().setTagCompound(
-									(NBTTagCompound) stack.getTagCompound()
-											.copy());
-						}
-
-						worldObj.spawnEntityInWorld(item);
-					}
-				}
-			}
-		}
+	public void dropInventory(World world, int x, int y, int z) {
+		inventory.dropInventory(world, x, y, z);
 	}
 
 	@Override
@@ -229,10 +184,4 @@ public abstract class TileEntityBase extends TileEntity implements
 	public boolean addStackToOutput(ItemStack stack) {
 		return inventory.addStackToOutput(stack);
 	}
-
-	/*
-	 * public void sendDeltaUpdate(int action, int value) {
-	 * if(!worldObj.isRemote) { this.worldObj.addBlockEvent(xCoord, yCoord,
-	 * zCoord, getBlockType(), action, value); } }
-	 */
 }

@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class NoInventoryComponent implements IMachineInventory {
 
@@ -119,5 +120,9 @@ public class NoInventoryComponent implements IMachineInventory {
 	@Override
 	public boolean addStackToOutput(ItemStack stack) {
 		return false;
+	}
+
+	@Override
+	public void dropInventory(World world, int x, int y, int z) {
 	}
 }

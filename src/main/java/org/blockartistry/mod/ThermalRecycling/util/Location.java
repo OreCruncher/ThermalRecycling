@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,11 +21,20 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-public interface IJobProgress {
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
 
-	int getPercentComplete();
-	
-	MachineStatus getStatus();
+public class Location {
+
+	public final int x;
+	public final int y;
+	public final int z;
+
+	public Location(Entity entity) {
+		x = MathHelper.floor_double(entity.posX);
+		y = MathHelper.floor_double(entity.boundingBox.minY) - 1;
+		z = MathHelper.floor_double(entity.posZ);
+	}
 }

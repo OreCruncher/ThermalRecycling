@@ -197,7 +197,7 @@ public class ThermalRecyclerRecipeBuilder {
 	public String toString() {
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("Thermal Recycler [%s] => [", ItemStackHelper.resolveName(input)));
+		builder.append(String.format("Thermal Recycler [%dx %s] => [", input.stackSize, ItemStackHelper.resolveName(input)));
 		boolean sawOne = false;
 		for(ItemStack stack: output) {
 			if(sawOne)

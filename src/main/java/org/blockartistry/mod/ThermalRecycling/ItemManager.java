@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 
 /**
  * Contains references to all Items in the mod as well as logic for
@@ -34,10 +35,12 @@ import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 public final class ItemManager {
 
 	public static final RecyclingScrap recyclingScrap = new RecyclingScrap();
+	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
 
 	public static void registerItems() {
 
 		recyclingScrap.register();
+		recyclingScrapBox.register();
 	}
 
 }

@@ -48,6 +48,7 @@ public class ThermalRecyclerContainer extends Container {
 	ThermalRecyclerTileEntity entity;
 	int sizeInventory;
 
+	MachineStatus currentStatus;
 	int currentProgress;
 	int currentEnergy;
 	int currentEnergyRate;
@@ -62,6 +63,7 @@ public class ThermalRecyclerContainer extends Container {
 	public ThermalRecyclerContainer(InventoryPlayer inv, IInventory tileEntity) {
 
 		// GUI dimension is width 427, height 240
+		currentStatus = MachineStatus.IDLE;
 		currentProgress = 0;
 		currentEnergy = 0;
 		currentEnergyRate = 0;
@@ -113,6 +115,7 @@ public class ThermalRecyclerContainer extends Container {
 
 		super.detectAndSendChanges();
 
+		MachineStatus status = entity.getStatus();
 		int progress = entity.getProgress();
 		int energy = entity.getInfoEnergyStored();
 		int energyRate = entity.getInfoEnergyPerTick();
@@ -132,8 +135,13 @@ public class ThermalRecyclerContainer extends Container {
 				icrafting.sendProgressBarUpdate(this,
 						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY_RATE,
 						energyRate);
+			if (status != currentStatus)
+				icrafting.sendProgressBarUpdate(this,
+						ThermalRecyclerTileEntity.UPDATE_ACTION_STATUS,
+						status.ordinal());
 		}
 
+		currentStatus = status;
 		currentProgress = progress;
 		currentEnergy = energy;
 		currentEnergyRate = energyRate;

@@ -22,11 +22,19 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.achievement;
 
-public interface IJobProgress {
+import org.blockartistry.mod.ThermalRecycling.AchievementManager;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 
-	int getPercentComplete();
-	
-	MachineStatus getStatus();
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
+
+public class DoingMyPart extends Achievement {
+
+	public DoingMyPart() {
+		super("doingMyPart", "doingMyPart", 1 /* x */, 1 /* y */, new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD),
+				AchievementManager.feelingScrappy);
+	}
 }

@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
+import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
@@ -46,7 +47,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.2.4";
+	public static final String VERSION = "0.3.0ALPHA";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -98,7 +99,9 @@ public final class ThermalRecycling {
 
 		ItemManager.registerItems();
 		BlockManager.registerBlocks();
+		AchievementManager.registerAchievements();
 		ThermalRecyclerTables.initialize();
+		UseEffect.initialize();
 
 		new GuiHandler();
 

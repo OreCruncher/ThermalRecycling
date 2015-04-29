@@ -22,11 +22,24 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
-public interface IJobProgress {
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-	int getPercentComplete();
+/**
+ * No effect.  Player is firing blanks.
+ *
+ */
+public class NoUseEffect extends UseEffect {
+
+	@Override
+	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	}
 	
-	MachineStatus getStatus();
+	@Override
+	public String toString() {
+		return "No Effect";
+	}
 }

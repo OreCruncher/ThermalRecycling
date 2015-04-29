@@ -38,7 +38,9 @@ import org.blockartistry.mod.ThermalRecycling.util.Tuple;
 import cofh.lib.util.WeightedRandomItemStack;
 import cofh.lib.util.helpers.InventoryHelper;
 import cofh.lib.util.helpers.ItemHelper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
@@ -64,25 +66,25 @@ public final class ThermalRecyclerTables {
 		// This table is for when an unknown item gets scrapped. Null means they
 		// get
 		// nuttin.
-		unknownScrap.add(new WeightedRandomItemStack(null, 100));
+		unknownScrap.add(new WeightedRandomItemStack(null, 35));
 		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
 		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 25));
 		unknownScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 45));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 60));
 
 		// This table is for when a component of an item gets scrapped. Null
 		// means they get nuttin.
 		// A dirt block indicates they get back the original component.
-		componentScrap.add(new WeightedRandomItemStack(keep, 150));
-		componentScrap.add(new WeightedRandomItemStack(null, 30));
+		componentScrap.add(new WeightedRandomItemStack(keep, 207));
+		componentScrap.add(new WeightedRandomItemStack(null, 20));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 8));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 25));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 17));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 45));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 25));
 	}
 
 	public static ItemStack pickStackFrom(
@@ -164,27 +166,59 @@ public final class ThermalRecyclerTables {
 		return fuzzyMatch;
 	}
 
+	public static void addThermalRecyclerWhitelist(int quantity,
+			boolean wildcard, Block... blocks) {
+
+		for (Block b : blocks)
+			addThermalRecyclerWhitelist(new ItemStack(b, quantity,
+					wildcard ? OreDictionary.WILDCARD_VALUE : 0));
+	}
+
+	public static void addThermalRecyclerWhitelist(int quantity,
+			boolean wildcard, Item... items) {
+
+		for (Item i : items)
+			addThermalRecyclerWhitelist(new ItemStack(i, quantity,
+					wildcard ? OreDictionary.WILDCARD_VALUE : 0));
+	}
+
 	public static void addThermalRecyclerWhitelist(ItemStack item) {
 
 		if (!isThermalRecyclerWhitelisted(item))
 			thermalWhitelist.add(item.copy());
 	}
 
-	public static boolean isThermalRecyclerWhitelisted(ItemStack item) {
-
-		initialize();
+	protected static ItemStack findWhitelistEntry(ItemStack item) {
 
 		for (ItemStack stack : thermalWhitelist) {
 			// Highly specific match?
 			if (ItemHelper.itemsEqualWithMetadata(item, stack))
-				return true;
+				return stack;
 			// Wildcard match?
 			if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE
 					&& ItemHelper.itemsEqualWithoutMetadata(item, stack))
-				return true;
+				return stack;
 		}
 
-		return false;
+		return null;
+	}
+
+	public static int getMinimumQuantityToRecycle(ItemStack item) {
+
+		initialize();
+
+		int result = -1;
+		ItemStack stack = findWhitelistEntry(item);
+
+		if (stack != null)
+			result = stack.stackSize;
+
+		return result;
+	}
+
+	public static boolean isThermalRecyclerWhitelisted(ItemStack item) {
+		initialize();
+		return findWhitelistEntry(item) != null;
 	}
 
 	protected static ItemStack[] shrink(ItemStack[] list) {

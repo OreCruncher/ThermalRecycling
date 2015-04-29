@@ -22,11 +22,20 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
-public interface IJobProgress {
+import net.minecraft.util.WeightedRandom;
 
-	int getPercentComplete();
-	
-	MachineStatus getStatus();
+class WeightedRandomEffect extends WeightedRandom.Item {
+
+	UseEffect effect;
+
+	public WeightedRandomEffect(UseEffect effect, int weight) {
+		super(weight);
+		this.effect = effect;
+	}
+
+	public UseEffect getEffect() {
+		return effect;
+	}
 }

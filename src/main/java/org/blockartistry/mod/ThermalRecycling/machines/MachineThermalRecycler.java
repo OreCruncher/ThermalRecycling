@@ -67,12 +67,12 @@ public class MachineThermalRecycler extends MachineBase {
 		
 		ShapedOreRecipe recipe = new ShapedOreRecipe(
 				BlockManager.thermalRecycler, "PSP", "BMB", "GRG",
-				Character.valueOf('P'), Blocks.piston,
-				Character.valueOf('S'), ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"),
-				Character.valueOf('B'), ItemStackHelper.getItemStack("ThermalExpansion:tool.battleWrenchInvar"),
-				Character.valueOf('M'), ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
-				Character.valueOf('G'), "gearCopper",
-				Character.valueOf('R'), ItemStackHelper.getItemStack("ThermalExpansion:material:1"));
+				'P', Blocks.piston,
+				'S', ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"),
+				'B', ItemStackHelper.getItemStack("ThermalExpansion:tool.battleWrenchInvar"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				'G', "gearCopper",
+				'R', ItemStackHelper.getItemStack("ThermalExpansion:material:1"));
 		GameRegistry.addRecipe(recipe);
 	}
 }

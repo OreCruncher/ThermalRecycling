@@ -125,7 +125,7 @@ public abstract class ItemBase extends Item {
 	/**
 	 * This method is invoke by the framework to register the item with Forge.
 	 */
-	public final void register() {
+	public void register() {
 		GameRegistry.registerItem(this, myUnlocalizedName);
 	}
 }

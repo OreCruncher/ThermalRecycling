@@ -24,6 +24,10 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
+import java.util.Arrays;
+
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import com.google.common.base.Preconditions;
 
 import cofh.lib.util.helpers.InventoryHelper;
@@ -31,6 +35,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 
 public class SidedInventoryComponent implements IMachineInventory {
 
@@ -266,5 +271,16 @@ public class SidedInventoryComponent implements IMachineInventory {
 	public boolean addStackToOutput(ItemStack stack) {
 		return InventoryHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
+	}
+
+	@Override
+	public void dropInventory(World world, int x, int y, int z) {
+		
+		for(ItemStack stack: inventory) {
+			if (stack != null)
+				ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+		}
+		
+		Arrays.fill(inventory, null);
 	}
 }

@@ -25,8 +25,10 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
+
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
 
@@ -50,6 +52,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public static final int UPDATE_ACTION_ENERGY = 0;
 	public static final int UPDATE_ACTION_PROGRESS = 1;
 	public static final int UPDATE_ACTION_ENERGY_RATE = 2;
+	public static final int UPDATE_ACTION_STATUS = 3;
 
 	// Slot geometry for the thermalRecycler
 	public static final int INPUT = 0;
@@ -73,7 +76,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
 	static final int RECYCLE_DUST_CHANCE = 25;
 
-	static boolean isJammed = false;
+	protected MachineStatus status = MachineStatus.IDLE;
 
 	public ThermalRecyclerTileEntity() {
 		SidedInventoryComponent inv = new SidedInventoryComponent(this, 10);
@@ -92,10 +95,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	//
 	// /////////////////////////////////////
 
-	public int getProgress() {
-		return progress;
-	}
-
 	@Override
 	public boolean receiveClientEvent(int action, int param) {
 
@@ -111,6 +110,9 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			break;
 		case UPDATE_ACTION_ENERGY_RATE:
 			energyRate = param;
+			break;
+		case UPDATE_ACTION_STATUS:
+			status = MachineStatus.map(param);
 			break;
 		default:
 			;
@@ -134,6 +136,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 				this.zCoord, 1, syncData);
 	}
 
+	public int getProgress() {
+		return progress;
+	}
+
 	// /////////////////////////////////////
 	//
 	// IJobProgress
@@ -146,13 +152,8 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public boolean isActive() {
-		return this.getStackInSlot(INPUT) != null;
-	}
-
-	@Override
-	public boolean isJammed() {
-		return isJammed;
+	public MachineStatus getStatus() {
+		return status;
 	}
 
 	// /////////////////////////////////////
@@ -248,7 +249,8 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getInfoEnergyPerTick() {
-		return isActive() ? Math.min(ENERGY_PER_TICK, energy) : 0;
+		return getStatus() == MachineStatus.ACTIVE ? Math.min(ENERGY_PER_TICK,
+				energy) : 0;
 	}
 
 	@Override
@@ -297,58 +299,90 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-
-			// worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-
-			// If we have residual items in the buffer, attempt
-			// to flush. If not successful, return. We have more
-			// items in the buffer and processing will not continue
-			// until the internal buffer is empty.
-			if (!flushBuffer()) {
-				setMachineActive(false);
-				energyRate = 0;
-				return;
-			}
-
-			// If there is nothing to process, then there is nothing
-			// to do.
-			if (!hasItemToRecycle()) {
-				setMachineActive(false);
+			
+			ItemStack inputSlotStack = getStackInSlot(INPUT);
+			
+			switch (status) {
+			
+			case IDLE:
 				progress = 0;
-				energyRate = 0;
-				return;
-			}
+				if (inputSlotStack != null)
+					status = MachineStatus.ACTIVE;
+				break;
 
-			// If work is still progressing, tick
-			if (progress < ENERGY_PER_OPERATION) {
-				if (energy >= ENERGY_PER_TICK) {
-					energy -= ENERGY_PER_TICK;
-					progress += ENERGY_PER_TICK;
-					energyRate = ENERGY_PER_TICK;
-					setMachineActive(true);
-				} else {
-					setMachineActive(false);
-					energyRate = 0;
-				}
-			}
-
-			// We are done. Right now just move to an output slot
-			if (progress >= ENERGY_PER_OPERATION) {
-				if (recycleItem()) {
+			case ACTIVE:
+				if (energy < ENERGY_PER_TICK) {
+					status = MachineStatus.OUT_OF_POWER;
+				} else if (inputSlotStack == null) {
+					status = MachineStatus.IDLE;
+				} else if (!hasItemToRecycle()) {
 					progress = 0;
+					status = MachineStatus.NEED_MORE_RESOURCES;
+				} else {
+
+					if (progress >= ENERGY_PER_OPERATION) {
+						progress = 0;
+
+						if (!recycleItem()) {
+							status = MachineStatus.JAMMED;
+						}
+
+					} else {
+						progress += ENERGY_PER_TICK;
+						energy -= ENERGY_PER_TICK;
+					}
+
+					setMachineActive(true);
 				}
+
+				break;
+
+			case JAMMED:
+				if (flushBuffer())
+					status = MachineStatus.ACTIVE;
+				break;
+
+			case NEED_MORE_RESOURCES:
+				if (inputSlotStack == null)
+					status = MachineStatus.IDLE;
+				else if (hasItemToRecycle())
+					status = MachineStatus.ACTIVE;
+				break;
+
+			case OUT_OF_POWER:
+				if(inputSlotStack == null)
+					status = MachineStatus.IDLE;
+				else if (energy >= ENERGY_PER_TICK)
+					status = MachineStatus.ACTIVE;
+				break;
+
+			default:
+				break;
+			}
+
+			if (status != MachineStatus.ACTIVE) {
+				energyRate = 0;
+				setMachineActive(false);
 			}
 		}
 	}
 
 	protected boolean hasItemToRecycle() {
-		return getStackInSlot(INPUT) != null;
+		ItemStack input = getStackInSlot(INPUT);
+		if (input == null)
+			return false;
+
+		int quantityRequired = ThermalRecyclerTables
+				.getMinimumQuantityToRecycle(input);
+		boolean result = (quantityRequired != -1)
+				&& quantityRequired <= input.stackSize;
+
+		return result;
 	}
 
 	protected boolean flushBuffer() {
 
 		if (buffer == null) {
-			isJammed = false;
 			return true;
 		}
 
@@ -366,8 +400,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		if (isEmpty)
 			buffer = null;
-		else
-			isJammed = true;
 
 		markDirty();
 
@@ -380,10 +412,16 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (!hasItemToRecycle())
 			return true;
 
+		// Get how many items we need to snag off the stack
+		int quantityRequired = ThermalRecyclerTables
+				.getMinimumQuantityToRecycle(getStackInSlot(INPUT));
+		if (quantityRequired < 1)
+			return true;
+
 		// Decrement our input slot. The decrStackSize
 		// method will handle appropriate nulling of
 		// inventory slots when count goes to 0.
-		ItemStack justRecycled = decrStackSize(INPUT, 1);
+		ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
 
 		// Get the results of recycling. The stacks already
 		// have been cloned so they are safe to hold onto.

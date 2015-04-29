@@ -111,7 +111,7 @@ public abstract class MachineBase extends BlockContainer {
 		if (!world.isRemote) {
 			TileEntity te = world.getTileEntity(x, y, z);
 			if (te instanceof TileEntityBase) {
-				((TileEntityBase) te).dropInventory(oldBlock, oldMeta, x, y, z);
+				((TileEntityBase) te).dropInventory(world, x, y, z);
 			}
 		}
 

@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
-
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
@@ -221,5 +221,21 @@ public class VanillaMinecraft extends ModPlugin {
 				.append(Items.redstone).append(Blocks.stone, 3).save();
 		recycler.input(Items.comparator).append(Blocks.redstone_torch, 3)
 				.append(Items.quartz).append(Blocks.stone, 3).save();
+
+		// Whitelist items for scrapping
+		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, true, Blocks.log,
+				Blocks.log2, Blocks.sapling, Blocks.cactus);
+		
+		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, false,
+				Items.wheat, Items.wheat_seeds, Items.reeds, Items.carrot,
+				Items.potato, Items.apple);
+
+		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, false,
+				Items.wheat, Items.wheat_seeds, Items.reeds, Items.carrot,
+				Items.potato, Items.apple);
+
+		ThermalRecyclerTables.addThermalRecyclerWhitelist(4, false,
+				Blocks.hay_block);
+
 	}
 }

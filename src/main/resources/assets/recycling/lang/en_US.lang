@@ -1,8 +1,27 @@
 # US English Translations
 itemGroup.ThermalRecycling=Thermal Recycling
-item.RecyclingScrap.poor.name=Poor Scrap
+item.RecyclingScrap.poor.name=Inferior Scrap
 item.RecyclingScrap.standard.name=Scrap
 item.RecyclingScrap.superior.name=Superior Scrap
+item.RecyclingScrapBox.poor.name=Box of Inferior Scrap
+item.RecyclingScrapBox.poor.desc=Smells like musty gym socks
+item.RecyclingScrapBox.standard.name=Box of Scrap
+item.RecyclingScrapBox.standard.desc=Doesn't look too bad
+item.RecyclingScrapBox.superior.name=Box of Superior Scrap
+item.RecyclingScrapBox.superior.desc=Surely a box of wonder...
 
 tile.Test.item1.name=Test Block (WIP)
 tile.MachineThermalRecycler.name=Thermal Recycler
+
+# Machine Status
+msg.MachineStatus.idle=Idle
+msg.MachineStatus.active={0}%
+msg.MachineStatus.jammed=Jammed!
+msg.MachineStatus.needMoreResources=Need more resources!
+msg.MachineStatus.outOfPower=Out of power
+
+# Achievements
+achievement.feelingScrappy=Feeling Scrappy!
+achievement.feelingScrappy.desc=Craft a Thermal Recycler
+achievement.doingMyPart=Doing My Part
+achievement.doingMyPart.desc=Use a scrap box

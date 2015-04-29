@@ -22,21 +22,47 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+import org.blockartistry.mod.ThermalRecycling.AchievementManager;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
+ * This effect causes a specific item type to drop into the world.
+ * Useful for named items or special one offs, like nether stars.
  *
  */
-public final class BlockManager {
+public class DropItemEffect extends UseEffect {
 
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-
-	public static void registerBlocks() {
-
-		thermalRecycler.register();
+	ItemStack stack;
+	int maxQuantity;
+	
+	public DropItemEffect(ItemStack stack) {
+		this(stack, 1);
 	}
+	
+	public DropItemEffect(ItemStack stack, int maxQuantity) {
+		this.stack = stack;
+		this.maxQuantity = maxQuantity;
+	}
+	
+	@Override
+	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+		ItemStack result = new ItemStack(stack.getItem(), rand.nextInt(maxQuantity) + 1, scrap.getItemDamage());
+		spawnIntoWorld(result, world, player);
+		
+		if(result.getItem() == Items.nether_star)
+			player.addStat(AchievementManager.lottoWinner, 1);
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Drop Item [%s]", ItemStackHelper.resolveName(stack));
+	}
+
 }

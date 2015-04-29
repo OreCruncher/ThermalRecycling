@@ -22,11 +22,17 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.achievement;
 
-public interface IJobProgress {
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 
-	int getPercentComplete();
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
+
+public class FeelingScrappy extends Achievement {
 	
-	MachineStatus getStatus();
+	public FeelingScrappy() {
+		super("feelingScrappy", "feelingScrappy", 0 /* x */, 0 /* y */, new ItemStack(BlockManager.thermalRecycler),
+				null);
+	}
 }

@@ -22,11 +22,40 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
-public interface IJobProgress {
+import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-	int getPercentComplete();
+public class ExperienceOrbEffect extends UseEffect {
+
+	int start;
+	int end;
 	
-	MachineStatus getStatus();
+	public ExperienceOrbEffect(int amount) {
+		this(amount, amount);
+	}
+	
+	public ExperienceOrbEffect(int startRange, int endRange) {
+		this.start = startRange;
+		this.end = endRange;
+	}
+	
+	@Override
+	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+		
+		int value = start;
+		if( start != end)
+			value = rand.nextInt(start - end) + start;
+		
+		EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
+		spawnEntityIntoWorld(orb, world, player);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Experience Orb [%d - %d]", start, end);
+	}
 }

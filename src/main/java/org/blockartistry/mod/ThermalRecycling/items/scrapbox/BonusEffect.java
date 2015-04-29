@@ -22,11 +22,43 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
-public interface IJobProgress {
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-	int getPercentComplete();
+/**
+ * This effect causes multiple effects to fire.  It is possible
+ * for a player to wind up with drops as well as buffs.
+ *
+ */
+public class BonusEffect extends UseEffect {
 	
-	MachineStatus getStatus();
+	int bonusCount;
+	
+	/**
+	 * Constructs a BonusEffect with the specified number of
+	 * bonus effects.  The count is NOT inclusive of the original
+	 * so the actual number of effects is (1 + count).
+	 * 
+	 * @param count Number of additional effects to trigger
+	 */
+	public BonusEffect(int count) {
+		bonusCount = count;
+	}
+	
+	@Override
+	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+
+		int effectiveCount = bonusCount + 1;
+		for(int i = 0; i < effectiveCount; i++) {
+			triggerEffect(scrap, world, player);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("BonusEffect x%d", bonusCount);
+	}
 }
