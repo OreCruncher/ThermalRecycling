@@ -30,28 +30,28 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 
 /**
- * Drops items that would have randomly spawned in a dungeon chest.
- * There is an option to specify which gen hook to use.
+ * Drops items that would have randomly spawned in a dungeon chest. There is an
+ * option to specify which gen hook to use.
  */
 public class ChestEffect extends UseEffect {
 
-	public static final String MINESHAFT_CORRIDOR       = ChestGenHooks.MINESHAFT_CORRIDOR;
-    public static final String PYRAMID_DESERT_CHEST     = ChestGenHooks.PYRAMID_DESERT_CHEST;
-    public static final String PYRAMID_JUNGLE_CHEST     = ChestGenHooks.PYRAMID_JUNGLE_CHEST;
-    public static final String PYRAMID_JUNGLE_DISPENSER = ChestGenHooks.PYRAMID_JUNGLE_DISPENSER;
-    public static final String STRONGHOLD_CORRIDOR      = ChestGenHooks.STRONGHOLD_CORRIDOR;
-    public static final String STRONGHOLD_LIBRARY       = ChestGenHooks.STRONGHOLD_LIBRARY;
-    public static final String STRONGHOLD_CROSSING      = ChestGenHooks.STRONGHOLD_CROSSING;
-    public static final String VILLAGE_BLACKSMITH       = ChestGenHooks.VILLAGE_BLACKSMITH;
-    public static final String BONUS_CHEST              = ChestGenHooks.BONUS_CHEST;
-    public static final String DUNGEON_CHEST            = ChestGenHooks.DUNGEON_CHEST;
+	public static final String MINESHAFT_CORRIDOR = ChestGenHooks.MINESHAFT_CORRIDOR;
+	public static final String PYRAMID_DESERT_CHEST = ChestGenHooks.PYRAMID_DESERT_CHEST;
+	public static final String PYRAMID_JUNGLE_CHEST = ChestGenHooks.PYRAMID_JUNGLE_CHEST;
+	public static final String PYRAMID_JUNGLE_DISPENSER = ChestGenHooks.PYRAMID_JUNGLE_DISPENSER;
+	public static final String STRONGHOLD_CORRIDOR = ChestGenHooks.STRONGHOLD_CORRIDOR;
+	public static final String STRONGHOLD_LIBRARY = ChestGenHooks.STRONGHOLD_LIBRARY;
+	public static final String STRONGHOLD_CROSSING = ChestGenHooks.STRONGHOLD_CROSSING;
+	public static final String VILLAGE_BLACKSMITH = ChestGenHooks.VILLAGE_BLACKSMITH;
+	public static final String BONUS_CHEST = ChestGenHooks.BONUS_CHEST;
+	public static final String DUNGEON_CHEST = ChestGenHooks.DUNGEON_CHEST;
 
 	String category;
-	
+
 	public ChestEffect() {
 		this(DUNGEON_CHEST);
 	}
-	
+
 	public ChestEffect(String category) {
 		this.category = category;
 	}
@@ -59,12 +59,12 @@ public class ChestEffect extends UseEffect {
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 		ChestGenHooks hooks = ChestGenHooks.getInfo(category);
-		if(hooks != null) {
+		if (hooks != null) {
 			ItemStack stack = hooks.getOneItem(rand);
 			spawnIntoWorld(stack, world, player);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("Chest Effect [%s]", category);

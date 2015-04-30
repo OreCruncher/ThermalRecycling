@@ -24,13 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-
 public class ModThermalDynamics extends ModPlugin {
-
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
 
 	public ModThermalDynamics() {
 		super(SupportedMod.THERMAL_DYNAMICS);

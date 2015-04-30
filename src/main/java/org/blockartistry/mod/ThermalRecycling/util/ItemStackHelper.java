@@ -34,6 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 
+import cofh.lib.util.helpers.InventoryHelper;
+import cofh.lib.util.helpers.ItemHelper;
+
 import com.google.common.base.Preconditions;
 
 import cpw.mods.fml.common.registry.GameData;
@@ -68,6 +71,8 @@ public final class ItemStackHelper {
 		preferred.put("nuggetGold", new ItemStack(Items.gold_nugget));
 		preferred.put("blockGold", new ItemStack(Blocks.gold_block));
 		preferred.put("blockIron", new ItemStack(Blocks.iron_block));
+		preferred.put("gemDiamond", new ItemStack(Items.diamond));
+		preferred.put("gemEmerald", new ItemStack(Items.emerald));
 
 		Item materialBase = GameData.getItemRegistry().getObject(
 				"ThermalFoundation:material");
@@ -103,6 +108,22 @@ public final class ItemStackHelper {
 		preferred.put("nuggetLumium", new ItemStack(materialBase, 1, 107));
 		preferred.put("nuggetEnderium", new ItemStack(materialBase, 1, 108));
 
+		preferred.put("dustIron", new ItemStack(materialBase, 1, 0));
+		preferred.put("dustGold", new ItemStack(materialBase, 1, 1));
+		preferred.put("dustCopper", new ItemStack(materialBase, 1, 32));
+		preferred.put("dustTin", new ItemStack(materialBase, 1, 33));
+		preferred.put("dustSilver", new ItemStack(materialBase, 1, 34));
+		preferred.put("dustLead", new ItemStack(materialBase, 1, 35));
+		preferred.put("dustNickel", new ItemStack(materialBase, 1, 36));
+		preferred.put("dustPlatinum", new ItemStack(materialBase, 1, 37));
+		preferred.put("dustManaInfused", new ItemStack(materialBase, 1, 38));
+		preferred.put("dustElectrum", new ItemStack(materialBase, 1, 39));
+		preferred.put("dustInvar", new ItemStack(materialBase, 1, 40));
+		preferred.put("dustBronze", new ItemStack(materialBase, 1, 41));
+		preferred.put("dustSignalum", new ItemStack(materialBase, 1, 42));
+		preferred.put("dustLumium", new ItemStack(materialBase, 1, 43));
+		preferred.put("dustEnderium", new ItemStack(materialBase, 1, 44));
+
 		preferred.put("blockCopper", new ItemStack(storageBase, 1, 0));
 		preferred.put("blockTin", new ItemStack(storageBase, 1, 1));
 		preferred.put("blockSilver", new ItemStack(storageBase, 1, 2));
@@ -132,6 +153,43 @@ public final class ItemStackHelper {
 		preferred.put("gearSignalum", new ItemStack(materialBase, 1, 138));
 		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
 		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
+	}
+	
+	public static ItemStack convertToDustIfPossible(ItemStack stack) {
+		String oreName = ItemHelper.getOreName(stack);
+		boolean isIngot = oreName.startsWith("ingot");
+		boolean isBlock = oreName.startsWith("block");
+		boolean isWood = oreName.startsWith("plank");
+		
+		if(isIngot || isBlock || isWood) {
+			
+			if(isIngot)
+				oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
+			else if(isBlock)
+				oreName = StringUtils.replaceOnce(oreName, "block", "dust");
+			else
+				oreName = StringUtils.replaceOnce(oreName, "plank", "dust");
+			
+			ItemStack newStack = getItemStack(oreName);
+			if(newStack != null) {
+				newStack.stackSize = Math.min(newStack.getMaxStackSize(), stack.stackSize * (isBlock?9:1));
+				return newStack;
+			}
+		}
+		
+		// Return the original stack
+		return stack;
+	}
+
+	public static ItemStack getPreferredStack(ItemStack stack) {
+		String oreName = ItemHelper.getOreName(stack);
+		if (oreName == null || oreName.isEmpty()
+				|| "Unknown".compareToIgnoreCase(oreName) == 0)
+			return stack;
+
+		ItemStack newStack = getItemStack(oreName);
+		newStack.stackSize = stack.stackSize;
+		return newStack;
 	}
 
 	public static ItemStack getItemStack(String name) {
@@ -195,8 +253,8 @@ public final class ItemStackHelper {
 		// Log if we didn't find an item - it's possible that the recipe has a
 		// type
 		// or the mod has changed where the item no longer exists.
-		if (result == null)
-			ModLog.info("Unable to locate item: " + name);
+		//if (result == null)
+		//	ModLog.info("Unable to locate item: " + name);
 
 		return result;
 	}
@@ -309,7 +367,8 @@ public final class ItemStackHelper {
 	public static ItemStack[] clone(ItemStack... stacks) {
 		ItemStack[] result = new ItemStack[stacks.length];
 		for (int i = 0; i < result.length; i++)
-			result[i] = stacks[i].copy();
+			if (stacks[i] != null)
+				result[i] = stacks[i].copy();
 		return result;
 	}
 
@@ -503,7 +562,8 @@ public final class ItemStackHelper {
 		}
 	}
 
-	public static void spawnIntoWorld(World world, ItemStack stack, int x, int y, int z) {
+	public static void spawnIntoWorld(World world, ItemStack stack, int x,
+			int y, int z) {
 
 		if (stack == null)
 			return;
@@ -532,4 +592,40 @@ public final class ItemStackHelper {
 			world.spawnEntityInWorld(item);
 		}
 	}
+
+	public static ItemStack[] compact(ItemStack[] list) {
+
+		ItemStack[] consolidated = new ItemStack[list.length];
+
+		for (ItemStack stack : list) {
+			InventoryHelper.addItemStackToInventory(consolidated, stack);
+		}
+
+		return consolidated;
+	}
+
+	public static ItemStack[] shrink(ItemStack[] list) {
+
+		// Quick check - if there is no null at the end there is nothing
+		// to shrink.
+		if (list[list.length - 1] != null)
+			return list;
+
+		// Find the first null in the array - that our termination. This
+		// shouldn't be infinite given the initial check in the method
+		int x;
+		for (x = 0; list[x] != null; x++)
+			;
+
+		// At this point x should be indexed at a null.
+		ItemStack[] result = new ItemStack[x];
+
+		// Copy them over
+		for (int i = 0; i < x; i++)
+			result[i] = list[i];
+
+		// Done!
+		return result;
+	}
+
 }

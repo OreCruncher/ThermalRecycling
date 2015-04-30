@@ -28,16 +28,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModForestry extends ModPlugin {
-
-	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);

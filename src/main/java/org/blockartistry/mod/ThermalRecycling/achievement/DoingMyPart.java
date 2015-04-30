@@ -34,7 +34,8 @@ import net.minecraft.stats.Achievement;
 public class DoingMyPart extends Achievement {
 
 	public DoingMyPart() {
-		super("doingMyPart", "doingMyPart", 1 /* x */, 1 /* y */, new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD),
+		super("doingMyPart", "doingMyPart", 1 /* x */, 1 /* y */, new ItemStack(
+				ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD),
 				AchievementManager.feelingScrappy);
 	}
 }

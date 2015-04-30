@@ -28,6 +28,10 @@ import cpw.mods.fml.common.Loader;
 
 public enum SupportedMod {
 
+	// This one has to be first!
+	THERMAL_RECYCLING("Thermal Recycling", "recycling",
+			ModThermalRecycling.class),
+
 	VANILLA("Minecraft", "vanilla", VanillaMinecraft.class),
 
 	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation",
@@ -89,6 +93,6 @@ public enum SupportedMod {
 	}
 
 	public boolean isLoaded() {
-		return this == VANILLA || Loader.isModLoaded(modId);
+		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
 	}
 }

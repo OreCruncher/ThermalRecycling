@@ -275,12 +275,12 @@ public class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public void dropInventory(World world, int x, int y, int z) {
-		
-		for(ItemStack stack: inventory) {
+
+		for (ItemStack stack : inventory) {
 			if (stack != null)
 				ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 		}
-		
+
 		Arrays.fill(inventory, null);
 	}
 }

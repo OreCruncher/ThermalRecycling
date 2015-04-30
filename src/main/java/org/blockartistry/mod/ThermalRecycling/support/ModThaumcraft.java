@@ -26,17 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
-
 public class ModThaumcraft extends ModPlugin {
-
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-	BlastRecipeBuilder blast = new BlastRecipeBuilder();
-	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
 	public ModThaumcraft() {
 		super(SupportedMod.THAUMCRAFT);

@@ -33,23 +33,23 @@ public class ExperienceOrbEffect extends UseEffect {
 
 	int start;
 	int end;
-	
+
 	public ExperienceOrbEffect(int amount) {
 		this(amount, amount);
 	}
-	
+
 	public ExperienceOrbEffect(int startRange, int endRange) {
 		this.start = startRange;
 		this.end = endRange;
 	}
-	
+
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
-		
+
 		int value = start;
-		if( start != end)
+		if (start != end)
 			value = rand.nextInt(start - end) + start;
-		
+
 		EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
 		spawnEntityIntoWorld(orb, world, player);
 	}

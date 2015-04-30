@@ -28,14 +28,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModThermalFoundation extends ModPlugin {
-
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
 
 	public ModThermalFoundation() {
 		super(SupportedMod.THERMAL_FOUNDATION);

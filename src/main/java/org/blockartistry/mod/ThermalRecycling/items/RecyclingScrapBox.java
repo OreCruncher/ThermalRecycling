@@ -41,7 +41,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class RecyclingScrapBox extends ItemBase {
-	
+
 	public static final int POOR = 0;
 	public static final int STANDARD = 1;
 	public static final int SUPERIOR = 2;
@@ -55,35 +55,41 @@ public class RecyclingScrapBox extends ItemBase {
 		setUnlocalizedName("RecyclingScrapBox");
 		setMaxStackSize(64);
 	}
-	
-    @SuppressWarnings("unchecked")
-	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, @SuppressWarnings("rawtypes") List info, boolean p_77624_4_) {
-    	info.add(StatCollector.translateToLocal(String.format("%s.%s.desc", getUnlocalizedName(), types[stack.getItemDamage()])));
-    }
 
-    @Override
-    public boolean hasEffect(ItemStack stack) {
-    	return stack.getItemDamage() == SUPERIOR;
-    }
-    
-    @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-    {
-    	if(!world.isRemote) {
-    		UseEffect.triggerEffect(stack, world, player);
-    		player.addStat(AchievementManager.doingMyPart, 1);
-    	}
-    	
-    	return stack;
-    }
-    
+	@Override
+	@SuppressWarnings("unchecked")
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player,
+			@SuppressWarnings("rawtypes") List info, boolean p_77624_4_) {
+		info.add(StatCollector.translateToLocal(String.format("%s.%s.desc",
+				getUnlocalizedName(), types[stack.getItemDamage()])));
+	}
+
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return stack.getItemDamage() == SUPERIOR;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world,
+			EntityPlayer player) {
+		if (!world.isRemote) {
+			UseEffect.triggerEffect(stack, world, player);
+			player.addStat(AchievementManager.doingMyPart, 1);
+		}
+
+		return stack;
+	}
+
+	@Override
 	public void register() {
 		super.register();
-		
+
 		// Make the recipes here
-		for(int i = 0; i < 4; i++) {
-			GameRegistry.addShapedRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, i), "sss", "s s", "sss", 's', new ItemStack(ItemManager.recyclingScrap, 1, i));
+		for (int i = 0; i < 4; i++) {
+			GameRegistry.addShapedRecipe(new ItemStack(
+					ItemManager.recyclingScrapBox, 1, i), "sss", "s s", "sss",
+					's', new ItemStack(ItemManager.recyclingScrap, 1, i));
 		}
 	}
 }

@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * No effect.  Player is firing blanks.
+ * No effect. Player is firing blanks.
  *
  */
 public class NoUseEffect extends UseEffect {
@@ -37,7 +37,7 @@ public class NoUseEffect extends UseEffect {
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 	}
-	
+
 	@Override
 	public String toString() {
 		return "No Effect";

@@ -24,12 +24,28 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
+
 import net.minecraftforge.common.config.Configuration;
 
 public abstract class ModPlugin {
 
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
+
+	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
+	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
+	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
+	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
+	BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
 	public ModPlugin(SupportedMod m) {
 		mod = m;

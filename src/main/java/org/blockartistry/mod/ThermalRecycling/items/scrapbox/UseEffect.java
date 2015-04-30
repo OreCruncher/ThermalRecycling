@@ -53,32 +53,40 @@ public abstract class UseEffect {
 	protected static final ArrayList<WeightedRandomEffect> standardEffects = new ArrayList<WeightedRandomEffect>();
 	protected static final ArrayList<WeightedRandomEffect> superiorEffects = new ArrayList<WeightedRandomEffect>();
 
-	static void addEffect(ArrayList<WeightedRandomEffect> list, UseEffect effect, int weight) {
+	static void addEffect(ArrayList<WeightedRandomEffect> list,
+			UseEffect effect, int weight) {
 		list.add(new WeightedRandomEffect(effect, weight));
 	}
-	
-	protected static void dumpList(String name, ArrayList<WeightedRandomEffect> list) {
-		
+
+	protected static void dumpList(String name,
+			ArrayList<WeightedRandomEffect> list) {
+
 		int weight = 0;
-		for(WeightedRandomEffect e: list)
+		for (WeightedRandomEffect e : list)
 			weight += e.itemWeight;
 
 		ModLog.info("");
 		ModLog.info("Loot table [%s] (total weight %d):", name, weight);
-		for(WeightedRandomEffect e: list)
-			ModLog.info("%s (%d) - %f%%", e.getEffect().toString(), e.itemWeight, ((float)e.itemWeight * 100) / ((float)weight));
+		for (WeightedRandomEffect e : list)
+			ModLog.info("%s (%d) - %f%%", e.getEffect().toString(),
+					e.itemWeight, ((float) e.itemWeight * 100) / (weight));
 		ModLog.info("");
 	}
-	
+
 	public static void initialize() {
-		
-		ItemStack poorScrap = new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR);
-		ItemStack standardScrap = new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD);
-		ItemStack superiorScrap = new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR);
-		
+
+		ItemStack poorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.POOR);
+		ItemStack standardScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.STANDARD);
+		ItemStack superiorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.SUPERIOR);
+
 		addEffect(poorEffects, new NoUseEffect(), 400);
-		addEffect(poorEffects, new DropItemEffect(new ItemStack(Blocks.grass)), 100);
-		addEffect(poorEffects, new DropItemEffect(new ItemStack(Items.cooked_beef), 4), 100);
+		addEffect(poorEffects, new DropItemEffect(new ItemStack(Blocks.grass)),
+				100);
+		addEffect(poorEffects, new DropItemEffect(new ItemStack(
+				Items.cooked_beef), 4), 100);
 		addEffect(poorEffects, new DropItemEffect(poorScrap), 300);
 		addEffect(poorEffects, new DropItemEffect(standardScrap), 150);
 		addEffect(poorEffects, new DropItemEffect(superiorScrap), 50);
@@ -87,9 +95,13 @@ public abstract class UseEffect {
 		addEffect(poorEffects, new ExperienceOrbEffect(30), 10);
 		addEffect(poorEffects, new EnchantedBookEffect(10), 50);
 		addEffect(poorEffects, new ChestEffect(ChestEffect.DUNGEON_CHEST), 300);
-		addEffect(poorEffects, new PlayerPotionEffect(PlayerPotionEffect.DURATION_15SECONDS, PlayerPotionEffect.AMPLIFIER_LEVEL_1), 150);
-		addEffect(poorEffects, new DropItemEffect(new ItemStack(Items.diamond)), 5);
-		addEffect(poorEffects, new DropItemEffect(new ItemStack(Items.emerald)), 3);
+		addEffect(poorEffects, new PlayerPotionEffect(
+				PlayerPotionEffect.DURATION_15SECONDS,
+				PlayerPotionEffect.AMPLIFIER_LEVEL_1), 150);
+		addEffect(poorEffects,
+				new DropItemEffect(new ItemStack(Items.diamond)), 5);
+		addEffect(poorEffects,
+				new DropItemEffect(new ItemStack(Items.emerald)), 3);
 		dumpList("Poor Effects", poorEffects);
 
 		addEffect(standardEffects, new NoUseEffect(), 250);
@@ -101,11 +113,17 @@ public abstract class UseEffect {
 		addEffect(standardEffects, new ExperienceOrbEffect(7), 50);
 		addEffect(standardEffects, new ExperienceOrbEffect(15), 200);
 		addEffect(standardEffects, new ExperienceOrbEffect(30), 50);
-		addEffect(standardEffects, new ChestEffect(ChestEffect.DUNGEON_CHEST), 200);
-		addEffect(standardEffects, new ChestEffect(ChestEffect.MINESHAFT_CORRIDOR), 300);
-		addEffect(standardEffects, new PlayerPotionEffect(PlayerPotionEffect.DURATION_60SECONDS, PlayerPotionEffect.AMPLIFIER_LEVEL_2), 150);
-		addEffect(standardEffects, new DropItemEffect(new ItemStack(Items.diamond)), 100);
-		addEffect(standardEffects, new DropItemEffect(new ItemStack(Items.emerald)), 60);
+		addEffect(standardEffects, new ChestEffect(ChestEffect.DUNGEON_CHEST),
+				200);
+		addEffect(standardEffects, new ChestEffect(
+				ChestEffect.MINESHAFT_CORRIDOR), 300);
+		addEffect(standardEffects, new PlayerPotionEffect(
+				PlayerPotionEffect.DURATION_60SECONDS,
+				PlayerPotionEffect.AMPLIFIER_LEVEL_2), 150);
+		addEffect(standardEffects, new DropItemEffect(new ItemStack(
+				Items.diamond)), 100);
+		addEffect(standardEffects, new DropItemEffect(new ItemStack(
+				Items.emerald)), 60);
 		dumpList("Standard Effects", standardEffects);
 
 		addEffect(superiorEffects, new NoUseEffect(), 50);
@@ -117,12 +135,19 @@ public abstract class UseEffect {
 		addEffect(superiorEffects, new ExperienceOrbEffect(15), 50);
 		addEffect(superiorEffects, new ExperienceOrbEffect(30), 200);
 		addEffect(superiorEffects, new EnchantedBookEffect(30), 50);
-		addEffect(superiorEffects, new ChestEffect(ChestEffect.MINESHAFT_CORRIDOR), 200);
-		addEffect(superiorEffects, new ChestEffect(ChestEffect.STRONGHOLD_CROSSING), 300);
-		addEffect(superiorEffects, new PlayerPotionEffect(PlayerPotionEffect.DURATION_120SECONDS, PlayerPotionEffect.AMPLIFIER_LEVEL_3), 150);
-		addEffect(superiorEffects, new DropItemEffect(new ItemStack(Items.diamond)), 150);
-		addEffect(superiorEffects, new DropItemEffect(new ItemStack(Items.emerald)), 90);
-		addEffect(superiorEffects, new DropItemEffect(new ItemStack(Items.nether_star)), 10);
+		addEffect(superiorEffects, new ChestEffect(
+				ChestEffect.MINESHAFT_CORRIDOR), 200);
+		addEffect(superiorEffects, new ChestEffect(
+				ChestEffect.STRONGHOLD_CROSSING), 300);
+		addEffect(superiorEffects, new PlayerPotionEffect(
+				PlayerPotionEffect.DURATION_120SECONDS,
+				PlayerPotionEffect.AMPLIFIER_LEVEL_3), 150);
+		addEffect(superiorEffects, new DropItemEffect(new ItemStack(
+				Items.diamond)), 150);
+		addEffect(superiorEffects, new DropItemEffect(new ItemStack(
+				Items.emerald)), 90);
+		addEffect(superiorEffects, new DropItemEffect(new ItemStack(
+				Items.nether_star)), 10);
 		dumpList("Superior Effects", superiorEffects);
 	}
 

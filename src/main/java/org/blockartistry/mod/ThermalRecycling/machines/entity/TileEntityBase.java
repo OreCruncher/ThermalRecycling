@@ -83,6 +83,7 @@ public abstract class TileEntityBase extends TileEntity implements
 		return true;
 	}
 
+	@Override
 	public void dropInventory(World world, int x, int y, int z) {
 		inventory.dropInventory(world, x, y, z);
 	}

@@ -25,18 +25,14 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 public enum MachineStatus {
-	
-	IDLE,
-	ACTIVE,
-	JAMMED,
-	NEED_MORE_RESOURCES,
-	OUT_OF_POWER;
-	
+
+	IDLE, ACTIVE, JAMMED, NEED_MORE_RESOURCES, OUT_OF_POWER;
+
 	public static MachineStatus map(int i) {
-		for(MachineStatus status: values())
-			if(status.ordinal() == i)
+		for (MachineStatus status : values())
+			if (status.ordinal() == i)
 				return status;
-		
+
 		return IDLE;
 	}
 }

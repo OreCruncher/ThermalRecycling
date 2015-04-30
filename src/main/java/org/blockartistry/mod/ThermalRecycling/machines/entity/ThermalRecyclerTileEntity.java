@@ -25,12 +25,14 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
@@ -169,6 +171,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		energy = nbt.getShort("energy");
 		energyRate = nbt.getShort("energyRate");
 		progress = nbt.getShort("progress");
+		status = MachineStatus.map(nbt.getShort("status"));
 
 		NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
 		if (nbttaglist.tagCount() > 0) {
@@ -187,6 +190,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		nbt.setShort("energy", (short) energy);
 		nbt.setShort("energyRate", (short) energyRate);
 		nbt.setShort("progress", (short) progress);
+		nbt.setShort("status", (short)status.ordinal());
 
 		NBTTagList nbttaglist = new NBTTagList();
 
@@ -299,11 +303,11 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
+
 			ItemStack inputSlotStack = getStackInSlot(INPUT);
-			
+
 			switch (status) {
-			
+
 			case IDLE:
 				progress = 0;
 				if (inputSlotStack != null)
@@ -350,7 +354,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 				break;
 
 			case OUT_OF_POWER:
-				if(inputSlotStack == null)
+				if (inputSlotStack == null)
 					status = MachineStatus.IDLE;
 				else if (energy >= ENERGY_PER_TICK)
 					status = MachineStatus.ACTIVE;
@@ -441,8 +445,27 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		return flushBuffer();
 	}
 
-	// Iterate through the results of the recipe randomly
-	// turning stuff into dust.
+	protected ItemStack finalizeResultant(ItemStack stack) {
+		
+		if(stack == null)
+			return null;
+
+		ItemStack cupieDoll = ThermalRecyclerTables
+				.pickStackFrom(ThermalRecyclerTables.componentScrap);
+		
+		if(ThermalRecyclerTables.keepIt(cupieDoll))
+			return stack;
+		
+		if(ThermalRecyclerTables.dustIt(cupieDoll))
+			return ItemStackHelper.convertToDustIfPossible(stack);
+
+		int scrapValue = ScrappingValue.getValue(stack);
+
+		return scrapValue != ScrappingValue.NONE ? cupieDoll : null;
+	}
+
+	// Iterate through the output recipe items during things to scrap,
+	// dust, whatever.
 	protected ItemStack[] breakItDown(ItemStack[] in) {
 
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
@@ -450,27 +473,11 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		for (int i = 0; i < in.length; i++) {
 
 			int count = in[i].stackSize;
-
 			for (int j = 0; j < count; j++) {
-				ItemStack cupieDoll = ThermalRecyclerTables
-						.pickStackFrom(ThermalRecyclerTables.componentScrap);
-
-				// Fix this compare!
-				if (cupieDoll != null
-						&& ThermalRecyclerTables.keep.isItemEqual(cupieDoll))
-					continue;
-
-				// Reduce stack size by one
-				in[i].stackSize--;
-
-				// If we have a result add it to the list
-				if (cupieDoll != null)
-					result.add(cupieDoll);
+				ItemStack stack = finalizeResultant(in[i].splitStack(1));
+				if(stack != null)
+					result.add(stack);
 			}
-
-			// If we have anything left over keep
-			if (in[i].stackSize > 0)
-				result.add(in[i]);
 		}
 
 		return result.toArray(new ItemStack[result.size()]);

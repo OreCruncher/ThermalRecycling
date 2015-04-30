@@ -68,8 +68,8 @@ public class ElementProgress extends ElementBase {
 	public void drawBackground(int mouseX, int mouseY, float gameTicks) {
 
 		int scaledX = getScaled();
-		
-		if(scaledX == 0)
+
+		if (scaledX == 0)
 			return;
 
 		// Need to scale our X size based on progress
@@ -82,44 +82,49 @@ public class ElementProgress extends ElementBase {
 	public void drawForeground(int mouseX, int mouseY) {
 
 		MachineStatus status = progress.getStatus();
-		if(status == MachineStatus.ACTIVE || status == MachineStatus.IDLE)
+		if (status == MachineStatus.ACTIVE || status == MachineStatus.IDLE)
 			return;
-		
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
+
 		if (status == MachineStatus.JAMMED)
 			RenderHelper.bindTexture(JAMMED_TEXTURE);
-		else if(status == MachineStatus.OUT_OF_POWER)
+		else if (status == MachineStatus.OUT_OF_POWER)
 			RenderHelper.bindTexture(POWER_TEXTURE);
 		else
 			RenderHelper.bindTexture(NO_RESOURCES_TEXTURE);
-		
+
 		drawTexturedModalRect(posX, posY, 0, 0, sizeX, sizeY);
 	}
 
 	@Override
 	public void addTooltip(List<String> list) {
 		String statusString = "???";
-		switch(progress.getStatus()) {
+		switch (progress.getStatus()) {
 		case IDLE:
-			statusString = StatCollector.translateToLocal("msg.MachineStatus.idle");
+			statusString = StatCollector
+					.translateToLocal("msg.MachineStatus.idle");
 			break;
 		case ACTIVE:
-			statusString = StatCollector.translateToLocalFormatted("msg.MachineStatus.active", progress.getPercentComplete());
+			statusString = StatCollector.translateToLocalFormatted(
+					"msg.MachineStatus.active", progress.getPercentComplete());
 			break;
 		case JAMMED:
-			statusString = StatCollector.translateToLocal("msg.MachineStatus.jammed");
+			statusString = StatCollector
+					.translateToLocal("msg.MachineStatus.jammed");
 			break;
 		case NEED_MORE_RESOURCES:
-			statusString = StatCollector.translateToLocal("msg.MachineStatus.needMoreResources");
+			statusString = StatCollector
+					.translateToLocal("msg.MachineStatus.needMoreResources");
 			break;
 		case OUT_OF_POWER:
-			statusString = StatCollector.translateToLocal("msg.MachineStatus.outOfPower");
+			statusString = StatCollector
+					.translateToLocal("msg.MachineStatus.outOfPower");
 			break;
 		default:
 			;
 		}
-		
+
 		list.add(statusString);
 	}
 }

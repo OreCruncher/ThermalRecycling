@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 public interface IMachineInventory extends INBTSerializer, ISidedInventory {
 
 	boolean addStackToOutput(ItemStack stack);
-	
+
 	void dropInventory(World world, int x, int y, int z);
 
 }

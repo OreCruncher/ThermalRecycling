@@ -128,8 +128,8 @@ public abstract class MachineBase extends BlockContainer {
 
 	/**
 	 * Derived class should override this method to ensure that BLOCK_FRONT is
-	 * set to an appropriate icon. Otherwise the thermalRecycler will have a side
-	 * texture for the front.
+	 * set to an appropriate icon. Otherwise the thermalRecycler will have a
+	 * side texture for the front.
 	 * 
 	 * @param iconRegister
 	 */

@@ -33,36 +33,38 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * This effect causes a specific item type to drop into the world.
- * Useful for named items or special one offs, like nether stars.
+ * This effect causes a specific item type to drop into the world. Useful for
+ * named items or special one offs, like nether stars.
  *
  */
 public class DropItemEffect extends UseEffect {
 
 	ItemStack stack;
 	int maxQuantity;
-	
+
 	public DropItemEffect(ItemStack stack) {
 		this(stack, 1);
 	}
-	
+
 	public DropItemEffect(ItemStack stack, int maxQuantity) {
 		this.stack = stack;
 		this.maxQuantity = maxQuantity;
 	}
-	
+
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
-		ItemStack result = new ItemStack(stack.getItem(), rand.nextInt(maxQuantity) + 1, scrap.getItemDamage());
+		ItemStack result = new ItemStack(stack.getItem(),
+				rand.nextInt(maxQuantity) + 1, scrap.getItemDamage());
 		spawnIntoWorld(result, world, player);
-		
-		if(result.getItem() == Items.nether_star)
+
+		if (result.getItem() == Items.nether_star)
 			player.addStat(AchievementManager.lottoWinner, 1);
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format("Drop Item [%s]", ItemStackHelper.resolveName(stack));
+		return String.format("Drop Item [%s]",
+				ItemStackHelper.resolveName(stack));
 	}
 
 }

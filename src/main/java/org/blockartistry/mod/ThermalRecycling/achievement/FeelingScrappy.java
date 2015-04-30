@@ -30,9 +30,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
 public class FeelingScrappy extends Achievement {
-	
+
 	public FeelingScrappy() {
-		super("feelingScrappy", "feelingScrappy", 0 /* x */, 0 /* y */, new ItemStack(BlockManager.thermalRecycler),
-				null);
+		super("feelingScrappy", "feelingScrappy", 0 /* x */, 0 /* y */,
+				new ItemStack(BlockManager.thermalRecycler), null);
 	}
 }

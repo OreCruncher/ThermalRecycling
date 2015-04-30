@@ -27,6 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 public interface IJobProgress {
 
 	int getPercentComplete();
-	
+
 	MachineStatus getStatus();
 }

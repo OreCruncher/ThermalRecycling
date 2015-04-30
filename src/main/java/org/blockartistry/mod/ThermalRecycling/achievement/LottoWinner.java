@@ -29,9 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
 public class LottoWinner extends Achievement {
-	
+
 	public LottoWinner() {
-		super("lottoWinner", "lottoWinner", -3/* x */, -2 /* y */, new ItemStack(Items.nether_star),
-				null);
+		super("lottoWinner", "lottoWinner", -3/* x */, -2 /* y */, new ItemStack(
+				Items.nether_star), null);
 	}
 }

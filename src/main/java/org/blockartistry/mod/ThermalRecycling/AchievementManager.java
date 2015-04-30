@@ -37,8 +37,8 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
 public final class AchievementManager extends AchievementPage {
-	
-	// Ordering is important.  Independent achievements first,
+
+	// Ordering is important. Independent achievements first,
 	// dependent achievements after.
 	//
 	// Don't forget to update registerAchievements so that the
@@ -46,37 +46,38 @@ public final class AchievementManager extends AchievementPage {
 	//
 	// Don't forget to update the AchievementManager CTOR so that
 	// the achievement will show on the proper page!
-	
+
 	public static final Achievement lottoWinner = new LottoWinner();
-	
+
 	public static final Achievement feelingScrappy = new FeelingScrappy();
 	public static final Achievement doingMyPart = new DoingMyPart();
 
 	protected static AchievementManager page;
-	
+
 	public static void registerAchievements() {
-		
+
 		lottoWinner.registerStat();
-		
+
 		feelingScrappy.registerStat();
 		doingMyPart.registerStat();
-		
+
 		page = new AchievementManager();
-		
+
 		// Register our instances
 		registerAchievementPage(page);
 		FMLCommonHandler.instance().bus().register(page);
-		
+
 	}
-	
+
 	public AchievementManager() {
 		super("Thermal Recycling", lottoWinner, feelingScrappy, doingMyPart);
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onItemCrafted(ItemCraftedEvent event) {
-		
-		if(event.crafting.isItemEqual(new ItemStack(BlockManager.thermalRecycler))) {
+
+		if (event.crafting.isItemEqual(new ItemStack(
+				BlockManager.thermalRecycler))) {
 			event.player.addStat(feelingScrappy, 1);
 		}
 	}

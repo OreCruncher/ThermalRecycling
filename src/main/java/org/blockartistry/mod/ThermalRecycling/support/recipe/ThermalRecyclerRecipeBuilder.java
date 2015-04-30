@@ -30,11 +30,13 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
 
 import com.google.common.base.Preconditions;
 
@@ -176,38 +178,101 @@ public class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 
+	public ThermalRecyclerRecipeBuilder useRecipe() {
+		useRecipe(this.input);
+		return this;
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(Block block) {
+		return useRecipe(new ItemStack(block));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(Block block, int quantity) {
+		return useRecipe(new ItemStack(block, quantity));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(Item item) {
+		return useRecipe(new ItemStack(item));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(Item item, int quantity) {
+		return useRecipe(new ItemStack(item, 1, quantity));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(String item) {
+		return useRecipe(ItemStackHelper.getItemStack(item));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(String item, int quantity) {
+		return useRecipe(ItemStackHelper.getItemStack(item, quantity));
+	}
+
+	public ThermalRecyclerRecipeBuilder useRecipe(ItemStack stack) {
+		this.input(stack);
+
+		try {
+			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
+			if (recipe != null)
+				for (ItemStack item : new RecipeDecomposition(recipe))
+					output.add(item);
+		}
+		catch(Exception e) {
+			;
+		}
+		
+		return this;
+	}
+
 	public void save() {
 
-		Preconditions.checkState(!output.isEmpty(),
-				"No output ItemStacks were specified");
+		if (output == null || output.isEmpty()|| input == null)
+		{
+			ModLog.warn("Parameters not correct for [%s]", ItemStackHelper.resolveName(input));
+			return;
+		}
+
 		Preconditions.checkState(input != null,
 				"Input ItemStack needs to be specified");
 
-		ItemStack[] temp = new ItemStack[output.size()];
-		ThermalRecyclerTables.addThermalRecyclerRecipe(input,
-				output.toArray(temp));
+		try {
 
-		if (ModOptions.getEnableRecipeLogging())
-			ModLog.info(toString());
+			int result = ThermalRecyclerTables.addThermalRecyclerRecipe(input,
+					output.toArray(new ItemStack[output.size()]));
+			
+			if (result == ThermalRecyclerTables.SUCCESS && ModOptions.getEnableRecipeLogging())
+				ModLog.info(toString());
+			
+		} catch (Exception e) {
+			;
+		}
 
 		reset();
 	}
 
 	@Override
 	public String toString() {
-		
+
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("Thermal Recycler [%dx %s] => [", input.stackSize, ItemStackHelper.resolveName(input)));
+		builder.append(String.format("Thermal Recycler [%dx %s] => [",
+				input.stackSize, ItemStackHelper.resolveName(input)));
 		boolean sawOne = false;
-		for(ItemStack stack: output) {
-			if(sawOne)
+		for (ItemStack stack : output) {
+			if (sawOne)
 				builder.append(", ");
 			else
 				sawOne = true;
-			builder.append(String.format("%dx %s", stack.stackSize, ItemStackHelper.resolveName(stack)));
+			builder.append(String.format("%dx %s", stack.stackSize,
+					ItemStackHelper.resolveName(stack)));
 		}
 		builder.append("]");
-		
-		return builder.toString(); 
+
+		return builder.toString();
 	}
+
+	public static void applyRecipeRange(String item, int begin, int end) {
+		ThermalRecyclerRecipeBuilder builder = new ThermalRecyclerRecipeBuilder();
+		for (ItemStack stack : new ItemStackRange(item, begin, end))
+			builder.useRecipe(stack).save();
+	}
+
 }

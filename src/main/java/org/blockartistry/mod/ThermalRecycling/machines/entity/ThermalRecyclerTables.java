@@ -30,7 +30,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.Tuple;
@@ -46,8 +45,14 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class ThermalRecyclerTables {
+	
+	public static final int SUCCESS = 0;
+	public static final int FAILURE = 1;
+	public static final int DUPLICATE = 2;
 
-	public static final ItemStack keep = new ItemStack(Blocks.dirt);
+	static final ItemStack keep = new ItemStack(Blocks.dirt);
+	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
+	
 	public static final ArrayList<WeightedRandomItemStack> unknownScrap = new ArrayList<WeightedRandomItemStack>();
 	public static final ArrayList<WeightedRandomItemStack> componentScrap = new ArrayList<WeightedRandomItemStack>();
 
@@ -56,6 +61,14 @@ public final class ThermalRecyclerTables {
 	static final ArrayList<ItemStack> thermalWhitelist = new ArrayList<ItemStack>();
 	static final Random rnd = new Random();
 	static boolean inited = false;
+
+	static boolean keepIt(ItemStack stack) {
+		return stack != null && stack.isItemEqual(keep);
+	}
+
+	static boolean dustIt(ItemStack stack) {
+		return stack != null && stack.isItemEqual(dust);
+	}
 
 	public static void initialize() {
 		if (inited)
@@ -76,15 +89,18 @@ public final class ThermalRecyclerTables {
 
 		// This table is for when a component of an item gets scrapped. Null
 		// means they get nuttin.
+		//
 		// A dirt block indicates they get back the original component.
-		componentScrap.add(new WeightedRandomItemStack(keep, 207));
+		// A cobble block means conver to dust
+		componentScrap.add(new WeightedRandomItemStack(keep, 100));
+		componentScrap.add(new WeightedRandomItemStack(dust, 100));
 		componentScrap.add(new WeightedRandomItemStack(null, 20));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 8));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 17));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 20));
 		componentScrap.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 25));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 30));
 	}
 
 	public static ItemStack pickStackFrom(
@@ -94,8 +110,10 @@ public final class ThermalRecyclerTables {
 		return ((WeightedRandomItemStack) item).getStack();
 	}
 
-	public static void addThermalRecyclerRecipe(ItemStack input,
+	public static int addThermalRecyclerRecipe(ItemStack input,
 			ItemStack[] output) {
+		
+		int retCode = DUPLICATE;
 
 		// See if we have an existing mapping
 		Tuple<ItemStack, ItemStack[]> result = _getResultStacks(input);
@@ -128,19 +146,16 @@ public final class ThermalRecyclerTables {
 			// We do this to compact the output set. Callers may have
 			// duplicate items in the recipe list because of how they
 			// handle recipes.
-			ItemStack[] consolidated = new ItemStack[workingSet.length];
+			workingSet = ItemStackHelper.compact(workingSet);
 
-			for (ItemStack stack : workingSet) {
-				boolean itAllFit = InventoryHelper.addItemStackToInventory(
-						consolidated, stack);
-				if (!itAllFit)
-					ModLog.warn("Unable to fit the entire stack into inventory!");
-			}
-
-			// Consolidated has already been cloned
 			addThermalRecyclerWhitelist(input.copy());
-			thermalRecipes.put(input.copy(), shrink(consolidated));
+			thermalRecipes
+					.put(input.copy(), ItemStackHelper.shrink(workingSet));
+			
+			retCode = SUCCESS;
 		}
+		
+		return retCode;
 	}
 
 	public static ItemStack[] getResultStacks(ItemStack stack) {
@@ -220,28 +235,13 @@ public final class ThermalRecyclerTables {
 		initialize();
 		return findWhitelistEntry(item) != null;
 	}
-
-	protected static ItemStack[] shrink(ItemStack[] list) {
-
-		// Quick check - if there is no null at the end there is nothing
-		// to shrink.
-		if (list[list.length - 1] != null)
-			return list;
-
-		// Find the first null in the array - that our termination. This
-		// shouldn't be infinite given the initial check in the method
-		int x;
-		for (x = 0; list[x] != null; x++)
-			;
-
-		// At this point x should be indexed at a null.
-		ItemStack[] result = new ItemStack[x];
-
-		// Copy them over
-		for (int i = 0; i < x; i++)
-			result[i] = list[i];
-
-		// Done!
-		return result;
+	
+	public static boolean isBlackListed(ItemStack stack) {
+		Item item = stack.getItem();
+		return Item.getItemFromBlock(Blocks.birch_stairs) == item || Item.getItemFromBlock(Blocks.jungle_stairs) == item
+				|| Item.getItemFromBlock(Blocks.oak_stairs) == item || Item.getItemFromBlock(Blocks.spruce_stairs) == item
+				|| Item.getItemFromBlock(Blocks.planks) == item || Item.getItemFromBlock(Blocks.wooden_slab) == item
+				|| Item.getItemFromBlock(Blocks.dark_oak_stairs) == item || Item.getItemFromBlock(Blocks.acacia_stairs) == item
+				|| Item.getItemFromBlock(Blocks.stone) == item;
 	}
 }

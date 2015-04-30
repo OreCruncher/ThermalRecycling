@@ -27,15 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
-
 public class ModBuildCraft extends ModPlugin {
-
-	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
 
 	public ModBuildCraft() {
 		super(SupportedMod.BUILDCRAFT);
@@ -230,5 +222,11 @@ public class ModBuildCraft extends ModPlugin {
 		furnace.setEnergy(600)
 				.appendSubtypeRange("BuildCraft|Transport:pipeWire", 0, 3, 4)
 				.output("nuggetIron", 4).save();
+		
+		// Thermal Recycling
+		recycler.useRecipe("BuildCraft|Factory:machineBlock").save();
+		recycler.useRecipe("BuildCraft|Silicon:zonePlan").save();
+		recycler.useRecipe("BuildCraft|Silicon:robot").save();
+		
 	}
 }

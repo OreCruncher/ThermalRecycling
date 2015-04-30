@@ -28,21 +28,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
 
 public class VanillaMinecraft extends ModPlugin {
 
 	static final String CONFIG_ENABLE_DIAMOND_RECIPIES = "Enable Diamond Recycling";
 	static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";
 	static final String CONFIG_QUANTITY_ROTTEN_FLESH_TO_LEATHER = "Quantity Rotten Flesh to Leather";
-
-	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-	ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
 
 	static boolean enableDiamondRecycle = true;
 	static boolean enableNetherStarRecycle = true;
@@ -205,27 +196,18 @@ public class VanillaMinecraft extends ModPlugin {
 				.output(Items.rotten_flesh).save();
 
 		// Add Thermal Recycler recipes
-		recycler.input(Blocks.piston).append("ingotIron")
-				.append(Blocks.planks, 3).append(Blocks.cobblestone, 4)
-				.append(Items.redstone).save();
-		recycler.input(Blocks.sticky_piston).append(Items.slime_ball)
-				.append("ingotIron").append(Blocks.planks, 3)
-				.append(Blocks.cobblestone, 4).append(Items.redstone).save();
-		recycler.input(Blocks.redstone_lamp).append(Items.redstone, 4)
-				.append(Blocks.glowstone).save();
-		recycler.input(Blocks.daylight_detector).append(Blocks.glass, 3)
-				.append(Items.quartz, 3).append(Blocks.wooden_slab, 3).save();
-		recycler.input(Items.brewing_stand).append(Blocks.cobblestone, 3)
-				.append(Items.blaze_rod, 2).save();
-		recycler.input(Items.repeater).append(Blocks.redstone_torch, 2)
-				.append(Items.redstone).append(Blocks.stone, 3).save();
-		recycler.input(Items.comparator).append(Blocks.redstone_torch, 3)
-				.append(Items.quartz).append(Blocks.stone, 3).save();
+		recycler.useRecipe(Blocks.piston).save();
+		recycler.useRecipe(Blocks.sticky_piston).save();
+		recycler.useRecipe(Blocks.redstone_lamp).save();
+		recycler.useRecipe(Blocks.daylight_detector).save();
+		recycler.useRecipe(Items.brewing_stand).save();
+		recycler.useRecipe(Items.repeater).save();
+		recycler.useRecipe(Items.comparator).save();
 
 		// Whitelist items for scrapping
 		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, true, Blocks.log,
 				Blocks.log2, Blocks.sapling, Blocks.cactus);
-		
+
 		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, false,
 				Items.wheat, Items.wheat_seeds, Items.reeds, Items.carrot,
 				Items.potato, Items.apple);
