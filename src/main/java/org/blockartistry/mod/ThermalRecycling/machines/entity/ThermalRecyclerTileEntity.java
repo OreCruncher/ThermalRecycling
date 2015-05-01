@@ -25,14 +25,13 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
@@ -88,7 +87,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public boolean isWhitelisted(ItemStack stack) {
-		return ThermalRecyclerTables.isThermalRecyclerWhitelisted(stack);
+		return ScrapingTables.canBeScrapped(stack);
 	}
 
 	// /////////////////////////////////////
@@ -376,7 +375,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (input == null)
 			return false;
 
-		int quantityRequired = ThermalRecyclerTables
+		int quantityRequired = ScrapingTables
 				.getMinimumQuantityToRecycle(input);
 		boolean result = (quantityRequired != -1)
 				&& quantityRequired <= input.stackSize;
@@ -417,7 +416,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			return true;
 
 		// Get how many items we need to snag off the stack
-		int quantityRequired = ThermalRecyclerTables
+		int quantityRequired = ScrapingTables
 				.getMinimumQuantityToRecycle(getStackInSlot(INPUT));
 		if (quantityRequired < 1)
 			return true;
@@ -429,13 +428,13 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Get the results of recycling. The stacks already
 		// have been cloned so they are safe to hold onto.
-		buffer = ThermalRecyclerTables.getResultStacks(justRecycled);
+		buffer = ScrapingTables.getResultStacks(justRecycled);
 
 		// If there isn't a recipe defined, generate some
-		// recycling scrap consolation prizes.
+		// recycling scrap consolation prizes.  The item is being
+		// scrapped directly.
 		if (buffer == null) {
-			ItemStack cupieDoll = ThermalRecyclerTables
-					.pickStackFrom(ThermalRecyclerTables.unknownScrap);
+			ItemStack cupieDoll = ScrapingTables.scrapItem(justRecycled, true);
 			if (cupieDoll != null)
 				buffer = new ItemStack[] { cupieDoll };
 		} else
@@ -443,25 +442,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();
-	}
-
-	protected ItemStack finalizeResultant(ItemStack stack) {
-		
-		if(stack == null)
-			return null;
-
-		ItemStack cupieDoll = ThermalRecyclerTables
-				.pickStackFrom(ThermalRecyclerTables.componentScrap);
-		
-		if(ThermalRecyclerTables.keepIt(cupieDoll))
-			return stack;
-		
-		if(ThermalRecyclerTables.dustIt(cupieDoll))
-			return ItemStackHelper.convertToDustIfPossible(stack);
-
-		int scrapValue = ScrappingValue.getValue(stack);
-
-		return scrapValue != ScrappingValue.NONE ? cupieDoll : null;
 	}
 
 	// Iterate through the output recipe items during things to scrap,
@@ -474,7 +454,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 			int count = in[i].stackSize;
 			for (int j = 0; j < count; j++) {
-				ItemStack stack = finalizeResultant(in[i].splitStack(1));
+				ItemStack stack = ScrapingTables.scrapItem(in[i].splitStack(1));
 				if(stack != null)
 					result.add(stack);
 			}

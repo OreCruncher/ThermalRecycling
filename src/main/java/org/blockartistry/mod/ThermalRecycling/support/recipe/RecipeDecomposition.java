@@ -19,6 +19,11 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public final class RecipeDecomposition implements Iterable<ItemStack> {
 
+	static final String[] classIgnoreList = new String[] {
+		"forestry.lepidopterology.MatingRecipe",
+		"cofh.thermaldynamics.util.crafting.RecipeCover"
+	};
+	
 	public class MyIterator<T> implements Iterator<T> {
 
 		ItemStack[] list;
@@ -47,6 +52,7 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	}
 
 	static Field teRecipeAccessor = null;
+	static Field forestryRecipeAccessor = null;
 
 	final IRecipe recipe;
 	ItemStack[] projection;
@@ -63,6 +69,14 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		return obj.getClass().getName().compareTo(name) == 0;
 	}
 
+	protected static boolean isClassIgnored(Object obj) {
+		
+		for(String s: classIgnoreList)
+			if(matchClassName(obj, s))
+				return true;
+		return false;
+	}
+	
 	public ItemStack[] project() {
 		if (projection != null)
 			return projection;
@@ -78,7 +92,9 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		} else if (matchClassName(recipe,
 				"cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper")) {
 			projection = projectTERecipe(recipe);
-		} else {
+		} else if(matchClassName(recipe, "forestry.core.utils.ShapedRecipeCustom")){
+			projection = projectForestryRecipe(recipe);
+		} else if(!isClassIgnored(recipe)){
 			ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
 		}
 
@@ -158,6 +174,35 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 				ShapedOreRecipe shaped = (ShapedOreRecipe) teRecipeAccessor
 						.get(recipe);
 				result = project(shaped);
+			} catch (Exception e) {
+			}
+
+		} catch (NoSuchFieldException e) {
+			;
+		} catch (SecurityException e) {
+			;
+		} catch (IllegalArgumentException e) {
+			;
+		}
+
+		return result;
+	}
+	
+	protected static ItemStack[] projectForestryRecipe(IRecipe recipe) {
+		
+		ItemStack[] result = null;
+		
+		try {
+
+			if (forestryRecipeAccessor == null) {
+				Field temp = recipe.getClass().getDeclaredField("ingredients");
+				temp.setAccessible(true);
+				forestryRecipeAccessor = temp;
+			}
+
+			try {
+				Object[] shaped = (Object[]) forestryRecipeAccessor.get(recipe);
+				result = projectForgeRecipeList(shaped);
 			} catch (Exception e) {
 			}
 

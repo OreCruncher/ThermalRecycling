@@ -222,11 +222,5 @@ public class ModBuildCraft extends ModPlugin {
 		furnace.setEnergy(600)
 				.appendSubtypeRange("BuildCraft|Transport:pipeWire", 0, 3, 4)
 				.output("nuggetIron", 4).save();
-		
-		// Thermal Recycling
-		recycler.useRecipe("BuildCraft|Factory:machineBlock").save();
-		recycler.useRecipe("BuildCraft|Silicon:zonePlan").save();
-		recycler.useRecipe("BuildCraft|Silicon:robot").save();
-		
 	}
 }

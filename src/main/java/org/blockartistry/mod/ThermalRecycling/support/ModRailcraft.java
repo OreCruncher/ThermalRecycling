@@ -26,8 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
-
 public class ModRailcraft extends ModPlugin {
 
 	public ModRailcraft() {
@@ -144,20 +142,5 @@ public class ModRailcraft extends ModPlugin {
 		// Metal posts and platforms
 		furnace.append("Railcraft:post:2").output("nuggetSteel", 1).save();
 		furnace.append("Railcraft:post:6").output("nuggetSteel", 5).save();
-
-		// Thermal Recycler
-		recycler.useRecipe("Railcraft:cart.bore").save();
-		recycler.useRecipe("Railcraft:borehead.diamond").save();
-		recycler.useRecipe("Railcraft:borehead.steel").save();
-		recycler.useRecipe("Railcraft:borehead.iron").save();
-		recycler.useRecipe("Railcraft:machine.gamma:9").save();
-		recycler.useRecipe("Railcraft:machine.alpha").save();
-		recycler.useRecipe("Railcraft:machine.alpha:2").save();
-		recycler.useRecipe("Railcraft:machine.epsilon");
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"Railcraft:machine.gamma", 0, 5);
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"Railcraft:machine.epsilon", 3, 4);
 	}
 }

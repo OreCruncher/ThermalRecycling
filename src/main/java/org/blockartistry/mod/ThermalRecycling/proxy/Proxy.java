@@ -24,6 +24,19 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
+import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.mod.ThermalRecycling.AchievementManager;
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
+import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -34,9 +47,66 @@ public class Proxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
+		
+		ItemManager.registerItems();
+		BlockManager.registerBlocks();
+		AchievementManager.registerAchievements();
+		ScrapingTables.initialize();
+		UseEffect.initialize();
+
+		new GuiHandler();
+
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
-	}
 
+		boolean doLogging = ModOptions.getEnableRecipeLogging();
+
+		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
+
+		for (SupportedMod mod : SupportedMod.values()) {
+
+			if (!mod.isLoaded()) {
+
+				ModLog.info("Mod [%s (%s)] not detected - skipping",
+						mod.getName(), mod.getModId());
+
+			} else {
+
+				// Get the plugin to process
+				ModPlugin plugin = mod.getPlugin();
+				if (plugin == null)
+					continue;
+
+				plugin.init(ThermalRecycling.config());
+
+				if (!ModOptions.getModProcessingEnabled(mod)) {
+
+					ModLog.info("Mod [%s (%s)] not enabled - skipping",
+							plugin.getName(), plugin.getModId());
+
+				} else {
+
+					if (doLogging) {
+						ModLog.info("");
+					}
+
+					ModLog.info("Loading recipes for [%s]", plugin.getName());
+
+					if (doLogging) {
+						ModLog.info(StringUtils.repeat('-', 64));
+					}
+
+					try {
+						plugin.apply();
+					} catch (Exception e) {
+
+						ModLog.warn("Error processing recipes!");
+						e.printStackTrace();
+
+					}
+				}
+			}
+		}
+	}
 }

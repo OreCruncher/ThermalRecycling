@@ -24,7 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModEnderIO extends ModPlugin {
 
@@ -34,6 +36,15 @@ public class ModEnderIO extends ModPlugin {
 
 	@Override
 	public void apply() {
+
+		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
+				ScrapValue.NONE, false, false);
+		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
+				ScrapValue.NONE, false, false);
+		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
+				ScrapValue.NONE, false, false);
+		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
+				ScrapValue.NONE, false, false);
 
 		// Armor and tools
 		smelter.append("EnderIO:item.darkSteel_helmet")
@@ -101,51 +112,52 @@ public class ModEnderIO extends ModPlugin {
 				.output("EnderIO:itemAlloy:2")
 				.secondaryOutput("EnderIO:itemAlloy:7", 2).save();
 
-		// Thermal Recycler
-		recycler.useRecipe("EnderIO:blockTransceiver").save();
-		recycler.useRecipe("EnderIO:blockEnchanter").save();
-		recycler.useRecipe("EnderIO:blockCombustionGenerator").save();
-		recycler.useRecipe("EnderIO:blockKillerJoe").save();
-		recycler.useRecipe("EnderIO:blockSagMill").save();
-		recycler.useRecipe("EnderIO:blockSoulBinder").save();
-		recycler.useRecipe("EnderIO:blockCrafter").save();
-		recycler.useRecipe("EnderIO:blockZombieGenerator").save();
-		recycler.useRecipe("EnderIO:blockWirelessCharger").save();
-		recycler.useRecipe("EnderIO:blockFarmStation").save();
-		recycler.useRecipe("EnderIO:blockAlloySmelter").save();
-		recycler.useRecipe("EnderIO:blockVacuumChest").save();
-		recycler.useRecipe("EnderIO:blockPainter").save();
-		recycler.useRecipe("EnderIO:blockEnderIo").save();
-		recycler.useRecipe("EnderIO:blockAttractor").save();
-		recycler.useRecipe("EnderIO:blockReinforcedObsidian").save();
-		recycler.useRecipe("EnderIO:blockVat").save();
-		recycler.useRecipe("EnderIO:blockExperienceObelisk").save();
-		recycler.useRecipe("EnderIO:blockSliceAndSplice").save();
-		recycler.useRecipe("EnderIO:blockSpawnGuard").save();
-		recycler.useRecipe("EnderIO:blockTravelAnchor").save();
-		recycler.useRecipe("EnderIO:blockPowerMonitor").save();
-		recycler.useRecipe("EnderIO:itemMachinePart").save();
-		recycler.useRecipe("EnderIO:itemMagnet:16").save();
-		recycler.useRecipe("EnderIO:itemConduitProbe").save();
-
-		ThermalRecyclerRecipeBuilder
-				.applyRecipeRange("EnderIO:blockTank", 0, 1);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"EnderIO:blockSolarPanel", 0, 1);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange("EnderIO:blockBuffer", 0,
-				2);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange("EnderIO:blockCapBank",
-				1, 3);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"EnderIO:itemConduitFacade", 0, 1);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"EnderIO:itemExtractSpeedUpgrade", 0, 1);
-
+		/*
+		 * // Thermal Recycler
+		 * recycler.useRecipe("EnderIO:blockTransceiver").save();
+		 * recycler.useRecipe("EnderIO:blockEnchanter").save();
+		 * recycler.useRecipe("EnderIO:blockCombustionGenerator").save();
+		 * recycler.useRecipe("EnderIO:blockKillerJoe").save();
+		 * recycler.useRecipe("EnderIO:blockSagMill").save();
+		 * recycler.useRecipe("EnderIO:blockSoulBinder").save();
+		 * recycler.useRecipe("EnderIO:blockCrafter").save();
+		 * recycler.useRecipe("EnderIO:blockZombieGenerator").save();
+		 * recycler.useRecipe("EnderIO:blockWirelessCharger").save();
+		 * recycler.useRecipe("EnderIO:blockFarmStation").save();
+		 * recycler.useRecipe("EnderIO:blockAlloySmelter").save();
+		 * recycler.useRecipe("EnderIO:blockVacuumChest").save();
+		 * recycler.useRecipe("EnderIO:blockPainter").save();
+		 * recycler.useRecipe("EnderIO:blockEnderIo").save();
+		 * recycler.useRecipe("EnderIO:blockAttractor").save();
+		 * recycler.useRecipe("EnderIO:blockReinforcedObsidian").save();
+		 * recycler.useRecipe("EnderIO:blockVat").save();
+		 * recycler.useRecipe("EnderIO:blockExperienceObelisk").save();
+		 * recycler.useRecipe("EnderIO:blockSliceAndSplice").save();
+		 * recycler.useRecipe("EnderIO:blockSpawnGuard").save();
+		 * recycler.useRecipe("EnderIO:blockTravelAnchor").save();
+		 * recycler.useRecipe("EnderIO:blockPowerMonitor").save();
+		 * recycler.useRecipe("EnderIO:itemMachinePart").save();
+		 * recycler.useRecipe("EnderIO:itemMagnet:16").save();
+		 * recycler.useRecipe("EnderIO:itemConduitProbe").save();
+		 * 
+		 * ThermalRecyclerRecipeBuilder .applyRecipeRange("EnderIO:blockTank",
+		 * 0, 1);
+		 * 
+		 * ThermalRecyclerRecipeBuilder.applyRecipeRange(
+		 * "EnderIO:blockSolarPanel", 0, 1);
+		 * 
+		 * ThermalRecyclerRecipeBuilder.applyRecipeRange("EnderIO:blockBuffer",
+		 * 0, 2);
+		 * 
+		 * ThermalRecyclerRecipeBuilder.applyRecipeRange("EnderIO:blockCapBank",
+		 * 1, 3);
+		 * 
+		 * ThermalRecyclerRecipeBuilder.applyRecipeRange(
+		 * "EnderIO:itemConduitFacade", 0, 1);
+		 * 
+		 * ThermalRecyclerRecipeBuilder.applyRecipeRange(
+		 * "EnderIO:itemExtractSpeedUpgrade", 0, 1);
+		 */
 	}
 
 }

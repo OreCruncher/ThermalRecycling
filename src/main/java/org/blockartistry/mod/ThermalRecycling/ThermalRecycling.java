@@ -24,14 +24,13 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import org.apache.commons.lang3.StringUtils;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import org.apache.logging.log4j.LogManager;
-import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
-import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
-import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
@@ -47,7 +46,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.3.0ALPHA";
+	public static final String VERSION = "0.3.1ALPHA";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -97,70 +96,34 @@ public final class ThermalRecycling {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
-		ItemManager.registerItems();
-		BlockManager.registerBlocks();
-		AchievementManager.registerAchievements();
-		ThermalRecyclerTables.initialize();
-		UseEffect.initialize();
-
-		new GuiHandler();
-
 		proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 
-		boolean doLogging = ModOptions.getEnableRecipeLogging();
-
-		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
-
-		for (SupportedMod mod : SupportedMod.values()) {
-
-			if (!mod.isLoaded()) {
-
-				ModLog.info("Mod [%s (%s)] not detected - skipping",
-						mod.getName(), mod.getModId());
-
-			} else {
-
-				// Get the plugin to process
-				ModPlugin plugin = mod.getPlugin();
-				if (plugin == null)
-					continue;
-
-				plugin.init(config);
-
-				if (!ModOptions.getModProcessingEnabled(mod)) {
-
-					ModLog.info("Mod [%s (%s)] not enabled - skipping",
-							plugin.getName(), plugin.getModId());
-
-				} else {
-
-					if (doLogging) {
-						ModLog.info("");
-					}
-
-					ModLog.info("Loading recipes for [%s]", plugin.getName());
-
-					if (doLogging) {
-						ModLog.info(StringUtils.repeat('-', 64));
-					}
-
-					try {
-						plugin.apply();
-					} catch (Exception e) {
-
-						ModLog.warn("Error processing recipes!");
-						e.printStackTrace();
-
-					}
-				}
-			}
-		}
-
-		config.save();
 		proxy.postInit(event);
+		config.save();
+		
+		if(ModOptions.getEnableRecipeLogging()) {
+			
+			BufferedWriter writer = null;
+			
+	        try {
+	            writer = new BufferedWriter(new FileWriter("test.log"));
+	            
+	            ItemInfo.writeDiagnostic(writer);
+	            ScrapingTables.writeDiagnostic(writer);
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                // Close the writer regardless of what happens...
+	                writer.close();
+	            } catch (Exception e) {
+	            }
+	        }
+		}
 	}
 }

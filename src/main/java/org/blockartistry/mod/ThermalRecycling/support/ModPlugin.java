@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
@@ -31,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBui
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -66,5 +69,15 @@ public abstract class ModPlugin {
 	}
 
 	public abstract void apply();
+	
+	protected static void registerRecipesToIgnore(String[] list) {
+		for(String s: list)
+			ItemInfo.setRecipeIgnored(ItemStackHelper.getItemStack(s), true);
+	}
+	
+	protected static void registerScrapValues(String[] list, ScrapValue value) {
+		for(String s: list)
+			ItemInfo.setValue(ItemStackHelper.getItemStack(s), value);
+	}
 
 }

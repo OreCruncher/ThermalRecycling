@@ -34,7 +34,8 @@ import net.minecraft.item.crafting.IRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
 
@@ -214,7 +215,8 @@ public class ThermalRecyclerRecipeBuilder {
 			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
 			if (recipe != null)
 				for (ItemStack item : new RecipeDecomposition(recipe))
-					output.add(item);
+					if(!ItemInfo.isScrubbedFromOutput(item))
+						output.add(item);
 		}
 		catch(Exception e) {
 			;
@@ -236,10 +238,10 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = ThermalRecyclerTables.addThermalRecyclerRecipe(input,
+			int result = ScrapingTables.addThermalRecyclerRecipe(input,
 					output.toArray(new ItemStack[output.size()]));
 			
-			if (result == ThermalRecyclerTables.SUCCESS && ModOptions.getEnableRecipeLogging())
+			if (result == ScrapingTables.SUCCESS && ModOptions.getEnableRecipeLogging())
 				ModLog.info(toString());
 			
 		} catch (Exception e) {

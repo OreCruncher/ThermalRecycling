@@ -28,9 +28,99 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModForestry extends ModPlugin {
+	
+	static final String[] recipeIgnoreList = new String[] {
+		"Forestry:log1",
+		"Forestry:log2",
+		"Forestry:log3",
+		"Forestry:log4",
+		"Forestry:log5",
+		"Forestry:log6",
+		"Forestry:log7",
+		"Forestry:log8",
+		"Forestry:fireproofLog1",
+		"Forestry:fireproofLog2",
+		"Forestry:fireproofLog3",
+		"Forestry:fireproofLog4",
+		"Forestry:fireproofLog5",
+		"Forestry:fireproofLog6",
+		"Forestry:fireproofLog7",
+		"Forestry:fireproofLog8",
+		"Forestry:planks",
+		"Forestry:planks2",
+		"Forestry:fireproofPlanks1",
+		"Forestry:fireproofPlanks2",
+		"Forestry:slabs1",
+		"Forestry:slabs2",
+		"Forestry:slabs3",
+		"Forestry:slabs4",
+		"Forestry:fences",
+		"Forestry:fences2",
+		"Forestry:stairs",
+		"Forestry:stamps",
+		"Forestry:letters",
+		"Forestry:crate",
+		"Forestry:waxCast",
+		"Forestry:apiculture",
+		"Forestry:arboriculture",
+		"Forestry:lepidopterology",
+		"Forestry:soil",
+	};
+	
+	static final String[] scrapValuesNone = new String[] {
+		"Forestry:waxCapsule",
+		"Forestry:refractoryEmpty",
+		"Forestry:beeDroneGE",
+		"Forestry:propolis",
+		"Forestry:sapling",
+		"Forestry:phosphor",
+		"Forestry:beeswax",
+		"Forestry:refractoryWax",
+		"Forestry:fruits",
+		"Forestry:honeyDrop",
+		"Forestry:honeydew",
+		"Forestry:royalJelly",
+		"Forestry:waxCast",
+		"Forestry:beeCombs",
+		"Forestry:woodPulp",
+		"Forestry:oakStick",
+		"Forestry:carton",
+		"Forestry:planks",
+		"Forestry:planks2",
+		"Forestry:fireproofPlanks1",
+		"Forestry:fireproofPlanks2",
+		"Forestry:slabs1",
+		"Forestry:slabs2",
+		"Forestry:slabs3",
+		"Forestry:slabs4",
+		"Forestry:fences",
+		"Forestry:fences2",
+		"Forestry:stairs",
+		"Forestry:stamps",
+		"Forestry:letters",
+		"Forestry:crate",
+		"Forestry:waxCast",
+		"Forestry:leaves",
+		"Forestry:stained",
+	};
+	
+	static final String[] scrapValuesPoor = new String[] {
+		"Forestry:beeLarvaeGE",
+		"Forestry:pollen",
+	};
+	
+	static final String[] scrapValuesStandard = new String[] {
+		"Forestry:butterflyGE",
+		"Forestry:beePrincessGE",
+		"Forestry:beeQueenGE",
+	};
+	
+	static final String[] scrapValuesSuperior = new String[] {
+	};
 
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);
@@ -38,7 +128,13 @@ public class ModForestry extends ModPlugin {
 
 	@Override
 	public void apply() {
-
+		
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
+		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
+		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
+		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
+		
 		// Machine casings
 		sawmill.append("Forestry:impregnatedCasing").output(Blocks.planks, 32)
 				.save();
@@ -46,13 +142,6 @@ public class ModForestry extends ModPlugin {
 				.save();
 		pulverizer.append("Forestry:hardenedMachine").output("ingotBronze", 8)
 				.secondaryOutput(Items.diamond, 4).save();
-
-		// Engines
-		pulverizer.append("Forestry:engine:1").secondaryOutput("ingotIron")
-				.output("ingotCopper", 11).save();
-		pulverizer.append("Forestry:engine:2").output("ingotBronze", 11).save();
-		pulverizer.append("Forestry:engine:3").output("ingotCopper", 4)
-				.secondaryOutput("ingotGold", 4).save();
 
 		// Tubes
 		ItemStack is = ItemStackHelper.getItemStack("Forestry:thermionicTubes",
@@ -73,8 +162,8 @@ public class ModForestry extends ModPlugin {
 				.secondaryOutput(Items.redstone).chance(20).save();
 		pulverizer.appendSubtype(is, 7).output(Items.blaze_powder)
 				.secondaryOutput(Items.redstone).chance(20).save();
-		pulverizer.appendSubtype(is, 8).output("itemRubber")
-				.secondaryOutput(Items.redstone).chance(20).save();
+//		pulverizer.appendSubtype(is, 8).output("itemRubber")
+	//			.secondaryOutput(Items.redstone).chance(20).save();
 		pulverizer.appendSubtype(is, 9).output(Items.emerald)
 				.secondaryOutput(Items.redstone).chance(20).save();
 		pulverizer.appendSubtype(is, 10).output("Forestry:apatite")

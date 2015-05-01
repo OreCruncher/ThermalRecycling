@@ -28,7 +28,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModMinefactoryReloaded extends ModPlugin {
@@ -39,7 +40,11 @@ public class ModMinefactoryReloaded extends ModPlugin {
 
 	@Override
 	public void apply() {
-
+		
+		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:plastic.raw"), ScrapValue.NONE, false, false);
+		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:plastic.sheet"), ScrapValue.NONE, false, false);
+		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:rubberwood.sapling"), ScrapValue.NONE, false, false);
+		
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer
 				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling",
@@ -107,26 +112,6 @@ public class ModMinefactoryReloaded extends ModPlugin {
 		pulverizer.append("MineFactoryReloaded:spyglass")
 				.output("ingotBronze", 2)
 				.secondaryOutput("MineFactoryReloaded:plastic.raw", 2).save();
-
-		// Recycler recipes
-
-		// Machines
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"MineFactoryReloaded:machine.0", 0, 5);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"MineFactoryReloaded:machine.0", 7, 9);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"MineFactoryReloaded:machine.0", 11, 15);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"MineFactoryReloaded:machine.1", 3, 15);
-
-		ThermalRecyclerRecipeBuilder.applyRecipeRange(
-				"MineFactoryReloaded:machine.2", 0, 12);
-
-		recycler.useRecipe("MineFactoryReloaded:rednet.logic").save();
 
 	}
 }

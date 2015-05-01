@@ -22,16 +22,17 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.data;
 
-public class ModThermalExpansion extends ModPlugin {
-
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
-	}
-
-	@Override
-	public void apply() {
-
+public enum ScrapValue {
+	
+	// ORDERING IS IMPORTANT!
+	NONE,
+	POOR,
+	STANDARD,
+	SUPERIOR;
+	
+	public static ScrapValue map(int value) {
+		return values()[value];
 	}
 }

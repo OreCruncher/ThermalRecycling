@@ -28,10 +28,6 @@ import cpw.mods.fml.common.Loader;
 
 public enum SupportedMod {
 
-	// This one has to be first!
-	THERMAL_RECYCLING("Thermal Recycling", "recycling",
-			ModThermalRecycling.class),
-
 	VANILLA("Minecraft", "vanilla", VanillaMinecraft.class),
 
 	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation",
@@ -57,7 +53,13 @@ public enum SupportedMod {
 	ADVANCED_GENERATORS("Advanced Generators", "advgenerators",
 			ModAdvancedGenerators.class),
 
-	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class);
+	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class),
+
+	// This is last. Reason is that the plugins have the first crack
+	// at recipes and setting up the necessary black list entries
+	// prior to the crafting manager recipe scan.
+	THERMAL_RECYCLING("Thermal Recycling", "recycling",
+			ModThermalRecycling.class);
 
 	private final String name;
 	private final String modId;

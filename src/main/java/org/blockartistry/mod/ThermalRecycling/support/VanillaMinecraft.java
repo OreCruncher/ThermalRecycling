@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTables;
 
 public class VanillaMinecraft extends ModPlugin {
 
@@ -194,30 +193,5 @@ public class VanillaMinecraft extends ModPlugin {
 
 		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
 				.output(Items.rotten_flesh).save();
-
-		// Add Thermal Recycler recipes
-		recycler.useRecipe(Blocks.piston).save();
-		recycler.useRecipe(Blocks.sticky_piston).save();
-		recycler.useRecipe(Blocks.redstone_lamp).save();
-		recycler.useRecipe(Blocks.daylight_detector).save();
-		recycler.useRecipe(Items.brewing_stand).save();
-		recycler.useRecipe(Items.repeater).save();
-		recycler.useRecipe(Items.comparator).save();
-
-		// Whitelist items for scrapping
-		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, true, Blocks.log,
-				Blocks.log2, Blocks.sapling, Blocks.cactus);
-
-		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, false,
-				Items.wheat, Items.wheat_seeds, Items.reeds, Items.carrot,
-				Items.potato, Items.apple);
-
-		ThermalRecyclerTables.addThermalRecyclerWhitelist(32, false,
-				Items.wheat, Items.wheat_seeds, Items.reeds, Items.carrot,
-				Items.potato, Items.apple);
-
-		ThermalRecyclerTables.addThermalRecyclerWhitelist(4, false,
-				Blocks.hay_block);
-
 	}
 }
