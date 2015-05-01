@@ -22,24 +22,41 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.items;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 
-/**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
- *
- */
-public final class BlockManager {
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+import cpw.mods.fml.common.registry.GameRegistry;
 
-	public static void registerBlocks() {
+public class ProcessingCore extends ItemBase {
 
-		thermalRecycler.register();
-		scrapAssessor.register();
+	public static final int DECOMPOSITION = 0;
+	
+	private static final String[] types = new String[] { "decomposition" };
+	
+	public ProcessingCore() {
+		super(types);
+		
+		setUnlocalizedName("ProcessingCore");
+		setMaxStackSize(1);
+	}
+	
+	@Override
+	public void register() {
+		super.register();
+
+		GameRegistry.addShapedRecipe(new ItemStack(
+				ItemManager.processingCore, 1),
+				" h ", "mMm", "tst",
+				'h', new ItemStack(Blocks.hopper),
+				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				't', ItemStackHelper.getItemStack("gearTin"),
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material") );
 	}
 }

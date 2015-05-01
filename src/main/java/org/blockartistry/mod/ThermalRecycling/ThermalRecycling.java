@@ -29,6 +29,7 @@ import java.io.FileWriter;
 
 import org.apache.logging.log4j.LogManager;
 import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
 
@@ -114,6 +115,7 @@ public final class ThermalRecycling {
 	            
 	            ItemInfo.writeDiagnostic(writer);
 	            ScrapingTables.writeDiagnostic(writer);
+	            RecipeData.writeDiagnostic(writer);
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();

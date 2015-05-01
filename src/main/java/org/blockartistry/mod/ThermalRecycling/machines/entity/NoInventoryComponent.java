@@ -125,4 +125,9 @@ public class NoInventoryComponent implements IMachineInventory {
 	@Override
 	public void dropInventory(World world, int x, int y, int z) {
 	}
+
+	@Override
+	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
+		return false;
+	}
 }

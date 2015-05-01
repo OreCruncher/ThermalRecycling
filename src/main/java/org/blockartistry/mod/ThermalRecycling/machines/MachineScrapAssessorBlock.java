@@ -22,24 +22,16 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.machines;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+import net.minecraft.block.Block;
 
-/**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
- *
- */
-public final class BlockManager {
+import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+public class MachineScrapAssessorBlock  extends MultiItemBlock {
 
-	public static void registerBlocks() {
+	public MachineScrapAssessorBlock(Block block) {
 
-		thermalRecycler.register();
-		scrapAssessor.register();
+		super(block);
 	}
 }

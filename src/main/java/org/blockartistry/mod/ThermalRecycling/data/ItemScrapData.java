@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 
-public class Data {
+public class ItemScrapData {
 	
 	Item item;
 	ScrapValue value;
@@ -35,11 +35,11 @@ public class Data {
 	boolean scrubFromOutput;
 	boolean isFood;
 
-	public Data(Item item) {
-		this(item, ScrapValue.POOR, false, false);
+	public ItemScrapData(Item item) {
+		this(item, ScrapValue.STANDARD, false, false);
 	}
 	
-	public Data(Item item, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
+	public ItemScrapData(Item item, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
 		this.item = item;
 		this.value = value;
 		this.ignoreRecipe = ignoreRecipe;
@@ -47,7 +47,7 @@ public class Data {
 		this.isFood = item instanceof ItemFood;
 	}
 	
-	public Data setValue(ScrapValue value) {
+	public ItemScrapData setValue(ScrapValue value) {
 		this.value = value;
 		return this;
 	}
@@ -56,7 +56,7 @@ public class Data {
 		return value;
 	}
 	
-	public Data setIgnoreRecipe(boolean flag) {
+	public ItemScrapData setIgnoreRecipe(boolean flag) {
 		this.ignoreRecipe = flag;
 		return this;
 	}
@@ -65,7 +65,7 @@ public class Data {
 		return ignoreRecipe;
 	}
 	
-	public Data setScrubFromOutput(boolean flag) {
+	public ItemScrapData setScrubFromOutput(boolean flag) {
 		this.scrubFromOutput = flag;
 		return this;
 	}

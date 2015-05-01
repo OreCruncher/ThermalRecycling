@@ -22,24 +22,32 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+import net.minecraft.entity.player.InventoryPlayer;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 
-/**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
- *
- */
-public final class BlockManager {
+public class ScrapAssessorTileEntity extends TileEntityBase {
 
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+	public static final int INPUT = 0;
+	public static final int[] DISPLAY_SLOTS = {1,2,3,4,5,6,7,8,9};
+	
+	public ScrapAssessorTileEntity() {
+		super(GuiIdentifier.SCRAP_ASSESSOR);
+		SidedInventoryComponent inv = new SidedInventoryComponent(this, 10);
+		inv.setInputRange(0, 1);
+		setMachineInventory(inv);
+	}
+	
+	@Override
+	public Object getGuiClient(InventoryPlayer inventory) {
+		return new ScrapAssessorGui(inventory, this);
+	}
 
-	public static void registerBlocks() {
-
-		thermalRecycler.register();
-		scrapAssessor.register();
+	@Override
+	public Object getGuiServer(InventoryPlayer inventory) {
+		return new ScrapAssessorContainer(inventory, this);
 	}
 }

@@ -24,34 +24,21 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.Tuple;
-
 import cofh.lib.util.WeightedRandomItemStack;
-import cofh.lib.util.helpers.InventoryHelper;
 import cofh.lib.util.helpers.ItemHelper;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
-import net.minecraftforge.oredict.OreDictionary;
 
 public final class ScrapingTables {
-
-	public static final int SUCCESS = 0;
-	public static final int FAILURE = 1;
-	public static final int DUPLICATE = 2;
 
 	static final ItemStack keep = new ItemStack(Blocks.dirt);
 	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
@@ -95,13 +82,13 @@ public final class ScrapingTables {
 		// The "NONE" scrap value. This is used when breaking a recipe down and
 		// this item is one of the components.
 		ArrayList<WeightedRandomItemStack> t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(null, 50));
-		t.add(new WeightedRandomItemStack(keep, 40));
-		t.add(new WeightedRandomItemStack(dust, 40));
+		t.add(new WeightedRandomItemStack(null, 480));
+		t.add(new WeightedRandomItemStack(keep, 80));
+		t.add(new WeightedRandomItemStack(dust, 80));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 5));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 144));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 20));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 16));
 		componentScrap.add(t);
 
 		// The "NONE" must scrap table. No scrap to be had.
@@ -111,72 +98,70 @@ public final class ScrapingTables {
 
 		// The "POOR" scrap table.
 		t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(keep, 175));
-		t.add(new WeightedRandomItemStack(dust, 175));
-		t.add(new WeightedRandomItemStack(null, 250));
+		t.add(new WeightedRandomItemStack(null, 480));
+		t.add(new WeightedRandomItemStack(keep, 80));
+		t.add(new WeightedRandomItemStack(dust, 80));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 1));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 120));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 25));
-		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 60));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 40));
 		componentScrap.add(t);
 
 		// The "POOR" scrap MUST table.
 		t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(null, 250));
+		t.add(new WeightedRandomItemStack(null, 480));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 10));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 198));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 30));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 120));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 60));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 2));
 		componentScrap.add(t);
 
 		// The "STANDARD" scrap table
 		t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(keep, 175));
-		t.add(new WeightedRandomItemStack(dust, 175));
-		t.add(new WeightedRandomItemStack(null, 75));
+		t.add(new WeightedRandomItemStack(null, 220));
+		t.add(new WeightedRandomItemStack(keep, 185));
+		t.add(new WeightedRandomItemStack(dust, 185));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 2));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 105));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 38));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 85));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 89));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 20));
 		componentScrap.add(t);
 
 		// The "STANDARD" scrap MUST table
 		t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(null, 75));
+		t.add(new WeightedRandomItemStack(null, 200));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 20));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 75));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 60));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 200));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 20));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 75));
 		componentScrap.add(t);
 
 		// The "SUPERIOR" scrap table
 		t = new ArrayList<WeightedRandomItemStack>();
-		t.add(new WeightedRandomItemStack(keep, 175));
-		t.add(new WeightedRandomItemStack(dust, 175));
+		t.add(new WeightedRandomItemStack(keep, 185));
+		t.add(new WeightedRandomItemStack(dust, 185));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 2));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 75));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 60));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 115));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 89));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 140));
 		componentScrap.add(t);
 
 		// The "SUPERIOR" scrap MUST table
 		t = new ArrayList<WeightedRandomItemStack>();
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 60));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 15));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 30));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 75));
 		t.add(new WeightedRandomItemStack(new ItemStack(
-				ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), 10));
+				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 200));
 		componentScrap.add(t);
 	}
 
@@ -218,7 +203,7 @@ public final class ScrapingTables {
 				|| ItemHelper.isOre(stack))
 			return false;
 
-		return !isThermalRecyclerBlacklisted(stack);
+		return !RecipeData.isBlackList(stack);
 	}
 
 	protected static ItemStack pickStackFrom(
@@ -228,137 +213,6 @@ public final class ScrapingTables {
 		return ((WeightedRandomItemStack) item).getStack();
 	}
 
-	public static int addThermalRecyclerRecipe(ItemStack input,
-			ItemStack[] output) {
-
-		int retCode = DUPLICATE;
-
-		// See if we have an existing mapping
-		Tuple<ItemStack, ItemStack[]> result = _getResultStacks(input);
-
-		// If we don't, or the mapping that exists is a wild card and the
-		// incoming
-		// recipe is specific, we want to add to the dictionary. The dictionary
-		// will prefer specific recipes over wild cards if possible.
-		if (result == null
-				|| (result.x.getItemDamage() == OreDictionary.WILDCARD_VALUE && input
-						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
-
-			// Clone the inventory - don't want to work with the originals
-			ItemStack[] workingSet = InventoryHelper.cloneInventory(output);
-
-			// Traverse the list replacing WILDCARD stacks with concrete ones.
-			// The logic prefers Thermal Foundation equivalents if found.
-			for (int i = 0; i < workingSet.length; i++) {
-
-				if (workingSet[i].getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-					String oreName = ItemHelper.getOreName(workingSet[i]);
-
-					if (oreName != null) {
-						workingSet[i] = ItemStackHelper.getItemStack(oreName,
-								workingSet[i].stackSize);
-					}
-				}
-			}
-
-			// We do this to compact the output set. Callers may have
-			// duplicate items in the recipe list because of how they
-			// handle recipes.
-			workingSet = ItemStackHelper.compact(workingSet);
-
-			thermalRecipes
-					.put(input.copy(), ItemStackHelper.shrink(workingSet));
-
-			retCode = SUCCESS;
-		}
-
-		return retCode;
-	}
-
-	public static ItemStack[] getResultStacks(ItemStack stack) {
-		Tuple<ItemStack, ItemStack[]> result = _getResultStacks(stack);
-		return result == null || result.y == null ? null : InventoryHelper
-				.cloneInventory(result.y);
-	}
-
-	public static Tuple<ItemStack, ItemStack[]> _getResultStacks(ItemStack stack) {
-
-		Tuple<ItemStack, ItemStack[]> fuzzyMatch = null;
-
-		for (Entry<ItemStack, ItemStack[]> e : thermalRecipes.entrySet()) {
-
-			if (ItemHelper.itemsEqualWithMetadata(stack, e.getKey())) {
-				return new Tuple<ItemStack, ItemStack[]>(e);
-			} else if (e.getKey().getItemDamage() == OreDictionary.WILDCARD_VALUE
-					&& ItemHelper.itemsEqualWithoutMetadata(stack, e.getKey())) {
-				fuzzyMatch = new Tuple<ItemStack, ItemStack[]>(e);
-			}
-		}
-
-		return fuzzyMatch;
-	}
-
-	public static void addThermalRecyclerBlacklist(int quantity,
-			boolean wildcard, Block... blocks) {
-
-		for (Block b : blocks)
-			addThermalRecyclerBlacklist(new ItemStack(b, quantity,
-					wildcard ? OreDictionary.WILDCARD_VALUE : 0));
-	}
-
-	public static void addThermalRecyclerBlacklist(int quantity,
-			boolean wildcard, Item... items) {
-
-		for (Item i : items)
-			addThermalRecyclerBlacklist(new ItemStack(i, quantity,
-					wildcard ? OreDictionary.WILDCARD_VALUE : 0));
-	}
-
-	public static void addThermalRecyclerBlacklist(ItemStack item) {
-
-		if (!isThermalRecyclerBlacklisted(item))
-			thermalBlacklist.add(item.copy());
-	}
-
-	protected static ItemStack findBlacklistEntry(ItemStack item) {
-
-		for (ItemStack stack : thermalBlacklist) {
-			// Highly specific match?
-			if (ItemHelper.itemsEqualWithMetadata(item, stack))
-				return stack;
-			// Wildcard match?
-			if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE
-					&& ItemHelper.itemsEqualWithoutMetadata(item, stack))
-				return stack;
-		}
-
-		return null;
-	}
-
-	public static int getMinimumQuantityToRecycle(ItemStack item) {
-
-		initialize();
-
-		// If we don't have a recipe assume 1
-		int result = 1;
-
-		for (ItemStack stack : thermalRecipes.keySet()) {
-			if (ItemHelper.itemsEqualWithMetadata(item, stack)
-					|| (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE && ItemHelper
-							.itemsEqualWithoutMetadata(item, stack))) {
-				result = stack.stackSize;
-				break;
-			}
-		}
-
-		return result;
-	}
-
-	public static boolean isThermalRecyclerBlacklisted(ItemStack item) {
-		initialize();
-		return findBlacklistEntry(item) != null;
-	}
-	
 	public static void writeDiagnostic(Writer writer) throws Exception {
 		
 		writer.write("Scrapping Tables:\n");

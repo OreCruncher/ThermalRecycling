@@ -35,7 +35,7 @@ import net.minecraft.item.crafting.IRecipe;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
 
@@ -209,19 +209,24 @@ public class ThermalRecyclerRecipeBuilder {
 	}
 
 	public ThermalRecyclerRecipeBuilder useRecipe(ItemStack stack) {
-		this.input(stack);
 
 		try {
 			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
-			if (recipe != null)
-				for (ItemStack item : new RecipeDecomposition(recipe))
-					if(!ItemInfo.isScrubbedFromOutput(item))
-						output.add(item);
+			useRecipe(new RecipeDecomposition(recipe));
 		}
 		catch(Exception e) {
 			;
 		}
 		
+		return this;
+	}
+	
+	public ThermalRecyclerRecipeBuilder useRecipe(RecipeDecomposition recipe) {
+		if (recipe != null)
+			this.input = recipe.getInput();
+			for (ItemStack item : recipe)
+				if(!ItemInfo.isScrubbedFromOutput(item))
+					output.add(item);
 		return this;
 	}
 
@@ -238,10 +243,10 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = ScrapingTables.addThermalRecyclerRecipe(input,
+			int result = RecipeData.put(input,
 					output.toArray(new ItemStack[output.size()]));
 			
-			if (result == ScrapingTables.SUCCESS && ModOptions.getEnableRecipeLogging())
+			if (result == RecipeData.SUCCESS && ModOptions.getEnableRecipeLogging())
 				ModLog.info(toString());
 			
 		} catch (Exception e) {

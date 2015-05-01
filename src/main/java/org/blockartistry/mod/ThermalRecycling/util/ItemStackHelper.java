@@ -602,6 +602,13 @@ public final class ItemStackHelper {
 		return consolidated;
 	}
 
+	public static ItemStack[] castToItemStack(Object[] list) {
+		ItemStack[] result = new ItemStack[list.length];
+		for(int i = 0; i < result.length; i++)
+			result[i] = (ItemStack)list[i];
+		return result;
+	}
+	
 	public static ItemStack[] shrink(ItemStack[] list) {
 
 		// Quick check - if there is no null at the end there is nothing

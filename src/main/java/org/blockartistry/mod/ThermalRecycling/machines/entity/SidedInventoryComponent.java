@@ -121,6 +121,12 @@ public class SidedInventoryComponent implements IMachineInventory {
 		return this;
 	}
 
+	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
+		
+		return stack != null && inventory[slot] != null && stack.isItemEqual(inventory[slot])
+			&& ItemStack.areItemStackTagsEqual(stack, inventory[slot]);
+	}
+	
 	@Override
 	public int getSizeInventory() {
 		return inventory.length;
@@ -165,11 +171,6 @@ public class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 
-		boolean isSameItemStackAlreadyInSlot = stack != null
-				&& inventory[index] != null
-				&& stack.isItemEqual(inventory[index])
-				&& ItemStack.areItemStackTagsEqual(stack, inventory[index]);
-
 		inventory[index] = stack;
 
 		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
@@ -177,7 +178,7 @@ public class SidedInventoryComponent implements IMachineInventory {
 		}
 
 		// if input slot reset progress
-		if (isInputSlot(index) && !isSameItemStackAlreadyInSlot) {
+		if (isInputSlot(index) && !isStackAlreadyInSlot(index, stack)) {
 			markDirty();
 		}
 	}

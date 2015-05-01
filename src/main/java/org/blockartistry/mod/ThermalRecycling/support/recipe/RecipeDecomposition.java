@@ -56,11 +56,23 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 
 	final IRecipe recipe;
 	ItemStack[] projection;
+	ItemStack inputStack;
 
+	public RecipeDecomposition(ItemStack input, Object... output) {
+		inputStack = input;
+		recipe = null;
+		projection = projectForgeRecipeList(output);
+		scrubProjection();
+	}
+	
 	public RecipeDecomposition(IRecipe recipe) {
 		this.recipe = recipe;
 	}
 
+	public ItemStack getInput() {
+		return inputStack != null ? inputStack.copy() : recipe.getRecipeOutput().copy();
+	}
+	
 	public ItemStack getOutput() {
 		return recipe.getRecipeOutput().copy();
 	}
@@ -75,6 +87,20 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 			if(matchClassName(obj, s))
 				return true;
 		return false;
+	}
+	
+	protected void scrubProjection() {
+		
+		if (projection != null) {
+			// Scan for wildcards and set to 0
+			for (ItemStack stack : projection)
+				if (stack != null
+						&& stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+					stack.setItemDamage(0);
+			// Do final scrub on the list
+			projection = ItemStackHelper.shrink(ItemStackHelper
+					.compact(projection));
+		}
 	}
 	
 	public ItemStack[] project() {
@@ -98,19 +124,8 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 			ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
 		}
 
-		if (projection != null) {
-			// Scan for wildcards and set to 0
-			for (ItemStack stack : projection)
-				if (stack != null
-						&& stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-					stack.setItemDamage(0);
-			// Do final scrub on the list
-			projection = ItemStackHelper.shrink(ItemStackHelper
-					.compact(projection));
-		} else
-			ModLog.info("Unable to generate recipe for [%s]",
-					ItemStackHelper.resolveName(recipe.getRecipeOutput()));
-
+		scrubProjection();
+		
 		return projection;
 	}
 

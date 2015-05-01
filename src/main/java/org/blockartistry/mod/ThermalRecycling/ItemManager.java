@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 
@@ -36,11 +37,13 @@ public final class ItemManager {
 
 	public static final RecyclingScrap recyclingScrap = new RecyclingScrap();
 	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
+	public static final ProcessingCore processingCore = new ProcessingCore();
 
 	public static void registerItems() {
 
 		recyclingScrap.register();
 		recyclingScrapBox.register();
+		processingCore.register();
 	}
 
 }

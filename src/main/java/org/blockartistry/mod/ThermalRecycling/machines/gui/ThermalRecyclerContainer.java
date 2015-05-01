@@ -74,7 +74,7 @@ public class ThermalRecyclerContainer extends Container {
 		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT,
 				56, 34);
 		addSlotToContainer(s);
-
+		
 		for (int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
 
 			int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
@@ -85,6 +85,9 @@ public class ThermalRecyclerContainer extends Container {
 			s = new SlotRemoveOnly(entity, oSlot, h, v);
 			addSlotToContainer(s);
 		}
+
+		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.AUGMENT, 33, 34);
+		addSlotToContainer(s);
 
 		// Add the player inventory
 		for (int i = 0; i < 27; ++i) {

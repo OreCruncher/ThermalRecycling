@@ -22,24 +22,36 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.util.ResourceLocation;
 
-/**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
- *
- */
-public final class BlockManager {
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+import cofh.lib.gui.GuiBase;
 
-	public static void registerBlocks() {
+public class ScrapAssessorGui extends GuiBase {
 
-		thermalRecycler.register();
-		scrapAssessor.register();
+	TileEntityBase tileEntity;
+
+	public ScrapAssessorGui(InventoryPlayer playerInventory, IInventory entity) {
+		super(new ScrapAssessorContainer(playerInventory, entity),
+				new ResourceLocation(ThermalRecycling.MOD_ID,
+						"textures/scrapassessor_gui.png"));
+
+		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
+
+		name = "Scrap Assessor";
+		tileEntity = (ScrapAssessorTileEntity) entity;
+	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
 	}
 }

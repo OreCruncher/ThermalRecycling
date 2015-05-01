@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 
@@ -49,14 +48,14 @@ import net.minecraft.item.ItemStack;
  */
 public final class ItemInfo {
 	
-	static HashMap<Item, Data> itemData = null;
+	static HashMap<Item, ItemScrapData> itemData = null;
 	
 	static void initialize()
 	{
 		if(itemData != null)
 			return;
 		
-		itemData = new HashMap<Item, Data>();
+		itemData = new HashMap<Item, ItemScrapData>();
 
 		// Items
 		put(Items.dye, ScrapValue.NONE, true, false);
@@ -67,6 +66,7 @@ public final class ItemInfo {
 		put(Items.bread, ScrapValue.NONE, true, true);
 		put(Items.wheat, ScrapValue.NONE, true, false);
 		put(Items.apple, ScrapValue.NONE, true, true);
+		put(Items.reeds, ScrapValue.NONE, true, true);
 		put(Items.egg, ScrapValue.NONE, true, true);
 		put(Items.cake, ScrapValue.POOR, true, true);
 		put(Items.carrot_on_a_stick, ScrapValue.POOR, true, false);
@@ -103,8 +103,10 @@ public final class ItemInfo {
 		put(Items.wooden_pickaxe, ScrapValue.NONE, true, true);
 		put(Items.wooden_shovel, ScrapValue.NONE, true, true);
 		put(Items.wooden_sword, ScrapValue.NONE, true, true);
+		put(Items.wooden_door, ScrapValue.NONE, false, false);
 		put(Items.lava_bucket, ScrapValue.STANDARD, true, true);
 		put(Items.water_bucket, ScrapValue.STANDARD, true, true);
+		put(Items.nether_wart, ScrapValue.NONE, true, false);
 		
 		// Blocks
 		put(Blocks.acacia_stairs, ScrapValue.NONE, true, false);
@@ -115,14 +117,18 @@ public final class ItemInfo {
 		put(Blocks.oak_stairs, ScrapValue.NONE, true, false);
 		put(Blocks.brick_stairs, ScrapValue.NONE, true, false);
 		put(Blocks.wooden_slab, ScrapValue.NONE, true, false);
+		put(Blocks.double_wooden_slab, ScrapValue.NONE, true, false);
 		put(Blocks.cobblestone, ScrapValue.NONE, true, false);
 		put(Blocks.cobblestone_wall, ScrapValue.NONE, true, false);
+		put(Blocks.stone_slab, ScrapValue.NONE, true, false);
+		put(Blocks.double_stone_slab, ScrapValue.NONE, true, false);
 		put(Blocks.dark_oak_stairs, ScrapValue.NONE, true, false);
 		put(Blocks.dirt, ScrapValue.NONE, true, false);
 		put(Blocks.mossy_cobblestone, ScrapValue.NONE, true, false);
 		put(Blocks.planks, ScrapValue.NONE, true, false);
 		put(Blocks.fence, ScrapValue.NONE, true, false);
 		put(Blocks.fence_gate, ScrapValue.NONE, true, false);
+		put(Blocks.wooden_button, ScrapValue.NONE, true, false);
 		put(Blocks.stone, ScrapValue.NONE, true, false);
 		put(Blocks.stone_brick_stairs, ScrapValue.NONE, true, false);
 		put(Blocks.stone_button, ScrapValue.NONE, true, true);
@@ -142,11 +148,14 @@ public final class ItemInfo {
 		put(Blocks.sand, ScrapValue.NONE, true, false);
 		put(Blocks.gravel, ScrapValue.NONE, true, false);
 		put(Blocks.sandstone, ScrapValue.NONE, true, false);
+		put(Blocks.sandstone_stairs, ScrapValue.NONE, true, false);
+		put(Blocks.soul_sand, ScrapValue.NONE, true, false);
 		put(Blocks.sapling, ScrapValue.NONE, true, true);
 		put(Blocks.leaves, ScrapValue.NONE, true, true);
 		put(Blocks.leaves2, ScrapValue.NONE, true, true);
 		put(Blocks.lever, ScrapValue.NONE, true, false);
 		put(Blocks.wool, ScrapValue.POOR, true, false);
+		put(Blocks.mycelium, ScrapValue.NONE, true, false);
 	}
 
 	public static ScrapValue getValue(Item item) {
@@ -180,46 +189,46 @@ public final class ItemInfo {
 		setValue(stack.getItem(), value);
 	}
 	
-	public static Data get(Item item) {
+	public static ItemScrapData get(Item item) {
 		initialize();
 		Preconditions.checkNotNull(item);
-		Data result = itemData.get(item);
+		ItemScrapData result = itemData.get(item);
 		if(result == null)
-			result = new Data(item);
+			result = new ItemScrapData(item);
 		return result;
 	}
 	
-	public static Data get(Block block) {
+	public static ItemScrapData get(Block block) {
 		Preconditions.checkNotNull(block);
 		return get(Item.getItemFromBlock(block));
 	}
 	
-	public static Data get(ItemStack stack) {
+	public static ItemScrapData get(ItemStack stack) {
 		Preconditions.checkNotNull(stack);
 		return get(stack.getItem());
 	}
 	
-	public static void put(Data data) {
+	public static void put(ItemScrapData data) {
 		initialize();
 		Preconditions.checkNotNull(data);
 		Preconditions.checkNotNull(data.item);
 		itemData.put(data.item, data);
 	}
 
-	public static Data put(Item item, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(Item item, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
 		Preconditions.checkNotNull(item);
-		Data data = get(item);
+		ItemScrapData data = get(item);
 		data.setValue(value).setIgnoreRecipe(ignoreRecipe).setScrubFromOutput(scrubFromOutput);
 		put(data);
 		return data;
 	}
 
-	public static Data put(Block block, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(Block block, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
 		Preconditions.checkNotNull(block);
 		return put(Item.getItemFromBlock(block), value, ignoreRecipe, scrubFromOutput);
 	}
 
-	public static Data put(ItemStack stack, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(ItemStack stack, ScrapValue value, boolean ignoreRecipe, boolean scrubFromOutput) {
 		Preconditions.checkNotNull(stack);
 		return put(stack.getItem(), value, ignoreRecipe, scrubFromOutput);
 	}
@@ -230,7 +239,7 @@ public final class ItemInfo {
 	
 	public static boolean isRecipeIgnored(Item item) {
 		initialize();
-		Data data = get(item);
+		ItemScrapData data = get(item);
 		return data.getIgnoreRecipe() || data.isFood();
 	}
 	
@@ -260,7 +269,7 @@ public final class ItemInfo {
 	public static boolean isScrubbedFromOutput(Item item) {
 		initialize();
 		Preconditions.checkNotNull(item);
-		Data data = get(item);
+		ItemScrapData data = get(item);
 		return data.isScrubbedFromOutput() || data.isFood();
 	}
 	
@@ -293,7 +302,7 @@ public final class ItemInfo {
 		
 		writer.write("Item Info:\n");
 		writer.write("=================================================================\n");
-		for(Data d: itemData.values())
+		for(ItemScrapData d: itemData.values())
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}

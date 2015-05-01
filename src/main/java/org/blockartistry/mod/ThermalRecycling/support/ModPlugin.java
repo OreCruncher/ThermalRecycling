@@ -35,6 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilde
 import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 public abstract class ModPlugin {
@@ -71,8 +72,11 @@ public abstract class ModPlugin {
 	public abstract void apply();
 	
 	protected static void registerRecipesToIgnore(String[] list) {
-		for(String s: list)
-			ItemInfo.setRecipeIgnored(ItemStackHelper.getItemStack(s), true);
+		for(String s: list) {
+			ItemStack stack = ItemStackHelper.getItemStack(s);
+			if(stack != null)
+				ItemInfo.setRecipeIgnored(stack, true);
+		}
 	}
 	
 	protected static void registerScrapValues(String[] list, ScrapValue value) {

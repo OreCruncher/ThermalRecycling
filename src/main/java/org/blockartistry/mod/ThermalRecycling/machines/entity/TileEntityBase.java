@@ -24,7 +24,10 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -36,6 +39,11 @@ public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory {
 
 	protected IMachineInventory inventory = new NoInventoryComponent();
+	protected GuiIdentifier myGui;
+	
+	public TileEntityBase(GuiIdentifier gui) {
+		myGui = gui;
+	}
 
 	protected void setMachineInventory(IMachineInventory inv) {
 		inventory = inv;
@@ -68,7 +76,11 @@ public abstract class TileEntityBase extends TileEntity implements
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int side, float a, float b, float c) {
 
-		return false;
+		if (!world.isRemote) {
+			player.openGui(ThermalRecycling.MOD_ID, myGui.ordinal(), world, x, y, z);
+		}
+
+		return true;
 	}
 
 	public Object getGuiClient(InventoryPlayer inventory) {
@@ -184,5 +196,10 @@ public abstract class TileEntityBase extends TileEntity implements
 	@Override
 	public boolean addStackToOutput(ItemStack stack) {
 		return inventory.addStackToOutput(stack);
+	}
+	
+	@Override
+	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
+		return inventory.isStackAlreadyInSlot(slot, stack);
 	}
 }

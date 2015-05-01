@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -60,17 +58,13 @@ public abstract class MachineBase extends BlockContainer {
 
 	public final String[] names;
 	public final String myUnlocalizedName;
-	public final int myGuidId;
 
 	protected int facing;
-
-	protected GuiHandler myGuiHandler;
 
 	public MachineBase(String name) {
 		super(Material.iron);
 
 		myUnlocalizedName = name;
-		myGuidId = name.hashCode();
 		names = new String[1];
 		names[0] = name;
 

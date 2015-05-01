@@ -22,24 +22,11 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
+public enum GuiIdentifier {
+	
+	THERMAL_RECYCLER,
+	SCRAP_ASSESSOR;
 
-/**
- * Contains references to all Blocks in the mod as well as logic for
- * registration.
- *
- */
-public final class BlockManager {
-
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
-
-	public static void registerBlocks() {
-
-		thermalRecycler.register();
-		scrapAssessor.register();
-	}
 }

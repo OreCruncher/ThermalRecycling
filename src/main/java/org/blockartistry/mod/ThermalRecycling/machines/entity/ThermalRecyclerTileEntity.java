@@ -26,8 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
@@ -35,7 +37,6 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +44,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ThermalRecyclerTileEntity extends TileEntityBase implements
@@ -57,6 +57,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	// Slot geometry for the thermalRecycler
 	public static final int INPUT = 0;
+	public static final int AUGMENT = 10;
 	public static final int[] INPUT_SLOTS = { INPUT };
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -64,7 +65,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// Internal buffer for funneling results into output grid. This is
 	// in the case of when the output grid gets filled and there is no
 	// more room to toss stuff.
-	protected ItemStack[] buffer = new ItemStack[OUTPUT_SLOTS.length];
+	protected ItemStack[] buffer;
 
 	// Entity state that needs to be serialized
 	protected int energy = 0;
@@ -80,7 +81,8 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected MachineStatus status = MachineStatus.IDLE;
 
 	public ThermalRecyclerTileEntity() {
-		SidedInventoryComponent inv = new SidedInventoryComponent(this, 10);
+		super(GuiIdentifier.THERMAL_RECYCLER);
+		SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
 		inv.setInputRange(0, 1).setOutputRange(1, 9);
 		setMachineInventory(inv);
 	}
@@ -278,16 +280,18 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float a, float b, float c) {
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		if (!world.isRemote) {
-			player.openGui(ThermalRecycling.MOD_ID, 0, world, x, y, z);
-		}
-
-		return true;
+		if(slot == AUGMENT && stack.getItem() == ItemManager.processingCore)
+			return true;
+		return super.isItemValidForSlot(slot, stack);
 	}
-
+	
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack) {
+		super.setInventorySlotContents(index, stack);
+	}
+	
 	@Override
 	public Object getGuiClient(InventoryPlayer inventory) {
 		return new ThermalRecyclerGui(inventory, this);
@@ -375,8 +379,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (input == null)
 			return false;
 
-		int quantityRequired = ScrapingTables
-				.getMinimumQuantityToRecycle(input);
+		int quantityRequired = RecipeData.getMinimumQuantityToRecycle(input);
 		boolean result = (quantityRequired != -1)
 				&& quantityRequired <= input.stackSize;
 
@@ -408,15 +411,16 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		return isEmpty;
 	}
+	
+	protected boolean isDecompAugmentInstalled() {
+		ItemStack augment = getStackInSlot(AUGMENT);
+		return augment != null && augment.getItem() == ItemManager.processingCore;
+	}
 
 	protected boolean recycleItem() {
 
-		// Sanity check...
-		if (!hasItemToRecycle())
-			return true;
-
 		// Get how many items we need to snag off the stack
-		int quantityRequired = ScrapingTables
+		int quantityRequired = RecipeData
 				.getMinimumQuantityToRecycle(getStackInSlot(INPUT));
 		if (quantityRequired < 1)
 			return true;
@@ -426,9 +430,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// inventory slots when count goes to 0.
 		ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
 
-		// Get the results of recycling. The stacks already
-		// have been cloned so they are safe to hold onto.
-		buffer = ScrapingTables.getResultStacks(justRecycled);
+		// If we have a decomp augment installed we use the stored
+		// recipe.  Otherwise we go to straight out scrap.
+		if(isDecompAugmentInstalled())
+			buffer = RecipeData.getRecipe(justRecycled);
 
 		// If there isn't a recipe defined, generate some
 		// recycling scrap consolation prizes.  The item is being
