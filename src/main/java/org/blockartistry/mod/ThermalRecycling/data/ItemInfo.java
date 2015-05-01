@@ -75,6 +75,7 @@ public final class ItemInfo {
 		put(Items.diamond, ScrapValue.SUPERIOR, true, false);
 		put(Items.emerald, ScrapValue.SUPERIOR, true, false);
 		put(Items.nether_star, ScrapValue.SUPERIOR, true, false);
+		put(Items.ender_pearl, ScrapValue.STANDARD, true, false);
 		put(Items.ender_eye, ScrapValue.STANDARD, true, false);
 		put(Items.fermented_spider_eye, ScrapValue.NONE, true, false);
 		put(Items.flint_and_steel, ScrapValue.NONE, true, false);
@@ -107,6 +108,11 @@ public final class ItemInfo {
 		put(Items.lava_bucket, ScrapValue.STANDARD, true, true);
 		put(Items.water_bucket, ScrapValue.STANDARD, true, true);
 		put(Items.nether_wart, ScrapValue.NONE, true, false);
+		put(Items.snowball, ScrapValue.NONE, true, true);
+		put(Items.paper, ScrapValue.NONE, true, true);
+		put(Items.painting, ScrapValue.NONE, true, false);
+		put(Items.book, ScrapValue.NONE, false, false);
+		put(Items.item_frame, ScrapValue.NONE, true, false);
 		
 		// Blocks
 		put(Blocks.acacia_stairs, ScrapValue.NONE, true, false);
@@ -156,6 +162,10 @@ public final class ItemInfo {
 		put(Blocks.lever, ScrapValue.NONE, true, false);
 		put(Blocks.wool, ScrapValue.POOR, true, false);
 		put(Blocks.mycelium, ScrapValue.NONE, true, false);
+		put(Blocks.snow, ScrapValue.NONE, true, true);
+		put(Blocks.snow_layer, ScrapValue.NONE, true, true);
+		put(Blocks.ice, ScrapValue.NONE, true, true);
+		put(Blocks.bookshelf, ScrapValue.NONE, false, false);
 	}
 
 	public static ScrapValue getValue(Item item) {

@@ -80,6 +80,7 @@ public class MachineThermalRecycler extends MachineBase {
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
 				'G', "gearCopper", 'R', ItemStackHelper
 						.getItemStack("ThermalExpansion:material:1"));
+
 		GameRegistry.addRecipe(recipe);
 	}
 }

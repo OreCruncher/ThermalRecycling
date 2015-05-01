@@ -9,9 +9,11 @@ item.RecyclingScrapBox.standard.name=Box of Scrap
 item.RecyclingScrapBox.standard.desc=Doesn't look too bad
 item.RecyclingScrapBox.superior.name=Box of Superior Scrap
 item.RecyclingScrapBox.superior.desc=Surely a box of wonder...
+item.ProcessingCore.decomposition.name=Core: Decomposition
 
 tile.Test.item1.name=Test Block (WIP)
 tile.MachineThermalRecycler.name=Thermal Recycler
+tile.MachineScrapAssessor.name=Scrap Assessor
 
 # Machine Status
 msg.MachineStatus.idle=Idle

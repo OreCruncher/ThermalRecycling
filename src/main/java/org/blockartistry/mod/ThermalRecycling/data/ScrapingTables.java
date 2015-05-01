@@ -32,10 +32,14 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import cofh.lib.util.WeightedRandomItemStack;
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.WeightedRandom;
 
 public final class ScrapingTables {
@@ -165,6 +169,51 @@ public final class ScrapingTables {
 		componentScrap.add(t);
 	}
 
+	protected static ArrayList<WeightedRandomItemStack> getTable(ItemStack stack, boolean mustScrap) {
+		
+		// What's this item worth. We adjust based on whether the
+		// item needs to be turned into scrap so we get the right
+		// table.
+		int scrappingValue = ItemInfo.get(stack).getScrapValue().ordinal() * 2;
+		if (mustScrap)
+			scrappingValue++;
+
+		return componentScrap.get(scrappingValue);
+	}
+	
+	public static ItemStack[] getScrapPossibilities(ItemStack stack) {
+		
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		ArrayList<WeightedRandomItemStack> t = getTable(stack, true);
+		
+		int totalWeight = 0;
+		for(WeightedRandomItemStack w: t)
+			totalWeight += w.itemWeight;
+		
+		for(WeightedRandomItemStack w: t) {
+			ItemStack temp = w.getStack();
+			if(temp != null) {
+				double percent = (double)(w.itemWeight * 100F) / (double)totalWeight;
+				
+				NBTTagCompound nbt = temp.getTagCompound();
+				if (nbt == null)
+					nbt = new NBTTagCompound();
+
+				NBTTagList lore = new NBTTagList();
+				lore.appendTag(new NBTTagString(String.format("%-1.2f%% chance", percent)));
+				NBTTagCompound display = new NBTTagCompound();
+				display.setTag("Lore", lore);
+
+				nbt.setTag("display", display);
+				temp.setTagCompound(nbt);
+
+				result.add(temp);
+			}
+		}
+		
+		return result.toArray(new ItemStack[result.size()]);
+	}
+	
 	public static ItemStack scrapItem(ItemStack stack) {
 		return scrapItem(stack, false);
 	}
@@ -174,16 +223,7 @@ public final class ScrapingTables {
 		if (stack == null)
 			return null;
 
-		// What's this item worth. We adjust based on whether the
-		// item needs to be turned into scrap so we get the right
-		// table.
-		int scrappingValue = ItemInfo.get(stack).getScrapValue().ordinal() * 2;
-		if (mustScrap)
-			scrappingValue++;
-
-		ArrayList<WeightedRandomItemStack> t = componentScrap
-				.get(scrappingValue);
-
+		ArrayList<WeightedRandomItemStack> t = getTable(stack, mustScrap);
 		ItemStack cupieDoll = pickStackFrom(t);
 
 		// Post process and return

@@ -51,7 +51,7 @@ public class ProcessingCore extends ItemBase {
 		super.register();
 
 		GameRegistry.addShapedRecipe(new ItemStack(
-				ItemManager.processingCore, 1),
+				ItemManager.processingCore, 1, 0),
 				" h ", "mMm", "tst",
 				'h', new ItemStack(Blocks.hopper),
 				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),

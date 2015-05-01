@@ -111,7 +111,7 @@ public final class ThermalRecycling {
 			BufferedWriter writer = null;
 			
 	        try {
-	            writer = new BufferedWriter(new FileWriter("test.log"));
+	            writer = new BufferedWriter(new FileWriter("ThermalRecycling.log"));
 	            
 	            ItemInfo.writeDiagnostic(writer);
 	            ScrapingTables.writeDiagnostic(writer);

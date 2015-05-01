@@ -41,9 +41,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ThermalRecyclerTileEntity extends TileEntityBase implements
@@ -122,21 +119,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		}
 
 		return true;
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		// Initializing to a base state from the server
-		readFromNBT(pkt.func_148857_g());
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		// Sends out the base state to clients
-		NBTTagCompound syncData = new NBTTagCompound();
-		writeToNBT(syncData);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
-				this.zCoord, 1, syncData);
 	}
 
 	public int getProgress() {

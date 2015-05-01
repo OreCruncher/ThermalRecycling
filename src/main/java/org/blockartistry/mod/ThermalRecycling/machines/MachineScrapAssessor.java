@@ -25,9 +25,16 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,23 +65,14 @@ public class MachineScrapAssessor extends MachineBase {
 		GameRegistry.registerTileEntity(ScrapAssessorTileEntity.class,
 				"scrapAssessorTileEntity");
 
-		/*
-		ShapedOreRecipe recipe = new ShapedOreRecipe(
-				BlockManager.thermalRecycler,
-				"PSP",
-				"BMB",
-				"GRG",
-				'P',
-				Blocks.piston,
-				'S',
-				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"),
-				'B',
-				ItemStackHelper
-						.getItemStack("ThermalExpansion:tool.battleWrenchInvar"),
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
-				'G', "gearCopper", 'R', ItemStackHelper
-						.getItemStack("ThermalExpansion:material:1"));
+		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+				BlockManager.scrapAssessor, 1, 0), " m ", "cMc", "tst", 'c',
+				new ItemStack(Blocks.crafting_table), 'm',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter"), 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame"), 't',
+				"gearTin", 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material"));
+
 		GameRegistry.addRecipe(recipe);
-		*/
 	}
 }

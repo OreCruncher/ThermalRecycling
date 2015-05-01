@@ -31,6 +31,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 
 import cofh.lib.gui.slot.SlotAcceptValid;
@@ -60,6 +61,9 @@ public class ScrapAssessorContainer extends Container {
 			s = new SlotLocked(entity, oSlot, h, v);
 			addSlotToContainer(s);
 		}
+
+		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.AUGMENT, 33, 34);
+		addSlotToContainer(s);
 
 		// Add the player inventory
 		for (int i = 0; i < 27; ++i) {

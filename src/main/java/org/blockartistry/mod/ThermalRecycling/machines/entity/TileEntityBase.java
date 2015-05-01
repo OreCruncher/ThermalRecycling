@@ -32,6 +32,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -43,6 +46,21 @@ public abstract class TileEntityBase extends TileEntity implements
 	
 	public TileEntityBase(GuiIdentifier gui) {
 		myGui = gui;
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		// Initializing to a base state from the server
+		readFromNBT(pkt.func_148857_g());
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		// Sends out the base state to clients
+		NBTTagCompound syncData = new NBTTagCompound();
+		writeToNBT(syncData);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
+				this.zCoord, 1, syncData);
 	}
 
 	protected void setMachineInventory(IMachineInventory inv) {

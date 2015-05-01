@@ -54,7 +54,8 @@ public class ModForestry extends ModPlugin {
 			"Forestry:letters", "Forestry:crate", "Forestry:waxCast",
 			"Forestry:apiculture", "Forestry:arboriculture",
 			"Forestry:lepidopterology", "Forestry:soil",
-			"Forestry:honeyedSlice", "Forestry:beeCombs", };
+			"Forestry:honeyedSlice", "Forestry:beeCombs",
+			"Forestry:apatite"};
 
 	static final String[] scrapValuesNone = new String[] {
 			"Forestry:waxCapsule", "Forestry:refractoryEmpty",
@@ -71,7 +72,7 @@ public class ModForestry extends ModPlugin {
 			"Forestry:leaves", "Forestry:stained", };
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Forestry:beeLarvaeGE", "Forestry:pollen", };
+			"Forestry:beeLarvaeGE", "Forestry:pollen", "Forestry:apatite", };
 
 	static final String[] scrapValuesStandard = new String[] {
 			"Forestry:butterflyGE", "Forestry:beePrincessGE",
