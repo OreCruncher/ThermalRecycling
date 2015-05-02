@@ -29,6 +29,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
@@ -90,4 +91,57 @@ public class ScrapAssessorContainer extends Container {
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
 	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
+
+		ItemStack stack = null;
+		Slot slot = (Slot) inventorySlots.get(slotIndex);
+
+		// null checks and checks if the item can be stacked (maxStackSize > 1)
+		if (slot != null && slot.getHasStack()) {
+
+			ItemStack stackInSlot = slot.getStack();
+			stack = stackInSlot.copy();
+
+			// If the slot is INPUT or one of the OUTPUTs, move the contents
+			// to the player inventory
+			if (slotIndex < 11) {
+
+				if (!mergeItemStack(stackInSlot, sizeInventory,
+						sizeInventory + 36, false)) {
+					return null;
+				}
+
+				slot.onSlotChange(stackInSlot, stack);
+
+			} else if (entity.isItemValidForSlot(
+					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
+
+				// Try moving to the input slot
+				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
+					return null;
+				}
+
+				slot.onSlotChange(stackInSlot, stack);
+			}
+
+			// Cleanup the stack
+			if (stackInSlot.stackSize == 0) {
+				slot.putStack(null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			// Nothing changed
+			if (stackInSlot.stackSize == stack.stackSize) {
+				return null;
+			}
+
+			slot.onPickupFromSlot(playerIn, stackInSlot);
+		}
+
+		return stack;
+	}
+
 }

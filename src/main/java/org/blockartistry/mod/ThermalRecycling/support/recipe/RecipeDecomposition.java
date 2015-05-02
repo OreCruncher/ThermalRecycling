@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,9 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 
 	static final String[] classIgnoreList = new String[] {
 		"forestry.lepidopterology.MatingRecipe",
-		"cofh.thermaldynamics.util.crafting.RecipeCover"
+		"cofh.thermaldynamics.util.crafting.RecipeCover",
+		"mods.railcraft.common.carts.LocomotivePaintingRecipe",
+		"mods.railcraft.common.emblems.EmblemPostColorRecipe"
 	};
 	
 	public class MyIterator<T> implements Iterator<T> {
@@ -92,13 +95,20 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	protected void scrubProjection() {
 		
 		if (projection != null) {
-			// Scan for wildcards and set to 0
-			for (ItemStack stack : projection)
-				if (stack != null
-						&& stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-					stack.setItemDamage(0);
+			// Scan for the list looking for wildcards as well
+			// as those items that match the input.  Sometimes
+			// an author will make a cyclic recipe.
+			for(int i = 0; i < projection.length; i++) {
+				ItemStack stack = projection[i];
+				if(stack != null)
+					if(ItemHelper.itemsEqualWithMetadata(stack, inputStack))
+						projection[i] = null;
+					else if (stack != null && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+						stack.setItemDamage(0);
+			}
+			
 			// Do final scrub on the list
-			projection = ItemStackHelper.shrink(ItemStackHelper
+			projection = MyUtils.compress(ItemStackHelper
 					.compact(projection));
 		}
 	}

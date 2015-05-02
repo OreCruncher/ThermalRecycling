@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.base.Preconditions;
 
@@ -132,8 +133,14 @@ public class RecipeData {
 	}
 	
 	public static ItemStack[] getRecipe(ItemStack input) {
+		ItemStack[] result = null;
 		RecipeData data = get(input);
-		return data == null ? null : InventoryHelper.cloneInventory(data.getOutput());
+		if(data != null) {
+			result = data.getOutput();
+			if(result != null)
+				result = InventoryHelper.cloneInventory(result);
+		}
+		return result;
 	}
 	
 	public static int put(ItemStack input, ItemStack[] output) {
@@ -150,30 +157,36 @@ public class RecipeData {
 		if (result == null
 				|| (result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
 						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
+			
+			ItemStack[] workingSet = null;
+			ItemStack stack = input.copy();
+			
+			if(output != null && output.length > 0) {
 
-			// Clone the inventory - don't want to work with the originals
-			ItemStack[] workingSet = InventoryHelper.cloneInventory(output);
-
-			// Traverse the list replacing WILDCARD stacks with concrete ones.
-			// The logic prefers Thermal Foundation equivalents if found.
-			for (int i = 0; i < workingSet.length; i++) {
-
-				if (workingSet[i].getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-					String oreName = ItemHelper.getOreName(workingSet[i]);
-
-					if (oreName != null) {
-						workingSet[i] = ItemStackHelper.getItemStack(oreName,
-								workingSet[i].stackSize);
+				// Clone the inventory - don't want to work with the originals
+				workingSet = InventoryHelper.cloneInventory(output);
+	
+				// Traverse the list replacing WILDCARD stacks with concrete ones.
+				// The logic prefers Thermal Foundation equivalents if found.
+				for (int i = 0; i < workingSet.length; i++) {
+	
+					if (workingSet[i].getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+						String oreName = ItemHelper.getOreName(workingSet[i]);
+	
+						if (oreName != null) {
+							workingSet[i] = ItemStackHelper.getItemStack(oreName,
+									workingSet[i].stackSize);
+						}
 					}
 				}
+	
+				// We do this to compact the output set. Callers may have
+				// duplicate items in the recipe list because of how they
+				// handle recipes.
+				workingSet = MyUtils.compress(ItemStackHelper.compact(workingSet));
 			}
-
-			// We do this to compact the output set. Callers may have
-			// duplicate items in the recipe list because of how they
-			// handle recipes.
-			ItemStack cpy = input.copy();
-			workingSet = ItemStackHelper.compact(workingSet);
-			recipes.put(cpy, new RecipeData(cpy, ItemStackHelper.shrink(workingSet)));
+			
+			recipes.put(stack, new RecipeData(stack, workingSet));
 
 			retCode = SUCCESS;
 		}

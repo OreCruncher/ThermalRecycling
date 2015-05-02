@@ -24,16 +24,84 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ModRailcraft extends ModPlugin {
+
+	static final String[] recipeIgnoreList = new String[] {
+			"Railcraft:fluid.creosote.bottle", "Railcraft:stair",
+			"Railcraft:slab", "Railcraft:wall.alpha", "Railcraft:glass",
+			"Railcraft:brick.infernal", "Railcraft:brick.abyssal",
+			"Railcraft:brick.sandy", "Railcraft:brick.frostbound",
+			"Railcraft:brick.quarried", "Railcraft:brick.bleachedbone",
+			"Railcraft:brick.bloodstained", "Railcraft:brick.nether",
+			"Railcraft:post.metal", "Railcraft:post.metal.platform", };
+
+	static final String[] scrapValuesNone = new String[] {
+			"Railcraft:fluid.creosote.bottle", "Railcraft:stair",
+			"Railcraft:slab", "Railcraft:wall.alpha", "Railcraft:glass",
+			"Railcraft:brick.infernal", "Railcraft:brick.abyssal",
+			"Railcraft:brick.sandy", "Railcraft:brick.frostbound",
+			"Railcraft:brick.quarried", "Railcraft:brick.bleachedbone",
+			"Railcraft:brick.bloodstained", "Railcraft:brick.nether",
+			"Railcraft:fluid.steam.bottle", "Railcraft:lantern.stone", };
+
+	static final String[] scrapValuesPoor = new String[] {
+			"Railcraft:post.metal", "Railcraft:post.metal.platform", };
+
+	static final String[] scrapValuesStandard = new String[] {};
+
+	static final String[] scrapValuesSuperior = new String[] { "Railcraft:firestone.raw", };
 
 	public ModRailcraft() {
 		super(SupportedMod.RAILCRAFT);
 	}
 
+	protected void blacklistRecipe(String name) {
+		ItemStack stack = ItemStackHelper.getItemStack(name);
+		stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
+		RecipeData.put(stack, null);
+	}
+
 	@Override
 	public void apply() {
+
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
+		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
+		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
+		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
+
+		ItemScrapData data = ItemInfo.get(ItemStackHelper
+				.getItemStack("Railcraft:fluid.creosote.bottle"));
+		data.setIgnoreRecipe(true).setIgnoreRecipe(true);
+		ItemInfo.put(data);
+
+		// Add back in some common sense recipes that were excluded above
+		recycler.input("Railcraft:machine.beta", 8)
+				.append("Railcraft:part.plate", 4).save();
+		recycler.input("Railcraft:machine.beta:1", 8)
+				.append("Railcraft:part.plate", 4).save();
+		recycler.input("Railcraft:machine.beta:2", 8)
+				.append("Railcraft:part.plate", 4).append(Blocks.iron_bars, 4)
+				.append(Blocks.lever).save();
+
+		recycler.input("Railcraft:machine.beta:13", 8)
+				.append("Railcraft:part.plate:1", 4).save();
+		recycler.input("Railcraft:machine.beta:14", 8)
+				.append("Railcraft:part.plate:1", 4).save();
+		recycler.input("Railcraft:machine.beta:15", 8)
+				.append("Railcraft:part.plate:1", 4)
+				.append(Blocks.iron_bars, 4).append(Blocks.lever).save();
 
 		blast.append("Railcraft:part.plate:1").output("ingotSteel").save();
 

@@ -171,6 +171,12 @@ public class ThermalRecyclerRecipeBuilder {
 		return input(ItemStackHelper.getItemStack(item));
 	}
 
+	public ThermalRecyclerRecipeBuilder input(String name, int quantity) {
+		Preconditions.checkNotNull(name, "Input ItemStack cannot be null");
+
+		return input(ItemStackHelper.getItemStack(name, quantity));
+	}
+
 	public ThermalRecyclerRecipeBuilder input(ItemStack in) {
 
 		Preconditions.checkNotNull(in, "Input ItemStack cannot be null");

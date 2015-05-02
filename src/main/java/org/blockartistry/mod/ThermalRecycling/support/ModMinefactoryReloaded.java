@@ -25,14 +25,47 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
 import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModMinefactoryReloaded extends ModPlugin {
+
+	static final String[] recipeIgnoreList = new String[] {
+		"MineFactoryReloaded:sugarcharcoal",
+		"MineFactoryReloaded:fertilizer",
+		"MineFactoryReloaded:ceramicdye",
+		"MineFactoryReloaded:stainedglass.block",
+		"MineFactoryReloaded:stainedglass.pane",
+		"MineFactoryReloaded:rubberwood.log",
+		"MineFactoryReloaded:rubberwood.leaves",
+		"MineFactoryReloaded:rubberwood.sapling",
+		"MineFactoryReloaded:milkbottle"
+	};
+	
+	static final String[] scrapValuesNone = new String[] {
+		"MineFactoryReloaded:sugarcharcoal",
+		"MineFactoryReloaded:fertilizer",
+		"MineFactoryReloaded:ceramicdye",
+		"MineFactoryReloaded:stainedglass.block",
+		"MineFactoryReloaded:stainedglass.pane",
+		"MineFactoryReloaded:plastic.cup",
+		"MineFactoryReloaded:plastic.raw",
+		"MineFactoryReloaded:plastic.sheet",
+		"MineFactoryReloaded:rubberwood.sapling",
+		"MineFactoryReloaded:plastic.boots",
+		"MineFactoryReloaded:rubber.raw",
+		"MineFactoryReloaded:rubber.bar",
+		"MineFactoryReloaded:vinescaffold",
+		"MineFactoryReloaded:milkbottle"
+	};
+	
+	static final String[] scrapValuesPoor = new String[] {};
+	
+	static final String[] scrapValuesStandard = new String[] {};
+
+	static final String[] scrapValuesSuperior = new String[] {};
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);
@@ -40,78 +73,20 @@ public class ModMinefactoryReloaded extends ModPlugin {
 
 	@Override
 	public void apply() {
+
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
+		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
+		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
+		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
 		
-		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:plastic.raw"), ScrapValue.NONE, false, false);
-		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:plastic.sheet"), ScrapValue.NONE, false, false);
-		ItemInfo.put(ItemStackHelper.getItemStack("MineFactoryReloaded:rubberwood.sapling"), ScrapValue.NONE, false, false);
+		ItemScrapData data = ItemInfo.get(ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle"));
+		data.setScrubFromOutput(true);
+		ItemInfo.put(data);
 		
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer
 				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling",
 						0, 2, 8).output(Blocks.dirt).save();
-
-		// Range upgrades
-		ItemStack is = ItemStackHelper.getItemStack(
-				"MineFactoryReloaded:upgrade.radius", 1);
-		pulverizer.append(is).output("minecraft:dye:4", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 1).output("ingotTin", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 2).output("ingotIron", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 3).output("ingotCopper", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 4).output("ingotBronze", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 5).output("ingotSilver", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 6).output("ingotGold", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 7).output(Items.quartz, 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 8).output(Items.diamond, 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 9).output("ingotPlatinum", 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 10).output(Items.emerald, 3)
-				.secondaryOutput("nuggetGold").save();
-		pulverizer.appendSubtype(is, 11).output(Blocks.cobblestone, 3)
-				.secondaryOutput("nuggetGold").save();
-
-		// Laser Focii
-		pulverizer.appendSubtypeRange("MineFactoryReloaded:laserfocus", 0, 15)
-				.output(Items.emerald, 4).secondaryOutput("nuggetGold", 4)
-				.save();
-
-		// Syringe
-		furnace.reset()
-				.append("MineFactoryReloaded:syringe.empty",
-						"MineFactoryReloaded:syringe.zombie",
-						"MineFactoryReloaded:syringe.cure",
-						"MineFactoryReloaded:syringe.growth",
-						"MineFactoryReloaded:syringe.slime",
-						"MineFactoryReloaded:syringe.health")
-				.output("ingotIron").save();
-
-		// Plastic
-		pulverizer.append("MineFactoryReloaded:plastic.sheet")
-				.output("MineFactoryReloaded:plastic.raw").save();
-		pulverizer.append("MineFactoryReloaded:xpextractor")
-				.output("MineFactoryReloaded:plastic.raw", 5).save();
-		pulverizer
-				.append("MineFactoryReloaded:straw",
-						"MineFactoryReloaded:plastic.boots")
-				.output("MineFactoryReloaded:plastic.raw", 4).save();
-		pulverizer.append("MineFactoryReloaded:record.blank")
-				.output("MineFactoryReloaded:plastic.raw", 8).save();
-
-		// Misc
-		pulverizer.append("MineFactoryReloaded:needlegun.ammo.empty")
-				.output("MineFactoryReloaded:plastic.raw")
-				.secondaryOutput("nuggetIron", 2).save();
-		pulverizer.append("MineFactoryReloaded:spyglass")
-				.output("ingotBronze", 2)
-				.secondaryOutput("MineFactoryReloaded:plastic.raw", 2).save();
-
 	}
 }

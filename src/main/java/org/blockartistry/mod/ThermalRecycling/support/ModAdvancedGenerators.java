@@ -36,6 +36,7 @@ public class ModAdvancedGenerators extends ModPlugin {
 	@Override
 	public void apply() {
 
+		/*
 		// Parts
 		pulverizer.setEnergy(400)
 				.append("advgenerators:IronTubing", "advgenerators:IronWiring")
@@ -94,5 +95,6 @@ public class ModAdvancedGenerators extends ModPlugin {
 				.save();
 		pulverizer.append("advgenerators:RFOutput").output("ingotIron", 14)
 				.secondaryOutput("ingotGold").save();
+				*/
 	}
 }

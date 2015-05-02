@@ -28,7 +28,7 @@ import cpw.mods.fml.common.Loader;
 
 public enum SupportedMod {
 
-	VANILLA("Minecraft", "vanilla", VanillaMinecraft.class),
+	VANILLA("Minecraft", "minecraft", VanillaMinecraft.class),
 
 	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation",
 			ModThermalFoundation.class),
@@ -96,5 +96,12 @@ public enum SupportedMod {
 
 	public boolean isLoaded() {
 		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
+	}
+	
+	public static String[] getModIdList() {
+		String[] result = new String[values().length];
+		for(int i = 0; i < values().length; i++)
+			result[i] = values()[i].getModId();
+		return result;
 	}
 }

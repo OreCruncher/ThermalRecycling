@@ -601,36 +601,4 @@ public final class ItemStackHelper {
 
 		return consolidated;
 	}
-
-	public static ItemStack[] castToItemStack(Object[] list) {
-		ItemStack[] result = new ItemStack[list.length];
-		for(int i = 0; i < result.length; i++)
-			result[i] = (ItemStack)list[i];
-		return result;
-	}
-	
-	public static ItemStack[] shrink(ItemStack[] list) {
-
-		// Quick check - if there is no null at the end there is nothing
-		// to shrink.
-		if (list[list.length - 1] != null)
-			return list;
-
-		// Find the first null in the array - that our termination. This
-		// shouldn't be infinite given the initial check in the method
-		int x;
-		for (x = 0; list[x] != null; x++)
-			;
-
-		// At this point x should be indexed at a null.
-		ItemStack[] result = new ItemStack[x];
-
-		// Copy them over
-		for (int i = 0; i < x; i++)
-			result[i] = list[i];
-
-		// Done!
-		return result;
-	}
-
 }

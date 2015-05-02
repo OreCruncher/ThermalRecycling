@@ -166,6 +166,9 @@ public final class ItemInfo {
 		put(Blocks.snow_layer, ScrapValue.NONE, true, true);
 		put(Blocks.ice, ScrapValue.NONE, true, true);
 		put(Blocks.bookshelf, ScrapValue.NONE, false, false);
+		put(Blocks.vine, ScrapValue.NONE, true, false);
+		put(Blocks.log, ScrapValue.NONE, true, false);
+		put(Blocks.log2, ScrapValue.NONE, true, false);
 	}
 
 	public static ScrapValue getValue(Item item) {

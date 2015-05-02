@@ -32,6 +32,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.Tuple;
 
 import cofh.lib.util.WeightedRandomItemStack;
 import cofh.lib.util.helpers.ItemHelper;
@@ -48,6 +49,7 @@ public final class ScrapingTables {
 	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
 
 	static final ArrayList<ArrayList<WeightedRandomItemStack>> componentScrap = new ArrayList<ArrayList<WeightedRandomItemStack>>();
+	static final ArrayList<Integer> totalWeights = new ArrayList<Integer>();
 
 	static final ArrayList<WeightedRandomItemStack> loots = new ArrayList<WeightedRandomItemStack>();
 	static final HashMap<ItemStack, ItemStack[]> thermalRecipes = new HashMap<ItemStack, ItemStack[]>();
@@ -77,6 +79,13 @@ public final class ScrapingTables {
 		return stack != null && stack.isItemEqual(dust);
 	}
 
+	static int totalWeight(ArrayList<WeightedRandomItemStack> t) {
+		int totalWeight = 0;
+		for(WeightedRandomItemStack w: t)
+			totalWeight += w.itemWeight;
+		return totalWeight;
+	}
+	
 	public static void initialize() {
 		if (inited)
 			return;
@@ -94,11 +103,13 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 16));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "NONE" must scrap table. No scrap to be had.
 		t = new ArrayList<WeightedRandomItemStack>();
 		t.add(new WeightedRandomItemStack(null, 1));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "POOR" scrap table.
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -110,6 +121,7 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), 40));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "POOR" scrap MUST table.
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -121,6 +133,7 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 2));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "STANDARD" scrap table
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -134,6 +147,7 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 20));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "STANDARD" scrap MUST table
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -145,6 +159,7 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 75));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "SUPERIOR" scrap table
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -157,6 +172,7 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 140));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 
 		// The "SUPERIOR" scrap MUST table
 		t = new ArrayList<WeightedRandomItemStack>();
@@ -167,9 +183,10 @@ public final class ScrapingTables {
 		t.add(new WeightedRandomItemStack(new ItemStack(
 				ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), 200));
 		componentScrap.add(t);
+		totalWeights.add(totalWeight(t));
 	}
 
-	protected static ArrayList<WeightedRandomItemStack> getTable(ItemStack stack, boolean mustScrap) {
+	protected static Tuple<ArrayList<WeightedRandomItemStack>, Integer> getTable(ItemStack stack, boolean mustScrap) {
 		
 		// What's this item worth. We adjust based on whether the
 		// item needs to be turned into scrap so we get the right
@@ -178,22 +195,19 @@ public final class ScrapingTables {
 		if (mustScrap)
 			scrappingValue++;
 
-		return componentScrap.get(scrappingValue);
+		return new Tuple<ArrayList<WeightedRandomItemStack>, Integer>(componentScrap.get(scrappingValue), totalWeights.get(scrappingValue));
 	}
 	
 	public static ItemStack[] getScrapPossibilities(ItemStack stack) {
 		
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		ArrayList<WeightedRandomItemStack> t = getTable(stack, true);
-		
-		int totalWeight = 0;
-		for(WeightedRandomItemStack w: t)
-			totalWeight += w.itemWeight;
-		
-		for(WeightedRandomItemStack w: t) {
+		Tuple<ArrayList<WeightedRandomItemStack>, Integer> t = getTable(stack, true);
+
+		double totalWeight = t.y;
+		for(WeightedRandomItemStack w: t.x) {
 			ItemStack temp = w.getStack();
 			if(temp != null) {
-				double percent = (double)(w.itemWeight * 100F) / (double)totalWeight;
+				double percent = (double)(w.itemWeight * 100F) / totalWeight;
 				
 				NBTTagCompound nbt = temp.getTagCompound();
 				if (nbt == null)
@@ -214,26 +228,42 @@ public final class ScrapingTables {
 		return result.toArray(new ItemStack[result.size()]);
 	}
 	
-	public static ItemStack scrapItem(ItemStack stack) {
-		return scrapItem(stack, false);
+	static ItemStack pickOne(ArrayList<WeightedRandomItemStack> array, int totalWeight) {
+		
+		int targetWeight = rnd.nextInt(totalWeight);
+
+		int i = 0;
+		for(i = array.size() ; (targetWeight -= array.get(i-1).itemWeight) > 0; i--);
+
+		return array.get(i-1).getStack();
 	}
-
-	public static ItemStack scrapItem(ItemStack stack, boolean mustScrap) {
-
-		if (stack == null)
+	
+	public static ItemStack[] scrapItems(ItemStack stack, boolean mustScrap) {
+		if(stack == null || stack.stackSize < 1)
 			return null;
+		
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		Tuple<ArrayList<WeightedRandomItemStack>, Integer> t = getTable(stack, mustScrap);
+		
+		for(int i = 0; i < stack.stackSize; i++) {
+			ItemStack cupieDoll = pickOne(t.x, t.y);
+			
+			if(cupieDoll != null) {
+				ItemStack item = stack.copy();
+				item.stackSize = 1;
+				
+				// Post process and return
+				if (keepIt(cupieDoll)) {
+					result.add(item);
+				} else if(dustIt(cupieDoll)) {
+					result.add(ItemStackHelper.convertToDustIfPossible(item));
+				} else {
+					result.add(cupieDoll);
+				}
+			}
+		}
 
-		ArrayList<WeightedRandomItemStack> t = getTable(stack, mustScrap);
-		ItemStack cupieDoll = pickStackFrom(t);
-
-		// Post process and return
-		if (keepIt(cupieDoll))
-			return stack;
-
-		if (dustIt(cupieDoll))
-			return ItemStackHelper.convertToDustIfPossible(stack);
-
-		return cupieDoll;
+		return result.toArray(new ItemStack[result.size()]);
 	}
 
 	public static boolean canBeScrapped(ItemStack stack) {

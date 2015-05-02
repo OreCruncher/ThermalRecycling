@@ -34,6 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
@@ -421,9 +422,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// recycling scrap consolation prizes.  The item is being
 		// scrapped directly.
 		if (buffer == null) {
-			ItemStack cupieDoll = ScrapingTables.scrapItem(justRecycled, true);
-			if (cupieDoll != null)
-				buffer = new ItemStack[] { cupieDoll };
+			buffer = ScrapingTables.scrapItems(justRecycled, true);
 		} else
 			buffer = breakItDown(buffer);
 
@@ -437,15 +436,8 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
-		for (int i = 0; i < in.length; i++) {
-
-			int count = in[i].stackSize;
-			for (int j = 0; j < count; j++) {
-				ItemStack stack = ScrapingTables.scrapItem(in[i].splitStack(1));
-				if(stack != null)
-					result.add(stack);
-			}
-		}
+		for (int i = 0; i < in.length; i++)
+			MyUtils.concat(result, ScrapingTables.scrapItems(in[i], false));
 
 		return result.toArray(new ItemStack[result.size()]);
 	}
