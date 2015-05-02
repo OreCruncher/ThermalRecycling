@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -24,26 +23,30 @@
 
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-/**
- * No effect. Player is firing blanks.
- *
- */
-public class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
+import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
+
+public class UseEffectWeightTable extends WeightTable<UseEffectWeightTable.UseEffectItem>{
 	
-	public NoUseEffect(UseEffectWeightTable useEffectWeightTable, int weight) {
-		useEffectWeightTable.super(weight);
-	}
+	public abstract class UseEffectItem extends WeightTable<UseEffectWeightTable.UseEffectItem>.Item {
 
-	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+		public UseEffectItem(int weight) {
+			super(weight);
+		}
+		
+		public abstract void apply(ItemStack scrap, World world, EntityPlayer player);
 	}
-
-	@Override
-	public String toString() {
-		return "No Effect";
+	
+	public UseEffectWeightTable() {
+		super();
+	}
+	
+	public UseEffectWeightTable(Random rand) {
+		super(rand);
 	}
 }

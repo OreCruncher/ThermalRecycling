@@ -25,18 +25,15 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.base.Preconditions;
 
-import cofh.lib.util.helpers.InventoryHelper;
 import cofh.lib.util.helpers.ItemHelper;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -51,27 +48,21 @@ public class RecipeData {
 	public static final int FAILURE = 1;
 	public static final int DUPLICATE = 2;
 
-	static final HashMap<ItemStack, RecipeData> recipes = new HashMap<ItemStack, RecipeData>();
+	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(MyComparators.itemStackAscending);
 	
 	ItemStack inputStack;
 	ItemStack[] outputStacks;
 	boolean preserveOutput;
-	boolean isBlacklisted;
 	
 	public RecipeData(ItemStack input, ItemStack... output) {
-		this(input, false, false, output);
+		this(input, false, output);
 	}
 	
 	public RecipeData(ItemStack input, boolean preserveOutput, ItemStack... output) {
-		this(input, preserveOutput, false, output);
-	}
-
-	public RecipeData(ItemStack input, boolean preserveOutput, boolean isBlacklisted, ItemStack... output) {
 		Preconditions.checkNotNull(input);
 		
 		this.inputStack = input;
 		this.preserveOutput = preserveOutput;
-		this.isBlacklisted = isBlacklisted;
 		this.outputStacks = output;
 	}
 	
@@ -101,33 +92,15 @@ public class RecipeData {
 		return this;
 	}
 
-	public boolean getIsBlacklisted() {
-		return this.isBlacklisted;
-	}
-	
-	public RecipeData setIsBlacklisted(boolean flag) {
-		this.isBlacklisted = flag;
-		return this;
-	}
-
 	public static RecipeData get(ItemStack input) {
 
-		RecipeData match = null;
-		RecipeData fuzzyMatch = null;
-
-		for (Entry<ItemStack, RecipeData> e : recipes.entrySet()) {
-
-			if (ItemHelper.itemsEqualWithMetadata(input, e.getKey())) {
-				match = e.getValue();
-				break;
-			} else if (e.getKey().getItemDamage() == OreDictionary.WILDCARD_VALUE
-					&& ItemHelper.itemsEqualWithoutMetadata(input, e.getKey())) {
-				fuzzyMatch = e.getValue();
-			}
-		}
+		RecipeData match = recipes.get(input);
 		
-		if(match == null)
-			match = fuzzyMatch;
+		if(match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+			ItemStack t = input.copy();
+			t.setItemDamage(OreDictionary.WILDCARD_VALUE);
+			match = recipes.get(t);
+		}
 
 		return match;
 	}
@@ -138,7 +111,7 @@ public class RecipeData {
 		if(data != null) {
 			result = data.getOutput();
 			if(result != null)
-				result = InventoryHelper.cloneInventory(result);
+				result = ItemStackHelper.clone(result);
 		}
 		return result;
 	}
@@ -164,18 +137,21 @@ public class RecipeData {
 			if(output != null && output.length > 0) {
 
 				// Clone the inventory - don't want to work with the originals
-				workingSet = InventoryHelper.cloneInventory(output);
+				workingSet = ItemStackHelper.clone(output);
 	
 				// Traverse the list replacing WILDCARD stacks with concrete ones.
 				// The logic prefers Thermal Foundation equivalents if found.
 				for (int i = 0; i < workingSet.length; i++) {
+					
+					ItemStack working = workingSet[i];
 	
-					if (workingSet[i].getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-						String oreName = ItemHelper.getOreName(workingSet[i]);
+					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+						String oreName = ItemHelper.getOreName(working);
 	
 						if (oreName != null) {
-							workingSet[i] = ItemStackHelper.getItemStack(oreName,
-									workingSet[i].stackSize);
+							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
+							if(working != null)
+								workingSet[i] = working; 
 						}
 					}
 				}
@@ -183,7 +159,7 @@ public class RecipeData {
 				// We do this to compact the output set. Callers may have
 				// duplicate items in the recipe list because of how they
 				// handle recipes.
-				workingSet = MyUtils.compress(ItemStackHelper.compact(workingSet));
+				workingSet = MyUtils.compress(ItemStackHelper.coelece(workingSet));
 			}
 			
 			recipes.put(stack, new RecipeData(stack, workingSet));
@@ -194,41 +170,12 @@ public class RecipeData {
 		return retCode;
 	}
 
-	public static void blackList(int quantity,
-			boolean wildcard, Block... blocks) {
-
-		int subType = wildcard ? OreDictionary.WILDCARD_VALUE : 0; 
-		for (Block b : blocks)
-			blackList(new ItemStack(b, 1, subType));
-	}
-
-	public static void blackList(int quantity,
-			boolean wildcard, Item... items) {
-
-		int subType = wildcard ? OreDictionary.WILDCARD_VALUE : 0; 
-		for (Item i : items)
-			blackList(new ItemStack(i, 1, subType));
-	}
-
-	public static void blackList(ItemStack item) {
-		RecipeData data = get(item);
-		if(data == null) {
-			data = new RecipeData(item, true, true, (ItemStack[])null);
-			recipes.put(item.copy(), data);
-		}
-	}
-
 	public static int getMinimumQuantityToRecycle(ItemStack item) {
 
 		RecipeData recipe = get(item);
 		return recipe == null ? 1 : recipe.getMinimumInputStacksRequired();
 	}
 
-	public static boolean isBlackList(ItemStack item) {
-		RecipeData data = get(item);
-		return data == null ? false : data.getIsBlacklisted();
-	}
-	
 	@Override
 	public String toString() {
 
@@ -251,7 +198,7 @@ public class RecipeData {
 			}
 		}
 		builder.append("]");
-		builder.append(String.format(" | preserve output %s | blacklist %s", Boolean.toString(preserveOutput), Boolean.toString(isBlacklisted)));
+		builder.append(String.format(" | preserve output %s", Boolean.toString(preserveOutput)));
 
 		return builder.toString();
 	}

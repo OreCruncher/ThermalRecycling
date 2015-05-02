@@ -29,29 +29,33 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ExperienceOrbEffect extends UseEffect {
+public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem  {
 
 	int start;
 	int end;
 
-	public ExperienceOrbEffect(int amount) {
-		this(amount, amount);
+	public ExperienceOrbEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, int amount) {
+		this(useEffectWeightTable, weight, amount, amount);
 	}
+	
+	public ExperienceOrbEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, int startRange, int endRange) {
+		useEffectWeightTable.super(weight);
 
-	public ExperienceOrbEffect(int startRange, int endRange) {
 		this.start = startRange;
 		this.end = endRange;
 	}
-
+	
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 
 		int value = start;
 		if (start != end)
-			value = rand.nextInt(start - end) + start;
+			value = rnd.nextInt(start - end) + start;
 
 		EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
-		spawnEntityIntoWorld(orb, world, player);
+		UseEffect.spawnEntityIntoWorld(orb, world, player);
 	}
 
 	@Override

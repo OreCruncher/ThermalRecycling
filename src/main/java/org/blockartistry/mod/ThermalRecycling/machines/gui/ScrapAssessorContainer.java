@@ -49,7 +49,7 @@ public class ScrapAssessorContainer extends Container {
 		sizeInventory = entity.getSizeInventory();
 
 		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT,
-				56, 34);
+				11, 13);
 		addSlotToContainer(s);
 
 		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
@@ -63,7 +63,11 @@ public class ScrapAssessorContainer extends Container {
 			addSlotToContainer(s);
 		}
 
-		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.AUGMENT, 33, 34);
+		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.AUGMENT, 33, 34);
+		addSlotToContainer(s);
+
+		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE,
+				56, 34);
 		addSlotToContainer(s);
 
 		// Add the player inventory

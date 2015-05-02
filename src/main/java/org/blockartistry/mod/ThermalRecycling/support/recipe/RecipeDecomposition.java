@@ -94,23 +94,23 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	
 	protected void scrubProjection() {
 		
-		if (projection != null) {
-			// Scan for the list looking for wildcards as well
-			// as those items that match the input.  Sometimes
-			// an author will make a cyclic recipe.
-			for(int i = 0; i < projection.length; i++) {
-				ItemStack stack = projection[i];
-				if(stack != null)
-					if(ItemHelper.itemsEqualWithMetadata(stack, inputStack))
-						projection[i] = null;
-					else if (stack != null && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-						stack.setItemDamage(0);
-			}
-			
-			// Do final scrub on the list
-			projection = MyUtils.compress(ItemStackHelper
-					.compact(projection));
+		if(projection == null)
+			return;
+		
+		// Scan for the list looking for wildcards as well
+		// as those items that match the input.  Sometimes
+		// an author will make a cyclic recipe.
+		for(int i = 0; i < projection.length; i++) {
+			ItemStack stack = projection[i];
+			if(stack != null)
+				if(ItemHelper.itemsEqualWithMetadata(stack, inputStack))
+					projection[i] = null;
+				else if (stack != null && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+					stack.setItemDamage(0);
 		}
+			
+		// Do final scrub on the list
+		projection = MyUtils.compress(ItemStackHelper.coelece(projection));
 	}
 	
 	public ItemStack[] project() {
@@ -153,26 +153,27 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	protected static ItemStack[] project(ShapelessRecipes recipe) {
 		ItemStack[] tmp = new ItemStack[recipe.recipeItems.size()];
 		for (int i = 0; i < tmp.length; i++)
-			tmp[i] = (ItemStack) (recipe.recipeItems.get(i));
-		return ItemStackHelper.clone(tmp);
+			tmp[i] = ((ItemStack) (recipe.recipeItems.get(i))).copy();
+		return tmp;
 	}
 
 	protected static ItemStack[] projectForgeRecipeList(Object[] list) {
-		ItemStack[] result = new ItemStack[list.length];
-
+		
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		
 		for (int i = 0; i < list.length; i++) {
 			Object o = list[i];
 
 			if (o instanceof ItemStack)
-				result[i] = ((ItemStack) o).copy();
+				result.add(((ItemStack) o).copy());
 			else if (o instanceof ArrayList) {
 				@SuppressWarnings("unchecked")
 				ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
-				result[i] = ItemStackHelper.getPreferredStack(t.get(0));
+				result.add(ItemStackHelper.getPreferredStack(t.get(0)));
 			}
 		}
 
-		return ItemStackHelper.clone(result);
+		return result.toArray(new ItemStack[result.size()]);
 	}
 
 	protected static ItemStack[] project(ShapedOreRecipe recipe) {

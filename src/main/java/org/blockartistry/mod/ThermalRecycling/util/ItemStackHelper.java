@@ -32,7 +32,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
-import cofh.lib.util.helpers.InventoryHelper;
+
 import cofh.lib.util.helpers.ItemHelper;
 
 import com.google.common.base.Preconditions;
@@ -45,6 +45,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -152,31 +154,32 @@ public final class ItemStackHelper {
 		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
 		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
 	}
-	
+
 	public static ItemStack convertToDustIfPossible(ItemStack stack) {
+
+		boolean isBlock = false;
+
 		String oreName = ItemHelper.getOreName(stack);
-		boolean isIngot = oreName.startsWith("ingot");
-		boolean isBlock = oreName.startsWith("block");
-		boolean isWood = oreName.startsWith("plank");
-		
-		if(isIngot || isBlock || isWood) {
-			
-			if(isIngot)
-				oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
-			else if(isBlock)
-				oreName = StringUtils.replaceOnce(oreName, "block", "dust");
-			else
-				oreName = StringUtils.replaceOnce(oreName, "plank", "dust");
-			
-			ItemStack newStack = getItemStack(oreName);
-			if(newStack != null) {
-				newStack.stackSize = Math.min(newStack.getMaxStackSize(), stack.stackSize * (isBlock?9:1));
-				return newStack;
-			}
-		}
-		
-		// Return the original stack
-		return stack;
+
+		if (oreName == null)
+			return stack;
+
+		if (oreName.startsWith("ingot"))
+			oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
+		else if (oreName.startsWith("plank"))
+			oreName = StringUtils.replaceOnce(oreName, "plank", "dust");
+		else if ((isBlock = oreName.startsWith("block")))
+			oreName = StringUtils.replaceOnce(oreName, "block", "dust");
+		else
+			return stack;
+
+		ItemStack newStack = getItemStack(oreName);
+		if (newStack == null)
+			return stack;
+
+		newStack.stackSize = Math.min(newStack.getMaxStackSize(),
+				stack.stackSize * (isBlock ? 9 : 1));
+		return newStack;
 	}
 
 	public static ItemStack getPreferredStack(ItemStack stack) {
@@ -186,6 +189,9 @@ public final class ItemStackHelper {
 			return stack;
 
 		ItemStack newStack = getItemStack(oreName);
+		if(newStack == null)
+			return stack;
+		
 		newStack.stackSize = stack.stackSize;
 		return newStack;
 	}
@@ -251,8 +257,8 @@ public final class ItemStackHelper {
 		// Log if we didn't find an item - it's possible that the recipe has a
 		// type
 		// or the mod has changed where the item no longer exists.
-		//if (result == null)
-		//	ModLog.info("Unable to locate item: " + name);
+		// if (result == null)
+		// ModLog.info("Unable to locate item: " + name);
 
 		return result;
 	}
@@ -591,14 +597,68 @@ public final class ItemStackHelper {
 		}
 	}
 
-	public static ItemStack[] compact(ItemStack[] list) {
+	/**
+	 * Compresses the inventory array by consolidating stacks toward the
+	 * beginning of the array. This operation occurs in place meaning the return
+	 * array is the original one passed in.
+	 * 
+	 * @param inv
+	 * @return
+	 */
+	public static ItemStack[] coelece(ItemStack[] inv) {
 
-		ItemStack[] consolidated = new ItemStack[list.length];
-
-		for (ItemStack stack : list) {
-			InventoryHelper.addItemStackToInventory(consolidated, stack);
+		if (inv == null || inv.length == 1) {
+			return inv;
 		}
 
-		return consolidated;
+		for (int i = 1; i < inv.length; i++) {
+
+			ItemStack stack = inv[i];
+			if (stack != null) {
+
+				for (int j = 0; j < i; j++) {
+
+					ItemStack target = inv[j];
+					if (target == null) {
+						inv[j] = stack;
+						inv[i] = null;
+						break;
+					} else if (ItemHelper.itemsEqualForCrafting(stack, target)) {
+
+						int hold = target.getMaxStackSize() - target.stackSize;
+
+						if (hold >= stack.stackSize) {
+							target.stackSize += stack.stackSize;
+							inv[i] = null;
+							break;
+						} else if(hold != 0) {
+							stack.stackSize -= hold;
+							target.stackSize += hold;
+						}
+					}
+				}
+			}
+		}
+
+		return inv;
+	}
+
+	public static void setItemLore(ItemStack stack, String lore) {
+
+		if (stack == null)
+			return;
+
+		NBTTagCompound nbt = stack.getTagCompound();
+		if (nbt == null)
+			nbt = new NBTTagCompound();
+
+		NBTTagList l = new NBTTagList();
+		l.appendTag(new NBTTagString(lore));
+		NBTTagCompound display = new NBTTagCompound();
+		display.setTag("Lore", l);
+
+		nbt.setTag("display", display);
+		stack.setTagCompound(nbt);
+
 	}
 }

@@ -26,46 +26,34 @@ package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 
-public class EnchantedBookEffect extends UseEffect {
+public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
 	Enchantment enchant;
 	int level;
 
-	public EnchantedBookEffect(int level) {
-		this(null, level);
+	public EnchantedBookEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, int level) {
+		this(useEffectWeightTable, weight, null, level);
 	}
-
-	public EnchantedBookEffect(Enchantment enchantment, int level) {
+	
+	public EnchantedBookEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, Enchantment enchantment, int level) {
+		useEffectWeightTable.super(weight);
+		
 		this.enchant = enchantment;
 		this.level = level;
 	}
-
-	protected void addLore(ItemStack stack) {
-
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null)
-			nbt = new NBTTagCompound();
-
-		NBTTagList lore = new NBTTagList();
-		lore.appendTag(new NBTTagString("Reduce! Reuse! Recycle!"));
-		NBTTagCompound display = new NBTTagCompound();
-		display.setTag("Lore", lore);
-
-		nbt.setTag("display", display);
-		stack.setTagCompound(nbt);
-	}
-
+	
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 
@@ -77,7 +65,7 @@ public class EnchantedBookEffect extends UseEffect {
 			enchants[0] = new EnchantmentData(enchant, level);
 		} else {
 			@SuppressWarnings("rawtypes")
-			List list = EnchantmentHelper.buildEnchantmentList(rand, book,
+			List list = EnchantmentHelper.buildEnchantmentList(rnd, book,
 					level);
 			enchants = new EnchantmentData[list.size()];
 			for (int i = 0; i < list.size(); i++)
@@ -90,15 +78,15 @@ public class EnchantedBookEffect extends UseEffect {
 		// Drop out one of the enchants if there are multiples. This is from
 		// the enchanting table logic - maybe its to mitigate having too many
 		// enchants floating around.
-		int j = enchants.length > 1 ? rand.nextInt(enchants.length) : -1;
+		int j = enchants.length > 1 ? rnd.nextInt(enchants.length) : -1;
 
 		// Attach the enchantments
 		for (int i = 0; i < enchants.length; i++)
 			if (i != j)
 				Items.enchanted_book.addEnchantment(book, enchants[i]);
 
-		addLore(book);
-		spawnIntoWorld(book, world, player);
+		ItemStackHelper.setItemLore(book, "Reduce! Reuse! Recycle!");
+		UseEffect.spawnIntoWorld(book, world, player);
 	}
 
 	@Override

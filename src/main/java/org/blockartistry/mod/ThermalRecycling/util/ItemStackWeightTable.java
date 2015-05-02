@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,28 +21,43 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import java.util.Random;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-/**
- * No effect. Player is firing blanks.
- *
- */
-public class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
+public class ItemStackWeightTable extends WeightTable<ItemStackWeightTable.ItemStackItem>{
 	
-	public NoUseEffect(UseEffectWeightTable useEffectWeightTable, int weight) {
-		useEffectWeightTable.super(weight);
-	}
+	public class ItemStackItem extends WeightTable<ItemStackWeightTable.ItemStackItem>.Item {
 
-	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+		final ItemStack stack;
+		
+		public ItemStackItem(ItemStack stack, int weight) {
+			super(weight);
+			this.stack = stack;
+		}
+		
+		public ItemStack getStack() {
+			return stack == null ? null : stack.copy();
+		}
+		
+		@Override
+		public String toString() {
+			
+			return String.format("%s (%d)", ItemStackHelper.resolveName(stack), itemWeight);
+		}
 	}
-
-	@Override
-	public String toString() {
-		return "No Effect";
+	
+	public ItemStackWeightTable() {
+		super();
+	}
+	
+	public ItemStackWeightTable(Random rand) {
+		super(rand);
+	}
+	
+	public ItemStack nextStack() {
+		return next().getStack();
 	}
 }

@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,28 +21,38 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import java.util.Comparator;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-/**
- * No effect. Player is firing blanks.
- *
- */
-public class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
+public final class MyComparators {
+
+	public static final Comparator<ItemStack> itemStackAscending = new Comparator<ItemStack> () {
+
+		@Override
+		public int compare(ItemStack o1, ItemStack o2) {
+
+			int result = o1.getItem().hashCode() - o2.getItem().hashCode();
+			if(result == 0)
+				result = o1.getItemDamage() - o2.getItemDamage();
+			
+			return result;
+		}
+		
+	};
 	
-	public NoUseEffect(UseEffectWeightTable useEffectWeightTable, int weight) {
-		useEffectWeightTable.super(weight);
-	}
+	public static final Comparator<ItemStack> itemStackDescending = new Comparator<ItemStack>() {
 
-	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
-	}
+		@Override
+		public int compare(ItemStack o1, ItemStack o2) {
 
-	@Override
-	public String toString() {
-		return "No Effect";
-	}
+			int result = o2.getItem().hashCode() - o1.getItem().hashCode();
+			if(result == 0)
+				result = o2.getItemDamage() - o1.getItemDamage();
+			
+			return result;
+		}
+	};
 }

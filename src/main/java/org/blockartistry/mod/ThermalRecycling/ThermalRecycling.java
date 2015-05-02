@@ -31,6 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
 
 import net.minecraftforge.common.config.Configuration;
@@ -116,6 +117,7 @@ public final class ThermalRecycling {
 	            ItemInfo.writeDiagnostic(writer);
 	            ScrapingTables.writeDiagnostic(writer);
 	            RecipeData.writeDiagnostic(writer);
+	            UseEffect.diagnostic(writer);
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();

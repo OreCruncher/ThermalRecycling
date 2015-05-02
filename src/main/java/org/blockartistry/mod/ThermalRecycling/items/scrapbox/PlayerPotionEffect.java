@@ -34,7 +34,7 @@ import net.minecraft.world.World;
  * Gives the player a specific potion effect.
  *
  */
-public class PlayerPotionEffect extends UseEffect {
+public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 
 	public static final int AMPLIFIER_LEVEL_1 = 0;
 	public static final int AMPLIFIER_LEVEL_2 = 1;
@@ -51,12 +51,15 @@ public class PlayerPotionEffect extends UseEffect {
 	int amplifier;
 	boolean noBad;
 
-	public PlayerPotionEffect(int duration, int amplifier) {
-		this(null, duration, amplifier, true);
+	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable, 
+			int weight, int duration, int amplifier) {
+		this(useEffectWeightTable, weight, null, duration, amplifier, true);
 	}
-
-	public PlayerPotionEffect(Potion potion, int duration, int amplifier,
-			boolean noBad) {
+	
+	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable, 
+			int weight, Potion potion, int duration, int amplifier, boolean noBad) {
+		useEffectWeightTable.super(weight);
+		
 		this.potion = potion;
 		this.duration = duration;
 		this.amplifier = amplifier;
@@ -68,7 +71,7 @@ public class PlayerPotionEffect extends UseEffect {
 		Potion p = potion;
 		if (p == null) {
 			for (; p == null;) {
-				int index = rand.nextInt(Potion.potionTypes.length);
+				int index = rnd.nextInt(Potion.potionTypes.length);
 				if (!(noBad && Potion.potionTypes[index].isBadEffect()))
 					p = Potion.potionTypes[index];
 			}

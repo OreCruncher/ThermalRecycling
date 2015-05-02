@@ -48,14 +48,9 @@ import net.minecraft.item.ItemStack;
  */
 public final class ItemInfo {
 	
-	static HashMap<Item, ItemScrapData> itemData = null;
+	static final HashMap<Item, ItemScrapData> itemData = new HashMap<Item, ItemScrapData>();
 	
-	static void initialize()
-	{
-		if(itemData != null)
-			return;
-		
-		itemData = new HashMap<Item, ItemScrapData>();
+	static {
 
 		// Items
 		put(Items.dye, ScrapValue.NONE, true, false);
@@ -172,7 +167,6 @@ public final class ItemInfo {
 	}
 
 	public static ScrapValue getValue(Item item) {
-		initialize();
 		Preconditions.checkNotNull(item);
 		return get(item).value;
 	}
@@ -203,7 +197,6 @@ public final class ItemInfo {
 	}
 	
 	public static ItemScrapData get(Item item) {
-		initialize();
 		Preconditions.checkNotNull(item);
 		ItemScrapData result = itemData.get(item);
 		if(result == null)
@@ -222,7 +215,6 @@ public final class ItemInfo {
 	}
 	
 	public static void put(ItemScrapData data) {
-		initialize();
 		Preconditions.checkNotNull(data);
 		Preconditions.checkNotNull(data.item);
 		itemData.put(data.item, data);
@@ -251,7 +243,6 @@ public final class ItemInfo {
 	}
 	
 	public static boolean isRecipeIgnored(Item item) {
-		initialize();
 		ItemScrapData data = get(item);
 		return data.getIgnoreRecipe() || data.isFood();
 	}
@@ -280,7 +271,6 @@ public final class ItemInfo {
 	}
 	
 	public static boolean isScrubbedFromOutput(Item item) {
-		initialize();
 		Preconditions.checkNotNull(item);
 		ItemScrapData data = get(item);
 		return data.isScrubbedFromOutput() || data.isFood();

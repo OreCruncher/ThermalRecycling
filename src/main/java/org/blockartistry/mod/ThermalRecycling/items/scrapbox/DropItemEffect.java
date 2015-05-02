@@ -37,25 +37,23 @@ import net.minecraft.world.World;
  * named items or special one offs, like nether stars.
  *
  */
-public class DropItemEffect extends UseEffect {
+public class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	ItemStack stack;
 	int maxQuantity;
 
-	public DropItemEffect(ItemStack stack) {
-		this(stack, 1);
-	}
-
-	public DropItemEffect(ItemStack stack, int maxQuantity) {
+	public DropItemEffect(UseEffectWeightTable useEffectWeightTable, int weight, ItemStack stack, int quantity) {
+		useEffectWeightTable.super(weight);
+		
 		this.stack = stack;
-		this.maxQuantity = maxQuantity;
+		this.maxQuantity = quantity;
 	}
 
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 		ItemStack result = new ItemStack(stack.getItem(),
-				rand.nextInt(maxQuantity) + 1, scrap.getItemDamage());
-		spawnIntoWorld(result, world, player);
+				rnd.nextInt(maxQuantity) + 1, scrap.getItemDamage());
+		UseEffect.spawnIntoWorld(result, world, player);
 
 		if (result.getItem() == Items.nether_star)
 			player.addStat(AchievementManager.lottoWinner, 1);

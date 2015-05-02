@@ -33,28 +33,22 @@ import net.minecraft.world.World;
  * wind up with drops as well as buffs.
  *
  */
-public class BonusEffect extends UseEffect {
+public class BonusEffect extends  UseEffectWeightTable.UseEffectItem  {
 
 	int bonusCount;
 
-	/**
-	 * Constructs a BonusEffect with the specified number of bonus effects. The
-	 * count is NOT inclusive of the original so the actual number of effects is
-	 * (1 + count).
-	 * 
-	 * @param count
-	 *            Number of additional effects to trigger
-	 */
-	public BonusEffect(int count) {
-		bonusCount = count;
+	public BonusEffect(UseEffectWeightTable useEffectWeightTable, int weight, int bonusCount) {
+		useEffectWeightTable.super(weight);
+		this.bonusCount = bonusCount;
 	}
+
 
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 
 		int effectiveCount = bonusCount + 1;
 		for (int i = 0; i < effectiveCount; i++) {
-			triggerEffect(scrap, world, player);
+			UseEffect.triggerEffect(scrap, world, player);
 		}
 	}
 

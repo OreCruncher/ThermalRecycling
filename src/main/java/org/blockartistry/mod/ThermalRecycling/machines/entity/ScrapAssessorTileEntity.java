@@ -38,22 +38,23 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 
 	public static final int INPUT = 0;
 	public static final int AUGMENT = 10;
-	public static final int[] DISPLAY_SLOTS = {1,2,3,4,5,6,7,8,9};
-	
+	public static final int SAMPLE = 11;
+	public static final int[] DISPLAY_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
 	ItemStack oldStack;
 	ItemStack oldAugment;
-	
+
 	public ScrapAssessorTileEntity() {
 		super(GuiIdentifier.SCRAP_ASSESSOR);
-		SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
+		SidedInventoryComponent inv = new SidedInventoryComponent(this, 12);
 		inv.setInputRange(0, 1);
 		setMachineInventory(inv);
 	}
-	
+
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		if(slot == AUGMENT && stack.getItem() == ItemManager.processingCore)
+		if (slot == AUGMENT && stack.getItem() == ItemManager.processingCore)
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
@@ -67,48 +68,63 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 	public Object getGuiServer(InventoryPlayer inventory) {
 		return new ScrapAssessorContainer(inventory, this);
 	}
-	
+
 	@Override
 	public boolean isWhitelisted(ItemStack stack) {
 		return ScrapingTables.canBeScrapped(stack);
 	}
-	
+
 	protected boolean isDecompAugmentInstalled() {
 		ItemStack augment = getStackInSlot(AUGMENT);
-		return augment != null && augment.getItem() == ItemManager.processingCore;
+		return augment != null
+				&& augment.getItem() == ItemManager.processingCore;
 	}
 
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote) {
-			
+
+		if (!worldObj.isRemote) {
+
 			ItemStack input = getStackInSlot(INPUT);
 			ItemStack augment = getStackInSlot(AUGMENT);
-			if(input == oldStack && augment == oldAugment)
+			if (input == oldStack && augment == oldAugment)
 				return;
-			
-			// The stack changed.  Clear out the display.
-			for(int i: DISPLAY_SLOTS)
+
+			// The stack changed. Clear out the display.
+			for (int i : DISPLAY_SLOTS)
 				setInventorySlotContents(i, null);
-			
+			setInventorySlotContents(SAMPLE, null);
+
 			// Set our sentinel and check for null
 			oldStack = input;
 			oldAugment = augment;
-			if(input == null)
+			if (input == null)
 				return;
-			
-			// Need to project out a new set.  Get the information
+
+			// Need to project out a new set. Get the information
 			// needed.
 			ItemStack[] results = null;
-			if(isDecompAugmentInstalled())
-				results = RecipeData.getRecipe(input);
-			
-			if(results == null)
+			ItemStack sample = null;
+			RecipeData data = RecipeData.get(input);
+
+			if (data != null) {
+				sample = data.getInput();
+				if (isDecompAugmentInstalled()) {
+					results = (data != null) ? data.getOutput() : null;
+				}
+			} else {
+				sample = input.copy();
+				sample.stackSize = 1;
+			}
+
+			if (sample != null)
+				setInventorySlotContents(SAMPLE, sample);
+
+			if (results == null)
 				results = ScrapingTables.getScrapPossibilities(input);
 
-			if(results != null) {
-				for(int i = 0; i < results.length; i++) {
+			if (results != null) {
+				for (int i = 0; i < results.length; i++) {
 					setInventorySlotContents(DISPLAY_SLOTS[i], results[i]);
 				}
 			}

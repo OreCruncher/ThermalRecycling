@@ -31,8 +31,6 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
-import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
@@ -51,8 +49,6 @@ public class Proxy {
 		ItemManager.registerItems();
 		BlockManager.registerBlocks();
 		AchievementManager.registerAchievements();
-		ScrapingTables.initialize();
-		UseEffect.initialize();
 
 		new GuiHandler();
 

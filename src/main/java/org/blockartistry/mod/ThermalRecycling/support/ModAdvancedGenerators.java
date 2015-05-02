@@ -24,9 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-
 public class ModAdvancedGenerators extends ModPlugin {
 
 	public ModAdvancedGenerators() {
@@ -36,65 +33,5 @@ public class ModAdvancedGenerators extends ModPlugin {
 	@Override
 	public void apply() {
 
-		/*
-		// Parts
-		pulverizer.setEnergy(400)
-				.append("advgenerators:IronTubing", "advgenerators:IronWiring")
-				.output("nuggetIron").save();
-		pulverizer.append("advgenerators:IronFrame").output("ingotIron", 2)
-				.save();
-		pulverizer.append("advgenerators:TurbineRotor").output("ingotIron", 11)
-				.save();
-
-		pulverizer.append("advgenerators:TurbineBlade").output("ingotIron")
-				.secondaryOutput("nuggetIron", 2).save();
-		pulverizer.append("advgenerators:PressureValve").output("ingotIron", 2)
-				.secondaryOutput("nuggetIron", 3).save();
-		pulverizer.append("advgenerators:Controller").output("ingotIron", 4)
-				.secondaryOutput(Items.quartz).save();
-		pulverizer.append("advgenerators:PowerIO").output("ingotIron", 8)
-				.secondaryOutput("dustRedstone", 3).save();
-
-		// Machines
-		pulverizer.append("advgenerators:ItemInput").output("ingotIron", 11)
-				.save();
-		pulverizer.append("advgenerators:SteamTurbineController")
-				.output("ingotIron", 12).secondaryOutput("nuggetIron", 4)
-				.save();
-		pulverizer.append("advgenerators:SyngasController")
-				.output("ingotIron", 14).secondaryOutput("nuggetIron", 6)
-				.save();
-		pulverizer.append("advgenerators:FluidInput").output("ingotIron", 7)
-				.secondaryOutput("nuggetIron").save();
-		pulverizer.append("advgenerators:FuelTank").output("ingotIron", 8)
-				.secondaryOutput("nuggetIron").save();
-		pulverizer.append("advgenerators:HeatingChamber")
-				.output("ingotIron", 10).secondaryOutput("nuggetIron", 5)
-				.save();
-		pulverizer.append("advgenerators:HeatExchanger").output("ingotIron", 8)
-				.secondaryOutput("nuggetIron", 5).save();
-		pulverizer.append("advgenerators:FluidOutputSelect")
-				.output("ingotIron", 6).secondaryOutput("nuggetIron", 2).save();
-		pulverizer.append("advgenerators:Turbine").output("ingotIron", 19)
-				.secondaryOutput("nuggetIron", 4).save();
-		pulverizer.append("advgenerators:MixingChamber")
-				.output("ingotIron", 12).secondaryOutput("nuggetIron", 8)
-				.save();
-		pulverizer
-				.append("advgenerators:TurbineController",
-						"advgenerators:HeatExchangerController")
-				.output("ingotIron", 12).secondaryOutput("nuggetIron", 4)
-				.save();
-
-		pulverizer.append("advgenerators:Sensor").output("ingotIron", 8)
-				.secondaryOutput(Items.quartz).save();
-		pulverizer.append("advgenerators:ItemOutput").output("ingotIron", 13)
-				.secondaryOutput(Blocks.planks, 8).save();
-		pulverizer.append("advgenerators:PowerCapacitor")
-				.output("ingotIron", 8).secondaryOutput("dustRedstone", 4)
-				.save();
-		pulverizer.append("advgenerators:RFOutput").output("ingotIron", 14)
-				.secondaryOutput("ingotGold").save();
-				*/
 	}
 }
