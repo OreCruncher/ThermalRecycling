@@ -1,0 +1,29 @@
+# BR Portuguese Translations
+itemGroup.ThermalRecycling=Thermal Recycling
+item.RecyclingScrap.poor.name=Sucata Inferior
+item.RecyclingScrap.standard.name=Sucata
+item.RecyclingScrap.superior.name=Sucata Superior
+item.RecyclingScrapBox.poor.name=Caixa de Sucata Inferior
+item.RecyclingScrapBox.poor.desc=Tem cheiro de meia velha de academia...
+item.RecyclingScrapBox.standard.name=Caixa de Sucata
+item.RecyclingScrapBox.standard.desc=Não parece tão mal
+item.RecyclingScrapBox.superior.name=Caixa de Sucata Superior
+item.RecyclingScrapBox.superior.desc=Com certeza uma caixa de maravilhas...
+item.ProcessingCore.decomposition.name=Núcleo: Decomposição
+
+tile.Test.item1.name=Bloco de Teste (WIP)
+tile.MachineThermalRecycler.name=Reciclador Termal
+tile.MachineScrapAssessor.name=Assessor de Sucata
+
+# Machine Status
+msg.MachineStatus.idle=Inativo
+msg.MachineStatus.active={0}%
+msg.MachineStatus.jammed=Emperrado!
+msg.MachineStatus.needMoreResources=Necessita de mais recursos!
+msg.MachineStatus.outOfPower=Sem energia
+
+# Achievements
+achievement.feelingScrappy=Se sentindo um lixo!
+achievement.feelingScrappy.desc=Faça um Reciclador Termal
+achievement.doingMyPart=Fazendo minha parte
+achievement.doingMyPart.desc=Usar uma caixa de sucata
