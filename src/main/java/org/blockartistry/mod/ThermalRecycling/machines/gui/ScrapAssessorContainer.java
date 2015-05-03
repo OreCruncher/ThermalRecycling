@@ -63,7 +63,7 @@ public class ScrapAssessorContainer extends Container {
 			addSlotToContainer(s);
 		}
 
-		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.AUGMENT, 33, 34);
+		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
 
 		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE,

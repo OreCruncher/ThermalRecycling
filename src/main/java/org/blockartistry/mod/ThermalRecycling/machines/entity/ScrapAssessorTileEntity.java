@@ -24,12 +24,15 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
+import java.util.List;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
@@ -37,12 +40,12 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 public class ScrapAssessorTileEntity extends TileEntityBase {
 
 	public static final int INPUT = 0;
-	public static final int AUGMENT = 10;
+	public static final int CORE = 10;
 	public static final int SAMPLE = 11;
 	public static final int[] DISPLAY_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 	ItemStack oldStack;
-	ItemStack oldAugment;
+	ItemStack oldCore;
 
 	public ScrapAssessorTileEntity() {
 		super(GuiIdentifier.SCRAP_ASSESSOR);
@@ -54,7 +57,7 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		if (slot == AUGMENT && stack.getItem() == ItemManager.processingCore)
+		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
@@ -71,11 +74,11 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 
 	@Override
 	public boolean isWhitelisted(ItemStack stack) {
-		return ScrapingTables.canBeScrapped(stack);
+		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
 	}
 
 	protected boolean isDecompAugmentInstalled() {
-		ItemStack augment = getStackInSlot(AUGMENT);
+		ItemStack augment = getStackInSlot(CORE);
 		return augment != null
 				&& augment.getItem() == ItemManager.processingCore;
 	}
@@ -86,8 +89,8 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 		if (!worldObj.isRemote) {
 
 			ItemStack input = getStackInSlot(INPUT);
-			ItemStack augment = getStackInSlot(AUGMENT);
-			if (input == oldStack && augment == oldAugment)
+			ItemStack core = getStackInSlot(CORE);
+			if (input == oldStack && core == oldCore)
 				return;
 
 			// The stack changed. Clear out the display.
@@ -97,13 +100,13 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 
 			// Set our sentinel and check for null
 			oldStack = input;
-			oldAugment = augment;
+			oldCore = core;
 			if (input == null)
 				return;
 
 			// Need to project out a new set. Get the information
 			// needed.
-			ItemStack[] results = null;
+			List<ItemStack> results = null;
 			ItemStack sample = null;
 			RecipeData data = RecipeData.get(input);
 
@@ -121,11 +124,11 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 				setInventorySlotContents(SAMPLE, sample);
 
 			if (results == null)
-				results = ScrapingTables.getScrapPossibilities(input);
+				results = ScrappingTables.getScrapPossibilities(core, input);
 
 			if (results != null) {
-				for (int i = 0; i < results.length; i++) {
-					setInventorySlotContents(DISPLAY_SLOTS[i], results[i]);
+				for (int i = 0; i < results.size(); i++) {
+					setInventorySlotContents(DISPLAY_SLOTS[i], results.get(i));
 				}
 			}
 		}

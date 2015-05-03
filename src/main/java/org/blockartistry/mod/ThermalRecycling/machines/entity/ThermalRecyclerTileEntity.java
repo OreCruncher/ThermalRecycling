@@ -25,16 +25,16 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
@@ -55,7 +55,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	// Slot geometry for the thermalRecycler
 	public static final int INPUT = 0;
-	public static final int AUGMENT = 10;
+	public static final int CORE = 10;
 	public static final int[] INPUT_SLOTS = { INPUT };
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -63,7 +63,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// Internal buffer for funneling results into output grid. This is
 	// in the case of when the output grid gets filled and there is no
 	// more room to toss stuff.
-	protected ItemStack[] buffer;
+	protected List<ItemStack> buffer;
 
 	// Entity state that needs to be serialized
 	protected int energy = 0;
@@ -87,7 +87,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public boolean isWhitelisted(ItemStack stack) {
-		return ScrapingTables.canBeScrapped(stack);
+		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
 	}
 
 	// /////////////////////////////////////
@@ -159,10 +159,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
 		if (nbttaglist.tagCount() > 0) {
-			buffer = new ItemStack[nbttaglist.tagCount()];
+			buffer = new ArrayList<ItemStack>();
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-				buffer[i] = ItemStack.loadItemStackFromNBT(nbttaglist
-						.getCompoundTagAt(i));
+				buffer.add(ItemStack.loadItemStackFromNBT(nbttaglist
+						.getCompoundTagAt(i)));
 			}
 		}
 	}
@@ -179,10 +179,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		NBTTagList nbttaglist = new NBTTagList();
 
 		if (buffer != null) {
-			for (int i = 0; i < buffer.length; ++i) {
-				if (buffer[i] != null) {
+			for (ItemStack stack: buffer) {
+				if (stack != null) {
 					NBTTagCompound nbtTagCompound = new NBTTagCompound();
-					buffer[i].writeToNBT(nbtTagCompound);
+					stack.writeToNBT(nbtTagCompound);
 					nbttaglist.appendTag(nbtTagCompound);
 				}
 			}
@@ -265,7 +265,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		if(slot == AUGMENT && stack.getItem() == ItemManager.processingCore)
+		if(slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
@@ -377,10 +377,11 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		boolean isEmpty = true;
 
-		for (int i = 0; i < buffer.length; i++) {
-			if (buffer[i] != null) {
-				if (addStackToOutput(buffer[i])) {
-					buffer[i] = null;
+		for(int i = 0; i < buffer.size(); i++) {
+			ItemStack stack = buffer.get(i);
+			if (stack != null) {
+				if (addStackToOutput(stack)) {
+					buffer.set(i, null);
 				} else {
 					isEmpty = false;
 				}
@@ -395,9 +396,12 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		return isEmpty;
 	}
 	
-	protected boolean isDecompAugmentInstalled() {
-		ItemStack augment = getStackInSlot(AUGMENT);
-		return augment != null && augment.getItem() == ItemManager.processingCore;
+	protected boolean isDecompositionCoreInstalled() {
+		return ProcessingCorePolicy.isDecompositionCore(getStackInSlot(CORE));
+	}
+	
+	protected boolean isExtractionCoreInstalled() {
+		return ProcessingCorePolicy.isExtractionCore(getStackInSlot(CORE));
 	}
 
 	protected boolean recycleItem() {
@@ -412,33 +416,10 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// method will handle appropriate nulling of
 		// inventory slots when count goes to 0.
 		ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
-
-		// If we have a decomp augment installed we use the stored
-		// recipe.  Otherwise we go to straight out scrap.
-		if(isDecompAugmentInstalled())
-			buffer = RecipeData.getRecipe(justRecycled);
-
-		// If there isn't a recipe defined, generate some
-		// recycling scrap consolation prizes.  The item is being
-		// scrapped directly.
-		if (buffer == null) {
-			buffer = ScrapingTables.scrapItems(justRecycled, true);
-		} else
-			buffer = breakItDown(buffer);
+		
+		buffer = ScrappingTables.scrapItems(getStackInSlot(CORE), justRecycled);
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();
-	}
-
-	// Iterate through the output recipe items during things to scrap,
-	// dust, whatever.
-	protected ItemStack[] breakItDown(ItemStack[] in) {
-
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-
-		for (int i = 0; i < in.length; i++)
-			MyUtils.concat(result, ScrapingTables.scrapItems(in[i], false));
-
-		return result.toArray(new ItemStack[result.size()]);
 	}
 }

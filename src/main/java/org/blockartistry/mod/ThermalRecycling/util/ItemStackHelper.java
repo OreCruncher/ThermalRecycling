@@ -56,14 +56,44 @@ import net.minecraftforge.oredict.OreDictionary;
 public final class ItemStackHelper {
 
 	protected static final Random rand = new Random();
-	protected static HashMap<String, ItemStack> preferred = null;
+	protected static final HashMap<String, ItemStack> preferred = new HashMap<String, ItemStack>();
 
-	protected static void initializePreferred() {
+	static Item materialBase = GameData.getItemRegistry().getObject(
+			"ThermalFoundation:material");
+	static Item storageBase = GameData.getItemRegistry().getObject(
+			"ThermalFoundation:Storage");
+	static Item materialBaseTE = GameData.getItemRegistry().getObject("ThermalExpansion:material");
 
-		if (preferred != null)
-			return;
+	public static final ItemStack dustIron = new ItemStack(materialBase, 1, 0);
+	public static final ItemStack dustGold = new ItemStack(materialBase, 1, 1);
+	public static final ItemStack dustCopper = new ItemStack(materialBase, 1,
+			32);
+	public static final ItemStack dustTin = new ItemStack(materialBase, 1, 33);
+	public static final ItemStack dustSilver = new ItemStack(materialBase, 1,
+			34);
+	public static final ItemStack dustLead = new ItemStack(materialBase, 1, 35);
+	public static final ItemStack dustNickel = new ItemStack(materialBase, 1,
+			36);
+	public static final ItemStack dustPlatinum = new ItemStack(materialBase, 1,
+			37);
+	public static final ItemStack dustManaInfused = new ItemStack(materialBase,
+			1, 38);
+	public static final ItemStack dustElectrum = new ItemStack(materialBase, 1,
+			39);
+	public static final ItemStack dustInvar = new ItemStack(materialBase, 1, 40);
+	public static final ItemStack dustBronze = new ItemStack(materialBase, 1,
+			41);
+	public static final ItemStack dustSignalum = new ItemStack(materialBase, 1,
+			42);
+	public static final ItemStack dustLumium = new ItemStack(materialBase, 1,
+			43);
+	public static final ItemStack dustEnderium = new ItemStack(materialBase, 1,
+			44);
+	
+	public static final ItemStack dustWood = new ItemStack(materialBaseTE, 1, 512);
+	public static final ItemStack boneMeal = new ItemStack(Items.dye, 1, 15);
 
-		preferred = new HashMap<String, ItemStack>();
+	static {
 
 		// Cache builtins
 		preferred.put("ingotIron", new ItemStack(Items.iron_ingot));
@@ -73,11 +103,6 @@ public final class ItemStackHelper {
 		preferred.put("blockIron", new ItemStack(Blocks.iron_block));
 		preferred.put("gemDiamond", new ItemStack(Items.diamond));
 		preferred.put("gemEmerald", new ItemStack(Items.emerald));
-
-		Item materialBase = GameData.getItemRegistry().getObject(
-				"ThermalFoundation:material");
-		Item storageBase = GameData.getItemRegistry().getObject(
-				"ThermalFoundation:Storage");
 
 		preferred.put("ingotCopper", new ItemStack(materialBase, 1, 64));
 		preferred.put("ingotTin", new ItemStack(materialBase, 1, 65));
@@ -108,21 +133,21 @@ public final class ItemStackHelper {
 		preferred.put("nuggetLumium", new ItemStack(materialBase, 1, 107));
 		preferred.put("nuggetEnderium", new ItemStack(materialBase, 1, 108));
 
-		preferred.put("dustIron", new ItemStack(materialBase, 1, 0));
-		preferred.put("dustGold", new ItemStack(materialBase, 1, 1));
-		preferred.put("dustCopper", new ItemStack(materialBase, 1, 32));
-		preferred.put("dustTin", new ItemStack(materialBase, 1, 33));
-		preferred.put("dustSilver", new ItemStack(materialBase, 1, 34));
-		preferred.put("dustLead", new ItemStack(materialBase, 1, 35));
-		preferred.put("dustNickel", new ItemStack(materialBase, 1, 36));
-		preferred.put("dustPlatinum", new ItemStack(materialBase, 1, 37));
-		preferred.put("dustManaInfused", new ItemStack(materialBase, 1, 38));
-		preferred.put("dustElectrum", new ItemStack(materialBase, 1, 39));
-		preferred.put("dustInvar", new ItemStack(materialBase, 1, 40));
-		preferred.put("dustBronze", new ItemStack(materialBase, 1, 41));
-		preferred.put("dustSignalum", new ItemStack(materialBase, 1, 42));
-		preferred.put("dustLumium", new ItemStack(materialBase, 1, 43));
-		preferred.put("dustEnderium", new ItemStack(materialBase, 1, 44));
+		preferred.put("dustIron", dustIron);
+		preferred.put("dustGold", dustGold);
+		preferred.put("dustCopper", dustCopper);
+		preferred.put("dustTin", dustTin);
+		preferred.put("dustSilver", dustSilver);
+		preferred.put("dustLead", dustLead);
+		preferred.put("dustNickel", dustNickel);
+		preferred.put("dustPlatinum", dustPlatinum);
+		preferred.put("dustManaInfused", dustManaInfused);
+		preferred.put("dustElectrum", dustElectrum);
+		preferred.put("dustInvar", dustInvar);
+		preferred.put("dustBronze", dustBronze);
+		preferred.put("dustSignalum", dustSignalum);
+		preferred.put("dustLumium", dustLumium);
+		preferred.put("dustEnderium", dustEnderium);
 
 		preferred.put("blockCopper", new ItemStack(storageBase, 1, 0));
 		preferred.put("blockTin", new ItemStack(storageBase, 1, 1));
@@ -189,9 +214,9 @@ public final class ItemStackHelper {
 			return stack;
 
 		ItemStack newStack = getItemStack(oreName);
-		if(newStack == null)
+		if (newStack == null)
 			return stack;
-		
+
 		newStack.stackSize = stack.stackSize;
 		return newStack;
 	}
@@ -201,9 +226,6 @@ public final class ItemStackHelper {
 	}
 
 	public static ItemStack getItemStack(String name, int quantity) {
-
-		if (preferred == null)
-			initializePreferred();
 
 		// Check our preferred list first. If we have a hit, use it.
 		ItemStack result = preferred.get(name);
@@ -224,12 +246,18 @@ public final class ItemStackHelper {
 				String num = StringUtils.substringAfterLast(name, ":");
 
 				if (num != null && !num.isEmpty()) {
-					try {
-						subType = Integer.parseInt(num);
-					} catch (Exception e) {
-						// It appears malformed - assume the incoming name is
-						// the real name and continue.
-						;
+
+					if ("*".compareTo(num) == 0)
+						subType = OreDictionary.WILDCARD_VALUE;
+					else {
+						try {
+							subType = Integer.parseInt(num);
+						} catch (Exception e) {
+							// It appears malformed - assume the incoming name
+							// is
+							// the real name and continue.
+							;
+						}
 					}
 				}
 			}
@@ -368,11 +396,19 @@ public final class ItemStackHelper {
 		}
 	}
 
-	public static ItemStack[] clone(ItemStack... stacks) {
-		ItemStack[] result = new ItemStack[stacks.length];
-		for (int i = 0; i < result.length; i++)
+	public static List<ItemStack> clone(ItemStack... stacks) {
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		for (int i = 0; i < stacks.length; i++)
 			if (stacks[i] != null)
-				result[i] = stacks[i].copy();
+				result.add(stacks[i].copy());
+		return result;
+	}
+
+	public static List<ItemStack> clone(List<ItemStack> stacks) {
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		for (ItemStack stack : stacks)
+			if (stack != null)
+				result.add(stack.copy());
 		return result;
 	}
 
@@ -631,7 +667,45 @@ public final class ItemStackHelper {
 							target.stackSize += stack.stackSize;
 							inv[i] = null;
 							break;
-						} else if(hold != 0) {
+						} else if (hold != 0) {
+							stack.stackSize -= hold;
+							target.stackSize += hold;
+						}
+					}
+				}
+			}
+		}
+
+		return inv;
+	}
+
+	public static List<ItemStack> coelece(List<ItemStack> inv) {
+
+		if (inv == null || inv.size() == 1) {
+			return inv;
+		}
+
+		for (int i = 1; i < inv.size(); i++) {
+
+			ItemStack stack = inv.get(i);
+			if (stack != null) {
+
+				for (int j = 0; j < i; j++) {
+
+					ItemStack target = inv.get(j);
+					if (target == null) {
+						inv.set(j, stack);
+						inv.set(i, null);
+						break;
+					} else if (ItemHelper.itemsEqualForCrafting(stack, target)) {
+
+						int hold = target.getMaxStackSize() - target.stackSize;
+
+						if (hold >= stack.stackSize) {
+							target.stackSize += stack.stackSize;
+							inv.set(i, null);
+							break;
+						} else if (hold != 0) {
 							stack.stackSize -= hold;
 							target.stackSize += hold;
 						}

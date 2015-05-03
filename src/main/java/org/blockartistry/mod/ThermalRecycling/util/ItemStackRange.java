@@ -105,9 +105,7 @@ public final class ItemStackRange implements Iterable<ItemStack> {
 	}
 
 	public ItemStackRange(List<ItemStack> list) {
-		projection = new ItemStack[list.size()];
-		for (int i = 0; i < projection.length; i++)
-			projection[i] = list.get(i);
+		projection = list.toArray(new ItemStack[list.size()]);
 	}
 
 	@Override

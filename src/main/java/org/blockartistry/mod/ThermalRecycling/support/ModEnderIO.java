@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -37,13 +37,13 @@ public class ModEnderIO extends ModPlugin {
 	@Override
 	public void apply() {
 
-		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
+		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
 				ScrapValue.NONE, false, false);
-		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
+		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
 				ScrapValue.NONE, false, false);
-		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
+		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
 				ScrapValue.NONE, false, false);
-		ItemInfo.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
+		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
 				ScrapValue.NONE, false, false);
 
 		// Armor and tools

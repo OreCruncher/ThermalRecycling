@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -33,39 +32,46 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 public class ModMinefactoryReloaded extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-		"MineFactoryReloaded:sugarcharcoal",
-		"MineFactoryReloaded:fertilizer",
-		"MineFactoryReloaded:ceramicdye",
-		"MineFactoryReloaded:stainedglass.block",
-		"MineFactoryReloaded:stainedglass.pane",
-		"MineFactoryReloaded:rubberwood.log",
-		"MineFactoryReloaded:rubberwood.leaves",
-		"MineFactoryReloaded:rubberwood.sapling",
-		"MineFactoryReloaded:milkbottle"
+		"MineFactoryReloaded:sugarcharcoal:*",
+		"MineFactoryReloaded:fertilizer:*",
+		"MineFactoryReloaded:ceramicdye:*",
+		"MineFactoryReloaded:stainedglass.block:*",
+		"MineFactoryReloaded:stainedglass.pane:*",
+		"MineFactoryReloaded:rubberwood.log:*",
+		"MineFactoryReloaded:rubberwood.leaves:*",
+		"MineFactoryReloaded:rubberwood.sapling:*",
+		"MineFactoryReloaded:milkbottle:*"
 	};
 	
 	static final String[] scrapValuesNone = new String[] {
-		"MineFactoryReloaded:sugarcharcoal",
-		"MineFactoryReloaded:fertilizer",
-		"MineFactoryReloaded:ceramicdye",
-		"MineFactoryReloaded:stainedglass.block",
-		"MineFactoryReloaded:stainedglass.pane",
-		"MineFactoryReloaded:plastic.cup",
-		"MineFactoryReloaded:plastic.raw",
-		"MineFactoryReloaded:plastic.sheet",
-		"MineFactoryReloaded:rubberwood.sapling",
-		"MineFactoryReloaded:plastic.boots",
-		"MineFactoryReloaded:rubber.raw",
-		"MineFactoryReloaded:rubber.bar",
-		"MineFactoryReloaded:vinescaffold",
-		"MineFactoryReloaded:milkbottle"
+		"MineFactoryReloaded:sugarcharcoal:*",
+		"MineFactoryReloaded:fertilizer:*",
+		"MineFactoryReloaded:ceramicdye:*",
+		"MineFactoryReloaded:stainedglass.block:*",
+		"MineFactoryReloaded:stainedglass.pane:*",
+		"MineFactoryReloaded:plastic.cup:*",
+		"MineFactoryReloaded:plastic.raw:*",
+		"MineFactoryReloaded:plastic.sheet:*",
+		"MineFactoryReloaded:rubberwood.log:*",
+		"MineFactoryReloaded:rubberwood.leaves:*",
+		"MineFactoryReloaded:rubberwood.sapling:*",
+		"MineFactoryReloaded:plastic.boots:*",
+		"MineFactoryReloaded:straw:*",
+		"MineFactoryReloaded:rubber.raw:*",
+		"MineFactoryReloaded:rubber.bar:*",
+		"MineFactoryReloaded:vinescaffold:*",
+		"MineFactoryReloaded:milkbottle:*"
 	};
 	
 	static final String[] scrapValuesPoor = new String[] {};
 	
-	static final String[] scrapValuesStandard = new String[] {};
+	static final String[] scrapValuesStandard = new String[] {
+		"MineFactoryReloaded:rubberwood.sapling:1"
+	};
 
-	static final String[] scrapValuesSuperior = new String[] {};
+	static final String[] scrapValuesSuperior = new String[] {
+		"MineFactoryReloaded:rubberwood.sapling:2"
+	};
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);
@@ -80,9 +86,9 @@ public class ModMinefactoryReloaded extends ModPlugin {
 		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
 		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
 		
-		ItemScrapData data = ItemInfo.get(ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle"));
+		ItemScrapData data = ItemScrapData.get(ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle"));
 		data.setScrubFromOutput(true);
-		ItemInfo.put(data);
+		ItemScrapData.put(data);
 		
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer

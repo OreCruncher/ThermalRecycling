@@ -3,6 +3,7 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -29,23 +30,23 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	
 	public class MyIterator<T> implements Iterator<T> {
 
-		ItemStack[] list;
+		List<ItemStack> list;
 		int index;
 
-		public MyIterator(ItemStack[] list) {
+		public MyIterator(List<ItemStack> list) {
 			this.list = list;
 			this.index = 0;
 		}
 
 		@Override
 		public boolean hasNext() {
-			return list != null && index < list.length;
+			return list != null && index < list.size();
 		}
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public T next() {
-			return (T) list[index++];
+			return (T) list.get(index++);
 		}
 
 		@Override
@@ -58,7 +59,7 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	static Field forestryRecipeAccessor = null;
 
 	final IRecipe recipe;
-	ItemStack[] projection;
+	List<ItemStack> projection;
 	ItemStack inputStack;
 
 	public RecipeDecomposition(ItemStack input, Object... output) {
@@ -100,11 +101,11 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		// Scan for the list looking for wildcards as well
 		// as those items that match the input.  Sometimes
 		// an author will make a cyclic recipe.
-		for(int i = 0; i < projection.length; i++) {
-			ItemStack stack = projection[i];
+		for(int i = 0; i < projection.size(); i++) {
+			ItemStack stack = projection.get(i);
 			if(stack != null)
 				if(ItemHelper.itemsEqualWithMetadata(stack, inputStack))
-					projection[i] = null;
+					projection.set(i,  null);
 				else if (stack != null && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 					stack.setItemDamage(0);
 		}
@@ -113,28 +114,28 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		projection = MyUtils.compress(ItemStackHelper.coelece(projection));
 	}
 	
-	public ItemStack[] project() {
-		if (projection != null)
-			return projection;
+	public List<ItemStack> project() {
 
-		if (recipe instanceof ShapedRecipes) {
-			projection = project((ShapedRecipes) recipe);
-		} else if (recipe instanceof ShapelessRecipes) {
-			projection = project((ShapelessRecipes) recipe);
-		} else if (recipe instanceof ShapedOreRecipe) {
-			projection = project((ShapedOreRecipe) recipe);
-		} else if (recipe instanceof ShapelessOreRecipe) {
-			projection = project((ShapelessOreRecipe) recipe);
-		} else if (matchClassName(recipe,
-				"cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper")) {
-			projection = projectTERecipe(recipe);
-		} else if(matchClassName(recipe, "forestry.core.utils.ShapedRecipeCustom")){
-			projection = projectForestryRecipe(recipe);
-		} else if(!isClassIgnored(recipe)){
-			ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
+		if (projection == null) {
+			if (recipe instanceof ShapedRecipes) {
+				projection = project((ShapedRecipes) recipe);
+			} else if (recipe instanceof ShapelessRecipes) {
+				projection = project((ShapelessRecipes) recipe);
+			} else if (recipe instanceof ShapedOreRecipe) {
+				projection = project((ShapedOreRecipe) recipe);
+			} else if (recipe instanceof ShapelessOreRecipe) {
+				projection = project((ShapelessOreRecipe) recipe);
+			} else if (matchClassName(recipe,
+					"cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper")) {
+				projection = projectTERecipe(recipe);
+			} else if(matchClassName(recipe, "forestry.core.utils.ShapedRecipeCustom")){
+				projection = projectForestryRecipe(recipe);
+			} else if(!isClassIgnored(recipe)){
+				ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
+			}
+	
+			scrubProjection();
 		}
-
-		scrubProjection();
 		
 		return projection;
 	}
@@ -146,18 +147,18 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		return new MyIterator<ItemStack>(projection);
 	}
 
-	protected static ItemStack[] project(ShapedRecipes recipe) {
+	protected static List<ItemStack> project(ShapedRecipes recipe) {
 		return ItemStackHelper.clone(recipe.recipeItems);
 	}
 
-	protected static ItemStack[] project(ShapelessRecipes recipe) {
-		ItemStack[] tmp = new ItemStack[recipe.recipeItems.size()];
-		for (int i = 0; i < tmp.length; i++)
-			tmp[i] = ((ItemStack) (recipe.recipeItems.get(i))).copy();
-		return tmp;
+	protected static List<ItemStack> project(ShapelessRecipes recipe) {
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		for(Object stack: recipe.recipeItems)
+			result.add(((ItemStack) (stack)).copy());
+		return result;
 	}
 
-	protected static ItemStack[] projectForgeRecipeList(Object[] list) {
+	protected static List<ItemStack> projectForgeRecipeList(Object[] list) {
 		
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 		
@@ -173,20 +174,20 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 			}
 		}
 
-		return result.toArray(new ItemStack[result.size()]);
+		return result;
 	}
 
-	protected static ItemStack[] project(ShapedOreRecipe recipe) {
+	protected static List<ItemStack> project(ShapedOreRecipe recipe) {
 		return projectForgeRecipeList(recipe.getInput());
 	}
 
-	protected static ItemStack[] project(ShapelessOreRecipe recipe) {
+	protected static List<ItemStack> project(ShapelessOreRecipe recipe) {
 		return projectForgeRecipeList(recipe.getInput().toArray());
 	}
 
-	protected static ItemStack[] projectTERecipe(IRecipe recipe) {
+	protected static List<ItemStack> projectTERecipe(IRecipe recipe) {
 
-		ItemStack[] result = null;
+		List<ItemStack> result = null;
 
 		try {
 
@@ -214,9 +215,9 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		return result;
 	}
 	
-	protected static ItemStack[] projectForestryRecipe(IRecipe recipe) {
+	protected static List<ItemStack> projectForestryRecipe(IRecipe recipe) {
 		
-		ItemStack[] result = null;
+		List<ItemStack> result = null;
 		
 		try {
 

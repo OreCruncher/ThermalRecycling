@@ -32,7 +32,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
@@ -40,51 +39,54 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModForestry extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "Forestry:log1",
-			"Forestry:log2", "Forestry:log3", "Forestry:log4", "Forestry:log5",
-			"Forestry:log6", "Forestry:log7", "Forestry:log8",
-			"Forestry:fireproofLog1", "Forestry:fireproofLog2",
-			"Forestry:fireproofLog3", "Forestry:fireproofLog4",
-			"Forestry:fireproofLog5", "Forestry:fireproofLog6",
-			"Forestry:fireproofLog7", "Forestry:fireproofLog8",
-			"Forestry:planks", "Forestry:planks2", "Forestry:fireproofPlanks1",
-			"Forestry:fireproofPlanks2", "Forestry:slabs1", "Forestry:slabs2",
-			"Forestry:slabs3", "Forestry:slabs4", "Forestry:fences",
-			"Forestry:fences2", "Forestry:stairs", "Forestry:stamps",
-			"Forestry:letters", "Forestry:crate", "Forestry:waxCast",
-			"Forestry:apiculture", "Forestry:arboriculture",
-			"Forestry:lepidopterology", "Forestry:soil",
-			"Forestry:honeyedSlice", "Forestry:beeCombs", "Forestry:apatite",
-			"Forestry:fertilizerCompound", "Forestry:fertilizerBio",
-			"Forestry:carton" };
+	static final String[] recipeIgnoreList = new String[] { "Forestry:log1:*",
+			"Forestry:log2:*", "Forestry:log3:*", "Forestry:log4:*", "Forestry:log5:*",
+			"Forestry:log6:*", "Forestry:log7:*", "Forestry:log8:*",
+			"Forestry:fireproofLog1:*", "Forestry:fireproofLog2:*",
+			"Forestry:fireproofLog3:*", "Forestry:fireproofLog4:*",
+			"Forestry:fireproofLog5:*", "Forestry:fireproofLog6:*",
+			"Forestry:fireproofLog7:*", "Forestry:fireproofLog8:*",
+			"Forestry:planks:*", "Forestry:planks2:*", "Forestry:fireproofPlanks1:*",
+			"Forestry:fireproofPlanks2:*", "Forestry:slabs1:*", "Forestry:slabs2:*",
+			"Forestry:slabs3:*", "Forestry:slabs4:*", "Forestry:fences:*",
+			"Forestry:fences2:*", "Forestry:stairs:*", "Forestry:stamps:*",
+			"Forestry:letters:*", "Forestry:crate:*", "Forestry:waxCast:*",
+			"Forestry:apiculture:*", "Forestry:arboriculture:*",
+			"Forestry:lepidopterology:*", "Forestry:soil:*",
+			"Forestry:honeyedSlice:*", "Forestry:beeCombs:*", "Forestry:apatite:*",
+			"Forestry:fertilizerCompound:*", "Forestry:fertilizerBio:*",
+			"Forestry:carton:*","Forestry:pipette:*","Forestry:scoop:*",
+			"Forestry:catalogue:*"};
 
-	static final String[] scrapValuesNone = new String[] { "Forestry:log1",
-			"Forestry:log2", "Forestry:log3", "Forestry:log4", "Forestry:log5",
-			"Forestry:log6", "Forestry:log7", "Forestry:log8",
-			"Forestry:fireproofLog1", "Forestry:fireproofLog2",
-			"Forestry:fireproofLog3", "Forestry:fireproofLog4",
-			"Forestry:fireproofLog5", "Forestry:fireproofLog6",
-			"Forestry:fireproofLog7", "Forestry:fireproofLog8",
-			"Forestry:waxCapsule", "Forestry:refractoryEmpty",
-			"Forestry:beeDroneGE", "Forestry:propolis", "Forestry:sapling",
-			"Forestry:phosphor", "Forestry:beeswax", "Forestry:refractoryWax",
-			"Forestry:fruits", "Forestry:honeyDrop", "Forestry:honeydew",
-			"Forestry:royalJelly", "Forestry:waxCast", "Forestry:beeCombs",
-			"Forestry:woodPulp", "Forestry:oakStick", "Forestry:carton",
-			"Forestry:planks", "Forestry:planks2", "Forestry:fireproofPlanks1",
-			"Forestry:fireproofPlanks2", "Forestry:slabs1", "Forestry:slabs2",
-			"Forestry:slabs3", "Forestry:slabs4", "Forestry:fences",
-			"Forestry:fences2", "Forestry:stairs", "Forestry:stamps",
-			"Forestry:letters", "Forestry:crate", "Forestry:waxCast",
-			"Forestry:leaves", "Forestry:stained",
-			"Forestry:fertilizerCompound", "Forestry:fertilizerBio" };
+	static final String[] scrapValuesNone = new String[] { "Forestry:log1:*",
+			"Forestry:log2:*", "Forestry:log3:*", "Forestry:log4:*", "Forestry:log5:*",
+			"Forestry:log6:*", "Forestry:log7:*", "Forestry:log8:*",
+			"Forestry:fireproofLog1:*", "Forestry:fireproofLog2:*",
+			"Forestry:fireproofLog3:*", "Forestry:fireproofLog4:*",
+			"Forestry:fireproofLog5:*", "Forestry:fireproofLog6:*",
+			"Forestry:fireproofLog7:*", "Forestry:fireproofLog8:*",
+			"Forestry:waxCapsule:*", "Forestry:refractoryEmpty:*",
+			"Forestry:beeDroneGE:*", "Forestry:propolis:*", "Forestry:sapling:*",
+			"Forestry:phosphor:*", "Forestry:beeswax:*", "Forestry:refractoryWax:*",
+			"Forestry:fruits:*", "Forestry:honeyDrop:*", "Forestry:honeydew:*",
+			"Forestry:royalJelly:*", "Forestry:waxCast:*", "Forestry:beeCombs:*",
+			"Forestry:woodPulp:*", "Forestry:oakStick", "Forestry:carton",
+			"Forestry:planks:*", "Forestry:planks2:*", "Forestry:fireproofPlanks1:*",
+			"Forestry:fireproofPlanks2:*", "Forestry:slabs1:*", "Forestry:slabs2:*",
+			"Forestry:slabs3:*", "Forestry:slabs4:*", "Forestry:fences:*",
+			"Forestry:fences2:*", "Forestry:stairs:*", "Forestry:stamps:*",
+			"Forestry:letters:*", "Forestry:crate:*", "Forestry:waxCast:*",
+			"Forestry:leaves:*", "Forestry:stained:*",
+			"Forestry:fertilizerCompound:*", "Forestry:fertilizerBio:*",
+			"Forestry:pipette:*","Forestry:scoop:*","Forestry:catalogue:*",
+			"Forestry:honeyedSlice:*"};
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Forestry:beeLarvaeGE", "Forestry:pollen", "Forestry:apatite", };
+			"Forestry:beeLarvaeGE:*", "Forestry:pollen:*", "Forestry:apatite:*", };
 
 	static final String[] scrapValuesStandard = new String[] {
-			"Forestry:butterflyGE", "Forestry:beePrincessGE",
-			"Forestry:beeQueenGE", };
+			"Forestry:butterflyGE:*", "Forestry:beePrincessGE:*",
+			"Forestry:beeQueenGE:*", };
 
 	static final String[] scrapValuesSuperior = new String[] {};
 
@@ -97,7 +99,7 @@ public class ModForestry extends ModPlugin {
 			if (e.getValue().length == 1
 					&& e.getValue()[0] instanceof ItemStack) {
 				ItemStack stack = (ItemStack) e.getValue()[0];
-				if (!ItemInfo.isRecipeIgnored(stack))
+				if (!ItemScrapData.isRecipeIgnored(stack))
 					recycler.useRecipe(
 							new RecipeDecomposition(stack, e.getKey())).save();
 			}
@@ -120,11 +122,11 @@ public class ModForestry extends ModPlugin {
 			String itemName = (String) o;
 			if (itemName.startsWith("Forestry:crated")) {
 				ItemStack stack = ItemStackHelper.getItemStack(itemName);
-				ItemScrapData data = ItemInfo.get(stack);
+				ItemScrapData data = ItemScrapData.get(stack);
 				data.setIgnoreRecipe(true);
 				data.setScrubFromOutput(true);
 				data.setValue(ScrapValue.POOR);
-				ItemInfo.put(data);
+				ItemScrapData.put(data);
 			}
 		}
 

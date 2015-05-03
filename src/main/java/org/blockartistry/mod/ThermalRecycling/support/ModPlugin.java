@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
@@ -75,13 +75,13 @@ public abstract class ModPlugin {
 		for(String s: list) {
 			ItemStack stack = ItemStackHelper.getItemStack(s);
 			if(stack != null)
-				ItemInfo.setRecipeIgnored(stack, true);
+				ItemScrapData.setRecipeIgnored(stack, true);
 		}
 	}
 	
 	protected static void registerScrapValues(String[] list, ScrapValue value) {
 		for(String s: list)
-			ItemInfo.setValue(ItemStackHelper.getItemStack(s), value);
+			ItemScrapData.setValue(ItemStackHelper.getItemStack(s), value);
 	}
 
 }

@@ -86,7 +86,7 @@ public class ThermalRecyclerContainer extends Container {
 			addSlotToContainer(s);
 		}
 
-		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.AUGMENT, 33, 34);
+		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
 
 		// Add the player inventory

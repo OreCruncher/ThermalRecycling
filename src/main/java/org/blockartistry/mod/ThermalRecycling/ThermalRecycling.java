@@ -28,9 +28,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 import org.apache.logging.log4j.LogManager;
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
 
@@ -48,7 +48,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.3.1ALPHA";
+	public static final String VERSION = "0.3.2ALPHA";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -114,8 +114,8 @@ public final class ThermalRecycling {
 	        try {
 	            writer = new BufferedWriter(new FileWriter("ThermalRecycling.log"));
 	            
-	            ItemInfo.writeDiagnostic(writer);
-	            ScrapingTables.writeDiagnostic(writer);
+	            ItemScrapData.writeDiagnostic(writer);
+	            ScrappingTables.writeDiagnostic(writer);
 	            RecipeData.writeDiagnostic(writer);
 	            UseEffect.diagnostic(writer);
 	            

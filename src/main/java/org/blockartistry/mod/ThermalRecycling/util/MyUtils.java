@@ -24,6 +24,7 @@
 package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class MyUtils {
@@ -79,6 +80,11 @@ public final class MyUtils {
 		// the last null slot, or the length of the array
 		// up to the null.
 		return Arrays.copyOf(list, nullSlot);
+	}
+	
+	public static <T> List<T> compress(List<T> list) {
+		list.removeAll(Collections.singleton(null));
+		return list;
 	}
 	
 	/**

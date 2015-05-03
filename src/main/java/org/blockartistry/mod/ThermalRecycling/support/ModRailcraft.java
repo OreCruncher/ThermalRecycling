@@ -24,8 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -38,25 +36,25 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModRailcraft extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-			"Railcraft:fluid.creosote.bottle", "Railcraft:stair",
-			"Railcraft:slab", "Railcraft:wall.alpha", "Railcraft:glass",
-			"Railcraft:brick.infernal", "Railcraft:brick.abyssal",
-			"Railcraft:brick.sandy", "Railcraft:brick.frostbound",
-			"Railcraft:brick.quarried", "Railcraft:brick.bleachedbone",
-			"Railcraft:brick.bloodstained", "Railcraft:brick.nether",
-			"Railcraft:post.metal", "Railcraft:post.metal.platform", };
+			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
+			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:glass:*",
+			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
+			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
+			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
+			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
+			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*", };
 
 	static final String[] scrapValuesNone = new String[] {
-			"Railcraft:fluid.creosote.bottle", "Railcraft:stair",
-			"Railcraft:slab", "Railcraft:wall.alpha", "Railcraft:glass",
-			"Railcraft:brick.infernal", "Railcraft:brick.abyssal",
-			"Railcraft:brick.sandy", "Railcraft:brick.frostbound",
-			"Railcraft:brick.quarried", "Railcraft:brick.bleachedbone",
-			"Railcraft:brick.bloodstained", "Railcraft:brick.nether",
-			"Railcraft:fluid.steam.bottle", "Railcraft:lantern.stone", };
+			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
+			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:glass:*",
+			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
+			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
+			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
+			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
+			"Railcraft:fluid.steam.bottle:*", "Railcraft:lantern.stone:*", };
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Railcraft:post.metal", "Railcraft:post.metal.platform", };
+			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*", };
 
 	static final String[] scrapValuesStandard = new String[] {};
 
@@ -80,11 +78,6 @@ public class ModRailcraft extends ModPlugin {
 		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
 		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
 		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
-
-		ItemScrapData data = ItemInfo.get(ItemStackHelper
-				.getItemStack("Railcraft:fluid.creosote.bottle"));
-		data.setIgnoreRecipe(true).setIgnoreRecipe(true);
-		ItemInfo.put(data);
 
 		// Add back in some common sense recipes that were excluded above
 		recycler.input("Railcraft:machine.beta", 8)

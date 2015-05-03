@@ -26,7 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import net.minecraft.item.Item;
@@ -47,7 +50,7 @@ public class ModThermalRecycling extends ModPlugin {
 	public void init(Configuration config) {
 		
 		String[] modList = SupportedMod.getModIdList();
-		String[] configList = config.getStringList("Whitelist", "mods", new String[] { }, "ModIds to add to the internal whitelist");
+		String[] configList = ModOptions.getModWhitelist();
 
 		if(configList == null || configList.length == 0)
 			whiteList = modList;
@@ -58,22 +61,29 @@ public class ModThermalRecycling extends ModPlugin {
 	@Override
 	public void apply() {
 		
+		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+
+		
 		//////////////////////
 		//
 		// Add recipe blacklist items first
 		// before processing!
 		//
 		//////////////////////
-		
-		ItemInfo.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
-		
+
 		//////////////////////
 		//
 		// Process the recipes
 		//
 		//////////////////////
 		
-		String modIds = String.join(":", whiteList);
+		String modIds = ":" + String.join(":", whiteList) + ":";
 		
 		// Process all registered recipes
 		for(Object o: CraftingManager.getInstance().getRecipeList()) {
@@ -86,12 +96,12 @@ public class ModThermalRecycling extends ModPlugin {
 			// on can't add one - just means by default it will
 			// not be included.
 			if(stack != null) {
-				if(!ItemInfo.isRecipeIgnored(stack)) {
+				if(!ItemScrapData.isRecipeIgnored(stack)) {
 					
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
 					String name = Item.itemRegistry.getNameForObject(stack.getItem()); 
-					if(modIds.contains(StringUtils.substringBefore(name, ":"))) {
+					if(modIds.contains(":" + StringUtils.substringBefore(name, ":") + ":")) {
 						recycler.useRecipe(stack).save();
 					}
 				}

@@ -25,6 +25,8 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
+import java.util.Collections;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -51,14 +53,14 @@ public class RecipeData {
 	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(MyComparators.itemStackAscending);
 	
 	ItemStack inputStack;
-	ItemStack[] outputStacks;
+	List<ItemStack> outputStacks;
 	boolean preserveOutput;
 	
-	public RecipeData(ItemStack input, ItemStack... output) {
+	public RecipeData(ItemStack input, List<ItemStack> output) {
 		this(input, false, output);
 	}
 	
-	public RecipeData(ItemStack input, boolean preserveOutput, ItemStack... output) {
+	public RecipeData(ItemStack input, boolean preserveOutput, List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
 		
 		this.inputStack = input;
@@ -74,13 +76,8 @@ public class RecipeData {
 		return this.inputStack.stackSize;
 	}
 
-	public ItemStack[] getOutput() {
-		return this.outputStacks;
-	}
-	
-	public RecipeData setOutput(ItemStack... output) {
-		this.outputStacks = output;
-		return this;
+	public List<ItemStack> getOutput() {
+		return Collections.unmodifiableList(this.outputStacks);
 	}
 	
 	public boolean getPreserveOutput() {
@@ -105,8 +102,8 @@ public class RecipeData {
 		return match;
 	}
 	
-	public static ItemStack[] getRecipe(ItemStack input) {
-		ItemStack[] result = null;
+	public static List<ItemStack> getRecipe(ItemStack input) {
+		List<ItemStack> result = null;
 		RecipeData data = get(input);
 		if(data != null) {
 			result = data.getOutput();
@@ -131,7 +128,7 @@ public class RecipeData {
 				|| (result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
 						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
 			
-			ItemStack[] workingSet = null;
+			List<ItemStack> workingSet = null;
 			ItemStack stack = input.copy();
 			
 			if(output != null && output.length > 0) {
@@ -141,9 +138,9 @@ public class RecipeData {
 	
 				// Traverse the list replacing WILDCARD stacks with concrete ones.
 				// The logic prefers Thermal Foundation equivalents if found.
-				for (int i = 0; i < workingSet.length; i++) {
+				for (int i = 0; i < workingSet.size(); i++) {
 					
-					ItemStack working = workingSet[i];
+					ItemStack working = workingSet.get(i);
 	
 					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
 						String oreName = ItemHelper.getOreName(working);
@@ -151,7 +148,7 @@ public class RecipeData {
 						if (oreName != null) {
 							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
 							if(working != null)
-								workingSet[i] = working; 
+								workingSet.set(i, working); 
 						}
 					}
 				}
@@ -183,7 +180,7 @@ public class RecipeData {
 		builder.append(String.format("[%dx %s] => [",
 				inputStack.stackSize, ItemStackHelper.resolveName(inputStack)));
 
-		if(outputStacks == null || outputStacks.length == 0) {
+		if(outputStacks == null || outputStacks.size() == 0) {
 			builder.append("none");
 		} else {
 			boolean sawOne = false;

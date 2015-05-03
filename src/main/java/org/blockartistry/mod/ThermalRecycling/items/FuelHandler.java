@@ -24,40 +24,42 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ProcessingCore extends ItemBase {
-
-	public static final int DECOMPOSITION = 0;
-	public static final int EXTRACTION = 1;
+public class FuelHandler implements IFuelHandler {
 	
-	private static final String[] types = new String[] { "decomposition", "extraction" };
-	
-	public ProcessingCore() {
-		super(types);
-		
-		setUnlocalizedName("ProcessingCore");
-		setMaxStackSize(1);
+	public FuelHandler() {
+		GameRegistry.registerFuelHandler(this);
 	}
-	
-	@Override
-	public void register() {
-		super.register();
 
-		GameRegistry.addShapedRecipe(new ItemStack(
-				ItemManager.processingCore, 1, DECOMPOSITION),
-				" h ", "mMm", "tst",
-				'h', new ItemStack(Blocks.hopper),
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
-				't', ItemStackHelper.getItemStack("gearTin"),
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material") );
+	@Override
+	public int getBurnTime(ItemStack fuel) {
+
+		int burn = 0;
+		
+		if(fuel.getItem() == ItemManager.recyclingScrap || fuel.getItem() == ItemManager.recyclingScrapBox) {
+			
+			switch(fuel.getItemDamage()) {
+			case RecyclingScrap.POOR:
+				burn = ModOptions.getPoorScrapFuelSetting();
+				break;
+			case RecyclingScrap.STANDARD:
+				burn = ModOptions.getStandardScrapFuelSetting();
+				break;
+			case RecyclingScrap.SUPERIOR:
+				burn = ModOptions.getSuperiorScrapFuelSetting();
+				break;
+			}
+			
+			if(fuel.getItem() == ItemManager.recyclingScrapBox)
+				burn *= ModOptions.getScrapBoxMultiplier();
+		}
+		
+		return burn;
 	}
 }

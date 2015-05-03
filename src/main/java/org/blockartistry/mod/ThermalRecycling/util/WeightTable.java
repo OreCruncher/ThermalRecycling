@@ -26,6 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class WeightTable<T extends WeightTable<T>.Item> {
@@ -71,8 +73,8 @@ public class WeightTable<T extends WeightTable<T>.Item> {
 		return items.get(i-1);
 	}
 	
-	public ArrayList<T> getEntries() {
-		return items;
+	public List<T> getEntries() {
+		return Collections.unmodifiableList(items);
 	}
 	
 	public int getTotalWeight() {
@@ -84,7 +86,7 @@ public class WeightTable<T extends WeightTable<T>.Item> {
 		writer.write(String.format("Weight table [%s] (total weight %d):\n", title, totalWeight));
 		writer.write("==========================================================\n");
 		for(Item i: items)
-			writer.write(String.format("%s - %-1.2f%%\n", i.toString(), (double)i.itemWeight * 100F / (double)totalWeight));
+			writer.write(String.format("%s - %-1.2f%%\n", i.toString(), (double)i.itemWeight * 100F / totalWeight));
 		writer.write("==========================================================\n");
 	}
 }

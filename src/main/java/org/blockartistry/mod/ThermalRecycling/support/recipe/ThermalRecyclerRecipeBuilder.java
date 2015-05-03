@@ -34,7 +34,7 @@ import net.minecraft.item.crafting.IRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.data.ItemInfo;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
@@ -231,7 +231,7 @@ public class ThermalRecyclerRecipeBuilder {
 		if (recipe != null)
 			this.input = recipe.getInput();
 			for (ItemStack item : recipe)
-				if(!ItemInfo.isScrubbedFromOutput(item))
+				if(!ItemScrapData.isScrubbedFromOutput(item))
 					output.add(item);
 		return this;
 	}
