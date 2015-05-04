@@ -70,18 +70,41 @@ public abstract class ModPlugin {
 	}
 
 	public abstract void apply();
-	
+
 	protected static void registerRecipesToIgnore(String... list) {
-		for(String s: list) {
+		for (String s : list) {
 			ItemStack stack = ItemStackHelper.getItemStack(s);
-			if(stack != null)
+			if (stack != null)
 				ItemScrapData.setRecipeIgnored(stack, true);
 		}
 	}
-	
+
+	protected static void registerRecipesToReveal(String... list) {
+		for (String s : list) {
+			ItemStack stack = ItemStackHelper.getItemStack(s);
+			if (stack != null)
+				ItemScrapData.setRecipeIgnored(stack, false);
+		}
+	}
+
 	protected static void registerScrapValues(ScrapValue value, String... list) {
-		for(String s: list)
+		for (String s : list)
 			ItemScrapData.setValue(ItemStackHelper.getItemStack(s), value);
 	}
 
+	protected static void registerScrubFromOutput(String... list) {
+		for (String s : list) {
+			ItemStack stack = ItemStackHelper.getItemStack(s);
+			if (stack != null)
+				ItemScrapData.setScrubbedFromOutput(stack, true);
+		}
+	}
+
+	protected static void registerNotScrubFromOutput(String... list) {
+		for (String s : list) {
+			ItemStack stack = ItemStackHelper.getItemStack(s);
+			if (stack != null)
+				ItemScrapData.setScrubbedFromOutput(stack, false);
+		}
+	}
 }

@@ -123,11 +123,12 @@ public class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
-		
-		return stack != null && inventory[slot] != null && stack.isItemEqual(inventory[slot])
-			&& ItemStack.areItemStackTagsEqual(stack, inventory[slot]);
+
+		return stack != null && inventory[slot] != null
+				&& stack.isItemEqual(inventory[slot])
+				&& ItemStack.areItemStackTagsEqual(stack, inventory[slot]);
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return inventory.length;

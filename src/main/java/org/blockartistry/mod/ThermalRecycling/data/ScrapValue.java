@@ -25,13 +25,10 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 public enum ScrapValue {
-	
+
 	// ORDERING IS IMPORTANT!
-	NONE,
-	POOR,
-	STANDARD,
-	SUPERIOR;
-	
+	NONE, POOR, STANDARD, SUPERIOR;
+
 	public static ScrapValue map(int value) {
 		return values()[value];
 	}

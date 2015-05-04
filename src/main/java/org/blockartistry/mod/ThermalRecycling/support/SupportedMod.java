@@ -44,12 +44,17 @@ public enum SupportedMod {
 
 	THAUMCRAFT("Thaumcraft", "Thaumcraft", ModThaumcraft.class),
 
-	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core", ModBuildCraftCore.class),
-	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport", ModBuildCraftTransport.class),
-	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon", ModBuildCraftSilicon.class),
-	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
-	BUILDCRAFT_ENERGY("BuildCraft|Energy", "BuildCraft|Energy", ModBuildCraftEnergy.class),
-	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
+	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core",
+			ModBuildCraftCore.class), BUILDCRAFT_TRANSPORT(
+			"BuildCraft|Transport", "BuildCraft|Transport",
+			ModBuildCraftTransport.class), BUILDCRAFT_SILICON(
+			"BuildCraft|Silicon", "BuildCraft|Silicon",
+			ModBuildCraftSilicon.class), BUILDCRAFT_BUILDERS(
+			"BuildCraft|Builders", "BuildCraft|Builders",
+			ModBuildCraftBuilders.class), BUILDCRAFT_ENERGY(
+			"BuildCraft|Energy", "BuildCraft|Energy", ModBuildCraftEnergy.class), BUILDCRAFT_FACTORY(
+			"BuildCraft|Factory", "BuildCraft|Factory",
+			ModBuildCraftFactory.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
 
@@ -100,12 +105,13 @@ public enum SupportedMod {
 	}
 
 	public boolean isLoaded() {
-		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
+		return this == VANILLA || this == THERMAL_RECYCLING
+				|| Loader.isModLoaded(modId);
 	}
-	
+
 	public static String[] getModIdList() {
 		String[] result = new String[values().length];
-		for(int i = 0; i < values().length; i++)
+		for (int i = 0; i < values().length; i++)
 			result[i] = values()[i].getModId();
 		return result;
 	}

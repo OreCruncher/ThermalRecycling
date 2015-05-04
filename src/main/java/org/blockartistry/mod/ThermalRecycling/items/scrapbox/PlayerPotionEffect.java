@@ -51,15 +51,16 @@ public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 	int amplifier;
 	boolean noBad;
 
-	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable, 
+	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable,
 			int weight, int duration, int amplifier) {
 		this(useEffectWeightTable, weight, null, duration, amplifier, true);
 	}
-	
-	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable, 
-			int weight, Potion potion, int duration, int amplifier, boolean noBad) {
+
+	public PlayerPotionEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, Potion potion, int duration, int amplifier,
+			boolean noBad) {
 		useEffectWeightTable.super(weight);
-		
+
 		this.potion = potion;
 		this.duration = duration;
 		this.amplifier = amplifier;

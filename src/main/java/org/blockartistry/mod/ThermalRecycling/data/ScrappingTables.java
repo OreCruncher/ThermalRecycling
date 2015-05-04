@@ -52,9 +52,11 @@ public final class ScrappingTables {
 	static final ArrayList<ItemStackWeightTable> extractionDust = new ArrayList<ItemStackWeightTable>();
 
 	static {
-		
-		// Each scrap quality has two tables in componentScrap.  The first is for when
-		// an item is a component of a device that is being taken apart.  The second
+
+		// Each scrap quality has two tables in componentScrap. The first is for
+		// when
+		// an item is a component of a device that is being taken apart. The
+		// second
 		// table is when the item is being directly scrapped.
 
 		// The "NONE" scrap value. This is used when breaking a recipe down and
@@ -171,8 +173,7 @@ public final class ScrappingTables {
 		extractionDust.add(t);
 	}
 
-	public static ItemStackWeightTable getTable(ItemStack core,
-			ItemStack stack) {
+	public static ItemStackWeightTable getTable(ItemStack core, ItemStack stack) {
 
 		boolean mustScrap = core == null;
 		int scrappingValue = ItemScrapData.get(stack).getScrapValue().ordinal();
@@ -188,7 +189,7 @@ public final class ScrappingTables {
 
 		return extractionDust.get(scrappingValue);
 	}
-	
+
 	public static boolean canBeScrapped(ItemStack stack) {
 
 		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
@@ -201,11 +202,12 @@ public final class ScrappingTables {
 	public static List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
 		return ScrapHandler.getHandler(stack).scrapItems(core, stack);
 	}
-	
-	public static ScrapHandler.PreviewResult preview(ItemStack core, ItemStack stack) {
+
+	public static ScrapHandler.PreviewResult preview(ItemStack core,
+			ItemStack stack) {
 		return ScrapHandler.getHandler(stack).preview(core, stack);
 	}
-	
+
 	public static void writeDiagnostic(Writer writer) throws Exception {
 
 		writer.write("Scrapping Tables:\n");

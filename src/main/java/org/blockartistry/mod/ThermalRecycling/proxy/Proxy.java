@@ -46,9 +46,9 @@ public class Proxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
-		
-		ItemManager.registerItems();
-		BlockManager.registerBlocks();
+
+		new ItemManager();
+		new BlockManager();
 		AchievementManager.registerAchievements();
 
 		new GuiHandler();

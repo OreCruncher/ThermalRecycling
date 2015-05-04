@@ -25,42 +25,43 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModBuildCraftSilicon extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-		"BuildCraft|Transport:pipeGate:*"
-	};
+	static final String[] recipeIgnoreList = new String[] { "BuildCraft|Transport:pipeGate:*" };
 
-	static final String[] scrapValuesNone = new String[] { 
-		"BuildCraft|Transport:pipeWire:*",
-		"BuildCraft|Silicon:redstoneChipset"
-	};
-	
+	static final String[] scrapValuesNone = new String[] {
+			"BuildCraft|Transport:pipeWire:*",
+			"BuildCraft|Silicon:redstoneChipset" };
+
 	static final String[] scrapValuesPoor = new String[] {
-		"BuildCraft|Silicon:redstoneChipset:5",
-		"BuildCraft|Silicon:redstoneChipset:6"
-	};
-	
+			"BuildCraft|Silicon:redstoneChipset:5",
+			"BuildCraft|Silicon:redstoneChipset:6" };
+
 	static final String[] scrapValuesStandard = new String[] {
-		"BuildCraft|Silicon:redstoneChipset:1",
-		"BuildCraft|Silicon:redstoneChipset:2",
-		"BuildCraft|Silicon:redstoneChipset:4"
-	};
-	
+			"BuildCraft|Silicon:redstoneChipset:1",
+			"BuildCraft|Silicon:redstoneChipset:2",
+			"BuildCraft|Silicon:redstoneChipset:4" };
+
 	static final String[] scrapValuesSuperior = new String[] {
-		"BuildCraft|Silicon:redstoneChipset:3",
-		"BuildCraft|Silicon:redstoneChipset:7"
-	};
-	
+			"BuildCraft|Silicon:redstoneChipset:3",
+			"BuildCraft|Silicon:redstoneChipset:7" };
+
 	public ModBuildCraftSilicon() {
 		super(SupportedMod.BUILDCRAFT_SILICON);
 	}
 
 	@Override
 	public void apply() {
+
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
 		ScrapHandler

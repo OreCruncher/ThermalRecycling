@@ -74,7 +74,7 @@ public class ThermalRecyclerContainer extends Container {
 		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT,
 				56, 34);
 		addSlotToContainer(s);
-		
+
 		for (int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
 
 			int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];

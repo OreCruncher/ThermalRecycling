@@ -29,7 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem  {
+public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
 
 	int start;
 	int end;
@@ -38,7 +38,7 @@ public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem  {
 			int weight, int amount) {
 		this(useEffectWeightTable, weight, amount, amount);
 	}
-	
+
 	public ExperienceOrbEffect(UseEffectWeightTable useEffectWeightTable,
 			int weight, int startRange, int endRange) {
 		useEffectWeightTable.super(weight);
@@ -46,7 +46,7 @@ public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem  {
 		this.start = startRange;
 		this.end = endRange;
 	}
-	
+
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 

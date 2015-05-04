@@ -40,43 +40,45 @@ public class GenericHandler extends ScrapHandler {
 
 	@Override
 	public List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
-		
+
 		List<ItemStack> result = new ArrayList<ItemStack>();
 		List<ItemStack> processingList = null;
 
-		// If a decomp core is installed, get a list of outputs from the recipes.
+		// If a decomp core is installed, get a list of outputs from the
+		// recipes.
 		// If an extraction core and the item is a scrap box, convert to scrap
 		// with a bonus - 10 pieces total.
 		if (ProcessingCorePolicy.isDecompositionCore(core)) {
 			processingList = getRecipeOutput(stack);
-			
+
 			// If there isn't a recipe, process the item as if it were being
 			// scrapped without any cores.
-			if(processingList == null)
+			if (processingList == null)
 				core = null;
-		}
-		else if(ProcessingCorePolicy.isExtractionCore(core) && stack.getItem() == ItemManager.recyclingScrapBox) {
-			stack = new ItemStack(ItemManager.recyclingScrap, 10, stack.getItemDamage());
+		} else if (ProcessingCorePolicy.isExtractionCore(core)
+				&& stack.getItem() == ItemManager.recyclingScrapBox) {
+			stack = new ItemStack(ItemManager.recyclingScrap, 10,
+					stack.getItemDamage());
 		}
 
 		// If we get here just scrap the input
-		if(processingList == null) {
+		if (processingList == null) {
 			processingList = new ArrayList<ItemStack>();
 			processingList.add(stack);
 		}
-		
-		for (ItemStack item: processingList) {
-			
+
+		for (ItemStack item : processingList) {
+
 			ItemStackWeightTable t = ScrappingTables.getTable(core, item);
 
-			for(int count = 0; count < item.stackSize; count++) {
-			
+			for (int count = 0; count < item.stackSize; count++) {
+
 				ItemStack cupieDoll = t.nextStack();
-	
+
 				if (cupieDoll != null) {
 					ItemStack temp = item.copy();
 					temp.stackSize = 1;
-	
+
 					// Post process and return
 					if (keepIt(cupieDoll)) {
 						result.add(temp);
@@ -89,7 +91,7 @@ public class GenericHandler extends ScrapHandler {
 				}
 			}
 		}
-		
+
 		return result;
 	}
 }

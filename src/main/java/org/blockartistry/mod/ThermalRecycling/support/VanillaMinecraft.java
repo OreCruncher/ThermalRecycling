@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 import net.minecraft.init.Blocks;
@@ -40,6 +39,151 @@ public class VanillaMinecraft extends ModPlugin {
 	static boolean enableDiamondRecycle = true;
 	static boolean enableNetherStarRecycle = true;
 	static int quantityRottenFleshToLeather = 2;
+
+	static final String[] recipesToReveal = new String[] {
+			"minecraft:flint_and_steel", "minecraft:rail",
+			"minecraft:redstone_torch", "minecraft:iron_bars",
+			"minecraft:iron_ingot", "minecraft:iron_block",
+			"minecraft:iron_helmet", "minecraft:iron_chestplate",
+			"minecraft:iron_leggings", "minecraft:iron_boots",
+			"minecraft:iron_sword", "minecraft:iron_shovel",
+			"minecraft:iron_axe", "minecraft:iron_pickaxe",
+			"minecraft:iron_hoe", "minecraft:gold_ingot",
+			"minecraft:gold_block", "minecraft:golden_helmet",
+			"minecraft:golden_chestplate", "minecraft:golden_leggings",
+			"minecraft:golden_boots", "minecraft:golden_sword",
+			"minecraft:golden_shovel", "minecraft:golden_axe",
+			"minecraft:golden_pickaxe", "minecraft:golden_hoe",
+			"minecraft:iron_door", "minecraft:minecart",
+			"minecraft:chest_minecart", "minecraft:furnace_minecart",
+			"minecraft:tnt_minecart", "minecraft:hopper_minecart",
+			"minecraft:beacon", "minecraft:bucket", "minecraft:lava_bucket",
+			"minecraft:water_bucket", "minecraft:milk_bucket",
+			"minecraft:golden_carrot", "minecraft:golden_apple",
+			"minecraft:golden_apple:1", "minecraft:speckled_melon",
+			"minecraft:diamond_block", "minecraft:diamond_helmet",
+			"minecraft:diamond_chestplate", "minecraft:diamond_leggings",
+			"minecraft:diamond_boots", "minecraft:diamond_sword",
+			"minecraft:diamond_shovel", "minecraft:diamond_axe",
+			"minecraft:diamond_pickaxe", "minecraft:diamond_hoe",
+			"minecraft:compass", "minecraft:clock", "minecraft:leather_helmet",
+			"minecraft:leather_chestplate", "minecraft:leather_leggings",
+			"minecraft:leather_boots", "minecraft:cauldron",
+			"minecraft:brewing_stand", "minecraft:anvil",
+			"minecraft:enchanting_table", "minecraft:hopper",
+			"minecraft:repeater", "minecraft:comparator",
+			"minecraft:light_weighted_pressure_plate",
+			"minecraft:heavy_weighted_pressure_plate",
+			"minecraft:daylight_detector", "minecraft:shears",
+
+	};
+
+	static final String[] scrapValuesPoor = new String[] { "minecraft:cake",
+			"minecraft:gunpowder", "minecraft:rotten_flesh", "minecraft:tnt",
+			"minecraft:coal_block", "minecraft:gold_nugget",
+			"minecraft:leather_helmet", "minecraft:leather_chestplate",
+			"minecraft:leather_leggings", "minecraft:leather_boots",
+			"minecraft:brewing_stand", };
+
+	static final String[] scrapValuesStandard = new String[] {
+			"minecraft:blaze_powder", "minecraft:blaze_rod",
+			"minecraft:ender_eye", "minecraft:ender_pearl",
+			"minecraft:chainmail_boots", "minecraft:chainmail_chestplate",
+			"minecraft:chainmail_leggings", "minecraft:chainmail_helmet",
+			"minecraft:lava_bucket", "minecraft:water_bucket", "minecraft:map",
+			"minecraft:filled_map", "minecraft:iron_bars",
+			"minecraft:iron_ingot", "minecraft:iron_block",
+			"minecraft:iron_helmet", "minecraft:iron_chestplate",
+			"minecraft:iron_leggings", "minecraft:iron_boots",
+			"minecraft:iron_sword", "minecraft:iron_shovel",
+			"minecraft:iron_axe", "minecraft:iron_pickaxe",
+			"minecraft:iron_hoe", "minecraft:gold_ingot",
+			"minecraft:gold_block", "minecraft:golden_helmet",
+			"minecraft:golden_chestplate", "minecraft:golden_leggings",
+			"minecraft:golden_boots", "minecraft:golden_sword",
+			"minecraft:golden_shovel", "minecraft:golden_axe",
+			"minecraft:golden_pickaxe", "minecraft:golden_hoe",
+			"minecraft:iron_door", "minecraft:minecart",
+			"minecraft:chest_minecart", "minecraft:furnace_minecart",
+			"minecraft:tnt_minecart", "minecraft:hopper_minecart",
+			"minecraft:bucket", "minecraft:lava_bucket",
+			"minecraft:water_bucket", "minecraft:milk_bucket",
+			"minecraft:iron_horse_armor", "minecraft:golden_horse_armor",
+			"minecraft:golden_carrot", "minecraft:golden_apple",
+			"minecraft:speckled_melon", "minecraft:compass", "minecraft:clock",
+			"minecraft:cauldron", "minecraft:magma_cream",
+			"minecraft:ghast_tear", "minecraft:hopper",
+			"minecraft:light_weighted_pressure_plate",
+			"minecraft:heavy_weighted_pressure_plate",
+			"minecraft:daylight_detector", "minecraft:experience_bottle",
+			"minecraft:shears",
+
+	};
+
+	static final String[] scrapValuesSuperior = new String[] {
+			"minecraft:diamond", "minecraft:emerald", "minecraft:nether_star",
+			"minecraft:beacon", "minecraft:diamond_horse_armor",
+			"minecraft:diamond_block", "minecraft:diamond_helmet",
+			"minecraft:diamond_chestplate", "minecraft:diamond_leggings",
+			"minecraft:diamond_boots", "minecraft:diamond_sword",
+			"minecraft:diamond_shovel", "minecraft:diamond_axe",
+			"minecraft:diamond_pickaxe", "minecraft:diamond_hoe",
+			"minecraft:anvil", "minecraft:enchanting_table",
+			"minecraft:golden_apple:1",
+
+	};
+
+	static final String[] notScrubFromOutput = new String[] {
+			"minecraft:clay_ball", "minecraft:diamond", "minecraft:emerald",
+			"minecraft:nether_star", "minecraft:ender_eye",
+			"minecraft:ender_pearl", "minecraft:gunpowder",
+			"minecraft:flint_and_steel", "minecraft:chainmail_boots",
+			"minecraft:chainmail_chestplate", "minecraft:chainmail_leggings",
+			"minecraft:chainmail_helmet", "minecraft:rotten_flesh",
+			"minecraft:redstone", "minecraft:coal", "minecraft:lead",
+			"minecraft:nether_wart", "minecraft:leather", "minecraft:book",
+			"minecraft:tnt", "minecraft:coal_block", "minecraft:coal",
+			"minecraft:rail", "minecraft:redstone_torch",
+			"minecraft:iron_bars", "minecraft:lapis_block",
+			"minecraft:redstone_block", "minecraft:chest",
+			"minecraft:iron_ingot", "minecraft:iron_block",
+			"minecraft:iron_helmet", "minecraft:iron_chestplate",
+			"minecraft:iron_leggings", "minecraft:iron_boots",
+			"minecraft:iron_sword", "minecraft:iron_shovel",
+			"minecraft:iron_axe", "minecraft:iron_pickaxe",
+			"minecraft:iron_hoe", "minecraft:gold_ingot",
+			"minecraft:gold_block", "minecraft:golden_helmet",
+			"minecraft:golden_chestplate", "minecraft:golden_leggings",
+			"minecraft:golden_boots", "minecraft:golden_sword",
+			"minecraft:golden_shovel", "minecraft:golden_axe",
+			"minecraft:golden_pickaxe", "minecraft:golden_hoe",
+			"minecraft:diamond_block", "minecraft:diamond_helmet",
+			"minecraft:diamond_chestplate", "minecraft:diamond_leggings",
+			"minecraft:diamond_boots", "minecraft:diamond_sword",
+			"minecraft:diamond_shovel", "minecraft:diamond_axe",
+			"minecraft:diamond_pickaxe", "minecraft:diamond_hoe",
+			"minecraft:iron_door", "minecraft:gold_nugget",
+			"minecraft:minecart", "minecraft:chest_minecart",
+			"minecraft:furnace_minecart", "minecraft:tnt_minecart",
+			"minecraft:hopper_minecart", "minecraft:beacon",
+			"minecraft:bucket", "minecraft:lava_bucket",
+			"minecraft:water_bucket", "minecraft:milk_bucket",
+			"minecraft:iron_horse_armor", "minecraft:golden_horse_armor",
+			"minecraft:diamond_horse_armor", "minecraft:golden_carrot",
+			"minecraft:golden_apple", "minecraft:speckled_melon",
+			"minecraft:compass", "minecraft:clock", "minecraft:leather_helmet",
+			"minecraft:leather_chestplate", "minecraft:leather_leggings",
+			"minecraft:leather_boots", "minecraft:cauldron",
+			"minecraft:magma_cream", "minecraft:ghast_tear",
+			"minecraft:brewing_stand", "minecraft:blaze_rod",
+			"minecraft:anvil", "minecraft:enchanting_table",
+			"minecraft:hopper", "minecraft:repeater", "minecraft:comparator",
+			"minecraft:light_weighted_pressure_plate",
+			"minecraft:heavy_weighted_pressure_plate",
+			"minecraft:daylight_detector", "minecraft:experience_bottle",
+			"minecraft:shears", "minecraft:golden_apple:1",
+
+	};
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -68,133 +212,163 @@ public class VanillaMinecraft extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
-		// Items
-		ItemScrapData.put(Items.dye, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.arrow, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.blaze_powder, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.bone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.bowl, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.bread, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wheat, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.apple, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.reeds, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.egg, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.cake, ScrapValue.POOR, true, true);
-		ItemScrapData.put(Items.carrot_on_a_stick, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Items.clay_ball, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.cookie, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.cooked_beef, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.cooked_porkchop, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.fish, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.cooked_fished, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.chicken, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.cooked_chicken, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.diamond, ScrapValue.SUPERIOR, true, false);
-		ItemScrapData.put(Items.emerald, ScrapValue.SUPERIOR, true, false);
-		ItemScrapData.put(Items.nether_star, ScrapValue.SUPERIOR, true, false);
-		ItemScrapData.put(Items.ender_pearl, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.ender_eye, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.fermented_spider_eye, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.flint_and_steel, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Items.melon_seeds, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.pumpkin_seeds, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wheat_seeds, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.pumpkin_pie, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.sugar, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.gunpowder, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Items.string, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.chainmail_boots, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.chainmail_chestplate, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.chainmail_helmet, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.chainmail_leggings, ScrapValue.STANDARD, true, false);
-		ItemScrapData.put(Items.map, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.coal, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.redstone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.lead, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.stone_axe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.stone_hoe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.stone_pickaxe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.stone_shovel, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.stone_sword, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.stick, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.wooden_axe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wooden_hoe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wooden_pickaxe, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wooden_shovel, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wooden_sword, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.wooden_door, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Items.lava_bucket, ScrapValue.STANDARD, true, true);
-		ItemScrapData.put(Items.water_bucket, ScrapValue.STANDARD, true, true);
-		ItemScrapData.put(Items.nether_wart, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.snowball, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.paper, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Items.painting, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.book, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Items.item_frame, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.rotten_flesh, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Items.leather, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Items.sign, ScrapValue.NONE, false, false);
-		
-		// Blocks
-		ItemScrapData.put(Blocks.acacia_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.birch_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.spruce_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.jungle_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.brick_block, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.oak_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.brick_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.wooden_slab, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.double_wooden_slab, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.cobblestone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.cobblestone_wall, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stone_slab, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.double_stone_slab, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.dark_oak_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.dirt, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.mossy_cobblestone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.planks, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.fence, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.fence_gate, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.wooden_button, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stone_brick_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stone_button, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.stone_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stonebrick, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.tnt, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Blocks.hay_block, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.coal_block, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Blocks.carpet, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.hardened_clay, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stained_hardened_clay, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.glass, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.glass_pane, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.stained_glass, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.stained_glass_pane, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.furnace, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.sand, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.gravel, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.sandstone, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.sandstone_stairs, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.soul_sand, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.sapling, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.leaves, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.leaves2, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.lever, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.wool, ScrapValue.POOR, true, false);
-		ItemScrapData.put(Blocks.mycelium, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.snow, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.snow_layer, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.ice, ScrapValue.NONE, true, true);
-		ItemScrapData.put(Blocks.bookshelf, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.vine, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.log, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.log2, ScrapValue.NONE, true, false);
-		ItemScrapData.put(Blocks.rail, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.ladder, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.redstone_torch, ScrapValue.NONE, false, false);
-		ItemScrapData.put(Blocks.iron_bars, ScrapValue.NONE, false, false);
+
+		// ItemScrubData item defaults are ScrapValue.NONE, ignore recipes, and
+		// scrub from output
+		// The configuration info below flips them back to some other values.
+
+		registerRecipesToReveal(recipesToReveal);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		registerNotScrubFromOutput(notScrubFromOutput);
+
+		/*
+		 * // Items ItemScrapData.put(Items.dye, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.arrow, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.blaze_powder, ScrapValue.STANDARD, true,
+		 * false); ItemScrapData.put(Items.bone, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.bowl, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.bread, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.wheat, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.apple, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.reeds, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.egg, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.cake, ScrapValue.POOR, true, true);
+		 * ItemScrapData.put(Items.carrot_on_a_stick, ScrapValue.POOR, true,
+		 * false); ItemScrapData.put(Items.clay_ball, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Items.cookie, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.cooked_beef, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.cooked_porkchop, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.fish, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.cooked_fished, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.chicken, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.cooked_chicken, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.melon, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.diamond, ScrapValue.SUPERIOR, true, false);
+		 * ItemScrapData.put(Items.emerald, ScrapValue.SUPERIOR, true, false);
+		 * ItemScrapData.put(Items.nether_star, ScrapValue.SUPERIOR, true,
+		 * false); ItemScrapData.put(Items.ender_pearl, ScrapValue.STANDARD,
+		 * true, false); ItemScrapData.put(Items.ender_eye, ScrapValue.STANDARD,
+		 * true, false); ItemScrapData.put(Items.fermented_spider_eye,
+		 * ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.flint_and_steel, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Items.melon_seeds, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.pumpkin_seeds, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.wheat_seeds, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.pumpkin_pie, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.sugar, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.gunpowder, ScrapValue.POOR, true, false);
+		 * ItemScrapData.put(Items.string, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.chainmail_boots, ScrapValue.STANDARD, true,
+		 * false); ItemScrapData.put(Items.chainmail_chestplate,
+		 * ScrapValue.STANDARD, true, false);
+		 * ItemScrapData.put(Items.chainmail_helmet, ScrapValue.STANDARD, true,
+		 * false); ItemScrapData.put(Items.chainmail_leggings,
+		 * ScrapValue.STANDARD, true, false); ItemScrapData.put(Items.map,
+		 * ScrapValue.STANDARD, true, true); ItemScrapData.put(Items.filled_map,
+		 * ScrapValue.STANDARD, true, true); ItemScrapData.put(Items.coal,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.redstone,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.lead,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.stone_axe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_hoe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_pickaxe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_shovel,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_sword,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stick,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.wooden_axe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_hoe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_pickaxe,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_shovel,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_sword,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_door,
+		 * ScrapValue.NONE, false, false); ItemScrapData.put(Items.lava_bucket,
+		 * ScrapValue.STANDARD, true, true);
+		 * ItemScrapData.put(Items.water_bucket, ScrapValue.STANDARD, true,
+		 * true); ItemScrapData.put(Items.nether_wart, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Items.snowball, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Items.paper, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Items.painting, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.book, ScrapValue.NONE, false, false);
+		 * ItemScrapData.put(Items.item_frame, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.rotten_flesh, ScrapValue.POOR, true, false);
+		 * ItemScrapData.put(Items.leather, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Items.sign, ScrapValue.NONE, false, false);
+		 * 
+		 * // Blocks ItemScrapData.put(Blocks.acacia_stairs, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.birch_stairs, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.spruce_stairs,
+		 * ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.jungle_stairs, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.brick_block, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.oak_stairs, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.brick_stairs, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.wooden_slab, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.double_wooden_slab, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.cobblestone, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.cobblestone_wall,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.stone_slab,
+		 * ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.double_stone_slab, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.dark_oak_stairs, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.dirt, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.mossy_cobblestone, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.planks, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.fence, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Blocks.fence_gate, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Blocks.wooden_button, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.stone, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.stone_brick_stairs, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.stone_button, ScrapValue.NONE,
+		 * true, true); ItemScrapData.put(Blocks.stone_stairs, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.stonebrick, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.tnt, ScrapValue.POOR, true,
+		 * false); ItemScrapData.put(Blocks.hay_block, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.coal_block, ScrapValue.POOR, true,
+		 * false); ItemScrapData.put(Blocks.carpet, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.hardened_clay, ScrapValue.NONE,
+		 * true, false); ItemScrapData.put(Blocks.stained_hardened_clay,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.glass,
+		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.glass_pane,
+		 * ScrapValue.NONE, true, true); ItemScrapData.put(Blocks.stained_glass,
+		 * ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.stained_glass_pane, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Blocks.furnace, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.sand, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.gravel, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.sandstone, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.sandstone_stairs, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.soul_sand, ScrapValue.NONE, true,
+		 * false); ItemScrapData.put(Blocks.sapling, ScrapValue.NONE, true,
+		 * true); ItemScrapData.put(Blocks.leaves, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Blocks.leaves2, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Blocks.lever, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.wool, ScrapValue.POOR, true, false);
+		 * ItemScrapData.put(Blocks.mycelium, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.snow, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Blocks.snow_layer, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Blocks.ice, ScrapValue.NONE, true, true);
+		 * ItemScrapData.put(Blocks.bookshelf, ScrapValue.NONE, false, false);
+		 * ItemScrapData.put(Blocks.vine, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.log, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.log2, ScrapValue.NONE, true, false);
+		 * ItemScrapData.put(Blocks.rail, ScrapValue.NONE, false, false);
+		 * ItemScrapData.put(Blocks.ladder, ScrapValue.NONE, false, false);
+		 * ItemScrapData.put(Blocks.redstone_torch, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Blocks.iron_bars, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Blocks.lapis_block, ScrapValue.NONE, false,
+		 * false); ItemScrapData.put(Blocks.redstone_block, ScrapValue.NONE,
+		 * false, false); ItemScrapData.put(Blocks.melon_block, ScrapValue.NONE,
+		 * false, true); ItemScrapData.put(Blocks.dropper, ScrapValue.POOR,
+		 * false, false); ItemScrapData.put(Blocks.dispenser, ScrapValue.POOR,
+		 * false, false); ItemScrapData.put(Blocks.deadbush, ScrapValue.NONE,
+		 * false, true); ItemScrapData.put(Blocks.web, ScrapValue.NONE, false,
+		 * true); ItemScrapData.put(Blocks.red_flower, ScrapValue.NONE, false,
+		 * true); ItemScrapData.put(Blocks.red_mushroom_block, ScrapValue.NONE,
+		 * false, true); ItemScrapData.put(Blocks.brown_mushroom_block,
+		 * ScrapValue.NONE, false, true); ItemScrapData.put(Blocks.chest,
+		 * ScrapValue.NONE, true, false);
+		 */
 
 		// Recycle some parts!!
 		sawmill.setEnergy(800).append(Blocks.ladder).output("dustWood", 2)

@@ -41,9 +41,12 @@ public class ModBuildCraftTransport extends ModPlugin {
 	static final String[] recipeIgnoreList = new String[] {
 			"BuildCraft|Transport:pipeFacade:*",
 			"BuildCraft|Transport:pipePlug:*",
-			"BuildCraft|Transport:pipeGate:*" };
+			"BuildCraft|Transport:pipeGate:*",
+			"BuildCraft|Transport:pipeWaterproof", };
 
 	static final String[] scrapValuesNone = new String[] {
+			"BuildCraft|Transport:pipeFacade:*",
+			"BuildCraft|Transport:pipeWaterproof",
 			"BuildCraft|Transport:item.buildcraftPipe.pipeitemswood",
 			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsemerald",
 			"BuildCraft|Transport:item.buildcraftPipe.pipeitemscobblestone",

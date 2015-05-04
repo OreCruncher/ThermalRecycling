@@ -42,10 +42,10 @@ import net.minecraft.world.World;
 
 public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory {
-	
+
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
-	
+
 	public TileEntityBase(GuiIdentifier gui) {
 		myGui = gui;
 	}
@@ -97,16 +97,17 @@ public abstract class TileEntityBase extends TileEntity implements
 			EntityPlayer player, int side, float a, float b, float c) {
 
 		if (!world.isRemote) {
-			player.openGui(ThermalRecycling.MOD_ID, myGui.ordinal(), world, x, y, z);
+			player.openGui(ThermalRecycling.MOD_ID, myGui.ordinal(), world, x,
+					y, z);
 		}
 
 		return true;
 	}
 
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		
+
 	}
-	
+
 	public Object getGuiClient(InventoryPlayer inventory) {
 		return null;
 	}
@@ -221,7 +222,7 @@ public abstract class TileEntityBase extends TileEntity implements
 	public boolean addStackToOutput(ItemStack stack) {
 		return inventory.addStackToOutput(stack);
 	}
-	
+
 	@Override
 	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
 		return inventory.isStackAlreadyInSlot(slot, stack);

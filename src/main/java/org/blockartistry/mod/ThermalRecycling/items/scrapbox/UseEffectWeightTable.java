@@ -31,21 +31,24 @@ import net.minecraft.world.World;
 
 import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
 
-public class UseEffectWeightTable extends WeightTable<UseEffectWeightTable.UseEffectItem>{
-	
-	public abstract class UseEffectItem extends WeightTable<UseEffectWeightTable.UseEffectItem>.Item {
+public class UseEffectWeightTable extends
+		WeightTable<UseEffectWeightTable.UseEffectItem> {
+
+	public abstract class UseEffectItem extends
+			WeightTable<UseEffectWeightTable.UseEffectItem>.Item {
 
 		public UseEffectItem(int weight) {
 			super(weight);
 		}
-		
-		public abstract void apply(ItemStack scrap, World world, EntityPlayer player);
+
+		public abstract void apply(ItemStack scrap, World world,
+				EntityPlayer player);
 	}
-	
+
 	public UseEffectWeightTable() {
 		super();
 	}
-	
+
 	public UseEffectWeightTable(Random rand) {
 		super(rand);
 	}

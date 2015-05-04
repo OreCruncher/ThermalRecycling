@@ -40,38 +40,39 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
- * An instance of this class is used to track recipes for the Thermal
- * Recycler.
+ * An instance of this class is used to track recipes for the Thermal Recycler.
  *
  */
 public class RecipeData {
-	
+
 	public static final int SUCCESS = 0;
 	public static final int FAILURE = 1;
 	public static final int DUPLICATE = 2;
 
-	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(MyComparators.itemStackAscending);
-	
+	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(
+			MyComparators.itemStackAscending);
+
 	ItemStack inputStack;
 	List<ItemStack> outputStacks;
 	boolean preserveOutput;
-	
+
 	public RecipeData(ItemStack input, List<ItemStack> output) {
 		this(input, false, output);
 	}
-	
-	public RecipeData(ItemStack input, boolean preserveOutput, List<ItemStack> output) {
+
+	public RecipeData(ItemStack input, boolean preserveOutput,
+			List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
-		
+
 		this.inputStack = input;
 		this.preserveOutput = preserveOutput;
 		this.outputStacks = output;
 	}
-	
+
 	public ItemStack getInput() {
 		return this.inputStack;
 	}
-	
+
 	public int getMinimumInputStacksRequired() {
 		return this.inputStack.stackSize;
 	}
@@ -79,11 +80,11 @@ public class RecipeData {
 	public List<ItemStack> getOutput() {
 		return Collections.unmodifiableList(this.outputStacks);
 	}
-	
+
 	public boolean getPreserveOutput() {
 		return this.preserveOutput;
 	}
-	
+
 	public RecipeData setPreserveOutput(boolean flag) {
 		this.preserveOutput = flag;
 		return this;
@@ -92,8 +93,9 @@ public class RecipeData {
 	public static RecipeData get(ItemStack input) {
 
 		RecipeData match = recipes.get(input);
-		
-		if(match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+
+		if (match == null
+				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 			ItemStack t = input.copy();
 			t.setItemDamage(OreDictionary.WILDCARD_VALUE);
 			match = recipes.get(t);
@@ -101,22 +103,22 @@ public class RecipeData {
 
 		return match;
 	}
-	
+
 	public static List<ItemStack> getRecipe(ItemStack input) {
 		List<ItemStack> result = null;
 		RecipeData data = get(input);
-		if(data != null) {
+		if (data != null) {
 			result = data.getOutput();
-			if(result != null)
+			if (result != null)
 				result = ItemStackHelper.clone(result);
 		}
 		return result;
 	}
-	
+
 	public static int put(ItemStack input, ItemStack[] output) {
 
 		int retCode = DUPLICATE;
-		
+
 		// See if we have an existing mapping
 		RecipeData result = get(input);
 
@@ -127,38 +129,41 @@ public class RecipeData {
 		if (result == null
 				|| (result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
 						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
-			
+
 			List<ItemStack> workingSet = null;
 			ItemStack stack = input.copy();
-			
-			if(output != null && output.length > 0) {
+
+			if (output != null && output.length > 0) {
 
 				// Clone the inventory - don't want to work with the originals
 				workingSet = ItemStackHelper.clone(output);
-	
-				// Traverse the list replacing WILDCARD stacks with concrete ones.
+
+				// Traverse the list replacing WILDCARD stacks with concrete
+				// ones.
 				// The logic prefers Thermal Foundation equivalents if found.
 				for (int i = 0; i < workingSet.size(); i++) {
-					
+
 					ItemStack working = workingSet.get(i);
-	
+
 					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
 						String oreName = ItemHelper.getOreName(working);
-	
+
 						if (oreName != null) {
-							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
-							if(working != null)
-								workingSet.set(i, working); 
+							working = ItemStackHelper.getItemStack(oreName,
+									working.stackSize);
+							if (working != null)
+								workingSet.set(i, working);
 						}
 					}
 				}
-	
+
 				// We do this to compact the output set. Callers may have
 				// duplicate items in the recipe list because of how they
 				// handle recipes.
-				workingSet = MyUtils.compress(ItemStackHelper.coelece(workingSet));
+				workingSet = MyUtils.compress(ItemStackHelper
+						.coelece(workingSet));
 			}
-			
+
 			recipes.put(stack, new RecipeData(stack, workingSet));
 
 			retCode = SUCCESS;
@@ -177,14 +182,14 @@ public class RecipeData {
 	public String toString() {
 
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("[%dx %s] => [",
-				inputStack.stackSize, ItemStackHelper.resolveName(inputStack)));
+		builder.append(String.format("[%dx %s] => [", inputStack.stackSize,
+				ItemStackHelper.resolveName(inputStack)));
 
-		if(outputStacks == null || outputStacks.size() == 0) {
+		if (outputStacks == null || outputStacks.size() == 0) {
 			builder.append("none");
 		} else {
 			boolean sawOne = false;
-			
+
 			for (ItemStack stack : outputStacks) {
 				if (sawOne)
 					builder.append(", ");
@@ -195,16 +200,17 @@ public class RecipeData {
 			}
 		}
 		builder.append("]");
-		builder.append(String.format(" | preserve output %s", Boolean.toString(preserveOutput)));
+		builder.append(String.format(" | preserve output %s",
+				Boolean.toString(preserveOutput)));
 
 		return builder.toString();
 	}
-	
+
 	public static void writeDiagnostic(Writer writer) throws Exception {
-		
+
 		writer.write("Item Info:\n");
 		writer.write("=================================================================\n");
-		for(RecipeData d: recipes.values())
+		for (RecipeData d : recipes.values())
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}

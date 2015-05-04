@@ -102,17 +102,20 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 			if (input == null)
 				return;
 
-			ScrapHandler.PreviewResult result = ScrappingTables.preview(core, input);
+			ScrapHandler.PreviewResult result = ScrappingTables.preview(core,
+					input);
 
-			if(result != null) {
+			if (result != null) {
 				setInventorySlotContents(SAMPLE, result.inputRequired);
-	
+
 				if (result.outputGenerated != null) {
 					// Cap the output in case the result buffer is larger than
 					// what the 3x3 grid can show
-					int maxUpperSlot = Math.min(result.outputGenerated.size(), DISPLAY_SLOTS.length);
+					int maxUpperSlot = Math.min(result.outputGenerated.size(),
+							DISPLAY_SLOTS.length);
 					for (int i = 0; i < maxUpperSlot; i++) {
-						setInventorySlotContents(DISPLAY_SLOTS[i], result.outputGenerated.get(i));
+						setInventorySlotContents(DISPLAY_SLOTS[i],
+								result.outputGenerated.get(i));
 					}
 				}
 			}

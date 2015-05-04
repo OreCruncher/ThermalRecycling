@@ -40,59 +40,64 @@ import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 
 /**
- * Base class from which all scrap handlers are created.  Handlers are used by
- * the scrapping system to better fine tune how a mod wants to scrap their items.
- * Handlers are registered during plugin startup and will be used once
+ * Base class from which all scrap handlers are created. Handlers are used by
+ * the scrapping system to better fine tune how a mod wants to scrap their
+ * items. Handlers are registered during plugin startup and will be used once
  * the mod is up and running.
  * 
  */
 public abstract class ScrapHandler {
-	
+
 	public class PreviewResult {
-		
+
 		public final ItemStack inputRequired;
 		public final List<ItemStack> outputGenerated;
-		
+
 		protected PreviewResult(ItemStack input, List<ItemStack> output) {
 			this.inputRequired = input;
 			this.outputGenerated = output;
 		}
 	}
 
-	static final TreeMap<ItemStack, ScrapHandler> handlers = new TreeMap<ItemStack, ScrapHandler>(MyComparators.itemStackAscending);
+	static final TreeMap<ItemStack, ScrapHandler> handlers = new TreeMap<ItemStack, ScrapHandler>(
+			MyComparators.itemStackAscending);
 	public static final ScrapHandler generic = new GenericHandler();
-	
+
 	public static void registerHandler(ItemStack stack, ScrapHandler handler) {
 		Preconditions.checkNotNull(stack);
 		Preconditions.checkNotNull(handler);
 		handlers.put(stack.copy(), handler);
 	}
-	
+
 	public static ScrapHandler getHandler(ItemStack stack) {
 		ScrapHandler handler = handlers.get(stack);
-		if(handler == null)
+		if (handler == null)
 			handler = handlers.get(ItemStackHelper.asGeneric(stack));
 		return handler == null ? generic : handler;
 	}
-	
+
 	/**
-	 * Scraps the incoming item based on the implementation of the scrap handler.
+	 * Scraps the incoming item based on the implementation of the scrap
+	 * handler.
 	 * 
-	 * @param core Processing core that is being applied, if any
-	 * @param stack The ItemStack that is being scrapped
-	 * @param preview The call is to generate a preview of what is to happen
+	 * @param core
+	 *            Processing core that is being applied, if any
+	 * @param stack
+	 *            The ItemStack that is being scrapped
+	 * @param preview
+	 *            The call is to generate a preview of what is to happen
 	 * @return A list of parts that are created by scrapping
 	 */
 	public abstract List<ItemStack> scrapItems(ItemStack core, ItemStack stack);
-	
+
 	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
 		return RecipeData.getRecipe(stack);
 	}
-	
+
 	protected int getRecipeInputQuantity(ItemStack stack) {
 		return RecipeData.getMinimumQuantityToRecycle(stack);
 	}
-	
+
 	protected static boolean keepIt(ItemStack stack) {
 		return stack != null && stack.isItemEqual(ScrappingTables.keep);
 	}
@@ -100,40 +105,41 @@ public abstract class ScrapHandler {
 	protected static boolean dustIt(ItemStack stack) {
 		return stack != null && stack.isItemEqual(ScrappingTables.dust);
 	}
-	
+
 	public PreviewResult preview(ItemStack core, ItemStack stack) {
-		
+
 		ItemStack item = stack.copy();
 		item.stackSize = getRecipeInputQuantity(stack);
-		
+
 		List<ItemStack> result = null;
 		if (ProcessingCorePolicy.isDecompositionCore(core)) {
-			
+
 			result = getRecipeOutput(stack);
-			if(result != null)
-				return new PreviewResult(item, result);
-			
+
 			// If its a decomp core and the item has no recipe, treat as if it
 			// were being scrapped directly w/o a core it's the best way
 			// to get scrap yield.
-			core = null;
+			if (result == null)
+				core = null;
 		}
-		
-		result = new ArrayList<ItemStack>();
-		ItemStackWeightTable t = ScrappingTables.getTable(core, stack);
 
-		for (ItemStackItem w : t.getEntries()) {
+		if (result == null) {
+			result = new ArrayList<ItemStack>();
+			ItemStackWeightTable t = ScrappingTables.getTable(core, stack);
 
-			ItemStack temp = w.getStack();
-			if (temp != null && !(keepIt(temp) || dustIt(temp))) {
+			for (ItemStackItem w : t.getEntries()) {
 
-				double percent = w.itemWeight * 100F / t.getTotalWeight();
-				ItemStackHelper.setItemLore(temp,
-						String.format("%-1.2f%% chance", percent));
-				result.add(temp);
+				ItemStack temp = w.getStack();
+				if (temp != null && !(keepIt(temp) || dustIt(temp))) {
+
+					double percent = w.itemWeight * 100F / t.getTotalWeight();
+					ItemStackHelper.setItemLore(temp,
+							String.format("%-1.2f%% chance", percent));
+					result.add(temp);
+				}
 			}
 		}
-		
+
 		return new PreviewResult(item, result);
 	}
 }

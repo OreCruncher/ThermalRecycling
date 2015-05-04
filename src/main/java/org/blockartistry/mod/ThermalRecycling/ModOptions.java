@@ -55,6 +55,7 @@ public final class ModOptions {
 	protected static int superiorScrapFuelSetting = 1600;
 	protected static int scrapboxMultiplier = 9;
 	protected static boolean enableRecyclerFX = true;
+	protected static boolean enableTooltips = true;
 
 	public static void load(Configuration config) {
 
@@ -79,6 +80,10 @@ public final class ModOptions {
 
 		modWhitelist = config.getStringList("Whitelist", CATEGORY_MODS,
 				modWhitelist, "ModIds to add to the internal whitelist");
+
+		enableTooltips = config.getBoolean("Enable Tooltips", CATEGORY_MODS,
+				enableTooltips,
+				"Controls the display of tooltips in the client");
 
 		poorScrapFuelSetting = config.getInt(CONFIG_POOR_SCRAP_FUEL_SETTING,
 				CATEGORY_FUEL_SETTINGS, poorScrapFuelSetting, 0,
@@ -136,5 +141,9 @@ public final class ModOptions {
 
 	public static boolean getEnableRecyclerFX() {
 		return enableRecyclerFX;
+	}
+
+	public static boolean getEnableTooltips() {
+		return enableTooltips;
 	}
 }

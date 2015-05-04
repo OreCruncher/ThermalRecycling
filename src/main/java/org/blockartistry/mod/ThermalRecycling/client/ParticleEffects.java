@@ -31,55 +31,49 @@ import net.minecraft.world.World;
 public final class ParticleEffects {
 
 	// Code modeled after Redstone Ore block special FX
-	public static void spawnParticlesAroundBlock(String particle, World world, int x, int y, int z, Random rand) {
-		
+	public static void spawnParticlesAroundBlock(String particle, World world,
+			int x, int y, int z, Random rand) {
+
 		Random r = rand;
-		if(r == null)
+		if (r == null)
 			r = world.rand;
-		
-        double d0 = 0.064D;
 
-        for (int l = 0; l < 6; ++l)
-        {
-            double d1 = x + r.nextFloat();
-            double d2 = y + r.nextFloat();
-            double d3 = z + r.nextFloat();
+		double d0 = 0.064D;
 
-            if (l == 0 && !world.getBlock(x, y + 1, z).isOpaqueCube())
-            {
-                d2 = y + 1 + d0;
-            }
+		for (int l = 0; l < 6; ++l) {
+			double d1 = x + r.nextFloat();
+			double d2 = y + r.nextFloat();
+			double d3 = z + r.nextFloat();
 
-            if (l == 1 && !world.getBlock(x, y - 1, z).isOpaqueCube())
-            {
-                d2 = y + 0 - d0;
-            }
+			if (l == 0 && !world.getBlock(x, y + 1, z).isOpaqueCube()) {
+				d2 = y + 1 + d0;
+			}
 
-            if (l == 2 && !world.getBlock(x, y, z + 1).isOpaqueCube())
-            {
-                d3 = z + 1 + d0;
-            }
+			if (l == 1 && !world.getBlock(x, y - 1, z).isOpaqueCube()) {
+				d2 = y + 0 - d0;
+			}
 
-            if (l == 3 && !world.getBlock(x, y, z - 1).isOpaqueCube())
-            {
-                d3 = z + 0 - d0;
-            }
+			if (l == 2 && !world.getBlock(x, y, z + 1).isOpaqueCube()) {
+				d3 = z + 1 + d0;
+			}
 
-            if (l == 4 && !world.getBlock(x + 1, y, z).isOpaqueCube())
-            {
-                d1 = x + 1 + d0;
-            }
+			if (l == 3 && !world.getBlock(x, y, z - 1).isOpaqueCube()) {
+				d3 = z + 0 - d0;
+			}
 
-            if (l == 5 && !world.getBlock(x - 1, y, z).isOpaqueCube())
-            {
-                d1 = x + 0 - d0;
-            }
+			if (l == 4 && !world.getBlock(x + 1, y, z).isOpaqueCube()) {
+				d1 = x + 1 + d0;
+			}
 
-            if (d1 < x || d1 > x + 1 || d2 < 0.0D || d2 > y + 1 || d3 < z || d3 > z + 1)
-            {
-            	world.spawnParticle(particle, d1, d2, d3, 0.0D, 0.0D, 0.0D);
-            }
-        }    
+			if (l == 5 && !world.getBlock(x - 1, y, z).isOpaqueCube()) {
+				d1 = x + 0 - d0;
+			}
+
+			if (d1 < x || d1 > x + 1 || d2 < 0.0D || d2 > y + 1 || d3 < z
+					|| d3 > z + 1) {
+				world.spawnParticle(particle, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+			}
+		}
 
 	}
 }

@@ -24,6 +24,19 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.ToolTipEventHandler;
+
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+
 public class ProxyClient extends Proxy {
 
+	@Override
+	public void init(FMLInitializationEvent event) {
+
+		super.init(event);
+
+		if (ModOptions.getEnableTooltips())
+			new ToolTipEventHandler();
+	}
 }

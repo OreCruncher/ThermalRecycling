@@ -45,15 +45,15 @@ public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 			int weight, int level) {
 		this(useEffectWeightTable, weight, null, level);
 	}
-	
+
 	public EnchantedBookEffect(UseEffectWeightTable useEffectWeightTable,
 			int weight, Enchantment enchantment, int level) {
 		useEffectWeightTable.super(weight);
-		
+
 		this.enchant = enchantment;
 		this.level = level;
 	}
-	
+
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 
@@ -65,8 +65,8 @@ public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 			enchants[0] = new EnchantmentData(enchant, level);
 		} else {
 			@SuppressWarnings("rawtypes")
-			List list = EnchantmentHelper.buildEnchantmentList(rnd, book,
-					level);
+			List list = EnchantmentHelper
+					.buildEnchantmentList(rnd, book, level);
 			enchants = new EnchantmentData[list.size()];
 			for (int i = 0; i < list.size(); i++)
 				enchants[i] = (EnchantmentData) list.get(i);

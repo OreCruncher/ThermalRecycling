@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 public class ModBuildCraftCore extends ModPlugin {
 
 	public ModBuildCraftCore() {
@@ -32,6 +34,11 @@ public class ModBuildCraftCore extends ModPlugin {
 
 	@Override
 	public void apply() {
+
+		registerScrapValues(ScrapValue.NONE, "BuildCraft|Core:woodenGearItem",
+				"BuildCraft|Core:stoneGearItem");
+		registerScrapValues(ScrapValue.SUPERIOR,
+				"BuildCraft|Core:diamondGearItem");
 
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)

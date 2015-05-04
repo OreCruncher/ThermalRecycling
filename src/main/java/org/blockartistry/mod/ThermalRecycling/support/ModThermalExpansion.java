@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -36,16 +37,31 @@ public class ModThermalExpansion extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
+
 		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
+
 		// Need to be able to see any special frames and security items
 		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"),
+				handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"),
+				handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:Device:*"),
+				handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"),
+				handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"),
+				handler);
 
+		// Sawdust and whatnot
+		registerScrapValues(ScrapValue.NONE, "ThermalExpansion:material:512",
+				"ThermalExpansion:material:513", "ThermalExpansion:florb:*");
+		registerScrubFromOutput("ThermalExpansion:material:512",
+				"ThermalExpansion:material:513", "ThermalExpansion:florb:*");
 	}
 }

@@ -37,9 +37,13 @@ public final class BlockManager {
 	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
 	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
 
-	public static void registerBlocks() {
+	static void registerBlocks() {
 
 		thermalRecycler.register();
 		scrapAssessor.register();
+	}
+
+	public BlockManager() {
+		registerBlocks();
 	}
 }

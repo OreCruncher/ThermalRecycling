@@ -32,7 +32,7 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FuelHandler implements IFuelHandler {
-	
+
 	public FuelHandler() {
 		GameRegistry.registerFuelHandler(this);
 	}
@@ -41,10 +41,11 @@ public class FuelHandler implements IFuelHandler {
 	public int getBurnTime(ItemStack fuel) {
 
 		int burn = 0;
-		
-		if(fuel.getItem() == ItemManager.recyclingScrap || fuel.getItem() == ItemManager.recyclingScrapBox) {
-			
-			switch(fuel.getItemDamage()) {
+
+		if (fuel.getItem() == ItemManager.recyclingScrap
+				|| fuel.getItem() == ItemManager.recyclingScrapBox) {
+
+			switch (fuel.getItemDamage()) {
 			case RecyclingScrap.POOR:
 				burn = ModOptions.getPoorScrapFuelSetting();
 				break;
@@ -55,11 +56,11 @@ public class FuelHandler implements IFuelHandler {
 				burn = ModOptions.getSuperiorScrapFuelSetting();
 				break;
 			}
-			
-			if(fuel.getItem() == ItemManager.recyclingScrapBox)
+
+			if (fuel.getItem() == ItemManager.recyclingScrapBox)
 				burn *= ModOptions.getScrapBoxMultiplier();
 		}
-		
+
 		return burn;
 	}
 }

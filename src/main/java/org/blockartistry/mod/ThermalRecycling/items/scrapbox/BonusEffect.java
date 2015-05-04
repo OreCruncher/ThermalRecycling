@@ -33,15 +33,15 @@ import net.minecraft.world.World;
  * wind up with drops as well as buffs.
  *
  */
-public class BonusEffect extends  UseEffectWeightTable.UseEffectItem  {
+public class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	int bonusCount;
 
-	public BonusEffect(UseEffectWeightTable useEffectWeightTable, int weight, int bonusCount) {
+	public BonusEffect(UseEffectWeightTable useEffectWeightTable, int weight,
+			int bonusCount) {
 		useEffectWeightTable.super(weight);
 		this.bonusCount = bonusCount;
 	}
-
 
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {

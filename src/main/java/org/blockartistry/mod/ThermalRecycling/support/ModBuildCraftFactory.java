@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 import net.minecraft.init.Blocks;
 
 public class ModBuildCraftFactory extends ModPlugin {
@@ -34,6 +36,12 @@ public class ModBuildCraftFactory extends ModPlugin {
 
 	@Override
 	public void apply() {
+
+		registerScrapValues(ScrapValue.NONE, "BuildCraft|Factory:tankBlock");
+		registerScrapValues(ScrapValue.SUPERIOR,
+				"BuildCraft|Factory:machineBlock",
+				"BuildCraft|Factory:refineryBlock");
+
 		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock")
 				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
 				.save();

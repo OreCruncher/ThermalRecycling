@@ -178,12 +178,12 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		nbt.setShort("energy", (short) energy);
 		nbt.setShort("energyRate", (short) energyRate);
 		nbt.setShort("progress", (short) progress);
-		nbt.setShort("status", (short)status.ordinal());
+		nbt.setShort("status", (short) status.ordinal());
 
 		NBTTagList nbttaglist = new NBTTagList();
 
 		if (buffer != null) {
-			for (ItemStack stack: buffer) {
+			for (ItemStack stack : buffer) {
 				if (stack != null) {
 					NBTTagCompound nbtTagCompound = new NBTTagCompound();
 					stack.writeToNBT(nbtTagCompound);
@@ -269,16 +269,16 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		if(slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
+		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
-	
+
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		super.setInventorySlotContents(index, stack);
 	}
-	
+
 	@Override
 	public Object getGuiClient(InventoryPlayer inventory) {
 		return new ThermalRecyclerGui(inventory, this);
@@ -360,24 +360,25 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 		}
 	}
-	
+
 	// Modeled after the Redstone block code...
 	@Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
-    {
-		if(!ModOptions.getEnableRecyclerFX())
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		if (!ModOptions.getEnableRecyclerFX())
 			return;
-		
-		if(!(status == MachineStatus.ACTIVE || status == MachineStatus.JAMMED) || rand.nextInt(9) != 0)
+
+		if (!(status == MachineStatus.ACTIVE || status == MachineStatus.JAMMED)
+				|| rand.nextInt(9) != 0)
 			return;
-		
+
 		String particle = "happyVillager";
-		if(status == MachineStatus.JAMMED)
+		if (status == MachineStatus.JAMMED)
 			particle = "reddust";
-		
-		ParticleEffects.spawnParticlesAroundBlock(particle, world, x, y, z, rand);
-    }
-	
+
+		ParticleEffects.spawnParticlesAroundBlock(particle, world, x, y, z,
+				rand);
+	}
+
 	protected boolean hasItemToRecycle() {
 		ItemStack input = getStackInSlot(INPUT);
 		if (input == null)
@@ -398,7 +399,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		boolean isEmpty = true;
 
-		for(int i = 0; i < buffer.size(); i++) {
+		for (int i = 0; i < buffer.size(); i++) {
 			ItemStack stack = buffer.get(i);
 			if (stack != null) {
 				if (addStackToOutput(stack)) {
@@ -416,7 +417,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		return isEmpty;
 	}
-	
+
 	protected boolean recycleItem() {
 
 		// Get how many items we need to snag off the stack
@@ -429,7 +430,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// method will handle appropriate nulling of
 		// inventory slots when count goes to 0.
 		ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
-		
+
 		buffer = ScrappingTables.scrapItems(getStackInSlot(CORE), justRecycled);
 
 		// Flush the generated stacks into the output buffer

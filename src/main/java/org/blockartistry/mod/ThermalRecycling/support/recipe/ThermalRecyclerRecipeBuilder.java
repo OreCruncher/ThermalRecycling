@@ -219,28 +219,27 @@ public class ThermalRecyclerRecipeBuilder {
 		try {
 			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
 			useRecipe(new RecipeDecomposition(recipe));
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			;
 		}
-		
+
 		return this;
 	}
-	
+
 	public ThermalRecyclerRecipeBuilder useRecipe(RecipeDecomposition recipe) {
 		if (recipe != null)
 			this.input = recipe.getInput();
-			for (ItemStack item : recipe)
-				if(!ItemScrapData.isScrubbedFromOutput(item))
-					output.add(item);
+		for (ItemStack item : recipe)
+			if (!ItemScrapData.isScrubbedFromOutput(item))
+				output.add(item);
 		return this;
 	}
 
 	public void save() {
 
-		if (output == null || output.isEmpty()|| input == null)
-		{
-			ModLog.warn("Parameters not correct for [%s]", ItemStackHelper.resolveName(input));
+		if (output == null || output.isEmpty() || input == null) {
+			ModLog.warn("Parameters not correct for [%s]",
+					ItemStackHelper.resolveName(input));
 			return;
 		}
 
@@ -251,10 +250,11 @@ public class ThermalRecyclerRecipeBuilder {
 
 			int result = RecipeData.put(input,
 					output.toArray(new ItemStack[output.size()]));
-			
-			if (result == RecipeData.SUCCESS && ModOptions.getEnableRecipeLogging())
+
+			if (result == RecipeData.SUCCESS
+					&& ModOptions.getEnableRecipeLogging())
 				ModLog.info(toString());
-			
+
 		} catch (Exception e) {
 			;
 		}

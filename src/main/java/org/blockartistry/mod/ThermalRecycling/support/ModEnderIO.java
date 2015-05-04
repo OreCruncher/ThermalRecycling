@@ -37,13 +37,16 @@ public class ModEnderIO extends ModPlugin {
 	@Override
 	public void apply() {
 
-		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
+		ItemScrapData.put(
+				ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
 				ScrapValue.NONE, false, false);
 		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
 				ScrapValue.NONE, false, false);
-		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
+		ItemScrapData.put(
+				ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
 				ScrapValue.NONE, false, false);
-		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
+		ItemScrapData.put(
+				ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
 				ScrapValue.NONE, false, false);
 
 		// Armor and tools

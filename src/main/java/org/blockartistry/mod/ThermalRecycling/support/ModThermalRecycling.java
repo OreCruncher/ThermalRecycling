@@ -45,63 +45,70 @@ public class ModThermalRecycling extends ModPlugin {
 	}
 
 	String[] whiteList;
-	
+
 	@Override
 	public void init(Configuration config) {
-		
+
 		String[] modList = SupportedMod.getModIdList();
 		String[] configList = ModOptions.getModWhitelist();
 
-		if(configList == null || configList.length == 0)
+		if (configList == null || configList.length == 0)
 			whiteList = modList;
-		else 
+		else
 			whiteList = MyUtils.concat(modList, configList);
 	}
-	
+
 	@Override
 	public void apply() {
-		
-		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
 
-		
-		//////////////////////
+		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+				RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+
+		// ////////////////////
 		//
 		// Add recipe blacklist items first
 		// before processing!
 		//
-		//////////////////////
+		// ////////////////////
 
-		//////////////////////
+		// ////////////////////
 		//
 		// Process the recipes
 		//
-		//////////////////////
-		
+		// ////////////////////
+
 		String modIds = ":" + String.join(":", whiteList) + ":";
-		
+
 		// Process all registered recipes
-		for(Object o: CraftingManager.getInstance().getRecipeList()) {
-			
-			IRecipe recipe = (IRecipe)o;
+		for (Object o : CraftingManager.getInstance().getRecipeList()) {
+
+			IRecipe recipe = (IRecipe) o;
 			ItemStack stack = recipe.getRecipeOutput();
-			
+
 			// Check to see if this item should have a recipe in
-			// the list.  This does not mean that something later
+			// the list. This does not mean that something later
 			// on can't add one - just means by default it will
 			// not be included.
-			if(stack != null) {
-				if(!ItemScrapData.isRecipeIgnored(stack)) {
-					
+			if (stack != null) {
+				if (!ItemScrapData.isRecipeIgnored(stack)) {
+
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
-					String name = Item.itemRegistry.getNameForObject(stack.getItem()); 
-					if(modIds.contains(":" + StringUtils.substringBefore(name, ":") + ":")) {
+					String name = Item.itemRegistry.getNameForObject(stack
+							.getItem());
+					if (modIds.contains(":"
+							+ StringUtils.substringBefore(name, ":") + ":")) {
 						recycler.useRecipe(stack).save();
 					}
 				}

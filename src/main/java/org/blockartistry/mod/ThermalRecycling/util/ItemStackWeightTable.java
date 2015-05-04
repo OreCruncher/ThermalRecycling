@@ -27,36 +27,39 @@ import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 
-public class ItemStackWeightTable extends WeightTable<ItemStackWeightTable.ItemStackItem>{
-	
-	public class ItemStackItem extends WeightTable<ItemStackWeightTable.ItemStackItem>.Item {
+public class ItemStackWeightTable extends
+		WeightTable<ItemStackWeightTable.ItemStackItem> {
+
+	public class ItemStackItem extends
+			WeightTable<ItemStackWeightTable.ItemStackItem>.Item {
 
 		final ItemStack stack;
-		
+
 		public ItemStackItem(ItemStack stack, int weight) {
 			super(weight);
 			this.stack = stack;
 		}
-		
+
 		public ItemStack getStack() {
 			return stack == null ? null : stack.copy();
 		}
-		
+
 		@Override
 		public String toString() {
-			
-			return String.format("%s (%d)", ItemStackHelper.resolveName(stack), itemWeight);
+
+			return String.format("%s (%d)", ItemStackHelper.resolveName(stack),
+					itemWeight);
 		}
 	}
-	
+
 	public ItemStackWeightTable() {
 		super();
 	}
-	
+
 	public ItemStackWeightTable(Random rand) {
 		super(rand);
 	}
-	
+
 	public ItemStack nextStack() {
 		return next().getStack();
 	}

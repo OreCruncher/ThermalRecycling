@@ -42,14 +42,14 @@ public class ScrapAssessorContainer extends Container {
 
 	TileEntityBase entity;
 	int sizeInventory;
-	
+
 	public ScrapAssessorContainer(InventoryPlayer inv, IInventory tileEntity) {
 
 		entity = (ScrapAssessorTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
 
-		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT,
-				11, 13);
+		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT, 11,
+				13);
 		addSlotToContainer(s);
 
 		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
@@ -66,8 +66,7 @@ public class ScrapAssessorContainer extends Container {
 		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
 
-		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE,
-				56, 34);
+		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE, 56, 34);
 		addSlotToContainer(s);
 
 		// Add the player inventory
@@ -89,13 +88,13 @@ public class ScrapAssessorContainer extends Container {
 			s = new Slot(inv, i, 8 + i * 18, 142);
 			addSlotToContainer(s);
 		}
-}
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
 

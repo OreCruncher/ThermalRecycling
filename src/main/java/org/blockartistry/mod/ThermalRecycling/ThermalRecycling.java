@@ -106,28 +106,29 @@ public final class ThermalRecycling {
 
 		proxy.postInit(event);
 		config.save();
-		
-		if(ModOptions.getEnableRecipeLogging()) {
-			
+
+		if (ModOptions.getEnableRecipeLogging()) {
+
 			BufferedWriter writer = null;
-			
-	        try {
-	            writer = new BufferedWriter(new FileWriter("ThermalRecycling.log"));
-	            
-	            ItemScrapData.writeDiagnostic(writer);
-	            ScrappingTables.writeDiagnostic(writer);
-	            RecipeData.writeDiagnostic(writer);
-	            UseEffect.diagnostic(writer);
-	            
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        } finally {
-	            try {
-	                // Close the writer regardless of what happens...
-	                writer.close();
-	            } catch (Exception e) {
-	            }
-	        }
+
+			try {
+				writer = new BufferedWriter(new FileWriter(
+						"ThermalRecycling.log"));
+
+				ItemScrapData.writeDiagnostic(writer);
+				ScrappingTables.writeDiagnostic(writer);
+				RecipeData.writeDiagnostic(writer);
+				UseEffect.diagnostic(writer);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					// Close the writer regardless of what happens...
+					writer.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 	}
 }

@@ -39,11 +39,14 @@ public final class ItemManager {
 	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
 	public static final ProcessingCore processingCore = new ProcessingCore();
 
-	public static void registerItems() {
+	static void registerItems() {
 
 		recyclingScrap.register();
 		recyclingScrapBox.register();
 		processingCore.register();
 	}
 
+	public ItemManager() {
+		registerItems();
+	}
 }

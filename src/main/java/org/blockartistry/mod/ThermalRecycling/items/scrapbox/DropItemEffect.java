@@ -42,9 +42,10 @@ public class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 	ItemStack stack;
 	int maxQuantity;
 
-	public DropItemEffect(UseEffectWeightTable useEffectWeightTable, int weight, ItemStack stack, int quantity) {
+	public DropItemEffect(UseEffectWeightTable useEffectWeightTable,
+			int weight, ItemStack stack, int quantity) {
 		useEffectWeightTable.super(weight);
-		
+
 		this.stack = stack;
 		this.maxQuantity = quantity;
 	}

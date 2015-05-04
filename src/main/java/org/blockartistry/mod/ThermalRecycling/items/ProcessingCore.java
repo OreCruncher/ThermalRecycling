@@ -37,27 +37,27 @@ public class ProcessingCore extends ItemBase {
 
 	public static final int DECOMPOSITION = 0;
 	public static final int EXTRACTION = 1;
-	
-	private static final String[] types = new String[] { "decomposition", "extraction" };
-	
+
+	private static final String[] types = new String[] { "decomposition",
+			"extraction" };
+
 	public ProcessingCore() {
 		super(types);
-		
+
 		setUnlocalizedName("ProcessingCore");
 		setMaxStackSize(1);
 	}
-	
+
 	@Override
 	public void register() {
 		super.register();
 
-		GameRegistry.addShapedRecipe(new ItemStack(
-				ItemManager.processingCore, 1, DECOMPOSITION),
-				" h ", "mMm", "tst",
-				'h', new ItemStack(Blocks.hopper),
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
-				't', ItemStackHelper.getItemStack("gearTin"),
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material") );
+		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.processingCore,
+				1, DECOMPOSITION), " h ", "mMm", "tst", 'h', new ItemStack(
+				Blocks.hopper), 'm', ItemStackHelper
+				.getItemStack("ThermalExpansion:meter"), 'M', ItemStackHelper
+				.getItemStack("ThermalExpansion:Frame"), 't', ItemStackHelper
+				.getItemStack("gearTin"), 's', ItemStackHelper
+				.getItemStack("ThermalExpansion:material"));
 	}
 }

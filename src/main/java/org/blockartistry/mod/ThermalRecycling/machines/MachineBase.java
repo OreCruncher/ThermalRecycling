@@ -122,11 +122,11 @@ public abstract class MachineBase extends BlockContainer {
 
 		return meta != 0 ? 8 : 0;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+
 		TileEntity te = world.getTileEntity(x, y, z);
 
 		if (!(te instanceof TileEntityBase))
@@ -134,7 +134,6 @@ public abstract class MachineBase extends BlockContainer {
 
 		((TileEntityBase) te).randomDisplayTick(world, x, y, z, rand);
 	}
-
 
 	/**
 	 * Derived class should override this method to ensure that BLOCK_FRONT is

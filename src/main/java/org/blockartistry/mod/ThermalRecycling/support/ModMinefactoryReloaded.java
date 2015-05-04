@@ -32,46 +32,49 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 public class ModMinefactoryReloaded extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-		"MineFactoryReloaded:sugarcharcoal:*",
-		"MineFactoryReloaded:fertilizer:*",
-		"MineFactoryReloaded:ceramicdye:*",
-		"MineFactoryReloaded:stainedglass.block:*",
-		"MineFactoryReloaded:stainedglass.pane:*",
-		"MineFactoryReloaded:rubberwood.log:*",
-		"MineFactoryReloaded:rubberwood.leaves:*",
-		"MineFactoryReloaded:rubberwood.sapling:*",
-		"MineFactoryReloaded:milkbottle:*"
-	};
-	
-	static final String[] scrapValuesNone = new String[] {
-		"MineFactoryReloaded:sugarcharcoal:*",
-		"MineFactoryReloaded:fertilizer:*",
-		"MineFactoryReloaded:ceramicdye:*",
-		"MineFactoryReloaded:stainedglass.block:*",
-		"MineFactoryReloaded:stainedglass.pane:*",
-		"MineFactoryReloaded:plastic.cup:*",
-		"MineFactoryReloaded:plastic.raw:*",
-		"MineFactoryReloaded:plastic.sheet:*",
-		"MineFactoryReloaded:rubberwood.log:*",
-		"MineFactoryReloaded:rubberwood.leaves:*",
-		"MineFactoryReloaded:rubberwood.sapling:*",
-		"MineFactoryReloaded:plastic.boots:*",
-		"MineFactoryReloaded:straw:*",
-		"MineFactoryReloaded:rubber.raw:*",
-		"MineFactoryReloaded:rubber.bar:*",
-		"MineFactoryReloaded:vinescaffold:*",
-		"MineFactoryReloaded:milkbottle:*"
-	};
-	
-	static final String[] scrapValuesPoor = new String[] {};
-	
-	static final String[] scrapValuesStandard = new String[] {
-		"MineFactoryReloaded:rubberwood.sapling:1"
+			"MineFactoryReloaded:sugarcharcoal:*",
+			"MineFactoryReloaded:fertilizer:*",
+			"MineFactoryReloaded:ceramicdye:*",
+			"MineFactoryReloaded:stainedglass.block:*",
+			"MineFactoryReloaded:stainedglass.pane:*",
+			"MineFactoryReloaded:rubberwood.log:*",
+			"MineFactoryReloaded:rubberwood.leaves:*",
+			"MineFactoryReloaded:rubberwood.sapling:*",
+			"MineFactoryReloaded:milkbottle:*",
+			"MineFactoryReloaded:meat.ingot.raw",
+			"MineFactoryReloaded:meat.ingot.cooked",
+			"MineFactoryReloaded:meat.nugget.raw",
+			"MineFactoryReloaded:meat.nugget.cooked",
+
 	};
 
-	static final String[] scrapValuesSuperior = new String[] {
-		"MineFactoryReloaded:rubberwood.sapling:2"
-	};
+	static final String[] scrapValuesNone = new String[] {
+			"MineFactoryReloaded:sugarcharcoal:*",
+			"MineFactoryReloaded:fertilizer:*",
+			"MineFactoryReloaded:ceramicdye:*",
+			"MineFactoryReloaded:stainedglass.block:*",
+			"MineFactoryReloaded:stainedglass.pane:*",
+			"MineFactoryReloaded:plastic.cup:*",
+			"MineFactoryReloaded:plastic.raw:*",
+			"MineFactoryReloaded:plastic.sheet:*",
+			"MineFactoryReloaded:rubberwood.log:*",
+			"MineFactoryReloaded:rubberwood.leaves:*",
+			"MineFactoryReloaded:rubberwood.sapling:*",
+			"MineFactoryReloaded:plastic.boots:*",
+			"MineFactoryReloaded:straw:*", "MineFactoryReloaded:rubber.raw:*",
+			"MineFactoryReloaded:rubber.bar:*",
+			"MineFactoryReloaded:vinescaffold:*",
+			"MineFactoryReloaded:milkbottle:*",
+			"MineFactoryReloaded:meat.ingot.raw",
+			"MineFactoryReloaded:meat.ingot.cooked",
+			"MineFactoryReloaded:meat.nugget.raw",
+			"MineFactoryReloaded:meat.nugget.cooked", };
+
+	static final String[] scrapValuesPoor = new String[] {};
+
+	static final String[] scrapValuesStandard = new String[] { "MineFactoryReloaded:rubberwood.sapling:1" };
+
+	static final String[] scrapValuesSuperior = new String[] { "MineFactoryReloaded:rubberwood.sapling:2" };
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);
@@ -85,11 +88,12 @@ public class ModMinefactoryReloaded extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
-		ItemScrapData data = ItemScrapData.get(ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle"));
+
+		ItemScrapData data = ItemScrapData.get(ItemStackHelper
+				.getItemStack("MineFactoryReloaded:milkbottle"));
 		data.setScrubFromOutput(true);
 		ItemScrapData.put(data);
-		
+
 		// Add the rubber saplings for recycling. We don't want the big daddy.
 		pulverizer
 				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling",

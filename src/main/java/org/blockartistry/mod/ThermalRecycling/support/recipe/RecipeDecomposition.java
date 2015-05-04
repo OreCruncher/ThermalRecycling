@@ -23,12 +23,11 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public final class RecipeDecomposition implements Iterable<ItemStack> {
 
 	static final String[] classIgnoreList = new String[] {
-		"forestry.lepidopterology.MatingRecipe",
-		"cofh.thermaldynamics.util.crafting.RecipeCover",
-		"mods.railcraft.common.carts.LocomotivePaintingRecipe",
-		"mods.railcraft.common.emblems.EmblemPostColorRecipe"
-	};
-	
+			"forestry.lepidopterology.MatingRecipe",
+			"cofh.thermaldynamics.util.crafting.RecipeCover",
+			"mods.railcraft.common.carts.LocomotivePaintingRecipe",
+			"mods.railcraft.common.emblems.EmblemPostColorRecipe" };
+
 	public class MyIterator<T> implements Iterator<T> {
 
 		List<ItemStack> list;
@@ -62,8 +61,9 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	final IRecipe recipe;
 	List<ItemStack> projection;
 	ItemStack inputStack;
-	
-	public RecipeDecomposition(boolean buildCraftSpecial, ItemStack input, Object... output) {
+
+	public RecipeDecomposition(boolean buildCraftSpecial, ItemStack input,
+			Object... output) {
 		inputStack = input;
 		recipe = null;
 		projection = projectBuildcraftRecipeList(output);
@@ -76,15 +76,16 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		projection = projectForgeRecipeList(output);
 		scrubProjection();
 	}
-	
+
 	public RecipeDecomposition(IRecipe recipe) {
 		this.recipe = recipe;
 	}
 
 	public ItemStack getInput() {
-		return inputStack != null ? inputStack.copy() : recipe.getRecipeOutput().copy();
+		return inputStack != null ? inputStack.copy() : recipe
+				.getRecipeOutput().copy();
 	}
-	
+
 	public ItemStack getOutput() {
 		return recipe.getRecipeOutput().copy();
 	}
@@ -94,34 +95,35 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	}
 
 	protected static boolean isClassIgnored(Object obj) {
-		
-		for(String s: classIgnoreList)
-			if(matchClassName(obj, s))
+
+		for (String s : classIgnoreList)
+			if (matchClassName(obj, s))
 				return true;
 		return false;
 	}
-	
+
 	protected void scrubProjection() {
-		
-		if(projection == null)
+
+		if (projection == null)
 			return;
-		
+
 		// Scan for the list looking for wildcards as well
-		// as those items that match the input.  Sometimes
+		// as those items that match the input. Sometimes
 		// an author will make a cyclic recipe.
-		for(int i = 0; i < projection.size(); i++) {
+		for (int i = 0; i < projection.size(); i++) {
 			ItemStack stack = projection.get(i);
-			if(stack != null)
-				if(ItemHelper.itemsEqualWithMetadata(stack, inputStack))
-					projection.set(i,  null);
-				else if (stack != null && stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+			if (stack != null)
+				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack))
+					projection.set(i, null);
+				else if (stack != null
+						&& stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 					stack.setItemDamage(0);
 		}
-			
+
 		// Do final scrub on the list
 		projection = MyUtils.compress(ItemStackHelper.coelece(projection));
 	}
-	
+
 	public List<ItemStack> project() {
 
 		if (projection == null) {
@@ -136,15 +138,17 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 			} else if (matchClassName(recipe,
 					"cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper")) {
 				projection = projectTERecipe(recipe);
-			} else if(matchClassName(recipe, "forestry.core.utils.ShapedRecipeCustom")){
+			} else if (matchClassName(recipe,
+					"forestry.core.utils.ShapedRecipeCustom")) {
 				projection = projectForestryRecipe(recipe);
-			} else if(!isClassIgnored(recipe)){
-				ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
+			} else if (!isClassIgnored(recipe)) {
+				ModLog.info("Unknown recipe class: %s", recipe.getClass()
+						.getName());
 			}
-	
+
 			scrubProjection();
 		}
-		
+
 		return projection;
 	}
 
@@ -161,37 +165,37 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 
 	protected static List<ItemStack> project(ShapelessRecipes recipe) {
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		for(Object stack: recipe.recipeItems)
+		for (Object stack : recipe.recipeItems)
 			result.add(((ItemStack) (stack)).copy());
 		return result;
 	}
 
 	static List<ItemStack> recurseArray(List<?> list, int level) {
-	
+
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
-		if(level == 3)
-			result.add((ItemStack)list.get(0));
+		if (level == 3)
+			result.add((ItemStack) list.get(0));
 		else
-			for(Object o: list) {
-				if(o instanceof ItemStack)
-					result.add(((ItemStack)o).copy());
-				else if(o instanceof ArrayList<?>) {
-					result.addAll(recurseArray((ArrayList<?>)o, level + 1));
+			for (Object o : list) {
+				if (o instanceof ItemStack)
+					result.add(((ItemStack) o).copy());
+				else if (o instanceof ArrayList<?>) {
+					result.addAll(recurseArray((ArrayList<?>) o, level + 1));
 				}
 			}
-		
+
 		return result;
 	}
-	
+
 	protected static List<ItemStack> projectBuildcraftRecipeList(Object[] list) {
 		return recurseArray(Arrays.asList(list), 1);
 	}
-	
+
 	protected static List<ItemStack> projectForgeRecipeList(Object[] list) {
-		
+
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		
+
 		for (int i = 0; i < list.length; i++) {
 			Object o = list[i];
 
@@ -244,11 +248,11 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 
 		return result;
 	}
-	
+
 	protected static List<ItemStack> projectForestryRecipe(IRecipe recipe) {
-		
+
 		List<ItemStack> result = null;
-		
+
 		try {
 
 			if (forestryRecipeAccessor == null) {

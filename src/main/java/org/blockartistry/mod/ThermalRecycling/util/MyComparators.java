@@ -30,17 +30,17 @@ import net.minecraft.item.ItemStack;
 public final class MyComparators {
 
 	static int compareSubTypesAscending(ItemStack o1, ItemStack o2) {
-		
-		if(o1.getHasSubtypes() && !o2.getHasSubtypes())
+
+		if (o1.getHasSubtypes() && !o2.getHasSubtypes())
 			return 1;
-		if(!o1.getHasSubtypes() && o2.getHasSubtypes())
+		if (!o1.getHasSubtypes() && o2.getHasSubtypes())
 			return -1;
-		if(!o1.getHasSubtypes() && !o2.getHasSubtypes())
+		if (!o1.getHasSubtypes() && !o2.getHasSubtypes())
 			return 0;
-		
+
 		return o1.getItemDamage() - o2.getItemDamage();
 	}
-	
+
 	public static final Comparator<ItemStack> itemStackAscending = new Comparator<ItemStack>() {
 
 		@Override
@@ -49,24 +49,16 @@ public final class MyComparators {
 			int result = o1.getItem().hashCode() - o2.getItem().hashCode();
 			if (result == 0)
 				result = compareSubTypesAscending(o1, o2);
-			
-/*
-			if (result == 0 && o2.stackTagCompound != o1.stackTagCompound) {
-				if (o2.stackTagCompound == null && o1.stackTagCompound != null)
-					result = -1;
-				else if (o2.stackTagCompound != null
-						&& o1.stackTagCompound == null)
-					result = 1;
-				else if (o2.stackTagCompound.equals(o1.stackTagCompound)) {
-					result = 0;
-				} else {
-					// There not equal - not sure how to prioritize. In this
-					// case, pick a direction
-					// to be consistent
-					result = -1;
-				}
-			}
-*/
+
+			/*
+			 * if (result == 0 && o2.stackTagCompound != o1.stackTagCompound) {
+			 * if (o2.stackTagCompound == null && o1.stackTagCompound != null)
+			 * result = -1; else if (o2.stackTagCompound != null &&
+			 * o1.stackTagCompound == null) result = 1; else if
+			 * (o2.stackTagCompound.equals(o1.stackTagCompound)) { result = 0; }
+			 * else { // There not equal - not sure how to prioritize. In this
+			 * // case, pick a direction // to be consistent result = -1; } }
+			 */
 			return result;
 		}
 
@@ -80,23 +72,15 @@ public final class MyComparators {
 			int result = o2.getItem().hashCode() - o1.getItem().hashCode();
 			if (result == 0)
 				result = o2.getItemDamage() - o1.getItemDamage();
-/*
-			if (result == 0 && o2.stackTagCompound != o1.stackTagCompound) {
-				if (o2.stackTagCompound == null && o1.stackTagCompound != null)
-					result = 1;
-				else if (o2.stackTagCompound != null
-						&& o1.stackTagCompound == null)
-					result = -1;
-				else if (o2.stackTagCompound.equals(o1.stackTagCompound))
-					result = 0;
-				else {
-					// There not equal - not sure how to prioritize. In this
-					// case, pick a direction
-					// to be consistent
-					result = 1;
-				}
-			}
-*/
+			/*
+			 * if (result == 0 && o2.stackTagCompound != o1.stackTagCompound) {
+			 * if (o2.stackTagCompound == null && o1.stackTagCompound != null)
+			 * result = 1; else if (o2.stackTagCompound != null &&
+			 * o1.stackTagCompound == null) result = -1; else if
+			 * (o2.stackTagCompound.equals(o1.stackTagCompound)) result = 0;
+			 * else { // There not equal - not sure how to prioritize. In this
+			 * // case, pick a direction // to be consistent result = 1; } }
+			 */
 			return result;
 		}
 	};

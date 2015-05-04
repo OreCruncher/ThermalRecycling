@@ -48,11 +48,11 @@ public class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
 	String category;
 
-	public ChestEffect(UseEffectWeightTable useEffectWeightTable, int weight, String category) {
+	public ChestEffect(UseEffectWeightTable useEffectWeightTable, int weight,
+			String category) {
 		useEffectWeightTable.super(weight);
 		this.category = category;
 	}
-
 
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {

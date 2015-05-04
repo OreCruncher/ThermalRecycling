@@ -30,8 +30,7 @@ import java.util.List;
 public final class MyUtils {
 
 	/**
-	 * Concatinates two arrays together returning the result in a new
-	 * array.
+	 * Concatinates two arrays together returning the result in a new array.
 	 * 
 	 * @param first
 	 * @param second
@@ -42,51 +41,50 @@ public final class MyUtils {
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
 	}
-	
+
 	/**
-	 * Compresses the array by removing intervening nulls by arranging
-	 * array elements.  It then truncates the array returning a new
-	 * array with just those elements.
+	 * Compresses the array by removing intervening nulls by arranging array
+	 * elements. It then truncates the array returning a new array with just
+	 * those elements.
 	 * 
 	 * @param list
 	 * @return
 	 */
 	public static <T> T[] compress(T[] list) {
-		
-		if(list.length < 2)
+
+		if (list.length < 2)
 			return list;
-		
+
 		// Null slot is a trailing index that points
-		// to a null slot.  Once i finds a null slot
+		// to a null slot. Once i finds a null slot
 		// there will always be a gap so it just
 		// a matter of continuing to increment
 		// nullSlot.
 		int nullSlot = -1;
-		for(int i = 0; i < list.length; i++) {
-			if(nullSlot == -1 && list[i] == null) {
+		for (int i = 0; i < list.length; i++) {
+			if (nullSlot == -1 && list[i] == null) {
 				nullSlot = i;
-			}
-			else if(nullSlot != -1 & list[i] != null) {
+			} else if (nullSlot != -1 & list[i] != null) {
 				list[nullSlot++] = list[i];
 			}
 		}
-		
+
 		// If nullSlot is still -1 it means there are
 		// no nulls.
-		if(nullSlot == -1)
+		if (nullSlot == -1)
 			return list;
-		
+
 		// If it is not -1 then it contains the index of
 		// the last null slot, or the length of the array
 		// up to the null.
 		return Arrays.copyOf(list, nullSlot);
 	}
-	
+
 	public static <T> List<T> compress(List<T> list) {
 		list.removeAll(Collections.singleton(null));
 		return list;
 	}
-	
+
 	/**
 	 * Appends a standard array to a List of the given type.
 	 * 
@@ -94,10 +92,10 @@ public final class MyUtils {
 	 * @param array
 	 */
 	public static <T> void concat(List<T> list, T[] array) {
-		for(T t : array)
+		for (T t : array)
 			list.add(t);
 	}
-	
+
 	public static <T> T[] cast(Object[] list, Class<? extends T[]> clazz) {
 		return Arrays.copyOf(list, list.length, clazz);
 	}

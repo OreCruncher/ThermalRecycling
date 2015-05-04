@@ -31,30 +31,30 @@ import java.util.List;
 import java.util.Random;
 
 public class WeightTable<T extends WeightTable<T>.Item> {
-	
+
 	static final Random random = new Random();
-	
+
 	private ArrayList<T> items = new ArrayList<T>();
 	private Random rand = random;
 	private int totalWeight = 0;
-	
+
 	public abstract class Item {
-		
+
 		public final int itemWeight;
 		protected final Random rnd;
-		
+
 		public Item(int weight) {
 			this.itemWeight = weight;
 			this.rnd = rand;
 		}
 	}
-	
+
 	public WeightTable() {
 		this(null);
 	}
-	
+
 	public WeightTable(Random rand) {
-		if(rand != null)
+		if (rand != null)
 			this.rand = rand;
 	}
 
@@ -62,31 +62,34 @@ public class WeightTable<T extends WeightTable<T>.Item> {
 		totalWeight += entry.itemWeight;
 		items.add(entry);
 	}
-	
+
 	public T next() {
-		
+
 		int targetWeight = rand.nextInt(totalWeight);
 
 		int i = 0;
-		for(i = items.size() ; (targetWeight -= items.get(i-1).itemWeight) > 0; i--);
+		for (i = items.size(); (targetWeight -= items.get(i - 1).itemWeight) > 0; i--)
+			;
 
-		return items.get(i-1);
+		return items.get(i - 1);
 	}
-	
+
 	public List<T> getEntries() {
 		return Collections.unmodifiableList(items);
 	}
-	
+
 	public int getTotalWeight() {
 		return totalWeight;
 	}
-	
+
 	public void diagnostic(String title, Writer writer) throws IOException {
-		
-		writer.write(String.format("Weight table [%s] (total weight %d):\n", title, totalWeight));
+
+		writer.write(String.format("Weight table [%s] (total weight %d):\n",
+				title, totalWeight));
 		writer.write("==========================================================\n");
-		for(Item i: items)
-			writer.write(String.format("%s - %-1.2f%%\n", i.toString(), (double)i.itemWeight * 100F / totalWeight));
+		for (Item i : items)
+			writer.write(String.format("%s - %-1.2f%%\n", i.toString(),
+					(double) i.itemWeight * 100F / totalWeight));
 		writer.write("==========================================================\n");
 	}
 }

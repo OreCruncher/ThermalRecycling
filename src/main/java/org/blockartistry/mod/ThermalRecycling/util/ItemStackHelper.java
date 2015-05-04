@@ -62,7 +62,8 @@ public final class ItemStackHelper {
 			"ThermalFoundation:material");
 	static Item storageBase = GameData.getItemRegistry().getObject(
 			"ThermalFoundation:Storage");
-	static Item materialBaseTE = GameData.getItemRegistry().getObject("ThermalExpansion:material");
+	static Item materialBaseTE = GameData.getItemRegistry().getObject(
+			"ThermalExpansion:material");
 
 	public static final ItemStack dustIron = new ItemStack(materialBase, 1, 0);
 	public static final ItemStack dustGold = new ItemStack(materialBase, 1, 1);
@@ -89,8 +90,9 @@ public final class ItemStackHelper {
 			43);
 	public static final ItemStack dustEnderium = new ItemStack(materialBase, 1,
 			44);
-	
-	public static final ItemStack dustWood = new ItemStack(materialBaseTE, 1, 512);
+
+	public static final ItemStack dustWood = new ItemStack(materialBaseTE, 1,
+			512);
 	public static final ItemStack boneMeal = new ItemStack(Items.dye, 1, 15);
 
 	static {
@@ -739,7 +741,7 @@ public final class ItemStackHelper {
 	public static ItemStack asGeneric(ItemStack stack) {
 		return asGeneric(stack.getItem());
 	}
-	
+
 	public static ItemStack asGeneric(Item item) {
 		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
 	}

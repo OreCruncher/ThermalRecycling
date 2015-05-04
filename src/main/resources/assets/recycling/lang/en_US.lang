@@ -28,3 +28,9 @@ achievement.feelingScrappy=Feeling Scrappy!
 achievement.feelingScrappy.desc=Craft a Thermal Recycler
 achievement.doingMyPart=Doing My Part
 achievement.doingMyPart.desc=Use a scrap box
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eScrap Value: §7None
+msg.ItemScrapValue.poor=§eScrap Value: §fPoor
+msg.ItemScrapValue.standard=§eScrap Value: §9Standard
+msg.ItemScrapValue.superior=§eScrap Value: §6Superior
