@@ -69,8 +69,8 @@ public class ElementProgress extends ElementBase {
 
 		int scaledX = getScaled();
 
-		if (scaledX == 0)
-			return;
+//		if (scaledX == 0)
+//			return;
 
 		// Need to scale our X size based on progress
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

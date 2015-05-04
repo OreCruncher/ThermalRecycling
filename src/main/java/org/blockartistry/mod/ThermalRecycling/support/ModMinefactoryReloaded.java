@@ -81,10 +81,10 @@ public class ModMinefactoryReloaded extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
-		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
-		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
-		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 		
 		ItemScrapData data = ItemScrapData.get(ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle"));
 		data.setScrubFromOutput(true);

@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
+import java.util.Random;
+
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
@@ -40,7 +42,7 @@ import net.minecraft.world.World;
 
 public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory {
-
+	
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
 	
@@ -101,6 +103,10 @@ public abstract class TileEntityBase extends TileEntity implements
 		return true;
 	}
 
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		
+	}
+	
 	public Object getGuiClient(InventoryPlayer inventory) {
 		return null;
 	}

@@ -36,13 +36,16 @@ public final class ModOptions {
 	protected static final String CATEGORY_LOGGING_CONTROL = "logging";
 	protected static final String CATEGORY_MODS = "mods";
 
+	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
+	protected static final String CONFIG_ENABLE_FX = "Enable FX";
+
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 
 	protected static final String CATEGORY_FUEL_SETTINGS = "Fuel Settings";
 	protected static final String CONFIG_POOR_SCRAP_FUEL_SETTING = "Poor Scrap Fuel Ticks";
 	protected static final String CONFIG_STANDARD_SCRAP_FUEL_SETTING = "Standard Scrap Fuel Ticks";
 	protected static final String CONFIG_SUPERIOR_SCRAP_FUEL_SETTING = "Superior Scrap Fuel Ticks";
-	protected static final String CONFIG_SCRAPBOX_MULTIPLIER = "Scrabox Multiplier";
+	protected static final String CONFIG_SCRAPBOX_MULTIPLIER = "Scrapbox Multiplier";
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -51,6 +54,7 @@ public final class ModOptions {
 	protected static int standardScrapFuelSetting = 800;
 	protected static int superiorScrapFuelSetting = 1600;
 	protected static int scrapboxMultiplier = 9;
+	protected static boolean enableRecyclerFX = true;
 
 	public static void load(Configuration config) {
 
@@ -80,22 +84,25 @@ public final class ModOptions {
 				CATEGORY_FUEL_SETTINGS, poorScrapFuelSetting, 0,
 				Integer.MAX_VALUE,
 				"Number of ticks Poor Scrap will burn in a furnace");
-		
+
 		standardScrapFuelSetting = config.getInt(
 				CONFIG_STANDARD_SCRAP_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
 				standardScrapFuelSetting, 0, Integer.MAX_VALUE,
 				"Number of ticks Standard Scrap will burn in a furnace");
-		
+
 		superiorScrapFuelSetting = config.getInt(
 				CONFIG_SUPERIOR_SCRAP_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
 				superiorScrapFuelSetting, 0, Integer.MAX_VALUE,
 				"Number of ticks Superior Scrap will burn in a furnace");
-		
+
 		scrapboxMultiplier = config
-				.getInt(CONFIG_SUPERIOR_SCRAP_FUEL_SETTING,
-						CONFIG_SCRAPBOX_MULTIPLIER, scrapboxMultiplier, 0,
-						Integer.MAX_VALUE,
+				.getInt(CONFIG_SCRAPBOX_MULTIPLIER, CATEGORY_FUEL_SETTINGS,
+						scrapboxMultiplier, 0, Integer.MAX_VALUE,
 						"Number of ticks a ScrapBox will burn in multiples of the base scrap type");
+
+		enableRecyclerFX = config.getBoolean(CONFIG_ENABLE_FX,
+				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX,
+				"Control whether client displays visual effects");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -125,5 +132,9 @@ public final class ModOptions {
 
 	public static int getScrapBoxMultiplier() {
 		return scrapboxMultiplier;
+	}
+
+	public static boolean getEnableRecyclerFX() {
+		return enableRecyclerFX;
 	}
 }

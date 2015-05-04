@@ -2,6 +2,7 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,6 +62,13 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 	final IRecipe recipe;
 	List<ItemStack> projection;
 	ItemStack inputStack;
+	
+	public RecipeDecomposition(boolean buildCraftSpecial, ItemStack input, Object... output) {
+		inputStack = input;
+		recipe = null;
+		projection = projectBuildcraftRecipeList(output);
+		scrubProjection();
+	}
 
 	public RecipeDecomposition(ItemStack input, Object... output) {
 		inputStack = input;
@@ -158,6 +166,28 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 		return result;
 	}
 
+	static List<ItemStack> recurseArray(List<?> list, int level) {
+	
+		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+
+		if(level == 3)
+			result.add((ItemStack)list.get(0));
+		else
+			for(Object o: list) {
+				if(o instanceof ItemStack)
+					result.add(((ItemStack)o).copy());
+				else if(o instanceof ArrayList<?>) {
+					result.addAll(recurseArray((ArrayList<?>)o, level + 1));
+				}
+			}
+		
+		return result;
+	}
+	
+	protected static List<ItemStack> projectBuildcraftRecipeList(Object[] list) {
+		return recurseArray(Arrays.asList(list), 1);
+	}
+	
 	protected static List<ItemStack> projectForgeRecipeList(Object[] list) {
 		
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();

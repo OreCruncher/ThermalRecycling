@@ -26,7 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
@@ -42,6 +45,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ThermalRecyclerTileEntity extends TileEntityBase implements
@@ -356,7 +360,24 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 		}
 	}
-
+	
+	// Modeled after the Redstone block code...
+	@Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
+    {
+		if(!ModOptions.getEnableRecyclerFX())
+			return;
+		
+		if(!(status == MachineStatus.ACTIVE || status == MachineStatus.JAMMED) || rand.nextInt(9) != 0)
+			return;
+		
+		String particle = "happyVillager";
+		if(status == MachineStatus.JAMMED)
+			particle = "reddust";
+		
+		ParticleEffects.spawnParticlesAroundBlock(particle, world, x, y, z, rand);
+    }
+	
 	protected boolean hasItemToRecycle() {
 		ItemStack input = getStackInSlot(INPUT);
 		if (input == null)
@@ -396,14 +417,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		return isEmpty;
 	}
 	
-	protected boolean isDecompositionCoreInstalled() {
-		return ProcessingCorePolicy.isDecompositionCore(getStackInSlot(CORE));
-	}
-	
-	protected boolean isExtractionCoreInstalled() {
-		return ProcessingCorePolicy.isExtractionCore(getStackInSlot(CORE));
-	}
-
 	protected boolean recycleItem() {
 
 		// Get how many items we need to snag off the stack

@@ -71,7 +71,7 @@ public abstract class ModPlugin {
 
 	public abstract void apply();
 	
-	protected static void registerRecipesToIgnore(String[] list) {
+	protected static void registerRecipesToIgnore(String... list) {
 		for(String s: list) {
 			ItemStack stack = ItemStackHelper.getItemStack(s);
 			if(stack != null)
@@ -79,7 +79,7 @@ public abstract class ModPlugin {
 		}
 	}
 	
-	protected static void registerScrapValues(String[] list, ScrapValue value) {
+	protected static void registerScrapValues(ScrapValue value, String... list) {
 		for(String s: list)
 			ItemScrapData.setValue(ItemStackHelper.getItemStack(s), value);
 	}

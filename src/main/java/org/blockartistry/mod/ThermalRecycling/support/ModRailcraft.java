@@ -74,10 +74,10 @@ public class ModRailcraft extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
-		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
-		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
-		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Add back in some common sense recipes that were excluded above
 		recycler.input("Railcraft:machine.beta", 8)

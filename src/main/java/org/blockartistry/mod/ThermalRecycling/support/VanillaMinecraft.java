@@ -70,7 +70,7 @@ public class VanillaMinecraft extends ModPlugin {
 	public void apply() {
 		
 		// Items
-		ItemScrapData.put(Items.dye, ScrapValue.NONE, true, false);
+		ItemScrapData.put(Items.dye, ScrapValue.NONE, true, true);
 		ItemScrapData.put(Items.arrow, ScrapValue.NONE, true, false);
 		ItemScrapData.put(Items.blaze_powder, ScrapValue.STANDARD, true, false);
 		ItemScrapData.put(Items.bone, ScrapValue.NONE, true, false);

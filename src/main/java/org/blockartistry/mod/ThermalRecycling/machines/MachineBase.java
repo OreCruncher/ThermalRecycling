@@ -24,9 +24,12 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines;
 
+import java.util.Random;
+
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -119,6 +122,19 @@ public abstract class MachineBase extends BlockContainer {
 
 		return meta != 0 ? 8 : 0;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if (!(te instanceof TileEntityBase))
+			return;
+
+		((TileEntityBase) te).randomDisplayTick(world, x, y, z, rand);
+	}
+
 
 	/**
 	 * Derived class should override this method to ensure that BLOCK_FRONT is

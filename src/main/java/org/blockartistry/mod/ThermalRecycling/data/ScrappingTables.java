@@ -198,17 +198,27 @@ public final class ScrappingTables {
 
 		return extractionDust.get(scrappingValue);
 	}
+	
+	static ItemStack tuneProcessingCore(ItemStack core, ItemStack stack) {
+		if(ProcessingCorePolicy.isDecompositionCore(core) && RecipeData.getRecipe(stack) == null)
+			return null;
+		return core;
+	}
 
 	public static List<ItemStack> getScrapPossibilities(ItemStack core,
 			ItemStack stack) {
 
+		// If its a decomp core and the item has no recipe, treat as if it
+		// were being scrapped directly
+		core = tuneProcessingCore(core, stack);
+		
 		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 		ItemStackWeightTable t = getTable(core, stack);
 
 		for (ItemStackItem w : t.getEntries()) {
 
 			ItemStack temp = w.getStack();
-			if (temp != null) {
+			if (temp != null && !(keepIt(temp) || dustIt(temp))) {
 
 				double percent = w.itemWeight * 100F / t.getTotalWeight();
 				ItemStackHelper.setItemLore(temp,
@@ -237,8 +247,14 @@ public final class ScrappingTables {
 		// If a decomp core is installed, get a list of outputs from the recipes.
 		// If an extraction core and the item is a scrap box, convert to scrap
 		// with a bonus - 10 pieces total.
-		if (ProcessingCorePolicy.isDecompositionCore(core))
+		if (ProcessingCorePolicy.isDecompositionCore(core)) {
 			processingList = RecipeData.getRecipe(stack);
+			
+			// If there isn't a recipe, process the item as if it were being
+			// scrapped without any cores.
+			if(processingList == null)
+				core = null;
+		}
 		else if(ProcessingCorePolicy.isExtractionCore(core) && stack.getItem() == ItemManager.recyclingScrapBox) {
 			ItemStack t = new ItemStack(ItemManager.recyclingScrap, 10, stack.getItemDamage());
 			processingList = new ArrayList<ItemStack>();

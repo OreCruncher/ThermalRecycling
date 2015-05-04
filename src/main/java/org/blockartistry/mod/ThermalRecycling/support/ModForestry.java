@@ -110,10 +110,10 @@ public class ModForestry extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(scrapValuesNone, ScrapValue.NONE);
-		registerScrapValues(scrapValuesPoor, ScrapValue.POOR);
-		registerScrapValues(scrapValuesStandard, ScrapValue.STANDARD);
-		registerScrapValues(scrapValuesSuperior, ScrapValue.SUPERIOR);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should

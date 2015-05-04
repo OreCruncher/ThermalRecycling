@@ -95,7 +95,9 @@ public final class ItemScrapData {
 	static ItemStack asGeneric(ItemStack stack) {
 		if(stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 			return stack;
-		return new ItemStack(stack.getItem(), 1, OreDictionary.WILDCARD_VALUE);
+		ItemStack t = stack.copy();
+		t.setItemDamage(OreDictionary.WILDCARD_VALUE);
+		return t;
 	}
 	
 	static ItemStack asGeneric(Item item) {
@@ -287,7 +289,8 @@ public final class ItemScrapData {
 		if(isOreDictionaryType(stack))
 			return true;
 		ItemScrapData data = get(stack);
-		return data.getIgnoreRecipe() || data.isFood();
+		
+		return data != null && (data.getIgnoreRecipe() || data.isFood());
 	}
 	
 	public static void setRecipeIgnored(Item item, boolean flag) {
