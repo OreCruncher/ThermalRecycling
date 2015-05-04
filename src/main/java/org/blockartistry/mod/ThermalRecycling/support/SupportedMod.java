@@ -44,7 +44,12 @@ public enum SupportedMod {
 
 	THAUMCRAFT("Thaumcraft", "Thaumcraft", ModThaumcraft.class),
 
-	BUILDCRAFT("BuidlCraft", "BuildCraft|Core", ModBuildCraft.class),
+	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core", ModBuildCraftCore.class),
+	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport", ModBuildCraftTransport.class),
+	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon", ModBuildCraftSilicon.class),
+	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
+	BUILDCRAFT_ENERGY("BuildCraft|Energy", "BuildCraft|Energy", ModBuildCraftEnergy.class),
+	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
 

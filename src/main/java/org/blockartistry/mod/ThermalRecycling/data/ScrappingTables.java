@@ -33,16 +33,14 @@ import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
-
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public final class ScrappingTables {
 
-	static final ItemStack keep = new ItemStack(Blocks.dirt);
-	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
+	public static final ItemStack keep = new ItemStack(Blocks.dirt);
+	public static final ItemStack dust = new ItemStack(Blocks.cobblestone);
 	static final ItemStack poorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.POOR);
 	static final ItemStack standardScrap = new ItemStack(
@@ -52,14 +50,6 @@ public final class ScrappingTables {
 
 	static final ArrayList<ItemStackWeightTable> componentScrap = new ArrayList<ItemStackWeightTable>();
 	static final ArrayList<ItemStackWeightTable> extractionDust = new ArrayList<ItemStackWeightTable>();
-
-	static boolean keepIt(ItemStack stack) {
-		return stack != null && stack.isItemEqual(keep);
-	}
-
-	static boolean dustIt(ItemStack stack) {
-		return stack != null && stack.isItemEqual(dust);
-	}
 
 	static {
 		
@@ -181,7 +171,7 @@ public final class ScrappingTables {
 		extractionDust.add(t);
 	}
 
-	protected static ItemStackWeightTable getTable(ItemStack core,
+	public static ItemStackWeightTable getTable(ItemStack core,
 			ItemStack stack) {
 
 		boolean mustScrap = core == null;
@@ -199,104 +189,6 @@ public final class ScrappingTables {
 		return extractionDust.get(scrappingValue);
 	}
 	
-	static ItemStack tuneProcessingCore(ItemStack core, ItemStack stack) {
-		if(ProcessingCorePolicy.isDecompositionCore(core) && RecipeData.getRecipe(stack) == null)
-			return null;
-		return core;
-	}
-
-	public static List<ItemStack> getScrapPossibilities(ItemStack core,
-			ItemStack stack) {
-
-		// If its a decomp core and the item has no recipe, treat as if it
-		// were being scrapped directly
-		core = tuneProcessingCore(core, stack);
-		
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		ItemStackWeightTable t = getTable(core, stack);
-
-		for (ItemStackItem w : t.getEntries()) {
-
-			ItemStack temp = w.getStack();
-			if (temp != null && !(keepIt(temp) || dustIt(temp))) {
-
-				double percent = w.itemWeight * 100F / t.getTotalWeight();
-				ItemStackHelper.setItemLore(temp,
-						String.format("%-1.2f%% chance", percent));
-				result.add(temp);
-			}
-		}
-
-		return result;
-	}
-
-	public static List<ItemStack> extractItems(ItemStack stack) {
-		if (stack == null || stack.stackSize < 1)
-			return null;
-
-		return null;
-	}
-
-	public static List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
-		if (stack == null || stack.stackSize < 1)
-			return null;
-
-		List<ItemStack> result = null;
-		List<ItemStack> processingList = null;
-
-		// If a decomp core is installed, get a list of outputs from the recipes.
-		// If an extraction core and the item is a scrap box, convert to scrap
-		// with a bonus - 10 pieces total.
-		if (ProcessingCorePolicy.isDecompositionCore(core)) {
-			processingList = RecipeData.getRecipe(stack);
-			
-			// If there isn't a recipe, process the item as if it were being
-			// scrapped without any cores.
-			if(processingList == null)
-				core = null;
-		}
-		else if(ProcessingCorePolicy.isExtractionCore(core) && stack.getItem() == ItemManager.recyclingScrapBox) {
-			ItemStack t = new ItemStack(ItemManager.recyclingScrap, 10, stack.getItemDamage());
-			processingList = new ArrayList<ItemStack>();
-			processingList.add(t);
-		}
-
-		// If we get here just scrap the input
-		if(processingList == null) {
-			processingList = new ArrayList<ItemStack>();
-			processingList.add(stack);
-		}
-		
-		result = new ArrayList<ItemStack>();
-
-		for (ItemStack item: processingList) {
-			
-			ItemStackWeightTable t = getTable(core, item);
-
-			for(int count = 0; count < item.stackSize; count++) {
-			
-				ItemStack cupieDoll = t.nextStack();
-	
-				if (cupieDoll != null) {
-					ItemStack temp = item.copy();
-					temp.stackSize = 1;
-	
-					// Post process and return
-					if (keepIt(cupieDoll)) {
-						result.add(temp);
-					} else if (dustIt(cupieDoll)) {
-						result.add(ItemStackHelper
-								.convertToDustIfPossible(temp));
-					} else {
-						result.add(cupieDoll);
-					}
-				}
-			}
-		}
-		
-		return result;
-	}
-
 	public static boolean canBeScrapped(ItemStack stack) {
 
 		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
@@ -306,6 +198,14 @@ public final class ScrappingTables {
 					.getItem() == ItemManager.recyclingScrapBox);
 	}
 
+	public static List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
+		return ScrapHandler.getHandler(stack).scrapItems(core, stack);
+	}
+	
+	public static ScrapHandler.PreviewResult preview(ItemStack core, ItemStack stack) {
+		return ScrapHandler.getHandler(stack).preview(core, stack);
+	}
+	
 	public static void writeDiagnostic(Writer writer) throws Exception {
 
 		writer.write("Scrapping Tables:\n");

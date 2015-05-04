@@ -735,4 +735,12 @@ public final class ItemStackHelper {
 		stack.setTagCompound(nbt);
 
 	}
+
+	public static ItemStack asGeneric(ItemStack stack) {
+		return asGeneric(stack.getItem());
+	}
+	
+	public static ItemStack asGeneric(Item item) {
+		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
+	}
 }

@@ -24,28 +24,24 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import net.minecraft.init.Blocks;
 
-public class ModThermalExpansion extends ModPlugin {
+public class ModBuildCraftEnergy extends ModPlugin {
 
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
+	public ModBuildCraftEnergy() {
+		super(SupportedMod.BUILDCRAFT_ENERGY);
 	}
 
 	@Override
 	public void apply() {
-		
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
-		// Need to be able to see any special frames and security items
-		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
 
+		// Redstone Engine
+		sawmill.append("BuildCraft|Energy:engineBlock")
+				.output(Blocks.planks, 6).secondaryOutput("ingotIron").save();
+
+		// Stirling Engine
+		pulverizer.append("BuildCraft|Energy:engineBlock:1")
+				.output(Blocks.cobblestone, 15).secondaryOutput("ingotIron")
+				.save();
 	}
 }

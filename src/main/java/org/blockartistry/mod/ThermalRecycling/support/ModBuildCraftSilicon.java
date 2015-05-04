@@ -25,27 +25,47 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ModThermalExpansion extends ModPlugin {
+public class ModBuildCraftSilicon extends ModPlugin {
 
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
+	static final String[] recipeIgnoreList = new String[] {
+		"BuildCraft|Transport:pipeGate:*"
+	};
+
+	static final String[] scrapValuesNone = new String[] { 
+		"BuildCraft|Transport:pipeWire:*",
+		"BuildCraft|Silicon:redstoneChipset"
+	};
+	
+	static final String[] scrapValuesPoor = new String[] {
+		"BuildCraft|Silicon:redstoneChipset:5",
+		"BuildCraft|Silicon:redstoneChipset:6"
+	};
+	
+	static final String[] scrapValuesStandard = new String[] {
+		"BuildCraft|Silicon:redstoneChipset:1",
+		"BuildCraft|Silicon:redstoneChipset:2",
+		"BuildCraft|Silicon:redstoneChipset:4"
+	};
+	
+	static final String[] scrapValuesSuperior = new String[] {
+		"BuildCraft|Silicon:redstoneChipset:3",
+		"BuildCraft|Silicon:redstoneChipset:7"
+	};
+	
+	public ModBuildCraftSilicon() {
+		super(SupportedMod.BUILDCRAFT_SILICON);
 	}
 
 	@Override
 	public void apply() {
-		
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
-		// Need to be able to see any special frames and security items
-		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
 
+		BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
+		ScrapHandler
+				.registerHandler(ItemStackHelper
+						.getItemStack("BuildCraft|Transport:pipeGate:*"),
+						handler);
 	}
 }

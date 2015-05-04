@@ -24,28 +24,19 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import net.minecraft.init.Blocks;
 
-public class ModThermalExpansion extends ModPlugin {
+public class ModBuildCraftFactory extends ModPlugin {
 
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
+	public ModBuildCraftFactory() {
+		super(SupportedMod.BUILDCRAFT_FACTORY);
 	}
 
 	@Override
 	public void apply() {
-		
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
-		// Need to be able to see any special frames and security items
-		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
+		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock")
+				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
+				.save();
 
 	}
 }

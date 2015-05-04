@@ -92,18 +92,6 @@ public final class ItemScrapData {
 		}
 	}
 
-	static ItemStack asGeneric(ItemStack stack) {
-		if(stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-			return stack;
-		ItemStack t = stack.copy();
-		t.setItemDamage(OreDictionary.WILDCARD_VALUE);
-		return t;
-	}
-	
-	static ItemStack asGeneric(Item item) {
-		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
-	}
-	
 	static ItemStack asGeneric(Block block) {
 		return new ItemStack(Item.getItemFromBlock(block), 1, OreDictionary.WILDCARD_VALUE);
 	}
@@ -215,7 +203,7 @@ public final class ItemScrapData {
 	
 	public static ItemScrapData get(Item item) {
 		Preconditions.checkNotNull(item);
-		ItemScrapData result = getForWrite(asGeneric(item));
+		ItemScrapData result = getForWrite(ItemStackHelper.asGeneric(item));
 		if(result == null)
 			result = new ItemScrapData(item);
 		return result;
@@ -241,7 +229,7 @@ public final class ItemScrapData {
 		Preconditions.checkNotNull(stack);
 		ItemScrapData data = itemData.get(stack);
 		if(data == null)
-			data = itemData.get(asGeneric(stack));
+			data = itemData.get(ItemStackHelper.asGeneric(stack));
 		return data;
 	}
 	

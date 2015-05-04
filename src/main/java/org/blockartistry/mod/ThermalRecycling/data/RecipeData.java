@@ -116,7 +116,7 @@ public class RecipeData {
 	public static int put(ItemStack input, ItemStack[] output) {
 
 		int retCode = DUPLICATE;
-
+		
 		// See if we have an existing mapping
 		RecipeData result = get(input);
 

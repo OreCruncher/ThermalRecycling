@@ -24,13 +24,11 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
-import java.util.List;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
@@ -104,31 +102,18 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 			if (input == null)
 				return;
 
-			// Need to project out a new set. Get the information
-			// needed.
-			List<ItemStack> results = null;
-			ItemStack sample = null;
-			RecipeData data = RecipeData.get(input);
+			ScrapHandler.PreviewResult result = ScrappingTables.preview(core, input);
 
-			if (data != null) {
-				sample = data.getInput();
-				if (isDecompAugmentInstalled()) {
-					results = (data != null) ? data.getOutput() : null;
-				}
-			} else {
-				sample = input.copy();
-				sample.stackSize = 1;
-			}
-
-			if (sample != null)
-				setInventorySlotContents(SAMPLE, sample);
-
-			if (results == null)
-				results = ScrappingTables.getScrapPossibilities(core, input);
-
-			if (results != null) {
-				for (int i = 0; i < results.size(); i++) {
-					setInventorySlotContents(DISPLAY_SLOTS[i], results.get(i));
+			if(result != null) {
+				setInventorySlotContents(SAMPLE, result.inputRequired);
+	
+				if (result.outputGenerated != null) {
+					// Cap the output in case the result buffer is larger than
+					// what the 3x3 grid can show
+					int maxUpperSlot = Math.min(result.outputGenerated.size(), DISPLAY_SLOTS.length);
+					for (int i = 0; i < maxUpperSlot; i++) {
+						setInventorySlotContents(DISPLAY_SLOTS[i], result.outputGenerated.get(i));
+					}
 				}
 			}
 		}

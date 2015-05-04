@@ -24,28 +24,28 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 
-public class ModThermalExpansion extends ModPlugin {
+public class ModBuildCraftBuilders extends ModPlugin {
 
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
+	public ModBuildCraftBuilders() {
+		super(SupportedMod.BUILDCRAFT_BUILDERS);
 	}
 
 	@Override
 	public void apply() {
-		
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
-		// Need to be able to see any special frames and security items
-		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
 
+		// Misc block machines
+		sawmill.append("BuildCraft|Builders:libraryBlock")
+				.output(Blocks.planks, 6).secondaryOutput(Items.book, 3).save();
+
+		sawmill.append("BuildCraft|Builders:builderBlock")
+				.output(Blocks.planks, 12).secondaryOutput(Items.diamond, 8)
+				.save();
+
+		sawmill.append("BuildCraft|Builders:architectBlock")
+				.output(Blocks.planks, 4).secondaryOutput(Items.diamond, 8)
+				.save();
 	}
 }

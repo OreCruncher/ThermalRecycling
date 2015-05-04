@@ -24,28 +24,18 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+public class ModBuildCraftCore extends ModPlugin {
 
-public class ModThermalExpansion extends ModPlugin {
-
-	public ModThermalExpansion() {
-		super(SupportedMod.THERMAL_EXPANSION);
+	public ModBuildCraftCore() {
+		super(SupportedMod.BUILDCRAFT_CORE);
 	}
 
 	@Override
 	public void apply() {
-		
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
-		
-		// Need to be able to see any special frames and security items
-		// in realtime.
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"), handler);
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"), handler);
+
+		// Gears - metalic gears handled via Thermal Expansion
+		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
+				.save();
 
 	}
 }

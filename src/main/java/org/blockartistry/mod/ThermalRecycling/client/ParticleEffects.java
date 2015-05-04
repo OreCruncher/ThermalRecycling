@@ -41,41 +41,41 @@ public final class ParticleEffects {
 
         for (int l = 0; l < 6; ++l)
         {
-            double d1 = (double)((float)x + r.nextFloat());
-            double d2 = (double)((float)y + r.nextFloat());
-            double d3 = (double)((float)z + r.nextFloat());
+            double d1 = x + r.nextFloat();
+            double d2 = y + r.nextFloat();
+            double d3 = z + r.nextFloat();
 
             if (l == 0 && !world.getBlock(x, y + 1, z).isOpaqueCube())
             {
-                d2 = (double)(y + 1) + d0;
+                d2 = y + 1 + d0;
             }
 
             if (l == 1 && !world.getBlock(x, y - 1, z).isOpaqueCube())
             {
-                d2 = (double)(y + 0) - d0;
+                d2 = y + 0 - d0;
             }
 
             if (l == 2 && !world.getBlock(x, y, z + 1).isOpaqueCube())
             {
-                d3 = (double)(z + 1) + d0;
+                d3 = z + 1 + d0;
             }
 
             if (l == 3 && !world.getBlock(x, y, z - 1).isOpaqueCube())
             {
-                d3 = (double)(z + 0) - d0;
+                d3 = z + 0 - d0;
             }
 
             if (l == 4 && !world.getBlock(x + 1, y, z).isOpaqueCube())
             {
-                d1 = (double)(x + 1) + d0;
+                d1 = x + 1 + d0;
             }
 
             if (l == 5 && !world.getBlock(x - 1, y, z).isOpaqueCube())
             {
-                d1 = (double)(x + 0) - d0;
+                d1 = x + 0 - d0;
             }
 
-            if (d1 < (double)x || d1 > (double)(x + 1) || d2 < 0.0D || d2 > (double)(y + 1) || d3 < (double)z || d3 > (double)(z + 1))
+            if (d1 < x || d1 > x + 1 || d2 < 0.0D || d2 > y + 1 || d3 < z || d3 > z + 1)
             {
             	world.spawnParticle(particle, d1, d2, d3, 0.0D, 0.0D, 0.0D);
             }
