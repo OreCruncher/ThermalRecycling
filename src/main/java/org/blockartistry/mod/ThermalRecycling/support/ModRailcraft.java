@@ -24,56 +24,78 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModRailcraft extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
-			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:glass:*",
+			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:wall.beta:*",
+			"Railcraft:glass:*",
 			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
 			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
 			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
 			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
-			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*", };
+			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*",
+			
+			};
+
+	static final String[] recipeRevealList = new String[] {
+			"Railcraft:stair:6", "Railcraft:stair:43", "Railcraft:stair:40",
+			"Railcraft:stair:41", "Railcraft:stair:42", "Railcraft:slab:6",
+			"Railcraft:slab:43", "Railcraft:slab:40", "Railcraft:slab:41",
+			"Railcraft:slab:42", 
+			"Railcraft:machine.alpha", "Railcraft:machine.alpha:2",
+			"Railcraft:anvil", "Railcraft:machine.beta:12",
+			"Railcraft:stair:7", "Railcraft:stair:8", "Railcraft:slab:7",
+			"Railcraft:slab:8", "Railcraft:wall.beta:3", "Railcraft:wall.beta:2",
+			"Railcraft:wall.beta:4", };
 
 	static final String[] scrapValuesNone = new String[] {
 			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
-			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:glass:*",
+			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:wall.beta:*",
+			"Railcraft:glass:*",
 			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
 			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
 			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
 			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
-			"Railcraft:fluid.steam.bottle:*", "Railcraft:lantern.stone:*", };
+			"Railcraft:fluid.steam.bottle:*", "Railcraft:lantern.stone:*",
+			"Railcraft:part.bleached.clay", "Railcraft:routing.table",
+			"Railcraft:routing.ticket.gold", "Railcraft:routing.ticket",
+			"Railcraft:post:*"
+			};
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*", };
+			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*",
+			"Railcraft:track:*" };
 
-	static final String[] scrapValuesStandard = new String[] {};
+	static final String[] scrapValuesStandard = new String[] {
+			"Railcraft:stair:6", "Railcraft:stair:43", "Railcraft:stair:40",
+			"Railcraft:stair:41", "Railcraft:stair:42", "Railcraft:slab:6",
+			"Railcraft:slab:43", "Railcraft:slab:40", "Railcraft:slab:41",
+			"Railcraft:slab:42", "Railcraft:wall.beta:2",
+			};
 
-	static final String[] scrapValuesSuperior = new String[] { "Railcraft:firestone.raw", };
+	static final String[] scrapValuesSuperior = new String[] {
+			"Railcraft:firestone.raw", "Railcraft:machine.alpha",
+			"Railcraft:machine.alpha:2", "Railcraft:anvil",
+			"Railcraft:machine.beta:12", "Railcraft:stair:7",
+			"Railcraft:stair:8", "Railcraft:slab:7", "Railcraft:slab:8",
+			"Railcraft:wall.beta:3", "Railcraft:wall.beta:4",
+
+	};
 
 	public ModRailcraft() {
 		super(SupportedMod.RAILCRAFT);
-	}
-
-	protected void blacklistRecipe(String name) {
-		ItemStack stack = ItemStackHelper.getItemStack(name);
-		stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
-		RecipeData.put(stack, null);
 	}
 
 	@Override
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
+		registerRecipesToReveal(recipeRevealList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);

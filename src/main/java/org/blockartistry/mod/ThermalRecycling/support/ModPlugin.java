@@ -88,8 +88,15 @@ public abstract class ModPlugin {
 	}
 
 	protected static void registerScrapValues(ScrapValue value, String... list) {
-		for (String s : list)
-			ItemScrapData.setValue(ItemStackHelper.getItemStack(s), value);
+		for (String s : list) {
+			ItemStack stack = ItemStackHelper.getItemStack(s);
+			if(stack != null)
+				ItemScrapData.setValue(stack, value);
+			else {
+				int x = 0;
+			}
+				
+		}
 	}
 
 	protected static void registerScrubFromOutput(String... list) {

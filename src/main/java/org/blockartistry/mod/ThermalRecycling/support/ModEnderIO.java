@@ -37,6 +37,12 @@ public class ModEnderIO extends ModPlugin {
 	@Override
 	public void apply() {
 
+		registerRecipesToIgnore("EnderIO:blockFusedQuartz:*",
+				"EnderIO:itemFusedQuartzFrame", "EnderIO:itemConduitFacade", "EnderIO:itemPowderIngot:7");
+		registerScrapValues(ScrapValue.NONE, "EnderIO:blockFusedQuartz:*",
+				"EnderIO:itemFusedQuartzFrame", "EnderIO:itemMaterial:3",
+				"EnderIO:itemMaterial:4", "EnderIO:itemConduitFacade", "EnderIO:itemPowderIngot:7");
+
 		ItemScrapData.put(
 				ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
 				ScrapValue.NONE, false, false);

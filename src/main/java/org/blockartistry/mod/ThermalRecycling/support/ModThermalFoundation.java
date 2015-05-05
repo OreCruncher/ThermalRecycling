@@ -28,6 +28,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModThermalFoundation extends ModPlugin {
@@ -86,6 +87,9 @@ public class ModThermalFoundation extends ModPlugin {
 
 	@Override
 	public void apply() {
+		
+		registerRecipesToIgnore("ThermalFoundation:material:4");
+		registerScrapValues(ScrapValue.NONE, "ThermalFoundation:material:4");
 
 		// Big daddy golden apple
 		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1)
