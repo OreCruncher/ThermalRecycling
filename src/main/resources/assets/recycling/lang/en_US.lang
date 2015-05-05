@@ -1,5 +1,6 @@
 # US English Translations
 itemGroup.ThermalRecycling=Thermal Recycling
+item.Debris.debris.name=Recycling Debris
 item.RecyclingScrap.poor.name=Inferior Scrap
 item.RecyclingScrap.standard.name=Scrap
 item.RecyclingScrap.superior.name=Superior Scrap
@@ -15,6 +16,7 @@ item.ProcessingCore.extraction.name=Core: Extraction
 tile.Test.item1.name=Test Block (WIP)
 tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Scrap Assessor
+tile.ScrapBlock.scrap.name=Block of Scrap
 
 # Machine Status
 msg.MachineStatus.idle=Idle

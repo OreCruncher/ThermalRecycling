@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
@@ -62,6 +63,12 @@ public class ModThermalRecycling extends ModPlugin {
 	public void apply() {
 
 		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
+		ItemScrapData.setRecipeIgnored(ItemManager.debris, true);
+		ItemScrapData.setRecipeIgnored(BlockManager.scrapBlock, true);
+		
+		ItemScrapData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
+		ItemScrapData.setValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
+		
 		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
 		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,

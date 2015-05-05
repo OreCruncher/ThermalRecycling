@@ -22,17 +22,16 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.blocks;
+package org.blockartistry.mod.ThermalRecycling.items;
 
-import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
+import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
-import net.minecraft.block.Block;
+public class Debris extends ItemBase
+{
+	public Debris() {
+		super("debris");
 
-public class TestItemBlock extends MultiItemBlock {
-
-	public TestItemBlock(Block block) {
-
-		super(block);
-
+		setUnlocalizedName("Debris");
+		setMaxStackSize(64);
 	}
 }

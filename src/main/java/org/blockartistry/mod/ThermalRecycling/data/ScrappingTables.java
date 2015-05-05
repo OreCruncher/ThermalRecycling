@@ -51,6 +51,7 @@ public final class ScrappingTables {
 		return stack != null && stack.isItemEqual(ScrappingTables.dust);
 	}
 
+	static final ItemStack debris = new ItemStack(ItemManager.debris);
 	static final ItemStack poorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.POOR);
 	static final ItemStack standardScrap = new ItemStack(
@@ -72,7 +73,8 @@ public final class ScrappingTables {
 		// The "NONE" scrap value. This is used when breaking a recipe down and
 		// this item is one of the components.
 		ItemStackWeightTable t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 29));
+		t.add(t.new ItemStackItem(null, 15));
+		t.add(t.new ItemStackItem(debris, 14));
 		t.add(t.new ItemStackItem(keep, 1));
 		t.add(t.new ItemStackItem(dust, 2));
 		t.add(t.new ItemStackItem(poorScrap, 1));
@@ -80,12 +82,14 @@ public final class ScrappingTables {
 
 		// The "NONE" must scrap table. No scrap to be had.
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 1));
+		t.add(t.new ItemStackItem(null, 80));
+		t.add(t.new ItemStackItem(debris, 20));
 		componentScrap.add(t);
 
 		// The "POOR" scrap table.
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 93));
+		t.add(t.new ItemStackItem(null, 47));
+		t.add(t.new ItemStackItem(debris, 46));
 		t.add(t.new ItemStackItem(keep, 62));
 		t.add(t.new ItemStackItem(dust, 62));
 		t.add(t.new ItemStackItem(poorScrap, 12));
@@ -94,7 +98,8 @@ public final class ScrappingTables {
 
 		// The "POOR" scrap MUST table.
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 155));
+		t.add(t.new ItemStackItem(null, 78));
+		t.add(t.new ItemStackItem(debris, 77));
 		t.add(t.new ItemStackItem(poorScrap, 32));
 		t.add(t.new ItemStackItem(standardScrap, 24));
 		t.add(t.new ItemStackItem(superiorScrap, 20));
@@ -102,7 +107,8 @@ public final class ScrappingTables {
 
 		// The "STANDARD" scrap table
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 68));
+		t.add(t.new ItemStackItem(null, 34));
+		t.add(t.new ItemStackItem(debris, 34));
 		t.add(t.new ItemStackItem(keep, 62));
 		t.add(t.new ItemStackItem(dust, 62));
 		t.add(t.new ItemStackItem(poorScrap, 8));
@@ -112,7 +118,8 @@ public final class ScrappingTables {
 
 		// The "STANDARD" scrap MUST table
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 130));
+		t.add(t.new ItemStackItem(null, 65));
+		t.add(t.new ItemStackItem(debris, 65));
 		t.add(t.new ItemStackItem(poorScrap, 28));
 		t.add(t.new ItemStackItem(standardScrap, 48));
 		t.add(t.new ItemStackItem(superiorScrap, 22));
@@ -120,7 +127,8 @@ public final class ScrappingTables {
 
 		// The "SUPERIOR" scrap table
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 33));
+		t.add(t.new ItemStackItem(null, 17));
+		t.add(t.new ItemStackItem(debris, 16));
 		t.add(t.new ItemStackItem(keep, 62));
 		t.add(t.new ItemStackItem(dust, 62));
 		t.add(t.new ItemStackItem(poorScrap, 4));
@@ -130,7 +138,8 @@ public final class ScrappingTables {
 
 		// The "SUPERIOR" scrap MUST table
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 95));
+		t.add(t.new ItemStackItem(null, 48));
+		t.add(t.new ItemStackItem(debris, 47));
 		t.add(t.new ItemStackItem(poorScrap, 24));
 		t.add(t.new ItemStackItem(standardScrap, 36));
 		t.add(t.new ItemStackItem(superiorScrap, 68));
@@ -205,8 +214,9 @@ public final class ScrappingTables {
 		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
 				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack)
 				|| ItemHelper.isOre(stack)
-				|| stack.getItem() == ItemManager.recyclingScrap || stack
-					.getItem() == ItemManager.recyclingScrapBox);
+				|| stack.getItem() == ItemManager.recyclingScrap
+				|| stack.getItem() == ItemManager.recyclingScrapBox || stack
+					.getItem() == ItemManager.debris);
 	}
 
 	public static List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
@@ -222,13 +232,17 @@ public final class ScrappingTables {
 
 		writer.write("\n================\nScrap Tables\n================\n");
 
-		componentScrap.get(0).diagnostic("Core: Decomposition|Scrap None", writer);
+		componentScrap.get(0).diagnostic("Core: Decomposition|Scrap None",
+				writer);
 		componentScrap.get(1).diagnostic("No Core|Scrap None", writer);
-		componentScrap.get(2).diagnostic("Core: Decomposition|Poor Scrap", writer);
+		componentScrap.get(2).diagnostic("Core: Decomposition|Poor Scrap",
+				writer);
 		componentScrap.get(3).diagnostic("No Core|Poor Scrap", writer);
-		componentScrap.get(4).diagnostic("Core: Decomposition|Standard Scrap", writer);
+		componentScrap.get(4).diagnostic("Core: Decomposition|Standard Scrap",
+				writer);
 		componentScrap.get(5).diagnostic("No Core|Standard Scrap", writer);
-		componentScrap.get(6).diagnostic("Core: Decomposition|Superior Scrap", writer);
+		componentScrap.get(6).diagnostic("Core: Decomposition|Superior Scrap",
+				writer);
 		componentScrap.get(7).diagnostic("No Core|Superior Scrap", writer);
 
 		extractionDust.get(1).diagnostic("Core: Extraction|Poor Scrap", writer);

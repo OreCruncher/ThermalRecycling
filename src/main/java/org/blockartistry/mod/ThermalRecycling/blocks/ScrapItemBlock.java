@@ -24,35 +24,15 @@
 
 package org.blockartistry.mod.ThermalRecycling.blocks;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.util.MultiBlock;
+import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 
-public class TestMultiBlock extends MultiBlock {
+public class ScrapItemBlock extends MultiItemBlock {
 
-	public TestMultiBlock() {
-		super("Test", Material.rock, 3, "item1");
+	public ScrapItemBlock(Block block) {
 
-		setHarvestLevel("pickaxe", 1);
-		setHardness(4F);
-		setStepSound(Block.soundTypeMetal);
-	}
-
-	@Override
-	public void register() {
-		GameRegistry
-				.registerBlock(this, TestItemBlock.class, myUnlocalizedName);
+		super(block);
 
 	}
-
-	@Override
-	public String[] getBlockSideTextures(int subType) {
-		return new String[] { ThermalRecycling.MOD_ID + ":Machine_bottom",
-				ThermalRecycling.MOD_ID + ":Machine_top",
-				ThermalRecycling.MOD_ID + ":Machine_side" };
-	}
-
 }

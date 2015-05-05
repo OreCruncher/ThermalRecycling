@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 public class ModThermalDynamics extends ModPlugin {
 
 	public ModThermalDynamics() {
@@ -33,6 +35,9 @@ public class ModThermalDynamics extends ModPlugin {
 	@Override
 	public void apply() {
 
+		registerRecipesToIgnore("cover:*");
+		registerScrapValues(ScrapValue.NONE, "cover:*");
+		
 		// Servos, Filters
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo", "ThermalDynamics:filter")
