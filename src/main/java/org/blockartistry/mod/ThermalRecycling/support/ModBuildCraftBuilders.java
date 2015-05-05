@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
@@ -35,6 +37,9 @@ public class ModBuildCraftBuilders extends ModPlugin {
 
 	@Override
 	public void apply() {
+		
+		registerScrapValues(ScrapValue.NONE, "markerBlock", "pathMarkerBlock", "libraryBlock");
+		registerScrapValues(ScrapValue.SUPERIOR, "builderBlock", "architectBlock");
 
 		// Misc block machines
 		sawmill.append("BuildCraft|Builders:libraryBlock")

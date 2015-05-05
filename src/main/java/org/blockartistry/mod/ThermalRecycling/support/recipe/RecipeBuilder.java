@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
@@ -227,9 +227,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 				"No input ItemStacks were specified");
 
 		for (ItemStack i : input) {
-			saveImpl(i);
-			if (ModOptions.getEnableRecipeLogging())
-				ModLog.info(toString(i));
+			int result = saveImpl(i);
+			if(result == RecipeData.FAILURE)
+				ModLog.warn("Unable to save recipe [%s]", toString());
+			else if (result == RecipeData.DUPLICATE)
+				ModLog.debug("Duplicate recipe [%s]", toString());
 		}
 
 		reset();
@@ -237,5 +239,5 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 	protected abstract String toString(ItemStack stack);
 
-	protected abstract void saveImpl(ItemStack stack);
+	protected abstract int saveImpl(ItemStack stack);
 }

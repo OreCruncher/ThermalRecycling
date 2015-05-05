@@ -48,7 +48,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.3.2ALPHA";
+	public static final String VERSION = "0.3.3ALPHA";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -57,6 +57,8 @@ public final class ThermalRecycling {
 			+ "after:MineFactoryReloaded;"
 			+ "after:Thaumcraft;"
 			+ "after:Railcraft;" + "after:advgenerators;" + "after:EnderIO;";
+	
+	static final String OUTPUT_FILE = "ThermalRecycling.log";
 
 	@Instance(MOD_ID)
 	protected static ThermalRecycling instance;
@@ -113,12 +115,14 @@ public final class ThermalRecycling {
 
 			try {
 				writer = new BufferedWriter(new FileWriter(
-						"ThermalRecycling.log"));
+						OUTPUT_FILE));
 
-				ItemScrapData.writeDiagnostic(writer);
+				if(ModOptions.getEnableDebugLogging())
+					ItemScrapData.writeDiagnostic(writer);
+				
 				ScrappingTables.writeDiagnostic(writer);
-				RecipeData.writeDiagnostic(writer);
 				UseEffect.diagnostic(writer);
+				RecipeData.writeDiagnostic(writer);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -129,6 +133,8 @@ public final class ThermalRecycling {
 				} catch (Exception e) {
 				}
 			}
+			
+			ModLog.info("Recipe load complete - check the file %s for details", OUTPUT_FILE);
 		}
 	}
 }

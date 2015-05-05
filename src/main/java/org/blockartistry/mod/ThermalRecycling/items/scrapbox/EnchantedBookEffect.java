@@ -91,6 +91,6 @@ public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Enchanted Book [%d]", level);
+		return String.format("Enchanted Book [enchant level %d]", level);
 	}
 }

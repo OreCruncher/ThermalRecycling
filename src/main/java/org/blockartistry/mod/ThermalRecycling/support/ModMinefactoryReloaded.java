@@ -32,49 +32,70 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 public class ModMinefactoryReloaded extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-			"MineFactoryReloaded:sugarcharcoal:*",
-			"MineFactoryReloaded:fertilizer:*",
-			"MineFactoryReloaded:ceramicdye:*",
-			"MineFactoryReloaded:stainedglass.block:*",
-			"MineFactoryReloaded:stainedglass.pane:*",
-			"MineFactoryReloaded:rubberwood.log:*",
-			"MineFactoryReloaded:rubberwood.leaves:*",
-			"MineFactoryReloaded:rubberwood.sapling:*",
-			"MineFactoryReloaded:milkbottle:*",
-			"MineFactoryReloaded:meat.ingot.raw",
-			"MineFactoryReloaded:meat.ingot.cooked",
-			"MineFactoryReloaded:meat.nugget.raw",
-			"MineFactoryReloaded:meat.nugget.cooked",
-
+			"sugarcharcoal:*",
+			"fertilizer:*",
+			"ceramicdye:*",
+			"stainedglass.block:*",
+			"stainedglass.pane:*",
+			"rubberwood.log:*",
+			"rubberwood.leaves:*",
+			"rubberwood.sapling:*",
+			"milkbottle:*",
+			"meat.ingot.raw",
+			"meat.ingot.cooked",
+			"meat.nugget.raw",
+			"meat.nugget.cooked",
+			"road:*",
+			"brick:*",
+			"stone:*",
+			"tank",
+			"machineblock:0",
 	};
 
 	static final String[] scrapValuesNone = new String[] {
-			"MineFactoryReloaded:sugarcharcoal:*",
-			"MineFactoryReloaded:fertilizer:*",
-			"MineFactoryReloaded:ceramicdye:*",
-			"MineFactoryReloaded:stainedglass.block:*",
-			"MineFactoryReloaded:stainedglass.pane:*",
-			"MineFactoryReloaded:plastic.cup:*",
-			"MineFactoryReloaded:plastic.raw:*",
-			"MineFactoryReloaded:plastic.sheet:*",
-			"MineFactoryReloaded:rubberwood.log:*",
-			"MineFactoryReloaded:rubberwood.leaves:*",
-			"MineFactoryReloaded:rubberwood.sapling:*",
-			"MineFactoryReloaded:plastic.boots:*",
-			"MineFactoryReloaded:straw:*", "MineFactoryReloaded:rubber.raw:*",
-			"MineFactoryReloaded:rubber.bar:*",
-			"MineFactoryReloaded:vinescaffold:*",
-			"MineFactoryReloaded:milkbottle:*",
-			"MineFactoryReloaded:meat.ingot.raw",
-			"MineFactoryReloaded:meat.ingot.cooked",
-			"MineFactoryReloaded:meat.nugget.raw",
-			"MineFactoryReloaded:meat.nugget.cooked", };
+			"sugarcharcoal:*",
+			"fertilizer:*",
+			"ceramicdye:*",
+			"stainedglass.block:*",
+			"stainedglass.pane:*",
+			"plastic.cup:*",
+			"plastic.raw:*",
+			"plastic.sheet:*",
+			"rubberwood.log:*",
+			"rubberwood.leaves:*",
+			"rubberwood.sapling:*",
+			"plastic.boots:*",
+			"straw:*", "rubber.raw:*",
+			"rubber.bar:*",
+			"vinescaffold:*",
+			"milkbottle:*",
+			"meat.ingot.raw",
+			"meat.ingot.cooked",
+			"meat.nugget.raw",
+			"meat.nugget.cooked",
+			"ruler", "record.blank",
+			"plastic.bag", "xpextractor",
+			"safarinet.singleuse",
+			"rednet.meter:0",
+			"hammer",
+			"road:*",
+			"brick:*",
+			"stone:*",
+			"tank",
+			"machineblock:0",
+			};
 
-	static final String[] scrapValuesPoor = new String[] {};
+	static final String[] scrapValuesPoor = new String[] {
+		"rednet.memorycard",
+		"detcord", "farmland"
+	};
 
-	static final String[] scrapValuesStandard = new String[] { "MineFactoryReloaded:rubberwood.sapling:1" };
+	static final String[] scrapValuesStandard = new String[] { "rubberwood.sapling:1" };
 
-	static final String[] scrapValuesSuperior = new String[] { "MineFactoryReloaded:rubberwood.sapling:2" };
+	static final String[] scrapValuesSuperior = new String[] {
+		"rubberwood.sapling:2", "portaspawner",
+		"upgrade.logic:2", "rednet.logic",
+		};
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);

@@ -26,6 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.proxy;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ToolTipEventHandler;
+import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
+import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 
@@ -36,7 +38,14 @@ public class ProxyClient extends Proxy {
 
 		super.init(event);
 
-		if (ModOptions.getEnableTooltips())
-			new ToolTipEventHandler();
+		// Initialize the tool tip event handler
+		new ToolTipEventHandler();
+		
+		// Register hooks based on configuration
+		if(ModOptions.getEnableTooltips())
+			ToolTipEventHandler.hooks.add(new ScrapToolTip());
+		
+		if(ModOptions.getEnableDebugLogging())
+			ToolTipEventHandler.hooks.add(new DebugToolTip());
 	}
 }

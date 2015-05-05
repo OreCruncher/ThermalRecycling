@@ -39,56 +39,58 @@ import net.minecraft.item.ItemStack;
 public class ModBuildCraftTransport extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-			"BuildCraft|Transport:pipeFacade:*",
-			"BuildCraft|Transport:pipePlug:*",
-			"BuildCraft|Transport:pipeGate:*",
-			"BuildCraft|Transport:pipeWaterproof", };
+			"pipeFacade:*",
+			"pipePlug:*",
+			"pipeGate:*",
+			"pipeWaterproof", };
 
 	static final String[] scrapValuesNone = new String[] {
-			"BuildCraft|Transport:pipeFacade:*",
-			"BuildCraft|Transport:pipeWaterproof",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemswood",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsemerald",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemscobblestone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsquartz",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsiron",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsgold",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsdiamond",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsobsidian",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemslapis",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsdaizuli",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemssandstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsvoid",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsemzuli",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsstripes",
-			"BuildCraft|Transport:item.buildcraftPipe.pipeitemsclay",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidswood",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidscobblestone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsquartz",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsiron",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsgold",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsemerald",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsdiamond",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidssandstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipefluidsvoid",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowerwood",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowercobblestone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowerstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowerquartz",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepoweriron",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowergold",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowerdiamond",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepoweremerald",
-			"BuildCraft|Transport:item.buildcraftPipe.pipepowersandstone",
-			"BuildCraft|Transport:item.buildcraftPipe.pipestructurecobblestone", };
+			"pipeFacade:*",
+			"pipePlug:*",
+			"pipeWaterproof",
+			"pipeWire:*",
+			"item.buildcraftPipe.pipeitemswood",
+			"item.buildcraftPipe.pipeitemsemerald",
+			"item.buildcraftPipe.pipeitemscobblestone",
+			"item.buildcraftPipe.pipeitemsstone",
+			"item.buildcraftPipe.pipeitemsquartz",
+			"item.buildcraftPipe.pipeitemsiron",
+			"item.buildcraftPipe.pipeitemsgold",
+			"item.buildcraftPipe.pipeitemsdiamond",
+			"item.buildcraftPipe.pipeitemsobsidian",
+			"item.buildcraftPipe.pipeitemslapis",
+			"item.buildcraftPipe.pipeitemsdaizuli",
+			"item.buildcraftPipe.pipeitemssandstone",
+			"item.buildcraftPipe.pipeitemsvoid",
+			"item.buildcraftPipe.pipeitemsemzuli",
+			"item.buildcraftPipe.pipeitemsstripes",
+			"item.buildcraftPipe.pipeitemsclay",
+			"item.buildcraftPipe.pipefluidswood",
+			"item.buildcraftPipe.pipefluidscobblestone",
+			"item.buildcraftPipe.pipefluidsstone",
+			"item.buildcraftPipe.pipefluidsquartz",
+			"item.buildcraftPipe.pipefluidsiron",
+			"item.buildcraftPipe.pipefluidsgold",
+			"item.buildcraftPipe.pipefluidsemerald",
+			"item.buildcraftPipe.pipefluidsdiamond",
+			"item.buildcraftPipe.pipefluidssandstone",
+			"item.buildcraftPipe.pipefluidsvoid",
+			"item.buildcraftPipe.pipepowerwood",
+			"item.buildcraftPipe.pipepowercobblestone",
+			"item.buildcraftPipe.pipepowerstone",
+			"item.buildcraftPipe.pipepowerquartz",
+			"item.buildcraftPipe.pipepoweriron",
+			"item.buildcraftPipe.pipepowergold",
+			"item.buildcraftPipe.pipepowerdiamond",
+			"item.buildcraftPipe.pipepoweremerald",
+			"item.buildcraftPipe.pipepowersandstone",
+			"item.buildcraftPipe.pipestructurecobblestone", };
 
 	static final String[] scrapValuesPoor = new String[] {};
 
 	static final String[] scrapValuesStandard = new String[] {};
 
-	static final String[] scrapValuesSuperior = new String[] { "BuildCraft|Transport:pipeGate:*" };
+	static final String[] scrapValuesSuperior = new String[] { "pipeGate:*" };
 
 	public ModBuildCraftTransport() {
 		super(SupportedMod.BUILDCRAFT_TRANSPORT);

@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,27 +21,21 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.util.function;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.util.List;
 
-public class ModBuildCraftCore extends ModPlugin {
-
-	public ModBuildCraftCore() {
-		super(SupportedMod.BUILDCRAFT_CORE);
+public abstract class Operation<O, E> {
+	
+	public abstract void apply(O output, E elem);
+		  
+	public static <O, E> void apply(List<? extends Operation<O, E>> list, O output, E subject) {
+	  for (Operation<O, E> elem : list)
+	    elem.apply(output, subject);
 	}
-
-	@Override
-	public void apply() {
-		
-		registerScrapValues(ScrapValue.NONE, "woodenGearItem",
-				"stoneGearItem", "mapLocation", "list");
-		registerScrapValues(ScrapValue.SUPERIOR,
-				"diamondGearItem");
-
-		// Gears - metalic gears handled via Thermal Expansion
-		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
-				.save();
-
+	
+	public static <O, E> void apply(List<? extends E> subjects, O output, Operation<O, E> op) {
+		for(E elem: subjects)
+			op.apply(output, elem);
 	}
 }

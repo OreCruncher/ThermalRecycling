@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
@@ -71,47 +72,72 @@ public abstract class ModPlugin {
 
 	public abstract void apply();
 
-	protected static void registerRecipesToIgnore(String... list) {
+	protected String makeName(String name) {
+		String result;
+		
+		if(name.startsWith("^"))
+			result = name.substring(1);
+		else
+			result = getModId() + ":" + name;
+		
+		return result;
+	}
+	
+	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
+	// THE CURRENT MOD NAME!  IF IT NEEDS TO BE ESCAPED PUT A
+	// ^ CHARACTER AT THE FRONT!
+	protected void registerRecipesToIgnore(String... list) {
 		for (String s : list) {
-			ItemStack stack = ItemStackHelper.getItemStack(s);
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
 			if (stack != null)
 				ItemScrapData.setRecipeIgnored(stack, true);
+			else
+				ModLog.warn("[%s] registerRecipesToIgnore(): unknown item '%s'", mod.getName(), name);
 		}
 	}
 
-	protected static void registerRecipesToReveal(String... list) {
+	protected void registerRecipesToReveal(String... list) {
 		for (String s : list) {
-			ItemStack stack = ItemStackHelper.getItemStack(s);
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
 			if (stack != null)
 				ItemScrapData.setRecipeIgnored(stack, false);
+			else
+				ModLog.warn("[%s] registerRecipesToReveal(): unknown item '%s'", mod.getName(), name);
 		}
 	}
 
-	protected static void registerScrapValues(ScrapValue value, String... list) {
+	protected void registerScrapValues(ScrapValue value, String... list) {
 		for (String s : list) {
-			ItemStack stack = ItemStackHelper.getItemStack(s);
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
 			if(stack != null)
 				ItemScrapData.setValue(stack, value);
-			else {
-				int x = 0;
-			}
-				
+			else
+				ModLog.warn("[%s] registerScrapValues(): unknown item '%s'", mod.getName(), name);
 		}
 	}
 
-	protected static void registerScrubFromOutput(String... list) {
+	protected void registerScrubFromOutput(String... list) {
 		for (String s : list) {
-			ItemStack stack = ItemStackHelper.getItemStack(s);
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
 			if (stack != null)
 				ItemScrapData.setScrubbedFromOutput(stack, true);
+			else
+				ModLog.warn("[%s] registerScrubFromOutput(): unknown item '%s'", mod.getName(), name);
 		}
 	}
 
-	protected static void registerNotScrubFromOutput(String... list) {
+	protected void registerNotScrubFromOutput(String... list) {
 		for (String s : list) {
-			ItemStack stack = ItemStackHelper.getItemStack(s);
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
 			if (stack != null)
 				ItemScrapData.setScrubbedFromOutput(stack, false);
+			else
+				ModLog.warn("[%s] registerNotScrubFromOutput(): unknown item '%s'", mod.getName(), name);
 		}
 	}
 }

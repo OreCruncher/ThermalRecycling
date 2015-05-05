@@ -54,6 +54,6 @@ public class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("BonusEffect x%d", bonusCount);
+		return String.format("Bonus +%d", bonusCount);
 	}
 }

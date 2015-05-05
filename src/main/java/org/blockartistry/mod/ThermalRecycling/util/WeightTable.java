@@ -84,12 +84,10 @@ public class WeightTable<T extends WeightTable<T>.Item> {
 
 	public void diagnostic(String title, Writer writer) throws IOException {
 
-		writer.write(String.format("Weight table [%s] (total weight %d):\n",
+		writer.write(String.format("\nWeight table [%s] (total weight %d):\n",
 				title, totalWeight));
 		writer.write("==========================================================\n");
 		for (Item i : items)
-			writer.write(String.format("%s - %-1.2f%%\n", i.toString(),
-					(double) i.itemWeight * 100F / totalWeight));
-		writer.write("==========================================================\n");
+			writer.write(String.format("%5.1f%% (%4d) %s\n", (double) i.itemWeight * 100F / totalWeight, i.itemWeight, i.toString()));
 	}
 }

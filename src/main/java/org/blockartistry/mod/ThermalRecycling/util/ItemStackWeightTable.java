@@ -25,6 +25,8 @@ package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+
 import net.minecraft.item.ItemStack;
 
 public class ItemStackWeightTable extends
@@ -46,9 +48,19 @@ public class ItemStackWeightTable extends
 
 		@Override
 		public String toString() {
+			
+			String name = "<Nothing>";
+			if(stack != null) {
+				if(ScrappingTables.keepIt(stack))
+					name = "Keep Item";
+				else if(ScrappingTables.dustIt(stack))
+					name = "Dust Item";
+				else
+					name = ItemStackHelper.resolveName(stack);
+				
+			}
 
-			return String.format("%s (%d)", ItemStackHelper.resolveName(stack),
-					itemWeight);
+			return name;
 		}
 	}
 

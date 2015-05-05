@@ -62,8 +62,8 @@ public class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Drop Item [%s]",
-				ItemStackHelper.resolveName(stack));
+		return String.format("Drop Item [%s] (up to %d)",
+				ItemStackHelper.resolveName(stack), maxQuantity);
 	}
 
 }

@@ -98,14 +98,6 @@ public abstract class ScrapHandler {
 		return RecipeData.getMinimumQuantityToRecycle(stack);
 	}
 
-	protected static boolean keepIt(ItemStack stack) {
-		return stack != null && stack.isItemEqual(ScrappingTables.keep);
-	}
-
-	protected static boolean dustIt(ItemStack stack) {
-		return stack != null && stack.isItemEqual(ScrappingTables.dust);
-	}
-
 	public PreviewResult preview(ItemStack core, ItemStack stack) {
 
 		ItemStack item = stack.copy();
@@ -130,7 +122,7 @@ public abstract class ScrapHandler {
 			for (ItemStackItem w : t.getEntries()) {
 
 				ItemStack temp = w.getStack();
-				if (temp != null && !(keepIt(temp) || dustIt(temp))) {
+				if (temp != null && !(ScrappingTables.keepIt(temp) || ScrappingTables.dustIt(temp))) {
 
 					double percent = w.itemWeight * 100F / t.getTotalWeight();
 					ItemStackHelper.setItemLore(temp,

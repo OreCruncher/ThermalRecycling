@@ -33,7 +33,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -237,8 +236,8 @@ public class ThermalRecyclerRecipeBuilder {
 
 	public void save() {
 
-		if (output == null || output.isEmpty() || input == null) {
-			ModLog.warn("Parameters not correct for [%s]",
+		if (output == null || output.isEmpty()) {
+			ModLog.debug("No output parameters for [%s] - could have been scrubbed",
 					ItemStackHelper.resolveName(input));
 			return;
 		}
@@ -248,12 +247,11 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = RecipeData.put(input,
-					output.toArray(new ItemStack[output.size()]));
-
-			if (result == RecipeData.SUCCESS
-					&& ModOptions.getEnableRecipeLogging())
-				ModLog.info(toString());
+			int result = RecipeData.put(input, output.toArray(new ItemStack[output.size()]));
+			if(result == RecipeData.FAILURE)
+				ModLog.warn("Unable to save recipe [%s]", toString());
+			else if (result == RecipeData.DUPLICATE)
+				ModLog.debug("Duplicate recipe [%s]", toString());
 
 		} catch (Exception e) {
 			;

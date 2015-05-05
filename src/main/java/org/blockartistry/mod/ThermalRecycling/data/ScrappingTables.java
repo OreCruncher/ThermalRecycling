@@ -33,14 +33,24 @@ import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
+
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public final class ScrappingTables {
 
-	public static final ItemStack keep = new ItemStack(Blocks.dirt);
-	public static final ItemStack dust = new ItemStack(Blocks.cobblestone);
+	static final ItemStack keep = new ItemStack(Blocks.dirt);
+	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
+
+	public static boolean keepIt(ItemStack stack) {
+		return stack != null && stack.isItemEqual(ScrappingTables.keep);
+	}
+
+	public static boolean dustIt(ItemStack stack) {
+		return stack != null && stack.isItemEqual(ScrappingTables.dust);
+	}
+
 	static final ItemStack poorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.POOR);
 	static final ItemStack standardScrap = new ItemStack(
@@ -210,22 +220,21 @@ public final class ScrappingTables {
 
 	public static void writeDiagnostic(Writer writer) throws Exception {
 
-		writer.write("Scrapping Tables:\n");
-		writer.write("=================================================================\n");
+		writer.write("\n================\nScrap Tables\n================\n");
 
-		componentScrap.get(0).diagnostic("NONE", writer);
-		componentScrap.get(1).diagnostic("NONE Must", writer);
-		componentScrap.get(2).diagnostic("POOR", writer);
-		componentScrap.get(3).diagnostic("POOR Must", writer);
-		componentScrap.get(4).diagnostic("STANDARD", writer);
-		componentScrap.get(5).diagnostic("STANDARD Must", writer);
-		componentScrap.get(6).diagnostic("SUPERIOR", writer);
-		componentScrap.get(7).diagnostic("SUPERIOR Must", writer);
+		componentScrap.get(0).diagnostic("Core: Decomposition|Scrap None", writer);
+		componentScrap.get(1).diagnostic("No Core|Scrap None", writer);
+		componentScrap.get(2).diagnostic("Core: Decomposition|Poor Scrap", writer);
+		componentScrap.get(3).diagnostic("No Core|Poor Scrap", writer);
+		componentScrap.get(4).diagnostic("Core: Decomposition|Standard Scrap", writer);
+		componentScrap.get(5).diagnostic("No Core|Standard Scrap", writer);
+		componentScrap.get(6).diagnostic("Core: Decomposition|Superior Scrap", writer);
+		componentScrap.get(7).diagnostic("No Core|Superior Scrap", writer);
 
-		extractionDust.get(1).diagnostic("Poor Scrap", writer);
-		extractionDust.get(2).diagnostic("Standard Scrap", writer);
-		extractionDust.get(3).diagnostic("Superior Scrap", writer);
-
-		writer.write("=================================================================\n");
+		extractionDust.get(1).diagnostic("Core: Extraction|Poor Scrap", writer);
+		extractionDust.get(2).diagnostic("Core: Extraction|Standard Scrap",
+				writer);
+		extractionDust.get(3).diagnostic("Core: Extraction|Superior Scrap",
+				writer);
 	}
 }

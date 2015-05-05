@@ -57,30 +57,42 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public static final int UPDATE_ACTION_ENERGY_RATE = 2;
 	public static final int UPDATE_ACTION_STATUS = 3;
 
-	// Slot geometry for the thermalRecycler
+	// Slot geometry for the machine
 	public static final int INPUT = 0;
 	public static final int CORE = 10;
 	public static final int[] INPUT_SLOTS = { INPUT };
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	// Internal buffer for funneling results into output grid. This is
-	// in the case of when the output grid gets filled and there is no
-	// more room to toss stuff.
-	protected List<ItemStack> buffer;
-
 	// Entity state that needs to be serialized
 	protected int energy = 0;
 	protected int progress = 0;
 	protected int energyRate = 0;
+	protected MachineStatus status = MachineStatus.IDLE;
+	protected List<ItemStack> buffer;
 
+	// Energy characteristics of the machine
 	static final int ENERGY_MAX_STORAGE = 32000;
-	static final int ENERGY_PER_OPERATION = 2400;
 	static final int ENERGY_PER_TICK = 40;
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
-	static final int RECYCLE_DUST_CHANCE = 25;
 
-	protected MachineStatus status = MachineStatus.IDLE;
+	static final int ENERGY_PER_OPERATION_SCRAP = 1200;
+	static final int ENERGY_PER_OPERATION_DECOMP = 2400;
+	static final int ENERGY_PER_OPERATION_EXTRACT = 4800;
+	
+	static int operationEnergyForCore(ItemStack core) {
+		if(core == null)
+			return ENERGY_PER_OPERATION_SCRAP;
+		
+		if(ProcessingCorePolicy.isExtractionCore(core))
+			return ENERGY_PER_OPERATION_EXTRACT;
+		
+		if(ProcessingCorePolicy.isDecompositionCore(core))
+			return ENERGY_PER_OPERATION_DECOMP;
+		
+		// Shouldn't get here....
+		return ENERGY_PER_OPERATION_DECOMP;
+	}
 
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
@@ -138,7 +150,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getPercentComplete() {
-		return (progress * 100) / ENERGY_PER_OPERATION;
+		return (progress * 100) / operationEnergyForCore(getStackInSlot(CORE));
 	}
 
 	@Override
@@ -295,6 +307,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (!worldObj.isRemote) {
 
 			ItemStack inputSlotStack = getStackInSlot(INPUT);
+			ItemStack core = getStackInSlot(CORE);
 
 			switch (status) {
 
@@ -314,7 +327,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 					status = MachineStatus.NEED_MORE_RESOURCES;
 				} else {
 
-					if (progress >= ENERGY_PER_OPERATION) {
+					if (progress >= operationEnergyForCore(core)) {
 						progress = 0;
 
 						if (!recycleItem()) {

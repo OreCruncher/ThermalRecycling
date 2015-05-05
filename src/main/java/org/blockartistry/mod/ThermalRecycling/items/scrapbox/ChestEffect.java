@@ -65,6 +65,6 @@ public class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Chest Effect [%s]", category);
+		return String.format("Chest Loot [%s]", category);
 	}
 }

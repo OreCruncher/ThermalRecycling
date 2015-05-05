@@ -39,61 +39,72 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModForestry extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "Forestry:log1:*",
-			"Forestry:log2:*", "Forestry:log3:*", "Forestry:log4:*",
-			"Forestry:log5:*", "Forestry:log6:*", "Forestry:log7:*",
-			"Forestry:log8:*", "Forestry:fireproofLog1:*",
-			"Forestry:fireproofLog2:*", "Forestry:fireproofLog3:*",
-			"Forestry:fireproofLog4:*", "Forestry:fireproofLog5:*",
-			"Forestry:fireproofLog6:*", "Forestry:fireproofLog7:*",
-			"Forestry:fireproofLog8:*", "Forestry:planks:*",
-			"Forestry:planks2:*", "Forestry:fireproofPlanks1:*",
-			"Forestry:fireproofPlanks2:*", "Forestry:slabs1:*",
-			"Forestry:slabs2:*", "Forestry:slabs3:*", "Forestry:slabs4:*",
-			"Forestry:fences:*", "Forestry:fences2:*", "Forestry:stairs:*",
-			"Forestry:stamps:*", "Forestry:letters:*", "Forestry:crate:*",
-			"Forestry:waxCast:*", "Forestry:apiculture:*",
-			"Forestry:arboriculture:*", "Forestry:lepidopterology:*",
-			"Forestry:soil:*", "Forestry:honeyedSlice:*",
-			"Forestry:beeCombs:*", "Forestry:apatite:*",
-			"Forestry:fertilizerCompound:*", "Forestry:fertilizerBio:*",
-			"Forestry:carton:*", "Forestry:pipette:*", "Forestry:scoop:*",
-			"Forestry:catalogue:*" };
+	static final String[] recipeIgnoreList = new String[] { "log1:*",
+			"log2:*", "log3:*", "log4:*",
+			"log5:*", "log6:*", "log7:*",
+			"log8:*", "fireproofLog1:*",
+			"fireproofLog2:*", "fireproofLog3:*",
+			"fireproofLog4:*", "fireproofLog5:*",
+			"fireproofLog6:*", "fireproofLog7:*",
+			"fireproofLog8:*", "planks:*",
+			"planks2:*", "fireproofPlanks1:*",
+			"fireproofPlanks2:*", "slabs1:*",
+			"slabs2:*", "slabs3:*", "slabs4:*",
+			"fences:*", "fences2:*", "stairs:*",
+			"stamps:*", "letters:*", "crate:*",
+			"waxCast:*", "apiculture:*",
+			"arboriculture:*", "lepidopterology:*",
+			"soil:*", "honeyedSlice:*",
+			"beeCombs:*", "apatite:*",
+			"fertilizerCompound:*", "fertilizerBio:*",
+			"carton:*", "pipette:*", "scoop:*",
+			"catalogue:*", "soil:*", "core:1",
+			"mulch",
+	};
 
-	static final String[] scrapValuesNone = new String[] { "Forestry:log1:*",
-			"Forestry:log2:*", "Forestry:log3:*", "Forestry:log4:*",
-			"Forestry:log5:*", "Forestry:log6:*", "Forestry:log7:*",
-			"Forestry:log8:*", "Forestry:fireproofLog1:*",
-			"Forestry:fireproofLog2:*", "Forestry:fireproofLog3:*",
-			"Forestry:fireproofLog4:*", "Forestry:fireproofLog5:*",
-			"Forestry:fireproofLog6:*", "Forestry:fireproofLog7:*",
-			"Forestry:fireproofLog8:*", "Forestry:waxCapsule:*",
-			"Forestry:refractoryEmpty:*", "Forestry:beeDroneGE:*",
-			"Forestry:propolis:*", "Forestry:sapling:*", "Forestry:phosphor:*",
-			"Forestry:beeswax:*", "Forestry:refractoryWax:*",
-			"Forestry:fruits:*", "Forestry:honeyDrop:*", "Forestry:honeydew:*",
-			"Forestry:royalJelly:*", "Forestry:waxCast:*",
-			"Forestry:beeCombs:*", "Forestry:woodPulp:*", "Forestry:oakStick",
-			"Forestry:carton", "Forestry:planks:*", "Forestry:planks2:*",
-			"Forestry:fireproofPlanks1:*", "Forestry:fireproofPlanks2:*",
-			"Forestry:slabs1:*", "Forestry:slabs2:*", "Forestry:slabs3:*",
-			"Forestry:slabs4:*", "Forestry:fences:*", "Forestry:fences2:*",
-			"Forestry:stairs:*", "Forestry:stamps:*", "Forestry:letters:*",
-			"Forestry:crate:*", "Forestry:waxCast:*", "Forestry:leaves:*",
-			"Forestry:stained:*", "Forestry:fertilizerCompound:*",
-			"Forestry:fertilizerBio:*", "Forestry:pipette:*",
-			"Forestry:scoop:*", "Forestry:catalogue:*",
-			"Forestry:honeyedSlice:*" };
+	static final String[] scrapValuesNone = new String[] { "log1:*",
+			"log2:*", "log3:*", "log4:*",
+			"log5:*", "log6:*", "log7:*",
+			"log8:*", "fireproofLog1:*",
+			"fireproofLog2:*", "fireproofLog3:*",
+			"fireproofLog4:*", "fireproofLog5:*",
+			"fireproofLog6:*", "fireproofLog7:*",
+			"fireproofLog8:*", "waxCapsule:*",
+			"refractoryEmpty:*", "beeDroneGE:*",
+			"propolis:*", "sapling:*", "phosphor:*",
+			"beeswax:*", "refractoryWax:*",
+			"fruits:*", "honeyDrop:*", "honeydew:*",
+			"royalJelly:*", "waxCast:*",
+			"beeCombs:*", "woodPulp:*", "oakStick",
+			"carton", "planks:*", "planks2:*",
+			"fireproofPlanks1:*", "fireproofPlanks2:*",
+			"slabs1:*", "slabs2:*", "slabs3:*",
+			"slabs4:*", "fences:*", "fences2:*",
+			"stairs:*", "stamps:*", "letters:*",
+			"crate:*", "waxCast:*", "leaves:*",
+			"stained:*", "fertilizerCompound:*",
+			"fertilizerBio:*", "pipette:*",
+			"scoop:*", "catalogue:*",
+			"honeyedSlice:*", "soil:*", "stump:*",
+			"mushroom:*", "saplingGE:*", "apiculture:2",
+			"ash", "mulch", "peat",
+			"brokenBronzeShovel", "brokenBronzePickaxe",
+			"item.PipeItemsPropolis:0"
+			
+	};
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Forestry:beeLarvaeGE:*", "Forestry:pollen:*",
-			"Forestry:apatite:*", };
+			"beeLarvaeGE:*", "pollen:*",
+			"apatite:*", };
 
 	static final String[] scrapValuesStandard = new String[] {
-			"Forestry:butterflyGE:*", "Forestry:beePrincessGE:*",
-			"Forestry:beeQueenGE:*", };
+			"butterflyGE:*", "beePrincessGE:*",
+			"beeQueenGE:*", };
 
-	static final String[] scrapValuesSuperior = new String[] {};
+	static final String[] scrapValuesSuperior = new String[] {
+		"core:0", "hardenedMachine", "treealyzer", "beealyzer", "flutterlyzer",
+		"frameProven"
+	};
 
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);

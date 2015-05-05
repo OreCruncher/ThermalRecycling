@@ -40,6 +40,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
+	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
 
 	protected static final String CATEGORY_FUEL_SETTINGS = "Fuel Settings";
 	protected static final String CONFIG_POOR_SCRAP_FUEL_SETTING = "Poor Scrap Fuel Ticks";
@@ -49,6 +50,7 @@ public final class ModOptions {
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
+	protected static boolean enableDebugLogging = false;
 	protected static String[] modWhitelist = new String[] {};
 	protected static int poorScrapFuelSetting = 400;
 	protected static int standardScrapFuelSetting = 800;
@@ -59,6 +61,11 @@ public final class ModOptions {
 
 	public static void load(Configuration config) {
 
+		enableDebugLogging = config
+				.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
+						CATEGORY_LOGGING_CONTROL, enableDebugLogging,
+						"Enables/disables debug logging of the mod");
+		
 		enableRecipeLogging = config
 				.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
 						CATEGORY_LOGGING_CONTROL, enableRecipeLogging,
@@ -112,6 +119,10 @@ public final class ModOptions {
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
+	}
+	
+	public static boolean getEnableDebugLogging() {
+		return enableDebugLogging;
 	}
 
 	public static boolean getModProcessingEnabled(SupportedMod mod) {

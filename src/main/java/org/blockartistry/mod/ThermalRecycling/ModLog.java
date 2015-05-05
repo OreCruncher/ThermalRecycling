@@ -47,6 +47,12 @@ public final class ModLog {
 		if (logger != null)
 			logger.warn(String.format(msg, parms));
 	}
+	
+	public static void debug(String msg, Object... parms) {
+		if(logger != null && ModOptions.getEnableDebugLogging()) {
+			logger.info(String.format(msg, parms));
+		}
+	}
 
 	public static void catching(Throwable t) {
 		if (logger != null) {

@@ -31,59 +31,62 @@ import net.minecraft.init.Items;
 public class ModRailcraft extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
-			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:wall.beta:*",
-			"Railcraft:glass:*",
-			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
-			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
-			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
-			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
-			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*",
+			"fluid.creosote.bottle:*", "stair:*",
+			"slab:*", "wall.alpha:*", "wall.beta:*",
+			"glass:*",
+			"brick.infernal:*", "brick.abyssal:*",
+			"brick.sandy:*", "brick.frostbound:*",
+			"brick.quarried:*", "brick.bleachedbone:*",
+			"brick.bloodstained:*", "brick.nether:*",
+			"post.metal:*", "post.metal.platform:*",
 			
 			};
 
 	static final String[] recipeRevealList = new String[] {
-			"Railcraft:stair:6", "Railcraft:stair:43", "Railcraft:stair:40",
-			"Railcraft:stair:41", "Railcraft:stair:42", "Railcraft:slab:6",
-			"Railcraft:slab:43", "Railcraft:slab:40", "Railcraft:slab:41",
-			"Railcraft:slab:42", 
-			"Railcraft:machine.alpha", "Railcraft:machine.alpha:2",
-			"Railcraft:anvil", "Railcraft:machine.beta:12",
-			"Railcraft:stair:7", "Railcraft:stair:8", "Railcraft:slab:7",
-			"Railcraft:slab:8", "Railcraft:wall.beta:3", "Railcraft:wall.beta:2",
-			"Railcraft:wall.beta:4", };
+			"stair:6", "stair:43", "stair:40",
+			"stair:41", "stair:42", "slab:6",
+			"slab:43", "slab:40", "slab:41",
+			"slab:42", 
+			"machine.alpha", "machine.alpha:2",
+			"anvil", "machine.beta:12",
+			"stair:7", "stair:8", "slab:7",
+			"slab:8", "wall.beta:3", "wall.beta:2",
+			"wall.beta:4", };
 
 	static final String[] scrapValuesNone = new String[] {
-			"Railcraft:fluid.creosote.bottle:*", "Railcraft:stair:*",
-			"Railcraft:slab:*", "Railcraft:wall.alpha:*", "Railcraft:wall.beta:*",
-			"Railcraft:glass:*",
-			"Railcraft:brick.infernal:*", "Railcraft:brick.abyssal:*",
-			"Railcraft:brick.sandy:*", "Railcraft:brick.frostbound:*",
-			"Railcraft:brick.quarried:*", "Railcraft:brick.bleachedbone:*",
-			"Railcraft:brick.bloodstained:*", "Railcraft:brick.nether:*",
-			"Railcraft:fluid.steam.bottle:*", "Railcraft:lantern.stone:*",
-			"Railcraft:part.bleached.clay", "Railcraft:routing.table",
-			"Railcraft:routing.ticket.gold", "Railcraft:routing.ticket",
-			"Railcraft:post:*"
+			"fluid.creosote.bottle:*", "stair:*",
+			"slab:*", "wall.alpha:*", "wall.beta:*",
+			"glass:*",
+			"brick.infernal:*", "brick.abyssal:*",
+			"brick.sandy:*", "brick.frostbound:*",
+			"brick.quarried:*", "brick.bleachedbone:*",
+			"brick.bloodstained:*", "brick.nether:*",
+			"fluid.steam.bottle:*", "lantern.stone:*",
+			"part.bleached.clay", "routing.table",
+			"routing.ticket.gold", "routing.ticket",
+			"post:*", "cube:6", "cube:7",
+			"armor.overalls", "dust:1", "dust:2",
+			"dust:3"
 			};
 
 	static final String[] scrapValuesPoor = new String[] {
-			"Railcraft:post.metal:*", "Railcraft:post.metal.platform:*",
-			"Railcraft:track:*" };
+			"post.metal:*", "post.metal.platform:*",
+			"track:*", "track.elevator", "nugget:*" };
 
 	static final String[] scrapValuesStandard = new String[] {
-			"Railcraft:stair:6", "Railcraft:stair:43", "Railcraft:stair:40",
-			"Railcraft:stair:41", "Railcraft:stair:42", "Railcraft:slab:6",
-			"Railcraft:slab:43", "Railcraft:slab:40", "Railcraft:slab:41",
-			"Railcraft:slab:42", "Railcraft:wall.beta:2",
+			"stair:6", "stair:43", "stair:40",
+			"stair:41", "stair:42", "slab:6",
+			"slab:43", "slab:40", "slab:41",
+			"slab:42", "wall.beta:2",
 			};
 
 	static final String[] scrapValuesSuperior = new String[] {
-			"Railcraft:firestone.raw", "Railcraft:machine.alpha",
-			"Railcraft:machine.alpha:2", "Railcraft:anvil",
-			"Railcraft:machine.beta:12", "Railcraft:stair:7",
-			"Railcraft:stair:8", "Railcraft:slab:7", "Railcraft:slab:8",
-			"Railcraft:wall.beta:3", "Railcraft:wall.beta:4",
+			"firestone.raw", "machine.alpha",
+			"machine.alpha:2", "anvil",
+			"machine.beta:12", "stair:7",
+			"stair:8", "slab:7", "slab:8",
+			"wall.beta:3", "wall.beta:4",
+			"machine.epsilon:3"
 
 	};
 

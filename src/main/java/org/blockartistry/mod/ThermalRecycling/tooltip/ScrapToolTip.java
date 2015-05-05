@@ -22,27 +22,48 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.tooltip;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.util.List;
 
-public class ModBuildCraftCore extends ModPlugin {
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
-	public ModBuildCraftCore() {
-		super(SupportedMod.BUILDCRAFT_CORE);
-	}
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
+
+public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 
 	@Override
-	public void apply() {
+	public void apply(List<String> output, ItemStack stack) {
 		
-		registerScrapValues(ScrapValue.NONE, "woodenGearItem",
-				"stoneGearItem", "mapLocation", "list");
-		registerScrapValues(ScrapValue.SUPERIOR,
-				"diamondGearItem");
+		ItemScrapData data = ItemScrapData.get(stack);
+		String lore = "UNKNOWN";
 
-		// Gears - metalic gears handled via Thermal Expansion
-		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
-				.save();
-
+		switch (data.getScrapValue()) {
+		case NONE:
+			lore = StatCollector.translateToLocal("msg.ItemScrapValue.none");
+			break;
+		case POOR:
+			lore = StatCollector.translateToLocal("msg.ItemScrapValue.poor");
+			break;
+		case STANDARD:
+			lore = StatCollector
+					.translateToLocal("msg.ItemScrapValue.standard");
+			break;
+		case SUPERIOR:
+			lore = StatCollector
+					.translateToLocal("msg.ItemScrapValue.superior");
+			break;
+		default:
+			;
+		}
+		
+		if (!ScrappingTables.canBeScrapped(stack))
+			lore += EnumChatFormatting.GREEN + "*";
+		
+		output.add(lore);
 	}
 }

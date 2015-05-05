@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
@@ -34,12 +35,14 @@ import cofh.api.modhelpers.ThermalExpansionHelper;
 public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 
 	@Override
-	protected void saveImpl(ItemStack stack) {
+	protected int saveImpl(ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
+		
+		return RecipeData.SUCCESS;
 	}
 
 	@Override

@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
@@ -63,7 +64,7 @@ public class FluidTransposerRecipeBuilder extends
 	}
 
 	@Override
-	protected void saveImpl(ItemStack stack) {
+	protected int saveImpl(ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
@@ -71,6 +72,8 @@ public class FluidTransposerRecipeBuilder extends
 
 		ThermalExpansionHelper.addTransposerExtract(energy, stack, output,
 				fluid, 100, false);
+		
+		return RecipeData.SUCCESS;
 	}
 
 	public FluidTransposerRecipeBuilder fluid(String fluidId) {

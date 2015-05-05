@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
-import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
@@ -58,8 +57,6 @@ public class Proxy {
 
 	public void postInit(FMLPostInitializationEvent event) {
 
-		boolean doLogging = ModOptions.getEnableRecipeLogging();
-
 		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
 
 		for (SupportedMod mod : SupportedMod.values()) {
@@ -85,23 +82,13 @@ public class Proxy {
 
 				} else {
 
-					if (doLogging) {
-						ModLog.info("");
-					}
-
 					ModLog.info("Loading recipes for [%s]", plugin.getName());
-
-					if (doLogging) {
-						ModLog.info(StringUtils.repeat('-', 64));
-					}
 
 					try {
 						plugin.apply();
 					} catch (Exception e) {
-
 						ModLog.warn("Error processing recipes!");
 						e.printStackTrace();
-
 					}
 				}
 			}

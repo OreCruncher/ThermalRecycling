@@ -24,53 +24,28 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ToolTipEventHandler {
+	
+	public static final List<Operation<List<String>, ItemStack>> hooks = new ArrayList<Operation<List<String>, ItemStack>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onToolTipEvent(ItemTooltipEvent event) {
 
 		if (event == null || event.itemStack == null)
 			return;
-
-		ItemStack stack = event.itemStack;
-
-		String lore;
-		switch (ItemScrapData.getValue(stack)) {
-		case NONE:
-			lore = StatCollector.translateToLocal("msg.ItemScrapValue.none");
-			break;
-		case POOR:
-			lore = StatCollector.translateToLocal("msg.ItemScrapValue.poor");
-			break;
-		case STANDARD:
-			lore = StatCollector
-					.translateToLocal("msg.ItemScrapValue.standard");
-			break;
-		case SUPERIOR:
-			lore = StatCollector
-					.translateToLocal("msg.ItemScrapValue.superior");
-			break;
-		default:
-			lore = "UNKNOWN";
-			;
-		}
-
-		if (lore != null) {
-			if (!ScrappingTables.canBeScrapped(stack))
-				lore += EnumChatFormatting.GREEN + "*";
-			event.toolTip.add(lore);
-		}
+		
+		Operation.apply(hooks, event.toolTip, event.itemStack);
 	}
 
 	public ToolTipEventHandler() {

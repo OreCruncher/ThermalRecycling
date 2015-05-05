@@ -208,7 +208,7 @@ public class RecipeData {
 
 	public static void writeDiagnostic(Writer writer) throws Exception {
 
-		writer.write("Item Info:\n");
+		writer.write("\nKnown Thermal Recycler Recipes:\n");
 		writer.write("=================================================================\n");
 		for (RecipeData d : recipes.values())
 			writer.write(String.format("%s\n", d.toString()));

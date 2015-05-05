@@ -80,9 +80,9 @@ public class GenericHandler extends ScrapHandler {
 					temp.stackSize = 1;
 
 					// Post process and return
-					if (keepIt(cupieDoll)) {
+					if (ScrappingTables.keepIt(cupieDoll)) {
 						result.add(temp);
-					} else if (dustIt(cupieDoll)) {
+					} else if (ScrappingTables.dustIt(cupieDoll)) {
 						result.add(ItemStackHelper
 								.convertToDustIfPossible(temp));
 					} else {

@@ -199,6 +199,8 @@ public final class UseEffect {
 	}
 
 	public static void diagnostic(Writer writer) throws IOException {
+
+		writer.write("\n==========================\nScrapbox Use Effect Tables\n==========================\n");
 		poorEffects.diagnostic("Poor Effects", writer);
 		standardEffects.diagnostic("Standard Effects", writer);
 		superiorEffects.diagnostic("Superior Effects", writer);

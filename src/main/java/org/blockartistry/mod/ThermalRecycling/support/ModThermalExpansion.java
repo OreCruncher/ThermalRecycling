@@ -59,9 +59,9 @@ public class ModThermalExpansion extends ModPlugin {
 				handler);
 
 		// Sawdust and whatnot
-		registerScrapValues(ScrapValue.NONE, "ThermalExpansion:material:512",
-				"ThermalExpansion:material:513", "ThermalExpansion:florb:*");
-		registerScrubFromOutput("ThermalExpansion:material:512",
-				"ThermalExpansion:material:513", "ThermalExpansion:florb:*");
+		registerScrapValues(ScrapValue.NONE, "material:512",
+				"material:513", "florb:*");
+		registerScrubFromOutput("material:512",
+				"material:513", "florb:*");
 	}
 }
