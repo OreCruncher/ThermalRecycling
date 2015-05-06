@@ -31,30 +31,20 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModBuildCraftSilicon extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-		"redstone_board",
-	};
+	static final String[] recipeIgnoreList = new String[] { "redstone_board", };
 
-	static final String[] scrapValuesNone = new String[] {
-			"redstoneChipset" };
+	static final String[] scrapValuesNone = new String[] { "redstoneChipset", "redstone_board" };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"redstoneChipset:5",
+	static final String[] scrapValuesPoor = new String[] { "redstoneChipset:5",
 			"redstoneChipset:6" };
 
 	static final String[] scrapValuesStandard = new String[] {
-			"redstoneChipset:1",
-			"redstoneChipset:2",
-			"redstoneChipset:4" };
+			"redstoneChipset:1", "redstoneChipset:2", "redstoneChipset:4" };
 
 	static final String[] scrapValuesSuperior = new String[] {
-			"redstoneChipset:3",
-			"redstoneChipset:7",
-			"laserBlock", "laserTableBlock:0",
-			"laserTableBlock:1", "laserTableBlock:2",
-			"laserTableBlock:4", "zonePlan",
-			"robot"
-			};
+			"redstoneChipset:3", "redstoneChipset:7", "laserBlock",
+			"laserTableBlock:0", "laserTableBlock:1", "laserTableBlock:2",
+			"laserTableBlock:4", "zonePlan", "robot" };
 
 	public ModBuildCraftSilicon() {
 		super(SupportedMod.BUILDCRAFT_SILICON);

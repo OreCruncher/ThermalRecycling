@@ -56,10 +56,11 @@ public class Proxy {
 		new GuiHandler();
 		new FuelHandler();
 
-		if(ModOptions.getEnableWaila())
-			FMLInterModComms.sendMessage("Waila", "register", WailaHandler.class.getName() + ".callbackRegister");
+		if (ModOptions.getEnableWaila())
+			FMLInterModComms.sendMessage("Waila", "register",
+					WailaHandler.class.getName() + ".callbackRegister");
 	}
-	
+
 	public void load(FMLLoadEvent event) {
 
 	}

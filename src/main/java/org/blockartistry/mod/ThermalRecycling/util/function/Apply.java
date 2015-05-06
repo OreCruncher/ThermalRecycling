@@ -25,19 +25,15 @@ package org.blockartistry.mod.ThermalRecycling.util.function;
 
 import java.util.List;
 
-public abstract class Operation<O, E> {
+public abstract class Apply <E> {
 
-	public abstract void apply(O output, E elem);
+	public abstract void apply(E elem);
 
-	public static <O, E> void apply(List<? extends Operation<O, E>> list,
-			O output, E subject) {
-		for (Operation<O, E> elem : list)
-			elem.apply(output, subject);
-	}
-
-	public static <O, E> void apply(List<? extends E> subjects, O output,
-			Operation<O, E> op) {
+	public static <E> void apply(List<? extends E> subjects, Apply<E> op) {
+		if(subjects == null)
+			return;
+		
 		for (E elem : subjects)
-			op.apply(output, elem);
+			op.apply(elem);
 	}
 }

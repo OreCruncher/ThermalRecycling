@@ -30,6 +30,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
@@ -57,8 +58,9 @@ public class GenericHandler extends ScrapHandler {
 				core = null;
 		} else if (ProcessingCorePolicy.isExtractionCore(core)
 				&& stack.getItem() == ItemManager.recyclingScrapBox) {
-			stack = new ItemStack(ItemManager.recyclingScrap, 10,
-					stack.getItemDamage());
+			// Get scrap count plus bonus since it is a scrapbox
+			stack = new ItemStack(ItemManager.recyclingScrap,
+					8 + ModOptions.getScrapBoxBonus(), stack.getItemDamage());
 		}
 
 		// If we get here just scrap the input

@@ -65,10 +65,12 @@ public class ModThermalRecycling extends ModPlugin {
 		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemScrapData.setRecipeIgnored(ItemManager.debris, true);
 		ItemScrapData.setRecipeIgnored(BlockManager.scrapBlock, true);
-		
-		ItemScrapData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
-		ItemScrapData.setValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
-		
+
+		ItemScrapData.setValue(new ItemStack(ItemManager.debris),
+				ScrapValue.NONE);
+		ItemScrapData.setValue(new ItemStack(BlockManager.scrapBlock),
+				ScrapValue.NONE);
+
 		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
 		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,

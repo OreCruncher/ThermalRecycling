@@ -60,9 +60,9 @@ public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		if(start != end)
+		if (start != end)
 			return String.format("Experience Orb [%d - %d]", start, end);
-		
+
 		return String.format("Experience Orb [%d]", start);
 	}
 }

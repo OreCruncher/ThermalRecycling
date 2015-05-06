@@ -122,7 +122,9 @@ public abstract class ScrapHandler {
 			for (ItemStackItem w : t.getEntries()) {
 
 				ItemStack temp = w.getStack();
-				if (temp != null && !(ScrappingTables.keepIt(temp) || ScrappingTables.dustIt(temp))) {
+				if (temp != null
+						&& !(ScrappingTables.keepIt(temp) || ScrappingTables
+								.dustIt(temp))) {
 
 					double percent = w.itemWeight * 100F / t.getTotalWeight();
 					ItemStackHelper.setItemLore(temp,

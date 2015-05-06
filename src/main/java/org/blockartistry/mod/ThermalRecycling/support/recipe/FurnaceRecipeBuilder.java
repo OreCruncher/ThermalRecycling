@@ -41,7 +41,7 @@ public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
 		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
-		
+
 		return RecipeData.SUCCESS;
 	}
 

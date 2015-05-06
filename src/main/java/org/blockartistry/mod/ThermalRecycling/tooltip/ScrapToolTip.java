@@ -38,7 +38,7 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 
 	@Override
 	public void apply(List<String> output, ItemStack stack) {
-		
+
 		ItemScrapData data = ItemScrapData.get(stack);
 		String lore = "UNKNOWN";
 
@@ -60,10 +60,10 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 		default:
 			;
 		}
-		
+
 		if (!ScrappingTables.canBeScrapped(stack))
 			lore += EnumChatFormatting.GREEN + "*";
-		
+
 		output.add(lore);
 	}
 }

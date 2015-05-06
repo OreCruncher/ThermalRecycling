@@ -29,43 +29,43 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 public class ModRFTools extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-		"dimensionalBlankBlock", "dimensionalSmallBlocks", "dimensionalCross2Block",
-		"dimensionalPattern1Block", "dimensionalCrossBlock", "dimensionalBlock",
-		"dimensionalPattern2Block", "shieldTemplateBlock", "rfToolsManualItem",
-		"rfToolsManualDimensionItem", "dimletTemplate", "emptyDimensionTab",
-		"dimensionalShardItem",
-	};
+			"dimensionalBlankBlock", "dimensionalSmallBlocks",
+			"dimensionalCross2Block", "dimensionalPattern1Block",
+			"dimensionalCrossBlock", "dimensionalBlock",
+			"dimensionalPattern2Block", "shieldTemplateBlock",
+			"rfToolsManualItem", "rfToolsManualDimensionItem",
+			"dimletTemplate", "emptyDimensionTab", "dimensionalShardItem", };
 
 	static final String[] scrapValuesNone = new String[] {
-		"dimensionalBlankBlock", "dimensionalSmallBlocks", "dimensionalCross2Block",
-		"dimensionalShardBlock", "dimensionalCrossBlock", "dimensionalBlock",
-		"dimensionalPattern1Block", "shieldTemplateBlock", "rfToolsManualItem",
-		"dimensionalPattern2Block", "rfToolsManualDimensionItem", "dimletTemplate",
-		"emptyDimensionTab", "dimensionalShardItem",
-		
+			"dimensionalBlankBlock", "dimensionalSmallBlocks",
+			"dimensionalCross2Block", "dimensionalShardBlock",
+			"dimensionalCrossBlock", "dimensionalBlock",
+			"dimensionalPattern1Block", "shieldTemplateBlock",
+			"rfToolsManualItem", "dimensionalPattern2Block",
+			"rfToolsManualDimensionItem", "dimletTemplate",
+			"emptyDimensionTab", "dimensionalShardItem",
+
 	};
 
-	static final String[] scrapValuesPoor = new String[] {
-		"machineBase"
-	};
+	static final String[] scrapValuesPoor = new String[] { "machineBase" };
 
 	static final String[] scrapValuesStandard = new String[] {};
 
 	static final String[] scrapValuesSuperior = new String[] {
-		"dimensionBuilderBlock", "dimensionEditorBlock", "endergenicBlock",
-		"environmentalControllerBlock", "machineInfuserBlock", "hastePlusEModuleItem",
-		"hasteEModuleItem", "peaceEssenceItem", "efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
-		
-		
+			"dimensionBuilderBlock", "dimensionEditorBlock", "endergenicBlock",
+			"environmentalControllerBlock", "machineInfuserBlock",
+			"hastePlusEModuleItem", "hasteEModuleItem", "peaceEssenceItem",
+			"efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
+
 	};
-	
+
 	public ModRFTools() {
 		super(SupportedMod.RFTOOLS);
 	}
 
 	@Override
 	public void apply() {
-		
+
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);

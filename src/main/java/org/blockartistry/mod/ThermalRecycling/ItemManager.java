@@ -39,7 +39,7 @@ public final class ItemManager {
 	public static final RecyclingScrap recyclingScrap = new RecyclingScrap();
 	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
 	public static final ProcessingCore processingCore = new ProcessingCore();
-	
+
 	public static final Debris debris = new Debris();
 
 	static void registerItems() {
@@ -47,9 +47,9 @@ public final class ItemManager {
 		recyclingScrap.register();
 		recyclingScrapBox.register();
 		processingCore.register();
-		
+
 		debris.register();
-		
+
 	}
 
 	public ItemManager() {

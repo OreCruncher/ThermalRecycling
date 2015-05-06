@@ -38,6 +38,7 @@ public final class ModOptions {
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
+	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -60,23 +61,22 @@ public final class ModOptions {
 	protected static int scrapboxMultiplier = 9;
 	protected static boolean enableRecyclerFX = true;
 	protected static boolean enableTooltips = true;
+	protected static int scrapBoxBonus = 1;
 
 	public static void load(Configuration config) {
 
-		enableDebugLogging = config
-				.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
-						CATEGORY_LOGGING_CONTROL, enableDebugLogging,
-						"Enables/disables debug logging of the mod");
-		
+		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
+				CATEGORY_LOGGING_CONTROL, enableDebugLogging,
+				"Enables/disables debug logging of the mod");
+
 		enableRecipeLogging = config
 				.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
 						CATEGORY_LOGGING_CONTROL, enableRecipeLogging,
 						"Enables/disables logging of recipes to the Forge log during startup");
 
-		enableWailaDisplay = config
-				.getBoolean(CONFIG_ENABLE_WAILA,
-						CATEGORY_LOGGING_CONTROL, enableWailaDisplay,
-						"Enables/disables display of scrap information via Waila");
+		enableWailaDisplay = config.getBoolean(CONFIG_ENABLE_WAILA,
+				CATEGORY_MODS, enableWailaDisplay,
+				"Enables/disables display of scrap information via Waila");
 
 		for (SupportedMod mod : SupportedMod.values()) {
 
@@ -122,12 +122,15 @@ public final class ModOptions {
 		enableRecyclerFX = config.getBoolean(CONFIG_ENABLE_FX,
 				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX,
 				"Control whether client displays visual effects");
+		
+		scrapBoxBonus = config.getInt(CONFIG_SCRAPBOX_BONUS,
+				CATEGORY_MACHINES_RECYCLER, scrapBoxBonus, 0, 4, "The bonus amount of scrap a scrapbox will get when processed with Core: Extraction");
 	}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
 	}
-	
+
 	public static boolean getEnableDebugLogging() {
 		return enableDebugLogging;
 	}
@@ -164,8 +167,12 @@ public final class ModOptions {
 	public static boolean getEnableTooltips() {
 		return enableTooltips;
 	}
-	
+
 	public static boolean getEnableWaila() {
 		return enableWailaDisplay;
+	}
+	
+	public static int getScrapBoxBonus() {
+		return scrapBoxBonus;
 	}
 }

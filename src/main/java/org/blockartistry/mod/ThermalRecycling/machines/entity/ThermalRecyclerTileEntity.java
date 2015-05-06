@@ -72,24 +72,24 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected List<ItemStack> buffer;
 
 	// Energy characteristics of the machine
-	static final int ENERGY_MAX_STORAGE = 32000;
+	static final int ENERGY_MAX_STORAGE = 60000;
 	static final int ENERGY_PER_TICK = 40;
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
 
-	static final int ENERGY_PER_OPERATION_SCRAP = 1200;
-	static final int ENERGY_PER_OPERATION_DECOMP = 2400;
-	static final int ENERGY_PER_OPERATION_EXTRACT = 4800;
-	
+	static final int ENERGY_PER_OPERATION_SCRAP = 800;
+	static final int ENERGY_PER_OPERATION_DECOMP = 1600;
+	static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
+
 	static int operationEnergyForCore(ItemStack core) {
-		if(core == null)
+		if (core == null)
 			return ENERGY_PER_OPERATION_SCRAP;
-		
-		if(ProcessingCorePolicy.isExtractionCore(core))
+
+		if (ProcessingCorePolicy.isExtractionCore(core))
 			return ENERGY_PER_OPERATION_EXTRACT;
-		
-		if(ProcessingCorePolicy.isDecompositionCore(core))
+
+		if (ProcessingCorePolicy.isDecompositionCore(core))
 			return ENERGY_PER_OPERATION_DECOMP;
-		
+
 		// Shouldn't get here....
 		return ENERGY_PER_OPERATION_DECOMP;
 	}
@@ -168,7 +168,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		energy = nbt.getShort("energy");
+		energy = nbt.getInteger("energy");
 		energyRate = nbt.getShort("energyRate");
 		progress = nbt.getShort("progress");
 		status = MachineStatus.map(nbt.getShort("status"));
@@ -187,7 +187,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setShort("energy", (short) energy);
+		nbt.setInteger("energy", energy);
 		nbt.setShort("energyRate", (short) energyRate);
 		nbt.setShort("progress", (short) progress);
 		nbt.setShort("status", (short) status.ordinal());

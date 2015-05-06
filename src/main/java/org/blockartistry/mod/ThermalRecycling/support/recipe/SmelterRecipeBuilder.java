@@ -47,7 +47,7 @@ public class SmelterRecipeBuilder extends
 				output);
 
 		return RecipeData.SUCCESS;
-}
+	}
 
 	@Override
 	protected String toString(ItemStack stack) {

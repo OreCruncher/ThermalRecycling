@@ -24,9 +24,50 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 import net.minecraft.init.Blocks;
 
 public class ModThaumcraft extends ModPlugin {
+
+	static final String[] recipeIgnoreList = new String[] {
+			"blockMagicalLog:0", "blockMagicalLog:1", "blockWoodenDevice:6",
+			"blockWoodenDevice:7", "blockStairsSilverwood",
+			"blockStairsGreatwood", "blockCosmeticSolid:1",
+			"blockCosmeticSolid:5", "blockCosmeticSlabWood:0",
+			"blockCosmeticSlabWood:1", "blockCandle:*", "blockTaint:2",
+			"ItemResource:6", "blockTable:0", "ItemInkWell", "ItemResource:13",
+			"ItemResource:18", "TripleMeatTreat",
+
+			"ItemNugget:0", "ItemNugget:1", "ItemNugget:2", "ItemNugget:3",
+			"ItemNugget:4", "ItemNugget:5", "ItemNugget:6", "ItemNugget:7",
+			"ItemBaubleBlanks:*" };
+
+	static final String[] scrapValuesNone = new String[] { "blockMagicalLog:0",
+			"blockMagicalLog:1", "blockWoodenDevice:6", "blockWoodenDevice:7",
+			"blockStairsSilverwood", "blockStairsGreatwood",
+			"blockCosmeticSolid:1", "blockCosmeticSolid:5",
+			"blockCosmeticSlabWood:0", "blockCosmeticSlabWood:1",
+			"blockCandle:*", "blockTaint:2",
+
+			"leaves:*", "ItemInkWell", "blockTable:0", "ItemResource:4",
+			"ItemResource:13", "ItemEssence:0", "ItemCrystalEssence:*",
+			"ItemResource:11", "ItemResource:12", "ItemManaBean:*",
+			"ItemNuggetBeef", "ItemNuggetChicken", "ItemNuggetPork" };
+
+	static final String[] scrapValuesPoor = new String[] { "ItemResource:6",
+			"blockCrystal:*", "ItemResource:18", "ItemWispEssence:*",
+			"ItemShard:*", "TripleMeatTreat", "ItemNugget:0", "ItemNugget:1",
+			"ItemNugget:2", "ItemNugget:3", "ItemNugget:4", "ItemNugget:5",
+			"ItemNugget:6", "ItemNugget:7", "ItemLootBag:0", "ItemEssence:1",
+			"ItemZombieBrain" };
+
+	static final String[] scrapValuesStandard = new String[] { "ItemLootBag:1", };
+
+	static final String[] scrapValuesSuperior = new String[] { "ItemLootBag:2",
+			"ItemSwordElemental", "ItemHoeElemental", "ItemShovelElemental",
+			"ItemAxeElemental", "ItemPickaxeElemental", "BootsTraveller",
+			"HoverHarness", "ItemGirdleHover:0", "ItemEldritchObject:*" };
 
 	public ModThaumcraft() {
 		super(SupportedMod.THAUMCRAFT);
@@ -35,10 +76,16 @@ public class ModThaumcraft extends ModPlugin {
 	@Override
 	public void apply() {
 
-		// Saplings
-		pulverizer.setEnergy(1200)
-				.appendSubtypeRange("Thaumcraft:blockCustomPlant", 0, 1, 8)
-				.output(Blocks.dirt).save();
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+
+		registerRecycleToWoodDust(1, "blockMagicalLog:0", "blockMagicalLog:1");
+		registerRecycleToWoodDust(2, "blockWoodenDevice:6", "blockWoodenDevice:7");
+		registerRecycleToWoodDust(8, "blockCustomPlant:0", "blockCustomPlant:1");
+		registerPulverizeToDirt("blockCustomPlant", 0, 1);
 
 		// Basic Thaumcraft tools and stuff
 		furnace.append("Thaumcraft:ItemThaumometer").output("ingotGold", 2)

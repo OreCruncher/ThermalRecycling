@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
@@ -40,170 +39,102 @@ public class VanillaMinecraft extends ModPlugin {
 	static boolean enableNetherStarRecycle = true;
 	static int quantityRottenFleshToLeather = 2;
 
-	static final String[] recipesToReveal = new String[] {
-			"flint_and_steel", "rail",
-			"redstone_torch", "iron_bars",
-			"iron_ingot", "iron_block",
-			"iron_helmet", "iron_chestplate",
-			"iron_leggings", "iron_boots",
-			"iron_sword", "iron_shovel",
-			"iron_axe", "iron_pickaxe",
-			"iron_hoe", "gold_ingot",
-			"gold_block", "golden_helmet",
-			"golden_chestplate", "golden_leggings",
-			"golden_boots", "golden_sword",
-			"golden_shovel", "golden_axe",
-			"golden_pickaxe", "golden_hoe",
-			"iron_door", "minecart",
-			"chest_minecart", "furnace_minecart",
-			"tnt_minecart", "hopper_minecart",
-			"beacon", "bucket", "lava_bucket",
-			"water_bucket", "milk_bucket",
-			"golden_carrot", "golden_apple",
-			"golden_apple:1", "speckled_melon",
-			"emerald_block",
-			"diamond_block", "diamond_helmet",
-			"diamond_chestplate", "diamond_leggings",
-			"diamond_boots", "diamond_sword",
-			"diamond_shovel", "diamond_axe",
-			"diamond_pickaxe", "diamond_hoe",
-			"compass", "clock", "leather_helmet",
-			"leather_chestplate", "leather_leggings",
-			"leather_boots", "cauldron",
-			"brewing_stand", "anvil",
-			"enchanting_table", "hopper",
-			"repeater", "comparator",
-			"light_weighted_pressure_plate",
-			"heavy_weighted_pressure_plate",
-			"daylight_detector", "shears",
-			"piston", "sticky_piston",
-			"jukebox", "glowstone",
-			"redstone_lamp", "ender_chest",
-			"golden_rail", "detector_rail", "activator_rail",
-			"quartz_block:*"
+	static final String[] recipesToReveal = new String[] { "flint_and_steel",
+			"rail", "redstone_torch", "iron_bars", "iron_ingot", "iron_block",
+			"iron_helmet", "iron_chestplate", "iron_leggings", "iron_boots",
+			"iron_sword", "iron_shovel", "iron_axe", "iron_pickaxe",
+			"iron_hoe", "gold_ingot", "gold_block", "golden_helmet",
+			"golden_chestplate", "golden_leggings", "golden_boots",
+			"golden_sword", "golden_shovel", "golden_axe", "golden_pickaxe",
+			"golden_hoe", "iron_door", "minecart", "chest_minecart",
+			"furnace_minecart", "tnt_minecart", "hopper_minecart", "beacon",
+			"bucket", "lava_bucket", "water_bucket", "milk_bucket",
+			"golden_carrot", "golden_apple", "golden_apple:1",
+			"speckled_melon", "emerald_block", "diamond_block",
+			"diamond_helmet", "diamond_chestplate", "diamond_leggings",
+			"diamond_boots", "diamond_sword", "diamond_shovel", "diamond_axe",
+			"diamond_pickaxe", "diamond_hoe", "compass", "clock",
+			"leather_helmet", "leather_chestplate", "leather_leggings",
+			"leather_boots", "cauldron", "brewing_stand", "anvil",
+			"enchanting_table", "hopper", "repeater", "comparator",
+			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
+			"daylight_detector", "shears", "piston", "sticky_piston",
+			"jukebox", "glowstone", "redstone_lamp", "ender_chest",
+			"golden_rail", "detector_rail", "activator_rail", "quartz_block:*"
 
 	};
 
-	static final String[] scrapValuesPoor = new String[] { "cake",
-			"gunpowder", "rotten_flesh", "tnt",
-			"coal_block", "gold_nugget",
-			"leather_helmet", "leather_chestplate",
-			"leather_leggings", "leather_boots",
-			"brewing_stand", };
+	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",
+			"rotten_flesh", "tnt", "coal_block", "gold_nugget",
+			"leather_helmet", "leather_chestplate", "leather_leggings",
+			"leather_boots", "brewing_stand", };
 
-	static final String[] scrapValuesStandard = new String[] {
-			"blaze_powder", "blaze_rod",
-			"ender_eye", "ender_pearl",
-			"chainmail_boots", "chainmail_chestplate",
-			"chainmail_leggings", "chainmail_helmet",
-			"lava_bucket", "water_bucket", "map",
-			"filled_map", "iron_bars",
-			"iron_ingot", "iron_block",
-			"iron_helmet", "iron_chestplate",
-			"iron_leggings", "iron_boots",
-			"iron_sword", "iron_shovel",
-			"iron_axe", "iron_pickaxe",
-			"iron_hoe", "gold_ingot",
-			"gold_block", "golden_helmet",
-			"golden_chestplate", "golden_leggings",
-			"golden_boots", "golden_sword",
-			"golden_shovel", "golden_axe",
-			"golden_pickaxe", "golden_hoe",
-			"iron_door", "minecart",
-			"chest_minecart", "furnace_minecart",
-			"tnt_minecart", "hopper_minecart",
-			"bucket", "lava_bucket",
-			"water_bucket", "milk_bucket",
-			"iron_horse_armor", "golden_horse_armor",
-			"golden_carrot", "golden_apple",
-			"speckled_melon", "compass", "clock",
-			"cauldron", "magma_cream",
-			"ghast_tear", "hopper",
-			"light_weighted_pressure_plate",
-			"heavy_weighted_pressure_plate",
-			"daylight_detector", "experience_bottle",
-			"shears", "quartz",
-			"piston", "sticky_piston",
-			"golden_rail", "detector_rail", "activator_rail", "glowstone",
-			"redstone_lamp", "ender_chest",
-			"enchanted_book", "quartz_block:*",
-			"iron_ore", "gold_ore", "lapis_ore", "redstone_ore",
-			"coal_ore"
+	static final String[] scrapValuesStandard = new String[] { "blaze_powder",
+			"blaze_rod", "ender_eye", "ender_pearl", "chainmail_boots",
+			"chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",
+			"lava_bucket", "water_bucket", "map", "filled_map", "iron_bars",
+			"iron_ingot", "iron_block", "iron_helmet", "iron_chestplate",
+			"iron_leggings", "iron_boots", "iron_sword", "iron_shovel",
+			"iron_axe", "iron_pickaxe", "iron_hoe", "gold_ingot", "gold_block",
+			"golden_helmet", "golden_chestplate", "golden_leggings",
+			"golden_boots", "golden_sword", "golden_shovel", "golden_axe",
+			"golden_pickaxe", "golden_hoe", "iron_door", "minecart",
+			"chest_minecart", "furnace_minecart", "tnt_minecart",
+			"hopper_minecart", "bucket", "lava_bucket", "water_bucket",
+			"milk_bucket", "iron_horse_armor", "golden_horse_armor",
+			"golden_carrot", "golden_apple", "speckled_melon", "compass",
+			"clock", "cauldron", "magma_cream", "ghast_tear", "hopper",
+			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
+			"daylight_detector", "experience_bottle", "shears", "quartz",
+			"piston", "sticky_piston", "golden_rail", "detector_rail",
+			"activator_rail", "glowstone", "redstone_lamp", "ender_chest",
+			"enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
+			"lapis_ore", "redstone_ore", "coal_ore",
+			"skull:*",
 
 	};
 
-	static final String[] scrapValuesSuperior = new String[] {
-			"diamond", "emerald", "nether_star",
-			"beacon", "diamond_horse_armor",
-			"emerald_block",
-			"diamond_block", "diamond_helmet",
-			"diamond_chestplate", "diamond_leggings",
-			"diamond_boots", "diamond_sword",
-			"diamond_shovel", "diamond_axe",
-			"diamond_pickaxe", "diamond_hoe",
-			"anvil", "enchanting_table",
-			"golden_apple:1",
-			"jukebox", "diamond_ore", "emerald_ore"
+	static final String[] scrapValuesSuperior = new String[] { "diamond",
+			"emerald", "nether_star", "beacon", "diamond_horse_armor",
+			"emerald_block", "diamond_block", "diamond_helmet",
+			"diamond_chestplate", "diamond_leggings", "diamond_boots",
+			"diamond_sword", "diamond_shovel", "diamond_axe",
+			"diamond_pickaxe", "diamond_hoe", "anvil", "enchanting_table",
+			"golden_apple:1", "jukebox", "diamond_ore", "emerald_ore",
 
 	};
 
-	static final String[] notScrubFromOutput = new String[] {
-			"clay_ball", "diamond", "emerald",
-			"nether_star", "ender_eye",
-			"ender_pearl", "gunpowder",
-			"flint_and_steel", "chainmail_boots",
-			"chainmail_chestplate", "chainmail_leggings",
-			"chainmail_helmet", "rotten_flesh",
-			"redstone", "coal", "lead",
-			"nether_wart", "leather", "book",
-			"tnt", "coal_block", "coal",
-			"rail", "redstone_torch",
-			"iron_bars", "lapis_block",
-			"redstone_block", "chest",
-			"iron_ingot", "iron_block",
-			"iron_helmet", "iron_chestplate",
-			"iron_leggings", "iron_boots",
-			"iron_sword", "iron_shovel",
-			"iron_axe", "iron_pickaxe",
-			"iron_hoe", "gold_ingot",
-			"gold_block", "golden_helmet",
-			"golden_chestplate", "golden_leggings",
-			"golden_boots", "golden_sword",
-			"golden_shovel", "golden_axe",
-			"golden_pickaxe", "golden_hoe",
-			"emerald_block",
-			"diamond_block", "diamond_helmet",
-			"diamond_chestplate", "diamond_leggings",
-			"diamond_boots", "diamond_sword",
-			"diamond_shovel", "diamond_axe",
-			"diamond_pickaxe", "diamond_hoe",
-			"iron_door", "gold_nugget",
-			"minecart", "chest_minecart",
-			"furnace_minecart", "tnt_minecart",
-			"hopper_minecart", "beacon",
-			"bucket", "lava_bucket",
-			"water_bucket", "milk_bucket",
-			"iron_horse_armor", "golden_horse_armor",
-			"diamond_horse_armor", "golden_carrot",
-			"golden_apple", "speckled_melon",
-			"compass", "clock", "leather_helmet",
-			"leather_chestplate", "leather_leggings",
-			"leather_boots", "cauldron",
-			"magma_cream", "ghast_tear",
-			"brewing_stand", "blaze_rod",
-			"anvil", "enchanting_table",
-			"hopper", "repeater", "comparator",
-			"light_weighted_pressure_plate",
-			"heavy_weighted_pressure_plate",
-			"daylight_detector", "experience_bottle",
-			"shears", "golden_apple:1",
-			"quartz",
-			"piston", "sticky_piston",
-			"golden_rail", "detector_rail", "activator_rail",
-			"dispenser", "dropper",
-			"jukebox", "glowstone",
-			"redstone_lamp", "ender_chest", "slime_ball",
-			"quartz_block:*"
+	static final String[] notScrubFromOutput = new String[] { "clay_ball",
+			"diamond", "emerald", "nether_star", "ender_eye", "ender_pearl",
+			"gunpowder", "flint_and_steel", "chainmail_boots",
+			"chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",
+			"rotten_flesh", "redstone", "coal", "lead", "nether_wart",
+			"leather", "book", "tnt", "coal_block", "coal", "rail",
+			"redstone_torch", "iron_bars", "lapis_block", "redstone_block",
+			"chest", "iron_ingot", "iron_block", "iron_helmet",
+			"iron_chestplate", "iron_leggings", "iron_boots", "iron_sword",
+			"iron_shovel", "iron_axe", "iron_pickaxe", "iron_hoe",
+			"gold_ingot", "gold_block", "golden_helmet", "golden_chestplate",
+			"golden_leggings", "golden_boots", "golden_sword", "golden_shovel",
+			"golden_axe", "golden_pickaxe", "golden_hoe", "emerald_block",
+			"diamond_block", "diamond_helmet", "diamond_chestplate",
+			"diamond_leggings", "diamond_boots", "diamond_sword",
+			"diamond_shovel", "diamond_axe", "diamond_pickaxe", "diamond_hoe",
+			"iron_door", "gold_nugget", "minecart", "chest_minecart",
+			"furnace_minecart", "tnt_minecart", "hopper_minecart", "beacon",
+			"bucket", "lava_bucket", "water_bucket", "milk_bucket",
+			"iron_horse_armor", "golden_horse_armor", "diamond_horse_armor",
+			"golden_carrot", "golden_apple", "speckled_melon", "compass",
+			"clock", "leather_helmet", "leather_chestplate",
+			"leather_leggings", "leather_boots", "cauldron", "magma_cream",
+			"ghast_tear", "brewing_stand", "blaze_rod", "anvil",
+			"enchanting_table", "hopper", "repeater", "comparator",
+			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
+			"daylight_detector", "experience_bottle", "shears",
+			"golden_apple:1", "quartz", "piston", "sticky_piston",
+			"golden_rail", "detector_rail", "activator_rail", "dispenser",
+			"dropper", "jukebox", "glowstone", "redstone_lamp", "ender_chest",
+			"slime_ball", "quartz_block:*"
 
 	};
 
@@ -245,154 +176,17 @@ public class VanillaMinecraft extends ModPlugin {
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 		registerNotScrubFromOutput(notScrubFromOutput);
 
-		/*
-		 * // Items ItemScrapData.put(Items.dye, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.arrow, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.blaze_powder, ScrapValue.STANDARD, true,
-		 * false); ItemScrapData.put(Items.bone, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.bowl, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.bread, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.wheat, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.apple, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.reeds, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.egg, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.cake, ScrapValue.POOR, true, true);
-		 * ItemScrapData.put(Items.carrot_on_a_stick, ScrapValue.POOR, true,
-		 * false); ItemScrapData.put(Items.clay_ball, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Items.cookie, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.cooked_beef, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.cooked_porkchop, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.fish, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.cooked_fished, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.chicken, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.cooked_chicken, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.melon, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.diamond, ScrapValue.SUPERIOR, true, false);
-		 * ItemScrapData.put(Items.emerald, ScrapValue.SUPERIOR, true, false);
-		 * ItemScrapData.put(Items.nether_star, ScrapValue.SUPERIOR, true,
-		 * false); ItemScrapData.put(Items.ender_pearl, ScrapValue.STANDARD,
-		 * true, false); ItemScrapData.put(Items.ender_eye, ScrapValue.STANDARD,
-		 * true, false); ItemScrapData.put(Items.fermented_spider_eye,
-		 * ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.flint_and_steel, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Items.melon_seeds, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.pumpkin_seeds, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.wheat_seeds, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.pumpkin_pie, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.sugar, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.gunpowder, ScrapValue.POOR, true, false);
-		 * ItemScrapData.put(Items.string, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.chainmail_boots, ScrapValue.STANDARD, true,
-		 * false); ItemScrapData.put(Items.chainmail_chestplate,
-		 * ScrapValue.STANDARD, true, false);
-		 * ItemScrapData.put(Items.chainmail_helmet, ScrapValue.STANDARD, true,
-		 * false); ItemScrapData.put(Items.chainmail_leggings,
-		 * ScrapValue.STANDARD, true, false); ItemScrapData.put(Items.map,
-		 * ScrapValue.STANDARD, true, true); ItemScrapData.put(Items.filled_map,
-		 * ScrapValue.STANDARD, true, true); ItemScrapData.put(Items.coal,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.redstone,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.lead,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.stone_axe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_hoe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_pickaxe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_shovel,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stone_sword,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.stick,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Items.wooden_axe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_hoe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_pickaxe,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_shovel,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_sword,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Items.wooden_door,
-		 * ScrapValue.NONE, false, false); ItemScrapData.put(Items.lava_bucket,
-		 * ScrapValue.STANDARD, true, true);
-		 * ItemScrapData.put(Items.water_bucket, ScrapValue.STANDARD, true,
-		 * true); ItemScrapData.put(Items.nether_wart, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Items.snowball, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Items.paper, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Items.painting, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.book, ScrapValue.NONE, false, false);
-		 * ItemScrapData.put(Items.item_frame, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.rotten_flesh, ScrapValue.POOR, true, false);
-		 * ItemScrapData.put(Items.leather, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Items.sign, ScrapValue.NONE, false, false);
-		 * 
-		 * // Blocks ItemScrapData.put(Blocks.acacia_stairs, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.birch_stairs, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.spruce_stairs,
-		 * ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.jungle_stairs, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.brick_block, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.oak_stairs, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.brick_stairs, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.wooden_slab, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.double_wooden_slab, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.cobblestone, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.cobblestone_wall,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.stone_slab,
-		 * ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.double_stone_slab, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.dark_oak_stairs, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.dirt, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.mossy_cobblestone, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.planks, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.fence, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Blocks.fence_gate, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Blocks.wooden_button, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.stone, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.stone_brick_stairs, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.stone_button, ScrapValue.NONE,
-		 * true, true); ItemScrapData.put(Blocks.stone_stairs, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.stonebrick, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.tnt, ScrapValue.POOR, true,
-		 * false); ItemScrapData.put(Blocks.hay_block, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.coal_block, ScrapValue.POOR, true,
-		 * false); ItemScrapData.put(Blocks.carpet, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.hardened_clay, ScrapValue.NONE,
-		 * true, false); ItemScrapData.put(Blocks.stained_hardened_clay,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.glass,
-		 * ScrapValue.NONE, true, false); ItemScrapData.put(Blocks.glass_pane,
-		 * ScrapValue.NONE, true, true); ItemScrapData.put(Blocks.stained_glass,
-		 * ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.stained_glass_pane, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Blocks.furnace, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.sand, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.gravel, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.sandstone, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.sandstone_stairs, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.soul_sand, ScrapValue.NONE, true,
-		 * false); ItemScrapData.put(Blocks.sapling, ScrapValue.NONE, true,
-		 * true); ItemScrapData.put(Blocks.leaves, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Blocks.leaves2, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Blocks.lever, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.wool, ScrapValue.POOR, true, false);
-		 * ItemScrapData.put(Blocks.mycelium, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.snow, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Blocks.snow_layer, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Blocks.ice, ScrapValue.NONE, true, true);
-		 * ItemScrapData.put(Blocks.bookshelf, ScrapValue.NONE, false, false);
-		 * ItemScrapData.put(Blocks.vine, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.log, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.log2, ScrapValue.NONE, true, false);
-		 * ItemScrapData.put(Blocks.rail, ScrapValue.NONE, false, false);
-		 * ItemScrapData.put(Blocks.ladder, ScrapValue.NONE, false, false);
-		 * ItemScrapData.put(Blocks.redstone_torch, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Blocks.iron_bars, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Blocks.lapis_block, ScrapValue.NONE, false,
-		 * false); ItemScrapData.put(Blocks.redstone_block, ScrapValue.NONE,
-		 * false, false); ItemScrapData.put(Blocks.melon_block, ScrapValue.NONE,
-		 * false, true); ItemScrapData.put(Blocks.dropper, ScrapValue.POOR,
-		 * false, false); ItemScrapData.put(Blocks.dispenser, ScrapValue.POOR,
-		 * false, false); ItemScrapData.put(Blocks.deadbush, ScrapValue.NONE,
-		 * false, true); ItemScrapData.put(Blocks.web, ScrapValue.NONE, false,
-		 * true); ItemScrapData.put(Blocks.red_flower, ScrapValue.NONE, false,
-		 * true); ItemScrapData.put(Blocks.red_mushroom_block, ScrapValue.NONE,
-		 * false, true); ItemScrapData.put(Blocks.brown_mushroom_block,
-		 * ScrapValue.NONE, false, true); ItemScrapData.put(Blocks.chest,
-		 * ScrapValue.NONE, true, false);
-		 */
+		registerRecycleToWoodDust(1, "log:*", "log2:*");
+		registerRecycleToWoodDust(2, "planks:*");
+		registerRecycleToWoodDust(8, "sapling:*");
+		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat",
+				"reeds", "cactus", "brown_mushroom", "red_mushroom", "pumpkin");
+		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds", "melon_seeds",
+				"melon");
 
-		// Recycle some parts!!
+		registerPulverizeToDirt("sapling", 0, 5);
+
+		// Recycle some parts
 		sawmill.setEnergy(800).append(Blocks.ladder).output("dustWood", 2)
 				.save();
 		pulverizer.setEnergy(800).append(Blocks.pumpkin)
@@ -513,9 +307,6 @@ public class VanillaMinecraft extends ModPlugin {
 		sawmill.setEnergy(1200).append(Items.wooden_door)
 				.output(Blocks.planks, 6).save();
 		sawmill.append(Blocks.trapdoor).output(Blocks.planks, 3).save();
-
-		pulverizer.setEnergy(1200).appendSubtypeRange(Blocks.sapling, 0, 5, 8)
-				.output(Blocks.dirt).save();
 
 		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
 				.output(Items.rotten_flesh).save();

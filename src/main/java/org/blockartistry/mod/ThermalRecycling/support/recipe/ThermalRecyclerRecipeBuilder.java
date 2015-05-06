@@ -31,7 +31,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
@@ -94,6 +93,13 @@ public class ThermalRecyclerRecipeBuilder {
 	public ThermalRecyclerRecipeBuilder append(ItemStack... stacks) {
 		ItemStackHelper.append(output, stacks);
 		return this;
+	}
+
+	public ThermalRecyclerRecipeBuilder append(ItemStack stack, int quantity) {
+		Preconditions.checkNotNull(stack);
+		ItemStack t = stack.copy();
+		t.stackSize = quantity;
+		return append(t);
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtype(ItemStack stack,
@@ -176,6 +182,13 @@ public class ThermalRecyclerRecipeBuilder {
 		return input(ItemStackHelper.getItemStack(name, quantity));
 	}
 
+	public ThermalRecyclerRecipeBuilder input(ItemStack stack, int quantity) {
+		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
+		ItemStack item = stack.copy();
+		item.stackSize = quantity;
+		return input(item);
+	}
+
 	public ThermalRecyclerRecipeBuilder input(ItemStack in) {
 
 		Preconditions.checkNotNull(in, "Input ItemStack cannot be null");
@@ -237,7 +250,8 @@ public class ThermalRecyclerRecipeBuilder {
 	public void save() {
 
 		if (output == null || output.isEmpty()) {
-			ModLog.debug("No output parameters for [%s] - could have been scrubbed",
+			ModLog.debug(
+					"No output parameters for [%s] - could have been scrubbed",
 					ItemStackHelper.resolveName(input));
 			return;
 		}
@@ -247,8 +261,9 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = RecipeData.put(input, output.toArray(new ItemStack[output.size()]));
-			if(result == RecipeData.FAILURE)
+			int result = RecipeData.put(input,
+					output.toArray(new ItemStack[output.size()]));
+			if (result == RecipeData.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
 			else if (result == RecipeData.DUPLICATE)
 				ModLog.debug("Duplicate recipe [%s]", toString());

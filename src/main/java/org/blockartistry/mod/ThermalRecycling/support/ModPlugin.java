@@ -24,6 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
@@ -35,7 +38,10 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilde
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
+import scala.actors.threadpool.Arrays;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
@@ -44,13 +50,13 @@ public abstract class ModPlugin {
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
 
-	SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
-	PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-	ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
-	SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
-	FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
-	BlastRecipeBuilder blast = new BlastRecipeBuilder();
+	final SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
+	final PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	final FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	final ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
+	final SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
+	final FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
+	final BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
 	public ModPlugin(SupportedMod m) {
 		mod = m;
@@ -74,70 +80,114 @@ public abstract class ModPlugin {
 
 	protected String makeName(String name) {
 		String result;
-		
-		if(name.startsWith("^"))
+
+		if (name.startsWith("^"))
 			result = name.substring(1);
 		else
 			result = getModId() + ":" + name;
-		
+
 		return result;
 	}
-	
+
+	void forEachSubject(List<String> subjects, Apply<ItemStack> op) {
+		for (String s : subjects) {
+			String name = makeName(s);
+			ItemStack stack = ItemStackHelper.getItemStack(name);
+			if (stack != null)
+				op.apply(stack);
+			else
+				ModLog.warn("[%s] unknown item '%s'", mod.getName(), name);
+		}
+	}
+
 	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
-	// THE CURRENT MOD NAME!  IF IT NEEDS TO BE ESCAPED PUT A
+	// THE CURRENT MOD NAME! IF IT NEEDS TO BE ESCAPED PUT A
 	// ^ CHARACTER AT THE FRONT!
+	@SuppressWarnings("unchecked")
 	protected void registerRecipesToIgnore(String... list) {
-		for (String s : list) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if (stack != null)
-				ItemScrapData.setRecipeIgnored(stack, true);
-			else
-				ModLog.warn("[%s] registerRecipesToIgnore(): unknown item '%s'", mod.getName(), name);
-		}
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setRecipeIgnored(elem, true);
+			}
+
+		});
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void registerRecipesToReveal(String... list) {
-		for (String s : list) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if (stack != null)
-				ItemScrapData.setRecipeIgnored(stack, false);
-			else
-				ModLog.warn("[%s] registerRecipesToReveal(): unknown item '%s'", mod.getName(), name);
-		}
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setRecipeIgnored(elem, false);
+			}
+
+		});
 	}
 
-	protected void registerScrapValues(ScrapValue value, String... list) {
-		for (String s : list) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if(stack != null)
-				ItemScrapData.setValue(stack, value);
-			else
-				ModLog.warn("[%s] registerScrapValues(): unknown item '%s'", mod.getName(), name);
-		}
+	@SuppressWarnings("unchecked")
+	protected void registerScrapValues(final ScrapValue value, String... list) {
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setValue(elem, value);
+			}
+
+		});
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void registerScrubFromOutput(String... list) {
-		for (String s : list) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if (stack != null)
-				ItemScrapData.setScrubbedFromOutput(stack, true);
-			else
-				ModLog.warn("[%s] registerScrubFromOutput(): unknown item '%s'", mod.getName(), name);
-		}
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setScrubbedFromOutput(elem, true);
+			}
+
+		});
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void registerNotScrubFromOutput(String... list) {
-		for (String s : list) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if (stack != null)
-				ItemScrapData.setScrubbedFromOutput(stack, false);
-			else
-				ModLog.warn("[%s] registerNotScrubFromOutput(): unknown item '%s'", mod.getName(), name);
-		}
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setScrubbedFromOutput(elem, false);
+			}
+
+		});
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	protected void registerRecycleToWoodDust(final int inputQuantity, String... list) {
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				recycler.input(elem, inputQuantity).append(ItemStackHelper.dustWood)
+						.save();
+			}
+
+		});
+	}
+
+	protected void registerPulverizeToDirt(String name,
+			final int rangeStart, final int rangeEnd) {
+
+		forEachSubject(Collections.singletonList(name), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				pulverizer.appendSubtypeRange(elem, rangeStart, rangeEnd, 8)
+						.output(Blocks.dirt).save();
+			}
+
+		});
 	}
 }

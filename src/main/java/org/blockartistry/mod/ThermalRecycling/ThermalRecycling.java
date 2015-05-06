@@ -57,9 +57,11 @@ public final class ThermalRecycling {
 			+ "after:Forestry;"
 			+ "after:MineFactoryReloaded;"
 			+ "after:Thaumcraft;"
-			+ "after:Railcraft;" + "after:advgenerators;" + "after:EnderIO;"
+			+ "after:Railcraft;"
+			+ "after:advgenerators;"
+			+ "after:EnderIO;"
 			+ "after:Waila;";
-	
+
 	static final String OUTPUT_FILE = "ThermalRecycling.log";
 
 	@Instance(MOD_ID)
@@ -104,12 +106,12 @@ public final class ThermalRecycling {
 
 		proxy.init(event);
 	}
-	
+
 	@EventHandler
 	public void load(FMLLoadEvent event) {
-		
+
 		proxy.load(event);
-		
+
 	}
 
 	@EventHandler
@@ -123,12 +125,11 @@ public final class ThermalRecycling {
 			BufferedWriter writer = null;
 
 			try {
-				writer = new BufferedWriter(new FileWriter(
-						OUTPUT_FILE));
+				writer = new BufferedWriter(new FileWriter(OUTPUT_FILE));
 
-				if(ModOptions.getEnableDebugLogging())
+				if (ModOptions.getEnableDebugLogging())
 					ItemScrapData.writeDiagnostic(writer);
-				
+
 				ScrappingTables.writeDiagnostic(writer);
 				UseEffect.diagnostic(writer);
 				RecipeData.writeDiagnostic(writer);
@@ -142,8 +143,9 @@ public final class ThermalRecycling {
 				} catch (Exception e) {
 				}
 			}
-			
-			ModLog.info("Recipe load complete - check the file %s for details", OUTPUT_FILE);
+
+			ModLog.info("Recipe load complete - check the file %s for details",
+					OUTPUT_FILE);
 		}
 	}
 }

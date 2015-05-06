@@ -82,7 +82,9 @@ public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Player Potion Effect [%s] (duration: %ds; amplifier: %d; no bad: %s)",
-				potion == null ? "random" : potion.getName(), duration/20, amplifier, Boolean.toString(noBad));
+		return String
+				.format("Player Potion Effect [%s] (duration: %ds; amplifier: %d; no bad: %s)",
+						potion == null ? "random" : potion.getName(),
+						duration / 20, amplifier, Boolean.toString(noBad));
 	}
 }

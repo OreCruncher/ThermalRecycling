@@ -73,8 +73,8 @@ public final class ScrappingTables {
 		// The "NONE" scrap value. This is used when breaking a recipe down and
 		// this item is one of the components.
 		ItemStackWeightTable t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 15));
-		t.add(t.new ItemStackItem(debris, 14));
+		t.add(t.new ItemStackItem(null, 21));
+		t.add(t.new ItemStackItem(debris, 7));
 		t.add(t.new ItemStackItem(keep, 1));
 		t.add(t.new ItemStackItem(dust, 2));
 		t.add(t.new ItemStackItem(poorScrap, 1));
@@ -153,42 +153,42 @@ public final class ScrappingTables {
 
 		// POOR
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 113));
-		t.add(t.new ItemStackItem(standardScrap, 3));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustWood, 3));
-		t.add(t.new ItemStackItem(ItemStackHelper.boneMeal, 3));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 1));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustLead, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustNickel, 2));
+		t.add(t.new ItemStackItem(null, 120));
+		t.add(t.new ItemStackItem(standardScrap, 60));
+		t.add(t.new ItemStackItem(ItemStackHelper.boneMeal, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustCoal, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustCharcoal, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.sulfer, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustNickel, 20));
 		extractionDust.add(t);
 
 		// STANDARD
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 30));
-		t.add(t.new ItemStackItem(superiorScrap, 3));
-		t.add(t.new ItemStackItem(ItemStackHelper.boneMeal, 1));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 1));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustLead, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustNickel, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 1));
+		t.add(t.new ItemStackItem(null, 78));
+		t.add(t.new ItemStackItem(superiorScrap, 52));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustCoal, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.niter, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustLead, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 10));
 		extractionDust.add(t);
 
 		// SUPERIOR
 		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 9));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustPlatinum, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustElectrum, 2));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSignalum, 1));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustLumium, 1));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustEnderium, 1));
+		t.add(t.new ItemStackItem(null, 73));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustPlatinum, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustElectrum, 20));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustSignalum, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustLumium, 10));
+		t.add(t.new ItemStackItem(ItemStackHelper.dustEnderium, 10));
 		extractionDust.add(t);
 	}
 

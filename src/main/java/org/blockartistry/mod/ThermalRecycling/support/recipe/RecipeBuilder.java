@@ -109,6 +109,14 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
+	public This append(ItemStack stack, int quantity) {
+		Preconditions.checkNotNull(stack);
+		ItemStack item = stack.copy();
+		item.stackSize = quantity;
+		ItemStackHelper.append(input, item);
+		return THIS;
+	}
+
 	public This appendSubtype(ItemStack stack, int subtype) {
 		ItemStackHelper.appendSubtype(input, stack, subtype);
 		return THIS;
@@ -151,6 +159,11 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 	public This appendSubtypeRange(ItemStack stack, int start, int end) {
 		ItemStackHelper.appendSubtypeRange(input, stack, start, end);
+		return THIS;
+	}
+
+	public This appendSubtypeRange(ItemStack stack, int start, int end, int quantity) {
+		ItemStackHelper.appendSubtypeRange(input, stack, start, end, quantity);
 		return THIS;
 	}
 
@@ -228,7 +241,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		for (ItemStack i : input) {
 			int result = saveImpl(i);
-			if(result == RecipeData.FAILURE)
+			if (result == RecipeData.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
 			else if (result == RecipeData.DUPLICATE)
 				ModLog.debug("Duplicate recipe [%s]", toString());

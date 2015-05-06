@@ -45,7 +45,7 @@ public class SawmillRecipeBuilder extends
 				secondaryOutput, secondaryChance);
 
 		return RecipeData.SUCCESS;
-}
+	}
 
 	@Override
 	protected String toString(ItemStack stack) {

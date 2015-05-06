@@ -36,7 +36,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ToolTipEventHandler {
-	
+
 	public static final List<Operation<List<String>, ItemStack>> hooks = new ArrayList<Operation<List<String>, ItemStack>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -44,7 +44,7 @@ public final class ToolTipEventHandler {
 
 		if (event == null || event.itemStack == null)
 			return;
-		
+
 		Operation.apply(hooks, event.toolTip, event.itemStack);
 	}
 

@@ -40,12 +40,12 @@ public class ProxyClient extends Proxy {
 
 		// Initialize the tool tip event handler
 		new ToolTipEventHandler();
-		
+
 		// Register hooks based on configuration
-		if(ModOptions.getEnableTooltips())
+		if (ModOptions.getEnableTooltips())
 			ToolTipEventHandler.hooks.add(new ScrapToolTip());
-		
-		if(ModOptions.getEnableDebugLogging())
+
+		if (ModOptions.getEnableDebugLogging())
 			ToolTipEventHandler.hooks.add(new DebugToolTip());
 	}
 }

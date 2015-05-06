@@ -34,11 +34,10 @@ public class ModBuildCraftCore extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
-		registerScrapValues(ScrapValue.NONE, "woodenGearItem",
-				"stoneGearItem", "mapLocation", "list");
-		registerScrapValues(ScrapValue.SUPERIOR,
-				"diamondGearItem");
+
+		registerScrapValues(ScrapValue.NONE, "woodenGearItem", "stoneGearItem",
+				"mapLocation", "list");
+		registerScrapValues(ScrapValue.SUPERIOR, "diamondGearItem");
 
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)

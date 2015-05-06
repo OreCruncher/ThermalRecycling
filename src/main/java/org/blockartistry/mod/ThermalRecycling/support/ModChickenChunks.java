@@ -34,9 +34,9 @@ public class ModChickenChunks extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
+
 		registerScrapValues(ScrapValue.SUPERIOR, "chickenChunkLoader:*");
-		
+
 	}
 
 }

@@ -43,7 +43,7 @@ public class PulverizerRecipeBuilder extends
 
 		ThermalExpansionHelper.addPulverizerRecipe(energy, stack, output,
 				secondaryOutput, secondaryChance);
-		
+
 		return RecipeData.SUCCESS;
 	}
 

@@ -28,22 +28,18 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public class ModIronChest extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-		"BlockIronChest:7"
-	};
+	static final String[] recipeIgnoreList = new String[] { "BlockIronChest:7" };
 
-	static final String[] scrapValuesNone = new String[] {
-		"BlockIronChest:7", "diamondCrystalUpgrade", "diamondObsidianUpgrade"
-	};
+	static final String[] scrapValuesNone = new String[] { "BlockIronChest:7",
+			"diamondCrystalUpgrade", "diamondObsidianUpgrade" };
 
 	static final String[] scrapValuesPoor = new String[] {};
 
 	static final String[] scrapValuesStandard = new String[] {};
 
 	static final String[] scrapValuesSuperior = new String[] {
-		"BlockIronChest:2", "BlockIronChest:5", "goldDiamondUpgrade",
-		"BlockIronChest:6"
-	};
+			"BlockIronChest:2", "BlockIronChest:5", "goldDiamondUpgrade",
+			"BlockIronChest:6" };
 
 	public ModIronChest() {
 		super(SupportedMod.IRONCHEST);

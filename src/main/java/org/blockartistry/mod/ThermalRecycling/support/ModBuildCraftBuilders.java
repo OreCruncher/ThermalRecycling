@@ -37,9 +37,11 @@ public class ModBuildCraftBuilders extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
-		registerScrapValues(ScrapValue.NONE, "markerBlock", "pathMarkerBlock", "libraryBlock");
-		registerScrapValues(ScrapValue.SUPERIOR, "builderBlock", "architectBlock");
+
+		registerScrapValues(ScrapValue.NONE, "markerBlock", "pathMarkerBlock",
+				"libraryBlock");
+		registerScrapValues(ScrapValue.SUPERIOR, "builderBlock",
+				"architectBlock");
 
 		// Misc block machines
 		sawmill.append("BuildCraft|Builders:libraryBlock")

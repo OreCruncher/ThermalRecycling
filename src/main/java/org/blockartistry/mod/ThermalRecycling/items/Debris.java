@@ -26,8 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.items;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
-public class Debris extends ItemBase
-{
+public class Debris extends ItemBase {
 	public Debris() {
 		super("debris");
 

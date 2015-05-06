@@ -95,6 +95,12 @@ public final class ItemStackHelper {
 			512);
 	public static final ItemStack boneMeal = new ItemStack(Items.dye, 1, 15);
 
+	public static final ItemStack dustCoal = new ItemStack(materialBase, 1, 2);
+	public static final ItemStack dustCharcoal = new ItemStack(materialBase, 1,
+			3);
+	public static final ItemStack sulfer = new ItemStack(materialBase, 1, 16);
+	public static final ItemStack niter = new ItemStack(materialBase, 1, 17);
+
 	static {
 
 		// Cache builtins
@@ -151,6 +157,10 @@ public final class ItemStackHelper {
 		preferred.put("dustLumium", dustLumium);
 		preferred.put("dustEnderium", dustEnderium);
 
+		preferred.put("dustCoal", dustCoal);
+		preferred.put("dustCharcoal", dustCharcoal);
+		preferred.put("dustSulfer", sulfer);
+
 		preferred.put("blockCopper", new ItemStack(storageBase, 1, 0));
 		preferred.put("blockTin", new ItemStack(storageBase, 1, 1));
 		preferred.put("blockSilver", new ItemStack(storageBase, 1, 2));
@@ -180,6 +190,7 @@ public final class ItemStackHelper {
 		preferred.put("gearSignalum", new ItemStack(materialBase, 1, 138));
 		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
 		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
+
 	}
 
 	public static ItemStack convertToDustIfPossible(ItemStack stack) {
@@ -592,6 +603,11 @@ public final class ItemStackHelper {
 
 	public static void appendSubtypeRange(List<ItemStack> list,
 			ItemStack stack, int start, int end) {
+		appendSubtypeRange(list, stack, start, end, 1);
+	}
+
+	public static void appendSubtypeRange(List<ItemStack> list,
+			ItemStack stack, int start, int end, int quantity) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(end >= start && start > -1,
@@ -600,6 +616,7 @@ public final class ItemStackHelper {
 		for (int i = start; i <= end; i++) {
 			ItemStack s = stack.copy();
 			s.setItemDamage(i);
+			s.stackSize = quantity;
 			list.add(s);
 		}
 	}

@@ -24,78 +24,38 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import net.minecraft.init.Blocks;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModMinefactoryReloaded extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-			"sugarcharcoal:*",
-			"fertilizer:*",
-			"ceramicdye:*",
-			"stainedglass.block:*",
-			"stainedglass.pane:*",
-			"rubberwood.log:*",
-			"rubberwood.leaves:*",
-			"rubberwood.sapling:*",
-			"milkbottle:*",
-			"meat.ingot.raw",
-			"meat.ingot.cooked",
-			"meat.nugget.raw",
-			"meat.nugget.cooked",
-			"road:*",
-			"brick:*",
-			"stone:*",
-			"tank",
-			"machineblock:0",
-	};
+	static final String[] recipeIgnoreList = new String[] { "sugarcharcoal:*",
+			"fertilizer:*", "ceramicdye:*", "stainedglass.block:*",
+			"stainedglass.pane:*", "rubberwood.log:*", "rubberwood.leaves:*",
+			"rubberwood.sapling:*", "milkbottle:*", "meat.ingot.raw",
+			"meat.ingot.cooked", "meat.nugget.raw", "meat.nugget.cooked",
+			"road:*", "brick:*", "stone:*", "tank", "machineblock:0", };
 
-	static final String[] scrapValuesNone = new String[] {
-			"sugarcharcoal:*",
-			"fertilizer:*",
-			"ceramicdye:*",
-			"stainedglass.block:*",
-			"stainedglass.pane:*",
-			"plastic.cup:*",
-			"plastic.raw:*",
-			"plastic.sheet:*",
-			"rubberwood.log:*",
-			"rubberwood.leaves:*",
-			"rubberwood.sapling:*",
-			"plastic.boots:*",
-			"straw:*", "rubber.raw:*",
-			"rubber.bar:*",
-			"vinescaffold:*",
-			"milkbottle:*",
-			"meat.ingot.raw",
-			"meat.ingot.cooked",
-			"meat.nugget.raw",
-			"meat.nugget.cooked",
-			"ruler", "record.blank",
-			"plastic.bag", "xpextractor",
-			"safarinet.singleuse",
-			"rednet.meter:0",
-			"hammer",
-			"road:*",
-			"brick:*",
-			"stone:*",
-			"tank",
-			"machineblock:0",
-			};
+	static final String[] scrapValuesNone = new String[] { "sugarcharcoal:*",
+			"fertilizer:*", "ceramicdye:*", "stainedglass.block:*",
+			"stainedglass.pane:*", "plastic.cup:*", "plastic.raw:*",
+			"plastic.sheet:*", "rubberwood.log:*", "rubberwood.leaves:*",
+			"rubberwood.sapling:*", "plastic.boots:*", "straw:*",
+			"rubber.raw:*", "rubber.bar:*", "vinescaffold:*", "milkbottle:*",
+			"meat.ingot.raw", "meat.ingot.cooked", "meat.nugget.raw",
+			"meat.nugget.cooked", "ruler", "record.blank", "plastic.bag",
+			"xpextractor", "safarinet.singleuse", "rednet.meter:0", "hammer",
+			"road:*", "brick:*", "stone:*", "tank", "machineblock:0", };
 
-	static final String[] scrapValuesPoor = new String[] {
-		"rednet.memorycard",
-		"detcord", "farmland"
-	};
+	static final String[] scrapValuesPoor = new String[] { "rednet.memorycard",
+			"detcord", "farmland" };
 
 	static final String[] scrapValuesStandard = new String[] { "rubberwood.sapling:1" };
 
 	static final String[] scrapValuesSuperior = new String[] {
-		"rubberwood.sapling:2", "portaspawner",
-		"upgrade.logic:2", "rednet.logic",
-		};
+			"rubberwood.sapling:2", "portaspawner", "upgrade.logic:2",
+			"rednet.logic", };
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);
@@ -110,14 +70,13 @@ public class ModMinefactoryReloaded extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
+		registerRecycleToWoodDust(1, "rubberwood.log:*");
+		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
+		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
+
 		ItemScrapData data = ItemScrapData.get(ItemStackHelper
 				.getItemStack("MineFactoryReloaded:milkbottle"));
 		data.setScrubFromOutput(true);
 		ItemScrapData.put(data);
-
-		// Add the rubber saplings for recycling. We don't want the big daddy.
-		pulverizer
-				.appendSubtypeRange("MineFactoryReloaded:rubberwood.sapling",
-						0, 2, 8).output(Blocks.dirt).save();
 	}
 }

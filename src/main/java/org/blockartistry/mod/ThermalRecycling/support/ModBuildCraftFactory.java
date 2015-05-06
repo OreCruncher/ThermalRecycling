@@ -38,7 +38,8 @@ public class ModBuildCraftFactory extends ModPlugin {
 	public void apply() {
 
 		registerScrapValues(ScrapValue.NONE, "tankBlock", "autoWorkbenchBlock");
-		registerScrapValues(ScrapValue.SUPERIOR, "machineBlock", "refineryBlock");
+		registerScrapValues(ScrapValue.SUPERIOR, "machineBlock",
+				"refineryBlock");
 
 		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock")
 				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)

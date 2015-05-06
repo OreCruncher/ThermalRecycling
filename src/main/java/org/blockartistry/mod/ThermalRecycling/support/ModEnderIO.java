@@ -31,27 +31,23 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 public class ModEnderIO extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
-			"blockFusedQuartz:*", "itemFusedQuartzFrame",
-			"itemConduitFacade", "itemPowderIngot:7" };
+			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemConduitFacade",
+			"itemPowderIngot:7" };
 
 	static final String[] scrapValuesNone = new String[] {
-			"blockFusedQuartz:*", "itemFusedQuartzFrame",
-			"itemMaterial:3", "itemMaterial:4",
-			"itemConduitFacade", "itemPowderIngot:7" };
+			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemMaterial:3",
+			"itemMaterial:4", "itemConduitFacade", "itemPowderIngot:7" };
 
 	static final String[] scrapValuesPoor = new String[] {
-		"itemLiquidConduit:0", "itemLiquidConduit:1"
-	};
+			"itemLiquidConduit:0", "itemLiquidConduit:1" };
 
 	static final String[] scrapValuesStandard = new String[] {};
 
 	static final String[] scrapValuesSuperior = new String[] {
-			"itemMaterial:5", "itemMaterial:6",
-			"itemMaterial:8", "itemMaterial:9",
-			"blockEnchanter", "blockAttractor",
-			"blockPoweredSpawner", "blockTravelAnchor",
-			"blockTransceiver", "blockVacuumChest",
-			"blockFarmStation", "blockSolarPanel:1"};
+			"itemMaterial:5", "itemMaterial:6", "itemMaterial:8",
+			"itemMaterial:9", "blockEnchanter", "blockAttractor",
+			"blockPoweredSpawner", "blockTravelAnchor", "blockTransceiver",
+			"blockVacuumChest", "blockFarmStation", "blockSolarPanel:1" };
 
 	public ModEnderIO() {
 		super(SupportedMod.ENDERIO);

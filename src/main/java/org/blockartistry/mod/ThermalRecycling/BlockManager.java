@@ -42,7 +42,7 @@ public final class BlockManager {
 	static void registerBlocks() {
 
 		scrapBlock.register();
-		
+
 		thermalRecycler.register();
 		scrapAssessor.register();
 	}

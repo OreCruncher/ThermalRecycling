@@ -33,36 +33,35 @@ import net.minecraft.util.EnumChatFormatting;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
 
-public class DebugToolTip  extends Operation<List<String>, ItemStack> {
+public class DebugToolTip extends Operation<List<String>, ItemStack> {
 
 	@Override
 	public void apply(List<String> output, ItemStack stack) {
-		
+
 		output.add(EnumChatFormatting.GREEN + "DEBUG:");
-		
+
 		// Generate a new we can display to make things real easy
-		String name = Item.itemRegistry.getNameForObject(stack
-				.getItem());
-		
-		if(name == null)
+		String name = Item.itemRegistry.getNameForObject(stack.getItem());
+
+		if (name == null)
 			name = "UNKNOWN";
-		
-		if(stack.getHasSubtypes())
+
+		if (stack.getHasSubtypes())
 			name += ":" + stack.getItemDamage();
-		
+
 		output.add(EnumChatFormatting.LIGHT_PURPLE + name);
-		
+
 		ItemScrapData data = ItemScrapData.get(stack);
 
-		if(data.isGeneric())
+		if (data.isGeneric())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Generic");
-		if(data.isFood())
+		if (data.isFood())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Food");
-		if(data.isScrubbedFromOutput())
+		if (data.isScrubbedFromOutput())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Scrubbed");
-		if(data.getIgnoreRecipe())
+		if (data.getIgnoreRecipe())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Recipe Ignored");
-		if(stack.hasTagCompound())
+		if (stack.hasTagCompound())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Compound Data");
 	}
 }

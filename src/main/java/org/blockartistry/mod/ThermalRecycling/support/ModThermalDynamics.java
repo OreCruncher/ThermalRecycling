@@ -37,7 +37,7 @@ public class ModThermalDynamics extends ModPlugin {
 
 		registerRecipesToIgnore("cover:*");
 		registerScrapValues(ScrapValue.NONE, "cover:*");
-		
+
 		// Servos, Filters
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo", "ThermalDynamics:filter")

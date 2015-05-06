@@ -48,16 +48,16 @@ public class ItemStackWeightTable extends
 
 		@Override
 		public String toString() {
-			
+
 			String name = "<Nothing>";
-			if(stack != null) {
-				if(ScrappingTables.keepIt(stack))
+			if (stack != null) {
+				if (ScrappingTables.keepIt(stack))
 					name = "Keep Item";
-				else if(ScrappingTables.dustIt(stack))
+				else if (ScrappingTables.dustIt(stack))
 					name = "Dust Item";
 				else
 					name = ItemStackHelper.resolveName(stack);
-				
+
 			}
 
 			return name;

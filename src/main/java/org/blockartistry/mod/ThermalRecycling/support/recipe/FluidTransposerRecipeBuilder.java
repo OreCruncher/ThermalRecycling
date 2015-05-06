@@ -72,7 +72,7 @@ public class FluidTransposerRecipeBuilder extends
 
 		ThermalExpansionHelper.addTransposerExtract(energy, stack, output,
 				fluid, 100, false);
-		
+
 		return RecipeData.SUCCESS;
 	}
 
