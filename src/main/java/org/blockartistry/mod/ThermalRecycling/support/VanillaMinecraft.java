@@ -126,7 +126,9 @@ public class VanillaMinecraft extends ModPlugin {
 			"piston", "sticky_piston",
 			"golden_rail", "detector_rail", "activator_rail", "glowstone",
 			"redstone_lamp", "ender_chest",
-			"enchanted_book", "quartz_block:*"
+			"enchanted_book", "quartz_block:*",
+			"iron_ore", "gold_ore", "lapis_ore", "redstone_ore",
+			"coal_ore"
 
 	};
 
@@ -141,7 +143,7 @@ public class VanillaMinecraft extends ModPlugin {
 			"diamond_pickaxe", "diamond_hoe",
 			"anvil", "enchanting_table",
 			"golden_apple:1",
-			"jukebox",
+			"jukebox", "diamond_ore", "emerald_ore"
 
 	};
 

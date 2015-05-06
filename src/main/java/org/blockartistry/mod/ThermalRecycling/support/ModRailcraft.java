@@ -71,7 +71,9 @@ public class ModRailcraft extends ModPlugin {
 
 	static final String[] scrapValuesPoor = new String[] {
 			"post.metal:*", "post.metal.platform:*",
-			"track:*", "track.elevator", "nugget:*" };
+			"track:*", "track.elevator", "nugget:*",
+			"ore:7", "ore:8", "ore:9", "ore:10", "ore:11"
+	};
 
 	static final String[] scrapValuesStandard = new String[] {
 			"stair:6", "stair:43", "stair:40",
@@ -86,7 +88,7 @@ public class ModRailcraft extends ModPlugin {
 			"machine.beta:12", "stair:7",
 			"stair:8", "slab:7", "slab:8",
 			"wall.beta:3", "wall.beta:4",
-			"machine.epsilon:3"
+			"machine.epsilon:3", "ore:2", "ore:3"
 
 	};
 

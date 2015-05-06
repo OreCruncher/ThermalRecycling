@@ -41,6 +41,7 @@ public final class ModOptions {
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
+	protected static final String CONFIG_ENABLE_WAILA = "Enable Waila Display";
 
 	protected static final String CATEGORY_FUEL_SETTINGS = "Fuel Settings";
 	protected static final String CONFIG_POOR_SCRAP_FUEL_SETTING = "Poor Scrap Fuel Ticks";
@@ -51,6 +52,7 @@ public final class ModOptions {
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
 	protected static boolean enableDebugLogging = false;
+	protected static boolean enableWailaDisplay = true;
 	protected static String[] modWhitelist = new String[] {};
 	protected static int poorScrapFuelSetting = 400;
 	protected static int standardScrapFuelSetting = 800;
@@ -70,6 +72,11 @@ public final class ModOptions {
 				.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
 						CATEGORY_LOGGING_CONTROL, enableRecipeLogging,
 						"Enables/disables logging of recipes to the Forge log during startup");
+
+		enableWailaDisplay = config
+				.getBoolean(CONFIG_ENABLE_WAILA,
+						CATEGORY_LOGGING_CONTROL, enableWailaDisplay,
+						"Enables/disables display of scrap information via Waila");
 
 		for (SupportedMod mod : SupportedMod.values()) {
 
@@ -156,5 +163,9 @@ public final class ModOptions {
 
 	public static boolean getEnableTooltips() {
 		return enableTooltips;
+	}
+	
+	public static boolean getEnableWaila() {
+		return enableWailaDisplay;
 	}
 }

@@ -40,6 +40,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -56,7 +57,8 @@ public final class ThermalRecycling {
 			+ "after:Forestry;"
 			+ "after:MineFactoryReloaded;"
 			+ "after:Thaumcraft;"
-			+ "after:Railcraft;" + "after:advgenerators;" + "after:EnderIO;";
+			+ "after:Railcraft;" + "after:advgenerators;" + "after:EnderIO;"
+			+ "after:Waila;";
 	
 	static final String OUTPUT_FILE = "ThermalRecycling.log";
 
@@ -101,6 +103,13 @@ public final class ThermalRecycling {
 	public void init(FMLInitializationEvent event) {
 
 		proxy.init(event);
+	}
+	
+	@EventHandler
+	public void load(FMLLoadEvent event) {
+		
+		proxy.load(event);
+		
 	}
 
 	@EventHandler

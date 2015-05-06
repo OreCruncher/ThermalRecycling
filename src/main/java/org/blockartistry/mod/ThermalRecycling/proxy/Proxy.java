@@ -34,8 +34,11 @@ import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLLoadEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -52,6 +55,12 @@ public class Proxy {
 
 		new GuiHandler();
 		new FuelHandler();
+
+		if(ModOptions.getEnableWaila())
+			FMLInterModComms.sendMessage("Waila", "register", WailaHandler.class.getName() + ".callbackRegister");
+	}
+	
+	public void load(FMLLoadEvent event) {
 
 	}
 

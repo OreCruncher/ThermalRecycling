@@ -64,6 +64,12 @@ public enum SupportedMod {
 			ModAdvancedGenerators.class),
 
 	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class),
+	
+	IRONCHEST("Iron Chest", "IronChest", ModIronChest.class),
+	
+	CHICKEN_CHUNKS("Chicken Chunks", "ChickenChunks", ModChickenChunks.class),
+	
+	RFTOOLS("RFTools", "rftools", ModRFTools.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries

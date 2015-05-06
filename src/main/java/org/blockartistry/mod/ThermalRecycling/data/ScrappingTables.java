@@ -213,7 +213,6 @@ public final class ScrappingTables {
 
 		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
 				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack)
-				|| ItemHelper.isOre(stack)
 				|| stack.getItem() == ItemManager.recyclingScrap
 				|| stack.getItem() == ItemManager.recyclingScrapBox || stack
 					.getItem() == ItemManager.debris);

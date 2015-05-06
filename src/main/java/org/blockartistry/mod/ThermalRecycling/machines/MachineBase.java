@@ -93,13 +93,11 @@ public abstract class MachineBase extends BlockContainer {
 				// Returns false so it doesn't update anything
 				return false;
 
-			((TileEntityBase) te).onBlockActivated(world, x, y, z, player,
+			return ((TileEntityBase) te).onBlockActivated(world, x, y, z, player,
 					side, a, b, c);
-
-			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	@Override
