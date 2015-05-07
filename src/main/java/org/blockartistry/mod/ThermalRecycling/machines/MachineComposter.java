@@ -27,7 +27,10 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,10 +51,8 @@ public class MachineComposter extends MachineBase {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
-		icons[BLOCK_FRONT] = iconRegister
-				.registerIcon("minecraft:furnace_front_off");
-		icons[BLOCK_ACTIVE] = iconRegister
-				.registerIcon("minecraft:furnace_front_on");
+		for(int i = 0; i < 5; i++)
+			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":crate_side");
 	}
 
 	@Override

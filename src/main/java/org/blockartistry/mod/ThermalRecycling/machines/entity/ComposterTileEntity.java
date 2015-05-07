@@ -41,6 +41,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterContainer;
@@ -78,12 +79,12 @@ public class ComposterTileEntity extends TileEntityBase implements
 
 	static final int WATER_MAX_STORAGE = 4000;
 	static final int WATER_MAX_RECEIVE = 100;
-	static final int COMPLETION_THRESHOLD = 1500;
-	static final int PROGRESS_DAYLIGHT_TICK = 15;
-	static final int PROGRESS_NIGHTTIME_TICK = 5;
-	static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 6;
-	static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 2;
-	static final int RAIN_GATHER_TICK = 8;
+	static final int COMPLETION_THRESHOLD = 100;
+	static final int PROGRESS_DAYLIGHT_TICK = 2;
+	static final int PROGRESS_NIGHTTIME_TICK = 1;
+	static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 2;
+	static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
+	static final int RAIN_GATHER_TICK = 4;
 
 	static final int PLOT_SCAN_TICK_INTERVAL = 2;
 	static final int PLOT_SIZE = 9;
@@ -390,9 +391,12 @@ public class ComposterTileEntity extends TileEntityBase implements
 						.proxy()
 						.getThermalRecyclingPlayer((WorldServer) worldObj,
 								blockX, yCoord, blockZ).get();
-				ItemDye.applyBonemeal(meal, worldObj, blockX, yCoord, blockZ,
+				boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX, yCoord, blockZ,
 						recycling);
 
+				if(applied)
+					ParticleEffects.bonemeal(worldObj, blockX, yCoord, blockZ, null);
+				
 				if (meal.stackSize == 0)
 					setInventorySlotContents(MEAL, null);
 			}

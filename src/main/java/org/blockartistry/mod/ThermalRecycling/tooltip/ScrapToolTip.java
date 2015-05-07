@@ -58,12 +58,27 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 					.translateToLocal("msg.ItemScrapValue.superior");
 			break;
 		default:
-			;
+			break;
 		}
 
 		if (!ScrappingTables.canBeScrapped(stack))
 			lore += EnumChatFormatting.GREEN + "*";
-
 		output.add(lore);
+		
+		switch(data.getCompostIngredientValue()) {
+		case BROWN:
+			lore = StatCollector.translateToLocal("msg.ItemCompostIngredientValue.brown");
+			break;
+			
+		case GREEN:
+			lore = StatCollector.translateToLocal("msg.ItemCompostIngredientValue.green");
+			break;
+		default:
+			lore = null;
+			break;
+		}
+
+		if(lore != null)
+			output.add(lore);
 	}
 }

@@ -74,6 +74,10 @@ public final class ParticleEffects {
 				world.spawnParticle(particle, d1, d2, d3, 0.0D, 0.0D, 0.0D);
 			}
 		}
-
+	}
+	
+	public static void bonemeal(World world, int x, int y, int z, Random rand) {
+		// From Minecraft bonemeal routines
+        world.playAuxSFX(2005, x, y, z, 0);
 	}
 }

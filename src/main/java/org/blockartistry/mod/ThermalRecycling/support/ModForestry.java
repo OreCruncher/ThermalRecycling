@@ -32,6 +32,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
@@ -116,6 +117,10 @@ public class ModForestry extends ModPlugin {
 		registerRecycleToWoodDust(8, "sapling", "saplingGE");
 		registerRecycleToWoodDust(16, "fruits:*");
 		registerRecycleToWoodDust(32, "propolis:*");
+
+		registerCompostIngredient(CompostIngredient.BROWN, "sapling",
+				"saplingGE", "leaves:*", "soil:*", "ash", "mulch");
+		registerCompostIngredient(CompostIngredient.GREEN, "fruits:*");
 
 		registerPulverizeToDirt("sapling", 0, 0);
 

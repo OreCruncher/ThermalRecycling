@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 import net.minecraft.init.Blocks;
@@ -88,6 +89,8 @@ public class ModThaumcraft extends ModPlugin {
 		registerRecycleToWoodDust(8, "blockCustomPlant:0", "blockCustomPlant:1");
 		registerPulverizeToDirt("blockCustomPlant", 0, 1);
 
+		registerCompostIngredient(CompostIngredient.BROWN, "blockCustomPlant:0", "blockCustomPlant:1");
+		
 		// Basic Thaumcraft tools and stuff
 		furnace.append("Thaumcraft:ItemThaumometer").output("ingotGold", 2)
 				.save();

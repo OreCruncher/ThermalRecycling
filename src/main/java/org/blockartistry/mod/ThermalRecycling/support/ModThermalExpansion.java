@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
@@ -62,5 +63,7 @@ public class ModThermalExpansion extends ModPlugin {
 		registerScrapValues(ScrapValue.NONE, "material:512", "material:513",
 				"florb:*");
 		registerScrubFromOutput("material:512", "material:513", "florb:*");
+		
+		registerCompostIngredient(CompostIngredient.BROWN, "^dustWood");
 	}
 }

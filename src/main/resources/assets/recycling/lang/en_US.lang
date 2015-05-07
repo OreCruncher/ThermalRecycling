@@ -38,3 +38,7 @@ msg.ItemScrapValue.none=§eScrap Value: §7None
 msg.ItemScrapValue.poor=§eScrap Value: §fPoor
 msg.ItemScrapValue.standard=§eScrap Value: §9Standard
 msg.ItemScrapValue.superior=§eScrap Value: §6Superior
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown: §eCompost: §6Brown
+msg.ItemCompostIngredientValue.green: §eCompost: §2Green

@@ -138,6 +138,17 @@ public class VanillaMinecraft extends ModPlugin {
 			"slime_ball", "quartz_block:*"
 
 	};
+	
+	static final String[] brownCompost = new String[] {
+		"sapling:*", "leaves:*", "leaves2:*", "deadbush", "vine",
+		"wheat",
+	};
+	
+	static final String[] greenCompost = new String[] {
+		"apple", "potato", "carrot", "yellow_flower:*", "red_flower:*",
+		"tallgrass:*", "waterlily", "double_plant:*", "bread",
+	};
+	
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -185,9 +196,8 @@ public class VanillaMinecraft extends ModPlugin {
 		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds",
 				"melon_seeds", "melon");
 
-		registerCompostIngredient(CompostIngredient.BROWN, "sapling:*",
-				"leaves:*");
-		registerCompostIngredient(CompostIngredient.GREEN, "apple");
+		registerCompostIngredient(CompostIngredient.BROWN, brownCompost);
+		registerCompostIngredient(CompostIngredient.GREEN, greenCompost);
 
 		registerPulverizeToDirt("sapling", 0, 5);
 
