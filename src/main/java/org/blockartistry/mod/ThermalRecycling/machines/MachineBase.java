@@ -28,7 +28,10 @@ import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidTank;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
+import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -45,6 +48,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.IFluidHandler;
 
 public abstract class MachineBase extends BlockContainer {
 
@@ -92,6 +96,10 @@ public abstract class MachineBase extends BlockContainer {
 			if (!(te instanceof TileEntityBase) || player.isSneaking())
 				// Returns false so it doesn't update anything
 				return false;
+			
+			if(te instanceof IMachineFluidHandler)
+				if(FluidStackHelper.applyPlayerContainerInteraction(world, te, player))
+					return true;
 
 			return ((TileEntityBase) te).onBlockActivated(world, x, y, z,
 					player, side, a, b, c);

@@ -24,22 +24,26 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
@@ -49,11 +53,14 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
-
-import cofh.api.fluid.ITankContainerBucketable;
+import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 public class ComposterTileEntity extends TileEntityBase implements
-		ITankContainerBucketable, IJobProgress, IFluidTank {
+		IJobProgress, IMachineFluidHandler {
+
+	static final Block[] bonemealBlackList = new Block[] { Blocks.grass,
+			Blocks.double_plant, Blocks.deadbush, Blocks.tallgrass };
 
 	public static final int UPDATE_ACTION_PROGRESS = 0;
 	public static final int UPDATE_ACTION_STATUS = 1;
@@ -71,14 +78,14 @@ public class ComposterTileEntity extends TileEntityBase implements
 	public static final int[] ALL_SLOTS = { BROWN, GREEN1, GREEN2, MEAL };
 
 	// State
-	protected int waterLevel = 0;
-	protected int progress = 0;
-	protected MachineStatus status = MachineStatus.IDLE;
+	FluidTankComponent fluidTank;
+	int progress = 0;
+	MachineStatus status = MachineStatus.IDLE;
 	int scanTickCount = 0;
 	int scanIndex = 0;
 
 	static final int WATER_MAX_STORAGE = 4000;
-	static final int WATER_MAX_RECEIVE = 100;
+	static final int WATER_MAX_RECEIVE = WATER_MAX_STORAGE;
 	static final int COMPLETION_THRESHOLD = 100;
 	static final int PROGRESS_DAYLIGHT_TICK = 2;
 	static final int PROGRESS_NIGHTTIME_TICK = 1;
@@ -97,6 +104,8 @@ public class ComposterTileEntity extends TileEntityBase implements
 		inv.setInputRange(0, ALL_SLOTS.length - 1);
 		setMachineInventory(inv);
 
+		fluidTank = new FluidTankComponent(new FluidStack(
+				FluidStackHelper.FLUID_WATER, 0), WATER_MAX_STORAGE);
 	}
 
 	@Override
@@ -124,7 +133,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 			status = MachineStatus.map(param);
 			break;
 		case UPDATE_WATER_LEVEL:
-			waterLevel = param;
+			fluidTank.getFluid().amount = param;
 			break;
 		default:
 			;
@@ -167,10 +176,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 		scanTickCount = nbt.getByte("scanTickCount");
 		progress = nbt.getShort("progress");
 		status = MachineStatus.map(nbt.getShort("status"));
-		waterLevel = nbt.getShort("waterLevel");
-
-		if (waterLevel > WATER_MAX_STORAGE)
-			waterLevel = WATER_MAX_STORAGE;
+		fluidTank.readFromNBT(nbt);
 	}
 
 	@Override
@@ -181,7 +187,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 		nbt.setByte("scanTickCount", (byte) scanTickCount);
 		nbt.setShort("progress", (short) progress);
 		nbt.setShort("status", (short) status.ordinal());
-		nbt.setShort("waterLevel", (short) waterLevel);
+		fluidTank.writeToNBT(nbt);
 	}
 
 	// /////////////////////////////////////
@@ -208,6 +214,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		super.setInventorySlotContents(index, stack);
+
 	}
 
 	@Override
@@ -228,18 +235,16 @@ public class ComposterTileEntity extends TileEntityBase implements
 		ItemStack green1 = getStackInSlot(GREEN1);
 		ItemStack green2 = getStackInSlot(GREEN2);
 
-		// This would only be true if bother are null
+		// This would only be true if both are null
 		if (green1 == green2)
 			return false;
 
-		if (green1 != null && green1.stackSize > 1)
-			return true;
+		if (green1 != null && green2 == null && green1.stackSize < 2)
+			return false;
 
-		if (green2 != null && green2.stackSize > 1)
-			return true;
+		if (green2 != null && green1 == null && green2.stackSize < 2)
+			return false;
 
-		// If we get here we have two green stacks
-		// ergo 2 green ingredients
 		return true;
 	}
 
@@ -249,7 +254,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	boolean hasWater() {
-		return waterLevel >= getEffectiveWaterUseThisTick();
+		return fluidTank.getFluidAmount() >= getEffectiveWaterUseThisTick();
 	}
 
 	boolean hasOutputRoom() {
@@ -307,7 +312,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 							handleCompletion();
 					} else {
 						progress += getEffectiveProgressThisTick();
-						waterLevel -= getEffectiveWaterUseThisTick();
+						fluidTank.drain(getEffectiveWaterUseThisTick(), true);
 					}
 
 					setMachineActive(true);
@@ -339,11 +344,9 @@ public class ComposterTileEntity extends TileEntityBase implements
 				setMachineActive(false);
 			}
 
-			if (isRaining()) {
-				waterLevel += RAIN_GATHER_TICK;
-				if (waterLevel > WATER_MAX_STORAGE)
-					waterLevel = WATER_MAX_STORAGE;
-			}
+			if (isRaining())
+				fluidTank.fill(new FluidStack(FluidStackHelper.FLUID_WATER,
+						RAIN_GATHER_TICK), true);
 
 			doPlotScan();
 		}
@@ -368,6 +371,13 @@ public class ComposterTileEntity extends TileEntityBase implements
 		progress = 0;
 	}
 
+	boolean bonemealTarget(Block block) {
+		if (block == null || !(block instanceof IGrowable))
+			return false;
+
+		return !MyUtils.contains(bonemealBlackList, block);
+	}
+
 	void doPlotScan() {
 
 		ItemStack meal = getStackInSlot(MEAL);
@@ -385,18 +395,19 @@ public class ComposterTileEntity extends TileEntityBase implements
 
 			Block target = worldObj.getBlock(blockX, yCoord, blockZ);
 
-			if (target != null && target instanceof IGrowable) {
+			if (bonemealTarget(target)) {
 
 				EntityPlayer recycling = ThermalRecycling
 						.proxy()
 						.getThermalRecyclingPlayer((WorldServer) worldObj,
 								blockX, yCoord, blockZ).get();
-				boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX, yCoord, blockZ,
-						recycling);
+				boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX,
+						yCoord, blockZ, recycling);
 
-				if(applied)
-					ParticleEffects.bonemeal(worldObj, blockX, yCoord, blockZ, null);
-				
+				if (applied)
+					ParticleEffects.bonemeal(worldObj, blockX, yCoord, blockZ,
+							null);
+
 				if (meal.stackSize == 0)
 					setInventorySlotContents(MEAL, null);
 			}
@@ -406,26 +417,39 @@ public class ComposterTileEntity extends TileEntityBase implements
 		}
 	}
 
-	// //////////////////////////////////////
-	//
-	// ITankContainerBucketable
-	//
-	// //////////////////////////////////////
+	@Override
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		if (!ModOptions.getEnableComposterFX())
+			return;
+
+		if (status != MachineStatus.OUT_OF_POWER || rand.nextInt(9) != 0)
+			return;
+
+		ParticleEffects.spawnParticlesAroundBlock("splash", world, x, y, z,
+				rand);
+	}
+
+	public IFluidTank getFluidTank() {
+		return fluidTank;
+	}
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return fill(resource, doFill);
+		return fluidTank.fill(resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
-		return null;
+		if (resource == null || !resource.isFluidEqual(fluidTank.getFluid())) {
+			return null;
+		}
+		return fluidTank.drain(resource.amount, doDrain);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return drain(maxDrain, doDrain);
+		return fluidTank.drain(maxDrain, doDrain);
 	}
 
 	@Override
@@ -440,65 +464,6 @@ public class ComposterTileEntity extends TileEntityBase implements
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return new FluidTankInfo[] { getInfo() };
-	}
-
-	@Override
-	public boolean allowBucketDrain(ItemStack arg0) {
-		return true;
-	}
-
-	@Override
-	public boolean allowBucketFill(ItemStack arg0) {
-		return true;
-	}
-
-	// /////////////////////////////////
-	//
-	// IFluidTank
-	//
-	// /////////////////////////////////
-
-	@Override
-	public FluidStack getFluid() {
-		return FluidRegistry.getFluidStack("water", waterLevel);
-	}
-
-	@Override
-	public int getFluidAmount() {
-		return waterLevel;
-	}
-
-	@Override
-	public int getCapacity() {
-		return WATER_MAX_STORAGE;
-	}
-
-	@Override
-	public FluidTankInfo getInfo() {
-		return new FluidTankInfo(this);
-	}
-
-	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-
-		int result = Math.min(resource.amount, WATER_MAX_RECEIVE);
-		result = Math.min(result, WATER_MAX_STORAGE - waterLevel);
-
-		if (doFill) {
-			waterLevel += result;
-		}
-
-		return result;
-	}
-
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-
-		int amountToDrain = Math.min(waterLevel, maxDrain);
-		if (doDrain) {
-			waterLevel -= amountToDrain;
-		}
-		return FluidRegistry.getFluidStack("water", amountToDrain);
+		return new FluidTankInfo[] { fluidTank.getInfo() };
 	}
 }

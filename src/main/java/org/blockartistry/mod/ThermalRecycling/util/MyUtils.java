@@ -95,6 +95,13 @@ public final class MyUtils {
 		for (T t : array)
 			list.add(t);
 	}
+	
+	public static <T> boolean contains(T[] list, T entity) {
+		for(T e: list)
+			if(e == entity)
+				return true;
+		return false;
+	}
 
 	public static <T> T[] cast(Object[] list, Class<? extends T[]> clazz) {
 		return Arrays.copyOf(list, list.length, clazz);

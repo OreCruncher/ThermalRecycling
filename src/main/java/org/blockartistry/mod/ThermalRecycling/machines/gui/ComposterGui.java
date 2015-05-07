@@ -31,11 +31,11 @@ public class ComposterGui extends GuiBase {
 		super.initGui();
 
 		// GUI dimension is width 427, height 240
-		ElementFluidTank e = new ElementFluidTank(this, 19, 11, tileEntity);
+		ElementFluidTank e = new ElementFluidTank(this, 19, 11, tileEntity.getFluidTank());
 		e.setSize(15, 55);
 		addElement(e);
 
-		ElementProgress ep = new ElementProgress(this, 104, 32, tileEntity);
+		ElementProgress ep = new ElementProgress(this, 105, 32, tileEntity);
 		ep.machineStatusMessages[MachineStatus.OUT_OF_POWER.ordinal()] = "msg.MachineStatus.needMoreWater";
 		ep.machineStatusMessages[MachineStatus.NEED_MORE_RESOURCES.ordinal()] = "msg.MachineStatus.cantSeeSky";
 		addElement(ep);

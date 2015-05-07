@@ -374,7 +374,6 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 		}
 	}
 
-	// Modeled after the Redstone block code...
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		if (!ModOptions.getEnableRecyclerFX())

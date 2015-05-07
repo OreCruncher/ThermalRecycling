@@ -194,6 +194,11 @@ public final class ScrappingTables {
 
 	public static ItemStackWeightTable getTable(ItemStack core, ItemStack stack) {
 
+		// Safety check - if there is a core item past in, but its not a
+		// core, assume no core.
+		if(core != null && core.getItem() != ItemManager.processingCore)
+			core = null;
+		
 		boolean mustScrap = core == null;
 		int scrappingValue = ItemScrapData.get(stack).getScrapValue().ordinal();
 

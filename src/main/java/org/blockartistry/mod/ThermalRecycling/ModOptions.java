@@ -37,6 +37,7 @@ public final class ModOptions {
 	protected static final String CATEGORY_MODS = "mods";
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
+	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 
@@ -60,6 +61,7 @@ public final class ModOptions {
 	protected static int superiorScrapFuelSetting = 1600;
 	protected static int scrapboxMultiplier = 9;
 	protected static boolean enableRecyclerFX = true;
+	protected static boolean enableComposterFX = true;
 	protected static boolean enableTooltips = true;
 	protected static int scrapBoxBonus = 1;
 
@@ -123,6 +125,10 @@ public final class ModOptions {
 				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX,
 				"Control whether client displays visual effects");
 
+		enableComposterFX = config.getBoolean(CONFIG_ENABLE_FX,
+				CATEGORY_MACHINES_COMPOSTER, enableComposterFX,
+				"Control whether client displays visual effects");
+
 		scrapBoxBonus = config
 				.getInt(CONFIG_SCRAPBOX_BONUS,
 						CATEGORY_MACHINES_RECYCLER,
@@ -167,6 +173,10 @@ public final class ModOptions {
 
 	public static boolean getEnableRecyclerFX() {
 		return enableRecyclerFX;
+	}
+
+	public static boolean getEnableComposterFX() {
+		return enableComposterFX;
 	}
 
 	public static boolean getEnableTooltips() {

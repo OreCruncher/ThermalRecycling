@@ -25,11 +25,15 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -51,8 +55,9 @@ public class MachineComposter extends MachineBase {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
-		for(int i = 0; i < 5; i++)
-			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":crate_side");
+		for (int i = 0; i < 5; i++)
+			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
+					+ ":crate_side");
 	}
 
 	@Override
@@ -60,18 +65,20 @@ public class MachineComposter extends MachineBase {
 		super.register();
 		GameRegistry.registerTileEntity(ComposterTileEntity.class,
 				"composterTileEntity");
-		/*
-		 * ShapedOreRecipe recipe = new ShapedOreRecipe(
-		 * BlockManager.thermalRecycler, "PSP", "BMB", "GRG", 'P',
-		 * Blocks.piston, 'S',
-		 * ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"), 'B',
-		 * ItemStackHelper
-		 * .getItemStack("ThermalExpansion:tool.battleWrenchInvar"), 'M',
-		 * ItemStackHelper.getItemStack("ThermalExpansion:Frame"), 'G',
-		 * "gearCopper", 'R', ItemStackHelper
-		 * .getItemStack("ThermalExpansion:material:1"));
-		 * 
-		 * GameRegistry.addRecipe(recipe);
-		 */
+		
+		ShapedOreRecipe recipe = new ShapedOreRecipe(
+				BlockManager.composter,
+				" T ",
+				"HMP",
+				"GSG",
+				'T', ItemStackHelper.getItemStack("ThermalExpansion:Tank:1"),
+				'H', Blocks.hopper,
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				'P', Blocks.piston,
+				'G', "gearTin",
+				'S', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+
+		GameRegistry.addRecipe(recipe);
+
 	}
 }

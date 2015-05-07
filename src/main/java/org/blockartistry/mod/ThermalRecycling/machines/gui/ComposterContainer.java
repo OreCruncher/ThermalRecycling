@@ -97,7 +97,7 @@ public class ComposterContainer extends Container {
 
 		MachineStatus status = entity.getStatus();
 		int progress = entity.getProgress();
-		int water = entity.getFluidAmount();
+		int water = entity.getFluidTank().getFluidAmount();
 
 		for (int i = 0; i < crafters.size(); ++i) {
 

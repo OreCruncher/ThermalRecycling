@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +42,6 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerReci
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
-import scala.actors.threadpool.Arrays;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -104,7 +104,6 @@ public abstract class ModPlugin {
 	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
 	// THE CURRENT MOD NAME! IF IT NEEDS TO BE ESCAPED PUT A
 	// ^ CHARACTER AT THE FRONT!
-	@SuppressWarnings("unchecked")
 	protected void registerRecipesToIgnore(String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
@@ -116,7 +115,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerRecipesToReveal(String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
@@ -128,7 +126,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerScrapValues(final ScrapValue value, String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
@@ -140,7 +137,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerScrubFromOutput(String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
@@ -152,7 +148,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerNotScrubFromOutput(String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
@@ -164,7 +159,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerRecycleToWoodDust(final int inputQuantity,
 			String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
@@ -178,7 +172,6 @@ public abstract class ModPlugin {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void registerCompostIngredient(
 			final CompostIngredient ingredient, String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {

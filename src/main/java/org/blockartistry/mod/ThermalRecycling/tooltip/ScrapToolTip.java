@@ -44,7 +44,7 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 
 		switch (data.getScrapValue()) {
 		case NONE:
-			lore = StatCollector.translateToLocal("msg.ItemScrapValue.none");
+			lore = null; //StatCollector.translateToLocal("msg.ItemScrapValue.none");
 			break;
 		case POOR:
 			lore = StatCollector.translateToLocal("msg.ItemScrapValue.poor");
@@ -61,9 +61,11 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 			break;
 		}
 
-		if (!ScrappingTables.canBeScrapped(stack))
-			lore += EnumChatFormatting.GREEN + "*";
-		output.add(lore);
+		if(lore != null) {
+			if (!ScrappingTables.canBeScrapped(stack))
+				lore += EnumChatFormatting.GREEN + "*";
+			output.add(lore);
+		}
 		
 		switch(data.getCompostIngredientValue()) {
 		case BROWN:
