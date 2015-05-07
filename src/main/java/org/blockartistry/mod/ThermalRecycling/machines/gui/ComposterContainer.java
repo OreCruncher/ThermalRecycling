@@ -27,47 +27,44 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
-
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
+import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ScrapAssessorContainer extends Container {
+public class ComposterContainer extends Container {
 
-	TileEntityBase entity;
+	ComposterTileEntity entity;
 	int sizeInventory;
 
-	public ScrapAssessorContainer(InventoryPlayer inv, IInventory tileEntity) {
+	MachineStatus currentStatus = MachineStatus.IDLE;
+	int currentProgress;
+	int currentWater;
 
-		entity = (ScrapAssessorTileEntity) tileEntity;
+	public ComposterContainer(InventoryPlayer inv, IInventory tileEntity) {
+
+		entity = (ComposterTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
 
-		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT, 11,
-				13);
+		Slot s = new SlotAcceptValid(entity, ComposterTileEntity.BROWN, 42, 32);
 		addSlotToContainer(s);
 
-		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.CORE, 33, 34);
+		s = new SlotAcceptValid(entity, ComposterTileEntity.GREEN1, 63, 32);
 		addSlotToContainer(s);
 
-		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE, 56, 34);
+		s = new SlotAcceptValid(entity, ComposterTileEntity.GREEN2, 84, 32);
 		addSlotToContainer(s);
 
-		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
-
-			int oSlot = ScrapAssessorTileEntity.DISPLAY_SLOTS[i];
-
-			int h = (i % 3) * 18 + 106;
-			int v = (i / 3) * 18 + 17;
-
-			s = new SlotLocked(entity, oSlot, h, v);
-			addSlotToContainer(s);
-		}
+		s = new SlotLocked(entity, ComposterTileEntity.MEAL, 134, 32);
+		addSlotToContainer(s);
 
 		// Add the player inventory
 		for (int i = 0; i < 27; ++i) {
@@ -90,6 +87,45 @@ public class ScrapAssessorContainer extends Container {
 		}
 	}
 
+	/**
+	 * Looks for changes made in the container, sends them to every listener.
+	 */
+	@Override
+	public void detectAndSendChanges() {
+
+		super.detectAndSendChanges();
+
+		MachineStatus status = entity.getStatus();
+		int progress = entity.getProgress();
+		int water = entity.getFluidAmount();
+
+		for (int i = 0; i < crafters.size(); ++i) {
+
+			ICrafting icrafting = (ICrafting) crafters.get(i);
+
+			if (progress != currentProgress)
+				icrafting.sendProgressBarUpdate(this,
+						ComposterTileEntity.UPDATE_ACTION_PROGRESS, progress);
+			if (water != currentWater)
+				icrafting.sendProgressBarUpdate(this,
+						ComposterTileEntity.UPDATE_WATER_LEVEL, water);
+			if (status != currentStatus)
+				icrafting.sendProgressBarUpdate(this,
+						ComposterTileEntity.UPDATE_ACTION_STATUS,
+						status.ordinal());
+		}
+
+		currentStatus = status;
+		currentProgress = progress;
+		currentWater = water;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int id, int data) {
+		entity.receiveClientEvent(id, data);
+	}
+
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
@@ -107,24 +143,36 @@ public class ScrapAssessorContainer extends Container {
 			ItemStack stackInSlot = slot.getStack();
 			stack = stackInSlot.copy();
 
-			// If the slot is INPUT or one of the OUTPUTs, move the contents
-			// to the player inventory
-			if (slotIndex < 11) {
+			// Trying to move stuff out of the machine inventory
+			if (slotIndex < 3) {
 
 				if (!mergeItemStack(stackInSlot, sizeInventory,
 						sizeInventory + 36, false)) {
 					return null;
 				}
-
 				slot.onSlotChange(stackInSlot, stack);
 
-			} else if (entity.isItemValidForSlot(
-					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
+			} else {
 
-				// Try moving to the input slot
-				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
+				// Attempt to move stuff into machine inventory. If it is
+				// not a compost ingredient return null.
+				ItemScrapData data = ItemScrapData.get(stackInSlot);
+				if (data == null
+						|| data.getCompostIngredientValue() == CompostIngredient.NONE)
 					return null;
-				}
+
+				// Based on the type of ingredient determines which slot we
+				// try to move it into
+				boolean mergeResult = false;
+				if (data.getCompostIngredientValue() == CompostIngredient.BROWN)
+					mergeResult = mergeItemStack(stackInSlot,
+							ComposterTileEntity.BROWN, 1, false);
+				else
+					mergeResult = mergeItemStack(stackInSlot,
+							ComposterTileEntity.GREEN1, 2, false);
+
+				if (!mergeResult)
+					return null;
 
 				slot.onSlotChange(stackInSlot, stack);
 			}
@@ -146,5 +194,4 @@ public class ScrapAssessorContainer extends Container {
 
 		return stack;
 	}
-
 }

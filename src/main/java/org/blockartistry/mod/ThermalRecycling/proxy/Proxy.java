@@ -24,6 +24,12 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
+import java.lang.ref.WeakReference;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayerFactory;
+
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
@@ -43,6 +49,52 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class Proxy {
+
+	// Leveraged from the BuildCraft source code.
+	protected static WeakReference<EntityPlayer> thermalRecyclingPlayer = new WeakReference<EntityPlayer>(
+			null);
+
+	private WeakReference<EntityPlayer> createNewPlayer(WorldServer world) {
+		EntityPlayer player = FakePlayerFactory.get(world,
+				ThermalRecycling.gameProfile);
+
+		return new WeakReference<EntityPlayer>(player);
+	}
+
+	private WeakReference<EntityPlayer> createNewPlayer(WorldServer world,
+			int x, int y, int z) {
+		EntityPlayer player = FakePlayerFactory.get(world,
+				ThermalRecycling.gameProfile);
+		player.posX = x;
+		player.posY = y;
+		player.posZ = z;
+		return new WeakReference<EntityPlayer>(player);
+	}
+
+	public final WeakReference<EntityPlayer> getThermalRecyclingPlayer(
+			WorldServer world) {
+		if (thermalRecyclingPlayer.get() == null) {
+			thermalRecyclingPlayer = createNewPlayer(world);
+		} else {
+			thermalRecyclingPlayer.get().worldObj = world;
+		}
+
+		return thermalRecyclingPlayer;
+	}
+
+	public final WeakReference<EntityPlayer> getThermalRecyclingPlayer(
+			WorldServer world, int x, int y, int z) {
+		if (thermalRecyclingPlayer.get() == null) {
+			thermalRecyclingPlayer = createNewPlayer(world, x, y, z);
+		} else {
+			thermalRecyclingPlayer.get().worldObj = world;
+			thermalRecyclingPlayer.get().posX = x;
+			thermalRecyclingPlayer.get().posY = y;
+			thermalRecyclingPlayer.get().posZ = z;
+		}
+
+		return thermalRecyclingPlayer;
+	}
 
 	public void preInit(FMLPreInitializationEvent event) {
 	}

@@ -162,7 +162,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
-	public This appendSubtypeRange(ItemStack stack, int start, int end, int quantity) {
+	public This appendSubtypeRange(ItemStack stack, int start, int end,
+			int quantity) {
 		ItemStackHelper.appendSubtypeRange(input, stack, start, end, quantity);
 		return THIS;
 	}

@@ -24,6 +24,8 @@ msg.MachineStatus.active={0}%
 msg.MachineStatus.jammed=Jammed!
 msg.MachineStatus.needMoreResources=Need more resources!
 msg.MachineStatus.outOfPower=Out of power
+msg.MachineStatus.needMoreWater=Need water
+msg.MachineStatus.cantSeeSky=Need to see the sky
 
 # Achievements
 achievement.feelingScrappy=Feeling Scrappy!

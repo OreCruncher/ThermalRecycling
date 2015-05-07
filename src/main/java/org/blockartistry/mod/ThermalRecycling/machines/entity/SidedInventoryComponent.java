@@ -48,6 +48,7 @@ public class SidedInventoryComponent implements IMachineInventory {
 	int outputEnd = -1;
 
 	int[] accessibleSlots;
+	int[] hiddenSlots;
 
 	public SidedInventoryComponent(TileEntityBase parent, int size) {
 
@@ -118,6 +119,11 @@ public class SidedInventoryComponent implements IMachineInventory {
 
 		validateRangesDisjoint();
 
+		return this;
+	}
+
+	public SidedInventoryComponent setHiddenSlots(int... slots) {
+		hiddenSlots = slots;
 		return this;
 	}
 
@@ -279,10 +285,18 @@ public class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public void dropInventory(World world, int x, int y, int z) {
 
-		for (ItemStack stack : inventory) {
+		for (int i : getAccessibleSlots()) {
+			ItemStack stack = getStackInSlot(i);
 			if (stack != null)
 				ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 		}
+
+		if (hiddenSlots != null)
+			for (int i : hiddenSlots) {
+				ItemStack stack = getStackInSlot(i);
+				if (stack != null)
+					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+			}
 
 		Arrays.fill(inventory, null);
 	}

@@ -38,9 +38,9 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 public class ScrapAssessorTileEntity extends TileEntityBase {
 
 	public static final int INPUT = 0;
-	public static final int CORE = 10;
-	public static final int SAMPLE = 11;
-	public static final int[] DISPLAY_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	public static final int CORE = 1;
+	public static final int SAMPLE = 2;
+	public static final int[] DISPLAY_SLOTS = { 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
 	ItemStack oldStack;
 	ItemStack oldCore;
@@ -48,7 +48,7 @@ public class ScrapAssessorTileEntity extends TileEntityBase {
 	public ScrapAssessorTileEntity() {
 		super(GuiIdentifier.SCRAP_ASSESSOR);
 		SidedInventoryComponent inv = new SidedInventoryComponent(this, 12);
-		inv.setInputRange(0, 1);
+		inv.setInputRange(0, 1).setHiddenSlots(CORE);
 		setMachineInventory(inv);
 	}
 

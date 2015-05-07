@@ -47,6 +47,11 @@ public class ElementProgress extends ElementBase {
 	static final ResourceLocation NO_RESOURCES_TEXTURE = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/no_resources_indicator.png");
 
+	public final String[] machineStatusMessages = new String[] {
+			"msg.MachineStatus.idle", "msg.MachineStatus.active",
+			"msg.MachineStatus.jammed", "msg.MachineStatus.needMoreResources",
+			"msg.MachineStatus.outOfPower" };
+
 	IJobProgress progress;
 
 	public ElementProgress(GuiBase base, int x, int y, IJobProgress progress) {
@@ -99,31 +104,16 @@ public class ElementProgress extends ElementBase {
 
 	@Override
 	public void addTooltip(List<String> list) {
+
+		MachineStatus status = progress.getStatus();
+		String messageId = machineStatusMessages[status.ordinal()];
+
 		String statusString = "???";
-		switch (progress.getStatus()) {
-		case IDLE:
-			statusString = StatCollector
-					.translateToLocal("msg.MachineStatus.idle");
-			break;
-		case ACTIVE:
-			statusString = StatCollector.translateToLocalFormatted(
-					"msg.MachineStatus.active", progress.getPercentComplete());
-			break;
-		case JAMMED:
-			statusString = StatCollector
-					.translateToLocal("msg.MachineStatus.jammed");
-			break;
-		case NEED_MORE_RESOURCES:
-			statusString = StatCollector
-					.translateToLocal("msg.MachineStatus.needMoreResources");
-			break;
-		case OUT_OF_POWER:
-			statusString = StatCollector
-					.translateToLocal("msg.MachineStatus.outOfPower");
-			break;
-		default:
-			;
-		}
+		if (status == MachineStatus.ACTIVE)
+			statusString = StatCollector.translateToLocalFormatted(messageId,
+					progress.getPercentComplete());
+		else
+			statusString = StatCollector.translateToLocal(messageId);
 
 		list.add(statusString);
 	}

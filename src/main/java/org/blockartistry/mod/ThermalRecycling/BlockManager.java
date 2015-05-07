@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.blocks.ScrapBlock;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineComposter;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
 
@@ -38,6 +39,7 @@ public final class BlockManager {
 	public static ScrapBlock scrapBlock = new ScrapBlock();
 	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
 	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+	public static MachineComposter composter = new MachineComposter();
 
 	static void registerBlocks() {
 
@@ -45,6 +47,7 @@ public final class BlockManager {
 
 		thermalRecycler.register();
 		scrapAssessor.register();
+		composter.register();
 	}
 
 	public BlockManager() {

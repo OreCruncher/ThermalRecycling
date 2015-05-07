@@ -33,7 +33,8 @@ public class ModBuildCraftSilicon extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "redstone_board", };
 
-	static final String[] scrapValuesNone = new String[] { "redstoneChipset", "redstone_board" };
+	static final String[] scrapValuesNone = new String[] { "redstoneChipset",
+			"redstone_board" };
 
 	static final String[] scrapValuesPoor = new String[] { "redstoneChipset:5",
 			"redstoneChipset:6" };

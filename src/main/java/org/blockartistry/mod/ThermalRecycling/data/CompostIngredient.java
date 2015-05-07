@@ -1,4 +1,5 @@
-/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/*
+ * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -21,19 +22,22 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.util.function;
+package org.blockartistry.mod.ThermalRecycling.data;
 
-import java.util.List;
+public enum CompostIngredient {
 
-public abstract class Apply<E> {
+	/**
+	 * Cannot be used to make compost.
+	 */
+	NONE,
 
-	public abstract void apply(E elem);
+	/**
+	 * Green ingredient for composting.
+	 */
+	GREEN,
 
-	public static <E> void apply(List<? extends E> subjects, Apply<E> op) {
-		if (subjects == null)
-			return;
-
-		for (E elem : subjects)
-			op.apply(elem);
-	}
+	/**
+	 * Brown ingredient for composting.
+	 */
+	BROWN;
 }

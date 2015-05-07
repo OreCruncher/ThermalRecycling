@@ -122,9 +122,14 @@ public final class ModOptions {
 		enableRecyclerFX = config.getBoolean(CONFIG_ENABLE_FX,
 				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX,
 				"Control whether client displays visual effects");
-		
-		scrapBoxBonus = config.getInt(CONFIG_SCRAPBOX_BONUS,
-				CATEGORY_MACHINES_RECYCLER, scrapBoxBonus, 0, 4, "The bonus amount of scrap a scrapbox will get when processed with Core: Extraction");
+
+		scrapBoxBonus = config
+				.getInt(CONFIG_SCRAPBOX_BONUS,
+						CATEGORY_MACHINES_RECYCLER,
+						scrapBoxBonus,
+						0,
+						4,
+						"The bonus amount of scrap a scrapbox will get when processed with Core: Extraction");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -171,7 +176,7 @@ public final class ModOptions {
 	public static boolean getEnableWaila() {
 		return enableWailaDisplay;
 	}
-	
+
 	public static int getScrapBoxBonus() {
 		return scrapBoxBonus;
 	}

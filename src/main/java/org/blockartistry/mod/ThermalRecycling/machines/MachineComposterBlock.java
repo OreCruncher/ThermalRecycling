@@ -1,4 +1,5 @@
-/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/*
+ * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -21,19 +22,16 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.util.function;
+package org.blockartistry.mod.ThermalRecycling.machines;
 
-import java.util.List;
+import net.minecraft.block.Block;
 
-public abstract class Apply<E> {
+import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-	public abstract void apply(E elem);
+public class MachineComposterBlock extends MultiItemBlock {
 
-	public static <E> void apply(List<? extends E> subjects, Apply<E> op) {
-		if (subjects == null)
-			return;
+	public MachineComposterBlock(Block block) {
 
-		for (E elem : subjects)
-			op.apply(elem);
+		super(block);
 	}
 }

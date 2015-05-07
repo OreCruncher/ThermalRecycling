@@ -97,7 +97,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
 		SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
-		inv.setInputRange(0, 1).setOutputRange(1, 9);
+		inv.setInputRange(0, 1).setOutputRange(1, 9).setHiddenSlots(CORE);
 		setMachineInventory(inv);
 	}
 
@@ -108,7 +108,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	// /////////////////////////////////////
 	//
-	// Syncronization logic across client/server
+	// Synchronization logic across client/server
 	//
 	// /////////////////////////////////////
 

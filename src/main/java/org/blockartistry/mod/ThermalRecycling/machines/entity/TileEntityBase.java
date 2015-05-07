@@ -71,7 +71,7 @@ public abstract class TileEntityBase extends TileEntity implements
 			inventory = new NoInventoryComponent();
 	}
 
-	// Toggles the thermalRecycler meta data so that it is considered active.
+	// Toggles the meta data so that it is considered active.
 	// This will result in the active face being displayed as well as
 	// have a little bit of light.
 	protected void setMachineActive(boolean toggle) {

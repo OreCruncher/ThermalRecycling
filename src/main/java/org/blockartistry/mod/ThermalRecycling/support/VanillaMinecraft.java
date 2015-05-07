@@ -24,7 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
@@ -89,8 +91,7 @@ public class VanillaMinecraft extends ModPlugin {
 			"piston", "sticky_piston", "golden_rail", "detector_rail",
 			"activator_rail", "glowstone", "redstone_lamp", "ender_chest",
 			"enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
-			"lapis_ore", "redstone_ore", "coal_ore",
-			"skull:*",
+			"lapis_ore", "redstone_ore", "coal_ore", "skull:*",
 
 	};
 
@@ -181,8 +182,12 @@ public class VanillaMinecraft extends ModPlugin {
 		registerRecycleToWoodDust(8, "sapling:*");
 		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat",
 				"reeds", "cactus", "brown_mushroom", "red_mushroom", "pumpkin");
-		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds", "melon_seeds",
-				"melon");
+		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds",
+				"melon_seeds", "melon");
+
+		registerCompostIngredient(CompostIngredient.BROWN, "sapling:*",
+				"leaves:*");
+		registerCompostIngredient(CompostIngredient.GREEN, "apple");
 
 		registerPulverizeToDirt("sapling", 0, 5);
 

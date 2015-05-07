@@ -65,6 +65,7 @@ public final class ItemScrapData {
 	boolean ignoreRecipe;
 	boolean scrubFromOutput;
 	boolean isFood;
+	CompostIngredient compostValue;
 
 	static {
 
@@ -122,6 +123,7 @@ public final class ItemScrapData {
 		this.ignoreRecipe = data.ignoreRecipe;
 		this.scrubFromOutput = data.scrubFromOutput;
 		this.isFood = data.isFood;
+		this.compostValue = data.compostValue;
 	}
 
 	protected ItemScrapData(Block block) {
@@ -140,9 +142,17 @@ public final class ItemScrapData {
 
 	public ItemScrapData(ItemStack stack, ScrapValue value,
 			boolean ignoreRecipe, boolean scrubFromOutput) {
+		this(stack, value, CompostIngredient.NONE, ignoreRecipe,
+				scrubFromOutput);
+	}
+
+	public ItemScrapData(ItemStack stack, ScrapValue value,
+			CompostIngredient compost, boolean ignoreRecipe,
+			boolean scrubFromOutput) {
 		Preconditions.checkNotNull(stack);
 		this.stack = stack;
 		this.value = value;
+		this.compostValue = compost;
 		this.ignoreRecipe = ignoreRecipe;
 		this.scrubFromOutput = scrubFromOutput;
 		this.isFood = stack.getItem() instanceof ItemFood;
@@ -155,6 +165,15 @@ public final class ItemScrapData {
 
 	public ScrapValue getScrapValue() {
 		return value;
+	}
+
+	public CompostIngredient getCompostIngredientValue() {
+		return compostValue;
+	}
+
+	public ItemScrapData setCompostIngredientValue(CompostIngredient value) {
+		this.compostValue = value;
+		return this;
 	}
 
 	public ItemScrapData setIgnoreRecipe(boolean flag) {
@@ -238,6 +257,41 @@ public final class ItemScrapData {
 	public static ItemScrapData get(Block block) {
 		Preconditions.checkNotNull(block);
 		return get(Item.getItemFromBlock(block));
+	}
+
+	public static CompostIngredient getCompostIngredientValue(Item item) {
+		Preconditions.checkNotNull(item);
+		return get(item).compostValue;
+	}
+
+	public static CompostIngredient getCompostIngredientValue(Block block) {
+		Preconditions.checkNotNull(block);
+		return get(block).compostValue;
+	}
+
+	public static CompostIngredient getCompostIngredientValue(ItemStack stack) {
+		Preconditions.checkNotNull(stack);
+		return get(stack).compostValue;
+	}
+
+	public static void setCompostIngredientValue(Item item,
+			CompostIngredient value) {
+		Preconditions.checkNotNull(item);
+		put(get(item).setCompostIngredientValue(value));
+	}
+
+	public static void setCompostIngredientValue(Block block,
+			CompostIngredient value) {
+		Preconditions.checkNotNull(block);
+		put(get(block).setCompostIngredientValue(value));
+	}
+
+	public static void setCompostIngredientValue(ItemStack stack,
+			CompostIngredient value) {
+		Preconditions.checkNotNull(stack);
+		ItemScrapData data = getForWrite(stack);
+		data.setCompostIngredientValue(value);
+		put(data);
 	}
 
 	static ItemScrapData getForWrite(ItemStack stack) {

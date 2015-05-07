@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
@@ -163,22 +164,34 @@ public abstract class ModPlugin {
 		});
 	}
 
-	
 	@SuppressWarnings("unchecked")
-	protected void registerRecycleToWoodDust(final int inputQuantity, String... list) {
+	protected void registerRecycleToWoodDust(final int inputQuantity,
+			String... list) {
 		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
 
 			@Override
 			public void apply(ItemStack elem) {
-				recycler.input(elem, inputQuantity).append(ItemStackHelper.dustWood)
-						.save();
+				recycler.input(elem, inputQuantity)
+						.append(ItemStackHelper.dustWood).save();
 			}
 
 		});
 	}
 
-	protected void registerPulverizeToDirt(String name,
-			final int rangeStart, final int rangeEnd) {
+	@SuppressWarnings("unchecked")
+	protected void registerCompostIngredient(
+			final CompostIngredient ingredient, String... list) {
+		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+
+			@Override
+			public void apply(ItemStack elem) {
+				ItemScrapData.setCompostIngredientValue(elem, ingredient);
+			}
+		});
+	}
+
+	protected void registerPulverizeToDirt(String name, final int rangeStart,
+			final int rangeEnd) {
 
 		forEachSubject(Collections.singletonList(name), new Apply<ItemStack>() {
 

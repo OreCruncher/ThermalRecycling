@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
@@ -33,6 +34,8 @@ import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
+
+import com.mojang.authlib.GameProfile;
 
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
@@ -84,6 +87,10 @@ public final class ThermalRecycling {
 		return config;
 	}
 
+	public static GameProfile gameProfile = new GameProfile(
+			UUID.nameUUIDFromBytes("ThermalRecycling".getBytes()),
+			"[ThermalRecycling]");
+
 	public ThermalRecycling() {
 		ModLog.setLogger(LogManager.getLogger(MOD_ID));
 	}
@@ -116,6 +123,10 @@ public final class ThermalRecycling {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+
+		ModLog.info("ThermalRecycling's fake player: UUID = "
+				+ gameProfile.getId().toString() + ", name = '"
+				+ gameProfile.getName() + "'!");
 
 		proxy.postInit(event);
 		config.save();
