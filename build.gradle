@@ -17,7 +17,8 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-0.3.4ALPHA"
+project.ext.modVersion = "0.3.3.1ALPHA"
+version = "1.7.10-" + project.ext.modVersion
 group= "org.blockartistry.mod.ThermalRecycling" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ThermalRecycling"
 
@@ -25,7 +26,7 @@ minecraft {
     version = "1.7.10-10.13.2.1291"
     runDir = "eclipse"
     
-    replace '@VERSION@', project.version
+    replace '@VERSION@', project.ext.modVersion
 }
 
 dependencies {
@@ -53,10 +54,9 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        include 'ThermalRecycling.java'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.ext.modVersion, 'mcversion':project.minecraft.version
     }
         
     // copy everything else, thats not the mcmod.info
@@ -73,4 +73,3 @@ task deobfJar(type: Jar) {
 artifacts {
     archives deobfJar
 }
-

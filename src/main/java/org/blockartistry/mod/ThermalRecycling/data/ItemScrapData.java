@@ -78,7 +78,7 @@ public final class ItemScrapData {
 		else
 			whiteList = MyUtils.concat(modList, configList);
 
-		String modIds = ":" + String.join(":", whiteList) + ":";
+		String modIds = ":" + MyUtils.join(":", whiteList) + ":";
 
 		for (Object o : Item.itemRegistry) {
 			if (o instanceof Item || o instanceof Block) {

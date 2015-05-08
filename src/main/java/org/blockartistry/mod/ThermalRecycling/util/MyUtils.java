@@ -106,4 +106,17 @@ public final class MyUtils {
 	public static <T> T[] cast(Object[] list, Class<? extends T[]> clazz) {
 		return Arrays.copyOf(list, list.length, clazz);
 	}
+	
+	public static <T> String join(String joiner, T[] list) {
+		StringBuilder builder = new StringBuilder();
+		boolean seenOne = false;
+		for(T e: list) {
+			if(seenOne)
+				builder.append(joiner);
+			else
+				seenOne = true;
+			builder.append(e.toString());
+		}
+		return builder.toString();
+	}
 }

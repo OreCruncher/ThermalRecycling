@@ -97,7 +97,7 @@ public class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		String modIds = ":" + String.join(":", whiteList) + ":";
+		String modIds = ":" + MyUtils.join(":", whiteList) + ":";
 
 		// Process all registered recipes
 		for (Object o : CraftingManager.getInstance().getRecipeList()) {
