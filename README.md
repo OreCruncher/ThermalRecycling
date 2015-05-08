@@ -1,3 +1,7 @@
+###Build Status
+[![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycling.svg?branch=master)](https://travis-ci.org/OreCruncher/ThermalRecycling)
+
+
 ###Thermal Recycling
 
 Thermal Recycling is an add-on for Thermal Expansion 4.x that adds a bunch of Redstone Furnace, Pulverizer, Sawmill, and Induction Smelter recipes that allow for "recycling" of various blocks and items.
