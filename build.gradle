@@ -26,6 +26,11 @@ repositories {
         name "Mobius Repo"
         url "http://mobiusstrip.eu/maven"
     }
+    
+    maven {
+		name = "ic2-and-forestry"
+		url = "http://maven.ic2.player.to/"
+	}
 }
 
 apply plugin: 'forge'
@@ -52,6 +57,7 @@ dependencies {
     
     compile "mcp.mobius.waila:Waila:1.5.9_1.7.10:dev"
     compile "com.mod-buildcraft:buildcraft:6.4.11:dev"
+    compile 'net.sengir.forestry:forestry_1.7.10:3.5.3.11:dev'
     
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
