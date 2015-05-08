@@ -26,7 +26,8 @@ public final class RecipeDecomposition implements Iterable<ItemStack> {
 			"forestry.lepidopterology.MatingRecipe",
 			"cofh.thermaldynamics.util.crafting.RecipeCover",
 			"mods.railcraft.common.carts.LocomotivePaintingRecipe",
-			"mods.railcraft.common.emblems.EmblemPostColorRecipe" };
+			"mods.railcraft.common.emblems.EmblemPostColorRecipe",
+			"codechicken.enderstorage.common.EnderStorageRecipe" };
 
 	public class MyIterator<T> implements Iterator<T> {
 

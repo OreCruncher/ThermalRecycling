@@ -51,7 +51,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.3.4ALPHA";
+	public static final String VERSION = "$version";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"

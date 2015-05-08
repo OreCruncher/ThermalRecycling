@@ -116,6 +116,7 @@ public class ModThermalRecycling extends ModPlugin {
 					// we know about then we can create the recipe.
 					String name = Item.itemRegistry.getNameForObject(stack
 							.getItem());
+					
 					if (modIds.contains(":"
 							+ StringUtils.substringBefore(name, ":") + ":")) {
 						recycler.useRecipe(stack).save();

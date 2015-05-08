@@ -70,6 +70,10 @@ public enum SupportedMod {
 	CHICKEN_CHUNKS("Chicken Chunks", "ChickenChunks", ModChickenChunks.class),
 
 	RFTOOLS("RFTools", "rftools", ModRFTools.class),
+	
+	ENDER_STORAGE("Ender Storage", "EnderStorage", ModEnderStorage.class),
+	
+	EXTRABIOMESXL("ExtrabiomesXL", "ExtrabiomesXL", ModExtrabiomesXL.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries

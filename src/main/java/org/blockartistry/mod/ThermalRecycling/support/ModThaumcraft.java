@@ -37,7 +37,7 @@ public class ModThaumcraft extends ModPlugin {
 			"blockStairsGreatwood", "blockCosmeticSolid:1",
 			"blockCosmeticSolid:5", "blockCosmeticSlabWood:0",
 			"blockCosmeticSlabWood:1", "blockCandle:*", "blockTaint:2",
-			"ItemResource:6", "blockTable:0", "ItemInkWell", "ItemResource:13",
+			"ItemResource:6", "blockTable:0", "ItemInkwell", "ItemResource:13",
 			"ItemResource:18", "TripleMeatTreat",
 
 			"ItemNugget:0", "ItemNugget:1", "ItemNugget:2", "ItemNugget:3",
@@ -51,7 +51,7 @@ public class ModThaumcraft extends ModPlugin {
 			"blockCosmeticSlabWood:0", "blockCosmeticSlabWood:1",
 			"blockCandle:*", "blockTaint:2",
 
-			"leaves:*", "ItemInkWell", "blockTable:0", "ItemResource:4",
+			"blockMagicalLeaves:*", "ItemInkwell", "blockTable:0", "ItemResource:4",
 			"ItemResource:13", "ItemEssence:0", "ItemCrystalEssence:*",
 			"ItemResource:11", "ItemResource:12", "ItemManaBean:*",
 			"ItemNuggetBeef", "ItemNuggetChicken", "ItemNuggetPork" };
@@ -89,7 +89,7 @@ public class ModThaumcraft extends ModPlugin {
 		registerRecycleToWoodDust(8, "blockCustomPlant:0", "blockCustomPlant:1");
 		registerPulverizeToDirt("blockCustomPlant", 0, 1);
 
-		registerCompostIngredient(CompostIngredient.BROWN, "blockCustomPlant:0", "blockCustomPlant:1");
+		registerCompostIngredient(CompostIngredient.BROWN, "blockCustomPlant:0", "blockCustomPlant:1", "blockMagicalLeaves:*");
 		
 		// Basic Thaumcraft tools and stuff
 		furnace.append("Thaumcraft:ItemThaumometer").output("ingotGold", 2)
