@@ -24,6 +24,8 @@ archivesBaseName = "ThermalRecycling"
 minecraft {
     version = "1.7.10-10.13.2.1291"
     runDir = "eclipse"
+    
+    replace '@VERSION@', project.version
 }
 
 dependencies {
@@ -51,6 +53,7 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
+        include 'ThermalRecycling.java'
                 
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
@@ -61,3 +64,13 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+}
+
+artifacts {
+    archives deobfJar
+}
+
