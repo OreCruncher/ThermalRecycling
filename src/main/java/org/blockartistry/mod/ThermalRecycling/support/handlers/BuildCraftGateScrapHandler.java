@@ -26,17 +26,15 @@ package org.blockartistry.mod.ThermalRecycling.support.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import buildcraft.api.gates.IGate;
-import buildcraft.api.gates.IGateExpansion;
-import buildcraft.transport.gates.GateDefinition.GateMaterial;
-import buildcraft.transport.gates.ItemGate;
+import buildcraft.api.transport.pluggable.IPipePluggableItem;
 
 public class BuildCraftGateScrapHandler extends GenericHandler {
 
@@ -109,43 +107,72 @@ public class BuildCraftGateScrapHandler extends GenericHandler {
 		emeraldGate.add(yellowPipeWire);
 	}
 
+	static final int MATERIAL_REDSTONE = 0;
+	static final int MATERIAL_IRON = 1;
+	static final int MATERIAL_GOLD = 2;
+	static final int MATERIAL_DIAMOND = 3;
+	static final int MATERIAL_EMERALD = 4;
+	static final int MATERIAL_QUARTZ = 5;
+	
+	static int getMaterial(ItemStack stack) {
+		
+		int result = MATERIAL_REDSTONE;
+		
+		if(stack.hasTagCompound()) {
+			NBTTagCompound nbt = stack.getTagCompound();
+			result = nbt.getInteger("mat");
+		}
+		
+		return result;
+	}
+	
+	static List<String> getExpansions(ItemStack stack) {
+		List<String> result = new ArrayList<String>();
+
+		if(stack.hasTagCompound()) {
+			NBTTagCompound nbt = stack.getTagCompound();
+			NBTTagList expansionList = nbt.getTagList("ex", Constants.NBT.TAG_STRING);
+			for (int i = 0; i < expansionList.tagCount(); i++) {
+				result.add(expansionList.getStringTagAt(i));
+			}
+		}
+		
+		return result;
+	}
+	
 	@Override
 	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
 
-		if (stack.getItem() instanceof IGate) {
+		if (stack.getItem() instanceof IPipePluggableItem) {
 
 			List<ItemStack> output = new ArrayList<ItemStack>();
 
-			GateMaterial mat = ItemGate.getMaterial(stack);
+			int mat = getMaterial(stack);
 
 			switch (mat) {
-			case REDSTONE:
+			case MATERIAL_REDSTONE:
 				output.addAll(basicGate);
 				break;
-			case IRON:
+			case MATERIAL_IRON:
 				output.addAll(ironGate);
 				break;
-			case GOLD:
+			case MATERIAL_GOLD:
 				output.addAll(goldGate);
 				break;
-			case DIAMOND:
+			case MATERIAL_DIAMOND:
 				output.addAll(diamondGate);
 				break;
-			case QUARTZ:
+			case MATERIAL_QUARTZ:
 				output.addAll(quartzGate);
 				break;
-			case EMERALD:
+			case MATERIAL_EMERALD:
 				output.addAll(emeraldGate);
 				break;
 			default:
 				;
 			}
 
-			Set<IGateExpansion> expansions = ItemGate
-					.getInstalledExpansions(stack);
-
-			for (IGateExpansion ex : expansions) {
-				String id = ex.getUniqueIdentifier();
+			for (String id: getExpansions(stack)) {
 				if (id.compareTo("buildcraft:pulsar") == 0)
 					output.add(pulsatingChipset);
 				else if (id.compareTo("buildcraft:timer") == 0)

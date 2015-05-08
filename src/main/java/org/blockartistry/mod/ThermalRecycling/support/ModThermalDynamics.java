@@ -41,33 +41,33 @@ public class ModThermalDynamics extends ModPlugin {
 		// Servos, Filters
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo", "ThermalDynamics:filter")
-				.output("nuggetIron").secondaryOutput("ingotIron").save();
+				.output("nuggetIron").secondaryOutput("dustIron").save();
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo:1", "ThermalDynamics:filter:1")
-				.output("nuggetIron").secondaryOutput("ingotInvar").save();
+				.output("nuggetIron").secondaryOutput("dustInvar").save();
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo:2", "ThermalDynamics:filter:2")
-				.output("nuggetIron").secondaryOutput("ingotElectrum").save();
+				.output("nuggetIron").secondaryOutput("dustElectrum").save();
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo:3", "ThermalDynamics:filter:3")
-				.output("nuggetIron").secondaryOutput("ingotSignalum").save();
+				.output("nuggetIron").secondaryOutput("dustSignalum").save();
 		pulverizer.setEnergy(1200)
 				.append("ThermalDynamics:servo:4", "ThermalDynamics:filter:4")
-				.output("nuggetIron").secondaryOutput("ingotEnderium").save();
+				.output("nuggetIron").secondaryOutput("dustEnderium").save();
 
 		// Retrievers
 		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever")
-				.output("nuggetEnderium").secondaryOutput("ingotIron").save();
+				.output("nuggetEnderium").secondaryOutput("dustIron").save();
 		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:1")
-				.output("nuggetEnderium").secondaryOutput("ingotInvar").save();
+				.output("nuggetEnderium").secondaryOutput("dustInvar").save();
 		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:2")
-				.output("nuggetEnderium").secondaryOutput("ingotElectrum")
+				.output("nuggetEnderium").secondaryOutput("dustElectrum")
 				.save();
 		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:3")
-				.output("nuggetEnderium").secondaryOutput("ingotSignalum")
+				.output("nuggetEnderium").secondaryOutput("dustSignalum")
 				.save();
 		pulverizer.setEnergy(1200).append("ThermalDynamics:retriever:4")
-				.output("nuggetEnderium").secondaryOutput("ingotEnderium")
+				.output("nuggetEnderium").secondaryOutput("dustEnderium")
 				.save();
 
 		// Structural Duct

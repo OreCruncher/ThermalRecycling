@@ -92,11 +92,11 @@ public class ModThaumcraft extends ModPlugin {
 		registerCompostIngredient(CompostIngredient.BROWN, "blockCustomPlant:0", "blockCustomPlant:1", "blockMagicalLeaves:*");
 		
 		// Basic Thaumcraft tools and stuff
-		furnace.append("Thaumcraft:ItemThaumometer").output("ingotGold", 2)
+		pulverizer.append("Thaumcraft:ItemThaumometer").output("dustGold", 2)
 				.save();
-		furnace.append("Thaumcraft:ItemBaubleBlanks",
-				"Thaumcraft:ItemBaubleBlanks:2").output("ingotGold").save();
-		furnace.append("Thaumcraft:ItemBaubleBlanks:1").output("nuggetGold", 4)
+		pulverizer.append("Thaumcraft:ItemBaubleBlanks",
+				"Thaumcraft:ItemBaubleBlanks:2").output("dustGold").save();
+		pulverizer.append("Thaumcraft:ItemBaubleBlanks:1").output("nuggetGold", 4)
 				.save();
 
 		// Recycle Thaumium armor and tools

@@ -257,23 +257,23 @@ public class VanillaMinecraft extends ModPlugin {
 					.secondaryOutput(Blocks.obsidian, 3).save();
 		}
 
-		furnace.append(Items.iron_door).output("ingotIron", 6).save();
-		furnace.append(Items.shears).output("ingotIron", 2).save();
-		furnace.append(Blocks.hopper).output("ingotIron", 5).save();
-		furnace.append(Items.minecart).output("ingotIron", 5).save();
-		furnace.append(Items.cauldron).output("ingotIron", 7).save();
-		furnace.append(Items.compass).output("ingotIron", 4).save();
+		pulverizer.append(Items.iron_door).output("dustIron", 6).save();
+		pulverizer.append(Items.shears).output("dustIron", 2).save();
+		pulverizer.append(Blocks.hopper).output("dustIron", 5).save();
+		pulverizer.append(Items.minecart).output("dustIron", 5).save();
+		pulverizer.append(Items.cauldron).output("dustIron", 7).save();
+		pulverizer.append(Items.compass).output("dustIron", 4).save();
 
-		furnace.append(Items.bucket, Items.milk_bucket, Items.water_bucket)
-				.output("ingotIron", 3).save();
+		pulverizer.append(Items.bucket, Items.milk_bucket, Items.water_bucket)
+				.output("dustIron", 3).save();
 
-		furnace.append(Items.golden_apple, Items.golden_carrot,
+		pulverizer.append(Items.golden_apple, Items.golden_carrot,
 				Items.speckled_melon).output("nuggetGold", 8).save();
 
-		furnace.setEnergy(150).append(Blocks.iron_bars).output("nuggetIron", 3)
+		pulverizer.setEnergy(150).append(Blocks.iron_bars).output("nuggetIron", 3)
 				.save();
 
-		furnace.append(Items.clock).output("ingotGold", 4).save();
+		pulverizer.append(Items.clock).output("dustGold", 4).save();
 
 		if (quantityRottenFleshToLeather > 0) {
 			furnace.append(Items.rotten_flesh, quantityRottenFleshToLeather)
@@ -286,34 +286,34 @@ public class VanillaMinecraft extends ModPlugin {
 		pulverizer.append(Items.porkchop, 4).output(Items.rotten_flesh)
 				.secondaryOutput(Items.bone).chance(10).save();
 
-		furnace.append(Items.iron_helmet, Items.iron_horse_armor)
-				.output("ingotIron", 5).save();
-		furnace.append(Items.iron_chestplate).output("ingotIron", 8).save();
-		furnace.append(Items.iron_leggings).output("ingotIron", 7).save();
-		furnace.append(Items.iron_boots).output("ingotIron", 4).save();
+		pulverizer.append(Items.iron_helmet, Items.iron_horse_armor)
+				.output("dustIron", 5).save();
+		pulverizer.append(Items.iron_chestplate).output("dustIron", 8).save();
+		pulverizer.append(Items.iron_leggings).output("dustIron", 7).save();
+		pulverizer.append(Items.iron_boots).output("dustIron", 4).save();
 
-		furnace.append(Items.iron_sword, Items.iron_hoe).output("ingotIron", 2)
+		pulverizer.append(Items.iron_sword, Items.iron_hoe).output("dustIron", 2)
 				.save();
-		furnace.append(Items.iron_axe, Items.iron_pickaxe)
-				.output("ingotIron", 3).save();
-		furnace.append(Items.iron_shovel).output("ingotIron").save();
+		pulverizer.append(Items.iron_axe, Items.iron_pickaxe)
+				.output("dustIron", 3).save();
+		pulverizer.append(Items.iron_shovel).output("dustIron").save();
 
-		furnace.append(Items.golden_helmet, Items.golden_horse_armor)
-				.output("ingotGold", 5).save();
-		furnace.append(Items.golden_chestplate).output("ingotGold", 8).save();
-		furnace.append(Items.golden_leggings).output("ingotGold", 7).save();
-		furnace.append(Items.golden_boots).output("ingotGold", 4).save();
+		pulverizer.append(Items.golden_helmet, Items.golden_horse_armor)
+				.output("dustGold", 5).save();
+		pulverizer.append(Items.golden_chestplate).output("dustGold", 8).save();
+		pulverizer.append(Items.golden_leggings).output("dustGold", 7).save();
+		pulverizer.append(Items.golden_boots).output("dustGold", 4).save();
 
-		furnace.append(Items.golden_sword, Items.golden_hoe)
-				.output("ingotGold", 2).save();
-		furnace.append(Items.golden_axe, Items.golden_pickaxe)
-				.output("ingotGold", 3).save();
-		furnace.append(Items.golden_shovel).output("ingotGold").save();
+		pulverizer.append(Items.golden_sword, Items.golden_hoe)
+				.output("dustGold", 2).save();
+		pulverizer.append(Items.golden_axe, Items.golden_pickaxe)
+				.output("dustGold", 3).save();
+		pulverizer.append(Items.golden_shovel).output("dustGold").save();
 
-		furnace.append(Blocks.light_weighted_pressure_plate)
-				.output("ingotGold", 2).save();
-		furnace.append(Blocks.heavy_weighted_pressure_plate)
-				.output("ingotIron", 2).save();
+		pulverizer.append(Blocks.light_weighted_pressure_plate)
+				.output("dustGold", 2).save();
+		pulverizer.append(Blocks.heavy_weighted_pressure_plate)
+				.output("dustIron", 2).save();
 
 		pulverizer.setEnergy(1200).append(Items.apple, 16)
 				.append(Items.carrot, 16).append(Items.potato, 16)

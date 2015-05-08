@@ -137,27 +137,27 @@ public class ModRailcraft extends ModPlugin {
 				.save();
 
 		// Regular iron items
-		furnace.append("Railcraft:part.plate").output("ingotIron").save();
-		furnace.append("Railcraft:tool.crowbar").output("ingotIron", 3).save();
+		pulverizer.append("Railcraft:part.plate").output("dustIron").save();
+		pulverizer.append("Railcraft:tool.crowbar").output("dustIron", 3).save();
 		// Rolling Machine
-		furnace.append("Railcraft:machine.alpha:8").output("ingotIron", 8)
+		pulverizer.append("Railcraft:machine.alpha:8").output("dustIron", 8)
 				.save();
 		// Smoker
-		furnace.append("Railcraft:machine.alpha:5").output("ingotIron", 7)
+		pulverizer.append("Railcraft:machine.alpha:5").output("dustIron", 7)
 				.save();
 
 		// Iron Tank Wall
 		// Iron Tank gauge
-		furnace.appendSubtypeRange("Railcraft:machine.beta", 0, 1)
+		pulverizer.appendSubtypeRange("Railcraft:machine.beta", 0, 1)
 				.output("nuggetIron", 4).save();
 		// Iron Tank Valve
-		furnace.append("Railcraft:machine.beta:2").output("nuggetIron", 6)
+		pulverizer.append("Railcraft:machine.beta:2").output("nuggetIron", 6)
 				.save();
 		// LP Boiler Tank
-		furnace.append("Railcraft:machine.beta:3").output("ingotIron", 2)
+		pulverizer.append("Railcraft:machine.beta:3").output("dustIron", 2)
 				.save();
 		// Commercial Steam Engine
-		furnace.append("Railcraft:machine.beta:8").output("ingotIron", 12)
+		pulverizer.append("Railcraft:machine.beta:8").output("dustIron", 12)
 				.save();
 
 		// Steel Tank Wall
@@ -176,7 +176,7 @@ public class ModRailcraft extends ModPlugin {
 		// Liquid Fuel Firebox
 		pulverizer.append("Railcraft:machine.beta:6")
 				.output("Railcraft:part.plate:1", 4)
-				.secondaryOutput("ingotIron", 3).save();
+				.secondaryOutput("dustIron", 3).save();
 
 		// Rock Crusher
 		pulverizer.append("Railcraft:machine.alpha:15").output("ingotSteel", 2)
@@ -185,7 +185,7 @@ public class ModRailcraft extends ModPlugin {
 		// Feed Station
 		pulverizer.append("Railcraft:machine.alpha:11")
 				.output("Railcraft:part.plate:1", 1)
-				.secondaryOutput("ingotGold", 3).save();
+				.secondaryOutput("dustGold", 3).save();
 
 		// Trade Station
 		pulverizer.append("Railcraft:machine.alpha:6")
@@ -194,19 +194,19 @@ public class ModRailcraft extends ModPlugin {
 
 		// Hobbyist Steam Engine
 		pulverizer.append("Railcraft:machine.beta:7").output("nuggetGold", 12)
-				.secondaryOutput("ingotIron").save();
+				.secondaryOutput("dustIron").save();
 
 		// Gears
-		furnace.append("Railcraft:part.gear:3").output("ingotTin", 2).save();
+		pulverizer.append("Railcraft:part.gear:3").output("dustTin", 2).save();
 		pulverizer.append("Railcraft:part.gear").output("nuggetGold", 4)
 				.secondaryOutput("ingotTin", 2).save();
-		pulverizer.append("Railcraft:part.gear:1").output("ingotIron", 4)
+		pulverizer.append("Railcraft:part.gear:1").output("dustIron", 4)
 				.secondaryOutput("ingotTin", 2).save();
 		pulverizer.append("Railcraft:part.gear:2").output("ingotSteel", 4)
 				.secondaryOutput("ingotTin", 2).save();
 
 		// Metal posts and platforms
-		furnace.append("Railcraft:post:2").output("nuggetSteel", 1).save();
-		furnace.append("Railcraft:post:6").output("nuggetSteel", 5).save();
+		pulverizer.append("Railcraft:post:2").output("nuggetSteel", 1).save();
+		pulverizer.append("Railcraft:post:6").output("nuggetSteel", 5).save();
 	}
 }

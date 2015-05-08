@@ -93,27 +93,27 @@ public class ModThermalFoundation extends ModPlugin {
 
 	protected void furnaceRecycleHelperTE(String oreName) {
 
-		String ingot = "ingot" + oreName;
+		String ingot = "dust" + oreName;
 
-		furnace.append("ThermalFoundation:armor.helmet" + oreName)
+		pulverizer.append("ThermalFoundation:armor.helmet" + oreName)
 				.output(ingot, 5).save();
-		furnace.append("ThermalFoundation:armor.plate" + oreName)
+		pulverizer.append("ThermalFoundation:armor.plate" + oreName)
 				.output(ingot, 8).save();
-		furnace.append("ThermalFoundation:armor.legs" + oreName)
+		pulverizer.append("ThermalFoundation:armor.legs" + oreName)
 				.output(ingot, 7).save();
-		furnace.append("ThermalFoundation:armor.boots" + oreName)
+		pulverizer.append("ThermalFoundation:armor.boots" + oreName)
 				.output(ingot, 4).save();
 
-		furnace.append("ThermalFoundation:tool.sword" + oreName,
+		pulverizer.append("ThermalFoundation:tool.sword" + oreName,
 				"ThermalFoundation:tool.hoe" + oreName,
 				"ThermalFoundation:tool.shears" + oreName,
 				"ThermalFoundation:tool.fishingRod" + oreName,
 				"ThermalFoundation:tool.bow" + oreName).output(ingot, 2).save();
 
-		furnace.append("ThermalFoundation:tool.shovel" + oreName).output(ingot)
+		pulverizer.append("ThermalFoundation:tool.shovel" + oreName).output(ingot)
 				.save();
 
-		furnace.append("ThermalFoundation:tool.pickaxe" + oreName,
+		pulverizer.append("ThermalFoundation:tool.pickaxe" + oreName,
 				"ThermalFoundation:tool.axe" + oreName,
 				"ThermalFoundation:tool.sickle" + oreName).output(ingot, 3)
 				.save();
@@ -121,8 +121,8 @@ public class ModThermalFoundation extends ModPlugin {
 
 	protected void recycleGearTE(String type) {
 
-		furnace.append(OreDictionary.getOres("gear" + type))
-				.output("ingot" + type, 4).save();
+		pulverizer.append(OreDictionary.getOres("gear" + type))
+				.output("dust" + type, 4).save();
 	}
 
 	@Override

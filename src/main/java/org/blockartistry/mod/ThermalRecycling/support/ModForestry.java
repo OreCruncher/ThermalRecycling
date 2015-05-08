@@ -160,10 +160,10 @@ public class ModForestry extends ModPlugin {
 				.secondaryOutput(Items.diamond, 4).save();
 
 		// Survivalist tools
-		furnace.append("Forestry:bronzePickaxe", "Forestry:kitPickaxe")
-				.output("ingotBronze", 3).save();
-		furnace.append("Forestry:bronzeShovel", "Forestry:kitShovel")
-				.output("ingotBronze").save();
+		pulverizer.append("Forestry:bronzePickaxe", "Forestry:kitPickaxe")
+				.output("dustBronze", 3).save();
+		pulverizer.append("Forestry:bronzeShovel", "Forestry:kitShovel")
+				.output("dustBronze").save();
 
 		// Misc
 		pulverizer.setEnergy(200).append("Forestry:canEmpty")

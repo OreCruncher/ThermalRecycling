@@ -94,6 +94,9 @@ public class ModExtrabiomesXL extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
+		registerPulverizeToDirt("saplings_1", 0, 7);
+		registerPulverizeToDirt("saplings_2", 0, 4);
+
 		registerRecycleToWoodDust(1, "log1:*", "log2:*", "mini_log_1",
 				"cornerlog_baldcypress", "cornerlog_rainboweucalyptus",
 				"cornerlog_oak", "cornerlog_fir", "cornerlog_redwood",
