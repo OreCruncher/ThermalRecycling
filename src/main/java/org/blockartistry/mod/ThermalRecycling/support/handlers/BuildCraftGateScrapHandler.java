@@ -33,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import buildcraft.api.gates.IGate;
 import buildcraft.api.gates.IGateExpansion;
 import buildcraft.transport.gates.GateDefinition.GateMaterial;
 import buildcraft.transport.gates.ItemGate;
@@ -111,13 +112,11 @@ public class BuildCraftGateScrapHandler extends GenericHandler {
 	@Override
 	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
 
-		if (stack.getItem() instanceof ItemGate) {
+		if (stack.getItem() instanceof IGate) {
 
 			List<ItemStack> output = new ArrayList<ItemStack>();
 
 			GateMaterial mat = ItemGate.getMaterial(stack);
-			Set<IGateExpansion> expansions = ItemGate
-					.getInstalledExpansions(stack);
 
 			switch (mat) {
 			case REDSTONE:
@@ -141,6 +140,9 @@ public class BuildCraftGateScrapHandler extends GenericHandler {
 			default:
 				;
 			}
+
+			Set<IGateExpansion> expansions = ItemGate
+					.getInstalledExpansions(stack);
 
 			for (IGateExpansion ex : expansions) {
 				String id = ex.getUniqueIdentifier();

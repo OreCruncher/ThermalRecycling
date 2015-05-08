@@ -143,22 +143,6 @@ public class WailaHandler implements IWailaDataProvider {
 	}
 
 	/**
-	 * This method allows you to change what ItemStack is used for the Waila
-	 * tooltip. This is used by Waila to make silverfish stone look like normal
-	 * stone in the Waila hud. This is usually used as a way to prevent people
-	 * from cheating. It can also be used to correct block data. Note that there
-	 * is a bug with this method in that it will only affect the head of the
-	 * tool tip. The body and tail method will ignore any changes made here.
-	 */
-	@Override
-	@Optional.Method(modid = "Waila")
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
-
-		return accessor.getStack();
-	}
-
-	/**
 	 * The Waila hud is devided up into three sections, this is to allow for
 	 * data to be aranged in a nice way. This method adds data to the header of
 	 * the waila tool tip. This is where the game displays the name of the
@@ -275,20 +259,17 @@ public class WailaHandler implements IWailaDataProvider {
 		return currenttip;
 	}
 
-	/**
-	 * This method is used to sync data between server and client easily. The
-	 * tag parameter is the nbt tag which is provided when accessor.getNBTData()
-	 * is called. Luckily for us, most of the time you can simply use
-	 * te.writeToNBT(tag) to take advantage of the built in nbt save function
-	 * for tile entities.
-	 */
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te,
-			NBTTagCompound tag, World world, int x, int y, int z) {
+	public ItemStack getWailaStack(IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		if (te != null)
-			te.writeToNBT(tag);
-
-		return tag;
+	@Override
+	public NBTTagCompound getNBTData(EntityPlayerMP arg0, TileEntity arg1,
+			NBTTagCompound arg2, World arg3, int arg4, int arg5, int arg6) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

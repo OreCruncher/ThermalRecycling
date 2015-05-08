@@ -66,11 +66,6 @@ public class RecyclingScrapBox extends ItemBase {
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack) {
-		return stack.getItemDamage() == SUPERIOR;
-	}
-
-	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world,
 			EntityPlayer player) {
 		if (!world.isRemote) {

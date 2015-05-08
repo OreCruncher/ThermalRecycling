@@ -43,7 +43,6 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLLoadEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -52,7 +51,7 @@ public final class ThermalRecycling {
 
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
-	public static final String VERSION = "0.3.3ALPHA";
+	public static final String VERSION = "0.3.4ALPHA";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
 			+ "after:BuildCraft|Core;"
 			+ "after:ThermalDynamics;"
@@ -112,13 +111,6 @@ public final class ThermalRecycling {
 	public void init(FMLInitializationEvent event) {
 
 		proxy.init(event);
-	}
-
-	@EventHandler
-	public void load(FMLLoadEvent event) {
-
-		proxy.load(event);
-
 	}
 
 	@EventHandler

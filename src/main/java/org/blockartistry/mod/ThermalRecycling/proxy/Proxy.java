@@ -44,7 +44,6 @@ import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLLoadEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -113,13 +112,7 @@ public class Proxy {
 					WailaHandler.class.getName() + ".callbackRegister");
 	}
 
-	public void load(FMLLoadEvent event) {
-
-	}
-
-	public void postInit(FMLPostInitializationEvent event) {
-
-		ModLog.info("CoFH API version: " + cofh.api.CoFHAPIProps.VERSION);
+ 	public void postInit(FMLPostInitializationEvent event) {
 
 		for (SupportedMod mod : SupportedMod.values()) {
 

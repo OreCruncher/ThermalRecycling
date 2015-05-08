@@ -29,7 +29,6 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidTank;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 
@@ -48,7 +47,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidHandler;
 
 public abstract class MachineBase extends BlockContainer {
 
