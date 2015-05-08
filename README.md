@@ -1,5 +1,5 @@
 ###Build Status
-[![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycling.svg?branch=master)](https://travis-ci.org/OreCruncher/ThermalRecycling)
+Master Branch: [![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycling.svg?branch=master)](https://travis-ci.org/OreCruncher/ThermalRecycling)
 
 
 ###Thermal Recycling
