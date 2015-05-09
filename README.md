@@ -4,21 +4,7 @@ Master Branch: [![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycl
 
 ###Thermal Recycling
 
-Thermal Recycling is an add-on for Thermal Expansion 4.x that adds a bunch of Redstone Furnace, Pulverizer, Sawmill, and Induction Smelter recipes that allow for "recycling" of various blocks and items.
-
-As of Thermal Recycling v0.2.2 recipes are provided for recycling items from the following mods:
-
-* Vanilla Minecraft
-* Thermal Foundation
-* Thermal Expansion
-* Thermal Dynamics
-* MineFactory Reloaded
-* Thaumcraft
-* BuildCraft
-* Railcraft
-* Forestry
-* Advanced Generators
-* EnderIO
+Thermal Recycling is an add-on for Thermal Expansion 4.x that adds three machines (Thermal Recycler, Scrap Assessor, and Composter), and a bunch of Redstone Furnace, Pulverizer, Sawmill, and Induction Smelter recipes that allow for "recycling" of various blocks and items.
 
 Further information can be found on the [Wiki](https://github.com/OreCruncher/ThermalRecycling/wiki).
 
