@@ -1,0 +1,45 @@
+# Simplified Chinese Translations
+itemGroup.ThermalRecycling=热力回收
+item.Debris.debris.name=残渣
+item.RecyclingScrap.poor.name=次等废料
+item.RecyclingScrap.standard.name=普通废料
+item.RecyclingScrap.superior.name=上等废料
+item.RecyclingScrapBox.poor.name=次等废料盒
+item.RecyclingScrapBox.poor.desc=闻起来和发霉的袜子一样
+item.RecyclingScrapBox.standard.name=普通废料盒
+item.RecyclingScrapBox.standard.desc=看起来也不是那么坏
+item.RecyclingScrapBox.superior.name=上等废料盒
+item.RecyclingScrapBox.superior.desc=绝对是一盒奇迹...
+item.ProcessingCore.decomposition.name=处理核心:拆解
+item.ProcessingCore.extraction.name=处理核心:提取
+
+tile.Test.item1.name=测试方块-请勿使用(WIP)
+tile.MachineThermalRecycler.name=热力回收机
+tile.MachineScrapAssessor.name=回收评估仪
+tile.MachineComposter.name=堆肥加工器
+tile.ScrapBlock.scrap.name=废料块
+
+# Machine Status
+msg.MachineStatus.idle=闲置
+msg.MachineStatus.active={0}%
+msg.MachineStatus.jammed=堵塞啦!
+msg.MachineStatus.needMoreResources=需要更多资源!
+msg.MachineStatus.outOfPower=能源已耗尽
+msg.MachineStatus.needMoreWater=需要加水
+msg.MachineStatus.cantSeeSky=需要看到天空
+
+# Achievements
+achievement.feelingScrappy=感觉像散架一样!
+achievement.feelingScrappy.desc=合成一台热力回收机
+achievement.doingMyPart=来制造我自己的零件
+achievement.doingMyPart.desc=使用一个废料盒
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§e废料价值:§7无
+msg.ItemScrapValue.poor=§e废料价值:§f次等
+msg.ItemScrapValue.standard=§e废料价值:§9普通
+msg.ItemScrapValue.superior=§e废料价值:§6上等
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§e堆肥原料格:§6棕
+msg.ItemCompostIngredientValue.green=§e堆肥原料格:§2绿
