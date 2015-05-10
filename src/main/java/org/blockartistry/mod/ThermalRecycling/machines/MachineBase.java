@@ -59,7 +59,7 @@ public abstract class MachineBase extends BlockContainer {
 	public static int META_ACTIVE_INDICATOR = 8;
 
 	@SideOnly(Side.CLIENT)
-	protected IIcon[] icons = new IIcon[5];
+	protected IIcon[] icons;
 
 	public final String[] names;
 	public final String myUnlocalizedName;
@@ -150,6 +150,7 @@ public abstract class MachineBase extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
+		icons = new IIcon[5];
 		icons[BLOCK_BOTTOM] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
 				+ ":Machine_bottom");
 		icons[BLOCK_TOP] = iconRegister.registerIcon(ThermalRecycling.MOD_ID

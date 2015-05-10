@@ -54,6 +54,8 @@ public abstract class MultiBlock extends Block {
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[][] icons;
+	
+	int sides;
 
 	public MultiBlock(String name, Material material, int sides, String... n) {
 		super(material);
@@ -62,7 +64,7 @@ public abstract class MultiBlock extends Block {
 
 		names = n;
 		myUnlocalizedName = name;
-		icons = new IIcon[names.length][sides];
+		this.sides = sides;
 
 		setBlockName(name);
 		setCreativeTab(CreativeTabManager.tab);
@@ -115,6 +117,7 @@ public abstract class MultiBlock extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
+		icons = new IIcon[names.length][sides];
 		for (int i = 0; i < names.length; i++) {
 			String[] textures = getBlockSideTextures(i);
 			for (int j = 0; j < textures.length; j++) {

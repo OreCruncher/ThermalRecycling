@@ -120,7 +120,7 @@ public class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		switch (action) {
 		case UPDATE_ACTION_ENERGY:
-			energy = param;
+			energy = param*10;
 			break;
 		case UPDATE_ACTION_PROGRESS:
 			progress = param;

@@ -77,7 +77,6 @@ public abstract class ItemBase extends Item {
 		Preconditions.checkArgument(n != null && n.length > 0);
 
 		names = n;
-		icons = new IIcon[names.length];
 
 		setHasSubtypes(names.length > 1);
 		setCreativeTab(CreativeTabManager.tab);
@@ -96,6 +95,7 @@ public abstract class ItemBase extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
+		icons = new IIcon[names.length];
 		for (int i = 0; i < icons.length; i++) {
 			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":"
 					+ myUnlocalizedName + i);

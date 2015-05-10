@@ -133,7 +133,7 @@ public class ThermalRecyclerContainer extends Container {
 						progress);
 			if (energy != currentEnergy)
 				icrafting.sendProgressBarUpdate(this,
-						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY, energy);
+						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY, energy/10);
 			if (energyRate != currentEnergyRate)
 				icrafting.sendProgressBarUpdate(this,
 						ThermalRecyclerTileEntity.UPDATE_ACTION_ENERGY_RATE,
