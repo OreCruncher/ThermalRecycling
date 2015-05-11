@@ -310,6 +310,8 @@ public final class ItemScrapData {
 		ItemScrapData data = itemData.get(stack);
 		if (data == null)
 			data = itemData.get(ItemStackHelper.asGeneric(stack));
+		if( data == null)
+			data = new ItemScrapData(stack);
 		return data;
 	}
 
