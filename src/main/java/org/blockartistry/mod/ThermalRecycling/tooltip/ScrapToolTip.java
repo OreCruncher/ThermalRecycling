@@ -40,6 +40,10 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 	public void apply(List<String> output, ItemStack stack) {
 
 		ItemScrapData data = ItemScrapData.get(stack);
+		
+		if(data == null)
+			return;
+		
 		String lore = "UNKNOWN";
 
 		switch (data.getScrapValue()) {

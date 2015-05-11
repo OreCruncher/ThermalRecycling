@@ -52,6 +52,8 @@ public class DebugToolTip extends Operation<List<String>, ItemStack> {
 		output.add(EnumChatFormatting.LIGHT_PURPLE + name);
 
 		ItemScrapData data = ItemScrapData.get(stack);
+		if(data == null)
+			return;
 
 		if (data.isGeneric())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Generic");
