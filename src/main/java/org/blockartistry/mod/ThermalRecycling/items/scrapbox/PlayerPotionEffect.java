@@ -70,11 +70,13 @@ public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 	@Override
 	public void apply(ItemStack scrap, World world, EntityPlayer player) {
 		Potion p = potion;
+		
+		// If no potion effect is defined, pick one randomly
 		if (p == null) {
-			for (; p == null;) {
-				int index = rnd.nextInt(Potion.potionTypes.length);
-				if (!(noBad && Potion.potionTypes[index].isBadEffect()))
-					p = Potion.potionTypes[index];
+			// Keep looking until we have a non-null entry that
+			// matches the noBad effect criteria.
+			for (; p == null || (noBad && p.isBadEffect());) {
+				p = Potion.potionTypes[rnd.nextInt(Potion.potionTypes.length)];
 			}
 		}
 		player.addPotionEffect(new PotionEffect(p.getId(), duration, amplifier));
