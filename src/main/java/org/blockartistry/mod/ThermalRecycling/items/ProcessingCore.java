@@ -26,7 +26,9 @@ package org.blockartistry.mod.ThermalRecycling.items;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -51,13 +53,27 @@ public class ProcessingCore extends ItemBase {
 	@Override
 	public void register() {
 		super.register();
+		
+		ShapedOreRecipe recipe = new ShapedOreRecipe(
+				new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION),
+				" h ", "mMm", "tst", 'h',
+				Blocks.hopper,
+				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				't', "gearTin",
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+		
+		GameRegistry.addRecipe(recipe);
+		
+		recipe = new ShapedOreRecipe(
+				new ItemStack(ItemManager.processingCore, 1, EXTRACTION),
+				"cfc", "gMg", "csc",
+				'c', ItemStackHelper.getItemStack("ThermalExpansion:material:3"),
+				'f', ItemStackHelper.getItemStack("ThermalExpansion:igniter"),
+				'g', "gearInvar",
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
 
-		GameRegistry.addShapedRecipe(new ItemStack(ItemManager.processingCore,
-				1, DECOMPOSITION), " h ", "mMm", "tst", 'h', new ItemStack(
-				Blocks.hopper), 'm', ItemStackHelper
-				.getItemStack("ThermalExpansion:meter"), 'M', ItemStackHelper
-				.getItemStack("ThermalExpansion:Frame"), 't', ItemStackHelper
-				.getItemStack("gearTin"), 's', ItemStackHelper
-				.getItemStack("ThermalExpansion:material"));
-	}
+		GameRegistry.addRecipe(recipe);
+}
 }
