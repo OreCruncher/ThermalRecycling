@@ -237,6 +237,27 @@ public class ThermalRecyclerRecipeBuilder {
 
 		return this;
 	}
+	
+	public ThermalRecyclerRecipeBuilder scrubOutput(String item) {
+		
+		ItemStack stack = ItemStackHelper.getItemStack(item);
+		
+		if(stack != null) {
+			List<ItemStack> newOutput = new ArrayList<ItemStack>();
+			for(ItemStack i: output) {
+				if(stack.isItemEqual(i)) {
+					i.stackSize--;
+					if(i.stackSize > 0)
+						newOutput.add(i);
+				} else {
+					newOutput.add(i);
+				}
+			}
+			
+			output = newOutput;
+		}
+		return this;
+	}
 
 	public ThermalRecyclerRecipeBuilder useRecipe(RecipeDecomposition recipe) {
 		if (recipe != null)

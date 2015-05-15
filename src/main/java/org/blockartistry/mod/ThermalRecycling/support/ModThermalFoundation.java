@@ -31,6 +31,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import cpw.mods.fml.common.Loader;
+
 public class ModThermalFoundation extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "material:2",
@@ -120,9 +122,13 @@ public class ModThermalFoundation extends ModPlugin {
 	}
 
 	protected void recycleGearTE(String type) {
-
+		
 		pulverizer.append(OreDictionary.getOres("gear" + type))
 				.output("dust" + type, 4).save();
+	}
+
+	void registerExtraTiCGearRecipe(String gear) {
+		recycler.useRecipe(gear).scrubOutput("ingotIron").save();
 	}
 
 	@Override
@@ -175,6 +181,26 @@ public class ModThermalFoundation extends ModPlugin {
 		recycleGearTE("Signalum");
 		recycleGearTE("Lumium");
 		recycleGearTE("Enderium");
-
+		
+		// Have to handle gears if ExtraTiC is installed.  It provides Tinker's
+		// recipes that do not require an iron ingot.  Register recipes that
+		// remove the iron ingot from the result.
+		if(Loader.isModLoaded("ExtraTiC")) {
+			registerExtraTiCGearRecipe("ThermalFoundation:material:12");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:13");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:128");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:129");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:130");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:131");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:132");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:133");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:134");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:135");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:136");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:137");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:138");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:139");
+			registerExtraTiCGearRecipe("ThermalFoundation:material:140");
+		}
 	}
 }

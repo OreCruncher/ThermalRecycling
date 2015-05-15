@@ -26,6 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
+import cpw.mods.fml.common.Loader;
+
 public class ModBuildCraftCore extends ModPlugin {
 
 	public ModBuildCraftCore() {
@@ -42,6 +44,13 @@ public class ModBuildCraftCore extends ModPlugin {
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
 				.save();
-
+		
+		if(Loader.isModLoaded("ExtraTiC")) {
+			// Gold gears can be made with 4 gold ingots using ExtraTiC
+			// So we remove the iron gear part of the decomp recipe to
+			// avoid infinite material if the player can somehow
+			// manage to get BC related Gold Gears.
+			recycler.useRecipe("BuildCraft|Core:goldGearItem").scrubOutput("gearIron").save();
+		}
 	}
 }

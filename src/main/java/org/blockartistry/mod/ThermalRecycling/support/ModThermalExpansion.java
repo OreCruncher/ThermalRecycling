@@ -35,7 +35,7 @@ public class ModThermalExpansion extends ModPlugin {
 	public ModThermalExpansion() {
 		super(SupportedMod.THERMAL_EXPANSION);
 	}
-
+	
 	@Override
 	public void apply() {
 
