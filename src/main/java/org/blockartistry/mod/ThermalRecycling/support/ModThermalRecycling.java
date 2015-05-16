@@ -29,8 +29,10 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
+import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import net.minecraft.item.Item;
@@ -38,6 +40,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ModThermalRecycling extends ModPlugin {
 
@@ -61,6 +64,13 @@ public class ModThermalRecycling extends ModPlugin {
 
 	@Override
 	public void apply() {
+		
+		// Register special scrap handlers
+		ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
+		// Need to be able to see any special frames in real time.
+		ScrapHandler.registerHandler(
+				new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
+				handler);
 
 		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemScrapData.setRecipeIgnored(ItemManager.debris, true);

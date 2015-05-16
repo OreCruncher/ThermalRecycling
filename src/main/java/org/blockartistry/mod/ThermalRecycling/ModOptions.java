@@ -38,8 +38,10 @@ public final class ModOptions {
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
+	protected static final String CATEGORY_MACHINES_ASSESSOR = "machines.assessor";
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
+	protected static final String CONFIG_ENABLE_ENHANCED_LORE = "Enhanced Lore";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -64,6 +66,7 @@ public final class ModOptions {
 	protected static boolean enableComposterFX = true;
 	protected static boolean enableTooltips = true;
 	protected static int scrapBoxBonus = 1;
+	protected static boolean enableAssessorEnhancedLore = true;
 
 	public static void load(Configuration config) {
 
@@ -129,6 +132,10 @@ public final class ModOptions {
 				CATEGORY_MACHINES_COMPOSTER, enableComposterFX,
 				"Control whether client displays visual effects");
 
+		enableAssessorEnhancedLore = config.getBoolean(CONFIG_ENABLE_ENHANCED_LORE,
+				CATEGORY_MACHINES_ASSESSOR, enableAssessorEnhancedLore,
+				"Control whether enhanced lore is provided in the Scrap Assessor View");
+
 		scrapBoxBonus = config
 				.getInt(CONFIG_SCRAPBOX_BONUS,
 						CATEGORY_MACHINES_RECYCLER,
@@ -189,5 +196,9 @@ public final class ModOptions {
 
 	public static int getScrapBoxBonus() {
 		return scrapBoxBonus;
+	}
+	
+	public static boolean getEnableAssessorEnhancedLore() {
+		return enableAssessorEnhancedLore;
 	}
 }

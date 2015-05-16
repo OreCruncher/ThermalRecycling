@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -38,6 +39,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStac
 import com.google.common.base.Preconditions;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 /**
  * Base class from which all scrap handlers are created. Handlers are used by
@@ -97,6 +99,42 @@ public abstract class ScrapHandler {
 	protected int getRecipeInputQuantity(ItemStack stack) {
 		return RecipeData.getMinimumQuantityToRecycle(stack);
 	}
+	
+	protected ItemStack decorateStack(ItemStack core, ItemStack stack) {
+
+		ArrayList<String> lore = new ArrayList<String>();
+		ItemStackWeightTable t = ScrappingTables.getTable(core, stack);
+
+		for (ItemStackItem w : t.getEntries()) {
+
+			StringBuilder builder = new StringBuilder();
+			ItemStack temp = w.getStack();
+			double percent = w.itemWeight * 100F / t.getTotalWeight();
+			builder.append(String.format("%5.1f%% ", percent));
+			
+			if(ScrappingTables.destroyIt(temp))
+				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.destroy"));
+			else if(ScrappingTables.keepIt(temp))
+				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.keep"));
+			else if(ScrappingTables.dustIt(temp))
+				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.dust"));
+			else if(temp.isItemEqual(ScrappingTables.debris))
+				builder.append(StatCollector.translateToLocal("item.Debris.debris.name"));
+			else if(temp.isItemEqual(ScrappingTables.poorScrap))
+				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.poor.name"));
+			else if(temp.isItemEqual(ScrappingTables.standardScrap))
+				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.standard.name"));
+			else if(temp.isItemEqual(ScrappingTables.superiorScrap))
+				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.superior.name"));
+			else
+				builder.append("UNKNOWN");
+			
+			lore.add(builder.toString());
+		}
+		
+		ItemStackHelper.setItemLore(stack, lore.toArray(new String[lore.size()]));
+		return stack;
+	}
 
 	public PreviewResult preview(ItemStack core, ItemStack stack) {
 
@@ -110,8 +148,12 @@ public abstract class ScrapHandler {
 
 			// If its a decomp core and the item has no recipe, treat as if it
 			// were being scrapped directly w/o a core it's the best way
-			// to get scrap yield.
-			if (result == null)
+			// to get scrap yield.  Otherwise decorate the output.
+			if (result != null && ModOptions.getEnableAssessorEnhancedLore()) {
+				for(ItemStack t: result)
+					decorateStack(core, t);
+			}
+			else
 				core = null;
 		}
 

@@ -736,7 +736,7 @@ public final class ItemStackHelper {
 		return inv;
 	}
 
-	public static void setItemLore(ItemStack stack, String lore) {
+	public static void setItemLore(ItemStack stack, String... lore) {
 
 		if (stack == null)
 			return;
@@ -746,7 +746,8 @@ public final class ItemStackHelper {
 			nbt = new NBTTagCompound();
 
 		NBTTagList l = new NBTTagList();
-		l.appendTag(new NBTTagString(lore));
+		for(String s: lore)
+			l.appendTag(new NBTTagString(s));
 		NBTTagCompound display = new NBTTagCompound();
 		display.setTag("Lore", l);
 

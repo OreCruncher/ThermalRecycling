@@ -29,6 +29,7 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
@@ -50,6 +51,14 @@ public class DebugToolTip extends Operation<List<String>, ItemStack> {
 			name += ":" + stack.getItemDamage();
 
 		output.add(EnumChatFormatting.LIGHT_PURPLE + name);
+		
+		int[] oreIds = OreDictionary.getOreIDs(stack);
+		if(oreIds != null)
+			for(int i = 0; i < oreIds.length; i++) {
+				String oreName = OreDictionary.getOreName(oreIds[i]);
+				if(oreName != null && !oreName.isEmpty())
+					output.add(EnumChatFormatting.WHITE + oreName);
+			}
 
 		ItemScrapData data = ItemScrapData.get(stack);
 		if(data == null)

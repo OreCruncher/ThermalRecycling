@@ -10,7 +10,10 @@ item.RecyclingScrapBox.standard.name=Box of Scrap
 item.RecyclingScrapBox.standard.desc=Doesn't look too bad
 item.RecyclingScrapBox.superior.name=Box of Superior Scrap
 item.RecyclingScrapBox.superior.desc=Surely a box of wonder...
-item.ProcessingCore.decomposition.name=Core: Decomposition
+item.ProcessingCore.decomposition.name=Core: Decomposition (Basic)
+item.ProcessingCore.decomposition_1.name=Core: Decomposition (Hardened)
+item.ProcessingCore.decomposition_2.name=§eCore: Decomposition (Reinforced)
+item.ProcessingCore.decomposition_3.name=§3Core: Decomposition (Resonant)
 item.ProcessingCore.extraction.name=Core: Extraction
 
 tile.Test.item1.name=Test Block (WIP)
@@ -18,6 +21,11 @@ tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Scrap Assessor
 tile.MachineComposter.name=Composter
 tile.ScrapBlock.scrap.name=Block of Scrap
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Destroy
+msg.ScrapPreview.keep=Keep
+msg.ScrapPreview.dust=Dust (if possible)
 
 # Machine Status
 msg.MachineStatus.idle=Idle
