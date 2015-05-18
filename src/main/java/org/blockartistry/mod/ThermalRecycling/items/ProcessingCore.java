@@ -25,15 +25,16 @@
 package org.blockartistry.mod.ThermalRecycling.items;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -46,6 +47,8 @@ public class ProcessingCore extends ItemBase {
 	public static final int LEVEL_HARDENED = 1;
 	public static final int LEVEL_REINFORCED = 2;
 	public static final int LEVEL_RESONANT = 3;
+	public static final int LEVEL_ETHEREAL = 4;
+	public static final int MAX_CORE_LEVEL = LEVEL_ETHEREAL;
 	
 	private static final String[] types = new String[] { "decomposition",
 			"extraction" };
@@ -74,7 +77,7 @@ public class ProcessingCore extends ItemBase {
 		String result = super.getUnlocalizedName(stack);
 		
 		if(stack.getItem() == ItemManager.processingCore) {
-			int level = ProcessingCorePolicy.getItemLevel(stack);
+			int level = ItemStackHelper.getItemLevel(stack);
 			if(level > 0)
 				result += "_" + level;
 		}
@@ -88,7 +91,7 @@ public class ProcessingCore extends ItemBase {
 		
 		// Basic
 		ItemStack decompCore = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
-		setCoreLevel(decompCore, 0);
+		setCoreLevel(decompCore, LEVEL_BASIC);
 		ShapedOreRecipe recipe = new ShapedOreRecipe(
 				decompCore,
 				" h ", "mMm", "tst", 'h',
@@ -102,7 +105,7 @@ public class ProcessingCore extends ItemBase {
 
 		// Hardened
 		ItemStack decompCore1 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
-		setCoreLevel(decompCore1, 1);
+		setCoreLevel(decompCore1, LEVEL_HARDENED);
 		recipe = new ShapedOreRecipe(
 				decompCore1,
 				" h ", "mMm", "tst", 'h',
@@ -114,7 +117,8 @@ public class ProcessingCore extends ItemBase {
 		
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new ShapedOreRecipe(
+		recipe = new UpgradeRecipe(
+				LEVEL_HARDENED,
 				decompCore1,
 				"igi", " c ", "i i",
 				'i', "ingotInvar",
@@ -125,7 +129,7 @@ public class ProcessingCore extends ItemBase {
 
 		// Reinforced
 		ItemStack decompCore2 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
-		setCoreLevel(decompCore2, 2);
+		setCoreLevel(decompCore2, LEVEL_REINFORCED);
 		recipe = new ShapedOreRecipe(
 				decompCore2,
 				" h ", "mMm", "tst", 'h',
@@ -137,7 +141,8 @@ public class ProcessingCore extends ItemBase {
 		
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new ShapedOreRecipe(
+		recipe = new UpgradeRecipe(
+				LEVEL_REINFORCED,
 				decompCore2,
 				"igi", " c ", "i i",
 				'i', "blockGlassHardened",
@@ -148,7 +153,7 @@ public class ProcessingCore extends ItemBase {
 
 		// Resonant
 		ItemStack decompCore3 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
-		setCoreLevel(decompCore3, 3);
+		setCoreLevel(decompCore3, LEVEL_RESONANT);
 		recipe = new ShapedOreRecipe(
 				decompCore3,
 				" h ", "mMm", "tst", 'h',
@@ -160,13 +165,28 @@ public class ProcessingCore extends ItemBase {
 		
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new ShapedOreRecipe(
+		recipe = new UpgradeRecipe(
+				LEVEL_RESONANT,
 				decompCore3,
 				"igi", " c ", "i i",
 				'i', "ingotSilver",
 				'g', "gearEnderium",
 				'c', decompCore2);
-		
+
+		GameRegistry.addRecipe(recipe);
+
+		// Ethereal - only as an upgraded - can't be directly crafted
+		ItemStack decompCore4 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		setCoreLevel(decompCore4, LEVEL_ETHEREAL);
+		ItemStackHelper.makeGlow(decompCore4);
+		recipe = new UpgradeRecipe(
+				LEVEL_ETHEREAL,
+				decompCore4,
+				"igi", " c ", "i i",
+				'i', "ingotPlatinum",
+				'g', Items.nether_star,
+				'c', decompCore3);
+
 		GameRegistry.addRecipe(recipe);
 
 		recipe = new ShapedOreRecipe(

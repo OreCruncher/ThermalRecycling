@@ -14,6 +14,7 @@ item.ProcessingCore.decomposition.name=Core: Decomposition (Basic)
 item.ProcessingCore.decomposition_1.name=Core: Decomposition (Hardened)
 item.ProcessingCore.decomposition_2.name=§eCore: Decomposition (Reinforced)
 item.ProcessingCore.decomposition_3.name=§3Core: Decomposition (Resonant)
+item.ProcessingCore.decomposition_4.name=§5Core: Decomposition (Ethereal)
 item.ProcessingCore.extraction.name=Core: Extraction
 
 tile.Test.item1.name=Test Block (WIP)

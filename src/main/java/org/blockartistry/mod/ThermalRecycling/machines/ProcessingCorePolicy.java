@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 
@@ -89,35 +88,5 @@ public final class ProcessingCorePolicy {
 	public static boolean isExtractionCore(ItemStack core) {
 		return isProcessingCore(core)
 				&& core.getItemDamage() == CORE_EXTRACTION;
-	}
-	
-	/**
-	 * Obtains the item level information stored in NBT.
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public static int getItemLevel(ItemStack item) {
-		
-		// For now only decomp cores have levels
-		if(!isDecompositionCore(item))
-			return 0;
-		
-		int level = 0;
-		if(item.hasTagCompound()) {
-			level = item.getTagCompound().getInteger("Level");
-		}
-		
-		if(level < 0) {
-			ModLog.warn("Processing core with invalid level set: %d", level);
-			level = 0;
-		}
-		
-		if(level > 3) {
-			ModLog.warn("Processing core with invalid level set: %d", level);
-			level = 3;
-		}
-		
-		return level;
 	}
 }

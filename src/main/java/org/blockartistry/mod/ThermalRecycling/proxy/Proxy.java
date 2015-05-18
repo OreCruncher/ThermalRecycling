@@ -29,6 +29,8 @@ import java.lang.ref.WeakReference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
@@ -40,6 +42,7 @@ import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -99,6 +102,8 @@ public class Proxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
+		
+		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe", UpgradeRecipe.class, Category.SHAPED, "");
 
 		new ItemManager();
 		new BlockManager();

@@ -32,6 +32,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 
 import cofh.lib.util.helpers.ItemHelper;
 
@@ -754,6 +756,46 @@ public final class ItemStackHelper {
 		nbt.setTag("display", display);
 		stack.setTagCompound(nbt);
 
+	}
+
+	/**
+	 * Obtains the item level information stored in NBT.
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public static int getItemLevel(ItemStack item) {
+		
+		int level = 0;
+		if(item.hasTagCompound()) {
+			level = item.getTagCompound().getInteger("Level");
+		}
+		
+		if(level < 0) {
+			ModLog.warn("Processing core with invalid level set: %d", level);
+			level = 0;
+		}
+		
+		if(level > ProcessingCore.MAX_CORE_LEVEL) {
+			ModLog.warn("Processing core with invalid level set: %d", level);
+			level = ProcessingCore.MAX_CORE_LEVEL;
+		}
+		
+		return level;
+	}
+
+	public static ItemStack setLevel(ItemStack stack, int level) {
+		NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		nbt.setInteger("Level", level);
+		stack.setTagCompound(nbt);
+		return stack;
+	}
+	
+	public static ItemStack makeGlow(ItemStack stack) {
+		NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		nbt.setTag("ench", new NBTTagList());
+		stack.setTagCompound(nbt);
+		return stack;
 	}
 
 	public static ItemStack asGeneric(ItemStack stack) {

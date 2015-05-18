@@ -70,19 +70,15 @@ public final class ScrappingTables {
 	static final TwoDimensionalArrayList<ItemStackWeightTable> dcompScrap = new TwoDimensionalArrayList<ItemStackWeightTable>();
 	static final TwoDimensionalArrayList<ItemStackWeightTable> extractDust = new TwoDimensionalArrayList<ItemStackWeightTable>();
 	
-	//static final ArrayList<ItemStackWeightTable> componentScrap = new ArrayList<ItemStackWeightTable>();
-	//static final ArrayList<ItemStackWeightTable> extractionDust = new ArrayList<ItemStackWeightTable>();
-
 	static {
+		
+		ItemStackWeightTable ethereal = new ItemStackWeightTable();
+		ethereal.add(ethereal.new ItemStackItem(keep,1));
+		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
+		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
+		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
+		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
 
-		// Each scrap quality has two tables in componentScrap. The first is for
-		// when
-		// an item is a component of a device that is being taken apart. The
-		// second
-		// table is when the item is being directly scrapped.
-
-		// The "NONE" scrap value. This is used when breaking a recipe down and
-		// this item is one of the components.
 		ItemStackWeightTable t = new ItemStackWeightTable();
 		t.add(t.new ItemStackItem(null, 21));
 		t.add(t.new ItemStackItem(debris, 7));
@@ -318,7 +314,7 @@ public final class ScrappingTables {
 		if(core == null)
 			return mustScrap.get(scrappingValue);
 
-		int coreLevel = ProcessingCorePolicy.getItemLevel(core);
+		int coreLevel = ItemStackHelper.getItemLevel(core);
 		TwoDimensionalArrayList<ItemStackWeightTable> tables = dcompScrap;
 		
 		if (ProcessingCorePolicy.isExtractionCore(core))
@@ -346,7 +342,7 @@ public final class ScrappingTables {
 	}
 	
 	private static final String[] UPGRADE_NAMES = new String[] {
-		"Basic", "Hardened", "Reinforced", "Resonant",
+		"Basic", "Hardened", "Reinforced", "Resonant", "Ethereal",
 	};
 	
 	private static void dumpTable(Writer writer, String title, List<ItemStackWeightTable> mustscrap2) throws Exception {
