@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public class ModIronChest extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "BlockIronChest:7" };
+	static final String[] recipeIgnoreList = new String[] { "BlockIronChest:*" };
 
 	static final String[] scrapValuesNone = new String[] { "BlockIronChest:7",
 			"diamondCrystalUpgrade", "diamondObsidianUpgrade" };
