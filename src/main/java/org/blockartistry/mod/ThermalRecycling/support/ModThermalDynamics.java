@@ -35,7 +35,9 @@ public class ModThermalDynamics extends ModPlugin {
 	@Override
 	public void apply() {
 
-		registerRecipesToIgnore("cover:*");
+		// Ignore covers and the impulse ducts.  The ducts have a bidirectional
+		// conversion recipe that can dupe hardened glass and lead.
+		registerRecipesToIgnore("cover:*", "ThermalDynamics_32:2", "ThermalDynamics_32:3");
 		registerScrapValues(ScrapValue.NONE, "cover:*");
 
 		// Servos, Filters
