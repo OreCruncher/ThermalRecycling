@@ -21,7 +21,7 @@ tile.ScrapBlock.scrap.name=废料块
 
 # Machine Status
 msg.MachineStatus.idle=闲置
-msg.MachineStatus.active={0}%
+msg.MachineStatus.active=%d%%
 msg.MachineStatus.jammed=堵塞啦!
 msg.MachineStatus.needMoreResources=需要更多资源!
 msg.MachineStatus.outOfPower=能源已耗尽

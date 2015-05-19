@@ -17,7 +17,7 @@ tile.MachineScrapAssessor.name=Assessor de Sucata
 
 # Machine Status
 msg.MachineStatus.idle=Inativo
-msg.MachineStatus.active={0}%
+msg.MachineStatus.active=%d%%
 msg.MachineStatus.jammed=Emperrado!
 msg.MachineStatus.needMoreResources=Necessita de mais recursos!
 msg.MachineStatus.outOfPower=Sem energia
