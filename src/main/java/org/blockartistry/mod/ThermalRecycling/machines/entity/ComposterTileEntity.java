@@ -37,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -83,15 +84,19 @@ public class ComposterTileEntity extends TileEntityBase implements
 	MachineStatus status = MachineStatus.IDLE;
 	int scanTickCount = 0;
 	int scanIndex = 0;
+	
+	// Non-persisted state
+	BiomeGenBase myBiome = null;
+	int precipitationHeight = 0;
 
 	static final int WATER_MAX_STORAGE = 4000;
 	static final int WATER_MAX_RECEIVE = WATER_MAX_STORAGE;
-	static final int COMPLETION_THRESHOLD = 100;
-	static final int PROGRESS_DAYLIGHT_TICK = 2;
-	static final int PROGRESS_NIGHTTIME_TICK = 1;
+	static final int COMPLETION_THRESHOLD = 1020;
+	static final int PROGRESS_DAYLIGHT_TICK = 30;
+	static final int PROGRESS_NIGHTTIME_TICK = 15;
 	static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 2;
 	static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
-	static final int RAIN_GATHER_TICK = 4;
+	static final int RAIN_GATHER_TICK = 3;
 
 	static final int PLOT_SCAN_TICK_INTERVAL = 2;
 	static final int PLOT_SIZE = 9;
@@ -274,6 +279,14 @@ public class ComposterTileEntity extends TileEntityBase implements
 	boolean isRaining() {
 		return worldObj.isRaining();
 	}
+	
+	boolean biomeHasRain() {
+		if(myBiome == null) {
+			myBiome = worldObj.getBiomeGenForCoords(xCoord, zCoord);
+			precipitationHeight = worldObj.getPrecipitationHeight(xCoord, yCoord);
+		}
+		return !(myBiome.getEnableSnow() || myBiome.getFloatRainfall() == 0);
+	}
 
 	int getEffectiveProgressThisTick() {
 		return isDaylight() ? PROGRESS_DAYLIGHT_TICK : PROGRESS_NIGHTTIME_TICK;
@@ -344,7 +357,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 				setMachineActive(false);
 			}
 
-			if (isRaining())
+			if (isRaining() && biomeHasRain())
 				fluidTank.fill(new FluidStack(FluidStackHelper.FLUID_WATER,
 						RAIN_GATHER_TICK), true);
 
