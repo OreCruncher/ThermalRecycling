@@ -48,6 +48,8 @@ public class ComposterContainer extends Container {
 	MachineStatus currentStatus = MachineStatus.IDLE;
 	int currentProgress;
 	int currentWater;
+	
+	int spamCycle;
 
 	public ComposterContainer(InventoryPlayer inv, IInventory tileEntity) {
 
@@ -94,6 +96,10 @@ public class ComposterContainer extends Container {
 	public void detectAndSendChanges() {
 
 		super.detectAndSendChanges();
+		
+		if((++spamCycle % 3) != 0) {
+			return;
+		}
 
 		MachineStatus status = entity.getStatus();
 		int progress = entity.getProgress();

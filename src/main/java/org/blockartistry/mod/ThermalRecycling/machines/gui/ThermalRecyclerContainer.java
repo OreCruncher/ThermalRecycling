@@ -52,6 +52,8 @@ public class ThermalRecyclerContainer extends Container {
 	int currentProgress;
 	int currentEnergy;
 	int currentEnergyRate;
+	
+	int spamCycle;
 
 	protected static boolean contains(int[] list, int value) {
 		for (int i : list)
@@ -67,6 +69,7 @@ public class ThermalRecyclerContainer extends Container {
 		currentProgress = 0;
 		currentEnergy = 0;
 		currentEnergyRate = 0;
+		spamCycle = 0;
 
 		entity = (ThermalRecyclerTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
@@ -117,6 +120,10 @@ public class ThermalRecyclerContainer extends Container {
 	public void detectAndSendChanges() {
 
 		super.detectAndSendChanges();
+		
+		if((++spamCycle % 3) != 0) {
+			return;
+		}
 
 		MachineStatus status = entity.getStatus();
 		int progress = entity.getProgress();
