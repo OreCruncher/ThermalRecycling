@@ -24,6 +24,11 @@
 
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
+import java.lang.reflect.Field;
+
+import org.blockartistry.mod.ThermalRecycling.ModLog;
+
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -36,6 +41,22 @@ import net.minecraft.world.World;
  */
 public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 
+	private static Field isBadEffect = null;
+	
+	static {
+		
+		try {
+			
+			isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K");
+			
+		} catch(Throwable t) {
+			
+			ModLog.warn("Unable to hook Potion.isBadEffect");
+			
+			;
+		}
+	}
+	
 	public static final int AMPLIFIER_LEVEL_1 = 0;
 	public static final int AMPLIFIER_LEVEL_2 = 1;
 	public static final int AMPLIFIER_LEVEL_3 = 2;
@@ -75,8 +96,12 @@ public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 		if (p == null) {
 			// Keep looking until we have a non-null entry that
 			// matches the noBad effect criteria.
-			for (; p == null || (noBad && p.isBadEffect());) {
-				p = Potion.potionTypes[rnd.nextInt(Potion.potionTypes.length)];
+			try {
+				for (; p == null || (noBad && isBadEffect.getBoolean(p));) {
+					p = Potion.potionTypes[rnd.nextInt(Potion.potionTypes.length)];
+				}
+			} catch (Throwable t) {
+				;
 			}
 		}
 		player.addPotionEffect(new PotionEffect(p.getId(), duration, amplifier));
