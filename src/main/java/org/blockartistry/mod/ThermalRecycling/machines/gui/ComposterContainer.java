@@ -170,12 +170,13 @@ public class ComposterContainer extends Container {
 				// Based on the type of ingredient determines which slot we
 				// try to move it into
 				boolean mergeResult = false;
-				if (data.getCompostIngredientValue() == CompostIngredient.BROWN)
+				if (data.getCompostIngredientValue() == CompostIngredient.BROWN) {
 					mergeResult = mergeItemStack(stackInSlot,
 							ComposterTileEntity.BROWN, 1, false);
-				else
+				} else {
 					mergeResult = mergeItemStack(stackInSlot,
-							ComposterTileEntity.GREEN1, 2, false);
+							ComposterTileEntity.GREEN1, 3, false);
+				}
 
 				if (!mergeResult)
 					return null;
