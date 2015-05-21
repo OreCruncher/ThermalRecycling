@@ -28,6 +28,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
@@ -46,7 +47,7 @@ public class ScrapAssessorGui extends GuiBase {
 
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
-		name = "Scrap Assessor";
+		name = StatCollector.translateToLocal("tile.MachineScrapAssessor.name");
 		tileEntity = (ScrapAssessorTileEntity) entity;
 	}
 

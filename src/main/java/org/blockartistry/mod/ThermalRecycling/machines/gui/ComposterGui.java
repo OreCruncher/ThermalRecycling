@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
@@ -22,7 +23,7 @@ public class ComposterGui extends GuiBase {
 
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
-		name = "Composter";
+		name = StatCollector.translateToLocal("tile.MachineComposter.name");
 		tileEntity = (ComposterTileEntity) entity;
 	}
 

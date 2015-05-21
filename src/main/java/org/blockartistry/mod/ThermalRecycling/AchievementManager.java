@@ -34,6 +34,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.AchievementPage;
 
 public final class AchievementManager extends AchievementPage {
@@ -70,7 +71,7 @@ public final class AchievementManager extends AchievementPage {
 	}
 
 	public AchievementManager() {
-		super("Thermal Recycling", lottoWinner, feelingScrappy, doingMyPart);
+		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, feelingScrappy, doingMyPart);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)

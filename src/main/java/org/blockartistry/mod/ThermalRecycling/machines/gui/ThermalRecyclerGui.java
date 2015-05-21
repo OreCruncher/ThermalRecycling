@@ -31,6 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import cofh.api.energy.IEnergyStorage;
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementEnergyStored;
@@ -76,7 +77,7 @@ public class ThermalRecyclerGui extends GuiBase {
 
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
-		name = "Thermal Recycler";
+		name = StatCollector.translateToLocal("tile.MachineThermalRecycler.name");
 		tileEntity = (ThermalRecyclerTileEntity) entity;
 	}
 

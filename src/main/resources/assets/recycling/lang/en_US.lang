@@ -1,5 +1,7 @@
 # US English Translations
 itemGroup.ThermalRecycling=Thermal Recycling
+itemGroup.TagLine=Reduce! Reuse! Recycle!
+
 item.Debris.debris.name=Recycling Debris
 item.RecyclingScrap.poor.name=Inferior Scrap
 item.RecyclingScrap.standard.name=Scrap

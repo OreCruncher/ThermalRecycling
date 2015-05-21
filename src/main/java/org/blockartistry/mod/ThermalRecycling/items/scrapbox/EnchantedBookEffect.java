@@ -34,6 +34,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
@@ -85,7 +86,7 @@ public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 			if (i != j)
 				Items.enchanted_book.addEnchantment(book, enchants[i]);
 
-		ItemStackHelper.setItemLore(book, "Reduce! Reuse! Recycle!");
+		ItemStackHelper.setItemLore(book, StatCollector.translateToLocal("itemGroup.TagLine"));
 		UseEffect.spawnIntoWorld(book, world, player);
 	}
 
