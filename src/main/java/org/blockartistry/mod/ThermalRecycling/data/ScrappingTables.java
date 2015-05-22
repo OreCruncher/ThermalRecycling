@@ -24,23 +24,31 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.util.JarConfiguration;
 import org.blockartistry.mod.ThermalRecycling.util.TwoDimensionalArrayList;
 
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.Property;
 
 public final class ScrappingTables {
+
+	private static final String[] UPGRADE_NAMES = new String[] { "Basic",
+			"Hardened", "Reinforced", "Resonant", "Ethereal", };
 
 	static final ItemStack keep = new ItemStack(Blocks.dirt);
 	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
@@ -48,7 +56,7 @@ public final class ScrappingTables {
 	public static boolean destroyIt(ItemStack stack) {
 		return stack == null;
 	}
-	
+
 	public static boolean keepIt(ItemStack stack) {
 		return stack != null && stack.isItemEqual(ScrappingTables.keep);
 	}
@@ -65,241 +73,110 @@ public final class ScrappingTables {
 	static final ItemStack superiorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR);
 
-
 	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
 	static final TwoDimensionalArrayList<ItemStackWeightTable> dcompScrap = new TwoDimensionalArrayList<ItemStackWeightTable>();
 	static final TwoDimensionalArrayList<ItemStackWeightTable> extractDust = new TwoDimensionalArrayList<ItemStackWeightTable>();
+
+	static ItemStackItem getItemStackItem(ItemStackWeightTable table, Entry<String, Property> e) {
+		ItemStackItem item = null;
+		int weight = e.getValue().getInt();
+		String key = e.getKey();
+		
+		if("destroy".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(null, weight);
+		else if("debris".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(debris, weight);
+		else if("keep".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(keep, weight);
+		else if("dust".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(dust, weight);
+		else if("poorScrap".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(poorScrap, weight);
+		else if("standardScrap".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(standardScrap, weight);
+		else if("superiorScrap".equalsIgnoreCase(key))
+			item = table.new ItemStackItem(superiorScrap, weight);
+		else {
+			ItemStack stack = ItemStackHelper.getItemStack(key);
+			if(stack != null)
+				item = table.new ItemStackItem(stack, weight);
+		}
+
+		return item;
+	}
 	
 	static {
-		
-		ItemStackWeightTable ethereal = new ItemStackWeightTable();
-		ethereal.add(ethereal.new ItemStackItem(keep,1));
-		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
-		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
-		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
-		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_ETHEREAL, ethereal);
 
-		ItemStackWeightTable t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 21));
-		t.add(t.new ItemStackItem(debris, 7));
-		t.add(t.new ItemStackItem(keep, 1));
-		t.add(t.new ItemStackItem(dust, 2));
-		t.add(t.new ItemStackItem(poorScrap, 1));
-		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_BASIC, t);
+		InputStream in = ScrappingTables.class
+				.getResourceAsStream("/assets/recycling/data/scrapdata.cfg");
+		try {
+			JarConfiguration config = new JarConfiguration(in);
 
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 11));
-		t.add(t.new ItemStackItem(debris, 4));
-		t.add(t.new ItemStackItem(keep, 1));
-		t.add(t.new ItemStackItem(dust, 2));
-		t.add(t.new ItemStackItem(poorScrap, 1));
-		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_HARDENED, t);
+			for (ScrapValue sv : ScrapValue.values())
+				for (int i = 0; i < UPGRADE_NAMES.length; i++) {
+					
+					String category = "dcomp_" + sv.name() + "_" + UPGRADE_NAMES[i];
+					ItemStackWeightTable table = new ItemStackWeightTable();
+					
+					ConfigCategory cc = config.getCategory(category);
+					if(cc != null) {
+						
+						for(Entry<String, Property> e: cc.getValues().entrySet()) {
+							ItemStackItem item = getItemStackItem(table, e);
+							if(item != null)
+								table.add(item);
+						}
+					}
+					
+					dcompScrap.setElement(sv.ordinal(), i, table);
+				}
 
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 6));
-		t.add(t.new ItemStackItem(debris, 2));
-		t.add(t.new ItemStackItem(keep, 2));
-		t.add(t.new ItemStackItem(dust, 1));
-		t.add(t.new ItemStackItem(poorScrap, 1));
-		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_REINFORCED, t);
+			for (ScrapValue sv : ScrapValue.values())
+				for (int i = 0; i < 1; i++) {
+					
+					String category = "extract_" + sv.name() + "_" + UPGRADE_NAMES[i];
+					ItemStackWeightTable table = new ItemStackWeightTable();
+					
+					ConfigCategory cc = config.getCategory(category);
+					if(cc != null) {
+						
+						for(Entry<String, Property> e: cc.getValues().entrySet()) {
+							ItemStackItem item = getItemStackItem(table, e);
+							if(item != null)
+								table.add(item);
+						}
+					}
+					
+					extractDust.setElement(sv.ordinal(), i, table);
+				}
 
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(keep, 25));
-		t.add(t.new ItemStackItem(dust, 5));
-		t.add(t.new ItemStackItem(poorScrap, 10));
-		dcompScrap.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_RESONANT, t);
-
-		// The "NONE" must scrap table. No scrap to be had.
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 80));
-		t.add(t.new ItemStackItem(debris, 20));
-		mustScrap.add(t);
-
-		// The "POOR" scrap table.
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 47));
-		t.add(t.new ItemStackItem(debris, 46));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 12));
-		t.add(t.new ItemStackItem(standardScrap, 4));
-		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 24));
-		t.add(t.new ItemStackItem(debris, 23));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 12));
-		t.add(t.new ItemStackItem(standardScrap, 4));
-		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_HARDENED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 12));
-		t.add(t.new ItemStackItem(debris, 12));
-		t.add(t.new ItemStackItem(keep, 93));
-		t.add(t.new ItemStackItem(dust, 31));
-		t.add(t.new ItemStackItem(poorScrap, 12));
-		t.add(t.new ItemStackItem(standardScrap, 4));
-		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_REINFORCED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(keep, 108));
-		t.add(t.new ItemStackItem(dust, 16));
-		t.add(t.new ItemStackItem(poorScrap, 12));
-		t.add(t.new ItemStackItem(standardScrap, 4));
-		dcompScrap.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_RESONANT, t);
-
-		// The "POOR" scrap MUST table.
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 78));
-		t.add(t.new ItemStackItem(debris, 77));
-		t.add(t.new ItemStackItem(poorScrap, 32));
-		t.add(t.new ItemStackItem(standardScrap, 24));
-		t.add(t.new ItemStackItem(superiorScrap, 20));
-		mustScrap.add(t);
-
-		// The "STANDARD" scrap table
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 34));
-		t.add(t.new ItemStackItem(debris, 34));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 8));
-		t.add(t.new ItemStackItem(standardScrap, 24));
-		t.add(t.new ItemStackItem(superiorScrap, 2));
-		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 17));
-		t.add(t.new ItemStackItem(debris, 17));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 8));
-		t.add(t.new ItemStackItem(standardScrap, 24));
-		t.add(t.new ItemStackItem(superiorScrap, 2));
-		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_HARDENED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 9));
-		t.add(t.new ItemStackItem(debris, 9));
-		t.add(t.new ItemStackItem(keep, 93));
-		t.add(t.new ItemStackItem(dust, 31));
-		t.add(t.new ItemStackItem(poorScrap, 8));
-		t.add(t.new ItemStackItem(standardScrap, 24));
-		t.add(t.new ItemStackItem(superiorScrap, 2));
-		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_REINFORCED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(keep, 108));
-		t.add(t.new ItemStackItem(dust, 16));
-		t.add(t.new ItemStackItem(poorScrap, 8));
-		t.add(t.new ItemStackItem(standardScrap, 24));
-		t.add(t.new ItemStackItem(superiorScrap, 2));
-		dcompScrap.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_RESONANT, t);
-
-		// The "STANDARD" scrap MUST table
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 65));
-		t.add(t.new ItemStackItem(debris, 65));
-		t.add(t.new ItemStackItem(poorScrap, 28));
-		t.add(t.new ItemStackItem(standardScrap, 48));
-		t.add(t.new ItemStackItem(superiorScrap, 22));
-		mustScrap.add(t);
-
-		// The "SUPERIOR" scrap table
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 17));
-		t.add(t.new ItemStackItem(debris, 16));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 4));
-		t.add(t.new ItemStackItem(standardScrap, 16));
-		t.add(t.new ItemStackItem(superiorScrap, 48));
-		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 9));
-		t.add(t.new ItemStackItem(debris, 8));
-		t.add(t.new ItemStackItem(keep, 62));
-		t.add(t.new ItemStackItem(dust, 62));
-		t.add(t.new ItemStackItem(poorScrap, 4));
-		t.add(t.new ItemStackItem(standardScrap, 16));
-		t.add(t.new ItemStackItem(superiorScrap, 48));
-		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_HARDENED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 5));
-		t.add(t.new ItemStackItem(debris, 4));
-		t.add(t.new ItemStackItem(keep, 93));
-		t.add(t.new ItemStackItem(dust, 31));
-		t.add(t.new ItemStackItem(poorScrap, 4));
-		t.add(t.new ItemStackItem(standardScrap, 16));
-		t.add(t.new ItemStackItem(superiorScrap, 48));
-		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_REINFORCED, t);
-
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(keep, 108));
-		t.add(t.new ItemStackItem(dust, 16));
-		t.add(t.new ItemStackItem(poorScrap, 4));
-		t.add(t.new ItemStackItem(standardScrap, 16));
-		t.add(t.new ItemStackItem(superiorScrap, 48));
-		dcompScrap.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_RESONANT, t);
-
-		// The "SUPERIOR" scrap MUST table
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 48));
-		t.add(t.new ItemStackItem(debris, 47));
-		t.add(t.new ItemStackItem(poorScrap, 24));
-		t.add(t.new ItemStackItem(standardScrap, 36));
-		t.add(t.new ItemStackItem(superiorScrap, 68));
-		mustScrap.add(t);
-
-		// Extraction tables - first table is a dummy because
-		// the logic below assumes there is an entry for NONE
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 1));
-		extractDust.setElement(ScrapValue.NONE.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		// POOR
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 120));
-		t.add(t.new ItemStackItem(standardScrap, 60));
-		t.add(t.new ItemStackItem(ItemStackHelper.boneMeal, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCoal, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCharcoal, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.sulfer, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustNickel, 20));
-		extractDust.setElement(ScrapValue.POOR.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		// STANDARD
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 78));
-		t.add(t.new ItemStackItem(superiorScrap, 52));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCoal, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.niter, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustIron, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustTin, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustCopper, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustLead, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 10));
-		extractDust.setElement(ScrapValue.STANDARD.ordinal(), ProcessingCore.LEVEL_BASIC, t);
-
-		// SUPERIOR
-		t = new ItemStackWeightTable();
-		t.add(t.new ItemStackItem(null, 73));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSilver, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustGold, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustPlatinum, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustElectrum, 20));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustSignalum, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustLumium, 10));
-		t.add(t.new ItemStackItem(ItemStackHelper.dustEnderium, 10));
-		extractDust.setElement(ScrapValue.SUPERIOR.ordinal(), ProcessingCore.LEVEL_BASIC, t);
+			for(ScrapValue sv: ScrapValue.values()) {
+				String category = sv.name() + "_MustScrap";
+				ItemStackWeightTable table = new ItemStackWeightTable();
+				
+				ConfigCategory cc = config.getCategory(category);
+				if(cc != null) {
+					
+					for(Entry<String, Property> e: cc.getValues().entrySet()) {
+						ItemStackItem item = getItemStackItem(table, e);
+						if(item != null)
+							table.add(item);
+					}
+				}
+				
+				mustScrap.add(table);
+			}
+			
+		} catch (Throwable t) {
+			;
+		} finally {
+			if(in != null)
+				try {
+					in.close();
+				} catch (Throwable t) {
+					;
+				}
+		}
 	}
 
 	public static ItemStackWeightTable getTable(ItemStack core, ItemStack stack) {
@@ -308,15 +185,15 @@ public final class ScrappingTables {
 
 		// Safety check - if there is a core item past in, but its not a
 		// core, assume no core.
-		if(core != null && core.getItem() != ItemManager.processingCore)
+		if (core != null && core.getItem() != ItemManager.processingCore)
 			core = null;
-		
-		if(core == null)
+
+		if (core == null)
 			return mustScrap.get(scrappingValue);
 
 		int coreLevel = ItemStackHelper.getItemLevel(core);
 		TwoDimensionalArrayList<ItemStackWeightTable> tables = dcompScrap;
-		
+
 		if (ProcessingCorePolicy.isExtractionCore(core))
 			tables = extractDust;
 
@@ -340,31 +217,31 @@ public final class ScrappingTables {
 			ItemStack stack) {
 		return ScrapHandler.getHandler(stack).preview(core, stack);
 	}
-	
-	private static final String[] UPGRADE_NAMES = new String[] {
-		"Basic", "Hardened", "Reinforced", "Resonant", "Ethereal",
-	};
-	
-	private static void dumpTable(Writer writer, String title, List<ItemStackWeightTable> mustscrap2) throws Exception {
+
+	private static void dumpTable(Writer writer, String title,
+			List<ItemStackWeightTable> mustscrap2) throws Exception {
 		writer.write(String.format("Scrap Value [%s]:\n", title));
-		for(int i = 0; i < mustscrap2.size(); i++) {
+		for (int i = 0; i < mustscrap2.size(); i++) {
 			ItemStackWeightTable t = mustscrap2.get(i);
-			if(t != null)
+			if (t != null)
 				t.diagnostic(UPGRADE_NAMES[i], writer);
 		}
 	}
-	
-	private static void dumpTable(Writer writer, String title, TwoDimensionalArrayList<ItemStackWeightTable> table) throws Exception {
-		
+
+	private static void dumpTable(Writer writer, String title,
+			TwoDimensionalArrayList<ItemStackWeightTable> table)
+			throws Exception {
+
 		writer.write(String.format("Table [%s]\n", title));
-		for(ScrapValue sv: ScrapValue.values()) {
-			ArrayList<ItemStackWeightTable> a = table.getElementSegment(sv.ordinal());
-			if(a != null) {
+		for (ScrapValue sv : ScrapValue.values()) {
+			ArrayList<ItemStackWeightTable> a = table.getElementSegment(sv
+					.ordinal());
+			if (a != null) {
 				dumpTable(writer, sv.name(), a);
 			}
 		}
 	}
-	
+
 	public static void writeDiagnostic(Writer writer) throws Exception {
 
 		writer.write("\n================\nScrap Tables\n================\n");
