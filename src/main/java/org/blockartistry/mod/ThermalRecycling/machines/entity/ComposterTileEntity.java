@@ -45,7 +45,6 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
@@ -54,6 +53,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
+import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
@@ -410,9 +410,7 @@ public class ComposterTileEntity extends TileEntityBase implements
 
 			if (bonemealTarget(target)) {
 
-				EntityPlayer recycling = ThermalRecycling
-						.proxy()
-						.getThermalRecyclingPlayer((WorldServer) worldObj,
+				EntityPlayer recycling = FakePlayerHelper.getFakePlayer((WorldServer) worldObj,
 								blockX, yCoord, blockZ).get();
 				boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX,
 						yCoord, blockZ, recycling);
