@@ -36,6 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.item.ItemStack;
@@ -103,13 +104,14 @@ public abstract class ScrapHandler {
 	protected ItemStack decorateStack(ItemStack core, ItemStack stack) {
 
 		ArrayList<String> lore = new ArrayList<String>();
-		ItemStackWeightTable t = ScrappingTables.getTable(core, stack);
+		Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
 
-		for (ItemStackItem w : t.getEntries()) {
+		int totalWeight = t.get().getTotalWeight();
+		for (ItemStackItem w : t.get().getEntries()) {
 
 			StringBuilder builder = new StringBuilder();
 			ItemStack temp = w.getStack();
-			double percent = w.itemWeight * 100F / t.getTotalWeight();
+			double percent = w.itemWeight * 100F / totalWeight;
 			builder.append(String.format("%5.1f%% ", percent));
 			
 			if(ScrappingTables.destroyIt(temp))
@@ -159,16 +161,16 @@ public abstract class ScrapHandler {
 
 		if (result == null) {
 			result = new ArrayList<ItemStack>();
-			ItemStackWeightTable t = ScrappingTables.getTable(core, stack);
-
-			for (ItemStackItem w : t.getEntries()) {
+			Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+			int totalWeight = t.get().getTotalWeight();
+			for (ItemStackItem w : t.get().getEntries()) {
 
 				ItemStack temp = w.getStack();
 				if (temp != null
 						&& !(ScrappingTables.keepIt(temp) || ScrappingTables
 								.dustIt(temp))) {
 
-					double percent = w.itemWeight * 100F / t.getTotalWeight();
+					double percent = w.itemWeight * 100F / totalWeight;
 					ItemStackHelper.setItemLore(temp,
 							String.format("%-1.2f%% chance", percent));
 					result.add(temp);

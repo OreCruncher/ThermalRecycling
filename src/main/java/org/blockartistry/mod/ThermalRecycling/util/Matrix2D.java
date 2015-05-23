@@ -23,46 +23,42 @@
 
 package org.blockartistry.mod.ThermalRecycling.util;
 
-import java.util.ArrayList;
+import com.google.common.base.Optional;
 
-@SuppressWarnings("serial")
-public class TwoDimensionalArrayList<T> extends ArrayList<ArrayList<T>> {
-	
-	public void setElement(int index1, int index2, T element) {
-		while (index1 >= this.size()) {
-			this.add(new ArrayList<T>());
-		}
+/**
+ * Quick/easy 2D matrix implementation.  Backed by an array because
+ * ArrayList<> doesn't behave in a sparse way.
+ */
+public class Matrix2D<T> {
 
-		ArrayList<T> inner = this.get(index1);
-		while (index2 >= inner.size()) {
-			inner.add(null);
-		}
-
-		inner.set(index2, element);
+	protected final int rows;
+	protected final int cols;
+	protected final Object[] cells; 
+	
+	public Matrix2D(int rows, int cols) {
+		this.rows = rows;
+		this.cols = cols;
+		this.cells = new Object[rows * cols];
 	}
 	
-	public T get(int index1, int index2) {
-		return this.get(index1).get(index2);
+	public boolean isPresent(int row, int col) {
+		return cells[row * cols + col] != null;
 	}
 	
-	public void setElementSegment(int index, ArrayList<T> newSegment) {
-		while (index >= this.size()) {
-			this.add(new ArrayList<T>());
-		}
-		this.set(index, newSegment);
+	@SuppressWarnings("unchecked")
+	public Optional<T> get(final int row, final int col) {
+		return Optional.of((T)cells[row * cols + col]);
 	}
 	
-	public ArrayList<T> getElementSegment(int index) {
-		while (index >= this.size()) {
-			this.add(new ArrayList<T>());
-		}
-		return this.get(index);
+	public void set(final int row, final int col, final T obj) {
+		cells[row * cols + col] = obj;
 	}
 	
-	public void appendElement(int index, T element) {
-		while (index >= this.size()) {
-			this.add(new ArrayList<T>());
-		}
-		this.get(index).add(element);
+	public int getRowCount() {
+		return rows;
+	}
+	
+	public int getColCount() {
+		return cols;
 	}
 }

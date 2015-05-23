@@ -37,6 +37,8 @@ import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 
+import com.google.common.base.Optional;
+
 public class GenericHandler extends ScrapHandler {
 
 	@Override
@@ -71,11 +73,10 @@ public class GenericHandler extends ScrapHandler {
 
 		for (ItemStack item : processingList) {
 
-			ItemStackWeightTable t = ScrappingTables.getTable(core, item);
-
+			Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, item);
 			for (int count = 0; count < item.stackSize; count++) {
 
-				ItemStack cupieDoll = t.nextStack();
+				ItemStack cupieDoll = t.get().nextStack();
 
 				if (cupieDoll != null) {
 					ItemStack temp = item.copy();
