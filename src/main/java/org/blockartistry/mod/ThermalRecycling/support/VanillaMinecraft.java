@@ -138,17 +138,13 @@ public class VanillaMinecraft extends ModPlugin {
 			"slime_ball", "quartz_block:*"
 
 	};
-	
-	static final String[] brownCompost = new String[] {
-		"sapling:*", "leaves:*", "leaves2:*", "deadbush", "vine",
-		"wheat",
-	};
-	
-	static final String[] greenCompost = new String[] {
-		"apple", "potato", "carrot", "yellow_flower:*", "red_flower:*",
-		"tallgrass:*", "waterlily", "double_plant:*", "bread",
-	};
-	
+
+	static final String[] brownCompost = new String[] { "sapling:*",
+			"leaves:*", "leaves2:*", "deadbush", "vine", "wheat", };
+
+	static final String[] greenCompost = new String[] { "apple", "potato",
+			"carrot", "yellow_flower:*", "red_flower:*", "tallgrass:*",
+			"waterlily", "double_plant:*", "bread", };
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -267,11 +263,13 @@ public class VanillaMinecraft extends ModPlugin {
 		pulverizer.append(Items.bucket, Items.milk_bucket, Items.water_bucket)
 				.output("dustIron", 3).save();
 
-		pulverizer.append(Items.golden_apple, Items.golden_carrot,
-				Items.speckled_melon).output("nuggetGold", 8).save();
+		pulverizer.append(Items.golden_carrot, Items.speckled_melon)
+				.output("nuggetGold", 8).save();
 
-		pulverizer.setEnergy(150).append(Blocks.iron_bars).output("nuggetIron", 3)
-				.save();
+		pulverizer.append(Items.golden_apple).output("dustGold", 8).save();
+
+		pulverizer.setEnergy(150).append(Blocks.iron_bars)
+				.output("nuggetIron", 3).save();
 
 		pulverizer.append(Items.clock).output("dustGold", 4).save();
 
@@ -292,8 +290,8 @@ public class VanillaMinecraft extends ModPlugin {
 		pulverizer.append(Items.iron_leggings).output("dustIron", 7).save();
 		pulverizer.append(Items.iron_boots).output("dustIron", 4).save();
 
-		pulverizer.append(Items.iron_sword, Items.iron_hoe).output("dustIron", 2)
-				.save();
+		pulverizer.append(Items.iron_sword, Items.iron_hoe)
+				.output("dustIron", 2).save();
 		pulverizer.append(Items.iron_axe, Items.iron_pickaxe)
 				.output("dustIron", 3).save();
 		pulverizer.append(Items.iron_shovel).output("dustIron").save();

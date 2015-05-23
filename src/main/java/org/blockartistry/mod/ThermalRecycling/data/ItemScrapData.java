@@ -39,6 +39,7 @@ import cofh.lib.util.helpers.ItemHelper;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -155,7 +156,7 @@ public final class ItemScrapData {
 		this.compostValue = compost;
 		this.ignoreRecipe = ignoreRecipe;
 		this.scrubFromOutput = scrubFromOutput;
-		this.isFood = stack.getItem() instanceof ItemFood;
+		this.isFood = stack.getItem() instanceof ItemFood && !(stack.getItem() == Items.golden_apple);
 	}
 
 	public ItemScrapData setValue(ScrapValue value) {
