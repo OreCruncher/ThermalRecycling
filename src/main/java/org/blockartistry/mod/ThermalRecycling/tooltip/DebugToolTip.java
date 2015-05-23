@@ -32,12 +32,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
-import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
+import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public class DebugToolTip extends Operation<List<String>, ItemStack> {
+public class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
 
-	@Override
-	public void apply(List<String> output, ItemStack stack) {
+	public Void apply(List<String> output, ItemStack stack) {
 
 		output.add(EnumChatFormatting.GREEN + "DEBUG:");
 
@@ -62,7 +61,7 @@ public class DebugToolTip extends Operation<List<String>, ItemStack> {
 
 		ItemScrapData data = ItemScrapData.get(stack);
 		if(data == null)
-			return;
+			return null;
 
 		if (data.isGeneric())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Generic");
@@ -74,5 +73,7 @@ public class DebugToolTip extends Operation<List<String>, ItemStack> {
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Recipe Ignored");
 		if (stack.hasTagCompound())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Compound Data");
+		
+		return null;
 	}
 }

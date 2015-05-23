@@ -32,17 +32,17 @@ import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
+import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
+public final class ScrapToolTip implements MultiFunction<List<String>, ItemStack, Void> {
 
 	@Override
-	public void apply(List<String> output, ItemStack stack) {
+	public Void apply(List<String> output, ItemStack stack) {
 
 		ItemScrapData data = ItemScrapData.get(stack);
 		
 		if(data == null)
-			return;
+			return null;
 		
 		String lore = "UNKNOWN";
 
@@ -86,5 +86,7 @@ public final class ScrapToolTip extends Operation<List<String>, ItemStack> {
 
 		if(lore != null)
 			output.add(lore);
+		
+		return null;
 	}
 }

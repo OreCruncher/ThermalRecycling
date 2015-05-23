@@ -1062,7 +1062,7 @@ public class JarConfiguration
      * GuiConfig screen will be provided), {@code GuiPropertyList} (the parent GuiPropertyList will be provided), {@code IConfigElement}
      * (the IConfigElement for this Property will be provided).
      */
-    public JarConfiguration setCategoryConfigEntryClass(String category, Class<? extends IConfigEntry> clazz)
+    public JarConfiguration setCategoryConfigEntryClass(String category, @SuppressWarnings("rawtypes") Class<? extends IConfigEntry> clazz)
     {
         
         if (!caseSensitiveCustomCategories)
@@ -1109,31 +1109,13 @@ public class JarConfiguration
         getCategory(category).setPropertyOrder(propOrder);
         return this;
     }
-    
-    private void setChild(String name, JarConfiguration child)
-    {
-        if (!children.containsKey(name))
-        {
-            children.put(name, child);
-            changed = true;
-        }
-        else
-        {
-            JarConfiguration old = children.get(name);
-            child.categories = old.categories;
-            child.fileName = old.fileName;
-            old.changed = true;
-        }
-    }
 
     public static class UnicodeInputStreamReader extends Reader
     {
         private final InputStreamReader input;
-        private final String defaultEnc;
 
         public UnicodeInputStreamReader(InputStream source, String encoding) throws IOException
         {
-            defaultEnc = encoding;
             String enc = encoding;
             byte[] data = new byte[4];
 

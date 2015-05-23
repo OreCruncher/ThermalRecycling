@@ -23,21 +23,12 @@
 
 package org.blockartistry.mod.ThermalRecycling.util.function;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
-public abstract class Operation<O, E> {
+public interface MultiFunction<F1, F2, T> {
 
-	public abstract void apply(O output, E elem);
+	@Nullable T apply(@Nullable F1 in1, @Nullable F2 in2);
 
-	public static <O, E> void apply(List<? extends Operation<O, E>> list,
-			O output, E subject) {
-		for (Operation<O, E> elem : list)
-			elem.apply(output, subject);
-	}
+	boolean equals(@Nullable Object object);
 
-	public static <O, E> void apply(List<? extends E> subjects, O output,
-			Operation<O, E> op) {
-		for (E elem : subjects)
-			op.apply(output, elem);
-	}
 }

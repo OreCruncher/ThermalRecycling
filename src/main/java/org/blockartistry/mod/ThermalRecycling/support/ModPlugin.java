@@ -42,6 +42,8 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerReci
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -90,70 +92,81 @@ public abstract class ModPlugin {
 		return result;
 	}
 
-	void forEachSubject(List<String> subjects, Apply<ItemStack> op) {
-		for (String s : subjects) {
-			String name = makeName(s);
-			ItemStack stack = ItemStackHelper.getItemStack(name);
-			if (stack != null)
-				op.apply(stack);
-			else
-				ModLog.warn("[%s] unknown item '%s'", mod.getName(), name);
-		}
+	void forEachSubject(final List<String> subjects, final Predicate<ItemStack> op) {
+		
+		Apply.forEach(subjects, new Predicate<String>() {
+			
+			public boolean apply(String s) {
+				String name = makeName(s);
+				ItemStack stack = ItemStackHelper.getItemStack(name);
+				if (stack != null)
+					op.apply(stack);
+				else
+					ModLog.warn("[%s] unknown item '%s'", mod.getName(), name);
+				return true;
+			}
+			
+		});
 	}
 
 	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
 	// THE CURRENT MOD NAME! IF IT NEEDS TO BE ESCAPED PUT A
 	// ^ CHARACTER AT THE FRONT!
 	protected void registerRecipesToIgnore(String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setRecipeIgnored(elem, true);
+				return true;
 			}
 
 		});
 	}
 
 	protected void registerRecipesToReveal(String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setRecipeIgnored(elem, false);
+				return true;
 			}
 
 		});
 	}
 
 	protected void registerScrapValues(final ScrapValue value, String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setValue(elem, value);
+				return true;
 			}
 
 		});
 	}
 
 	protected void registerScrubFromOutput(String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setScrubbedFromOutput(elem, true);
+				return true;
 			}
 
 		});
 	}
 
 	protected void registerNotScrubFromOutput(String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setScrubbedFromOutput(elem, false);
+				return true;
 			}
 
 		});
@@ -161,12 +174,13 @@ public abstract class ModPlugin {
 
 	protected void registerRecycleToWoodDust(final int inputQuantity,
 			String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				recycler.input(elem, inputQuantity)
 						.append(ItemStackHelper.dustWood).save();
+				return true;
 			}
 
 		});
@@ -174,11 +188,12 @@ public abstract class ModPlugin {
 
 	protected void registerCompostIngredient(
 			final CompostIngredient ingredient, String... list) {
-		forEachSubject(Arrays.asList(list), new Apply<ItemStack>() {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				ItemScrapData.setCompostIngredientValue(elem, ingredient);
+				return true;
 			}
 		});
 	}
@@ -186,12 +201,13 @@ public abstract class ModPlugin {
 	protected void registerPulverizeToDirt(String name, final int rangeStart,
 			final int rangeEnd) {
 
-		forEachSubject(Collections.singletonList(name), new Apply<ItemStack>() {
+		forEachSubject(Collections.singletonList(name), new Predicate<ItemStack>() {
 
 			@Override
-			public void apply(ItemStack elem) {
+			public boolean apply(ItemStack elem) {
 				pulverizer.appendSubtypeRange(elem, rangeStart, rangeEnd, 8)
 						.output(Blocks.dirt).save();
+				return true;
 			}
 
 		});

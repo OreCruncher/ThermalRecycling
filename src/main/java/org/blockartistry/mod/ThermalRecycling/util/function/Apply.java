@@ -23,17 +23,30 @@
 
 package org.blockartistry.mod.ThermalRecycling.util.function;
 
-import java.util.List;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 
-public abstract class Apply<E> {
+public abstract class Apply {
+	
+	public static <T> Iterable<T> forEach(Iterable<T> iterable, Predicate<T> pred) {
+		for(T e: iterable)
+			pred.apply(e);
+		return iterable;
+	}
+	
+	public static <T,O> Iterable<T> forEach(Iterable<T> iterable, Function<T,O> func) {
+		for(T e: iterable)
+			func.apply(e);
+		return iterable;
+	}
+	
+	public static <T> void forEach(T[] list, Predicate<T> pred) {
+		for(T e: list)
+			pred.apply(e);
+	}
 
-	public abstract void apply(E elem);
-
-	public static <E> void apply(List<? extends E> subjects, Apply<E> op) {
-		if (subjects == null)
-			return;
-
-		for (E elem : subjects)
-			op.apply(elem);
+	public static <T,O> void forEach(T[] list, Function<T,O> func) {
+		for(T e: list)
+			func.apply(e);
 	}
 }

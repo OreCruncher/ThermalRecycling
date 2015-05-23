@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.util.function.Operation;
+import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -37,15 +37,16 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ToolTipEventHandler {
 
-	public static final List<Operation<List<String>, ItemStack>> hooks = new ArrayList<Operation<List<String>, ItemStack>>();
+	public static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onToolTipEvent(ItemTooltipEvent event) {
 
-		if (event == null || event.itemStack == null)
+		if (event == null || event.itemStack == null || event.toolTip == null)
 			return;
 
-		Operation.apply(hooks, event.toolTip, event.itemStack);
+		for (MultiFunction<List<String>, ItemStack, Void> f : hooks)
+			f.apply(event.toolTip, event.itemStack);
 	}
 
 	public ToolTipEventHandler() {
