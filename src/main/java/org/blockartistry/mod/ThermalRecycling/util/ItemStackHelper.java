@@ -738,8 +738,8 @@ public final class ItemStackHelper {
 		return inv;
 	}
 
-	public static void setItemLore(ItemStack stack, String... lore) {
-
+	public static void setItemLore(ItemStack stack, List<String> lore) {
+		
 		if (stack == null)
 			return;
 
@@ -755,7 +755,6 @@ public final class ItemStackHelper {
 
 		nbt.setTag("display", display);
 		stack.setTagCompound(nbt);
-
 	}
 
 	/**

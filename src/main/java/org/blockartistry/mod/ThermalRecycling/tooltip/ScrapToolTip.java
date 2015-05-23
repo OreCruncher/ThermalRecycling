@@ -28,65 +28,38 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public final class ScrapToolTip implements MultiFunction<List<String>, ItemStack, Void> {
+import com.google.common.base.Optional;
+
+public final class ScrapToolTip implements
+		MultiFunction<List<String>, ItemStack, Void> {
 
 	@Override
 	public Void apply(List<String> output, ItemStack stack) {
 
 		ItemScrapData data = ItemScrapData.get(stack);
-		
-		if(data == null)
+
+		if (data == null)
 			return null;
-		
-		String lore = "UNKNOWN";
 
-		switch (data.getScrapValue()) {
-		case NONE:
-			lore = null; //StatCollector.translateToLocal("msg.ItemScrapValue.none");
-			break;
-		case POOR:
-			lore = StatCollector.translateToLocal("msg.ItemScrapValue.poor");
-			break;
-		case STANDARD:
-			lore = StatCollector
-					.translateToLocal("msg.ItemScrapValue.standard");
-			break;
-		case SUPERIOR:
-			lore = StatCollector
-					.translateToLocal("msg.ItemScrapValue.superior");
-			break;
-		default:
-			break;
+		Optional<String> lore = data.getScrapValue().getTranslated();
+
+		if (lore.isPresent()) {
+			if (ScrappingTables.canBeScrapped(stack))
+				output.add(lore.get());
+			else
+				output.add(lore.get() + EnumChatFormatting.GREEN + "*");
 		}
 
-		if(lore != null) {
-			if (!ScrappingTables.canBeScrapped(stack))
-				lore += EnumChatFormatting.GREEN + "*";
-			output.add(lore);
-		}
-		
-		switch(data.getCompostIngredientValue()) {
-		case BROWN:
-			lore = StatCollector.translateToLocal("msg.ItemCompostIngredientValue.brown");
-			break;
-			
-		case GREEN:
-			lore = StatCollector.translateToLocal("msg.ItemCompostIngredientValue.green");
-			break;
-		default:
-			lore = null;
-			break;
-		}
+		lore = data.getCompostIngredientValue().getTranslated();
 
-		if(lore != null)
-			output.add(lore);
-		
+		if (lore.isPresent())
+			output.add(lore.get());
+
 		return null;
 	}
 }

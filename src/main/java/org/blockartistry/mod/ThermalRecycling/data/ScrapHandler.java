@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -51,7 +52,7 @@ import net.minecraft.util.StatCollector;
  */
 public abstract class ScrapHandler {
 
-	public class PreviewResult {
+	public static class PreviewResult {
 
 		public final ItemStack inputRequired;
 		public final List<ItemStack> outputGenerated;
@@ -134,7 +135,7 @@ public abstract class ScrapHandler {
 			lore.add(builder.toString());
 		}
 		
-		ItemStackHelper.setItemLore(stack, lore.toArray(new String[lore.size()]));
+		ItemStackHelper.setItemLore(stack, lore);
 		return stack;
 	}
 
@@ -171,8 +172,7 @@ public abstract class ScrapHandler {
 								.dustIt(temp))) {
 
 					double percent = w.itemWeight * 100F / totalWeight;
-					ItemStackHelper.setItemLore(temp,
-							String.format("%-1.2f%% chance", percent));
+					ItemStackHelper.setItemLore(temp, Collections.singletonList(String.format("%-1.2f%% chance", percent)));
 					result.add(temp);
 				}
 			}

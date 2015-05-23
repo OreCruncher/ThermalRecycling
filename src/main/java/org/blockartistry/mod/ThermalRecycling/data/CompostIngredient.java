@@ -24,20 +24,37 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
+import com.google.common.base.Optional;
+
+import net.minecraft.util.StatCollector;
+
 public enum CompostIngredient {
 
 	/**
 	 * Cannot be used to make compost.
 	 */
-	NONE,
+	NONE(null),
 
 	/**
 	 * Green ingredient for composting.
 	 */
-	GREEN,
+	GREEN("msg.ItemCompostIngredientValue.green"),
 
 	/**
 	 * Brown ingredient for composting.
 	 */
-	BROWN;
+	BROWN("msg.ItemCompostIngredientValue.brown");
+	
+	protected final Optional<String> translated;
+	
+	public Optional<String> getTranslated() {
+		return translated;
+	}
+
+	private CompostIngredient(String xlate) {
+		if(xlate != null)
+			translated = Optional.of(StatCollector.translateToLocal(xlate));
+		else
+			translated = Optional.absent();
+	}
 }

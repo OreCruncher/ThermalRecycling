@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -39,6 +40,8 @@ import net.minecraft.world.World;
 
 public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
+	static final List<String> tagLine = Collections.singletonList(StatCollector.translateToLocal("itemGroup.TagLine"));
+	
 	final Enchantment enchant;
 	final int level;
 
@@ -83,7 +86,7 @@ public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 			if (i != j)
 				Items.enchanted_book.addEnchantment(book, enchants[i]);
 
-		ItemStackHelper.setItemLore(book, StatCollector.translateToLocal("itemGroup.TagLine"));
+		ItemStackHelper.setItemLore(book, tagLine);
 		UseEffect.spawnIntoWorld(book, world, player);
 	}
 

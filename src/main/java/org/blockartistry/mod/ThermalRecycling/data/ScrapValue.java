@@ -24,11 +24,31 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
+import com.google.common.base.Optional;
+
+import net.minecraft.util.StatCollector;
+
 public enum ScrapValue {
 
 	// ORDERING IS IMPORTANT!
-	NONE, POOR, STANDARD, SUPERIOR;
+	NONE(null),
+	POOR("msg.ItemScrapValue.poor"),
+	STANDARD("msg.ItemScrapValue.standard"),
+	SUPERIOR("msg.ItemScrapValue.superior");
 
+	protected final Optional<String> translated;
+	
+	public Optional<String> getTranslated() {
+		return translated;
+	}
+	
+	private ScrapValue(String xlate) {
+		if(xlate != null)
+			translated = Optional.of(StatCollector.translateToLocal(xlate));
+		else
+			translated = Optional.absent();
+	}
+	
 	public static ScrapValue map(int value) {
 		return values()[value];
 	}
