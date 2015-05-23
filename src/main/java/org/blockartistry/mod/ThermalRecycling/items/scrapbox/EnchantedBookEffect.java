@@ -39,18 +39,15 @@ import net.minecraft.world.World;
 
 public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
-	Enchantment enchant;
-	int level;
+	final Enchantment enchant;
+	final int level;
 
-	public EnchantedBookEffect(UseEffectWeightTable useEffectWeightTable,
-			int weight, int level) {
-		this(useEffectWeightTable, weight, null, level);
+	public EnchantedBookEffect(int weight, int level) {
+		this(weight, null, level);
 	}
 
-	public EnchantedBookEffect(UseEffectWeightTable useEffectWeightTable,
-			int weight, Enchantment enchantment, int level) {
-		useEffectWeightTable.super(weight);
-
+	public EnchantedBookEffect(int weight, Enchantment enchantment, int level) {
+		super(weight);
 		this.enchant = enchantment;
 		this.level = level;
 	}

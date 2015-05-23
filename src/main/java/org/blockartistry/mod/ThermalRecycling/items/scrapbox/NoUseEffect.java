@@ -34,8 +34,8 @@ import net.minecraft.world.World;
  */
 public class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
 
-	public NoUseEffect(UseEffectWeightTable useEffectWeightTable, int weight) {
-		useEffectWeightTable.super(weight);
+	public NoUseEffect(int weight) {
+		super(weight);
 	}
 
 	@Override

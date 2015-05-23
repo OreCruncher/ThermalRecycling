@@ -32,8 +32,7 @@ import net.minecraft.item.ItemStack;
 public class ItemStackWeightTable extends
 		WeightTable<ItemStackWeightTable.ItemStackItem> {
 
-	public class ItemStackItem extends
-			WeightTable<ItemStackWeightTable.ItemStackItem>.Item {
+	public class ItemStackItem extends WeightTable.Item {
 
 		final ItemStack stack;
 

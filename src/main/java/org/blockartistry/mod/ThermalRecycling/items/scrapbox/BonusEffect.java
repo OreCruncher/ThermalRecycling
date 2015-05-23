@@ -35,11 +35,10 @@ import net.minecraft.world.World;
  */
 public class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
-	int bonusCount;
+	final int bonusCount;
 
-	public BonusEffect(UseEffectWeightTable useEffectWeightTable, int weight,
-			int bonusCount) {
-		useEffectWeightTable.super(weight);
+	public BonusEffect(int weight, int bonusCount) {
+		super(weight);
 		this.bonusCount = bonusCount;
 	}
 

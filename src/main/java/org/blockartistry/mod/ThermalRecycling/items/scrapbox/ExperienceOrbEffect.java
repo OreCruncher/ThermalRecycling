@@ -31,18 +31,15 @@ import net.minecraft.world.World;
 
 public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
 
-	int start;
-	int end;
+	final int start;
+	final int end;
 
-	public ExperienceOrbEffect(UseEffectWeightTable useEffectWeightTable,
-			int weight, int amount) {
-		this(useEffectWeightTable, weight, amount, amount);
+	public ExperienceOrbEffect(int weight, int amount) {
+		this(weight, amount, amount);
 	}
 
-	public ExperienceOrbEffect(UseEffectWeightTable useEffectWeightTable,
-			int weight, int startRange, int endRange) {
-		useEffectWeightTable.super(weight);
-
+	public ExperienceOrbEffect(int weight, int startRange, int endRange) {
+		super(weight);
 		this.start = startRange;
 		this.end = endRange;
 	}

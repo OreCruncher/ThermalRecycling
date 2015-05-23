@@ -39,13 +39,11 @@ import net.minecraft.world.World;
  */
 public class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
-	ItemStack stack;
-	int maxQuantity;
+	final ItemStack stack;
+	final int maxQuantity;
 
-	public DropItemEffect(UseEffectWeightTable useEffectWeightTable,
-			int weight, ItemStack stack, int quantity) {
-		useEffectWeightTable.super(weight);
-
+	public DropItemEffect(int weight, ItemStack stack, int quantity) {
+		super(weight);
 		this.stack = stack;
 		this.maxQuantity = quantity;
 	}

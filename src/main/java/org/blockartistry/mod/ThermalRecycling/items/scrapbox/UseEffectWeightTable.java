@@ -34,8 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
 public class UseEffectWeightTable extends
 		WeightTable<UseEffectWeightTable.UseEffectItem> {
 
-	public abstract class UseEffectItem extends
-			WeightTable<UseEffectWeightTable.UseEffectItem>.Item {
+	public abstract static class UseEffectItem extends	WeightTable.Item {
 
 		public UseEffectItem(int weight) {
 			super(weight);

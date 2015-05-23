@@ -46,11 +46,10 @@ public class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 	public static final String BONUS_CHEST = ChestGenHooks.BONUS_CHEST;
 	public static final String DUNGEON_CHEST = ChestGenHooks.DUNGEON_CHEST;
 
-	String category;
+	final String category;
 
-	public ChestEffect(UseEffectWeightTable useEffectWeightTable, int weight,
-			String category) {
-		useEffectWeightTable.super(weight);
+	public ChestEffect(int weight, String category) {
+		super(weight);
 		this.category = category;
 	}
 

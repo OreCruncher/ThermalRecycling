@@ -30,22 +30,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class WeightTable<T extends WeightTable<T>.Item> {
+public class WeightTable<T extends WeightTable.Item> {
 
 	static final Random random = new Random();
 
-	private ArrayList<T> items = new ArrayList<T>();
-	private Random rand = random;
-	private int totalWeight = 0;
+	protected ArrayList<T> items = new ArrayList<T>();
+	protected Random rand = random;
+	protected int totalWeight = 0;
 
-	public abstract class Item {
+	public abstract static class Item implements Cloneable {
 
 		public final int itemWeight;
-		protected final Random rnd;
+		protected Random rnd;
 
 		public Item(int weight) {
 			this.itemWeight = weight;
-			this.rnd = rand;
+		}
+		
+		@Override
+		public Object clone() throws CloneNotSupportedException {
+			return super.clone();
 		}
 	}
 
@@ -60,6 +64,7 @@ public class WeightTable<T extends WeightTable<T>.Item> {
 
 	public void add(T entry) {
 		totalWeight += entry.itemWeight;
+		entry.rnd = rand;
 		items.add(entry);
 	}
 
