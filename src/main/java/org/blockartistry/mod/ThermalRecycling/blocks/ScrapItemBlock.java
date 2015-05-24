@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
 import net.minecraft.block.Block;
 
-public class ScrapItemBlock extends MultiItemBlock {
+public final class ScrapItemBlock extends MultiItemBlock {
 
 	public ScrapItemBlock(Block block) {
 

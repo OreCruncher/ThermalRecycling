@@ -28,7 +28,7 @@ import net.minecraft.block.Block;
 
 import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-public class MachineScrapAssessorBlock extends MultiItemBlock {
+public final class MachineScrapAssessorBlock extends MultiItemBlock {
 
 	public MachineScrapAssessorBlock(Block block) {
 

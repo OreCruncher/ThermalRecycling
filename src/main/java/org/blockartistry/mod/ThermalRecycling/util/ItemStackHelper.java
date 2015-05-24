@@ -52,7 +52,6 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class ItemStackHelper {
@@ -338,10 +337,6 @@ public final class ItemStackHelper {
 		}
 
 		return result;
-	}
-
-	public static FluidStack getFluidStack(String name, int quantity) {
-		return FluidRegistry.getFluidStack(name, quantity);
 	}
 
 	public static String resolveName(ItemStack stack) {

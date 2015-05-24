@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 import net.minecraft.init.Blocks;
 
-public class ModBuildCraftFactory extends ModPlugin {
+public final class ModBuildCraftFactory extends ModPlugin {
 
 	public ModBuildCraftFactory() {
 		super(SupportedMod.BUILDCRAFT_FACTORY);

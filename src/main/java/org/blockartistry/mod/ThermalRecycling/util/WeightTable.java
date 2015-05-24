@@ -34,8 +34,8 @@ public class WeightTable<T extends WeightTable.Item> {
 
 	static final Random random = new Random();
 
-	protected ArrayList<T> items = new ArrayList<T>();
-	protected Random rand = random;
+	protected final List<T> items = new ArrayList<T>();
+	protected final Random rand;
 	protected int totalWeight = 0;
 
 	public abstract static class Item implements Cloneable {
@@ -60,12 +60,19 @@ public class WeightTable<T extends WeightTable.Item> {
 	public WeightTable(Random rand) {
 		if (rand != null)
 			this.rand = rand;
+		else
+			this.rand = random;
 	}
 
 	public void add(T entry) {
 		totalWeight += entry.itemWeight;
 		entry.rnd = rand;
 		items.add(entry);
+	}
+
+	public void remove(T entry) {
+		if(items.remove(entry))
+			totalWeight -= entry.itemWeight;
 	}
 
 	public T next() {

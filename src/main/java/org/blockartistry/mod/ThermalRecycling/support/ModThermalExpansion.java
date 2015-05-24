@@ -30,7 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ModThermalExpansion extends ModPlugin {
+public final class ModThermalExpansion extends ModPlugin {
 
 	public ModThermalExpansion() {
 		super(SupportedMod.THERMAL_EXPANSION);

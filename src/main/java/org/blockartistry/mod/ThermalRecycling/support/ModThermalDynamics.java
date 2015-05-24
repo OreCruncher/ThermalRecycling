@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
-public class ModThermalDynamics extends ModPlugin {
+public final class ModThermalDynamics extends ModPlugin {
 
 	public ModThermalDynamics() {
 		super(SupportedMod.THERMAL_DYNAMICS);

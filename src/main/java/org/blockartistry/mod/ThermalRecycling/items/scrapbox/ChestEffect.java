@@ -33,7 +33,7 @@ import net.minecraftforge.common.ChestGenHooks;
  * Drops items that would have randomly spawned in a dungeon chest. There is an
  * option to specify which gen hook to use.
  */
-public class ChestEffect extends UseEffectWeightTable.UseEffectItem {
+public final class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
 	public static final String MINESHAFT_CORRIDOR = ChestGenHooks.MINESHAFT_CORRIDOR;
 	public static final String PYRAMID_DESERT_CHEST = ChestGenHooks.PYRAMID_DESERT_CHEST;

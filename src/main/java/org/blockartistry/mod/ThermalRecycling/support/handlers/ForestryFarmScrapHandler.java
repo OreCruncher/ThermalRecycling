@@ -33,7 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ForestryFarmScrapHandler extends GenericHandler {
+public final class ForestryFarmScrapHandler extends GenericHandler {
 	
 	// From Forestry code.  Used to crack the underlying style
 	// of block used to make a farm block.

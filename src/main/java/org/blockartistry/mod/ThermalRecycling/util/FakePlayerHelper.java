@@ -34,7 +34,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
 
 // Leveraged from the BuildCraft source code.
-public class FakePlayerHelper {
+public final class FakePlayerHelper {
 
 	protected static GameProfile profile = null;
 	protected static WeakReference<EntityPlayer> fakePlayer = new WeakReference<EntityPlayer>(

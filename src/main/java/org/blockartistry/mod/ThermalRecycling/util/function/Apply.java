@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.util.function;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
-public abstract class Apply {
+public final class Apply {
 	
 	public static <T> Iterable<T> forEach(Iterable<T> iterable, Predicate<T> pred) {
 		for(T e: iterable)

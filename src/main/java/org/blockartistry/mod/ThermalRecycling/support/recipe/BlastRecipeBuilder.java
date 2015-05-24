@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
 
-public class BlastRecipeBuilder extends SmelterRecipeBuilder {
+public final class BlastRecipeBuilder extends SmelterRecipeBuilder {
 
 	protected static final int MINIMUM_BLAST_ENERGY = 8000;
 	protected static ItemStack PYROTHEUM_DUST = null;

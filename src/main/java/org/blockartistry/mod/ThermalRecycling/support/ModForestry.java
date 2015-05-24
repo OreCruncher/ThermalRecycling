@@ -40,7 +40,7 @@ import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrap
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ModForestry extends ModPlugin {
+public final class ModForestry extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "log1:*", "log2:*",
 			"log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",

@@ -43,7 +43,7 @@ import net.minecraftforge.oredict.OreDictionary;
  * An instance of this class is used to track recipes for the Thermal Recycler.
  *
  */
-public class RecipeData {
+public final class RecipeData {
 
 	public static final int SUCCESS = 0;
 	public static final int FAILURE = 1;

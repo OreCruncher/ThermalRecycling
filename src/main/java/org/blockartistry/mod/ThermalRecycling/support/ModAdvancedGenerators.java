@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-public class ModAdvancedGenerators extends ModPlugin {
+public final class ModAdvancedGenerators extends ModPlugin {
 
 	public ModAdvancedGenerators() {
 		super(SupportedMod.ADVANCED_GENERATORS);

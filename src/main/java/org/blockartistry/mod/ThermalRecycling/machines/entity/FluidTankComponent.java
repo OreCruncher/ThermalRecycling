@@ -31,7 +31,7 @@ import net.minecraftforge.fluids.FluidEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class FluidTankComponent implements IMachineFluidTank {
+public final class FluidTankComponent implements IMachineFluidTank {
 
     protected FluidStack fluid;
     protected int capacity;

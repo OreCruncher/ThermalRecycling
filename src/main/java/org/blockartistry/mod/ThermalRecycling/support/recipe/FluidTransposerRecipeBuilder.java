@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
@@ -33,7 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class FluidTransposerRecipeBuilder extends
+public final class FluidTransposerRecipeBuilder extends
 		RecipeBuilder<FluidTransposerRecipeBuilder> {
 
 	protected static final int DEFAULT_FLUID_AMOUNT = 1000;
@@ -80,7 +81,7 @@ public class FluidTransposerRecipeBuilder extends
 
 		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
 
-		this.fluid = ItemStackHelper.getFluidStack(fluidId,
+		this.fluid = FluidStackHelper.getFluidStack(fluidId,
 				DEFAULT_FLUID_AMOUNT);
 		return THIS;
 	}
@@ -91,7 +92,7 @@ public class FluidTransposerRecipeBuilder extends
 		Preconditions.checkArgument(quantity > 0,
 				"Fluid quantity must be greater than 0");
 
-		this.fluid = ItemStackHelper.getFluidStack(fluidId, quantity);
+		this.fluid = FluidStackHelper.getFluidStack(fluidId, quantity);
 		return THIS;
 	}
 }

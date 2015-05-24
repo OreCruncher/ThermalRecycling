@@ -34,7 +34,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 
-public class ScrapBlock extends MultiBlock {
+public final class ScrapBlock extends MultiBlock {
 
 	public ScrapBlock() {
 		super("ScrapBlock", Material.ground, 3, "scrap");

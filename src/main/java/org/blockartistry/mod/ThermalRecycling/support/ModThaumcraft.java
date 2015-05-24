@@ -29,7 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 import net.minecraft.init.Blocks;
 
-public class ModThaumcraft extends ModPlugin {
+public final class ModThaumcraft extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"blockMagicalLog:0", "blockMagicalLog:1", "blockWoodenDevice:6",

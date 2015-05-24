@@ -29,7 +29,7 @@ import com.google.common.base.Optional;
  * Quick/easy 2D matrix implementation.  Backed by an array because
  * ArrayList<> doesn't behave in a sparse way.
  */
-public class Matrix2D<T> {
+public final class Matrix2D<T> {
 
 	protected final int rows;
 	protected final int cols;

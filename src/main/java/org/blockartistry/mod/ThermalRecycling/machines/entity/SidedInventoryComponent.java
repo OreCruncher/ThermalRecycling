@@ -36,7 +36,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
-public class SidedInventoryComponent implements IMachineInventory {
+public final class SidedInventoryComponent implements IMachineInventory {
 
 	TileEntityBase entity;
 	ItemStack[] inventory;

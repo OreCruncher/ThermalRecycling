@@ -43,10 +43,10 @@ import net.minecraft.item.ItemStack;
  * 
  * http://jabelarminecraft.blogspot.com/p/minecraft-modding-containers.html
  */
-public class ThermalRecyclerContainer extends Container {
+public final class ThermalRecyclerContainer extends Container {
 
-	ThermalRecyclerTileEntity entity;
-	int sizeInventory;
+	final ThermalRecyclerTileEntity entity;
+	final int sizeInventory;
 
 	MachineStatus currentStatus;
 	int currentProgress;

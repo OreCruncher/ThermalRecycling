@@ -57,7 +57,7 @@ import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
-public class ComposterTileEntity extends TileEntityBase implements
+public final class ComposterTileEntity extends TileEntityBase implements
 		IJobProgress, IMachineFluidHandler {
 
 	static final Block[] bonemealBlackList = new Block[] { Blocks.grass,

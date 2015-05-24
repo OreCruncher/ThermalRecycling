@@ -32,7 +32,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class SawmillRecipeBuilder extends
+public final class SawmillRecipeBuilder extends
 		SecondaryOutputRecipeBuilder<SawmillRecipeBuilder> {
 
 	@Override

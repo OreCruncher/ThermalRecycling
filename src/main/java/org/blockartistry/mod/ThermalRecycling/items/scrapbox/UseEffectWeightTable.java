@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 
 import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
 
-public class UseEffectWeightTable extends
+public final class UseEffectWeightTable extends
 		WeightTable<UseEffectWeightTable.UseEffectItem> {
 
 	public abstract static class UseEffectItem extends	WeightTable.Item {

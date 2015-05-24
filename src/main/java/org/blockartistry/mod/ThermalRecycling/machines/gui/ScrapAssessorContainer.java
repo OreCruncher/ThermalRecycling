@@ -38,10 +38,10 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
 
-public class ScrapAssessorContainer extends Container {
+public final class ScrapAssessorContainer extends Container {
 
-	TileEntityBase entity;
-	int sizeInventory;
+	final TileEntityBase entity;
+	final int sizeInventory;
 
 	public ScrapAssessorContainer(InventoryPlayer inv, IInventory tileEntity) {
 

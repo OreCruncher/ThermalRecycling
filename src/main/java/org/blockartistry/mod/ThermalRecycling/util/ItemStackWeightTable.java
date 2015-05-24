@@ -29,10 +29,10 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 
 import net.minecraft.item.ItemStack;
 
-public class ItemStackWeightTable extends
+public final class ItemStackWeightTable extends
 		WeightTable<ItemStackWeightTable.ItemStackItem> {
 
-	public class ItemStackItem extends WeightTable.Item {
+	public final class ItemStackItem extends WeightTable.Item {
 
 		final ItemStack stack;
 

@@ -29,7 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
-public class FeelingScrappy extends Achievement {
+public final class FeelingScrappy extends Achievement {
 
 	public FeelingScrappy() {
 		super("feelingScrappy", "feelingScrappy", 0 /* x */, 0 /* y */,

@@ -12,9 +12,9 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntit
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementFluidTank;
 
-public class ComposterGui extends GuiBase {
+public final class ComposterGui extends GuiBase {
 
-	ComposterTileEntity tileEntity;
+	final ComposterTileEntity tileEntity;
 
 	public ComposterGui(InventoryPlayer playerInventory, IInventory entity) {
 		super(new ComposterContainer(playerInventory, entity),

@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Blocks;
 
-public class ModBuildCraftEnergy extends ModPlugin {
+public final class ModBuildCraftEnergy extends ModPlugin {
 
 	public ModBuildCraftEnergy() {
 		super(SupportedMod.BUILDCRAFT_ENERGY);

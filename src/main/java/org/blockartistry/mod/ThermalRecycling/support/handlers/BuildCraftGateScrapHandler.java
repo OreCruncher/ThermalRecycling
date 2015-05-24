@@ -36,7 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import buildcraft.api.transport.pluggable.IPipePluggableItem;
 
-public class BuildCraftGateScrapHandler extends GenericHandler {
+public final class BuildCraftGateScrapHandler extends GenericHandler {
 
 	static final ItemStack pulsatingChipset = ItemStackHelper
 			.getItemStack("BuildCraft|Silicon:redstoneChipset:4");

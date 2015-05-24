@@ -39,7 +39,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MachineComposter extends MachineBase {
+public final class MachineComposter extends MachineBase {
 
 	public MachineComposter() {
 		super("MachineComposter");

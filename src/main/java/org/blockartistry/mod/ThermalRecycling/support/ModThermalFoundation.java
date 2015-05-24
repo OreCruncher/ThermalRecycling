@@ -33,7 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModThermalFoundation extends ModPlugin {
+public final class ModThermalFoundation extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "material:2",
 			"material:3",

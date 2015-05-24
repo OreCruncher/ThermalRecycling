@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class NoInventoryComponent implements IMachineInventory {
+public final class NoInventoryComponent implements IMachineInventory {
 
 	@Override
 	public int getSizeInventory() {

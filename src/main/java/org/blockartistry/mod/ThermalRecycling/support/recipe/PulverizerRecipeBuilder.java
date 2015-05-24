@@ -32,7 +32,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class PulverizerRecipeBuilder extends
+public final class PulverizerRecipeBuilder extends
 		SecondaryOutputRecipeBuilder<PulverizerRecipeBuilder> {
 
 	@Override

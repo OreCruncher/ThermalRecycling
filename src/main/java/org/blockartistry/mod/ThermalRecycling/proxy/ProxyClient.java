@@ -31,7 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 
-public class ProxyClient extends Proxy {
+public final class ProxyClient extends Proxy {
 
 	@Override
 	public void init(FMLInitializationEvent event) {

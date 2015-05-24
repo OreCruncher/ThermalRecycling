@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.items;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
-public class RecyclingScrap extends ItemBase {
+public final class RecyclingScrap extends ItemBase {
 
 	public static final int POOR = 0;
 	public static final int STANDARD = 1;

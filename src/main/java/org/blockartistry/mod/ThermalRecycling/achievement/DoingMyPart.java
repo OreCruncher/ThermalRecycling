@@ -31,7 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
-public class DoingMyPart extends Achievement {
+public final class DoingMyPart extends Achievement {
 
 	public DoingMyPart() {
 		super("doingMyPart", "doingMyPart", 1 /* x */, 1 /* y */, new ItemStack(

@@ -32,7 +32,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ThermalExpansionScrapHandler extends GenericHandler {
+public final class ThermalExpansionScrapHandler extends GenericHandler {
 
 	protected static final ItemStack frame = ItemStackHelper
 			.getItemStack("ThermalExpansion:Frame");

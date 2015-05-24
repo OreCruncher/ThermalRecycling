@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
-public class ModRFTools extends ModPlugin {
+public final class ModRFTools extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"dimensionalBlankBlock", "dimensionalSmallBlocks",

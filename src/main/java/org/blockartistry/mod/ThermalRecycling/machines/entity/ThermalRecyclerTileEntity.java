@@ -48,7 +48,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ThermalRecyclerTileEntity extends TileEntityBase implements
+public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		IEnergyReceiver, IEnergyInfo, IJobProgress {
 
 	// Update actions

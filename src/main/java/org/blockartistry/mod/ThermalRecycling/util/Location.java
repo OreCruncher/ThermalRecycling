@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class Location {
+public final class Location {
 
 	public final int x;
 	public final int y;

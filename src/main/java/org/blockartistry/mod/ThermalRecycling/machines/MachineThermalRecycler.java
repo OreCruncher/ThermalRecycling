@@ -37,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class MachineThermalRecycler extends MachineBase {
+public final class MachineThermalRecycler extends MachineBase {
 
 	public MachineThermalRecycler() {
 		super("MachineThermalRecycler");

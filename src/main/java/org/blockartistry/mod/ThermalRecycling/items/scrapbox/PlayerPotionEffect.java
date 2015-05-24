@@ -39,7 +39,7 @@ import net.minecraft.world.World;
  * Gives the player a specific potion effect.
  *
  */
-public class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
+public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 
 	private static Field isBadEffect = null;
 	

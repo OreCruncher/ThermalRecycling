@@ -29,7 +29,7 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CreativeTabManager {
+public final class CreativeTabManager {
 
 	public static CreativeTabs tab = new CreativeTabs("ThermalRecycling") {
 		@Override

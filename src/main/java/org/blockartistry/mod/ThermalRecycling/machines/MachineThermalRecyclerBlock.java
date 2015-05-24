@@ -28,7 +28,7 @@ import net.minecraft.block.Block;
 
 import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
-public class MachineThermalRecyclerBlock extends MultiItemBlock {
+public final class MachineThermalRecyclerBlock extends MultiItemBlock {
 
 	public MachineThermalRecyclerBlock(Block block) {
 

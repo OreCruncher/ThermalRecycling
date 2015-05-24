@@ -33,7 +33,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class FuelHandler implements IFuelHandler {
+public final class FuelHandler implements IFuelHandler {
 
 	public FuelHandler() {
 		GameRegistry.registerFuelHandler(this);

@@ -36,9 +36,9 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 
 import cofh.lib.gui.GuiBase;
 
-public class ScrapAssessorGui extends GuiBase {
+public final class ScrapAssessorGui extends GuiBase {
 
-	TileEntityBase tileEntity;
+	final TileEntityBase tileEntity;
 
 	public ScrapAssessorGui(InventoryPlayer playerInventory, IInventory entity) {
 		super(new ScrapAssessorContainer(playerInventory, entity),

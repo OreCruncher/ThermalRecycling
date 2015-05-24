@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ModEnderIO extends ModPlugin {
+public final class ModEnderIO extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemConduitFacade",

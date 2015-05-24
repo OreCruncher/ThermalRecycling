@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
-public class ModExtrabiomesXL extends ModPlugin {
+public final class ModExtrabiomesXL extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"terrain_blocks1:*", "log1:*", "log2:*", "mini_log_1",

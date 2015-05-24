@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
+public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
 	static final List<String> tagLine = Collections.singletonList(StatCollector.translateToLocal("itemGroup.TagLine"));
 	

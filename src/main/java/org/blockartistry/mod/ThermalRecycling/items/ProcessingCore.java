@@ -38,7 +38,7 @@ import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ProcessingCore extends ItemBase {
+public final class ProcessingCore extends ItemBase {
 
 	public static final int DECOMPOSITION = 0;
 	public static final int EXTRACTION = 1;

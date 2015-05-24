@@ -32,7 +32,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
-public class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
+public final class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 
 	@Override
 	protected int saveImpl(ItemStack stack) {

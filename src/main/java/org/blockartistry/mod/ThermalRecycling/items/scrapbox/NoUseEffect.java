@@ -32,7 +32,7 @@ import net.minecraft.world.World;
  * No effect. Player is firing blanks.
  *
  */
-public class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
+public final class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
 
 	public NoUseEffect(int weight) {
 		super(weight);

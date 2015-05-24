@@ -29,7 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
+public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
 
 	final int start;
 	final int end;

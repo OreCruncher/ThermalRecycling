@@ -40,7 +40,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class RecyclingScrapBox extends ItemBase {
+public final class RecyclingScrapBox extends ItemBase {
 
 	public static final int POOR = 0;
 	public static final int STANDARD = 1;

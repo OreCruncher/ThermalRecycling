@@ -38,7 +38,7 @@ import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
  * This class offers advanced configurations capabilities, allowing to provide
  * various categories for configuration variables.
  */
-public class JarConfiguration
+public final class JarConfiguration
 {
     public static final String CATEGORY_GENERAL = "general";
     public static final String ALLOWED_CHARS = "._-";

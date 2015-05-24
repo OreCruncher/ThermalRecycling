@@ -31,7 +31,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
 
-public class VanillaMinecraft extends ModPlugin {
+public final class VanillaMinecraft extends ModPlugin {
 
 	static final String CONFIG_ENABLE_DIAMOND_RECIPIES = "Enable Diamond Recycling";
 	static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";

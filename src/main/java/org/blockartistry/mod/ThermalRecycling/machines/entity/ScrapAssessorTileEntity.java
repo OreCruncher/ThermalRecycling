@@ -35,7 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 
-public class ScrapAssessorTileEntity extends TileEntityBase {
+public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 	public static final int INPUT = 0;
 	public static final int CORE = 1;

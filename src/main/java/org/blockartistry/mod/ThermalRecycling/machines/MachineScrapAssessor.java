@@ -39,7 +39,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MachineScrapAssessor extends MachineBase {
+public final class MachineScrapAssessor extends MachineBase {
 
 	public MachineScrapAssessor() {
 		super("MachineScrapAssessor");

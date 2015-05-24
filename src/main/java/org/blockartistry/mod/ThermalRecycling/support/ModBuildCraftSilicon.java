@@ -29,7 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public class ModBuildCraftSilicon extends ModPlugin {
+public final class ModBuildCraftSilicon extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "redstone_board", };
 

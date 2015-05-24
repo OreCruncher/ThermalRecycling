@@ -26,7 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
-public class ModChickenChunks extends ModPlugin {
+public final class ModChickenChunks extends ModPlugin {
 
 	public ModChickenChunks() {
 		super(SupportedMod.CHICKEN_CHUNKS);

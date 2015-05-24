@@ -65,4 +65,8 @@ public final class FluidStackHelper {
 		return update;
 	}
 
+
+	public static FluidStack getFluidStack(String name, int quantity) {
+		return FluidRegistry.getFluidStack(name, quantity);
+	}
 }

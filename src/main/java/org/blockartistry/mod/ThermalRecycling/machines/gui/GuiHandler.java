@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-public class GuiHandler implements IGuiHandler {
+public final class GuiHandler implements IGuiHandler {
 
 	public GuiHandler() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(

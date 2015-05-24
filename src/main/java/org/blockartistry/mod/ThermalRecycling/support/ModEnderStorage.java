@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-public class ModEnderStorage extends ModPlugin {
+public final class ModEnderStorage extends ModPlugin {
 
 	public ModEnderStorage() {
 		super(SupportedMod.ENDER_STORAGE);

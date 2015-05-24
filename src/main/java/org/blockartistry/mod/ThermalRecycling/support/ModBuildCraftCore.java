@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 import cpw.mods.fml.common.Loader;
 
-public class ModBuildCraftCore extends ModPlugin {
+public final class ModBuildCraftCore extends ModPlugin {
 
 	public ModBuildCraftCore() {
 		super(SupportedMod.BUILDCRAFT_CORE);

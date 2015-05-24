@@ -33,7 +33,7 @@ import net.minecraft.world.World;
  * wind up with drops as well as buffs.
  *
  */
-public class BonusEffect extends UseEffectWeightTable.UseEffectItem {
+public final class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	final int bonusCount;
 

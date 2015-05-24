@@ -28,7 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-public class ModRailcraft extends ModPlugin {
+public final class ModRailcraft extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] {
 			"fluid.creosote.bottle:*", "stair:*", "slab:*", "wall.alpha:*",

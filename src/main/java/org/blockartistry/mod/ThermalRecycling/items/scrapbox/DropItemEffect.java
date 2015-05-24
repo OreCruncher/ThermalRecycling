@@ -37,7 +37,7 @@ import net.minecraft.world.World;
  * named items or special one offs, like nether stars.
  *
  */
-public class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
+public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	final ItemStack stack;
 	final int maxQuantity;

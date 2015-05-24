@@ -36,10 +36,10 @@ import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
  */
 public final class BlockManager {
 
-	public static ScrapBlock scrapBlock = new ScrapBlock();
-	public static MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
-	public static MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
-	public static MachineComposter composter = new MachineComposter();
+	public static final ScrapBlock scrapBlock = new ScrapBlock();
+	public static final MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
+	public static final MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
+	public static final MachineComposter composter = new MachineComposter();
 
 	static void registerBlocks() {
 

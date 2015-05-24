@@ -34,11 +34,10 @@ import net.minecraft.item.crafting.IRecipe;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
 
 import com.google.common.base.Preconditions;
 
-public class ThermalRecyclerRecipeBuilder {
+public final class ThermalRecyclerRecipeBuilder {
 
 	protected List<ItemStack> output;
 	protected ItemStack input;
@@ -311,11 +310,5 @@ public class ThermalRecyclerRecipeBuilder {
 		builder.append("]");
 
 		return builder.toString();
-	}
-
-	public static void applyRecipeRange(String item, int begin, int end) {
-		ThermalRecyclerRecipeBuilder builder = new ThermalRecyclerRecipeBuilder();
-		for (ItemStack stack : new ItemStackRange(item, begin, end))
-			builder.useRecipe(stack).save();
 	}
 }

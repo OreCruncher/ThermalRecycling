@@ -36,7 +36,7 @@ import buildcraft.api.recipes.IFlexibleRecipeViewable;
 import buildcraft.api.recipes.IIntegrationRecipe;
 import net.minecraft.item.ItemStack;
 
-public class ModBuildCraftTransport extends ModPlugin {
+public final class ModBuildCraftTransport extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "pipeFacade:*",
 			"pipePlug:*", "pipeGate:*", "pipeWaterproof", };

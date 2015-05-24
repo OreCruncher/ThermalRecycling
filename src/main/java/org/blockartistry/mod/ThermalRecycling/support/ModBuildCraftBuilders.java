@@ -29,7 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-public class ModBuildCraftBuilders extends ModPlugin {
+public final class ModBuildCraftBuilders extends ModPlugin {
 
 	public ModBuildCraftBuilders() {
 		super(SupportedMod.BUILDCRAFT_BUILDERS);

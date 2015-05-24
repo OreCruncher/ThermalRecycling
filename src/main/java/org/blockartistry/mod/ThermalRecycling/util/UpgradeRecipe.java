@@ -29,7 +29,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class UpgradeRecipe extends ShapedOreRecipe {
+public final class UpgradeRecipe extends ShapedOreRecipe {
 
 	protected final int level;
 	protected final int craftGridSlot = 4;

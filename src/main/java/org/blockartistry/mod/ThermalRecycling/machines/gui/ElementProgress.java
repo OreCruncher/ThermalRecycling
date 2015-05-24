@@ -35,7 +35,7 @@ import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementBase;
 import cofh.lib.render.RenderHelper;
 
-public class ElementProgress extends ElementBase {
+public final class ElementProgress extends ElementBase {
 
 	public static final int DEFAULT_SCALE = 42;
 	static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(
@@ -52,7 +52,7 @@ public class ElementProgress extends ElementBase {
 			"msg.MachineStatus.jammed", "msg.MachineStatus.needMoreResources",
 			"msg.MachineStatus.outOfPower" };
 
-	IJobProgress progress;
+	final IJobProgress progress;
 
 	public ElementProgress(GuiBase base, int x, int y, IJobProgress progress) {
 		super(base, x, y);

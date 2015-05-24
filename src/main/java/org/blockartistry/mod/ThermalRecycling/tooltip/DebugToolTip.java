@@ -34,7 +34,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
+public final class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
 
 	public Void apply(List<String> output, ItemStack stack) {
 

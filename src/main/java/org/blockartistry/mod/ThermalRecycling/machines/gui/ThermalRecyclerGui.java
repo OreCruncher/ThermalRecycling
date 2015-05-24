@@ -36,13 +36,13 @@ import cofh.api.energy.IEnergyStorage;
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementEnergyStored;
 
-public class ThermalRecyclerGui extends GuiBase {
+public final class ThermalRecyclerGui extends GuiBase {
 
-	ThermalRecyclerTileEntity tileEntity;
+	final ThermalRecyclerTileEntity tileEntity;
 
 	class EnergyStorageAdapter implements IEnergyStorage {
 
-		ThermalRecyclerTileEntity tileEntity;
+		final ThermalRecyclerTileEntity tileEntity;
 
 		public EnergyStorageAdapter(ThermalRecyclerTileEntity entity) {
 			tileEntity = entity;

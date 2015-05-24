@@ -40,10 +40,10 @@ import cofh.lib.gui.slot.SlotLocked;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ComposterContainer extends Container {
+public final class ComposterContainer extends Container {
 
-	ComposterTileEntity entity;
-	int sizeInventory;
+	final ComposterTileEntity entity;
+	final int sizeInventory;
 
 	MachineStatus currentStatus = MachineStatus.IDLE;
 	int currentProgress;

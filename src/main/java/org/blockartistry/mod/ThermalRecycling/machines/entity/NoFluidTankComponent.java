@@ -28,7 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class NoFluidTankComponent implements IMachineFluidTank {
+public final class NoFluidTankComponent implements IMachineFluidTank {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
