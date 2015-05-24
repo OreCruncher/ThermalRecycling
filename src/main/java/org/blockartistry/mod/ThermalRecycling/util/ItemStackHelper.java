@@ -680,7 +680,7 @@ public final class ItemStackHelper {
 						inv[j] = stack;
 						inv[i] = null;
 						break;
-					} else if (ItemHelper.itemsEqualForCrafting(stack, target)) {
+					} else if (ItemHelper.itemsIdentical(stack, target)) {
 
 						int hold = target.getMaxStackSize() - target.stackSize;
 
@@ -718,7 +718,7 @@ public final class ItemStackHelper {
 						inv.set(j, stack);
 						inv.set(i, null);
 						break;
-					} else if (ItemHelper.itemsEqualForCrafting(stack, target)) {
+					} else if (ItemHelper.itemsIdentical(stack, target)) {
 
 						int hold = target.getMaxStackSize() - target.stackSize;
 
@@ -737,6 +737,37 @@ public final class ItemStackHelper {
 
 		return inv;
 	}
+	
+	public static boolean addItemStackToInventory(ItemStack aitemstack[],
+			ItemStack itemstack, int i, int j) {
+		if (itemstack == null)
+			return true;
+		int k = -1;
+		for (int l = i; l <= j; l++) {
+			if (ItemHelper.itemsIdentical(itemstack, aitemstack[l])
+					&& aitemstack[l].getMaxStackSize() > aitemstack[l].stackSize) {
+				int i1 = aitemstack[l].getMaxStackSize()
+						- aitemstack[l].stackSize;
+				if (i1 >= itemstack.stackSize) {
+					aitemstack[l].stackSize += itemstack.stackSize;
+					itemstack = null;
+					return true;
+				}
+				itemstack.stackSize -= i1;
+				aitemstack[l].stackSize += i1;
+				continue;
+			}
+			if (aitemstack[l] == null && k == -1)
+				k = l;
+		}
+
+		if (k > -1)
+			aitemstack[k] = itemstack;
+		else
+			return false;
+		return true;
+	}
+
 
 	public static void setItemLore(ItemStack stack, List<String> lore) {
 		

@@ -30,7 +30,6 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Preconditions;
 
-import cofh.lib.util.helpers.InventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -278,7 +277,7 @@ public class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean addStackToOutput(ItemStack stack) {
-		return InventoryHelper.addItemStackToInventory(inventory, stack,
+		return ItemStackHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
 	}
 

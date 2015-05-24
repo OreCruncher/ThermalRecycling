@@ -34,7 +34,9 @@ import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -122,6 +124,10 @@ public class ModForestry extends ModPlugin {
 		registerCompostIngredient(CompostIngredient.GREEN, "fruits:*");
 
 		registerPulverizeToDirt("sapling", 0, 0);
+		
+		// Hook for farm blocks
+		ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
