@@ -52,6 +52,8 @@ public final class ModOptions {
 	protected static final String CONFIG_STANDARD_SCRAP_FUEL_SETTING = "Standard Scrap Fuel Ticks";
 	protected static final String CONFIG_SUPERIOR_SCRAP_FUEL_SETTING = "Superior Scrap Fuel Ticks";
 	protected static final String CONFIG_SCRAPBOX_MULTIPLIER = "Scrapbox Multiplier";
+	protected static final String CONFIG_DEBRIS_FUEL_SETTING = "Debris Fuel Ticks";
+	protected static final String CONFIG_SCRAP_BLOCK_FUEL_SETTING = "Scrap Block Fuel Ticks";
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -61,6 +63,8 @@ public final class ModOptions {
 	protected static int poorScrapFuelSetting = 400;
 	protected static int standardScrapFuelSetting = 800;
 	protected static int superiorScrapFuelSetting = 1600;
+	protected static int debrisFuelSetting = 200;
+	protected static int scrapBlockFuelSetting = 2000;
 	protected static int scrapboxMultiplier = 9;
 	protected static boolean enableRecyclerFX = true;
 	protected static boolean enableComposterFX = true;
@@ -119,6 +123,16 @@ public final class ModOptions {
 				superiorScrapFuelSetting, 0, Integer.MAX_VALUE,
 				"Number of ticks Superior Scrap will burn in a furnace");
 
+		debrisFuelSetting = config.getInt(
+				CONFIG_DEBRIS_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
+				debrisFuelSetting, 0, Integer.MAX_VALUE,
+				"Number of ticks Debris will burn in a furnace");
+
+		scrapBlockFuelSetting = config.getInt(
+				CONFIG_SCRAP_BLOCK_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
+				scrapBlockFuelSetting, 0, Integer.MAX_VALUE,
+				"Number of ticks a Block of Scrap will burn in a furnace");
+
 		scrapboxMultiplier = config
 				.getInt(CONFIG_SCRAPBOX_MULTIPLIER, CATEGORY_FUEL_SETTINGS,
 						scrapboxMultiplier, 0, Integer.MAX_VALUE,
@@ -162,6 +176,14 @@ public final class ModOptions {
 		return modWhitelist;
 	}
 
+	public static int getDebrisFuelSetting() {
+		return debrisFuelSetting;
+	}
+	
+	public static int getScrapBlockFuelSetting() {
+		return scrapBlockFuelSetting;
+	}
+	
 	public static int getPoorScrapFuelSetting() {
 		return poorScrapFuelSetting;
 	}

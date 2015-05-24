@@ -24,9 +24,11 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -40,10 +42,11 @@ public class FuelHandler implements IFuelHandler {
 	@Override
 	public int getBurnTime(ItemStack fuel) {
 
+		Item item = fuel.getItem();
 		int burn = 0;
 
-		if (fuel.getItem() == ItemManager.recyclingScrap
-				|| fuel.getItem() == ItemManager.recyclingScrapBox) {
+		if (item == ItemManager.recyclingScrap
+				|| item == ItemManager.recyclingScrapBox) {
 
 			switch (fuel.getItemDamage()) {
 			case RecyclingScrap.POOR:
@@ -57,8 +60,13 @@ public class FuelHandler implements IFuelHandler {
 				break;
 			}
 
-			if (fuel.getItem() == ItemManager.recyclingScrapBox)
+			if (item == ItemManager.recyclingScrapBox)
 				burn *= ModOptions.getScrapBoxMultiplier();
+			
+		} else if(item == ItemManager.debris) {
+			burn = ModOptions.getDebrisFuelSetting();
+		} else if(item == Item.getItemFromBlock(BlockManager.scrapBlock)) {
+			burn = ModOptions.getScrapBlockFuelSetting();
 		}
 
 		return burn;
