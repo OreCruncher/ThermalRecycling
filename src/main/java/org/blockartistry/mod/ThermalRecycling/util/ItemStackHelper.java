@@ -102,6 +102,8 @@ public final class ItemStackHelper {
 			3);
 	public static final ItemStack sulfer = new ItemStack(materialBase, 1, 16);
 	public static final ItemStack niter = new ItemStack(materialBase, 1, 17);
+	
+	public static final ItemStack dustObsidian = new ItemStack(materialBase, 1, 4);
 
 	static {
 
@@ -162,6 +164,7 @@ public final class ItemStackHelper {
 		preferred.put("dustCoal", dustCoal);
 		preferred.put("dustCharcoal", dustCharcoal);
 		preferred.put("dustSulfer", sulfer);
+		preferred.put("dustObsidian", dustObsidian);
 
 		preferred.put("blockCopper", new ItemStack(storageBase, 1, 0));
 		preferred.put("blockTin", new ItemStack(storageBase, 1, 1));

@@ -68,6 +68,14 @@ public final class ItemScrapData {
 	boolean scrubFromOutput;
 	boolean isFood;
 
+	static boolean exceptionalFood(Item item) {
+		return item == Items.golden_apple || item == Items.golden_carrot;
+	}
+	
+	static boolean exceptionalFood(ItemStack stack) {
+		return exceptionalFood(stack.getItem());
+	}
+
 	static {
 
 		String[] whiteList = null;
@@ -102,8 +110,9 @@ public final class ItemScrapData {
 						data.setValue(modIds.contains(":" + modName + ":") ? DEFAULT_SCRAP_VALUE
 								: ScrapValue.NONE);
 
-					data.setIgnoreRecipe(isMinecraft);
-					data.setScrubFromOutput(isMinecraft);
+					boolean food = o instanceof ItemFood && !exceptionalFood((Item)o);
+					data.setIgnoreRecipe(food);
+					data.setScrubFromOutput(food);
 
 					put(data);
 				}
@@ -349,14 +358,6 @@ public final class ItemScrapData {
 		return data;
 	}
 	
-	static boolean exceptionalFood(Item item) {
-		return item == Items.golden_apple || item == Items.golden_carrot;
-	}
-	
-	static boolean exceptionalFood(ItemStack stack) {
-		return exceptionalFood(stack.getItem());
-	}
-
 	protected static boolean isOreDictionaryType(ItemStack stack) {
 		return ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
 				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack);
@@ -364,7 +365,7 @@ public final class ItemScrapData {
 
 	public static boolean isRecipeIgnored(Item item) {
 		ItemScrapData data = get(item);
-		return data.getIgnoreRecipe() || (data.isFood() && !exceptionalFood(item));
+		return data.getIgnoreRecipe();
 	}
 
 	public static boolean isRecipeIgnored(Block block) {
@@ -376,7 +377,7 @@ public final class ItemScrapData {
 			return true;
 		ItemScrapData data = get(stack);
 
-		return data != null && (data.getIgnoreRecipe() || (data.isFood() && !exceptionalFood(stack)));
+		return data != null && (data.getIgnoreRecipe());
 	}
 
 	public static void setRecipeIgnored(Item item, boolean flag) {
@@ -399,7 +400,7 @@ public final class ItemScrapData {
 	public static boolean isScrubbedFromOutput(Item item) {
 		Preconditions.checkNotNull(item);
 		ItemScrapData data = get(item);
-		return data.isScrubbedFromOutput() || (data.isFood() && !exceptionalFood(item));
+		return data.isScrubbedFromOutput();
 	}
 
 	public static boolean isScrubbedFromOutput(Block block) {
@@ -410,7 +411,7 @@ public final class ItemScrapData {
 	public static boolean isScrubbedFromOutput(ItemStack stack) {
 		Preconditions.checkNotNull(stack);
 		ItemScrapData data = get(stack);
-		return data.isScrubbedFromOutput() || (data.isFood() && !exceptionalFood(stack));
+		return data.isScrubbedFromOutput();
 	}
 
 	public static void setScrubbedFromOutput(Item item, boolean flag) {

@@ -41,31 +41,12 @@ public class VanillaMinecraft extends ModPlugin {
 	static boolean enableNetherStarRecycle = true;
 	static int quantityRottenFleshToLeather = 2;
 
-	static final String[] recipesToReveal = new String[] { "flint_and_steel",
-			"rail", "redstone_torch", "iron_bars", "iron_ingot", "iron_block",
-			"iron_helmet", "iron_chestplate", "iron_leggings", "iron_boots",
-			"iron_sword", "iron_shovel", "iron_axe", "iron_pickaxe",
-			"iron_hoe", "gold_ingot", "gold_block", "golden_helmet",
-			"golden_chestplate", "golden_leggings", "golden_boots",
-			"golden_sword", "golden_shovel", "golden_axe", "golden_pickaxe",
-			"golden_hoe", "iron_door", "minecart", "chest_minecart",
-			"furnace_minecart", "tnt_minecart", "hopper_minecart", "beacon",
-			"bucket", "lava_bucket", "water_bucket", "milk_bucket",
-			"golden_carrot", "golden_apple", "golden_apple:1",
-			"speckled_melon", "emerald_block", "diamond_block",
-			"diamond_helmet", "diamond_chestplate", "diamond_leggings",
-			"diamond_boots", "diamond_sword", "diamond_shovel", "diamond_axe",
-			"diamond_pickaxe", "diamond_hoe", "compass", "clock",
-			"leather_helmet", "leather_chestplate", "leather_leggings",
-			"leather_boots", "cauldron", "brewing_stand", "anvil",
-			"enchanting_table", "hopper", "repeater", "comparator",
-			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
-			"daylight_detector", "shears", "piston", "sticky_piston",
-			"jukebox", "glowstone", "redstone_lamp", "ender_chest",
-			"golden_rail", "detector_rail", "activator_rail", "quartz_block:*"
-
+	static final String[] recipeIgnoreList = new String[] {
+		"chainmail_helmet", "chainmail_leggings", "chainmail_boots",
+		"chainmail_chestplate", "dye:*", "coal", "ender_pearl",
+		"blaze_powder",
 	};
-
+	
 	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",
 			"rotten_flesh", "tnt", "coal_block", "gold_nugget",
 			"leather_helmet", "leather_chestplate", "leather_leggings",
@@ -105,40 +86,6 @@ public class VanillaMinecraft extends ModPlugin {
 
 	};
 
-	static final String[] notScrubFromOutput = new String[] { "clay_ball",
-			"diamond", "emerald", "nether_star", "ender_eye", "ender_pearl",
-			"gunpowder", "flint_and_steel", "chainmail_boots",
-			"chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",
-			"rotten_flesh", "redstone", "coal", "lead", "nether_wart",
-			"leather", "book", "tnt", "coal_block", "coal", "rail",
-			"redstone_torch", "iron_bars", "lapis_block", "redstone_block",
-			"chest", "iron_ingot", "iron_block", "iron_helmet",
-			"iron_chestplate", "iron_leggings", "iron_boots", "iron_sword",
-			"iron_shovel", "iron_axe", "iron_pickaxe", "iron_hoe",
-			"gold_ingot", "gold_block", "golden_helmet", "golden_chestplate",
-			"golden_leggings", "golden_boots", "golden_sword", "golden_shovel",
-			"golden_axe", "golden_pickaxe", "golden_hoe", "emerald_block",
-			"diamond_block", "diamond_helmet", "diamond_chestplate",
-			"diamond_leggings", "diamond_boots", "diamond_sword",
-			"diamond_shovel", "diamond_axe", "diamond_pickaxe", "diamond_hoe",
-			"iron_door", "gold_nugget", "minecart", "chest_minecart",
-			"furnace_minecart", "tnt_minecart", "hopper_minecart", "beacon",
-			"bucket", "lava_bucket", "water_bucket", "milk_bucket",
-			"iron_horse_armor", "golden_horse_armor", "diamond_horse_armor",
-			"golden_carrot", "golden_apple", "speckled_melon", "compass",
-			"clock", "leather_helmet", "leather_chestplate",
-			"leather_leggings", "leather_boots", "cauldron", "magma_cream",
-			"ghast_tear", "brewing_stand", "blaze_rod", "anvil",
-			"enchanting_table", "hopper", "repeater", "comparator",
-			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
-			"daylight_detector", "experience_bottle", "shears",
-			"golden_apple:1", "quartz", "piston", "sticky_piston",
-			"golden_rail", "detector_rail", "activator_rail", "dispenser",
-			"dropper", "jukebox", "glowstone", "redstone_lamp", "ender_chest",
-			"slime_ball", "quartz_block:*"
-
-	};
-
 	static final String[] brownCompost = new String[] { "sapling:*",
 			"leaves:*", "leaves2:*", "deadbush", "vine", "wheat", };
 
@@ -174,15 +121,11 @@ public class VanillaMinecraft extends ModPlugin {
 	@Override
 	public void apply() {
 
-		// ItemScrubData item defaults are ScrapValue.NONE, ignore recipes, and
-		// scrub from output
-		// The configuration info below flips them back to some other values.
+		registerRecipesToIgnore(recipeIgnoreList);
 
-		registerRecipesToReveal(recipesToReveal);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		registerNotScrubFromOutput(notScrubFromOutput);
 
 		registerRecycleToWoodDust(1, "log:*", "log2:*");
 		registerRecycleToWoodDust(2, "planks:*");

@@ -135,7 +135,7 @@ public class ModThermalFoundation extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		registerRecipesToReveal(recipeRevealList);
+		//registerRecipesToReveal(recipeRevealList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
