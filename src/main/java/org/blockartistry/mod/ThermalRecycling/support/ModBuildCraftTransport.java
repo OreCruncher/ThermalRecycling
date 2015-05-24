@@ -106,9 +106,9 @@ public class ModBuildCraftTransport extends ModPlugin {
 		if (ItemScrapData.isRecipeIgnored(output))
 			return;
 
-		recycler.useRecipe(
-				new RecipeDecomposition(false, output, view.getInputs()))
-				.save();
+		recycler.input(output)
+			.useRecipe(RecipeDecomposition.decomposeBuildCraft(output, view.getInputs()))
+			.save();
 	}
 
 	@Override

@@ -52,6 +52,16 @@ import net.minecraft.util.StatCollector;
  */
 public abstract class ScrapHandler {
 
+	// Cache strings for performance
+	static final StringBuilder builder = new StringBuilder(32);
+	static final String loreDestroy = StatCollector.translateToLocal("msg.ScrapPreview.destroy");
+	static final String loreKeep = StatCollector.translateToLocal("msg.ScrapPreview.keep");
+	static final String loreDust = StatCollector.translateToLocal("msg.ScrapPreview.dust");
+	static final String loreDebris = StatCollector.translateToLocal("item.Debris.debris.name");
+	static final String lorePoorScrap = StatCollector.translateToLocal("item.RecyclingScrap.poor.name");
+	static final String loreStandardScrap = StatCollector.translateToLocal("item.RecyclingScrap.standard.name");
+	static final String loreSuperiorScrap = StatCollector.translateToLocal("item.RecyclingScrap.superior.name");
+	
 	public static class PreviewResult {
 
 		public final ItemStack inputRequired;
@@ -110,25 +120,24 @@ public abstract class ScrapHandler {
 		int totalWeight = t.get().getTotalWeight();
 		for (ItemStackItem w : t.get().getEntries()) {
 
-			StringBuilder builder = new StringBuilder();
+			builder.setLength(0);;
 			ItemStack temp = w.getStack();
-			double percent = w.itemWeight * 100F / totalWeight;
-			builder.append(String.format("%5.1f%% ", percent));
+			builder.append(String.format("%5.1f%% ", w.itemWeight * 100F / totalWeight));
 			
 			if(ScrappingTables.destroyIt(temp))
-				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.destroy"));
+				builder.append(loreDestroy);
 			else if(ScrappingTables.keepIt(temp))
-				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.keep"));
+				builder.append(loreKeep);
 			else if(ScrappingTables.dustIt(temp))
-				builder.append(StatCollector.translateToLocal("msg.ScrapPreview.dust"));
+				builder.append(loreDust);
 			else if(temp.isItemEqual(ScrappingTables.debris))
-				builder.append(StatCollector.translateToLocal("item.Debris.debris.name"));
+				builder.append(loreDebris);
 			else if(temp.isItemEqual(ScrappingTables.poorScrap))
-				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.poor.name"));
+				builder.append(lorePoorScrap);
 			else if(temp.isItemEqual(ScrappingTables.standardScrap))
-				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.standard.name"));
+				builder.append(loreStandardScrap);
 			else if(temp.isItemEqual(ScrappingTables.superiorScrap))
-				builder.append(StatCollector.translateToLocal("item.RecyclingScrap.superior.name"));
+				builder.append(loreSuperiorScrap);
 			else
 				builder.append("UNKNOWN");
 			

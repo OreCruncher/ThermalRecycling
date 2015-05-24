@@ -32,7 +32,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackRange;
@@ -45,7 +44,6 @@ public class ThermalRecyclerRecipeBuilder {
 	protected ItemStack input;
 
 	public ThermalRecyclerRecipeBuilder() {
-
 		reset();
 	}
 
@@ -230,7 +228,10 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
-			useRecipe(new RecipeDecomposition(recipe));
+			if(recipe != null) {
+				input = recipe.getRecipeOutput();
+				useRecipe(RecipeDecomposition.decompose(recipe));
+			}
 		} catch (Exception e) {
 			;
 		}
@@ -259,12 +260,9 @@ public class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(RecipeDecomposition recipe) {
-		if (recipe != null)
-			this.input = recipe.getInput();
-		for (ItemStack item : recipe)
-			if (!ItemScrapData.isScrubbedFromOutput(item))
-				output.add(item);
+	public ThermalRecyclerRecipeBuilder useRecipe(List<ItemStack> recipe) {
+		if(recipe != null)
+			output.addAll(recipe);
 		return this;
 	}
 
@@ -282,8 +280,7 @@ public class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = RecipeData.put(input,
-					output.toArray(new ItemStack[output.size()]));
+			int result = RecipeData.put(input, output);
 			if (result == RecipeData.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
 			else if (result == RecipeData.DUPLICATE)
@@ -321,5 +318,4 @@ public class ThermalRecyclerRecipeBuilder {
 		for (ItemStack stack : new ItemStackRange(item, begin, end))
 			builder.useRecipe(stack).save();
 	}
-
 }

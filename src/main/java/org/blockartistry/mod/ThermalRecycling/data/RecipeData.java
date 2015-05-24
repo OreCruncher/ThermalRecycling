@@ -52,20 +52,14 @@ public class RecipeData {
 	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(
 			MyComparators.itemStackAscending);
 
-	ItemStack inputStack;
-	List<ItemStack> outputStacks;
-	boolean preserveOutput;
+	final ItemStack inputStack;
+	final List<ItemStack> outputStacks;
 
 	public RecipeData(ItemStack input, List<ItemStack> output) {
-		this(input, false, output);
-	}
-
-	public RecipeData(ItemStack input, boolean preserveOutput,
-			List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
+		Preconditions.checkNotNull(output);
 
 		this.inputStack = input;
-		this.preserveOutput = preserveOutput;
 		this.outputStacks = output;
 	}
 
@@ -79,15 +73,6 @@ public class RecipeData {
 
 	public List<ItemStack> getOutput() {
 		return Collections.unmodifiableList(this.outputStacks);
-	}
-
-	public boolean getPreserveOutput() {
-		return this.preserveOutput;
-	}
-
-	public RecipeData setPreserveOutput(boolean flag) {
-		this.preserveOutput = flag;
-		return this;
 	}
 
 	public static RecipeData get(ItemStack input) {
@@ -115,7 +100,13 @@ public class RecipeData {
 		return result;
 	}
 
-	public static int put(ItemStack input, ItemStack[] output) {
+	/**
+	 * Adds the given recipe to the tracking tables.  It assumes control
+	 * over output.
+	 */
+	public static int put(ItemStack input, List<ItemStack> output) {
+		Preconditions.checkNotNull(input);
+		Preconditions.checkNotNull(output);
 
 		int retCode = DUPLICATE;
 
@@ -130,41 +121,30 @@ public class RecipeData {
 				|| (result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
 						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
 
-			List<ItemStack> workingSet = null;
 			ItemStack stack = input.copy();
 
-			if (output != null && output.length > 0) {
+			// Traverse the list replacing WILDCARD stacks with concrete
+			// ones.  The logic prefers Thermal Foundation equivalents
+			// if found.
+			for (int i = 0; i < output.size(); i++) {
 
-				// Clone the inventory - don't want to work with the originals
-				workingSet = ItemStackHelper.clone(output);
+				ItemStack working = output.get(i);
 
-				// Traverse the list replacing WILDCARD stacks with concrete
-				// ones.
-				// The logic prefers Thermal Foundation equivalents if found.
-				for (int i = 0; i < workingSet.size(); i++) {
+				if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+					String oreName = ItemHelper.getOreName(working);
 
-					ItemStack working = workingSet.get(i);
-
-					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-						String oreName = ItemHelper.getOreName(working);
-
-						if (oreName != null) {
-							working = ItemStackHelper.getItemStack(oreName,
-									working.stackSize);
-							if (working != null)
-								workingSet.set(i, working);
-						}
+					if (oreName != null) {
+						working = ItemStackHelper.getItemStack(oreName,
+								working.stackSize);
+						if (working != null)
+							output.set(i, working);
 					}
 				}
-
-				// We do this to compact the output set. Callers may have
-				// duplicate items in the recipe list because of how they
-				// handle recipes.
-				workingSet = MyUtils.compress(ItemStackHelper
-						.coelece(workingSet));
 			}
 
-			recipes.put(stack, new RecipeData(stack, workingSet));
+			output = MyUtils.compress(ItemStackHelper.coelece(output));
+
+			recipes.put(stack, new RecipeData(stack, output));
 
 			retCode = SUCCESS;
 		}
@@ -200,8 +180,6 @@ public class RecipeData {
 			}
 		}
 		builder.append("]");
-		builder.append(String.format(" | preserve output %s",
-				Boolean.toString(preserveOutput)));
 
 		return builder.toString();
 	}

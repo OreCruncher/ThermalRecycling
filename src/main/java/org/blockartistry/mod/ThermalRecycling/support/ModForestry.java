@@ -93,8 +93,7 @@ public class ModForestry extends ModPlugin {
 					&& e.getValue()[0] instanceof ItemStack) {
 				ItemStack stack = (ItemStack) e.getValue()[0];
 				if (!ItemScrapData.isRecipeIgnored(stack))
-					recycler.useRecipe(
-							new RecipeDecomposition(stack, e.getKey())).save();
+					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
 		}
 	}
