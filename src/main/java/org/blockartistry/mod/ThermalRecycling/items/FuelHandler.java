@@ -27,16 +27,36 @@ package org.blockartistry.mod.ThermalRecycling.items;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class FuelHandler implements IFuelHandler {
 
+	protected void registerCarbonValue(ItemStack stack) {
+		
+		final NBTTagCompound msg = new NBTTagCompound();
+		msg.setBoolean("useBurnTime", true);
+		msg.setTag("item", new NBTTagCompound());
+		stack.writeToNBT(msg.getCompoundTag("item"));
+		
+		FMLInterModComms.sendMessage(SupportedMod.ADVANCED_GENERATORS.getModId(), "AddCarbonValue", msg);
+	}
+	
 	public FuelHandler() {
 		GameRegistry.registerFuelHandler(this);
+		
+		if(SupportedMod.ADVANCED_GENERATORS.isLoaded()) {
+			// Configure Syngas carbon sources.  IMC support
+			// was added in 0.9.13.72
+			registerCarbonValue(new ItemStack(ItemManager.debris));
+			registerCarbonValue(new ItemStack(BlockManager.scrapBlock));
+		}
 	}
 
 	@Override
