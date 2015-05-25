@@ -27,25 +27,30 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.JarConfiguration;
 import org.blockartistry.mod.ThermalRecycling.util.Matrix2D;
+import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
 
 import com.google.common.base.Optional;
 
-import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.oredict.OreDictionary;
 
 public final class ScrappingTables {
 	
@@ -76,11 +81,17 @@ public final class ScrappingTables {
 			ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD);
 	static final ItemStack superiorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR);
+	
+	static final ItemStack poorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.POOR);
+	static final ItemStack standardScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD);
+	static final ItemStack superiorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.SUPERIOR);
 
 	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
 	
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
+
+	static final ItemStack[] dontScrap;
 	
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
@@ -167,6 +178,30 @@ public final class ScrappingTables {
 					;
 				}
 		}
+		
+		// Scan the OreDictionary looking for blocks/items that we want
+		// to prevent from being scrapped.  Collect them in the TreeSet
+		// so that there are no duplicates and it is sorted.
+		final Set<ItemStack> temp = new TreeSet<ItemStack>(MyComparators.itemStackAscending);
+		for(final String oreName: OreDictionary.getOreNames()) {
+			if(oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot") || oreName.startsWith("nugget")) {
+				temp.addAll(OreDictionary.getOres(oreName));
+			}
+		}
+		
+		// Add our scrap and boxes
+		temp.add(debris);
+		temp.add(poorScrap);
+		temp.add(standardScrap);
+		temp.add(superiorScrap);
+		temp.add(poorScrapBox);
+		temp.add(standardScrapBox);
+		temp.add(superiorScrapBox);
+		
+		// Generate an array of those items.  It will be sorted
+		// by virtue of the TreeSet.  We can then use a binary
+		// search on the list looking for matches.
+		dontScrap = temp.toArray(new ItemStack[temp.size()]);
 	}
 
 	public static Optional<ItemStackWeightTable> getTable(ItemStack core, final ItemStack stack) {
@@ -191,12 +226,7 @@ public final class ScrappingTables {
 	}
 
 	public static boolean canBeScrapped(final ItemStack stack) {
-
-		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
-				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack)
-				|| stack.getItem() == ItemManager.recyclingScrap
-				|| stack.getItem() == ItemManager.recyclingScrapBox || stack
-					.getItem() == ItemManager.debris);
+		return Arrays.binarySearch(dontScrap, stack, MyComparators.itemStackAscending) < 0;
 	}
 
 	public static List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {

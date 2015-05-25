@@ -27,9 +27,9 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
+import org.blockartistry.mod.ThermalRecycling.util.IndexedCollection;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
@@ -50,60 +50,98 @@ public final class RecipeData {
 	public static final int FAILURE = 1;
 	public static final int DUPLICATE = 2;
 
-	static final Map<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(
+	// Used as a generic "blank" for items that do not have
+	// recipes registered.
+	private static final RecipeData ephemeral = new RecipeData();
+	
+	// Work map while building up the recipe list.  Will be discarded
+	// once completed.
+	private static TreeMap<ItemStack, RecipeData> r = new TreeMap<ItemStack, RecipeData>(
 			MyComparators.itemStackAscending);
 
-	final ItemStack inputStack;
+	// Concrete recipe index tailored specifically for lean
+	// operation and highly tailored to the task.
+	private static IndexedCollection<ItemStack, RecipeData> recipes;
+	
+	// Casts the collected recipes in stone and sets up the
+	// operating index.  From this point on no other recipes
+	// can be added.
+	public static void freeze() {
+		recipes = new IndexedCollection<ItemStack, RecipeData>(r);
+		r = null;
+	}
+
+	final String name;
+	final int quantityRequired;
+	final boolean isGeneric;
 	final List<ItemStack> outputStacks;
+
+	/**
+	 * Special CTOR for creating recipes for items that do not have any recipes
+	 * cached.
+	 */
+	protected RecipeData() {
+		this.name = "<Ephemeral>";
+		this.quantityRequired = 1;
+		this.isGeneric = false;
+		this.outputStacks = Collections.emptyList();
+	}
 
 	public RecipeData(final ItemStack input, final List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
 		Preconditions.checkNotNull(output);
 
-		this.inputStack = input;
+		this.name = ItemStackHelper.resolveName(input);
+		this.quantityRequired = input.stackSize;
+		this.isGeneric = input.getItemDamage() == OreDictionary.WILDCARD_VALUE;
 		this.outputStacks = output;
 	}
 
-	public ItemStack getInput() {
-		return this.inputStack;
+	public boolean isGeneric() {
+		return isGeneric;
+	}
+	
+	public boolean hasOutput() {
+		return !this.outputStacks.isEmpty();
 	}
 
-	public int getMinimumInputStacksRequired() {
-		return this.inputStack.stackSize;
+	public int getMinimumInputQuantityRequired() {
+		return quantityRequired;
 	}
 
 	public List<ItemStack> getOutput() {
 		return Collections.unmodifiableList(this.outputStacks);
 	}
 
-	public static RecipeData get(final ItemStack input) {
+	// Internal mechanism for getting at the scratch
+	// recipe map.  Used during mod initialization.
+	protected static RecipeData _get(final ItemStack input) {
 
-		RecipeData match = recipes.get(input);
+		RecipeData match = r.get(input);
 
-		if (match == null
-				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			final ItemStack t = input.copy();
-			t.setItemDamage(OreDictionary.WILDCARD_VALUE);
-			match = recipes.get(t);
+		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+			match = r.get(ItemStackHelper.asGeneric(input));
 		}
 
 		return match;
 	}
 
-	public static List<ItemStack> getRecipe(final ItemStack input) {
-		List<ItemStack> result = null;
-		final RecipeData data = get(input);
-		if (data != null) {
-			result = data.getOutput();
-			if (result != null)
-				result = ItemStackHelper.clone(result);
+	// Operating method of getting a recipe from the index
+	public static RecipeData get(final ItemStack input) {
+		RecipeData match = recipes.find(input);
+		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+			match = recipes.find(ItemStackHelper.asGeneric(input));
 		}
-		return result;
+		return match == null ? ephemeral : match;
+	}
+
+	public static List<ItemStack> getRecipe(final ItemStack input) {
+		return ItemStackHelper.clone(get(input).getOutput());
 	}
 
 	/**
-	 * Adds the given recipe to the tracking tables.  It assumes control
-	 * over output.
+	 * Adds the given recipe to the tracking tables. It assumes control over
+	 * output.
 	 */
 	public static int put(final ItemStack input, List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
@@ -112,20 +150,19 @@ public final class RecipeData {
 		int retCode = DUPLICATE;
 
 		// See if we have an existing mapping
-		final RecipeData result = get(input);
+		final RecipeData result = _get(input);
 
 		// If we don't, or the mapping that exists is a wild card and the
 		// incoming
 		// recipe is specific, we want to add to the dictionary. The dictionary
 		// will prefer specific recipes over wild cards if possible.
-		if (result == null
-				|| result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
-						.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+		if (result == null || result.isGeneric()
+				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 
 			final ItemStack stack = input.copy();
 
 			// Traverse the list replacing WILDCARD stacks with concrete
-			// ones.  The logic prefers Thermal Foundation equivalents
+			// ones. The logic prefers Thermal Foundation equivalents
 			// if found.
 			for (int i = 0; i < output.size(); i++) {
 
@@ -145,7 +182,7 @@ public final class RecipeData {
 
 			output = MyUtils.compress(ItemStackHelper.coelece(output));
 
-			recipes.put(stack, new RecipeData(stack, output));
+			r.put(stack, new RecipeData(stack, output));
 
 			retCode = SUCCESS;
 		}
@@ -154,17 +191,14 @@ public final class RecipeData {
 	}
 
 	public static int getMinimumQuantityToRecycle(final ItemStack item) {
-
-		final RecipeData recipe = get(item);
-		return recipe == null ? 1 : recipe.getMinimumInputStacksRequired();
+		return get(item).quantityRequired;
 	}
 
 	@Override
 	public String toString() {
 
-		final StringBuilder builder = new StringBuilder();
-		builder.append(String.format("[%dx %s] => [", inputStack.stackSize,
-				ItemStackHelper.resolveName(inputStack)));
+		final StringBuilder builder = new StringBuilder(128);
+		builder.append(String.format("[%dx %s] => [", quantityRequired, name));
 
 		if (outputStacks == null || outputStacks.isEmpty()) {
 			builder.append("none");
@@ -180,7 +214,7 @@ public final class RecipeData {
 						ItemStackHelper.resolveName(stack)));
 			}
 		}
-		builder.append("]");
+		builder.append(']');
 
 		return builder.toString();
 	}
@@ -189,7 +223,7 @@ public final class RecipeData {
 
 		writer.write("\nKnown Thermal Recycler Recipes:\n");
 		writer.write("=================================================================\n");
-		for (final RecipeData d : recipes.values())
+		for (final RecipeData d : recipes)
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}

@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,6 +63,8 @@ public abstract class ScrapHandler {
 	static final String lorePoorScrap = StatCollector.translateToLocal("item.RecyclingScrap.poor.name");
 	static final String loreStandardScrap = StatCollector.translateToLocal("item.RecyclingScrap.standard.name");
 	static final String loreSuperiorScrap = StatCollector.translateToLocal("item.RecyclingScrap.superior.name");
+	
+	static final DecimalFormat doubleFormatter = new DecimalFormat("0.0% ");
 	
 	public static class PreviewResult {
 
@@ -117,13 +120,13 @@ public abstract class ScrapHandler {
 
 		final ArrayList<String> lore = new ArrayList<String>();
 		final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
-		final int totalWeight = t.get().getTotalWeight();
+		final double totalWeight = t.get().getTotalWeight();
 
 		for (final ItemStackItem w : t.get().getEntries()) {
 
 			builder.setLength(0);;
 			final ItemStack temp = w.getStack();
-			builder.append(String.format("%5.1f%% ", w.itemWeight * 100F / totalWeight));
+			builder.append(doubleFormatter.format(w.itemWeight / totalWeight));
 			
 			if(ScrappingTables.destroyIt(temp))
 				builder.append(loreDestroy);
@@ -151,29 +154,39 @@ public abstract class ScrapHandler {
 
 	public PreviewResult preview(ItemStack core, final ItemStack stack) {
 
+		// Get a base template for what the input should look like
 		final ItemStack item = stack.copy();
-		item.stackSize = getRecipeInputQuantity(stack);
+		item.stackSize = 1;
 
 		List<ItemStack> result = null;
+		
+		// If a dcomp core is installed get the output and decorate
 		if (ProcessingCorePolicy.isDecompositionCore(core)) {
 
-			result = getRecipeOutput(stack);
-
-			// If its a decomp core and the item has no recipe, treat as if it
-			// were being scrapped directly w/o a core it's the best way
-			// to get scrap yield.  Otherwise decorate the output.
-			if (result != null && ModOptions.getEnableAssessorEnhancedLore()) {
-				for(final ItemStack t: result)
-					decorateStack(core, t);
+			final RecipeData data = RecipeData.get(stack);
+			item.stackSize = data.getMinimumInputQuantityRequired();
+			
+			// If there is output then process the result.
+			// Otherwise it will fall through and treat the item
+			// as "must scrap".
+			if(data.hasOutput()) {
+				result = ItemStackHelper.clone(getRecipeOutput(stack));
+				
+				if(ModOptions.getEnableAssessorEnhancedLore()) {
+					for(final ItemStack t: result) {
+						decorateStack(core, t);
+					}
+				}
 			}
-			else
+			else {
 				core = null;
+			}
 		}
 
 		if (result == null) {
 			result = new ArrayList<ItemStack>();
 			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
-			final int totalWeight = t.get().getTotalWeight();
+			final double totalWeight = t.get().getTotalWeight();
 			for (final ItemStackItem w : t.get().getEntries()) {
 
 				final ItemStack temp = w.getStack();
@@ -181,8 +194,10 @@ public abstract class ScrapHandler {
 						&& !(ScrappingTables.keepIt(temp) || ScrappingTables
 								.dustIt(temp))) {
 
-					final double percent = w.itemWeight * 100F / totalWeight;
-					ItemStackHelper.setItemLore(temp, Collections.singletonList(String.format("%-1.2f%% chance", percent)));
+					builder.setLength(0);
+					builder.append(doubleFormatter.format(w.itemWeight / totalWeight));
+					builder.append("chance");
+					ItemStackHelper.setItemLore(temp, Collections.singletonList(builder.toString()));
 					result.add(temp);
 				}
 			}

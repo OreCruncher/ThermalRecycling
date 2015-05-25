@@ -84,7 +84,7 @@ public abstract class ModPlugin {
 	protected String makeName(final String name) {
 		String result;
 
-		if (name.startsWith("^"))
+		if (name.charAt(0) == '^')
 			result = name.substring(1);
 		else
 			result = getModId() + ":" + name;

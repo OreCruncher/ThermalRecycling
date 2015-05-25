@@ -56,8 +56,10 @@ public class GenericHandler extends ScrapHandler {
 
 			// If there isn't a recipe, process the item as if it were being
 			// scrapped without any cores.
-			if (processingList == null)
+			if (processingList.isEmpty()) {
 				core = null;
+			}
+			
 		} else if (ProcessingCorePolicy.isExtractionCore(core)
 				&& stack.getItem() == ItemManager.recyclingScrapBox) {
 			// Get scrap count plus bonus since it is a scrapbox
@@ -66,7 +68,7 @@ public class GenericHandler extends ScrapHandler {
 		}
 
 		// If we get here just scrap the input
-		if (processingList == null) {
+		if (processingList == null || processingList.isEmpty()) {
 			processingList = new ArrayList<ItemStack>();
 			processingList.add(stack);
 		}

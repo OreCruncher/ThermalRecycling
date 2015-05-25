@@ -74,15 +74,18 @@ public final class ProcessingCore extends ItemBase {
 
 	@Override
 	public String getUnlocalizedName(final ItemStack stack) {
-		String result = super.getUnlocalizedName(stack);
+		final StringBuilder builder = new StringBuilder(32);
+		builder.append(super.getUnlocalizedName(stack));
 		
 		if(stack.getItem() == ItemManager.processingCore) {
 			final int level = ItemStackHelper.getItemLevel(stack);
-			if(level > 0)
-				result += "_" + level;
+			if(level > 0) {
+				builder.append('_');
+				builder.append(level);
+			}
 		}
 		
-		return result;
+		return builder.toString();
 	}
 	
 	@Override

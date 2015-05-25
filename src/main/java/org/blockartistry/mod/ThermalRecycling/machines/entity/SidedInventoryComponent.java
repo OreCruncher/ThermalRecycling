@@ -149,7 +149,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 		if (inventory[index] != null) {
 
-			ItemStack stack;
+			final ItemStack stack;
 
 			if (inventory[index].stackSize <= count) {
 				stack = inventory[index];

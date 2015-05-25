@@ -66,7 +66,7 @@ public final class PulverizerRecipeBuilder extends
 					secondaryChance));
 		}
 
-		builder.append("]");
+		builder.append(']');
 
 		return builder.toString();
 	}

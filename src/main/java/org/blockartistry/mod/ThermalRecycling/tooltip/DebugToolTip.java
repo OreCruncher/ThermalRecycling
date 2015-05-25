@@ -35,21 +35,30 @@ import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
 public final class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
+	
+	private static final StringBuilder builder = new StringBuilder(32);
 
 	public Void apply(final List<String> output, final ItemStack stack) {
 
 		output.add(EnumChatFormatting.GREEN + "DEBUG:");
 
+		builder.setLength(0);
+		builder.append(EnumChatFormatting.LIGHT_PURPLE);
+
 		// Generate a new we can display to make things real easy
 		String name = Item.itemRegistry.getNameForObject(stack.getItem());
 
 		if (name == null)
-			name = "UNKNOWN";
+			builder.append("UNKNOWN");
+		else
+			builder.append(name);
 
-		if (stack.getHasSubtypes())
-			name += ":" + stack.getItemDamage();
+		if (stack.getHasSubtypes()) {
+			builder.append(':');
+			builder.append(stack.getItemDamage());
+		}
 
-		output.add(EnumChatFormatting.LIGHT_PURPLE + name);
+		output.add(builder.toString());
 		
 		final int[] oreIds = OreDictionary.getOreIDs(stack);
 		if(oreIds != null)

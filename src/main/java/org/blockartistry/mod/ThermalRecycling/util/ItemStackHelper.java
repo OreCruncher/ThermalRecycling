@@ -410,15 +410,15 @@ public final class ItemStackHelper {
 	}
 
 	public static List<ItemStack> clone(final ItemStack... stacks) {
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		for (int i = 0; i < stacks.length; i++)
-			if (stacks[i] != null)
-				result.add(stacks[i].copy());
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.length);
+		for (final ItemStack stack: stacks)
+			if (stack != null)
+				result.add(stack.copy());
 		return result;
 	}
 
 	public static List<ItemStack> clone(final List<ItemStack> stacks) {
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.size());
 		for (final ItemStack stack : stacks)
 			if (stack != null)
 				result.add(stack.copy());
@@ -722,35 +722,37 @@ public final class ItemStackHelper {
 		return inv;
 	}
 	
-	public static boolean addItemStackToInventory(final ItemStack aitemstack[],
-			final ItemStack itemstack, final int i, final int j) {
-		if (itemstack == null)
+	public static boolean addItemStackToInventory(final ItemStack inv[],
+			final ItemStack stack, final int startSlot, final int endSlot) {
+		
+		if (stack == null || stack.stackSize == 0)
 			return true;
-		int k = -1;
-		for (int l = i; l <= j; l++) {
-			if (ItemHelper.itemsIdentical(itemstack, aitemstack[l])
-					&& aitemstack[l].getMaxStackSize() > aitemstack[l].stackSize) {
-				final int i1 = aitemstack[l].getMaxStackSize()
-						- aitemstack[l].stackSize;
-				if (i1 >= itemstack.stackSize) {
-					aitemstack[l].stackSize += itemstack.stackSize;
+		
+		for (int slot = startSlot; slot <= endSlot; slot++) {
+			ItemStack invStack = inv[slot];
+			
+			// Quick and easy - if the slot is empty its the target
+			if(invStack == null) {
+				inv[slot] = stack;
+				return true;
+			}
+			
+			// If the stack can fit into this slot do the merge
+			final int remainingSpace = invStack.getMaxStackSize() - invStack.stackSize;
+			if(remainingSpace > 0 && ItemHelper.itemsIdentical(stack, invStack)) {
+
+				if (remainingSpace >= stack.stackSize) {
+					invStack.stackSize += stack.stackSize;
 					return true;
 				}
-				itemstack.stackSize -= i1;
-				aitemstack[l].stackSize += i1;
-				continue;
+				
+				stack.stackSize -= remainingSpace;
+				invStack.stackSize += remainingSpace;
 			}
-			if (aitemstack[l] == null && k == -1)
-				k = l;
 		}
 
-		if (k > -1)
-			aitemstack[k] = itemstack;
-		else
-			return false;
-		return true;
+		return false;
 	}
-
 
 	public static void setItemLore(final ItemStack stack, final List<String> lore) {
 		

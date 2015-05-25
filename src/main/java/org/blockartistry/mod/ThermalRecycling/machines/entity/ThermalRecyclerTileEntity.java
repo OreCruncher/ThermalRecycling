@@ -64,14 +64,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	// Entity state that needs to be serialized
-	protected int energy = 0;
-	protected int progress = 0;
-	protected int energyRate = 0;
-	protected MachineStatus status = MachineStatus.IDLE;
-	protected List<ItemStack> buffer;
-
-	// Energy characteristics of the machine
 	static final int ENERGY_MAX_STORAGE = 60000;
 	static final int ENERGY_PER_TICK = 40;
 	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
@@ -80,7 +72,44 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	static final int ENERGY_PER_OPERATION_DECOMP = 1600;
 	static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
 
-	static int operationEnergyForCore(final ItemStack core) {
+	// Entity state that needs to be serialized
+	protected int energy = 0;
+	protected int progress = 0;
+	protected int energyRate = 0;
+	protected MachineStatus status = MachineStatus.IDLE;
+	protected List<ItemStack> buffer;
+
+	// Transient state to increase performance
+	protected ItemStack activeStack;
+	protected RecipeData activeRecipe;
+	
+	public ThermalRecyclerTileEntity() {
+		super(GuiIdentifier.THERMAL_RECYCLER);
+		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
+		inv.setInputRange(0, 1).setOutputRange(1, 9).setHiddenSlots(CORE);
+		setMachineInventory(inv);
+	}
+
+	/**
+	 * Retrieve the stack currently in the input slot.  The RecipeData is
+	 * retrieved for the stack if it has not already been retrieved.  Goal
+	 * is to keep the data cached and avoid repeated lookups each tick.
+	 */
+	protected ItemStack detectInputStack() {
+		final ItemStack input = getStackInSlot(INPUT);
+		if(activeStack != input) {
+			activeStack = input;
+			if(input != null) {
+				activeRecipe = RecipeData.get(input);
+			} else {
+				activeRecipe = null;
+			}
+		}
+		return input;
+	}
+	
+	// Energy characteristics of the machine
+	protected static int operationEnergyForCore(final ItemStack core) {
 		if (core == null)
 			return ENERGY_PER_OPERATION_SCRAP;
 
@@ -92,13 +121,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Shouldn't get here....
 		return ENERGY_PER_OPERATION_DECOMP;
-	}
-
-	public ThermalRecyclerTileEntity() {
-		super(GuiIdentifier.THERMAL_RECYCLER);
-		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
-		inv.setInputRange(0, 1).setOutputRange(1, 9).setHiddenSlots(CORE);
-		setMachineInventory(inv);
 	}
 
 	@Override
@@ -175,7 +197,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		final NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
 		if (nbttaglist.tagCount() > 0) {
-			buffer = new ArrayList<ItemStack>();
+			buffer = new ArrayList<ItemStack>(nbttaglist.tagCount());
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 				buffer.add(ItemStack.loadItemStackFromNBT(nbttaglist
 						.getCompoundTagAt(i)));
@@ -306,8 +328,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		if (!worldObj.isRemote) {
 
-			final ItemStack inputSlotStack = getStackInSlot(INPUT);
-			final ItemStack core = getStackInSlot(CORE);
+			final MachineStatus previousStatus = status;
+			final ItemStack inputSlotStack = detectInputStack();
 
 			switch (status) {
 
@@ -327,6 +349,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 					status = MachineStatus.NEED_MORE_RESOURCES;
 				} else {
 
+					final ItemStack core = getStackInSlot(CORE);
 					if (progress >= operationEnergyForCore(core)) {
 						progress = 0;
 
@@ -367,9 +390,12 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 				break;
 			}
 
-			if (status != MachineStatus.ACTIVE) {
-				energyRate = 0;
-				setMachineActive(false);
+			if(status != previousStatus) {
+				final boolean isActive = status == MachineStatus.ACTIVE;
+				setMachineActive(isActive);
+				if(!isActive) {
+					energyRate = 0;
+				}
 			}
 		}
 	}
@@ -392,15 +418,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		final ItemStack input = getStackInSlot(INPUT);
-		if (input == null)
-			return false;
-
-		final int quantityRequired = RecipeData.getMinimumQuantityToRecycle(input);
-		final boolean result = quantityRequired != -1
-				&& quantityRequired <= input.stackSize;
-
-		return result;
+		return activeRecipe != null && activeRecipe.getMinimumInputQuantityRequired() <= activeStack.stackSize;
 	}
 
 	protected boolean flushBuffer() {
@@ -433,10 +451,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected boolean recycleItem() {
 
 		// Get how many items we need to snag off the stack
-		final int quantityRequired = RecipeData
-				.getMinimumQuantityToRecycle(getStackInSlot(INPUT));
-		if (quantityRequired < 1)
-			return true;
+		final int quantityRequired = activeRecipe.getMinimumInputQuantityRequired();
 
 		// Decrement our input slot. The decrStackSize
 		// method will handle appropriate nulling of

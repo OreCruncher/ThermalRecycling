@@ -132,7 +132,7 @@ public final class JarConfiguration
      * @param defaultValues an array containing the default values
      * @return a boolean array Property without a comment using these defaults: isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(final String category, final String key, final boolean[] defaultValues)
+    public Property get(final String category, final String key, final boolean... defaultValues)
     {
         return get(category, key, defaultValues, (String) null);
     }
@@ -252,7 +252,7 @@ public final class JarConfiguration
      * @return an integer array Property object with default bounds of Integer.MIN_VALUE and Integer.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(final String category, final String key, final int[] defaultValues)
+    public Property get(final String category, final String key, final int... defaultValues)
     {
         return get(category, key, defaultValues, (String) null);
     }
@@ -394,7 +394,7 @@ public final class JarConfiguration
      * @return a double array Property object with default bounds of Double.MIN_VALUE and Double.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(final String category, final String key, final double[] defaultValues)
+    public Property get(final String category, final String key, final double... defaultValues)
     {
         return get(category, key, defaultValues, null);
     }
@@ -531,7 +531,7 @@ public final class JarConfiguration
      *            a value cycle button.
      * @return a string Property with the defined validValues array, validationPattern = null
      */
-    public Property get(final String category, final String key, final String defaultValue, final String comment, final String[] validValues)
+    public Property get(final String category, final String key, final String defaultValue, final String comment, final String... validValues)
     {
     	final Property prop = get(category, key, defaultValue, comment, STRING);
         prop.setValidValues(validValues);
@@ -546,7 +546,7 @@ public final class JarConfiguration
      * @param defaultValues an array containing the default values
      * @return a string array Property with validationPattern = null, isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(final String category, final String key, final String[] defaultValues)
+    public Property get(final String category, final String key, final String... defaultValues)
     {
         return get(category, key, defaultValues, (String) null, false, -1, (Pattern) null);
     }
@@ -1247,7 +1247,7 @@ public final class JarConfiguration
      * Copies property objects from another Configuration object to this one using the list of category names. Properties that only exist in the
      * "from" object are ignored. Pass null for the ctgys array to include all categories.
      */
-    public void copyCategoryProps(final Configuration fromConfig, String[] ctgys)
+    public void copyCategoryProps(final Configuration fromConfig, String... ctgys)
     {
         if (ctgys == null)
             ctgys = this.getCategoryNames().toArray(new String[this.getCategoryNames().size()]);
@@ -1335,7 +1335,7 @@ public final class JarConfiguration
      * @param validValues A list of valid values that this property can be set to.
      * @return The value of the new string property.
      */
-    public String getString(final String name, final String category, final String defaultValue, final String comment, final String[] validValues)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final String... validValues)
     {
         return getString(name, category, defaultValue, comment, validValues, name);
     }
@@ -1383,7 +1383,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String[] getStringList(final String name, final String category, final String[] defaultValue, final String comment, final String[] validValues)
+    public String[] getStringList(final String name, final String category, final String[] defaultValue, final String comment, final String... validValues)
     {
         return getStringList(name, category, defaultValue, comment, validValues, name);
     }

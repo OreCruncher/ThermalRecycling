@@ -30,6 +30,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public final class NoInventoryComponent implements IMachineInventory {
+	
+	private final static int[] empty = new int[0];
 
 	@Override
 	public int getSizeInventory() {
@@ -94,7 +96,7 @@ public final class NoInventoryComponent implements IMachineInventory {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(final int p_94128_1_) {
-		return null;
+		return empty;
 	}
 
 	@Override
