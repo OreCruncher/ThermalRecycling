@@ -39,9 +39,9 @@ public final class ScrapToolTip implements
 		MultiFunction<List<String>, ItemStack, Void> {
 
 	@Override
-	public Void apply(List<String> output, ItemStack stack) {
+	public Void apply(final List<String> output, final ItemStack stack) {
 
-		ItemScrapData data = ItemScrapData.get(stack);
+		final ItemScrapData data = ItemScrapData.get(stack);
 
 		if (data == null)
 			return null;

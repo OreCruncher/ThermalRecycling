@@ -90,14 +90,14 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		super(SupportedMod.BUILDCRAFT_TRANSPORT);
 	}
 
-	protected void registerBuildcraftRecipe(IFlexibleRecipe<ItemStack> recipe) {
+	protected void registerBuildcraftRecipe(final IFlexibleRecipe<ItemStack> recipe) {
 
 		if (!(recipe instanceof IFlexibleRecipeViewable))
 			return;
 
-		IFlexibleRecipeViewable view = (IFlexibleRecipeViewable) recipe;
+		final IFlexibleRecipeViewable view = (IFlexibleRecipeViewable) recipe;
 
-		ItemStack output = (ItemStack) view.getOutput();
+		final ItemStack output = (ItemStack) view.getOutput();
 
 		// Dang facades...
 		if (output == null || output.getItem() == null)
@@ -121,15 +121,15 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Scan the recipes
-		Collection<IFlexibleRecipe<ItemStack>> recipes = BuildcraftRecipeRegistry.assemblyTable
+		final Collection<IFlexibleRecipe<ItemStack>> recipes = BuildcraftRecipeRegistry.assemblyTable
 				.getRecipes();
 
-		for (IFlexibleRecipe<ItemStack> r : recipes)
+		for (final IFlexibleRecipe<ItemStack> r : recipes)
 			registerBuildcraftRecipe(r);
 
-		List<? extends IIntegrationRecipe> recipes1 = BuildcraftRecipeRegistry.integrationTable
+		final List<? extends IIntegrationRecipe> recipes1 = BuildcraftRecipeRegistry.integrationTable
 				.getRecipes();
-		for (IIntegrationRecipe r : recipes1)
+		for (final IIntegrationRecipe r : recipes1)
 			registerBuildcraftRecipe(r);
 	}
 }

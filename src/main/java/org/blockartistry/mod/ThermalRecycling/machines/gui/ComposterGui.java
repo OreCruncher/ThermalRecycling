@@ -16,7 +16,7 @@ public final class ComposterGui extends GuiBase {
 
 	final ComposterTileEntity tileEntity;
 
-	public ComposterGui(InventoryPlayer playerInventory, IInventory entity) {
+	public ComposterGui(final InventoryPlayer playerInventory, final IInventory entity) {
 		super(new ComposterContainer(playerInventory, entity),
 				new ResourceLocation(ThermalRecycling.MOD_ID,
 						"textures/composter_gui.png"));
@@ -32,11 +32,11 @@ public final class ComposterGui extends GuiBase {
 		super.initGui();
 
 		// GUI dimension is width 427, height 240
-		ElementFluidTank e = new ElementFluidTank(this, 19, 11, tileEntity.getFluidTank());
+		final ElementFluidTank e = new ElementFluidTank(this, 19, 11, tileEntity.getFluidTank());
 		e.setSize(15, 55);
 		addElement(e);
 
-		ElementProgress ep = new ElementProgress(this, 105, 32, tileEntity);
+		final ElementProgress ep = new ElementProgress(this, 105, 32, tileEntity);
 		ep.machineStatusMessages[MachineStatus.OUT_OF_POWER.ordinal()] = "msg.MachineStatus.needMoreWater";
 		ep.machineStatusMessages[MachineStatus.NEED_MORE_RESOURCES.ordinal()] = "msg.MachineStatus.cantSeeSky";
 		addElement(ep);

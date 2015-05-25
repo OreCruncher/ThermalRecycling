@@ -52,7 +52,7 @@ public final class FluidTransposerRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack stack) {
+	protected String toString(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
@@ -65,7 +65,7 @@ public final class FluidTransposerRecipeBuilder extends
 	}
 
 	@Override
-	protected int saveImpl(ItemStack stack) {
+	protected int saveImpl(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
@@ -77,7 +77,7 @@ public final class FluidTransposerRecipeBuilder extends
 		return RecipeData.SUCCESS;
 	}
 
-	public FluidTransposerRecipeBuilder fluid(String fluidId) {
+	public FluidTransposerRecipeBuilder fluid(final String fluidId) {
 
 		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
 
@@ -86,7 +86,7 @@ public final class FluidTransposerRecipeBuilder extends
 		return THIS;
 	}
 
-	public FluidTransposerRecipeBuilder fluid(String fluidId, int quantity) {
+	public FluidTransposerRecipeBuilder fluid(final String fluidId, final int quantity) {
 
 		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,

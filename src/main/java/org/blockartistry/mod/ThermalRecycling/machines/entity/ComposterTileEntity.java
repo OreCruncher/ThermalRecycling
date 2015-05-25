@@ -104,7 +104,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 	public ComposterTileEntity() {
 		super(GuiIdentifier.COMPOSTER);
-		SidedInventoryComponent inv = new SidedInventoryComponent(this,
+		final SidedInventoryComponent inv = new SidedInventoryComponent(this,
 				ALL_SLOTS.length);
 		inv.setInputRange(0, ALL_SLOTS.length - 1);
 		setMachineInventory(inv);
@@ -114,7 +114,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public boolean isWhitelisted(ItemStack stack) {
+	public boolean isWhitelisted(final ItemStack stack) {
 		return true;
 	}
 
@@ -125,7 +125,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean receiveClientEvent(int action, int param) {
+	public boolean receiveClientEvent(final int action, final int param) {
 
 		if (!worldObj.isRemote)
 			return true;
@@ -174,7 +174,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		scanIndex = nbt.getByte("scanIndex");
@@ -185,7 +185,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		nbt.setByte("scanIndex", (byte) scanIndex);
@@ -202,43 +202,43 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		if (stack == null || stack.stackSize == 0)
 			return false;
 
-		ItemScrapData data = ItemScrapData.get(stack);
+		final ItemScrapData data = ItemScrapData.get(stack);
 		if (data == null)
 			return false;
 
-		CompostIngredient ci = data.getCompostIngredientValue();
+		final CompostIngredient ci = data.getCompostIngredientValue();
 
-		return (ci == CompostIngredient.BROWN && slot == BROWN)
-				|| (ci == CompostIngredient.GREEN && (slot == GREEN1 || slot == GREEN2));
+		return ci == CompostIngredient.BROWN && slot == BROWN
+				|| ci == CompostIngredient.GREEN && (slot == GREEN1 || slot == GREEN2);
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(final int index, final ItemStack stack) {
 		super.setInventorySlotContents(index, stack);
 
 	}
 
 	@Override
-	public Object getGuiClient(InventoryPlayer inventory) {
+	public Object getGuiClient(final InventoryPlayer inventory) {
 		return new ComposterGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(InventoryPlayer inventory) {
+	public Object getGuiServer(final InventoryPlayer inventory) {
 		return new ComposterContainer(inventory, this);
 	}
 
 	boolean hasGreenBrown() {
-		ItemStack brown = getStackInSlot(BROWN);
+		final ItemStack brown = getStackInSlot(BROWN);
 		if (brown == null)
 			return false;
 
-		ItemStack green1 = getStackInSlot(GREEN1);
-		ItemStack green2 = getStackInSlot(GREEN2);
+		final ItemStack green1 = getStackInSlot(GREEN1);
+		final ItemStack green2 = getStackInSlot(GREEN2);
 
 		// This would only be true if both are null
 		if (green1 == green2)
@@ -263,7 +263,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	boolean hasOutputRoom() {
-		ItemStack output = getStackInSlot(MEAL);
+		final ItemStack output = getStackInSlot(MEAL);
 		return output == null || output.stackSize < output.getMaxStackSize();
 	}
 
@@ -384,7 +384,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		progress = 0;
 	}
 
-	boolean bonemealTarget(Block block) {
+	boolean bonemealTarget(final Block block) {
 		if (block == null || !(block instanceof IGrowable))
 			return false;
 
@@ -393,26 +393,26 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 	void doPlotScan() {
 
-		ItemStack meal = getStackInSlot(MEAL);
+		final ItemStack meal = getStackInSlot(MEAL);
 		if (meal == null)
 			return;
 
-		if ((++scanTickCount % PLOT_SCAN_TICK_INTERVAL) == 0) {
+		if (++scanTickCount % PLOT_SCAN_TICK_INTERVAL == 0) {
 			scanTickCount = 0;
 
-			int PLOT_ANCHOR_X = xCoord - PLOT_SIZE / 2;
-			int PLOT_ANCHOR_Z = zCoord - PLOT_SIZE / 2;
+			final int PLOT_ANCHOR_X = xCoord - PLOT_SIZE / 2;
+			final int PLOT_ANCHOR_Z = zCoord - PLOT_SIZE / 2;
 
-			int blockX = (scanIndex % PLOT_SIZE) + PLOT_ANCHOR_X;
-			int blockZ = (scanIndex / PLOT_SIZE) + PLOT_ANCHOR_Z;
+			final int blockX = scanIndex % PLOT_SIZE + PLOT_ANCHOR_X;
+			final int blockZ = scanIndex / PLOT_SIZE + PLOT_ANCHOR_Z;
 
-			Block target = worldObj.getBlock(blockX, yCoord, blockZ);
+			final Block target = worldObj.getBlock(blockX, yCoord, blockZ);
 
 			if (bonemealTarget(target)) {
 
-				EntityPlayer recycling = FakePlayerHelper.getFakePlayer((WorldServer) worldObj,
+				final EntityPlayer recycling = FakePlayerHelper.getFakePlayer((WorldServer) worldObj,
 								blockX, yCoord, blockZ).get();
-				boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX,
+				final boolean applied = ItemDye.applyBonemeal(meal, worldObj, blockX,
 						yCoord, blockZ, recycling);
 
 				if (applied)
@@ -429,7 +429,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
 		if (!ModOptions.getEnableComposterFX())
 			return;
 
@@ -445,13 +445,13 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+	public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
 		return fluidTank.fill(resource, doFill);
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
-			boolean doDrain) {
+	public FluidStack drain(final ForgeDirection from, final FluidStack resource,
+			final boolean doDrain) {
 		if (resource == null || !resource.isFluidEqual(fluidTank.getFluid())) {
 			return null;
 		}
@@ -459,22 +459,22 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+	public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
 		return fluidTank.drain(maxDrain, doDrain);
 	}
 
 	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+	public boolean canFill(final ForgeDirection from, final Fluid fluid) {
 		return true;
 	}
 
 	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+	public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
 		return true;
 	}
 
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+	public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
 		return new FluidTankInfo[] { fluidTank.getInfo() };
 	}
 }

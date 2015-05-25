@@ -28,25 +28,27 @@ import com.google.common.base.Predicate;
 
 public final class Apply {
 	
-	public static <T> Iterable<T> forEach(Iterable<T> iterable, Predicate<T> pred) {
-		for(T e: iterable)
+	private Apply() {}
+	
+	public static <T> Iterable<T> forEach(final Iterable<T> iterable, final Predicate<T> pred) {
+		for(final T e: iterable)
 			pred.apply(e);
 		return iterable;
 	}
 	
-	public static <T,O> Iterable<T> forEach(Iterable<T> iterable, Function<T,O> func) {
-		for(T e: iterable)
+	public static <T,O> Iterable<T> forEach(final Iterable<T> iterable, final Function<T,O> func) {
+		for(final T e: iterable)
 			func.apply(e);
 		return iterable;
 	}
 	
-	public static <T> void forEach(T[] list, Predicate<T> pred) {
-		for(T e: list)
+	public static <T> void forEach(final T[] list, final Predicate<T> pred) {
+		for(final T e: list)
 			pred.apply(e);
 	}
 
-	public static <T,O> void forEach(T[] list, Function<T,O> func) {
-		for(T e: list)
+	public static <T,O> void forEach(final T[] list, final Function<T,O> func) {
+		for(final T e: list)
 			func.apply(e);
 	}
 }

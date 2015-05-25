@@ -44,13 +44,13 @@ public final class MachineThermalRecycler extends MachineBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+	public TileEntity createNewTileEntity(final World p_149915_1_, final int p_149915_2_) {
 		return new ThermalRecyclerTileEntity();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
+	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
 		icons[BLOCK_FRONT] = iconRegister
@@ -65,7 +65,7 @@ public final class MachineThermalRecycler extends MachineBase {
 		GameRegistry.registerTileEntity(ThermalRecyclerTileEntity.class,
 				"thermalRecyclerTileEntity");
 
-		ShapedOreRecipe recipe = new ShapedOreRecipe(
+		final ShapedOreRecipe recipe = new ShapedOreRecipe(
 				BlockManager.thermalRecycler,
 				"PSP",
 				"BMB",

@@ -34,31 +34,31 @@ public final class UpgradeRecipe extends ShapedOreRecipe {
 	protected final int level;
 	protected final int craftGridSlot = 4;
 	
-	public UpgradeRecipe(int level, ItemStack result, Object... recipe) {
+	public UpgradeRecipe(final int level, final ItemStack result, final Object... recipe) {
 		super(result, recipe);
 		
 		this.level = level;
 	}
 	
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting ic) {
+    public ItemStack getCraftingResult(final InventoryCrafting ic) {
     	
     	// Check the slot position in the crafting grid for
     	// the thing that is being upgraded.  If not present
     	// delegate to the super.
-		ItemStack stack = ic.getStackInSlot(craftGridSlot);
+		final ItemStack stack = ic.getStackInSlot(craftGridSlot);
 		if (stack == null)
 			return super.getCraftingResult(ic);
 		
 		// Need to make sure the current level of the item is
 		// appropriate for the level that is being crafted.
-		int itemLevel = ItemStackHelper.getItemLevel(stack);
+		final int itemLevel = ItemStackHelper.getItemLevel(stack);
 		if (level != itemLevel + 1)
 			return null;
 		
 		// The moons align!  Manufacture an appropriate item
 		// and return it.
-		ItemStack crafted = stack.copy();
+		final ItemStack crafted = stack.copy();
 		ItemStackHelper.setLevel(crafted, level);
 		
 		if(level == ProcessingCore.MAX_CORE_LEVEL) {

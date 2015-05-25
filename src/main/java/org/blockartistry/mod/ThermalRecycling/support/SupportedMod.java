@@ -85,8 +85,8 @@ public enum SupportedMod {
 	private final String modId;
 	private final Class<? extends ModPlugin> pluginFactory;
 
-	private SupportedMod(String name, String modId,
-			Class<? extends ModPlugin> clazz) {
+	private SupportedMod(final String name, final String modId,
+			final Class<? extends ModPlugin> clazz) {
 
 		this.name = name;
 		this.modId = modId;
@@ -120,7 +120,7 @@ public enum SupportedMod {
 	}
 
 	public static String[] getModIdList() {
-		String[] result = new String[values().length];
+		final String[] result = new String[values().length];
 		for (int i = 0; i < values().length; i++)
 			result[i] = values()[i].getModId();
 		return result;

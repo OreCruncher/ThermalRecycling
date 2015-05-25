@@ -32,7 +32,7 @@ public final class Location {
 	public final int y;
 	public final int z;
 
-	public Location(Entity entity) {
+	public Location(final Entity entity) {
 		x = MathHelper.floor_double(entity.posX);
 		y = MathHelper.floor_double(entity.boundingBox.minY) - 1;
 		z = MathHelper.floor_double(entity.posZ);

@@ -30,7 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
 public final class MachineComposterBlock extends MultiItemBlock {
 
-	public MachineComposterBlock(Block block) {
+	public MachineComposterBlock(final Block block) {
 
 		super(block);
 	}

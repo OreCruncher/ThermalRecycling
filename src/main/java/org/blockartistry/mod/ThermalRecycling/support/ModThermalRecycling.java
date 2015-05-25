@@ -51,10 +51,10 @@ public final class ModThermalRecycling extends ModPlugin {
 	String[] whiteList;
 
 	@Override
-	public void init(Configuration config) {
+	public void init(final Configuration config) {
 
-		String[] modList = SupportedMod.getModIdList();
-		String[] configList = ModOptions.getModWhitelist();
+		final String[] modList = SupportedMod.getModIdList();
+		final String[] configList = ModOptions.getModWhitelist();
 
 		if (configList == null || configList.length == 0)
 			whiteList = modList;
@@ -66,7 +66,7 @@ public final class ModThermalRecycling extends ModPlugin {
 	public void apply() {
 		
 		// Register special scrap handlers
-		ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
+		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
 		// Need to be able to see any special frames in real time.
 		ScrapHandler.registerHandler(
 				new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
@@ -107,13 +107,13 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
 
 		// Process all registered recipes
-		for (Object o : CraftingManager.getInstance().getRecipeList()) {
+		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
 
-			IRecipe recipe = (IRecipe) o;
-			ItemStack stack = recipe.getRecipeOutput();
+			final IRecipe recipe = (IRecipe) o;
+			final ItemStack stack = recipe.getRecipeOutput();
 
 			// Check to see if this item should have a recipe in
 			// the list. This does not mean that something later
@@ -124,7 +124,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
-					String name = Item.itemRegistry.getNameForObject(stack
+					final String name = Item.itemRegistry.getNameForObject(stack
 							.getItem());
 					
 					if (modIds.contains(":"

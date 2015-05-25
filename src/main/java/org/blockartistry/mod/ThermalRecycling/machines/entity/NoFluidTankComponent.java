@@ -31,11 +31,11 @@ import net.minecraftforge.fluids.FluidTankInfo;
 public final class NoFluidTankComponent implements IMachineFluidTank {
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(final NBTTagCompound nbt) {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(final NBTTagCompound nbt) {
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public final class NoFluidTankComponent implements IMachineFluidTank {
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill) {
+	public int fill(final FluidStack resource, final boolean doFill) {
 		return 0;
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
+	public FluidStack drain(final int maxDrain, final boolean doDrain) {
 		return null;
 	}
 }

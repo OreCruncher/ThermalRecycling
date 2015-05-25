@@ -52,141 +52,141 @@ public final class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(String... items) {
+	public ThermalRecyclerRecipeBuilder append(final String... items) {
 		ItemStackHelper.append(output, items);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(String item, int quantity) {
+	public ThermalRecyclerRecipeBuilder append(final String item, final int quantity) {
 		ItemStackHelper.append(output, item, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(Block... blocks) {
+	public ThermalRecyclerRecipeBuilder append(final Block... blocks) {
 		ItemStackHelper.append(output, blocks);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(Block block, int quantity) {
+	public ThermalRecyclerRecipeBuilder append(final Block block, final int quantity) {
 		ItemStackHelper.append(output, block, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(Item... items) {
+	public ThermalRecyclerRecipeBuilder append(final Item... items) {
 		ItemStackHelper.append(output, items);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(Item item, int quantity) {
+	public ThermalRecyclerRecipeBuilder append(final Item item, final int quantity) {
 		ItemStackHelper.append(output, item, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(List<ItemStack> stacks) {
+	public ThermalRecyclerRecipeBuilder append(final List<ItemStack> stacks) {
 		ItemStackHelper.append(output, stacks);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(ItemStack... stacks) {
+	public ThermalRecyclerRecipeBuilder append(final ItemStack... stacks) {
 		ItemStackHelper.append(output, stacks);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder append(ItemStack stack, int quantity) {
+	public ThermalRecyclerRecipeBuilder append(final ItemStack stack, final int quantity) {
 		Preconditions.checkNotNull(stack);
-		ItemStack t = stack.copy();
+		final ItemStack t = stack.copy();
 		t.stackSize = quantity;
 		return append(t);
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtype(ItemStack stack,
-			int subtype) {
+	public ThermalRecyclerRecipeBuilder appendSubtype(final ItemStack stack,
+			final int subtype) {
 		ItemStackHelper.appendSubtype(output, stack, subtype);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtype(Item item, int subtype) {
+	public ThermalRecyclerRecipeBuilder appendSubtype(final Item item, final int subtype) {
 		ItemStackHelper.appendSubtype(output, item, subtype);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(String item,
-			int start, int end, int quantity) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final String item,
+			final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(output, item, start, end, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(String item,
-			int start, int end) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final String item,
+			final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(output, item, start, end);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(Item item,
-			int start, int end, int quantity) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Item item,
+			final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(output, item, start, end, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(Item item,
-			int start, int end) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Item item,
+			final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(output, item, start, end);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(Block block,
-			int start, int end, int quantity) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Block block,
+			final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(output, block, start, end, quantity);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(Block block,
-			int start, int end) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Block block,
+			final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(output, block, start, end);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder appendSubtypeRange(ItemStack stack,
-			int start, int end) {
+	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final ItemStack stack,
+			final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(output, stack, start, end);
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder input(Block block) {
+	public ThermalRecyclerRecipeBuilder input(final Block block) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 
 		return input(new ItemStack(block));
 	}
 
-	public ThermalRecyclerRecipeBuilder input(Item item) {
+	public ThermalRecyclerRecipeBuilder input(final Item item) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 
 		return input(new ItemStack(item));
 	}
 
-	public ThermalRecyclerRecipeBuilder input(String item) {
+	public ThermalRecyclerRecipeBuilder input(final String item) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 
 		return input(ItemStackHelper.getItemStack(item));
 	}
 
-	public ThermalRecyclerRecipeBuilder input(String name, int quantity) {
+	public ThermalRecyclerRecipeBuilder input(final String name, final int quantity) {
 		Preconditions.checkNotNull(name, "Input ItemStack cannot be null");
 
 		return input(ItemStackHelper.getItemStack(name, quantity));
 	}
 
-	public ThermalRecyclerRecipeBuilder input(ItemStack stack, int quantity) {
+	public ThermalRecyclerRecipeBuilder input(final ItemStack stack, final int quantity) {
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		ItemStack item = stack.copy();
+		final ItemStack item = stack.copy();
 		item.stackSize = quantity;
 		return input(item);
 	}
 
-	public ThermalRecyclerRecipeBuilder input(ItemStack in) {
+	public ThermalRecyclerRecipeBuilder input(final ItemStack in) {
 
 		Preconditions.checkNotNull(in, "Input ItemStack cannot be null");
 
@@ -199,34 +199,34 @@ public final class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(Block block) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final Block block) {
 		return useRecipe(new ItemStack(block));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(Block block, int quantity) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final Block block, final int quantity) {
 		return useRecipe(new ItemStack(block, quantity));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(Item item) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final Item item) {
 		return useRecipe(new ItemStack(item));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(Item item, int quantity) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final Item item, final int quantity) {
 		return useRecipe(new ItemStack(item, 1, quantity));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(String item) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final String item) {
 		return useRecipe(ItemStackHelper.getItemStack(item));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(String item, int quantity) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final String item, final int quantity) {
 		return useRecipe(ItemStackHelper.getItemStack(item, quantity));
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(ItemStack stack) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final ItemStack stack) {
 
 		try {
-			IRecipe recipe = RecipeDecomposition.findRecipe(stack);
+			final IRecipe recipe = RecipeDecomposition.findRecipe(stack);
 			if(recipe != null) {
 				input = recipe.getRecipeOutput();
 				useRecipe(RecipeDecomposition.decompose(recipe));
@@ -238,12 +238,12 @@ public final class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 	
-	public ThermalRecyclerRecipeBuilder scrubOutput(String item) {
+	public ThermalRecyclerRecipeBuilder scrubOutput(final String item) {
 		
-		ItemStack stack = ItemStackHelper.getItemStack(item);
+		final ItemStack stack = ItemStackHelper.getItemStack(item);
 		
 		if(stack != null) {
-			List<ItemStack> newOutput = new ArrayList<ItemStack>();
+			final List<ItemStack> newOutput = new ArrayList<ItemStack>();
 			for(ItemStack i: output) {
 				if(stack.isItemEqual(i)) {
 					i.stackSize--;
@@ -259,7 +259,7 @@ public final class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 
-	public ThermalRecyclerRecipeBuilder useRecipe(List<ItemStack> recipe) {
+	public ThermalRecyclerRecipeBuilder useRecipe(final List<ItemStack> recipe) {
 		if(recipe != null)
 			output.addAll(recipe);
 		return this;
@@ -279,7 +279,7 @@ public final class ThermalRecyclerRecipeBuilder {
 
 		try {
 
-			int result = RecipeData.put(input, output);
+			final int result = RecipeData.put(input, output);
 			if (result == RecipeData.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
 			else if (result == RecipeData.DUPLICATE)
@@ -295,11 +295,11 @@ public final class ThermalRecyclerRecipeBuilder {
 	@Override
 	public String toString() {
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(String.format("Thermal Recycler [%dx %s] => [",
 				input.stackSize, ItemStackHelper.resolveName(input)));
 		boolean sawOne = false;
-		for (ItemStack stack : output) {
+		for (final ItemStack stack : output) {
 			if (sawOne)
 				builder.append(", ");
 			else

@@ -48,11 +48,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class Proxy {
 
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 		FakePlayerHelper.initialize("ThermalRecycling");
 	}
 
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 
 		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe",
 				UpgradeRecipe.class, Category.SHAPED, "");
@@ -69,11 +69,11 @@ public class Proxy {
 					WailaHandler.class.getName() + ".callbackRegister");
 	}
 
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(final FMLPostInitializationEvent event) {
 
 		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper.getProfile().toString());
 
-		for (SupportedMod mod : SupportedMod.values()) {
+		for (final SupportedMod mod : SupportedMod.values()) {
 
 			if (!mod.isLoaded()) {
 
@@ -83,7 +83,7 @@ public class Proxy {
 			} else {
 
 				// Get the plugin to process
-				ModPlugin plugin = mod.getPlugin();
+				final ModPlugin plugin = mod.getPlugin();
 				if (plugin == null)
 					continue;
 

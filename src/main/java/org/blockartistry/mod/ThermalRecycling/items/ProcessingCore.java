@@ -60,24 +60,24 @@ public final class ProcessingCore extends ItemBase {
 		setMaxStackSize(1);
 	}
 	
-	protected ItemStack setCoreLevel(ItemStack stack, int level) {
-		NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+	protected ItemStack setCoreLevel(final ItemStack stack, final int level) {
+		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		nbt.setInteger("Level", level);
 		stack.setTagCompound(nbt);
 		return stack;
 	}
 	
 	@Override
-	public IIcon getIconFromDamage(int subType) {
+	public IIcon getIconFromDamage(final int subType) {
 		return icons[subType];
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
+	public String getUnlocalizedName(final ItemStack stack) {
 		String result = super.getUnlocalizedName(stack);
 		
 		if(stack.getItem() == ItemManager.processingCore) {
-			int level = ItemStackHelper.getItemLevel(stack);
+			final int level = ItemStackHelper.getItemLevel(stack);
 			if(level > 0)
 				result += "_" + level;
 		}
@@ -90,7 +90,7 @@ public final class ProcessingCore extends ItemBase {
 		super.register();
 		
 		// Basic
-		ItemStack decompCore = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		final ItemStack decompCore = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
 		setCoreLevel(decompCore, LEVEL_BASIC);
 		ShapedOreRecipe recipe = new ShapedOreRecipe(
 				decompCore,
@@ -104,7 +104,7 @@ public final class ProcessingCore extends ItemBase {
 		GameRegistry.addRecipe(recipe);
 
 		// Hardened
-		ItemStack decompCore1 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		final ItemStack decompCore1 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
 		setCoreLevel(decompCore1, LEVEL_HARDENED);
 		recipe = new ShapedOreRecipe(
 				decompCore1,
@@ -128,7 +128,7 @@ public final class ProcessingCore extends ItemBase {
 		GameRegistry.addRecipe(recipe);
 
 		// Reinforced
-		ItemStack decompCore2 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		final ItemStack decompCore2 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
 		setCoreLevel(decompCore2, LEVEL_REINFORCED);
 		recipe = new ShapedOreRecipe(
 				decompCore2,
@@ -152,7 +152,7 @@ public final class ProcessingCore extends ItemBase {
 		GameRegistry.addRecipe(recipe);
 
 		// Resonant
-		ItemStack decompCore3 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		final ItemStack decompCore3 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
 		setCoreLevel(decompCore3, LEVEL_RESONANT);
 		recipe = new ShapedOreRecipe(
 				decompCore3,
@@ -176,7 +176,7 @@ public final class ProcessingCore extends ItemBase {
 		GameRegistry.addRecipe(recipe);
 
 		// Ethereal - only as an upgraded - can't be directly crafted
-		ItemStack decompCore4 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
+		final ItemStack decompCore4 = new ItemStack(ItemManager.processingCore, 1, DECOMPOSITION);
 		setCoreLevel(decompCore4, LEVEL_ETHEREAL);
 		ItemStackHelper.makeGlow(decompCore4);
 		recipe = new UpgradeRecipe(

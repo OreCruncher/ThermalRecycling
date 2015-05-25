@@ -35,7 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
  *
  */
 public final class BlockManager {
-
+	
 	public static final ScrapBlock scrapBlock = new ScrapBlock();
 	public static final MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
 	public static final MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();

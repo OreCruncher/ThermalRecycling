@@ -28,8 +28,10 @@ import java.util.Comparator;
 import net.minecraft.item.ItemStack;
 
 public final class MyComparators {
+	
+	private MyComparators() {}
 
-	static int compareSubTypesAscending(ItemStack o1, ItemStack o2) {
+	static int compareSubTypesAscending(final ItemStack o1, final ItemStack o2) {
 
 		if (o1.getHasSubtypes() && !o2.getHasSubtypes())
 			return 1;
@@ -44,7 +46,7 @@ public final class MyComparators {
 	public static final Comparator<ItemStack> itemStackAscending = new Comparator<ItemStack>() {
 
 		@Override
-		public int compare(ItemStack o1, ItemStack o2) {
+		public int compare(final ItemStack o1, final ItemStack o2) {
 
 			int result = o1.getItem().hashCode() - o2.getItem().hashCode();
 			if (result == 0)
@@ -67,7 +69,7 @@ public final class MyComparators {
 	public static final Comparator<ItemStack> itemStackDescending = new Comparator<ItemStack>() {
 
 		@Override
-		public int compare(ItemStack o1, ItemStack o2) {
+		public int compare(final ItemStack o1, final ItemStack o2) {
 
 			int result = o2.getItem().hashCode() - o1.getItem().hashCode();
 			if (result == 0)

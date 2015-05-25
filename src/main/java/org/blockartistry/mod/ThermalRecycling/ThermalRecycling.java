@@ -87,7 +87,7 @@ public final class ThermalRecycling {
 	}
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 
 		// Load up our configuration
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -100,13 +100,13 @@ public final class ThermalRecycling {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 
 		proxy.init(event);
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(final FMLPostInitializationEvent event) {
 
 		proxy.postInit(event);
 		config.save();

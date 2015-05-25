@@ -37,27 +37,27 @@ public final class FluidTankComponent implements IMachineFluidTank {
     protected int capacity;
     protected TileEntity tile;
 
-    public FluidTankComponent(int capacity)
+    public FluidTankComponent(final int capacity)
     {
         this(null, capacity);
     }
 
-    public FluidTankComponent(FluidStack stack, int capacity)
+    public FluidTankComponent(final FluidStack stack, final int capacity)
     {
         this.fluid = stack;
         this.capacity = capacity;
     }
 
-    public FluidTankComponent(Fluid fluid, int amount, int capacity)
+    public FluidTankComponent(final Fluid fluid, final int amount, final int capacity)
     {
         this(new FluidStack(fluid, amount), capacity);
     }
 
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readFromNBT(final NBTTagCompound nbt)
     {
         if (!nbt.hasKey("Empty"))
         {
-            FluidStack fluid = FluidStack.loadFluidStackFromNBT(nbt);
+        	final FluidStack fluid = FluidStack.loadFluidStackFromNBT(nbt);
             setFluid(fluid);
         }
         else
@@ -66,7 +66,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
         }
     }
 
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeToNBT(final NBTTagCompound nbt)
     {
         if (fluid != null)
         {
@@ -78,12 +78,12 @@ public final class FluidTankComponent implements IMachineFluidTank {
         }
     }
 
-    public void setFluid(FluidStack fluid)
+    public void setFluid(final FluidStack fluid)
     {
         this.fluid = fluid;
     }
 
-    public void setCapacity(int capacity)
+    public void setCapacity(final int capacity)
     {
         this.capacity = capacity;
     }
@@ -118,7 +118,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill)
+    public int fill(final FluidStack resource, final boolean doFill)
     {
         if (resource == null)
         {
@@ -175,7 +175,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
     }
 
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain)
+    public FluidStack drain(final int maxDrain, final boolean doDrain)
     {
         if (fluid == null)
         {
@@ -188,7 +188,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
             drained = fluid.amount;
         }
 
-        FluidStack stack = new FluidStack(fluid, drained);
+        final FluidStack stack = new FluidStack(fluid, drained);
         if (doDrain)
         {
             fluid.amount -= drained;

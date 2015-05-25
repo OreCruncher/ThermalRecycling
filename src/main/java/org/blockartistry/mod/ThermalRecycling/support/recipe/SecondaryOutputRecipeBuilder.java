@@ -50,7 +50,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return super.reset();
 	}
 
-	public This secondaryOutput(Block block) {
+	public This secondaryOutput(final Block block) {
 
 		Preconditions.checkNotNull(block,
 				"Secondary output ItemStack cannot be null");
@@ -58,7 +58,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(new ItemStack(block));
 	}
 
-	public This secondaryOutput(Block block, int quantity) {
+	public This secondaryOutput(final Block block, final int quantity) {
 
 		Preconditions.checkNotNull(block,
 				"Secondary output ItemStack cannot be null");
@@ -68,7 +68,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(new ItemStack(block, quantity));
 	}
 
-	public This secondaryOutput(Item item) {
+	public This secondaryOutput(final Item item) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary output ItemStack cannot be null");
@@ -76,7 +76,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(new ItemStack(item));
 	}
 
-	public This secondaryOutput(Item item, int quantity) {
+	public This secondaryOutput(final Item item, final int quantity) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary output ItemStack cannot be null");
@@ -86,7 +86,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(new ItemStack(item, quantity));
 	}
 
-	public This secondaryOutput(String item) {
+	public This secondaryOutput(final String item) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary output ItemStack cannot be null");
@@ -94,7 +94,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(item, 1);
 	}
 
-	public This secondaryOutput(String item, int quantity) {
+	public This secondaryOutput(final String item, final int quantity) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary output ItemStack cannot be null");
@@ -104,7 +104,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return secondaryOutput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
-	public This secondaryOutput(ItemStack sec) {
+	public This secondaryOutput(final ItemStack sec) {
 
 		Preconditions.checkNotNull(sec,
 				"Secondary output ItemStack cannot be null");
@@ -113,7 +113,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		return THIS;
 	}
 
-	public This chance(int chance) {
+	public This chance(final int chance) {
 
 		Preconditions.checkArgument(chance > 0 && chance <= 100,
 				"Secondary chance must be 1-100");

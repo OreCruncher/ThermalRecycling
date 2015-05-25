@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.List;
 
 public final class MyUtils {
+	
+	private MyUtils() { }
 
 	/**
 	 * Concatinates two arrays together returning the result in a new array.
@@ -36,8 +38,9 @@ public final class MyUtils {
 	 * @param second
 	 * @return
 	 */
-	public static <T> T[] concat(T[] first, T[] second) {
-		T[] result = Arrays.copyOf(first, first.length + second.length);
+	@SafeVarargs
+	public static <T> T[] concat(final T[] first, final T... second) {
+		final T[] result = Arrays.copyOf(first, first.length + second.length);
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
 	}
@@ -50,7 +53,8 @@ public final class MyUtils {
 	 * @param list
 	 * @return
 	 */
-	public static <T> T[] compress(T[] list) {
+	@SafeVarargs
+	public static <T> T[] compress(final T... list) {
 
 		if (list.length < 2)
 			return list;
@@ -80,7 +84,7 @@ public final class MyUtils {
 		return Arrays.copyOf(list, nullSlot);
 	}
 
-	public static <T> List<T> compress(List<T> list) {
+	public static <T> List<T> compress(final List<T> list) {
 		list.removeAll(Collections.singleton(null));
 		return list;
 	}
@@ -91,26 +95,24 @@ public final class MyUtils {
 	 * @param list
 	 * @param array
 	 */
-	public static <T> void concat(List<T> list, T[] array) {
-		for (T t : array)
+	@SafeVarargs
+	public static <T> void concat(final List<T> list, final T... array) {
+		for (final T t : array)
 			list.add(t);
 	}
 	
-	public static <T> boolean contains(T[] list, T entity) {
-		for(T e: list)
+	public static <T> boolean contains(final T[] list, final T entity) {
+		for(final T e: list)
 			if(e == entity)
 				return true;
 		return false;
 	}
 
-	public static <T> T[] cast(Object[] list, Class<? extends T[]> clazz) {
-		return Arrays.copyOf(list, list.length, clazz);
-	}
-	
-	public static <T> String join(String joiner, T[] list) {
-		StringBuilder builder = new StringBuilder();
+	@SafeVarargs
+	public static <T> String join(final String joiner, final T... list) {
+		final StringBuilder builder = new StringBuilder();
 		boolean seenOne = false;
-		for(T e: list) {
+		for(final T e: list) {
 			if(seenOne)
 				builder.append(joiner);
 			else

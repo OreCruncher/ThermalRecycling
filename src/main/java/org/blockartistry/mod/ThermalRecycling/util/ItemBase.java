@@ -70,7 +70,7 @@ public abstract class ItemBase extends Item {
 	 * 
 	 * @param n
 	 */
-	public ItemBase(String... n) {
+	public ItemBase(final String... n) {
 
 		super();
 
@@ -85,8 +85,8 @@ public abstract class ItemBase extends Item {
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs,
-			@SuppressWarnings("rawtypes") List par3List) {
+	public void getSubItems(final Item par1, final CreativeTabs par2CreativeTabs,
+			@SuppressWarnings("rawtypes") final List par3List) {
 		for (int x = 0; x < names.length; x++) {
 			par3List.add(new ItemStack(this, 1, x));
 		}
@@ -94,7 +94,7 @@ public abstract class ItemBase extends Item {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IIconRegister iconRegister) {
+	public void registerIcons(final IIconRegister iconRegister) {
 		icons = new IIcon[names.length];
 		for (int i = 0; i < icons.length; i++) {
 			icons[i] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":"
@@ -103,12 +103,12 @@ public abstract class ItemBase extends Item {
 	}
 
 	@Override
-	public IIcon getIconFromDamage(int subType) {
+	public IIcon getIconFromDamage(final int subType) {
 		return icons[subType];
 	}
 
 	@Override
-	public Item setUnlocalizedName(String name) {
+	public Item setUnlocalizedName(final String name) {
 
 		super.setUnlocalizedName(name);
 		myUnlocalizedName = name;
@@ -116,8 +116,8 @@ public abstract class ItemBase extends Item {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		int i = MathHelper
+	public String getUnlocalizedName(final ItemStack stack) {
+		final int i = MathHelper
 				.clamp_int(stack.getItemDamage(), 0, names.length - 1);
 		return getUnlocalizedName() + "." + names[i];
 	}

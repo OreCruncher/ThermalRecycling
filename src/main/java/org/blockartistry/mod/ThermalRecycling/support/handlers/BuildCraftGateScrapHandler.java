@@ -54,24 +54,24 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 
 	static {
 
-		ItemStack redstoneChipset = ItemStackHelper
+		final ItemStack redstoneChipset = ItemStackHelper
 				.getItemStack("BuildCraft|Silicon:redstoneChipset");
-		ItemStack ironChipset = ItemStackHelper
+		final ItemStack ironChipset = ItemStackHelper
 				.getItemStack("BuildCraft|Silicon:redstoneChipset:1");
-		ItemStack goldenChipset = ItemStackHelper
+		final ItemStack goldenChipset = ItemStackHelper
 				.getItemStack("BuildCraft|Silicon:redstoneChipset:2");
-		ItemStack diamondChipset = ItemStackHelper
+		final ItemStack diamondChipset = ItemStackHelper
 				.getItemStack("BuildCraft|Silicon:redstoneChipset:3");
-		ItemStack emeraldChipset = ItemStackHelper
+		final ItemStack emeraldChipset = ItemStackHelper
 				.getItemStack("BuildCraft|Silicon:redstoneChipset:7");
 
-		ItemStack redPipeWire = ItemStackHelper
+		final ItemStack redPipeWire = ItemStackHelper
 				.getItemStack("BuildCraft|Transport:pipeWire");
-		ItemStack bluePipeWire = ItemStackHelper
+		final ItemStack bluePipeWire = ItemStackHelper
 				.getItemStack("BuildCraft|Transport:pipeWire:1");
-		ItemStack greenPipeWire = ItemStackHelper
+		final ItemStack greenPipeWire = ItemStackHelper
 				.getItemStack("BuildCraft|Transport:pipeWire:2");
-		ItemStack yellowPipeWire = ItemStackHelper
+		final ItemStack yellowPipeWire = ItemStackHelper
 				.getItemStack("BuildCraft|Transport:pipeWire:3");
 
 		basicGate = new ArrayList<ItemStack>();
@@ -114,24 +114,24 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 	static final int MATERIAL_EMERALD = 4;
 	static final int MATERIAL_QUARTZ = 5;
 	
-	static int getMaterial(ItemStack stack) {
+	static int getMaterial(final ItemStack stack) {
 		
 		int result = MATERIAL_REDSTONE;
 		
 		if(stack.hasTagCompound()) {
-			NBTTagCompound nbt = stack.getTagCompound();
+			final NBTTagCompound nbt = stack.getTagCompound();
 			result = nbt.getInteger("mat");
 		}
 		
 		return result;
 	}
 	
-	static List<String> getExpansions(ItemStack stack) {
-		List<String> result = new ArrayList<String>();
+	static List<String> getExpansions(final ItemStack stack) {
+		final List<String> result = new ArrayList<String>();
 
 		if(stack.hasTagCompound()) {
-			NBTTagCompound nbt = stack.getTagCompound();
-			NBTTagList expansionList = nbt.getTagList("ex", Constants.NBT.TAG_STRING);
+			final NBTTagCompound nbt = stack.getTagCompound();
+			final NBTTagList expansionList = nbt.getTagList("ex", Constants.NBT.TAG_STRING);
 			for (int i = 0; i < expansionList.tagCount(); i++) {
 				result.add(expansionList.getStringTagAt(i));
 			}
@@ -141,13 +141,13 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 	}
 	
 	@Override
-	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
+	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
 
 		if (stack.getItem() instanceof IPipePluggableItem) {
 
-			List<ItemStack> output = new ArrayList<ItemStack>();
+			final List<ItemStack> output = new ArrayList<ItemStack>();
 
-			int mat = getMaterial(stack);
+			final int mat = getMaterial(stack);
 
 			switch (mat) {
 			case MATERIAL_REDSTONE:
@@ -172,7 +172,7 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 				;
 			}
 
-			for (String id: getExpansions(stack)) {
+			for (final String id: getExpansions(stack)) {
 				if (id.compareTo("buildcraft:pulsar") == 0)
 					output.add(pulsatingChipset);
 				else if (id.compareTo("buildcraft:timer") == 0)

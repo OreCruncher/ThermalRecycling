@@ -35,17 +35,19 @@ import com.mojang.authlib.GameProfile;
 
 // Leveraged from the BuildCraft source code.
 public final class FakePlayerHelper {
+	
+	private FakePlayerHelper() {}
 
-	protected static GameProfile profile = null;
-	protected static WeakReference<EntityPlayer> fakePlayer = new WeakReference<EntityPlayer>(
+	static GameProfile profile = null;
+	static WeakReference<EntityPlayer> fakePlayer = new WeakReference<EntityPlayer>(
 			null);
 
-	public static void initialize(GameProfile profile) {
+	public static void initialize(final GameProfile profile) {
 		Preconditions.checkNotNull(profile, "GameProfile cannot be null");
 		FakePlayerHelper.profile = profile;
 	}
 
-	public static void initialize(String name) {
+	public static void initialize(final String name) {
 		Preconditions.checkNotNull(name, "String (name) cannot be null");
 
 		FakePlayerHelper.profile = new GameProfile(UUID.nameUUIDFromBytes(name
@@ -56,14 +58,14 @@ public final class FakePlayerHelper {
 		return profile;
 	}
 
-	private static WeakReference<EntityPlayer> createNewPlayer(WorldServer world) {
-		EntityPlayer player = FakePlayerFactory.get(world, profile);
+	private static WeakReference<EntityPlayer> createNewPlayer(final WorldServer world) {
+		final EntityPlayer player = FakePlayerFactory.get(world, profile);
 		return new WeakReference<EntityPlayer>(player);
 	}
 
 	private static WeakReference<EntityPlayer> createNewPlayer(
-			WorldServer world, int x, int y, int z) {
-		EntityPlayer player = FakePlayerFactory.get(world, profile);
+			final WorldServer world, final int x, final int y, final int z) {
+		final EntityPlayer player = FakePlayerFactory.get(world, profile);
 		player.posX = x;
 		player.posY = y;
 		player.posZ = z;
@@ -71,7 +73,7 @@ public final class FakePlayerHelper {
 	}
 
 	public final static WeakReference<EntityPlayer> getFakePlayer(
-			WorldServer world) {
+			final WorldServer world) {
 
 		Preconditions.checkNotNull(world, "WorldServer cannot be null");
 		Preconditions.checkNotNull(profile, "GameProfile not initialized");
@@ -86,7 +88,7 @@ public final class FakePlayerHelper {
 	}
 
 	public final static WeakReference<EntityPlayer> getFakePlayer(
-			WorldServer world, int x, int y, int z) {
+			final WorldServer world, final int x, final int y, final int z) {
 
 		Preconditions.checkNotNull(world, "WorldServer cannot be null");
 		Preconditions.checkNotNull(profile, "GameProfile not initialized");

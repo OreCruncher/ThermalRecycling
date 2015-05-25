@@ -81,21 +81,21 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	protected static ItemStack pyrotheumDust;
 
-	public static ItemStack getPyrotheumDust(int quantity) {
+	public static ItemStack getPyrotheumDust(final int quantity) {
 
 		if (pyrotheumDust == null) {
 			pyrotheumDust = ItemStackHelper.getItemStack(
 					"ThermalFoundation:material:512", 1);
 		}
 
-		ItemStack result = pyrotheumDust.copy();
+		final ItemStack result = pyrotheumDust.copy();
 		result.stackSize = quantity;
 		return result;
 	}
 
-	protected void furnaceRecycleHelperTE(String oreName) {
+	protected void furnaceRecycleHelperTE(final String oreName) {
 
-		String ingot = "dust" + oreName;
+		final String ingot = "dust" + oreName;
 
 		pulverizer.append("ThermalFoundation:armor.helmet" + oreName)
 				.output(ingot, 5).save();
@@ -121,13 +121,13 @@ public final class ModThermalFoundation extends ModPlugin {
 				.save();
 	}
 
-	protected void recycleGearTE(String type) {
+	protected void recycleGearTE(final String type) {
 		
 		pulverizer.append(OreDictionary.getOres("gear" + type))
 				.output("dust" + type, 4).save();
 	}
 
-	void registerExtraTiCGearRecipe(String gear) {
+	void registerExtraTiCGearRecipe(final String gear) {
 		recycler.useRecipe(gear).scrubOutput("ingotIron").save();
 	}
 

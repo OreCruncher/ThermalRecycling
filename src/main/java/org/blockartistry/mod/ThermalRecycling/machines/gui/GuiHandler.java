@@ -41,10 +41,10 @@ public final class GuiHandler implements IGuiHandler {
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world,
+			final int x, final int y, final int z) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		final TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileEntityBase) {
 			return ((TileEntityBase) te).getGuiClient(player.inventory);
 		}
@@ -53,10 +53,10 @@ public final class GuiHandler implements IGuiHandler {
 	}
 
 	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getServerGuiElement(final int id, final EntityPlayer player, final World world,
+			final int x, final int y, final int z) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		final TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileEntityBase) {
 			return ((TileEntityBase) te).getGuiServer(player.inventory);
 		}

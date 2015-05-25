@@ -68,34 +68,34 @@ public final class ItemScrapData {
 	boolean scrubFromOutput;
 	boolean isFood;
 
-	static boolean exceptionalFood(Item item) {
+	static boolean exceptionalFood(final Item item) {
 		return item == Items.golden_apple || item == Items.golden_carrot;
 	}
 	
-	static boolean exceptionalFood(ItemStack stack) {
+	static boolean exceptionalFood(final ItemStack stack) {
 		return exceptionalFood(stack.getItem());
 	}
 
 	static {
 
 		String[] whiteList = null;
-		String[] modList = SupportedMod.getModIdList();
-		String[] configList = ModOptions.getModWhitelist();
+		final String[] modList = SupportedMod.getModIdList();
+		final String[] configList = ModOptions.getModWhitelist();
 
 		if (configList == null || configList.length == 0)
 			whiteList = modList;
 		else
 			whiteList = MyUtils.concat(modList, configList);
 
-		String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
 
-		for (Object o : Item.itemRegistry) {
+		for (final Object o : Item.itemRegistry) {
 			if (o instanceof Item || o instanceof Block) {
-				String name = Item.itemRegistry.getNameForObject(o);
+				final String name = Item.itemRegistry.getNameForObject(o);
 				if (name != null) {
 
-					String modName = StringUtils.substringBefore(name, ":");
-					Boolean isMinecraft = modName.compareTo("minecraft") == 0;
+					final String modName = StringUtils.substringBefore(name, ":");
+					final Boolean isMinecraft = modName.compareTo("minecraft") == 0;
 
 					ItemScrapData data = null;
 
@@ -110,7 +110,7 @@ public final class ItemScrapData {
 						data.setValue(modIds.contains(":" + modName + ":") ? DEFAULT_SCRAP_VALUE
 								: ScrapValue.NONE);
 
-					boolean food = o instanceof ItemFood && !exceptionalFood((Item)o);
+					final boolean food = o instanceof ItemFood && !exceptionalFood((Item)o);
 					data.setIgnoreRecipe(food);
 					data.setScrubFromOutput(food);
 
@@ -120,12 +120,12 @@ public final class ItemScrapData {
 		}
 	}
 
-	static ItemStack asGeneric(Block block) {
+	static ItemStack asGeneric(final Block block) {
 		return new ItemStack(Item.getItemFromBlock(block), 1,
 				OreDictionary.WILDCARD_VALUE);
 	}
 
-	protected ItemScrapData(ItemScrapData data) {
+	protected ItemScrapData(final ItemScrapData data) {
 		Preconditions.checkNotNull(data);
 
 		this.stack = data.stack;
@@ -136,29 +136,29 @@ public final class ItemScrapData {
 		this.compostValue = data.compostValue;
 	}
 
-	protected ItemScrapData(Block block) {
+	protected ItemScrapData(final Block block) {
 		this(new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE),
 				DEFAULT_SCRAP_VALUE, false, false);
 	}
 
-	protected ItemScrapData(Item item) {
+	protected ItemScrapData(final Item item) {
 		this(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE),
 				DEFAULT_SCRAP_VALUE, false, false);
 	}
 
-	protected ItemScrapData(ItemStack stack) {
+	protected ItemScrapData(final ItemStack stack) {
 		this(stack, DEFAULT_SCRAP_VALUE, false, false);
 	}
 
-	public ItemScrapData(ItemStack stack, ScrapValue value,
-			boolean ignoreRecipe, boolean scrubFromOutput) {
+	public ItemScrapData(final ItemStack stack, final ScrapValue value,
+			final boolean ignoreRecipe, final boolean scrubFromOutput) {
 		this(stack, value, CompostIngredient.NONE, ignoreRecipe,
 				scrubFromOutput);
 	}
 
-	public ItemScrapData(ItemStack stack, ScrapValue value,
-			CompostIngredient compost, boolean ignoreRecipe,
-			boolean scrubFromOutput) {
+	public ItemScrapData(final ItemStack stack, final ScrapValue value,
+			final CompostIngredient compost, final boolean ignoreRecipe,
+			final boolean scrubFromOutput) {
 		Preconditions.checkNotNull(stack);
 		this.stack = stack;
 		this.value = value;
@@ -168,7 +168,7 @@ public final class ItemScrapData {
 		this.isFood = stack.getItem() instanceof ItemFood;
 	}
 
-	public ItemScrapData setValue(ScrapValue value) {
+	public ItemScrapData setValue(final ScrapValue value) {
 		this.value = value;
 		return this;
 	}
@@ -181,12 +181,12 @@ public final class ItemScrapData {
 		return compostValue;
 	}
 
-	public ItemScrapData setCompostIngredientValue(CompostIngredient value) {
+	public ItemScrapData setCompostIngredientValue(final CompostIngredient value) {
 		this.compostValue = value;
 		return this;
 	}
 
-	public ItemScrapData setIgnoreRecipe(boolean flag) {
+	public ItemScrapData setIgnoreRecipe(final boolean flag) {
 		this.ignoreRecipe = flag;
 		return this;
 	}
@@ -195,7 +195,7 @@ public final class ItemScrapData {
 		return ignoreRecipe;
 	}
 
-	public ItemScrapData setScrubFromOutput(boolean flag) {
+	public ItemScrapData setScrubFromOutput(final boolean flag) {
 		this.scrubFromOutput = flag;
 		return this;
 	}
@@ -224,39 +224,39 @@ public final class ItemScrapData {
 								.toString(isFood));
 	}
 
-	public static ScrapValue getValue(Item item) {
+	public static ScrapValue getValue(final Item item) {
 		Preconditions.checkNotNull(item);
 		return get(item).value;
 	}
 
-	public static ScrapValue getValue(Block block) {
+	public static ScrapValue getValue(final Block block) {
 		Preconditions.checkNotNull(block);
 		return get(block).value;
 	}
 
-	public static ScrapValue getValue(ItemStack stack) {
+	public static ScrapValue getValue(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
 		return get(stack).value;
 	}
 
-	public static void setValue(Item item, ScrapValue value) {
+	public static void setValue(final Item item, final ScrapValue value) {
 		Preconditions.checkNotNull(item);
 		put(get(item).setValue(value));
 	}
 
-	public static void setValue(Block block, ScrapValue value) {
+	public static void setValue(final Block block, final ScrapValue value) {
 		Preconditions.checkNotNull(block);
 		put(get(block).setValue(value));
 	}
 
-	public static void setValue(ItemStack stack, ScrapValue value) {
+	public static void setValue(final ItemStack stack, final ScrapValue value) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = getForWrite(stack);
+		final ItemScrapData data = getForWrite(stack);
 		data.setValue(value);
 		put(data);
 	}
 
-	public static ItemScrapData get(Item item) {
+	public static ItemScrapData get(final Item item) {
 		Preconditions.checkNotNull(item);
 		ItemScrapData result = getForWrite(ItemStackHelper.asGeneric(item));
 		if (result == null)
@@ -264,47 +264,47 @@ public final class ItemScrapData {
 		return result;
 	}
 
-	public static ItemScrapData get(Block block) {
+	public static ItemScrapData get(final Block block) {
 		Preconditions.checkNotNull(block);
 		return get(Item.getItemFromBlock(block));
 	}
 
-	public static CompostIngredient getCompostIngredientValue(Item item) {
+	public static CompostIngredient getCompostIngredientValue(final Item item) {
 		Preconditions.checkNotNull(item);
 		return get(item).compostValue;
 	}
 
-	public static CompostIngredient getCompostIngredientValue(Block block) {
+	public static CompostIngredient getCompostIngredientValue(final Block block) {
 		Preconditions.checkNotNull(block);
 		return get(block).compostValue;
 	}
 
-	public static CompostIngredient getCompostIngredientValue(ItemStack stack) {
+	public static CompostIngredient getCompostIngredientValue(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
 		return get(stack).compostValue;
 	}
 
-	public static void setCompostIngredientValue(Item item,
-			CompostIngredient value) {
+	public static void setCompostIngredientValue(final Item item,
+			final CompostIngredient value) {
 		Preconditions.checkNotNull(item);
 		put(get(item).setCompostIngredientValue(value));
 	}
 
-	public static void setCompostIngredientValue(Block block,
-			CompostIngredient value) {
+	public static void setCompostIngredientValue(final Block block,
+			final CompostIngredient value) {
 		Preconditions.checkNotNull(block);
 		put(get(block).setCompostIngredientValue(value));
 	}
 
-	public static void setCompostIngredientValue(ItemStack stack,
-			CompostIngredient value) {
+	public static void setCompostIngredientValue(final ItemStack stack,
+			final CompostIngredient value) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = getForWrite(stack);
+		final ItemScrapData data = getForWrite(stack);
 		data.setCompostIngredientValue(value);
 		put(data);
 	}
 
-	static ItemScrapData getForWrite(ItemStack stack) {
+	static ItemScrapData getForWrite(final ItemStack stack) {
 		ItemScrapData data = get(stack);
 		if (data == null)
 			data = new ItemScrapData(stack);
@@ -315,7 +315,7 @@ public final class ItemScrapData {
 		return data;
 	}
 
-	public static ItemScrapData get(ItemStack stack) {
+	public static ItemScrapData get(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
 		ItemScrapData data = itemData.get(stack);
 		if (data == null)
@@ -325,117 +325,116 @@ public final class ItemScrapData {
 		return data;
 	}
 
-	public static void put(ItemScrapData data) {
+	public static void put(final ItemScrapData data) {
 		Preconditions.checkNotNull(data);
 		Preconditions.checkNotNull(data.stack);
 		itemData.put(data.stack, data);
 	}
 
-	public static ItemScrapData put(Item item, ScrapValue value,
-			boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(final Item item, final ScrapValue value,
+			final boolean ignoreRecipe, final boolean scrubFromOutput) {
 		Preconditions.checkNotNull(item);
-		ItemScrapData data = get(item);
+		final ItemScrapData data = get(item);
 		data.setValue(value).setIgnoreRecipe(ignoreRecipe)
 				.setScrubFromOutput(scrubFromOutput);
 		put(data);
 		return data;
 	}
 
-	public static ItemScrapData put(Block block, ScrapValue value,
-			boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(final Block block, final ScrapValue value,
+			final boolean ignoreRecipe, final boolean scrubFromOutput) {
 		Preconditions.checkNotNull(block);
 		return put(Item.getItemFromBlock(block), value, ignoreRecipe,
 				scrubFromOutput);
 	}
 
-	public static ItemScrapData put(ItemStack stack, ScrapValue value,
-			boolean ignoreRecipe, boolean scrubFromOutput) {
+	public static ItemScrapData put(final ItemStack stack, final ScrapValue value,
+			final boolean ignoreRecipe, final boolean scrubFromOutput) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = getForWrite(stack);
+		final ItemScrapData data = getForWrite(stack);
 		data.setValue(value).setIgnoreRecipe(ignoreRecipe)
 				.setScrubFromOutput(scrubFromOutput);
 		put(data);
 		return data;
 	}
 	
-	protected static boolean isOreDictionaryType(ItemStack stack) {
+	protected static boolean isOreDictionaryType(final ItemStack stack) {
 		return ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
 				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack);
 	}
 
-	public static boolean isRecipeIgnored(Item item) {
-		ItemScrapData data = get(item);
+	public static boolean isRecipeIgnored(final Item item) {
+		final ItemScrapData data = get(item);
 		return data.getIgnoreRecipe();
 	}
 
-	public static boolean isRecipeIgnored(Block block) {
+	public static boolean isRecipeIgnored(final Block block) {
 		return isRecipeIgnored(Item.getItemFromBlock(block));
 	}
 
-	public static boolean isRecipeIgnored(ItemStack stack) {
+	public static boolean isRecipeIgnored(final ItemStack stack) {
 		if (isOreDictionaryType(stack))
 			return true;
-		ItemScrapData data = get(stack);
-
-		return data != null && (data.getIgnoreRecipe());
+		final ItemScrapData data = get(stack);
+		return data != null && data.getIgnoreRecipe();
 	}
 
-	public static void setRecipeIgnored(Item item, boolean flag) {
+	public static void setRecipeIgnored(final Item item, final boolean flag) {
 		Preconditions.checkNotNull(item);
 		put(get(item).setIgnoreRecipe(flag));
 	}
 
-	public static void setRecipeIgnored(Block block, boolean flag) {
+	public static void setRecipeIgnored(final Block block, final boolean flag) {
 		Preconditions.checkNotNull(block);
 		setRecipeIgnored(Item.getItemFromBlock(block), flag);
 	}
 
-	public static void setRecipeIgnored(ItemStack stack, boolean flag) {
+	public static void setRecipeIgnored(final ItemStack stack, final boolean flag) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = getForWrite(stack);
+		final ItemScrapData data = getForWrite(stack);
 		data.setIgnoreRecipe(flag);
 		put(data);
 	}
 
-	public static boolean isScrubbedFromOutput(Item item) {
+	public static boolean isScrubbedFromOutput(final Item item) {
 		Preconditions.checkNotNull(item);
-		ItemScrapData data = get(item);
+		final ItemScrapData data = get(item);
 		return data.isScrubbedFromOutput();
 	}
 
-	public static boolean isScrubbedFromOutput(Block block) {
+	public static boolean isScrubbedFromOutput(final Block block) {
 		Preconditions.checkNotNull(block);
 		return isScrubbedFromOutput(Item.getItemFromBlock(block));
 	}
 
-	public static boolean isScrubbedFromOutput(ItemStack stack) {
+	public static boolean isScrubbedFromOutput(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = get(stack);
+		final ItemScrapData data = get(stack);
 		return data.isScrubbedFromOutput();
 	}
 
-	public static void setScrubbedFromOutput(Item item, boolean flag) {
+	public static void setScrubbedFromOutput(final Item item, final boolean flag) {
 		Preconditions.checkNotNull(item);
 		put(get(item).setScrubFromOutput(flag));
 	}
 
-	public static void setScrubbedFromOutput(Block block, boolean flag) {
+	public static void setScrubbedFromOutput(final Block block, final boolean flag) {
 		Preconditions.checkNotNull(block);
 		setScrubbedFromOutput(Item.getItemFromBlock(block), flag);
 	}
 
-	public static void setScrubbedFromOutput(ItemStack stack, boolean flag) {
+	public static void setScrubbedFromOutput(final ItemStack stack, final boolean flag) {
 		Preconditions.checkNotNull(stack);
-		ItemScrapData data = getForWrite(stack);
+		final ItemScrapData data = getForWrite(stack);
 		data.setScrubFromOutput(flag);
 		put(data);
 	}
 
-	public static void writeDiagnostic(Writer writer) throws Exception {
+	public static void writeDiagnostic(final Writer writer) throws Exception {
 
 		writer.write("Item Info:\n");
 		writer.write("=================================================================\n");
-		for (ItemScrapData d : itemData.values())
+		for (final ItemScrapData d : itemData.values())
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}

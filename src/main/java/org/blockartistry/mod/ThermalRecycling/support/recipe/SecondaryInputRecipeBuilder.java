@@ -47,7 +47,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return super.reset();
 	}
 
-	public This secondaryInput(Block block) {
+	public This secondaryInput(final Block block) {
 
 		Preconditions.checkNotNull(block,
 				"Secondary input ItemStack cannot be null");
@@ -55,7 +55,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(new ItemStack(block));
 	}
 
-	public This secondaryInput(Block block, int quantity) {
+	public This secondaryInput(final Block block, final int quantity) {
 
 		Preconditions.checkNotNull(block,
 				"Secondary input ItemStack cannot be null");
@@ -65,7 +65,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(new ItemStack(block, quantity));
 	}
 
-	public This secondaryInput(Item item) {
+	public This secondaryInput(final Item item) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary input ItemStack cannot be null");
@@ -73,7 +73,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(new ItemStack(item));
 	}
 
-	public This secondaryInput(Item item, int quantity) {
+	public This secondaryInput(final Item item, final int quantity) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary input ItemStack cannot be null");
@@ -83,7 +83,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(new ItemStack(item, quantity));
 	}
 
-	public This secondaryInput(String item) {
+	public This secondaryInput(final String item) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary input ItemStack cannot be null");
@@ -91,7 +91,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(item, 1);
 	}
 
-	public This secondaryInput(String item, int quantity) {
+	public This secondaryInput(final String item, final int quantity) {
 
 		Preconditions.checkNotNull(item,
 				"Secondary input ItemStack cannot be null");
@@ -101,7 +101,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		return secondaryInput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
-	public This secondaryInput(ItemStack sec) {
+	public This secondaryInput(final ItemStack sec) {
 
 		Preconditions.checkNotNull(sec,
 				"Secondary input ItemStack cannot be null");

@@ -39,7 +39,7 @@ public final class ModThermalExpansion extends ModPlugin {
 	@Override
 	public void apply() {
 
-		ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
+		final ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
 
 		// Need to be able to see any special frames and security items
 		// in realtime.

@@ -51,7 +51,7 @@ public enum CompostIngredient {
 		return translated;
 	}
 
-	private CompostIngredient(String xlate) {
+	private CompostIngredient(final String xlate) {
 		if(xlate != null)
 			translated = Optional.of(StatCollector.translateToLocal(xlate));
 		else

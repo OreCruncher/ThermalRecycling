@@ -72,12 +72,12 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 	final int amplifier;
 	final boolean noBad;
 
-	public PlayerPotionEffect(int weight, int duration, int amplifier) {
+	public PlayerPotionEffect(final int weight, final int duration, final int amplifier) {
 		this(weight, null, duration, amplifier, true);
 	}
 
-	public PlayerPotionEffect(int weight, Potion potion, int duration, int amplifier,
-			boolean noBad) {
+	public PlayerPotionEffect(final int weight, final Potion potion, final int duration, final int amplifier,
+			final boolean noBad) {
 		super(weight);
 		this.potion = potion;
 		this.duration = duration;
@@ -86,7 +86,7 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 		Potion p = potion;
 		
 		// If no potion effect is defined, pick one randomly
@@ -94,7 +94,7 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 			// Keep looking until we have a non-null entry that
 			// matches the noBad effect criteria.
 			try {
-				for (; p == null || (noBad && isBadEffect.getBoolean(p));) {
+				for (; p == null || noBad && isBadEffect.getBoolean(p);) {
 					p = Potion.potionTypes[rnd.nextInt(Potion.potionTypes.length)];
 				}
 			} catch (Throwable t) {

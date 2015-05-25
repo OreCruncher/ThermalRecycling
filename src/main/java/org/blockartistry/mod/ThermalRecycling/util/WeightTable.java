@@ -43,7 +43,7 @@ public class WeightTable<T extends WeightTable.Item> {
 		public final int itemWeight;
 		protected Random rnd;
 
-		public Item(int weight) {
+		public Item(final int weight) {
 			this.itemWeight = weight;
 		}
 		
@@ -57,20 +57,20 @@ public class WeightTable<T extends WeightTable.Item> {
 		this(null);
 	}
 
-	public WeightTable(Random rand) {
+	public WeightTable(final Random rand) {
 		if (rand != null)
 			this.rand = rand;
 		else
 			this.rand = random;
 	}
 
-	public void add(T entry) {
+	public void add(final T entry) {
 		totalWeight += entry.itemWeight;
 		entry.rnd = rand;
 		items.add(entry);
 	}
 
-	public void remove(T entry) {
+	public void remove(final T entry) {
 		if(items.remove(entry))
 			totalWeight -= entry.itemWeight;
 	}
@@ -94,12 +94,12 @@ public class WeightTable<T extends WeightTable.Item> {
 		return totalWeight;
 	}
 
-	public void diagnostic(String title, Writer writer) throws IOException {
+	public void diagnostic(final String title, final Writer writer) throws IOException {
 
 		writer.write(String.format("\nWeight table [%s] (total weight %d):\n",
 				title, totalWeight));
 		writer.write("==========================================================\n");
-		for (Item i : items)
+		for (final Item i : items)
 			writer.write(String.format("%5.1f%% (%4d) %s\n",
 					(double) i.itemWeight * 100F / totalWeight, i.itemWeight,
 					i.toString()));

@@ -38,20 +38,20 @@ public final class ThermalRecyclingScrapHandler extends GenericHandler {
 			.getItemStack("ThermalExpansion:Frame");
 
 	@Override
-	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
-		List<ItemStack> result = super.getRecipeOutput(stack);
+	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
+		final List<ItemStack> result = super.getRecipeOutput(stack);
 
 		if (result != null && stack.hasTagCompound()) {
 
 			// Crack the machine NBT to find out it's level
-			NBTTagCompound nbt = stack.getTagCompound();
-			int level = nbt.getInteger("Level");
+			final NBTTagCompound nbt = stack.getTagCompound();
+			final int level = nbt.getInteger("Level");
 
 			// Search the recipe and replace the machine frame
 			// with an appropriate one for the level
 			if (level > 0) {
 				for (int i = 0; i < result.size(); i++) {
-					ItemStack item = result.get(i);
+					final ItemStack item = result.get(i);
 					if (item.isItemEqual(frame)) {
 						item.setItemDamage(level);
 						break;

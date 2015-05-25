@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
@@ -67,23 +68,23 @@ public abstract class ScrapHandler {
 		public final ItemStack inputRequired;
 		public final List<ItemStack> outputGenerated;
 
-		protected PreviewResult(ItemStack input, List<ItemStack> output) {
+		protected PreviewResult(final ItemStack input, final List<ItemStack> output) {
 			this.inputRequired = input;
 			this.outputGenerated = output;
 		}
 	}
 
-	static final TreeMap<ItemStack, ScrapHandler> handlers = new TreeMap<ItemStack, ScrapHandler>(
+	static final Map<ItemStack, ScrapHandler> handlers = new TreeMap<ItemStack, ScrapHandler>(
 			MyComparators.itemStackAscending);
 	public static final ScrapHandler generic = new GenericHandler();
 
-	public static void registerHandler(ItemStack stack, ScrapHandler handler) {
+	public static void registerHandler(final ItemStack stack, final ScrapHandler handler) {
 		Preconditions.checkNotNull(stack);
 		Preconditions.checkNotNull(handler);
 		handlers.put(stack.copy(), handler);
 	}
 
-	public static ScrapHandler getHandler(ItemStack stack) {
+	public static ScrapHandler getHandler(final ItemStack stack) {
 		ScrapHandler handler = handlers.get(stack);
 		if (handler == null)
 			handler = handlers.get(ItemStackHelper.asGeneric(stack));
@@ -104,24 +105,24 @@ public abstract class ScrapHandler {
 	 */
 	public abstract List<ItemStack> scrapItems(ItemStack core, ItemStack stack);
 
-	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
+	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
 		return RecipeData.getRecipe(stack);
 	}
 
-	protected int getRecipeInputQuantity(ItemStack stack) {
+	protected int getRecipeInputQuantity(final ItemStack stack) {
 		return RecipeData.getMinimumQuantityToRecycle(stack);
 	}
 	
-	protected ItemStack decorateStack(ItemStack core, ItemStack stack) {
+	protected ItemStack decorateStack(final ItemStack core, final ItemStack stack) {
 
-		ArrayList<String> lore = new ArrayList<String>();
-		Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+		final ArrayList<String> lore = new ArrayList<String>();
+		final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+		final int totalWeight = t.get().getTotalWeight();
 
-		int totalWeight = t.get().getTotalWeight();
-		for (ItemStackItem w : t.get().getEntries()) {
+		for (final ItemStackItem w : t.get().getEntries()) {
 
 			builder.setLength(0);;
-			ItemStack temp = w.getStack();
+			final ItemStack temp = w.getStack();
 			builder.append(String.format("%5.1f%% ", w.itemWeight * 100F / totalWeight));
 			
 			if(ScrappingTables.destroyIt(temp))
@@ -148,9 +149,9 @@ public abstract class ScrapHandler {
 		return stack;
 	}
 
-	public PreviewResult preview(ItemStack core, ItemStack stack) {
+	public PreviewResult preview(ItemStack core, final ItemStack stack) {
 
-		ItemStack item = stack.copy();
+		final ItemStack item = stack.copy();
 		item.stackSize = getRecipeInputQuantity(stack);
 
 		List<ItemStack> result = null;
@@ -162,7 +163,7 @@ public abstract class ScrapHandler {
 			// were being scrapped directly w/o a core it's the best way
 			// to get scrap yield.  Otherwise decorate the output.
 			if (result != null && ModOptions.getEnableAssessorEnhancedLore()) {
-				for(ItemStack t: result)
+				for(final ItemStack t: result)
 					decorateStack(core, t);
 			}
 			else
@@ -171,16 +172,16 @@ public abstract class ScrapHandler {
 
 		if (result == null) {
 			result = new ArrayList<ItemStack>();
-			Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
-			int totalWeight = t.get().getTotalWeight();
-			for (ItemStackItem w : t.get().getEntries()) {
+			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+			final int totalWeight = t.get().getTotalWeight();
+			for (final ItemStackItem w : t.get().getEntries()) {
 
-				ItemStack temp = w.getStack();
+				final ItemStack temp = w.getStack();
 				if (temp != null
 						&& !(ScrappingTables.keepIt(temp) || ScrappingTables
 								.dustIt(temp))) {
 
-					double percent = w.itemWeight * 100F / totalWeight;
+					final double percent = w.itemWeight * 100F / totalWeight;
 					ItemStackHelper.setItemLore(temp, Collections.singletonList(String.format("%-1.2f%% chance", percent)));
 					result.add(temp);
 				}

@@ -61,7 +61,7 @@ public abstract class ModPlugin {
 	final FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
 	final BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
-	public ModPlugin(SupportedMod m) {
+	public ModPlugin(final SupportedMod m) {
 		mod = m;
 		MOD_CONFIG_SECTION = "recycle.recipe.control." + mod.getModId();
 	}
@@ -74,14 +74,14 @@ public abstract class ModPlugin {
 		return mod.getName();
 	}
 
-	public void init(Configuration config) {
+	public void init(final Configuration config) {
 		// Nothing by default - override in a derived class to get
 		// config options for the plugin
 	}
 
 	public abstract void apply();
 
-	protected String makeName(String name) {
+	protected String makeName(final String name) {
 		String result;
 
 		if (name.startsWith("^"))
@@ -96,9 +96,9 @@ public abstract class ModPlugin {
 		
 		Apply.forEach(subjects, new Predicate<String>() {
 			
-			public boolean apply(String s) {
-				String name = makeName(s);
-				ItemStack stack = ItemStackHelper.getItemStack(name);
+			public boolean apply(final String s) {
+				final String name = makeName(s);
+				final ItemStack stack = ItemStackHelper.getItemStack(name);
 				if (stack != null)
 					op.apply(stack);
 				else
@@ -112,11 +112,11 @@ public abstract class ModPlugin {
 	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
 	// THE CURRENT MOD NAME! IF IT NEEDS TO BE ESCAPED PUT A
 	// ^ CHARACTER AT THE FRONT!
-	protected void registerRecipesToIgnore(String... list) {
+	protected void registerRecipesToIgnore(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setRecipeIgnored(elem, true);
 				return true;
 			}
@@ -124,11 +124,11 @@ public abstract class ModPlugin {
 		});
 	}
 
-	protected void registerRecipesToReveal(String... list) {
+	protected void registerRecipesToReveal(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setRecipeIgnored(elem, false);
 				return true;
 			}
@@ -136,11 +136,11 @@ public abstract class ModPlugin {
 		});
 	}
 
-	protected void registerScrapValues(final ScrapValue value, String... list) {
+	protected void registerScrapValues(final ScrapValue value, final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setValue(elem, value);
 				return true;
 			}
@@ -148,11 +148,11 @@ public abstract class ModPlugin {
 		});
 	}
 
-	protected void registerScrubFromOutput(String... list) {
+	protected void registerScrubFromOutput(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setScrubbedFromOutput(elem, true);
 				return true;
 			}
@@ -160,11 +160,11 @@ public abstract class ModPlugin {
 		});
 	}
 
-	protected void registerNotScrubFromOutput(String... list) {
+	protected void registerNotScrubFromOutput(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setScrubbedFromOutput(elem, false);
 				return true;
 			}
@@ -173,11 +173,11 @@ public abstract class ModPlugin {
 	}
 
 	protected void registerRecycleToWoodDust(final int inputQuantity,
-			String... list) {
+			final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				recycler.input(elem, inputQuantity)
 						.append(ItemStackHelper.dustWood).save();
 				return true;
@@ -187,24 +187,24 @@ public abstract class ModPlugin {
 	}
 
 	protected void registerCompostIngredient(
-			final CompostIngredient ingredient, String... list) {
+			final CompostIngredient ingredient, final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				ItemScrapData.setCompostIngredientValue(elem, ingredient);
 				return true;
 			}
 		});
 	}
 
-	protected void registerPulverizeToDirt(String name, final int rangeStart,
+	protected void registerPulverizeToDirt(final String name, final int rangeStart,
 			final int rangeEnd) {
 
 		forEachSubject(Collections.singletonList(name), new Predicate<ItemStack>() {
 
 			@Override
-			public boolean apply(ItemStack elem) {
+			public boolean apply(final ItemStack elem) {
 				pulverizer.appendSubtypeRange(elem, rangeStart, rangeEnd, 8)
 						.output(Blocks.dirt).save();
 				return true;

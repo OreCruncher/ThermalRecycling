@@ -51,7 +51,7 @@ public final class ComposterContainer extends Container {
 	
 	int spamCycle;
 
-	public ComposterContainer(InventoryPlayer inv, IInventory tileEntity) {
+	public ComposterContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 
 		entity = (ComposterTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
@@ -73,8 +73,8 @@ public final class ComposterContainer extends Container {
 
 			// The constants are offsets from the left and top edge
 			// of the GUI
-			int h = (i % 9) * 18 + 8;
-			int v = (i / 9) * 18 + 84;
+			final int h = (i % 9) * 18 + 8;
+			final int v = (i / 9) * 18 + 84;
 
 			// We offset by 9 to skip the hotbar slots - they
 			// come next
@@ -97,17 +97,17 @@ public final class ComposterContainer extends Container {
 
 		super.detectAndSendChanges();
 		
-		if((++spamCycle % 3) != 0) {
+		if(++spamCycle % 3 != 0) {
 			return;
 		}
 
-		MachineStatus status = entity.getStatus();
-		int progress = entity.getProgress();
-		int water = entity.getFluidTank().getFluidAmount();
+		final MachineStatus status = entity.getStatus();
+		final int progress = entity.getProgress();
+		final int water = entity.getFluidTank().getFluidAmount();
 
 		for (int i = 0; i < crafters.size(); ++i) {
 
-			ICrafting icrafting = (ICrafting) crafters.get(i);
+			final ICrafting icrafting = (ICrafting) crafters.get(i);
 
 			if (progress != currentProgress)
 				icrafting.sendProgressBarUpdate(this,
@@ -128,25 +128,25 @@ public final class ComposterContainer extends Container {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) {
+	public void updateProgressBar(final int id, final int data) {
 		entity.receiveClientEvent(id, data);
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(final EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
+	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
 
 		ItemStack stack = null;
-		Slot slot = (Slot) inventorySlots.get(slotIndex);
+		final Slot slot = (Slot) inventorySlots.get(slotIndex);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slot != null && slot.getHasStack()) {
 
-			ItemStack stackInSlot = slot.getStack();
+			final ItemStack stackInSlot = slot.getStack();
 			stack = stackInSlot.copy();
 
 			// Trying to move stuff out of the machine inventory
@@ -162,7 +162,7 @@ public final class ComposterContainer extends Container {
 
 				// Attempt to move stuff into machine inventory. If it is
 				// not a compost ingredient return null.
-				ItemScrapData data = ItemScrapData.get(stackInSlot);
+				final ItemScrapData data = ItemScrapData.get(stackInSlot);
 				if (data == null
 						|| data.getCompostIngredientValue() == CompostIngredient.NONE)
 					return null;

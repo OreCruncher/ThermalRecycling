@@ -34,24 +34,24 @@ public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectIte
 	final int start;
 	final int end;
 
-	public ExperienceOrbEffect(int weight, int amount) {
+	public ExperienceOrbEffect(final int weight, final int amount) {
 		this(weight, amount, amount);
 	}
 
-	public ExperienceOrbEffect(int weight, int startRange, int endRange) {
+	public ExperienceOrbEffect(final int weight, final int startRange, final int endRange) {
 		super(weight);
 		this.start = startRange;
 		this.end = endRange;
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 
 		int value = start;
 		if (start != end)
 			value = rnd.nextInt(start - end) + start;
 
-		EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
+		final EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
 		UseEffect.spawnEntityIntoWorld(orb, world, player);
 	}
 

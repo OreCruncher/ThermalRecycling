@@ -42,15 +42,15 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 	final ItemStack stack;
 	final int maxQuantity;
 
-	public DropItemEffect(int weight, ItemStack stack, int quantity) {
+	public DropItemEffect(final int weight, final ItemStack stack, final int quantity) {
 		super(weight);
 		this.stack = stack;
 		this.maxQuantity = quantity;
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
-		ItemStack result = new ItemStack(stack.getItem(),
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
+		final ItemStack result = new ItemStack(stack.getItem(),
 				rnd.nextInt(maxQuantity) + 1, scrap.getItemDamage());
 		UseEffect.spawnIntoWorld(result, world, player);
 

@@ -42,14 +42,14 @@ public enum ScrapValue {
 		return translated;
 	}
 	
-	private ScrapValue(String xlate) {
+	private ScrapValue(final String xlate) {
 		if(xlate != null)
 			translated = Optional.of(StatCollector.translateToLocal(xlate));
 		else
 			translated = Optional.absent();
 	}
 	
-	public static ScrapValue map(int value) {
+	public static ScrapValue map(final int value) {
 		return values()[value];
 	}
 }

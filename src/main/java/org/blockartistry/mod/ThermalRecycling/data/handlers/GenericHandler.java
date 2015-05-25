@@ -44,7 +44,7 @@ public class GenericHandler extends ScrapHandler {
 	@Override
 	public List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
 
-		List<ItemStack> result = new ArrayList<ItemStack>();
+		final List<ItemStack> result = new ArrayList<ItemStack>();
 		List<ItemStack> processingList = null;
 
 		// If a decomp core is installed, get a list of outputs from the
@@ -71,15 +71,15 @@ public class GenericHandler extends ScrapHandler {
 			processingList.add(stack);
 		}
 
-		for (ItemStack item : processingList) {
+		for (final ItemStack item : processingList) {
 
-			Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, item);
+			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, item);
 			for (int count = 0; count < item.stackSize; count++) {
 
-				ItemStack cupieDoll = t.get().nextStack();
+				final ItemStack cupieDoll = t.get().nextStack();
 
 				if (cupieDoll != null) {
-					ItemStack temp = item.copy();
+					final ItemStack temp = item.copy();
 					temp.stackSize = 1;
 
 					// Post process and return

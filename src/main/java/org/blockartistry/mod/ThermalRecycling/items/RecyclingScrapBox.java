@@ -59,15 +59,15 @@ public final class RecyclingScrapBox extends ItemBase {
 	@Override
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player,
-			@SuppressWarnings("rawtypes") List info, boolean p_77624_4_) {
+	public void addInformation(final ItemStack stack, final EntityPlayer player,
+			@SuppressWarnings("rawtypes") final List info, final boolean p_77624_4_) {
 		info.add(StatCollector.translateToLocal(String.format("%s.%s.desc",
 				getUnlocalizedName(), types[stack.getItemDamage()])));
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world,
-			EntityPlayer player) {
+	public ItemStack onItemRightClick(final ItemStack stack, final World world,
+			final EntityPlayer player) {
 		if (!world.isRemote) {
 			UseEffect.triggerEffect(stack, world, player);
 			player.addStat(AchievementManager.doingMyPart, 1);

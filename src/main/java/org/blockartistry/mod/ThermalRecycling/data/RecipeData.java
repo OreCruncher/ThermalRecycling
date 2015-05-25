@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -49,13 +50,13 @@ public final class RecipeData {
 	public static final int FAILURE = 1;
 	public static final int DUPLICATE = 2;
 
-	static final TreeMap<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(
+	static final Map<ItemStack, RecipeData> recipes = new TreeMap<ItemStack, RecipeData>(
 			MyComparators.itemStackAscending);
 
 	final ItemStack inputStack;
 	final List<ItemStack> outputStacks;
 
-	public RecipeData(ItemStack input, List<ItemStack> output) {
+	public RecipeData(final ItemStack input, final List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
 		Preconditions.checkNotNull(output);
 
@@ -75,13 +76,13 @@ public final class RecipeData {
 		return Collections.unmodifiableList(this.outputStacks);
 	}
 
-	public static RecipeData get(ItemStack input) {
+	public static RecipeData get(final ItemStack input) {
 
 		RecipeData match = recipes.get(input);
 
 		if (match == null
 				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			ItemStack t = input.copy();
+			final ItemStack t = input.copy();
 			t.setItemDamage(OreDictionary.WILDCARD_VALUE);
 			match = recipes.get(t);
 		}
@@ -89,9 +90,9 @@ public final class RecipeData {
 		return match;
 	}
 
-	public static List<ItemStack> getRecipe(ItemStack input) {
+	public static List<ItemStack> getRecipe(final ItemStack input) {
 		List<ItemStack> result = null;
-		RecipeData data = get(input);
+		final RecipeData data = get(input);
 		if (data != null) {
 			result = data.getOutput();
 			if (result != null)
@@ -104,24 +105,24 @@ public final class RecipeData {
 	 * Adds the given recipe to the tracking tables.  It assumes control
 	 * over output.
 	 */
-	public static int put(ItemStack input, List<ItemStack> output) {
+	public static int put(final ItemStack input, List<ItemStack> output) {
 		Preconditions.checkNotNull(input);
 		Preconditions.checkNotNull(output);
 
 		int retCode = DUPLICATE;
 
 		// See if we have an existing mapping
-		RecipeData result = get(input);
+		final RecipeData result = get(input);
 
 		// If we don't, or the mapping that exists is a wild card and the
 		// incoming
 		// recipe is specific, we want to add to the dictionary. The dictionary
 		// will prefer specific recipes over wild cards if possible.
 		if (result == null
-				|| (result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
-						.getItemDamage() != OreDictionary.WILDCARD_VALUE)) {
+				|| result.getInput().getItemDamage() == OreDictionary.WILDCARD_VALUE && input
+						.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 
-			ItemStack stack = input.copy();
+			final ItemStack stack = input.copy();
 
 			// Traverse the list replacing WILDCARD stacks with concrete
 			// ones.  The logic prefers Thermal Foundation equivalents
@@ -131,7 +132,7 @@ public final class RecipeData {
 				ItemStack working = output.get(i);
 
 				if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-					String oreName = ItemHelper.getOreName(working);
+					final String oreName = ItemHelper.getOreName(working);
 
 					if (oreName != null) {
 						working = ItemStackHelper.getItemStack(oreName,
@@ -152,25 +153,25 @@ public final class RecipeData {
 		return retCode;
 	}
 
-	public static int getMinimumQuantityToRecycle(ItemStack item) {
+	public static int getMinimumQuantityToRecycle(final ItemStack item) {
 
-		RecipeData recipe = get(item);
+		final RecipeData recipe = get(item);
 		return recipe == null ? 1 : recipe.getMinimumInputStacksRequired();
 	}
 
 	@Override
 	public String toString() {
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(String.format("[%dx %s] => [", inputStack.stackSize,
 				ItemStackHelper.resolveName(inputStack)));
 
-		if (outputStacks == null || outputStacks.size() == 0) {
+		if (outputStacks == null || outputStacks.isEmpty()) {
 			builder.append("none");
 		} else {
 			boolean sawOne = false;
 
-			for (ItemStack stack : outputStacks) {
+			for (final ItemStack stack : outputStacks) {
 				if (sawOne)
 					builder.append(", ");
 				else
@@ -184,11 +185,11 @@ public final class RecipeData {
 		return builder.toString();
 	}
 
-	public static void writeDiagnostic(Writer writer) throws Exception {
+	public static void writeDiagnostic(final Writer writer) throws Exception {
 
 		writer.write("\nKnown Thermal Recycler Recipes:\n");
 		writer.write("=================================================================\n");
-		for (RecipeData d : recipes.values())
+		for (final RecipeData d : recipes.values())
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}

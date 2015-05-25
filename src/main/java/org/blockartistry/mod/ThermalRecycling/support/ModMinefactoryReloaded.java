@@ -74,7 +74,7 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
 
-		ItemScrapData data = ItemScrapData.get(ItemStackHelper
+		final ItemScrapData data = ItemScrapData.get(ItemStackHelper
 				.getItemStack("MineFactoryReloaded:milkbottle"));
 		data.setScrubFromOutput(true);
 		ItemScrapData.put(data);

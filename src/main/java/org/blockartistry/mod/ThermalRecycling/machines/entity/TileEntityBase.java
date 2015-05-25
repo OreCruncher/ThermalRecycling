@@ -46,12 +46,12 @@ public abstract class TileEntityBase extends TileEntity implements
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
 
-	public TileEntityBase(GuiIdentifier gui) {
+	public TileEntityBase(final GuiIdentifier gui) {
 		myGui = gui;
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(final NetworkManager net, final S35PacketUpdateTileEntity pkt) {
 		// Initializing to a base state from the server
 		readFromNBT(pkt.func_148857_g());
 	}
@@ -59,13 +59,13 @@ public abstract class TileEntityBase extends TileEntity implements
 	@Override
 	public Packet getDescriptionPacket() {
 		// Sends out the base state to clients
-		NBTTagCompound syncData = new NBTTagCompound();
+		final NBTTagCompound syncData = new NBTTagCompound();
 		writeToNBT(syncData);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
 				this.zCoord, 1, syncData);
 	}
 
-	protected void setMachineInventory(IMachineInventory inv) {
+	protected void setMachineInventory(final IMachineInventory inv) {
 		inventory = inv;
 		if (inventory == null)
 			inventory = new NoInventoryComponent();
@@ -74,12 +74,12 @@ public abstract class TileEntityBase extends TileEntity implements
 	// Toggles the meta data so that it is considered active.
 	// This will result in the active face being displayed as well as
 	// have a little bit of light.
-	protected void setMachineActive(boolean toggle) {
+	protected void setMachineActive(final boolean toggle) {
 
 		if (!worldObj.isRemote) {
 
 			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			int temp = meta;
+			final int temp = meta;
 
 			if (toggle)
 				meta |= MachineBase.META_ACTIVE_INDICATOR;
@@ -93,8 +93,8 @@ public abstract class TileEntityBase extends TileEntity implements
 
 	}
 
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float a, float b, float c) {
+	public boolean onBlockActivated(final World world, final int x, final int y, final int z,
+			final EntityPlayer player, final int side, final float a, final float b, final float c) {
 
 		if (!world.isRemote) {
 			player.openGui(ThermalRecycling.MOD_ID, myGui.ordinal(), world, x,
@@ -104,35 +104,35 @@ public abstract class TileEntityBase extends TileEntity implements
 		return true;
 	}
 
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
 
 	}
 
-	public Object getGuiClient(InventoryPlayer inventory) {
+	public Object getGuiClient(final InventoryPlayer inventory) {
 		return null;
 	}
 
-	public Object getGuiServer(InventoryPlayer inventory) {
+	public Object getGuiServer(final InventoryPlayer inventory) {
 		return null;
 	}
 
-	public boolean isWhitelisted(ItemStack stack) {
+	public boolean isWhitelisted(final ItemStack stack) {
 		return true;
 	}
 
 	@Override
-	public void dropInventory(World world, int x, int y, int z) {
+	public void dropInventory(final World world, final int x, final int y, final int z) {
 		inventory.dropInventory(world, x, y, z);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		inventory.readFromNBT(nbt);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		inventory.writeToNBT(nbt);
 	}
@@ -149,22 +149,22 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot) {
+	public ItemStack getStackInSlot(final int slot) {
 		return inventory.getStackInSlot(slot);
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count) {
+	public ItemStack decrStackSize(final int index, final int count) {
 		return inventory.decrStackSize(index, count);
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack getStackInSlotOnClosing(final int index) {
 		return inventory.getStackInSlotOnClosing(index);
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(final int index, final ItemStack stack) {
 		inventory.setInventorySlotContents(index, stack);
 	}
 
@@ -184,7 +184,7 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(final EntityPlayer player) {
 		return inventory.isUseableByPlayer(player);
 	}
 
@@ -199,32 +199,32 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		return inventory.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getAccessibleSlotsFromSide(final int side) {
 		return inventory.getAccessibleSlotsFromSide(side);
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int facing) {
+	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
 		return inventory.canInsertItem(slot, stack, facing);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int facing) {
+	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
 		return inventory.canExtractItem(slot, stack, facing);
 	}
 
 	@Override
-	public boolean addStackToOutput(ItemStack stack) {
+	public boolean addStackToOutput(final ItemStack stack) {
 		return inventory.addStackToOutput(stack);
 	}
 
 	@Override
-	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
+	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 		return inventory.isStackAlreadyInSlot(slot, stack);
 	}
 }

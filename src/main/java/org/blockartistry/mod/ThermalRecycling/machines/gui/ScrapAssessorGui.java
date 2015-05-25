@@ -40,7 +40,7 @@ public final class ScrapAssessorGui extends GuiBase {
 
 	final TileEntityBase tileEntity;
 
-	public ScrapAssessorGui(InventoryPlayer playerInventory, IInventory entity) {
+	public ScrapAssessorGui(final InventoryPlayer playerInventory, final IInventory entity) {
 		super(new ScrapAssessorContainer(playerInventory, entity),
 				new ResourceLocation(ThermalRecycling.MOD_ID,
 						"textures/scrapassessor_gui.png"));
@@ -49,10 +49,5 @@ public final class ScrapAssessorGui extends GuiBase {
 
 		name = StatCollector.translateToLocal("tile.MachineScrapAssessor.name");
 		tileEntity = (ScrapAssessorTileEntity) entity;
-	}
-
-	@Override
-	public void initGui() {
-		super.initGui();
 	}
 }

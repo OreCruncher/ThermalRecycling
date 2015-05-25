@@ -37,15 +37,15 @@ public final class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	final int bonusCount;
 
-	public BonusEffect(int weight, int bonusCount) {
+	public BonusEffect(final int weight, final int bonusCount) {
 		super(weight);
 		this.bonusCount = bonusCount;
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 
-		int effectiveCount = bonusCount + 1;
+		final int effectiveCount = bonusCount + 1;
 		for (int i = 0; i < effectiveCount; i++) {
 			UseEffect.triggerEffect(scrap, world, player);
 		}

@@ -40,12 +40,12 @@ public final class ToolTipEventHandler {
 	public static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-	public void onToolTipEvent(ItemTooltipEvent event) {
+	public void onToolTipEvent(final ItemTooltipEvent event) {
 
 		if (event == null || event.itemStack == null || event.toolTip == null)
 			return;
 
-		for (MultiFunction<List<String>, ItemStack, Void> f : hooks)
+		for (final MultiFunction<List<String>, ItemStack, Void> f : hooks)
 			f.apply(event.toolTip, event.itemStack);
 	}
 

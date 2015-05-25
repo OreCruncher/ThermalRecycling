@@ -60,7 +60,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
-	public This setEnergy(int energy) {
+	public This setEnergy(final int energy) {
 
 		Preconditions
 				.checkArgument(energy > 0, "Energy must be greater than 0");
@@ -69,113 +69,113 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
-	public This append(String... items) {
+	public This append(final String... items) {
 		ItemStackHelper.append(input, items);
 		return THIS;
 	}
 
-	public This append(String item, int quantity) {
+	public This append(final String item, final int quantity) {
 		ItemStackHelper.append(input, item, quantity);
 		return THIS;
 	}
 
-	public This append(Block... blocks) {
+	public This append(final Block... blocks) {
 		ItemStackHelper.append(input, blocks);
 		return THIS;
 	}
 
-	public This append(Block block, int quantity) {
+	public This append(final Block block, final int quantity) {
 		ItemStackHelper.append(input, block, quantity);
 		return THIS;
 	}
 
-	public This append(Item... items) {
+	public This append(final Item... items) {
 		ItemStackHelper.append(input, items);
 		return THIS;
 	}
 
-	public This append(Item item, int quantity) {
+	public This append(final Item item, final int quantity) {
 		ItemStackHelper.append(input, item, quantity);
 		return THIS;
 	}
 
-	public This append(List<ItemStack> stacks) {
+	public This append(final List<ItemStack> stacks) {
 		ItemStackHelper.append(input, stacks);
 		return THIS;
 	}
 
-	public This append(ItemStack... stacks) {
+	public This append(final ItemStack... stacks) {
 		ItemStackHelper.append(input, stacks);
 		return THIS;
 	}
 
-	public This append(ItemStack stack, int quantity) {
+	public This append(final ItemStack stack, final int quantity) {
 		Preconditions.checkNotNull(stack);
-		ItemStack item = stack.copy();
+		final ItemStack item = stack.copy();
 		item.stackSize = quantity;
 		ItemStackHelper.append(input, item);
 		return THIS;
 	}
 
-	public This appendSubtype(ItemStack stack, int subtype) {
+	public This appendSubtype(final ItemStack stack, final int subtype) {
 		ItemStackHelper.appendSubtype(input, stack, subtype);
 		return THIS;
 	}
 
-	public This appendSubtype(Item item, int subtype) {
+	public This appendSubtype(final Item item, final int subtype) {
 		ItemStackHelper.appendSubtype(input, item, subtype);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(String item, int start, int end, int quantity) {
+	public This appendSubtypeRange(final String item, final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(String item, int start, int end) {
+	public This appendSubtypeRange(final String item, final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(Item item, int start, int end, int quantity) {
+	public This appendSubtypeRange(final Item item, final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(Item item, int start, int end) {
+	public This appendSubtypeRange(final Item item, final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(Block block, int start, int end, int quantity) {
+	public This appendSubtypeRange(final Block block, final int start, final int end, final int quantity) {
 		ItemStackHelper.appendSubtypeRange(input, block, start, end, quantity);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(Block block, int start, int end) {
+	public This appendSubtypeRange(final Block block, final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(input, block, start, end);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(ItemStack stack, int start, int end) {
+	public This appendSubtypeRange(final ItemStack stack, final int start, final int end) {
 		ItemStackHelper.appendSubtypeRange(input, stack, start, end);
 		return THIS;
 	}
 
-	public This appendSubtypeRange(ItemStack stack, int start, int end,
-			int quantity) {
+	public This appendSubtypeRange(final ItemStack stack, final int start, final int end,
+			final int quantity) {
 		ItemStackHelper.appendSubtypeRange(input, stack, start, end, quantity);
 		return THIS;
 	}
 
-	public This output(Block block) {
+	public This output(final Block block) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 
 		return output(new ItemStack(block));
 	}
 
-	public This output(Block block, int quantity) {
+	public This output(final Block block, final int quantity) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -184,14 +184,14 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return output(new ItemStack(block, quantity));
 	}
 
-	public This output(Item item) {
+	public This output(final Item item) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 
 		return output(new ItemStack(item));
 	}
 
-	public This output(Item item, int quantity) {
+	public This output(final Item item, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -200,14 +200,14 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return output(new ItemStack(item, quantity));
 	}
 
-	public This output(String item) {
+	public This output(final String item) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 
 		return output(item, 1);
 	}
 
-	public This output(String item, int quantity) {
+	public This output(final String item, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -216,7 +216,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return output(ItemStackHelper.getItemStack(item, quantity));
 	}
 
-	public This output(ItemStack out, int quantity) {
+	public This output(final ItemStack out, final int quantity) {
 
 		Preconditions.checkNotNull(out, "Output ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -227,7 +227,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		return THIS;
 	}
 
-	public This output(ItemStack out) {
+	public This output(final ItemStack out) {
 
 		Preconditions.checkNotNull(out, "Output ItemStack cannot be null");
 
@@ -240,8 +240,8 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		Preconditions.checkState(!input.isEmpty(),
 				"No input ItemStacks were specified");
 
-		for (ItemStack i : input) {
-			int result = saveImpl(i);
+		for (final ItemStack i : input) {
+			final int result = saveImpl(i);
 			if (result == RecipeData.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
 			else if (result == RecipeData.DUPLICATE)

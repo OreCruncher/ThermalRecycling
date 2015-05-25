@@ -40,6 +40,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public final class UseEffect {
+	
+	private UseEffect() {}
 
 	static final UseEffectWeightTable poorEffects = new UseEffectWeightTable();
 	static final UseEffectWeightTable standardEffects = new UseEffectWeightTable();
@@ -47,11 +49,11 @@ public final class UseEffect {
 
 	static {
 
-		ItemStack poorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+		final ItemStack poorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR);
-		ItemStack standardScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+		final ItemStack standardScrap = new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.STANDARD);
-		ItemStack superiorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
+		final ItemStack superiorScrap = new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.SUPERIOR);
 
 		poorEffects.add(new NoUseEffect(400));
@@ -126,30 +128,30 @@ public final class UseEffect {
 				new ItemStack(Items.nether_star), 1));
 	}
 
-	public static void spawnIntoWorld(ItemStack stack, World world,
-			EntityPlayer player) {
+	public static void spawnIntoWorld(final ItemStack stack, final World world,
+			final EntityPlayer player) {
 
 		if (stack == null)
 			return;
 
-		Location loc = new Location(player);
+		final Location loc = new Location(player);
 		ItemStackHelper.spawnIntoWorld(world, stack, loc.x, loc.y, loc.z);
 
 	}
 
-	public static void spawnEntityIntoWorld(Entity entity, World world,
-			EntityPlayer player) {
+	public static void spawnEntityIntoWorld(final Entity entity, final World world,
+			final EntityPlayer player) {
 
 		if (entity == null)
 			return;
 
-		Location loc = new Location(player);
+		final Location loc = new Location(player);
 		entity.setPosition(loc.x, loc.y, loc.z);
 		world.spawnEntityInWorld(entity);
 	}
 
-	public static void triggerEffect(ItemStack scrap, World world,
-			EntityPlayer player) {
+	public static void triggerEffect(final ItemStack scrap, final World world,
+			final EntityPlayer player) {
 
 		UseEffectWeightTable theTable = poorEffects;
 
@@ -171,7 +173,7 @@ public final class UseEffect {
 		scrap.stackSize--;
 	}
 
-	public static void diagnostic(Writer writer) throws IOException {
+	public static void diagnostic(final Writer writer) throws IOException {
 
 		writer.write("\n==========================\nScrapbox Use Effect Tables\n==========================\n");
 		poorEffects.diagnostic("Poor Effects", writer);

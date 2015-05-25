@@ -48,6 +48,8 @@ import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
 
 public final class ScrappingTables {
+	
+	private ScrappingTables() {}
 
 	private static final String[] UPGRADE_NAMES = new String[] { "Basic",
 			"Hardened", "Reinforced", "Resonant", "Ethereal", };
@@ -55,15 +57,15 @@ public final class ScrappingTables {
 	static final ItemStack keep = new ItemStack(Blocks.dirt);
 	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
 
-	public static boolean destroyIt(ItemStack stack) {
+	public static boolean destroyIt(final ItemStack stack) {
 		return stack == null;
 	}
 
-	public static boolean keepIt(ItemStack stack) {
+	public static boolean keepIt(final ItemStack stack) {
 		return stack != null && stack.isItemEqual(ScrappingTables.keep);
 	}
 
-	public static boolean dustIt(ItemStack stack) {
+	public static boolean dustIt(final ItemStack stack) {
 		return stack != null && stack.isItemEqual(ScrappingTables.dust);
 	}
 
@@ -80,10 +82,10 @@ public final class ScrappingTables {
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	
-	static ItemStackItem getItemStackItem(ItemStackWeightTable table, Entry<String, Property> e) {
+	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
-		int weight = e.getValue().getInt();
-		String key = e.getKey();
+		final int weight = e.getValue().getInt();
+		final String key = e.getKey();
 		
 		if("destroy".equalsIgnoreCase(key))
 			item = table.new ItemStackItem(null, weight);
@@ -100,7 +102,7 @@ public final class ScrappingTables {
 		else if("superiorScrap".equalsIgnoreCase(key))
 			item = table.new ItemStackItem(superiorScrap, weight);
 		else {
-			ItemStack stack = ItemStackHelper.getItemStack(key);
+			final ItemStack stack = ItemStackHelper.getItemStack(key);
 			if(stack != null)
 				item = table.new ItemStackItem(stack, weight);
 		}
@@ -108,18 +110,18 @@ public final class ScrappingTables {
 		return item;
 	}
 	
-	static void processTables(String prefix, Matrix2D<ItemStackWeightTable> weightTables, JarConfiguration config) {
-		for (ScrapValue sv : ScrapValue.values())
+	static void processTables(final String prefix, final Matrix2D<ItemStackWeightTable> weightTables, final JarConfiguration config) {
+		for (final ScrapValue sv : ScrapValue.values())
 			for (int i = 0; i < UPGRADE_NAMES.length; i++) {
 				
-				String category = prefix + "_" + sv.name() + "_" + UPGRADE_NAMES[i];
+				final String category = prefix + "_" + sv.name() + "_" + UPGRADE_NAMES[i];
 				
-				ConfigCategory cc = config.getCategory(category);
+				final ConfigCategory cc = config.getCategory(category);
 				if(cc != null && !cc.isEmpty()) {
 					
-					ItemStackWeightTable table = new ItemStackWeightTable();
-					for(Entry<String, Property> e: cc.getValues().entrySet()) {
-						ItemStackItem item = getItemStackItem(table, e);
+					final ItemStackWeightTable table = new ItemStackWeightTable();
+					for(final Entry<String, Property> e: cc.getValues().entrySet()) {
+						final ItemStackItem item = getItemStackItem(table, e);
 						if(item != null)
 							table.add(item);
 					}
@@ -130,23 +132,23 @@ public final class ScrappingTables {
 	
 	static {
 
-		InputStream in = ScrappingTables.class
+		final InputStream in = ScrappingTables.class
 				.getResourceAsStream("/assets/recycling/data/scrapdata.cfg");
 		try {
 			
-			JarConfiguration config = new JarConfiguration(in);
+			final JarConfiguration config = new JarConfiguration(in);
 			processTables("dcomp", dcompScrap, config);
 			processTables("extract", extractDust, config);
 
-			for(ScrapValue sv: ScrapValue.values()) {
-				String category = sv.name() + "_MustScrap";
-				ItemStackWeightTable table = new ItemStackWeightTable();
+			for(final ScrapValue sv: ScrapValue.values()) {
+				final String category = sv.name() + "_MustScrap";
+				final ItemStackWeightTable table = new ItemStackWeightTable();
 				
-				ConfigCategory cc = config.getCategory(category);
+				final ConfigCategory cc = config.getCategory(category);
 				if(cc != null) {
 					
-					for(Entry<String, Property> e: cc.getValues().entrySet()) {
-						ItemStackItem item = getItemStackItem(table, e);
+					for(final Entry<String, Property> e: cc.getValues().entrySet()) {
+						final ItemStackItem item = getItemStackItem(table, e);
 						if(item != null)
 							table.add(item);
 					}
@@ -167,9 +169,9 @@ public final class ScrappingTables {
 		}
 	}
 
-	public static Optional<ItemStackWeightTable> getTable(ItemStack core, ItemStack stack) {
+	public static Optional<ItemStackWeightTable> getTable(ItemStack core, final ItemStack stack) {
 
-		int scrappingValue = ItemScrapData.get(stack).getScrapValue().ordinal();
+		final int scrappingValue = ItemScrapData.get(stack).getScrapValue().ordinal();
 
 		// Safety check - if there is a core item past in, but its not a
 		// core, assume no core.
@@ -179,7 +181,7 @@ public final class ScrappingTables {
 		if (core == null)
 			return Optional.fromNullable(mustScrap.get(scrappingValue));
 
-		int coreLevel = ItemStackHelper.getItemLevel(core);
+		final int coreLevel = ItemStackHelper.getItemLevel(core);
 		Matrix2D<ItemStackWeightTable> tables = dcompScrap;
 
 		if (ProcessingCorePolicy.isExtractionCore(core))
@@ -188,7 +190,7 @@ public final class ScrappingTables {
 		return tables.get(scrappingValue, coreLevel);
 	}
 
-	public static boolean canBeScrapped(ItemStack stack) {
+	public static boolean canBeScrapped(final ItemStack stack) {
 
 		return !(ItemHelper.isBlock(stack) || ItemHelper.isDust(stack)
 				|| ItemHelper.isIngot(stack) || ItemHelper.isNugget(stack)
@@ -197,42 +199,42 @@ public final class ScrappingTables {
 					.getItem() == ItemManager.debris);
 	}
 
-	public static List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
+	public static List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {
 		return ScrapHandler.getHandler(stack).scrapItems(core, stack);
 	}
 
-	public static ScrapHandler.PreviewResult preview(ItemStack core,
-			ItemStack stack) {
+	public static ScrapHandler.PreviewResult preview(final ItemStack core,
+			final ItemStack stack) {
 		return ScrapHandler.getHandler(stack).preview(core, stack);
 	}
 
-	private static void dumpTable(Writer writer, String title,
-			List<ItemStackWeightTable> mustscrap2) throws Exception {
+	private static void dumpTable(final Writer writer, final String title,
+			final List<ItemStackWeightTable> mustscrap2) throws Exception {
 
 		for (int i = 0; i < mustscrap2.size(); i++) {
-			ItemStackWeightTable t = mustscrap2.get(i);
+			final ItemStackWeightTable t = mustscrap2.get(i);
 			if (t != null) {
-				String s = String.format("%s %s", title, UPGRADE_NAMES[i]);
+				final String s = String.format("%s %s", title, UPGRADE_NAMES[i]);
 				t.diagnostic(s, writer);
 			}
 		}
 	}
 
-	private static void dumpTable(Writer writer, String title,
-			Matrix2D<ItemStackWeightTable> table)
+	private static void dumpTable(final Writer writer, final String title,
+			final Matrix2D<ItemStackWeightTable> table)
 			throws Exception {
 		
 		for(int i = 0; i < table.getRowCount(); i++)
 			for(int j = 0; j < table.getColCount(); j++) {
 				if(table.isPresent(i, j)) {
-					Optional<ItemStackWeightTable> a = table.get(i, j);
-					String t = String.format("%s %s_%s", title, ScrapValue.values()[i].name(), UPGRADE_NAMES[j]);
+					final Optional<ItemStackWeightTable> a = table.get(i, j);
+					final String t = String.format("%s %s_%s", title, ScrapValue.values()[i].name(), UPGRADE_NAMES[j]);
 					a.get().diagnostic(t, writer);
 				}
 			}
 	}
 
-	public static void writeDiagnostic(Writer writer) throws Exception {
+	public static void writeDiagnostic(final Writer writer) throws Exception {
 
 		writer.write("\n================\nScrap Tables\n================\n");
 		dumpTable(writer, "Core: Decomposition", dcompScrap);

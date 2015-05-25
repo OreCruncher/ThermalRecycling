@@ -30,6 +30,8 @@ import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
+	
+	private ModOptions() {}
 
 	protected static final String CATEGORY_RECYCLE_ENABLE = "recycle.enable";
 	protected static final String CATEGORY_RECYCLE_RECIPIES_CONTROL = "recycle.recipe.control";
@@ -72,7 +74,7 @@ public final class ModOptions {
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
 
-	public static void load(Configuration config) {
+	public static void load(final Configuration config) {
 
 		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
 				CATEGORY_LOGGING_CONTROL, enableDebugLogging,
@@ -87,9 +89,9 @@ public final class ModOptions {
 				CATEGORY_MODS, enableWailaDisplay,
 				"Enables/disables display of scrap information via Waila");
 
-		for (SupportedMod mod : SupportedMod.values()) {
+		for (final SupportedMod mod : SupportedMod.values()) {
 
-			boolean b = config
+			final boolean b = config
 					.getBoolean(
 							mod.getModId(),
 							CATEGORY_RECYCLE_ENABLE,
@@ -167,8 +169,8 @@ public final class ModOptions {
 		return enableDebugLogging;
 	}
 
-	public static boolean getModProcessingEnabled(SupportedMod mod) {
-		Boolean result = enableModProcessing.get(mod);
+	public static boolean getModProcessingEnabled(final SupportedMod mod) {
+		final Boolean result = enableModProcessing.get(mod);
 		return result == null ? false : result;
 	}
 

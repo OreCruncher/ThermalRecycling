@@ -36,7 +36,7 @@ public class SmelterRecipeBuilder extends
 		SecondaryInputRecipeBuilder<SmelterRecipeBuilder> {
 
 	@Override
-	protected int saveImpl(ItemStack stack) {
+	protected int saveImpl(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(secondaryInput,
@@ -50,7 +50,7 @@ public class SmelterRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack stack) {
+	protected String toString(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(secondaryInput,

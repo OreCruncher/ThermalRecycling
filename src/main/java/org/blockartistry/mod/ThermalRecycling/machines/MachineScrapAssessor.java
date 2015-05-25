@@ -46,13 +46,13 @@ public final class MachineScrapAssessor extends MachineBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+	public TileEntity createNewTileEntity(final World p_149915_1_, final int p_149915_2_) {
 		return new ScrapAssessorTileEntity();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
+	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
 		icons[BLOCK_TOP] = iconRegister
@@ -65,7 +65,7 @@ public final class MachineScrapAssessor extends MachineBase {
 		GameRegistry.registerTileEntity(ScrapAssessorTileEntity.class,
 				"scrapAssessorTileEntity");
 
-		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 				BlockManager.scrapAssessor, 1, 0), " m ", "cMc", "tst", 'c',
 				new ItemStack(Blocks.crafting_table), 'm',
 				ItemStackHelper.getItemStack("ThermalExpansion:meter"), 'M',

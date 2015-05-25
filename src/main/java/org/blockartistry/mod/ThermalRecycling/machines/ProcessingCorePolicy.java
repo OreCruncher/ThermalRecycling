@@ -31,6 +31,8 @@ import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 import net.minecraft.item.ItemStack;
 
 public final class ProcessingCorePolicy {
+	
+	private ProcessingCorePolicy() {}
 
 	public static final int CORE_NONE = -1;
 	public static final int CORE_DECOMPOSITION = ProcessingCore.DECOMPOSITION;
@@ -42,7 +44,7 @@ public final class ProcessingCorePolicy {
 	 * @param stack
 	 * @return
 	 */
-	public static boolean canCoreProcess(int core, ItemStack stack) {
+	public static boolean canCoreProcess(final int core, final ItemStack stack) {
 
 		if (core == CORE_NONE || core == CORE_DECOMPOSITION)
 			return ScrappingTables.canBeScrapped(stack);
@@ -62,7 +64,7 @@ public final class ProcessingCorePolicy {
 	 * @param stack
 	 * @return
 	 */
-	public static boolean canCoreProcess(ItemStack core, ItemStack stack) {
+	public static boolean canCoreProcess(final ItemStack core, final ItemStack stack) {
 		if (core != null && !isProcessingCore(core))
 			return false;
 
@@ -76,16 +78,16 @@ public final class ProcessingCorePolicy {
 	 * @param core
 	 * @return
 	 */
-	public static boolean isProcessingCore(ItemStack core) {
+	public static boolean isProcessingCore(final ItemStack core) {
 		return core != null && core.getItem() == ItemManager.processingCore;
 	}
 
-	public static boolean isDecompositionCore(ItemStack core) {
+	public static boolean isDecompositionCore(final ItemStack core) {
 		return isProcessingCore(core)
 				&& core.getItemDamage() == CORE_DECOMPOSITION;
 	}
 
-	public static boolean isExtractionCore(ItemStack core) {
+	public static boolean isExtractionCore(final ItemStack core) {
 		return isProcessingCore(core)
 				&& core.getItemDamage() == CORE_EXTRACTION;
 	}

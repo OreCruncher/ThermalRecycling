@@ -36,7 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
 public final class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
 
-	public Void apply(List<String> output, ItemStack stack) {
+	public Void apply(final List<String> output, final ItemStack stack) {
 
 		output.add(EnumChatFormatting.GREEN + "DEBUG:");
 
@@ -51,15 +51,15 @@ public final class DebugToolTip implements MultiFunction<List<String>, ItemStack
 
 		output.add(EnumChatFormatting.LIGHT_PURPLE + name);
 		
-		int[] oreIds = OreDictionary.getOreIDs(stack);
+		final int[] oreIds = OreDictionary.getOreIDs(stack);
 		if(oreIds != null)
 			for(int i = 0; i < oreIds.length; i++) {
-				String oreName = OreDictionary.getOreName(oreIds[i]);
+				final String oreName = OreDictionary.getOreName(oreIds[i]);
 				if(oreName != null && !oreName.isEmpty())
 					output.add(EnumChatFormatting.WHITE + oreName);
 			}
 
-		ItemScrapData data = ItemScrapData.get(stack);
+		final ItemScrapData data = ItemScrapData.get(stack);
 		if(data == null)
 			return null;
 

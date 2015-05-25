@@ -36,17 +36,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public final class FluidStackHelper {
+	
+	private FluidStackHelper() { }
 
 	public static final Fluid FLUID_WATER = FluidRegistry.getFluid("water");
 	
-	public static boolean applyPlayerContainerInteraction(World world, TileEntity entity, EntityPlayer player) {
+	public static boolean applyPlayerContainerInteraction(final World world, final TileEntity entity, final EntityPlayer player) {
 
-        ItemStack stack = player.getCurrentEquippedItem();
+        final ItemStack stack = player.getCurrentEquippedItem();
         if(stack == null || !FluidContainerRegistry.isContainer(stack))
         	return false;
 
 		boolean update = false;
-		IFluidHandler handler = (IFluidHandler)entity;
+		final IFluidHandler handler = (IFluidHandler)entity;
 		
 		// Get the fluid from the item.  If there is one they are trying
 		// to fill.  Otherwise they are trying to remove.
@@ -66,7 +68,7 @@ public final class FluidStackHelper {
 	}
 
 
-	public static FluidStack getFluidStack(String name, int quantity) {
+	public static FluidStack getFluidStack(final String name, final int quantity) {
 		return FluidRegistry.getFluidStack(name, quantity);
 	}
 }

@@ -50,7 +50,7 @@ public final class ScrapBlock extends MultiBlock {
 		GameRegistry.registerBlock(this, ScrapItemBlock.class,
 				myUnlocalizedName);
 
-		ItemStack debris = new ItemStack(ItemManager.debris);
+		final ItemStack debris = new ItemStack(ItemManager.debris);
 
 		GameRegistry.addShapelessRecipe(new ItemStack(BlockManager.scrapBlock),
 				debris, debris, debris, debris, debris, debris, debris, debris,
@@ -59,8 +59,8 @@ public final class ScrapBlock extends MultiBlock {
 	}
 
 	@Override
-	public String[] getBlockSideTextures(int subType) {
-		String texture = ThermalRecycling.MOD_ID + ":scrap_block";
+	public String[] getBlockSideTextures(final int subType) {
+		final String texture = ThermalRecycling.MOD_ID + ":scrap_block";
 		return new String[] { texture, texture, texture };
 	}
 

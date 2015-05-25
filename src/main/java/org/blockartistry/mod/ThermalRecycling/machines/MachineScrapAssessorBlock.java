@@ -30,7 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
 public final class MachineScrapAssessorBlock extends MultiItemBlock {
 
-	public MachineScrapAssessorBlock(Block block) {
+	public MachineScrapAssessorBlock(final Block block) {
 
 		super(block);
 	}

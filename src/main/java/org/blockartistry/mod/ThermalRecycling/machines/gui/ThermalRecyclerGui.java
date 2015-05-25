@@ -44,12 +44,12 @@ public final class ThermalRecyclerGui extends GuiBase {
 
 		final ThermalRecyclerTileEntity tileEntity;
 
-		public EnergyStorageAdapter(ThermalRecyclerTileEntity entity) {
+		public EnergyStorageAdapter(final ThermalRecyclerTileEntity entity) {
 			tileEntity = entity;
 		}
 
 		@Override
-		public int extractEnergy(int arg0, boolean arg1) {
+		public int extractEnergy(final int arg0, final boolean arg1) {
 			return 0;
 		}
 
@@ -64,13 +64,13 @@ public final class ThermalRecyclerGui extends GuiBase {
 		}
 
 		@Override
-		public int receiveEnergy(int arg0, boolean arg1) {
+		public int receiveEnergy(final int arg0, final boolean arg1) {
 			return 0;
 		}
 
 	}
 
-	public ThermalRecyclerGui(InventoryPlayer playerInventory, IInventory entity) {
+	public ThermalRecyclerGui(final InventoryPlayer playerInventory, final IInventory entity) {
 		super(new ThermalRecyclerContainer(playerInventory, entity),
 				new ResourceLocation(ThermalRecycling.MOD_ID,
 						"textures/thermalrecycler_gui.png"));
@@ -85,11 +85,11 @@ public final class ThermalRecyclerGui extends GuiBase {
 	public void initGui() {
 		super.initGui();
 		// GUI dimension is width 427, height 240
-		ElementEnergyStored e = new ElementEnergyStored(this, 12, 18,
+		final ElementEnergyStored e = new ElementEnergyStored(this, 12, 18,
 				new EnergyStorageAdapter(tileEntity));
 		addElement(e);
 
-		ElementProgress ep = new ElementProgress(this, 77, 34, tileEntity);
+		final ElementProgress ep = new ElementProgress(this, 77, 34, tileEntity);
 		addElement(ep);
 	}
 }

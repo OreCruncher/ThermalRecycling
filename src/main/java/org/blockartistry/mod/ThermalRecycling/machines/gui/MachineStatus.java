@@ -28,7 +28,7 @@ public enum MachineStatus {
 
 	IDLE, ACTIVE, JAMMED, NEED_MORE_RESOURCES, OUT_OF_POWER;
 
-	public static MachineStatus map(int i) {
+	public static MachineStatus map(final int i) {
 		return values()[i];
 	}
 }

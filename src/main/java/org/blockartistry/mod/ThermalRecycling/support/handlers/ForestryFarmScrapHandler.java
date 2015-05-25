@@ -52,18 +52,18 @@ public final class ForestryFarmScrapHandler extends GenericHandler {
 
 		public final ItemStack base;
 
-		EnumFarmBlock(ItemStack base) {
+		EnumFarmBlock(final ItemStack base) {
 			this.base = base;
 		}
 
-		public void saveToCompound(NBTTagCompound compound) {
+		public void saveToCompound(final NBTTagCompound compound) {
 			compound.setInteger("FarmBlock", this.ordinal());
 		}
 		
-		public static EnumFarmBlock getFromCompound(NBTTagCompound compound) {
+		public static EnumFarmBlock getFromCompound(final NBTTagCompound compound) {
 
 			if (compound != null) {
-				int farmBlockOrdinal = compound.getInteger("FarmBlock");
+				final int farmBlockOrdinal = compound.getInteger("FarmBlock");
 				if (farmBlockOrdinal < EnumFarmBlock.values().length) {
 					return EnumFarmBlock.values()[farmBlockOrdinal];
 				}
@@ -80,9 +80,9 @@ public final class ForestryFarmScrapHandler extends GenericHandler {
 		
 		sample = ItemStackHelper.getItemStack("Forestry:ffarm:0");
 		farmBlocks = new ItemStack[EnumFarmBlock.values().length];
-		for(EnumFarmBlock fb: EnumFarmBlock.values()) {
-			ItemStack block = sample.copy();
-			NBTTagCompound nbt = new NBTTagCompound();
+		for(final EnumFarmBlock fb: EnumFarmBlock.values()) {
+			final ItemStack block = sample.copy();
+			final NBTTagCompound nbt = new NBTTagCompound();
 			fb.saveToCompound(nbt);
 			block.setTagCompound(nbt);
 			farmBlocks[fb.ordinal()] = block;
@@ -90,19 +90,19 @@ public final class ForestryFarmScrapHandler extends GenericHandler {
 	};
 
 	@Override
-	protected List<ItemStack> getRecipeOutput(ItemStack stack) {
+	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
 		
-		List<ItemStack> result = super.getRecipeOutput(stack);
+		final List<ItemStack> result = super.getRecipeOutput(stack);
 		
 		if(stack.hasTagCompound() && stack.getItemDamage() > 0) {
-			NBTTagCompound nbt = stack.getTagCompound();
-			EnumFarmBlock blockStyle = EnumFarmBlock.getFromCompound(nbt);
+			final NBTTagCompound nbt = stack.getTagCompound();
+			final EnumFarmBlock blockStyle = EnumFarmBlock.getFromCompound(nbt);
 			if(blockStyle != null) {
 				// Find the target block to replace
 				for(int i = 0; i < result.size(); i++) {
-					ItemStack subject = result.get(i);
+					final ItemStack subject = result.get(i);
 					if(subject.isItemEqual(sample)) {
-						ItemStack replace = farmBlocks[blockStyle.ordinal()].copy();
+						final ItemStack replace = farmBlocks[blockStyle.ordinal()].copy();
 						replace.stackSize = subject.stackSize;
 						result.set(i, replace);
 					}

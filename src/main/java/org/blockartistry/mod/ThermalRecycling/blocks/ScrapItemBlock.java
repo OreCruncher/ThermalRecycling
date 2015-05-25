@@ -30,7 +30,7 @@ import net.minecraft.block.Block;
 
 public final class ScrapItemBlock extends MultiItemBlock {
 
-	public ScrapItemBlock(Block block) {
+	public ScrapItemBlock(final Block block) {
 
 		super(block);
 

@@ -37,11 +37,11 @@ public abstract class MultiItemBlock extends ItemBlock {
 	protected final String[] names;
 	protected final String myUnlocalizedName;
 
-	protected MultiItemBlock(Block block) {
+	protected MultiItemBlock(final Block block) {
 		super(block);
 
 		// MultiBlock and MultiItemBlock are tied at the hip
-		MultiBlock b = (MultiBlock) block;
+		final MultiBlock b = (MultiBlock) block;
 		Preconditions.checkNotNull(b, "Block is not a MultiBlock!");
 
 		names = b.names;
@@ -52,13 +52,13 @@ public abstract class MultiItemBlock extends ItemBlock {
 	}
 
 	@Override
-	public int getMetadata(int damage) {
+	public int getMetadata(final int damage) {
 		return damage;
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		int i = MathHelper
+	public String getUnlocalizedName(final ItemStack stack) {
+		final int i = MathHelper
 				.clamp_int(stack.getItemDamage(), 0, names.length - 1);
 		return getUnlocalizedName() + "." + names[i];
 	}

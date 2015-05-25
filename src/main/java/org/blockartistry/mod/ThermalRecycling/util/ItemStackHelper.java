@@ -59,11 +59,11 @@ public final class ItemStackHelper {
 	protected static final Random rand = new Random();
 	protected static final HashMap<String, ItemStack> preferred = new HashMap<String, ItemStack>();
 
-	static Item materialBase = GameData.getItemRegistry().getObject(
+	static final Item materialBase = GameData.getItemRegistry().getObject(
 			"ThermalFoundation:material");
-	static Item storageBase = GameData.getItemRegistry().getObject(
+	static final Item storageBase = GameData.getItemRegistry().getObject(
 			"ThermalFoundation:Storage");
-	static Item materialBaseTE = GameData.getItemRegistry().getObject(
+	static final Item materialBaseTE = GameData.getItemRegistry().getObject(
 			"ThermalExpansion:material");
 
 	public static final ItemStack dustIron = new ItemStack(materialBase, 1, 0);
@@ -197,14 +197,14 @@ public final class ItemStackHelper {
 
 	}
 
-	public static ItemStack convertToDustIfPossible(ItemStack stack) {
-
-		boolean isBlock = false;
+	public static ItemStack convertToDustIfPossible(final ItemStack stack) {
 
 		String oreName = ItemHelper.getOreName(stack);
 
 		if (oreName == null)
 			return stack;
+
+		boolean isBlock = false;
 
 		if (oreName.startsWith("ingot"))
 			oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
@@ -215,7 +215,7 @@ public final class ItemStackHelper {
 		else
 			return stack;
 
-		ItemStack newStack = getItemStack(oreName);
+		final ItemStack newStack = getItemStack(oreName);
 		if (newStack == null)
 			return stack;
 
@@ -224,13 +224,13 @@ public final class ItemStackHelper {
 		return newStack;
 	}
 
-	public static ItemStack getPreferredStack(ItemStack stack) {
-		String oreName = ItemHelper.getOreName(stack);
+	public static ItemStack getPreferredStack(final ItemStack stack) {
+		final String oreName = ItemHelper.getOreName(stack);
 		if (oreName == null || oreName.isEmpty()
 				|| "Unknown".compareToIgnoreCase(oreName) == 0)
 			return stack;
 
-		ItemStack newStack = getItemStack(oreName);
+		final ItemStack newStack = getItemStack(oreName);
 		if (newStack == null)
 			return stack;
 
@@ -238,11 +238,11 @@ public final class ItemStackHelper {
 		return newStack;
 	}
 
-	public static ItemStack getItemStack(String name) {
+	public static ItemStack getItemStack(final String name) {
 		return getItemStack(name, 1);
 	}
 
-	public static ItemStack getItemStack(String name, int quantity) {
+	public static ItemStack getItemStack(final String name, final int quantity) {
 
 		// Check our preferred list first. If we have a hit, use it.
 		ItemStack result = preferred.get(name);
@@ -260,7 +260,7 @@ public final class ItemStackHelper {
 
 			if (StringUtils.countMatches(name, ":") == 2) {
 				workingName = StringUtils.substringBeforeLast(name, ":");
-				String num = StringUtils.substringAfterLast(name, ":");
+				final String num = StringUtils.substringAfterLast(name, ":");
 
 				if (num != null && !num.isEmpty()) {
 
@@ -281,12 +281,12 @@ public final class ItemStackHelper {
 
 			// Check the OreDictionary first for any alias matches. Otherwise
 			// go to the game registry to find a match.
-			ArrayList<ItemStack> ores = OreDictionary.getOres(workingName);
+			final ArrayList<ItemStack> ores = OreDictionary.getOres(workingName);
 			if (!ores.isEmpty()) {
 				result = ores.get(0).copy();
 				result.stackSize = quantity;
 			} else {
-				Item i = GameData.getItemRegistry().getObject(workingName);
+				final Item i = GameData.getItemRegistry().getObject(workingName);
 				if (i != null) {
 					result = new ItemStack(i, quantity);
 				}
@@ -308,17 +308,17 @@ public final class ItemStackHelper {
 		return result;
 	}
 
-	public static List<ItemStack> getItemStackRange(String name,
-			int startSubtype, int endSubtype, int quantity) {
+	public static List<ItemStack> getItemStackRange(final String name,
+			final int startSubtype, final int endSubtype, final int quantity) {
 
 		return getItemStackRange(getItemStack(name).getItem(), startSubtype,
 				endSubtype, quantity);
 	}
 
-	public static List<ItemStack> getItemStackRange(Item item, int start,
-			int end, int quantity) {
+	public static List<ItemStack> getItemStackRange(final Item item, final int start,
+			final int end, final int quantity) {
 
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
 		for (int i = start; i <= end; i++) {
 			result.add(new ItemStack(item, quantity, i));
@@ -327,10 +327,10 @@ public final class ItemStackHelper {
 		return result;
 	}
 
-	public static List<ItemStack> getItemStackRange(Block block, int start,
-			int end, int quantity) {
+	public static List<ItemStack> getItemStackRange(final Block block, final int start,
+			final int end, final int quantity) {
 
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
 		for (int i = start; i <= end; i++) {
 			result.add(new ItemStack(block, quantity, i));
@@ -339,7 +339,7 @@ public final class ItemStackHelper {
 		return result;
 	}
 
-	public static String resolveName(ItemStack stack) {
+	public static String resolveName(final ItemStack stack) {
 		String result = null;
 
 		if (stack != null) {
@@ -362,14 +362,14 @@ public final class ItemStackHelper {
 		return result == null || result.isEmpty() ? "UNKNOWN" : result;
 	}
 
-	public void dumpSubItems(Logger log, String itemId) {
-		ItemStack stack = getItemStack(itemId, 1);
+	public void dumpSubItems(final Logger log, final String itemId) {
+		final ItemStack stack = getItemStack(itemId, 1);
 		if (stack != null) {
 
 			try {
 				for (int i = 0; i < 1024; i++) {
 					stack.setItemDamage(i);
-					String name = resolveName(stack);
+					final String name = resolveName(stack);
 					if (name != null && !name.isEmpty()
 							&& !name.contains("(Destroy)"))
 						log.info(String.format("%s:%d = %s", itemId, i, name));
@@ -380,7 +380,7 @@ public final class ItemStackHelper {
 		}
 	}
 
-	public void dumpItemStack(Logger log, String title, ItemStack... items) {
+	public void dumpItemStack(final Logger log, final String title, final ItemStack... items) {
 
 		log.info("");
 		log.info(title);
@@ -391,7 +391,7 @@ public final class ItemStackHelper {
 			return;
 		}
 
-		for (ItemStack stack : items) {
+		for (final ItemStack stack : items) {
 			log.info(String.format("%s (%s)", resolveName(stack),
 					stack.toString()));
 		}
@@ -399,46 +399,46 @@ public final class ItemStackHelper {
 		log.info(String.format("Total: %d item stacks", items.length));
 	}
 
-	public static void dumpFluidRegistry(Logger log) {
+	public static void dumpFluidRegistry(final Logger log) {
 
 		log.info("Fluid Registry:");
 
-		for (Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids()
+		for (final Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids()
 				.entrySet()) {
 			log.info(String.format("%s: %s", e.getKey(), e.getValue().getName()));
 		}
 	}
 
-	public static List<ItemStack> clone(ItemStack... stacks) {
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+	public static List<ItemStack> clone(final ItemStack... stacks) {
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 		for (int i = 0; i < stacks.length; i++)
 			if (stacks[i] != null)
 				result.add(stacks[i].copy());
 		return result;
 	}
 
-	public static List<ItemStack> clone(List<ItemStack> stacks) {
-		ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-		for (ItemStack stack : stacks)
+	public static List<ItemStack> clone(final List<ItemStack> stacks) {
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+		for (final ItemStack stack : stacks)
 			if (stack != null)
 				result.add(stack.copy());
 		return result;
 	}
 
-	public static void append(List<ItemStack> list, ItemStack stack) {
+	public static void append(final List<ItemStack> list, final ItemStack stack) {
 		list.add(stack);
 	}
 
-	public static void append(List<ItemStack> list, String... items) {
+	public static void append(final List<ItemStack> list, final String... items) {
 
 		Preconditions.checkArgument(items != null && items.length > 0,
 				"Input ItemStacks cannot be null");
 
-		for (String s : items)
+		for (final String s : items)
 			list.add(ItemStackHelper.getItemStack(s));
 	}
 
-	public static void append(List<ItemStack> list, String item, int quantity) {
+	public static void append(final List<ItemStack> list, final String item, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -447,16 +447,16 @@ public final class ItemStackHelper {
 		list.add(ItemStackHelper.getItemStack(item, quantity));
 	}
 
-	public static void append(List<ItemStack> list, Block... blocks) {
+	public static void append(final List<ItemStack> list, final Block... blocks) {
 
 		Preconditions.checkArgument(blocks != null && blocks.length > 0,
 				"Input ItemStacks cannot be null");
 
-		for (Block b : blocks)
+		for (final Block b : blocks)
 			list.add(new ItemStack(b));
 	}
 
-	public static void append(List<ItemStack> list, Block block, int quantity) {
+	public static void append(final List<ItemStack> list, final Block block, final int quantity) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -465,16 +465,16 @@ public final class ItemStackHelper {
 		list.add(new ItemStack(block, quantity));
 	}
 
-	public static void append(List<ItemStack> list, Item... items) {
+	public static void append(final List<ItemStack> list, final Item... items) {
 
 		Preconditions.checkArgument(items != null && items.length > 0,
 				"Input ItemStacks cannot be null");
 
-		for (Item i : items)
+		for (final Item i : items)
 			list.add(new ItemStack(i));
 	}
 
-	public static void append(List<ItemStack> list, Item item, int quantity) {
+	public static void append(final List<ItemStack> list, final Item item, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(quantity > 0,
@@ -483,40 +483,38 @@ public final class ItemStackHelper {
 		list.add(new ItemStack(item, quantity));
 	}
 
-	public static void append(List<ItemStack> list, List<ItemStack> stacks) {
+	public static void append(final List<ItemStack> list, final List<ItemStack> stacks) {
 
 		Preconditions.checkArgument(stacks != null && !stacks.isEmpty(),
 				"Input ItemStacks cannot be null");
 
-		for (ItemStack stack : stacks) {
-			list.add(stack);
-		}
+		list.addAll(stacks);
 	}
 
-	public static void append(List<ItemStack> list, ItemStack... stacks) {
+	public static void append(final List<ItemStack> list, final ItemStack... stacks) {
 
 		Preconditions.checkArgument(stacks != null && stacks.length > 0,
 				"Input ItemStacks cannot be null");
-
-		for (ItemStack stack : stacks) {
+		
+		for (final ItemStack stack : stacks) {
 			list.add(stack);
 		}
 	}
 
-	public static void appendSubtype(List<ItemStack> list, ItemStack stack,
-			int subtype) {
+	public static void appendSubtype(final List<ItemStack> list, final ItemStack stack,
+			final int subtype) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(subtype >= 0,
 				"Subtype has to be greater than or equal to 0");
 
-		ItemStack s = stack.copy();
+		final ItemStack s = stack.copy();
 		s.setItemDamage(subtype);
 		list.add(s);
 	}
 
-	public static void appendSubtype(List<ItemStack> list, Item item,
-			int subtype) {
+	public static void appendSubtype(final List<ItemStack> list, final Item item,
+			final int subtype) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(subtype >= 0,
@@ -525,8 +523,8 @@ public final class ItemStackHelper {
 		list.add(new ItemStack(item, 1, subtype));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, String item,
-			int start, int end, int quantity) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final String item,
+			final int start, final int end, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
@@ -534,25 +532,21 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
-				end, quantity))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, quantity));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, String item,
-			int start, int end) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final String item,
+			final int start, final int end) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
-				end, 1))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, 1));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, Item item,
-			int start, int end, int quantity) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final Item item,
+			final int start, final int end, final int quantity) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
@@ -560,76 +554,68 @@ public final class ItemStackHelper {
 		Preconditions.checkArgument(quantity > 0,
 				"Quantity has to be greater than 0");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
-				end, quantity))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, quantity));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, Item item,
-			int start, int end) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final Item item,
+			final int start, final int end) {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(item, start,
-				end, 1))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, 1));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, Block block,
-			int start, int end, int quantity) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final Block block,
+			final int start, final int end, final int quantity) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start,
-				end, quantity))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(block, start,	end, quantity));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list, Block block,
-			int start, int end) {
+	public static void appendSubtypeRange(final List<ItemStack> list, final Block block,
+			final int start, final int end) {
 
 		Preconditions.checkNotNull(block, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(start >= 0 && end >= start,
 				"The subtype range is invalid");
 
-		for (ItemStack stack : ItemStackHelper.getItemStackRange(block, start,
-				end, 1))
-			list.add(stack);
+		list.addAll(ItemStackHelper.getItemStackRange(block, start, end, 1));
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list,
-			ItemStack stack, int start, int end) {
+	public static void appendSubtypeRange(final List<ItemStack> list,
+			final ItemStack stack, final int start, final int end) {
 		appendSubtypeRange(list, stack, start, end, 1);
 	}
 
-	public static void appendSubtypeRange(List<ItemStack> list,
-			ItemStack stack, int start, int end, int quantity) {
+	public static void appendSubtypeRange(final List<ItemStack> list,
+			final ItemStack stack, final int start, final int end, final int quantity) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkArgument(end >= start && start > -1,
 				"The subtype range is not valid");
 
 		for (int i = start; i <= end; i++) {
-			ItemStack s = stack.copy();
+			final ItemStack s = stack.copy();
 			s.setItemDamage(i);
 			s.stackSize = quantity;
 			list.add(s);
 		}
 	}
 
-	public static void spawnIntoWorld(World world, ItemStack stack, int x,
-			int y, int z) {
+	public static void spawnIntoWorld(final World world, final ItemStack stack, final int x,
+			final int y, final int z) {
 
 		if (stack == null)
 			return;
 
-		float f = rand.nextFloat() * 0.8F + 0.1F;
-		float f1 = rand.nextFloat() * 0.8F + 0.1F;
-		float f2 = rand.nextFloat() * 0.8F + 0.1F;
+		final float f = rand.nextFloat() * 0.8F + 0.1F;
+		final float f1 = rand.nextFloat() * 0.8F + 0.1F;
+		final float f2 = rand.nextFloat() * 0.8F + 0.1F;
 
 		while (stack.stackSize > 0) {
 			int j = rand.nextInt(21) + 10;
@@ -640,7 +626,7 @@ public final class ItemStackHelper {
 
 			stack.stackSize -= j;
 
-			EntityItem item = new EntityItem(world, x + f, y + f1, z + f2,
+			final EntityItem item = new EntityItem(world, x + f, y + f1, z + f2,
 					new ItemStack(stack.getItem(), j, stack.getItemDamage()));
 
 			if (stack.hasTagCompound()) {
@@ -660,7 +646,7 @@ public final class ItemStackHelper {
 	 * @param inv
 	 * @return
 	 */
-	public static ItemStack[] coelece(ItemStack[] inv) {
+	public static ItemStack[] coelece(final ItemStack... inv) {
 
 		if (inv == null || inv.length == 1) {
 			return inv;
@@ -680,7 +666,7 @@ public final class ItemStackHelper {
 						break;
 					} else if (ItemHelper.itemsIdentical(stack, target)) {
 
-						int hold = target.getMaxStackSize() - target.stackSize;
+						final int hold = target.getMaxStackSize() - target.stackSize;
 
 						if (hold >= stack.stackSize) {
 							target.stackSize += stack.stackSize;
@@ -698,7 +684,7 @@ public final class ItemStackHelper {
 		return inv;
 	}
 
-	public static List<ItemStack> coelece(List<ItemStack> inv) {
+	public static List<ItemStack> coelece(final List<ItemStack> inv) {
 
 		if (inv == null || inv.size() == 1) {
 			return inv;
@@ -706,19 +692,19 @@ public final class ItemStackHelper {
 
 		for (int i = 1; i < inv.size(); i++) {
 
-			ItemStack stack = inv.get(i);
+			final ItemStack stack = inv.get(i);
 			if (stack != null) {
 
 				for (int j = 0; j < i; j++) {
 
-					ItemStack target = inv.get(j);
+					final ItemStack target = inv.get(j);
 					if (target == null) {
 						inv.set(j, stack);
 						inv.set(i, null);
 						break;
 					} else if (ItemHelper.itemsIdentical(stack, target)) {
 
-						int hold = target.getMaxStackSize() - target.stackSize;
+						final int hold = target.getMaxStackSize() - target.stackSize;
 
 						if (hold >= stack.stackSize) {
 							target.stackSize += stack.stackSize;
@@ -736,19 +722,18 @@ public final class ItemStackHelper {
 		return inv;
 	}
 	
-	public static boolean addItemStackToInventory(ItemStack aitemstack[],
-			ItemStack itemstack, int i, int j) {
+	public static boolean addItemStackToInventory(final ItemStack aitemstack[],
+			final ItemStack itemstack, final int i, final int j) {
 		if (itemstack == null)
 			return true;
 		int k = -1;
 		for (int l = i; l <= j; l++) {
 			if (ItemHelper.itemsIdentical(itemstack, aitemstack[l])
 					&& aitemstack[l].getMaxStackSize() > aitemstack[l].stackSize) {
-				int i1 = aitemstack[l].getMaxStackSize()
+				final int i1 = aitemstack[l].getMaxStackSize()
 						- aitemstack[l].stackSize;
 				if (i1 >= itemstack.stackSize) {
 					aitemstack[l].stackSize += itemstack.stackSize;
-					itemstack = null;
 					return true;
 				}
 				itemstack.stackSize -= i1;
@@ -767,7 +752,7 @@ public final class ItemStackHelper {
 	}
 
 
-	public static void setItemLore(ItemStack stack, List<String> lore) {
+	public static void setItemLore(final ItemStack stack, final List<String> lore) {
 		
 		if (stack == null)
 			return;
@@ -776,10 +761,10 @@ public final class ItemStackHelper {
 		if (nbt == null)
 			nbt = new NBTTagCompound();
 
-		NBTTagList l = new NBTTagList();
-		for(String s: lore)
+		final NBTTagList l = new NBTTagList();
+		for(final String s: lore)
 			l.appendTag(new NBTTagString(s));
-		NBTTagCompound display = new NBTTagCompound();
+		final NBTTagCompound display = new NBTTagCompound();
 		display.setTag("Lore", l);
 
 		nbt.setTag("display", display);
@@ -792,7 +777,7 @@ public final class ItemStackHelper {
 	 * @param item
 	 * @return
 	 */
-	public static int getItemLevel(ItemStack item) {
+	public static int getItemLevel(final ItemStack item) {
 		
 		int level = 0;
 		if(item.hasTagCompound()) {
@@ -812,25 +797,25 @@ public final class ItemStackHelper {
 		return level;
 	}
 
-	public static ItemStack setLevel(ItemStack stack, int level) {
-		NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+	public static ItemStack setLevel(final ItemStack stack, final int level) {
+		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		nbt.setInteger("Level", level);
 		stack.setTagCompound(nbt);
 		return stack;
 	}
 	
-	public static ItemStack makeGlow(ItemStack stack) {
-		NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+	public static ItemStack makeGlow(final ItemStack stack) {
+		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		nbt.setTag("ench", new NBTTagList());
 		stack.setTagCompound(nbt);
 		return stack;
 	}
 
-	public static ItemStack asGeneric(ItemStack stack) {
+	public static ItemStack asGeneric(final ItemStack stack) {
 		return asGeneric(stack.getItem());
 	}
 
-	public static ItemStack asGeneric(Item item) {
+	public static ItemStack asGeneric(final Item item) {
 		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
 	}
 }

@@ -34,7 +34,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 public final class ProxyClient extends Proxy {
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 
 		super.init(event);
 

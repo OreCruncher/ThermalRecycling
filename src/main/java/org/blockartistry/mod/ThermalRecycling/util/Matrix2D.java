@@ -35,13 +35,13 @@ public final class Matrix2D<T> {
 	protected final int cols;
 	protected final Object[] cells; 
 	
-	public Matrix2D(int rows, int cols) {
+	public Matrix2D(final int rows, final int cols) {
 		this.rows = rows;
 		this.cols = cols;
 		this.cells = new Object[rows * cols];
 	}
 	
-	public boolean isPresent(int row, int col) {
+	public boolean isPresent(final int row, final int col) {
 		return cells[row * cols + col] != null;
 	}
 	

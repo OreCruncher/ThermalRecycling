@@ -29,16 +29,18 @@ import java.util.Random;
 import net.minecraft.world.World;
 
 public final class ParticleEffects {
+	
+	private ParticleEffects() {}
 
 	// Code modeled after Redstone Ore block special FX
-	public static void spawnParticlesAroundBlock(String particle, World world,
-			int x, int y, int z, Random rand) {
+	public static void spawnParticlesAroundBlock(final String particle, final World world,
+			final int x, final int y, final int z, final Random rand) {
 
 		Random r = rand;
 		if (r == null)
 			r = world.rand;
 
-		double d0 = 0.064D;
+		final double d0 = 0.064D;
 
 		for (int l = 0; l < 6; ++l) {
 			double d1 = x + r.nextFloat();
@@ -76,7 +78,7 @@ public final class ParticleEffects {
 		}
 	}
 	
-	public static void bonemeal(World world, int x, int y, int z, Random rand) {
+	public static void bonemeal(final World world, final int x, final int y, final int z, final Random rand) {
 		// From Minecraft bonemeal routines
         world.playAuxSFX(2005, x, y, z, 0);
 	}

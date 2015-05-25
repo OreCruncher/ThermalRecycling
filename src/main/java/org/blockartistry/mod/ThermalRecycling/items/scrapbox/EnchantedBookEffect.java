@@ -45,20 +45,20 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 	final Enchantment enchant;
 	final int level;
 
-	public EnchantedBookEffect(int weight, int level) {
+	public EnchantedBookEffect(final int weight, final int level) {
 		this(weight, null, level);
 	}
 
-	public EnchantedBookEffect(int weight, Enchantment enchantment, int level) {
+	public EnchantedBookEffect(final int weight, final Enchantment enchantment, final int level) {
 		super(weight);
 		this.enchant = enchantment;
 		this.level = level;
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 
-		ItemStack book = new ItemStack(Items.book);
+		final ItemStack book = new ItemStack(Items.book);
 		EnchantmentData[] enchants = null;
 
 		if (enchant != null) {
@@ -66,7 +66,7 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 			enchants[0] = new EnchantmentData(enchant, level);
 		} else {
 			@SuppressWarnings("rawtypes")
-			List list = EnchantmentHelper
+			final List list = EnchantmentHelper
 					.buildEnchantmentList(rnd, book, level);
 			enchants = new EnchantmentData[list.size()];
 			for (int i = 0; i < list.size(); i++)
@@ -79,7 +79,7 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 		// Drop out one of the enchants if there are multiples. This is from
 		// the enchanting table logic - maybe its to mitigate having too many
 		// enchants floating around.
-		int j = enchants.length > 1 ? rnd.nextInt(enchants.length) : -1;
+		final int j = enchants.length > 1 ? rnd.nextInt(enchants.length) : -1;
 
 		// Attach the enchantments
 		for (int i = 0; i < enchants.length; i++)

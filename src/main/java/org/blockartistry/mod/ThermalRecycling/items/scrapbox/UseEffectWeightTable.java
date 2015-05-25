@@ -36,19 +36,19 @@ public final class UseEffectWeightTable extends
 
 	public abstract static class UseEffectItem extends	WeightTable.Item {
 
-		public UseEffectItem(int weight) {
+		public UseEffectItem(final int weight) {
 			super(weight);
 		}
 
-		public abstract void apply(ItemStack scrap, World world,
-				EntityPlayer player);
+		public abstract void apply(final ItemStack scrap, final World world,
+				final EntityPlayer player);
 	}
 
 	public UseEffectWeightTable() {
 		super();
 	}
 
-	public UseEffectWeightTable(Random rand) {
+	public UseEffectWeightTable(final Random rand) {
 		super(rand);
 	}
 }

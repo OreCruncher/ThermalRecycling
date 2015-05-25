@@ -48,16 +48,16 @@ public final class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
 	final String category;
 
-	public ChestEffect(int weight, String category) {
+	public ChestEffect(final int weight, final String category) {
 		super(weight);
 		this.category = category;
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
-		ChestGenHooks hooks = ChestGenHooks.getInfo(category);
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
+		final ChestGenHooks hooks = ChestGenHooks.getInfo(category);
 		if (hooks != null) {
-			ItemStack stack = hooks.getOneItem(rnd);
+			final ItemStack stack = hooks.getOneItem(rnd);
 			UseEffect.spawnIntoWorld(stack, world, player);
 		}
 	}

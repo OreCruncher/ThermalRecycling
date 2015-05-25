@@ -34,12 +34,12 @@ import net.minecraft.world.World;
  */
 public final class NoUseEffect extends UseEffectWeightTable.UseEffectItem {
 
-	public NoUseEffect(int weight) {
+	public NoUseEffect(final int weight) {
 		super(weight);
 	}
 
 	@Override
-	public void apply(ItemStack scrap, World world, EntityPlayer player) {
+	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 	}
 
 	@Override

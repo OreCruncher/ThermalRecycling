@@ -80,7 +80,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	static final int ENERGY_PER_OPERATION_DECOMP = 1600;
 	static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
 
-	static int operationEnergyForCore(ItemStack core) {
+	static int operationEnergyForCore(final ItemStack core) {
 		if (core == null)
 			return ENERGY_PER_OPERATION_SCRAP;
 
@@ -96,13 +96,13 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
-		SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
+		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
 		inv.setInputRange(0, 1).setOutputRange(1, 9).setHiddenSlots(CORE);
 		setMachineInventory(inv);
 	}
 
 	@Override
-	public boolean isWhitelisted(ItemStack stack) {
+	public boolean isWhitelisted(final ItemStack stack) {
 		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
 	}
 
@@ -113,7 +113,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean receiveClientEvent(int action, int param) {
+	public boolean receiveClientEvent(final int action, final int param) {
 
 		if (!worldObj.isRemote)
 			return true;
@@ -165,7 +165,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		energy = nbt.getInteger("energy");
@@ -173,7 +173,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		progress = nbt.getShort("progress");
 		status = MachineStatus.map(nbt.getShort("status"));
 
-		NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
+		final NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
 		if (nbttaglist.tagCount() > 0) {
 			buffer = new ArrayList<ItemStack>();
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
@@ -184,7 +184,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		nbt.setInteger("energy", energy);
@@ -192,12 +192,12 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		nbt.setShort("progress", (short) progress);
 		nbt.setShort("status", (short) status.ordinal());
 
-		NBTTagList nbttaglist = new NBTTagList();
+		final NBTTagList nbttaglist = new NBTTagList();
 
 		if (buffer != null) {
-			for (ItemStack stack : buffer) {
+			for (final ItemStack stack : buffer) {
 				if (stack != null) {
-					NBTTagCompound nbtTagCompound = new NBTTagCompound();
+					final NBTTagCompound nbtTagCompound = new NBTTagCompound();
 					stack.writeToNBT(nbtTagCompound);
 					nbttaglist.appendTag(nbtTagCompound);
 				}
@@ -214,23 +214,23 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
+	public boolean canConnectEnergy(final ForgeDirection from) {
 		return true;
 	}
 
 	@Override
-	public int getEnergyStored(ForgeDirection from) {
+	public int getEnergyStored(final ForgeDirection from) {
 		return energy;
 	}
 
 	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
+	public int getMaxEnergyStored(final ForgeDirection from) {
 		return ENERGY_MAX_STORAGE;
 	}
 
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxRecieve,
-			boolean simulate) {
+	public int receiveEnergy(final ForgeDirection from, final int maxRecieve,
+			final boolean simulate) {
 
 		int result = Math.min(maxRecieve, ENERGY_MAX_RECEIVE);
 
@@ -279,7 +279,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// /////////////////////////////////////
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 
 		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
 			return true;
@@ -287,17 +287,17 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(final int index, final ItemStack stack) {
 		super.setInventorySlotContents(index, stack);
 	}
 
 	@Override
-	public Object getGuiClient(InventoryPlayer inventory) {
+	public Object getGuiClient(final InventoryPlayer inventory) {
 		return new ThermalRecyclerGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(InventoryPlayer inventory) {
+	public Object getGuiServer(final InventoryPlayer inventory) {
 		return new ThermalRecyclerContainer(inventory, this);
 	}
 
@@ -306,8 +306,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		if (!worldObj.isRemote) {
 
-			ItemStack inputSlotStack = getStackInSlot(INPUT);
-			ItemStack core = getStackInSlot(CORE);
+			final ItemStack inputSlotStack = getStackInSlot(INPUT);
+			final ItemStack core = getStackInSlot(CORE);
 
 			switch (status) {
 
@@ -375,7 +375,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
 		if (!ModOptions.getEnableRecyclerFX())
 			return;
 
@@ -392,12 +392,12 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		ItemStack input = getStackInSlot(INPUT);
+		final ItemStack input = getStackInSlot(INPUT);
 		if (input == null)
 			return false;
 
-		int quantityRequired = RecipeData.getMinimumQuantityToRecycle(input);
-		boolean result = (quantityRequired != -1)
+		final int quantityRequired = RecipeData.getMinimumQuantityToRecycle(input);
+		final boolean result = quantityRequired != -1
 				&& quantityRequired <= input.stackSize;
 
 		return result;
@@ -412,7 +412,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		boolean isEmpty = true;
 
 		for (int i = 0; i < buffer.size(); i++) {
-			ItemStack stack = buffer.get(i);
+			final ItemStack stack = buffer.get(i);
 			if (stack != null) {
 				if (addStackToOutput(stack)) {
 					buffer.set(i, null);
@@ -433,7 +433,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected boolean recycleItem() {
 
 		// Get how many items we need to snag off the stack
-		int quantityRequired = RecipeData
+		final int quantityRequired = RecipeData
 				.getMinimumQuantityToRecycle(getStackInSlot(INPUT));
 		if (quantityRequired < 1)
 			return true;
@@ -441,7 +441,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// Decrement our input slot. The decrStackSize
 		// method will handle appropriate nulling of
 		// inventory slots when count goes to 0.
-		ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
+		final ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
 
 		buffer = ScrappingTables.scrapItems(getStackInSlot(CORE), justRecycled);
 

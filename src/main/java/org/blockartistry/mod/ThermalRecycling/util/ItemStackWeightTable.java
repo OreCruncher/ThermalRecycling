@@ -36,7 +36,7 @@ public final class ItemStackWeightTable extends
 
 		final ItemStack stack;
 
-		public ItemStackItem(ItemStack stack, int weight) {
+		public ItemStackItem(final ItemStack stack, final int weight) {
 			super(weight);
 			this.stack = stack;
 		}
@@ -67,7 +67,7 @@ public final class ItemStackWeightTable extends
 		super();
 	}
 
-	public ItemStackWeightTable(Random rand) {
+	public ItemStackWeightTable(final Random rand) {
 		super(rand);
 	}
 

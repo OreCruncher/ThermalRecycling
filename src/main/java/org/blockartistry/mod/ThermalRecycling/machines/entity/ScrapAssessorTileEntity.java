@@ -47,13 +47,13 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 	public ScrapAssessorTileEntity() {
 		super(GuiIdentifier.SCRAP_ASSESSOR);
-		SidedInventoryComponent inv = new SidedInventoryComponent(this, 12);
+		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 12);
 		inv.setInputRange(0, 1).setHiddenSlots(CORE);
 		setMachineInventory(inv);
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 
 		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
 			return true;
@@ -61,22 +61,22 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 	}
 
 	@Override
-	public Object getGuiClient(InventoryPlayer inventory) {
+	public Object getGuiClient(final InventoryPlayer inventory) {
 		return new ScrapAssessorGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(InventoryPlayer inventory) {
+	public Object getGuiServer(final InventoryPlayer inventory) {
 		return new ScrapAssessorContainer(inventory, this);
 	}
 
 	@Override
-	public boolean isWhitelisted(ItemStack stack) {
+	public boolean isWhitelisted(final ItemStack stack) {
 		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
 	}
 
 	protected boolean isDecompAugmentInstalled() {
-		ItemStack augment = getStackInSlot(CORE);
+		final ItemStack augment = getStackInSlot(CORE);
 		return augment != null
 				&& augment.getItem() == ItemManager.processingCore;
 	}
@@ -86,13 +86,13 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 		if (!worldObj.isRemote) {
 
-			ItemStack input = getStackInSlot(INPUT);
-			ItemStack core = getStackInSlot(CORE);
+			final ItemStack input = getStackInSlot(INPUT);
+			final ItemStack core = getStackInSlot(CORE);
 			if (input == oldStack && core == oldCore)
 				return;
 
 			// The stack changed. Clear out the display.
-			for (int i : DISPLAY_SLOTS)
+			for (final int i : DISPLAY_SLOTS)
 				setInventorySlotContents(i, null);
 			setInventorySlotContents(SAMPLE, null);
 
@@ -102,7 +102,7 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 			if (input == null)
 				return;
 
-			ScrapHandler.PreviewResult result = ScrappingTables.preview(core,
+			final ScrapHandler.PreviewResult result = ScrappingTables.preview(core,
 					input);
 
 			if (result != null) {
@@ -111,7 +111,7 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 				if (result.outputGenerated != null) {
 					// Cap the output in case the result buffer is larger than
 					// what the 3x3 grid can show
-					int maxUpperSlot = Math.min(result.outputGenerated.size(),
+					final int maxUpperSlot = Math.min(result.outputGenerated.size(),
 							DISPLAY_SLOTS.length);
 					for (int i = 0; i < maxUpperSlot; i++) {
 						setInventorySlotContents(DISPLAY_SLOTS[i],

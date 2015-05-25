@@ -35,7 +35,7 @@ import cofh.api.modhelpers.ThermalExpansionHelper;
 public final class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuilder> {
 
 	@Override
-	protected int saveImpl(ItemStack stack) {
+	protected int saveImpl(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
@@ -46,7 +46,7 @@ public final class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuild
 	}
 
 	@Override
-	protected String toString(ItemStack stack) {
+	protected String toString(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");

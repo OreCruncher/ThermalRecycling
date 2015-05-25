@@ -89,11 +89,11 @@ public final class ModForestry extends ModPlugin {
 		super(SupportedMod.FORESTRY);
 	}
 
-	protected void registerForestryRecipes(Map<Object[], Object[]> entry) {
-		for (Entry<Object[], Object[]> e : entry.entrySet()) {
+	protected void registerForestryRecipes(final Map<Object[], Object[]> entry) {
+		for (final Entry<Object[], Object[]> e : entry.entrySet()) {
 			if (e.getValue().length == 1
 					&& e.getValue()[0] instanceof ItemStack) {
-				ItemStack stack = (ItemStack) e.getValue()[0];
+				final ItemStack stack = (ItemStack) e.getValue()[0];
 				if (!ItemScrapData.isRecipeIgnored(stack))
 					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
@@ -126,17 +126,17 @@ public final class ModForestry extends ModPlugin {
 		registerPulverizeToDirt("sapling", 0, 0);
 		
 		// Hook for farm blocks
-		ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
+		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
 		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
 		// get something for the effort of making these crates.
-		for (Object o : Item.itemRegistry.getKeys()) {
-			String itemName = (String) o;
+		for (final Object o : Item.itemRegistry.getKeys()) {
+			final String itemName = (String) o;
 			if (itemName.startsWith("Forestry:crated")) {
-				ItemStack stack = ItemStackHelper.getItemStack(itemName);
-				ItemScrapData data = ItemScrapData.get(stack);
+				final ItemStack stack = ItemStackHelper.getItemStack(itemName);
+				final ItemScrapData data = ItemScrapData.get(stack);
 				data.setIgnoreRecipe(true);
 				data.setScrubFromOutput(true);
 				data.setValue(ScrapValue.POOR);

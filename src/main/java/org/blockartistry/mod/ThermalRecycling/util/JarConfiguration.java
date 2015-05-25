@@ -52,14 +52,14 @@ public final class JarConfiguration
     public static final CharMatcher allowedProperties = CharMatcher.JAVA_LETTER_OR_DIGIT.or(CharMatcher.anyOf(ALLOWED_CHARS));
 
     private Map<String, ConfigCategory> categories = new TreeMap<String, ConfigCategory>();
-    private Map<String, JarConfiguration> children = new TreeMap<String, JarConfiguration>();
+    final private Map<String, JarConfiguration> children = new TreeMap<String, JarConfiguration>();
 
     private boolean caseSensitiveCustomCategories;
     public String defaultEncoding = DEFAULT_ENCODING;
     private String fileName = null;
     public boolean isChild = false;
     private boolean changed = false;
-    private String definedConfigVersion = null;
+    private final String definedConfigVersion = null;
     private String loadedConfigVersion = null;
 
     static
@@ -69,7 +69,7 @@ public final class JarConfiguration
 
     public JarConfiguration() { }
     
-    public JarConfiguration(InputStream stream){
+    public JarConfiguration(final InputStream stream){
     	load(stream);
     }
 
@@ -97,7 +97,7 @@ public final class JarConfiguration
      * @param defaultValue the default value
      * @return a boolean Property object without a comment
      */
-    public Property get(String category, String key, boolean defaultValue)
+    public Property get(final String category, final String key, final boolean defaultValue)
     {
         return get(category, key, defaultValue, (String) null);
     }
@@ -111,9 +111,9 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return a boolean Property object without a comment
      */
-    public Property get(String category, String key, boolean defaultValue, String comment)
+    public Property get(final String category, final String key, final boolean defaultValue, final String comment)
     {
-        Property prop = get(category, key, Boolean.toString(defaultValue), comment, BOOLEAN);
+    	final Property prop = get(category, key, Boolean.toString(defaultValue), comment, BOOLEAN);
         prop.setDefaultValue(Boolean.toString(defaultValue));
         
         if (!prop.isBooleanValue())
@@ -132,7 +132,7 @@ public final class JarConfiguration
      * @param defaultValues an array containing the default values
      * @return a boolean array Property without a comment using these defaults: isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(String category, String key, boolean[] defaultValues)
+    public Property get(final String category, final String key, final boolean[] defaultValues)
     {
         return get(category, key, defaultValues, (String) null);
     }
@@ -146,7 +146,7 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return a boolean array Property with a comment using these defaults: isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(String category, String key, boolean[] defaultValues, String comment)
+    public Property get(final String category, final String key, final boolean[] defaultValues, final String comment)
     {
         return get(category, key, defaultValues, comment, false, -1);
     }
@@ -163,8 +163,8 @@ public final class JarConfiguration
      * @param maxListLength the maximum length of this array, use -1 for no max length
      * @return a boolean array Property with all settings defined
      */
-    public Property get(String category, String key, boolean[] defaultValues, String comment,
-            boolean isListLengthFixed, int maxListLength)
+    public Property get(final String category, final String key, final boolean[] defaultValues, final String comment,
+    		final boolean isListLengthFixed, final int maxListLength)
     {
         String[] values = new String[defaultValues.length];
         for (int i = 0; i < defaultValues.length; i++)
@@ -172,7 +172,7 @@ public final class JarConfiguration
             values[i] = Boolean.toString(defaultValues[i]);
         }
         
-        Property prop = get(category, key, values, comment, BOOLEAN);
+        final Property prop = get(category, key, values, comment, BOOLEAN);
         prop.setDefaultValues(values);
         prop.setIsListLengthFixed(isListLengthFixed);
         prop.setMaxListLength(maxListLength);
@@ -199,7 +199,7 @@ public final class JarConfiguration
      * @param defaultValue the default value
      * @return an integer Property object with default bounds of Integer.MIN_VALUE and Integer.MAX_VALUE
      */
-    public Property get(String category, String key, int defaultValue)
+    public Property get(final String category, final String key, final int defaultValue)
     {
         return get(category, key, defaultValue, (String) null, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -213,7 +213,7 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return an integer Property object with default bounds of Integer.MIN_VALUE and Integer.MAX_VALUE
      */
-    public Property get(String category, String key, int defaultValue, String comment)
+    public Property get(final String category, final String key, final int defaultValue, final String comment)
     {
         return get(category, key, defaultValue, comment, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -229,9 +229,9 @@ public final class JarConfiguration
      * @param maxValue maximum boundary
      * @return an integer Property object with the defined comment, minimum and maximum bounds
      */
-    public Property get(String category, String key, int defaultValue, String comment, int minValue, int maxValue)
+    public Property get(final String category, final String key, final int defaultValue, final String comment, final int minValue, final int maxValue)
     {
-        Property prop = get(category, key, Integer.toString(defaultValue), comment, INTEGER);
+    	final Property prop = get(category, key, Integer.toString(defaultValue), comment, INTEGER);
         prop.setDefaultValue(Integer.toString(defaultValue));
         prop.setMinValue(minValue);
         prop.setMaxValue(maxValue);
@@ -252,7 +252,7 @@ public final class JarConfiguration
      * @return an integer array Property object with default bounds of Integer.MIN_VALUE and Integer.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(String category, String key, int[] defaultValues)
+    public Property get(final String category, final String key, final int[] defaultValues)
     {
         return get(category, key, defaultValues, (String) null);
     }
@@ -267,7 +267,7 @@ public final class JarConfiguration
      * @return an integer array Property object with default bounds of Integer.MIN_VALUE and Integer.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(String category, String key, int[] defaultValues, String comment)
+    public Property get(final String category, final String key, final int[] defaultValues, final String comment)
     {
         return get(category, key, defaultValues, comment, Integer.MIN_VALUE, Integer.MAX_VALUE, false, -1);
     }
@@ -284,7 +284,7 @@ public final class JarConfiguration
      * @return an integer array Property object with the defined comment, minimum and maximum bounds, isListLengthFixed
      *         = false, maxListLength = -1
      */
-    public Property get(String category, String key, int[] defaultValues, String comment, int minValue, int maxValue)
+    public Property get(final String category, final String key, final int[] defaultValues, final String comment, final int minValue, final int maxValue)
     {
         return get(category, key, defaultValues, comment, minValue, maxValue, false, -1);
     }
@@ -303,8 +303,8 @@ public final class JarConfiguration
      * @param maxListLength the maximum length of this array, use -1 for no max length
      * @return an integer array Property object with all settings defined
      */
-    public Property get(String category, String key, int[] defaultValues, String comment, int minValue, int maxValue,
-            boolean isListLengthFixed, int maxListLength)
+    public Property get(final String category, final String key, final int[] defaultValues, final String comment, final int minValue, final int maxValue,
+    		final boolean isListLengthFixed, final int maxListLength)
     {
         String[] values = new String[defaultValues.length];
         for (int i = 0; i < defaultValues.length; i++)
@@ -312,7 +312,7 @@ public final class JarConfiguration
             values[i] = Integer.toString(defaultValues[i]);
         }
 
-        Property prop = get(category, key, values, comment, INTEGER);
+        final Property prop = get(category, key, values, comment, INTEGER);
         prop.setDefaultValues(values);
         prop.setMinValue(minValue);
         prop.setMaxValue(maxValue);
@@ -341,7 +341,7 @@ public final class JarConfiguration
      * @param defaultValue the default value
      * @return a double Property object with default bounds of Double.MIN_VALUE and Double.MAX_VALUE
      */
-    public Property get(String category, String key, double defaultValue)
+    public Property get(final String category, final String key, final double defaultValue)
     {
         return get(category, key, defaultValue, (String) null);
     }
@@ -355,7 +355,7 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return a double Property object with default bounds of Double.MIN_VALUE and Double.MAX_VALUE
      */
-    public Property get(String category, String key, double defaultValue, String comment)
+    public Property get(final String category, final String key, final double defaultValue, final String comment)
     {
         return get(category, key, defaultValue, comment, -Double.MAX_VALUE, Double.MAX_VALUE);
     }
@@ -371,9 +371,9 @@ public final class JarConfiguration
      * @param maxValue maximum boundary
      * @return a double Property object with the defined comment, minimum and maximum bounds
      */
-    public Property get(String category, String key, double defaultValue, String comment, double minValue, double maxValue)
+    public Property get(final String category, final String key, final double defaultValue, final String comment, final double minValue, final double maxValue)
     {
-        Property prop = get(category, key, Double.toString(defaultValue), comment, DOUBLE);
+    	final Property prop = get(category, key, Double.toString(defaultValue), comment, DOUBLE);
         prop.setDefaultValue(Double.toString(defaultValue));
         prop.setMinValue(minValue);
         prop.setMaxValue(maxValue);
@@ -394,7 +394,7 @@ public final class JarConfiguration
      * @return a double array Property object with default bounds of Double.MIN_VALUE and Double.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(String category, String key, double[] defaultValues)
+    public Property get(final String category, final String key, final double[] defaultValues)
     {
         return get(category, key, defaultValues, null);
     }
@@ -409,7 +409,7 @@ public final class JarConfiguration
      * @return a double array Property object with default bounds of Double.MIN_VALUE and Double.MAX_VALUE, isListLengthFixed = false,
      *         maxListLength = -1
      */
-    public Property get(String category, String key, double[] defaultValues, String comment)
+    public Property get(final String category, final String key, final double[] defaultValues, final String comment)
     {
         return get(category, key, defaultValues, comment, -Double.MAX_VALUE, Double.MAX_VALUE, false, -1);
     }
@@ -426,7 +426,7 @@ public final class JarConfiguration
      * @return a double array Property object with the defined comment, minimum and maximum bounds, isListLengthFixed =
      *         false, maxListLength = -1
      */
-    public Property get(String category, String key, double[] defaultValues, String comment, double minValue, double maxValue)
+    public Property get(final String category, final String key, final double[] defaultValues, final String comment, final double minValue, final double maxValue)
     {
         return get(category, key, defaultValues, comment, minValue, maxValue, false, -1);
     }
@@ -445,8 +445,8 @@ public final class JarConfiguration
      * @param maxListLength the maximum length of this array, use -1 for no max length
      * @return a double array Property object with all settings defined
      */
-    public Property get(String category, String key, double[] defaultValues, String comment, double minValue, double maxValue,
-            boolean isListLengthFixed, int maxListLength)
+    public Property get(final String category, final String key, final double[] defaultValues, final String comment, final double minValue, final double maxValue,
+    		final boolean isListLengthFixed, final int maxListLength)
     {
         String[] values = new String[defaultValues.length];
         for (int i = 0; i < defaultValues.length; i++)
@@ -455,7 +455,7 @@ public final class JarConfiguration
         }
 
         
-        Property prop = get(category, key, values, comment, DOUBLE);
+        final Property prop = get(category, key, values, comment, DOUBLE);
         prop.setDefaultValues(values);
         prop.setMinValue(minValue);
         prop.setMaxValue(maxValue);
@@ -484,7 +484,7 @@ public final class JarConfiguration
      * @param defaultValue the default value
      * @return a string Property with validationPattern = null, validValues = null
      */
-    public Property get(String category, String key, String defaultValue)
+    public Property get(final String category, final String key, final String defaultValue)
     {
         return get(category, key, defaultValue, (String) null);
     }
@@ -498,7 +498,7 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return a string Property with validationPattern = null, validValues = null
      */
-    public Property get(String category, String key, String defaultValue, String comment)
+    public Property get(final String category, final String key, final String defaultValue, final String comment)
     {
         return get(category, key, defaultValue, comment, STRING);
     }
@@ -513,9 +513,9 @@ public final class JarConfiguration
      * @param validationPattern a Pattern object for input validation
      * @return a string Property with the defined validationPattern, validValues = null
      */
-    public Property get(String category, String key, String defaultValue, String comment, Pattern validationPattern)
+    public Property get(final String category, final String key, final String defaultValue, final String comment, final Pattern validationPattern)
     {
-        Property prop = get(category, key, defaultValue, comment, STRING);
+    	final Property prop = get(category, key, defaultValue, comment, STRING);
         prop.setValidationPattern(validationPattern);
         return prop;
     }
@@ -531,9 +531,9 @@ public final class JarConfiguration
      *            a value cycle button.
      * @return a string Property with the defined validValues array, validationPattern = null
      */
-    public Property get(String category, String key, String defaultValue, String comment, String[] validValues)
+    public Property get(final String category, final String key, final String defaultValue, final String comment, final String[] validValues)
     {
-        Property prop = get(category, key, defaultValue, comment, STRING);
+    	final Property prop = get(category, key, defaultValue, comment, STRING);
         prop.setValidValues(validValues);
         return prop;
     }
@@ -546,7 +546,7 @@ public final class JarConfiguration
      * @param defaultValues an array containing the default values
      * @return a string array Property with validationPattern = null, isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(String category, String key, String[] defaultValues)
+    public Property get(final String category, final String key, final String[] defaultValues)
     {
         return get(category, key, defaultValues, (String) null, false, -1, (Pattern) null);
     }
@@ -560,7 +560,7 @@ public final class JarConfiguration
      * @param comment a String comment
      * @return a string array Property with validationPattern = null, isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(String category, String key, String[] defaultValues, String comment)
+    public Property get(final String category, final String key, final String[] defaultValues, final String comment)
     {
         return get(category, key, defaultValues, comment, false, -1, (Pattern) null);
     }
@@ -575,7 +575,7 @@ public final class JarConfiguration
      * @param validationPattern a Pattern object for input validation
      * @return a string array Property with the defined validationPattern, isListLengthFixed = false, maxListLength = -1
      */
-    public Property get(String category, String key, String[] defaultValues, String comment, Pattern validationPattern)
+    public Property get(final String category, final String key, final String[] defaultValues, final String comment, final Pattern validationPattern)
     {
         return get(category, key, defaultValues, comment, false, -1, validationPattern);
     }
@@ -593,10 +593,10 @@ public final class JarConfiguration
      * @param validationPattern a Pattern object for input validation
      * @return a string array Property with a comment with all settings defined
      */
-    public Property get(String category, String key, String[] defaultValues, String comment,
-            boolean isListLengthFixed, int maxListLength, Pattern validationPattern)
+    public Property get(final String category, final String key, final String[] defaultValues, final String comment,
+    		final boolean isListLengthFixed, final int maxListLength, final Pattern validationPattern)
     {
-        Property prop = get(category, key, defaultValues, comment, STRING);
+    	final Property prop = get(category, key, defaultValues, comment, STRING);
         prop.setIsListLengthFixed(isListLengthFixed);
         prop.setMaxListLength(maxListLength);
         prop.setValidationPattern(validationPattern);
@@ -619,14 +619,14 @@ public final class JarConfiguration
      * @param type a Property.Type enum value
      * @return a Property object of the specified type using default settings
      */
-    public Property get(String category, String key, String defaultValue, String comment, Property.Type type)
+    public Property get(String category, final String key, final String defaultValue, final String comment, final Property.Type type)
     {
         if (!caseSensitiveCustomCategories)
         {
             category = category.toLowerCase(Locale.ENGLISH);
         }
 
-        ConfigCategory cat = getCategory(category);
+        final ConfigCategory cat = getCategory(category);
 
         if (cat.containsKey(key))
         {
@@ -644,7 +644,7 @@ public final class JarConfiguration
         }
         else if (defaultValue != null)
         {
-            Property prop = new Property(key, defaultValue, type);
+        	final Property prop = new Property(key, defaultValue, type);
             prop.setValue(defaultValue); //Set and mark as dirty to signify it should save 
             cat.put(key, prop);
             prop.setDefaultValue(defaultValue);
@@ -667,14 +667,14 @@ public final class JarConfiguration
      * @param type a Property.Type enum value
      * @return a list (array) Property object of the specified type using default settings
      */
-    public Property get(String category, String key, String[] defaultValues, String comment, Property.Type type)
+    public Property get(String category, final String key, final String[] defaultValues, final String comment, final Property.Type type)
     {
         if (!caseSensitiveCustomCategories)
         {
             category = category.toLowerCase(Locale.ENGLISH);
         }
 
-        ConfigCategory cat = getCategory(category);
+        final ConfigCategory cat = getCategory(category);
 
         if (cat.containsKey(key))
         {
@@ -693,7 +693,7 @@ public final class JarConfiguration
         }
         else if (defaultValues != null)
         {
-            Property prop = new Property(key, defaultValues, type);
+        	final Property prop = new Property(key, defaultValues, type);
             prop.setDefaultValues(defaultValues);
             prop.comment = comment;
             cat.put(key, prop);
@@ -711,18 +711,18 @@ public final class JarConfiguration
      * 
      *************************************************************************************************************** */
     
-    public boolean hasCategory(String category)
+    public boolean hasCategory(final String category)
     {
         return categories.get(category) != null;
     }
 
-    public boolean hasKey(String category, String key)
+    public boolean hasKey(final String category, final String key)
     {
-        ConfigCategory cat = categories.get(category);
+    	final ConfigCategory cat = categories.get(category);
         return cat != null && cat.containsKey(key);
     }
 
-    public void load(InputStream in)
+    public void load(final InputStream in)
     {
         BufferedReader buffer = null;
         UnicodeInputStreamReader input = null;
@@ -752,8 +752,8 @@ public final class JarConfiguration
                     break;
                 }
 
-                Matcher start = CONFIG_START.matcher(line);
-                Matcher end = CONFIG_END.matcher(line);
+                final Matcher start = CONFIG_START.matcher(line);
+                final Matcher end = CONFIG_END.matcher(line);
 
                 if (start.matches())
                 {
@@ -764,7 +764,7 @@ public final class JarConfiguration
                 else if (end.matches())
                 {
                     fileName = end.group(1);
-                    JarConfiguration child = new JarConfiguration();
+                    final JarConfiguration child = new JarConfiguration();
                     child.categories = categories;
                     this.children.put(fileName, child);
                     continue;
@@ -818,9 +818,9 @@ public final class JarConfiguration
                                 if (tmpList != null) // allow special characters as part of string lists
                                     break;
                                 name = line.substring(nameStart, nameEnd + 1);
-                                String qualifiedName = ConfigCategory.getQualifiedName(name, currentCat);
+                                final  String qualifiedName = ConfigCategory.getQualifiedName(name, currentCat);
 
-                                ConfigCategory cat = categories.get(qualifiedName);
+                                final ConfigCategory cat = categories.get(qualifiedName);
                                 if (cat == null)
                                 {
                                     currentCat = new ConfigCategory(name, currentCat);
@@ -854,7 +854,7 @@ public final class JarConfiguration
                                     throw new RuntimeException(String.format("'%s' has no scope in '%s:%d'", name, fileName, lineNum));
                                 }
 
-                                Property prop = new Property(name, line.substring(i + 1), type, true);
+                                final Property prop = new Property(name, line.substring(i + 1), type, true);
                                 i = line.length();
 
                                 currentCat.put(name, prop);
@@ -910,7 +910,7 @@ public final class JarConfiguration
                                 
                                 if (line.startsWith(CONFIG_VERSION_MARKER))
                                 {
-                                    int colon = line.indexOf(':');
+                                	final int colon = line.indexOf(':');
                                     if (colon != -1)
                                         loadedConfigVersion = line.substring(colon + 1).trim();
                                     
@@ -960,7 +960,7 @@ public final class JarConfiguration
         }
     }
     
-    public ConfigCategory getCategory(String category)
+    public ConfigCategory getCategory(final String category)
     {
         ConfigCategory ret = categories.get(category);
 
@@ -968,7 +968,7 @@ public final class JarConfiguration
         {
             if (category.contains(CATEGORY_SPLITTER))
             {
-                String[] hierarchy = category.split("\\"+CATEGORY_SPLITTER);
+            	final String[] hierarchy = category.split("\\"+CATEGORY_SPLITTER);
                 ConfigCategory parent = categories.get(hierarchy[0]);
 
                 if (parent == null)
@@ -980,7 +980,7 @@ public final class JarConfiguration
 
                 for (int i = 1; i < hierarchy.length; i++)
                 {
-                    String name = ConfigCategory.getQualifiedName(hierarchy[i], parent);
+                	final String name = ConfigCategory.getQualifiedName(hierarchy[i], parent);
                     ConfigCategory child = categories.get(name);
 
                     if (child == null)
@@ -1005,9 +1005,9 @@ public final class JarConfiguration
         return ret;
     }
 
-    public void removeCategory(ConfigCategory category)
+    public void removeCategory(final ConfigCategory category)
     {
-        for (ConfigCategory child : category.getChildren())
+        for (final ConfigCategory child : category.getChildren())
         {
             removeCategory(child);
         }
@@ -1029,7 +1029,7 @@ public final class JarConfiguration
      * @param category the config category
      * @param comment a String comment
      */
-    public JarConfiguration setCategoryComment(String category, String comment)
+    public JarConfiguration setCategoryComment(String category, final String comment)
     {
         if (!caseSensitiveCustomCategories)
             category = category.toLowerCase(Locale.ENGLISH);
@@ -1037,7 +1037,7 @@ public final class JarConfiguration
         return this;
     }
 
-    public void addCustomCategoryComment(String category, String comment)
+    public void addCustomCategoryComment(final String category, final String comment)
     {
         this.setCategoryComment(category, comment);
     }
@@ -1048,7 +1048,7 @@ public final class JarConfiguration
      * @param category the config category
      * @param langKey a language key string such as configcategory.general
      */
-    public JarConfiguration setCategoryLanguageKey(String category, String langKey)
+    public JarConfiguration setCategoryLanguageKey(String category, final String langKey)
     {
         if (!caseSensitiveCustomCategories)
             category = category.toLowerCase(Locale.ENGLISH);
@@ -1062,7 +1062,7 @@ public final class JarConfiguration
      * GuiConfig screen will be provided), {@code GuiPropertyList} (the parent GuiPropertyList will be provided), {@code IConfigElement}
      * (the IConfigElement for this Property will be provided).
      */
-    public JarConfiguration setCategoryConfigEntryClass(String category, @SuppressWarnings("rawtypes") Class<? extends IConfigEntry> clazz)
+    public JarConfiguration setCategoryConfigEntryClass(String category, @SuppressWarnings("rawtypes") final Class<? extends IConfigEntry> clazz)
     {
         
         if (!caseSensitiveCustomCategories)
@@ -1076,7 +1076,7 @@ public final class JarConfiguration
      * that only properties that are truly dynamic can be changed from the in-game options menu. Only set this flag to 
      * true if all child properties/categories are unable to be modified while a world is running.
      */
-    public JarConfiguration setCategoryRequiresWorldRestart(String category, boolean requiresWorldRestart)
+    public JarConfiguration setCategoryRequiresWorldRestart(String category, final boolean requiresWorldRestart)
     {
         if (!caseSensitiveCustomCategories)
             category = category.toLowerCase(Locale.ENGLISH);
@@ -1090,7 +1090,7 @@ public final class JarConfiguration
      * Minecraft to be restarted when changed. Setting this flag will also prevent modification
      * of the child properties/categories while a world is running.
      */
-    public JarConfiguration setCategoryRequiresMcRestart(String category, boolean requiresMcRestart)
+    public JarConfiguration setCategoryRequiresMcRestart(String category, final boolean requiresMcRestart)
     {
         if (!caseSensitiveCustomCategories)
             category = category.toLowerCase(Locale.ENGLISH);
@@ -1102,7 +1102,7 @@ public final class JarConfiguration
      * Sets the order that direct child properties of this config category will be written to the config file and will be displayed in
      * config GUIs.
      */
-    public JarConfiguration setCategoryPropertyOrder(String category, List<String> propOrder)
+    public JarConfiguration setCategoryPropertyOrder(String category, final List<String> propOrder)
     {
         if (!caseSensitiveCustomCategories)
             category = category.toLowerCase(Locale.ENGLISH);
@@ -1114,18 +1114,18 @@ public final class JarConfiguration
     {
         private final InputStreamReader input;
 
-        public UnicodeInputStreamReader(InputStream source, String encoding) throws IOException
+        public UnicodeInputStreamReader(final InputStream source, final String encoding) throws IOException
         {
             String enc = encoding;
-            byte[] data = new byte[4];
+            final byte[] data = new byte[4];
 
-            PushbackInputStream pbStream = new PushbackInputStream(source, data.length);
-            int read = pbStream.read(data, 0, data.length);
+            final PushbackInputStream pbStream = new PushbackInputStream(source, data.length);
+            final int read = pbStream.read(data, 0, data.length);
             int size = 0;
 
-            int bom16 = (data[0] & 0xFF) << 8 | (data[1] & 0xFF);
-            int bom24 = bom16 << 8 | (data[2] & 0xFF);
-            int bom32 = bom24 << 8 | (data[3] & 0xFF);
+            final int bom16 = (data[0] & 0xFF) << 8 | (data[1] & 0xFF);
+            final int bom24 = bom16 << 8 | (data[2] & 0xFF);
+            final int bom32 = bom24 << 8 | (data[3] & 0xFF);
 
             if (bom24 == 0xEFBBBF)
             {
@@ -1167,7 +1167,7 @@ public final class JarConfiguration
         }
 
         @Override
-        public int read(char[] cbuf, int off, int len) throws IOException
+        public int read(final char[] cbuf, final int off, final int len) throws IOException
         {
             return input.read(cbuf, off, len);
         }
@@ -1183,12 +1183,12 @@ public final class JarConfiguration
     {
         if (changed) return true;
         
-        for (ConfigCategory cat : categories.values())
+        for (final ConfigCategory cat : categories.values())
         {
             if (cat.hasChanged()) return true;
         }
 
-        for (JarConfiguration child : children.values())
+        for (final JarConfiguration child : children.values())
         {
             if (child.hasChanged()) return true;
         }
@@ -1209,7 +1209,7 @@ public final class JarConfiguration
      * @param newPropName the new property name
      * @return true if the category and property exist, false otherwise
      */
-    public boolean renameProperty(String category, String oldPropName, String newPropName)
+    public boolean renameProperty(final String category, final String oldPropName, final String newPropName)
     {
         if (hasCategory(category))
         {
@@ -1231,7 +1231,7 @@ public final class JarConfiguration
      * @param newCategory the category the property should be moved to
      * @return true if the old category and property exist, false otherwise
      */
-    public boolean moveProperty(String oldCategory, String propName, String newCategory)
+    public boolean moveProperty(final String oldCategory, final String propName, final String newCategory)
     {
         if (!oldCategory.equals(newCategory))
             if (hasCategory(oldCategory))
@@ -1247,17 +1247,17 @@ public final class JarConfiguration
      * Copies property objects from another Configuration object to this one using the list of category names. Properties that only exist in the
      * "from" object are ignored. Pass null for the ctgys array to include all categories.
      */
-    public void copyCategoryProps(Configuration fromConfig, String[] ctgys)
+    public void copyCategoryProps(final Configuration fromConfig, String[] ctgys)
     {
         if (ctgys == null)
             ctgys = this.getCategoryNames().toArray(new String[this.getCategoryNames().size()]);
         
-        for (String ctgy : ctgys)
+        for (final String ctgy : ctgys)
             if (fromConfig.hasCategory(ctgy) && this.hasCategory(ctgy))
             {
-                ConfigCategory thiscc = this.getCategory(ctgy);
-                ConfigCategory fromcc = fromConfig.getCategory(ctgy);
-                for (Entry<String, Property> entry : thiscc.getValues().entrySet())
+            	final ConfigCategory thiscc = this.getCategory(ctgy);
+            	final ConfigCategory fromcc = fromConfig.getCategory(ctgy);
+                for (final Entry<String, Property> entry : thiscc.getValues().entrySet())
                     if (fromcc.containsKey(entry.getKey()))
                         thiscc.put(entry.getKey(), fromcc.get(entry.getKey()));
             }
@@ -1272,7 +1272,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment)
+    public String getString(final String name, final String category, final String defaultValue, final String comment)
     {
         return getString(name, category, defaultValue, comment, name, null);
     }
@@ -1287,7 +1287,7 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment, String langKey)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final String langKey)
     {
         return getString(name, category, defaultValue, comment, langKey, null);
     }
@@ -1301,7 +1301,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment, Pattern pattern)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final Pattern pattern)
     {
         return getString(name, category, defaultValue, comment, name, pattern);
     }
@@ -1316,9 +1316,9 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment, String langKey, Pattern pattern)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final String langKey, final Pattern pattern)
     {
-        Property prop = this.get(category, name, defaultValue);
+    	final Property prop = this.get(category, name, defaultValue);
         prop.setLanguageKey(langKey);
         prop.setValidationPattern(pattern);
         prop.comment = comment + " [default: " + defaultValue + "]";
@@ -1335,7 +1335,7 @@ public final class JarConfiguration
      * @param validValues A list of valid values that this property can be set to.
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment, String[] validValues)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final String[] validValues)
     {
         return getString(name, category, defaultValue, comment, validValues, name);
     }
@@ -1351,9 +1351,9 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new string property.
      */
-    public String getString(String name, String category, String defaultValue, String comment, String[] validValues, String langKey)
+    public String getString(final String name, final String category, final String defaultValue, final String comment, final String[] validValues, final String langKey)
     {
-        Property prop = this.get(category, name, defaultValue);
+    	final Property prop = this.get(category, name, defaultValue);
         prop.setValidValues(validValues);
         prop.setLanguageKey(langKey);
         prop.comment = comment + " [default: " + defaultValue + "]";
@@ -1369,7 +1369,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String[] getStringList(String name, String category, String[] defaultValues, String comment)
+    public String[] getStringList(final String name, final String category, final String[] defaultValues, final String comment)
     {
         return getStringList(name, category, defaultValues, comment, (String[]) null, name);
     }
@@ -1383,7 +1383,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String[] getStringList(String name, String category, String[] defaultValue, String comment, String[] validValues)
+    public String[] getStringList(final String name, final String category, final String[] defaultValue, final String comment, final String[] validValues)
     {
         return getStringList(name, category, defaultValue, comment, validValues, name);
     }
@@ -1397,9 +1397,9 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new string property.
      */
-    public String[] getStringList(String name, String category, String[] defaultValue, String comment, String[] validValues, String langKey)
+    public String[] getStringList(final String name, final String category, final String[] defaultValue, final String comment, final String[] validValues, final String langKey)
     {
-        Property prop = this.get(category, name, defaultValue);
+    	final Property prop = this.get(category, name, defaultValue);
         prop.setLanguageKey(langKey);
         prop.setValidValues(validValues);
         prop.comment = comment + " [default: " + prop.getDefault() + "]";
@@ -1415,7 +1415,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new boolean property.
      */
-    public boolean getBoolean(String name, String category, boolean defaultValue, String comment)
+    public boolean getBoolean(final String name, final String category, final boolean defaultValue, final String comment)
     {
         return getBoolean(name, category, defaultValue, comment, name);
     }
@@ -1430,9 +1430,9 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new boolean property.
      */
-    public boolean getBoolean(String name, String category, boolean defaultValue, String comment, String langKey)
+    public boolean getBoolean(final String name, final String category, final boolean defaultValue, final String comment, final String langKey)
     {
-        Property prop = this.get(category, name, defaultValue);
+    	final Property prop = this.get(category, name, defaultValue);
         prop.setLanguageKey(langKey);
         prop.comment = comment + " [default: " + defaultValue + "]";
         return prop.getBoolean(defaultValue);
@@ -1449,7 +1449,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new integer property.
      */
-    public int getInt(String name, String category, int defaultValue, int minValue, int maxValue, String comment)
+    public int getInt(final String name, final String category, final int defaultValue, final int minValue, final int maxValue, final String comment)
     {
         return getInt(name, category, defaultValue, minValue, maxValue, comment, name);
     }
@@ -1466,9 +1466,9 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new integer property.
      */
-    public int getInt(String name, String category, int defaultValue, int minValue, int maxValue, String comment, String langKey)
+    public int getInt(final String name, final String category, final int defaultValue, final int minValue, final int maxValue, final String comment, final String langKey)
     {
-        Property prop = this.get(category, name, defaultValue);
+    	final Property prop = this.get(category, name, defaultValue);
         prop.setLanguageKey(langKey);
         prop.comment = comment + " [range: " + minValue + " ~ " + maxValue + ", default: " + defaultValue + "]";
         prop.setMinValue(minValue);
@@ -1487,7 +1487,7 @@ public final class JarConfiguration
      * @param comment A brief description what the property does.
      * @return The value of the new float property.
      */
-    public float getFloat(String name, String category, float defaultValue, float minValue, float maxValue, String comment)
+    public float getFloat(final String name, final String category, final float defaultValue, final float minValue, final float maxValue, final String comment)
     {
         return getFloat(name, category, defaultValue, minValue, maxValue, comment, name);
     }
@@ -1504,9 +1504,9 @@ public final class JarConfiguration
      * @param langKey A language key used for localization of GUIs
      * @return The value of the new float property.
      */
-    public float getFloat(String name, String category, float defaultValue, float minValue, float maxValue, String comment, String langKey)
+    public float getFloat(final String name, final String category, final float defaultValue, final float minValue, final float maxValue, final String comment, final String langKey)
     {
-        Property prop = this.get(category, name, Float.toString(defaultValue), name);
+    	final Property prop = this.get(category, name, Float.toString(defaultValue), name);
         prop.setLanguageKey(langKey);
         prop.comment = comment + " [range: " + minValue + " ~ " + maxValue + ", default: " + defaultValue + "]";
         prop.setMinValue(minValue);

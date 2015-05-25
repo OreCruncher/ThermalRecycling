@@ -66,7 +66,7 @@ public abstract class MachineBase extends BlockContainer {
 
 	protected int facing;
 
-	public MachineBase(String name) {
+	public MachineBase(final String name) {
 		super(Material.iron);
 
 		myUnlocalizedName = name;
@@ -85,11 +85,11 @@ public abstract class MachineBase extends BlockContainer {
 	 * Forward the block activated request to the corresponding TileEntity
 	 */
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float a, float b, float c) {
+	public boolean onBlockActivated(final World world, final int x, final int y, final int z,
+			final EntityPlayer player, final int side, final float a, final float b, final float c) {
 
 		if (!world.isRemote) {
-			TileEntity te = world.getTileEntity(x, y, z);
+			final TileEntity te = world.getTileEntity(x, y, z);
 
 			if (!(te instanceof TileEntityBase) || player.isSneaking())
 				// Returns false so it doesn't update anything
@@ -107,10 +107,10 @@ public abstract class MachineBase extends BlockContainer {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldBlock,
-			int oldMeta) {
+	public void breakBlock(final World world, final int x, final int y, final int z, final Block oldBlock,
+			final int oldMeta) {
 		if (!world.isRemote) {
-			TileEntity te = world.getTileEntity(x, y, z);
+			final TileEntity te = world.getTileEntity(x, y, z);
 			if (te instanceof TileEntityBase) {
 				((TileEntityBase) te).dropInventory(world, x, y, z);
 			}
@@ -120,7 +120,7 @@ public abstract class MachineBase extends BlockContainer {
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+	public int getLightValue(final IBlockAccess world, final int x, final int y, final int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		meta = meta & META_ACTIVE_INDICATOR;
 
@@ -129,9 +129,9 @@ public abstract class MachineBase extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		final TileEntity te = world.getTileEntity(x, y, z);
 
 		if (!(te instanceof TileEntityBase))
 			return;
@@ -148,7 +148,7 @@ public abstract class MachineBase extends BlockContainer {
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
+	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		icons = new IIcon[5];
 		icons[BLOCK_BOTTOM] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
@@ -168,7 +168,7 @@ public abstract class MachineBase extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IIcon getIcon(int side, int metadata) {
+	public IIcon getIcon(final int side, int metadata) {
 		// Take off bit 4 since that indicates active
 		int frontId = BLOCK_FRONT;
 
@@ -193,9 +193,9 @@ public abstract class MachineBase extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entity, ItemStack p_149689_6_) {
-		int whichDirectionFacing = MathHelper
+	public void onBlockPlacedBy(final World world, final int x, final int y, final int z,
+			final EntityLivingBase entity, final ItemStack p_149689_6_) {
+		final int whichDirectionFacing = MathHelper
 				.floor_double(entity.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
 		world.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing, 2);
 	}

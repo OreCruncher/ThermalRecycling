@@ -75,7 +75,7 @@ public final class AchievementManager extends AchievementPage {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-	public void onItemCrafted(ItemCraftedEvent event) {
+	public void onItemCrafted(final ItemCraftedEvent event) {
 
 		if (event.crafting.isItemEqual(new ItemStack(
 				BlockManager.thermalRecycler))) {

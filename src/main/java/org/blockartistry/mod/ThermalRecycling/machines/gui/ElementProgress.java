@@ -54,7 +54,7 @@ public final class ElementProgress extends ElementBase {
 
 	final IJobProgress progress;
 
-	public ElementProgress(GuiBase base, int x, int y, IJobProgress progress) {
+	public ElementProgress(final GuiBase base, final int x, final int y, final IJobProgress progress) {
 		super(base, x, y);
 
 		this.texture = DEFAULT_TEXTURE;
@@ -70,12 +70,9 @@ public final class ElementProgress extends ElementBase {
 	}
 
 	@Override
-	public void drawBackground(int mouseX, int mouseY, float gameTicks) {
+	public void drawBackground(final int mouseX, final int mouseY, final float gameTicks) {
 
-		int scaledX = getScaled();
-
-		// if (scaledX == 0)
-		// return;
+		final int scaledX = getScaled();
 
 		// Need to scale our X size based on progress
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -84,9 +81,9 @@ public final class ElementProgress extends ElementBase {
 	}
 
 	@Override
-	public void drawForeground(int mouseX, int mouseY) {
+	public void drawForeground(final int mouseX, final int mouseY) {
 
-		MachineStatus status = progress.getStatus();
+		final MachineStatus status = progress.getStatus();
 		if (status == MachineStatus.ACTIVE || status == MachineStatus.IDLE)
 			return;
 
@@ -103,10 +100,10 @@ public final class ElementProgress extends ElementBase {
 	}
 
 	@Override
-	public void addTooltip(List<String> list) {
+	public void addTooltip(final List<String> list) {
 
-		MachineStatus status = progress.getStatus();
-		String messageId = machineStatusMessages[status.ordinal()];
+		final MachineStatus status = progress.getStatus();
+		final String messageId = machineStatusMessages[status.ordinal()];
 
 		String statusString = "???";
 		if (status == MachineStatus.ACTIVE)

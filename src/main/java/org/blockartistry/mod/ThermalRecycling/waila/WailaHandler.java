@@ -73,10 +73,10 @@ public final class WailaHandler implements IWailaDataProvider {
 	 * as well.
 	 */
 	@Optional.Method(modid = "Waila")
-	public static void callbackRegister(IWailaRegistrar register) {
+	public static void callbackRegister(final IWailaRegistrar register) {
 
 		ModLog.info("Registering Waila handler...");
-		WailaHandler instance = new WailaHandler();
+		final WailaHandler instance = new WailaHandler();
 
 		/**
 		 * In this example we will be adding two things to our new block we
@@ -152,9 +152,9 @@ public final class WailaHandler implements IWailaDataProvider {
 	 */
 	@Override
 	@Optional.Method(modid = "Waila")
-	public List<String> getWailaHead(ItemStack itemStack,
-			List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaHead(final ItemStack itemStack,
+			final List<String> currenttip, final IWailaDataAccessor accessor,
+			final IWailaConfigHandler config) {
 
 		return currenttip;
 	}
@@ -167,9 +167,9 @@ public final class WailaHandler implements IWailaDataProvider {
 	 */
 	@Override
 	@Optional.Method(modid = "Waila")
-	public List<String> getWailaBody(ItemStack itemStack,
-			List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaBody(final ItemStack itemStack,
+			final List<String> currenttip, final IWailaDataAccessor accessor,
+			final IWailaConfigHandler config) {
 
 		if (scrapToolTip != null)
 			scrapToolTip.apply(currenttip, itemStack);
@@ -252,23 +252,23 @@ public final class WailaHandler implements IWailaDataProvider {
 	 */
 	@Override
 	@Optional.Method(modid = "Waila")
-	public List<String> getWailaTail(ItemStack itemStack,
-			List<String> currenttip, IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public List<String> getWailaTail(final ItemStack itemStack,
+			final List<String> currenttip, final IWailaDataAccessor accessor,
+			final IWailaConfigHandler config) {
 
 		return currenttip;
 	}
 
 	@Override
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
+	public ItemStack getWailaStack(final IWailaDataAccessor accessor,
+			final IWailaConfigHandler config) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP arg0, TileEntity arg1,
-			NBTTagCompound arg2, World arg3, int arg4, int arg5, int arg6) {
+	public NBTTagCompound getNBTData(final EntityPlayerMP arg0, final TileEntity arg1,
+			final NBTTagCompound arg2, final World arg3, final int arg4, final int arg5, final int arg6) {
 		// TODO Auto-generated method stub
 		return null;
 	}

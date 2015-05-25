@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public final class SidedInventoryComponent implements IMachineInventory {
 
-	TileEntityBase entity;
+	final TileEntityBase entity;
 	ItemStack[] inventory;
 
 	int inputStart = -1;
@@ -49,7 +49,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	int[] accessibleSlots;
 	int[] hiddenSlots;
 
-	public SidedInventoryComponent(TileEntityBase parent, int size) {
+	public SidedInventoryComponent(final TileEntityBase parent, final int size) {
 
 		Preconditions.checkNotNull(parent);
 		Preconditions.checkArgument(size > 0);
@@ -83,11 +83,11 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return accessibleSlots;
 	}
 
-	protected boolean isInputSlot(int slot) {
+	protected boolean isInputSlot(final int slot) {
 		return inputStart != -1 && slot >= inputStart && slot <= inputEnd;
 	}
 
-	protected boolean isOutputSlot(int slot) {
+	protected boolean isOutputSlot(final int slot) {
 		return outputStart != -1 && slot >= outputStart && slot <= outputEnd;
 	}
 
@@ -101,7 +101,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 				"Input and output ranges overlap");
 	}
 
-	public SidedInventoryComponent setInputRange(int start, int length) {
+	public SidedInventoryComponent setInputRange(final int start, final int length) {
 
 		inputStart = start;
 		inputEnd = start + length - 1;
@@ -111,7 +111,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return this;
 	}
 
-	public SidedInventoryComponent setOutputRange(int start, int length) {
+	public SidedInventoryComponent setOutputRange(final int start, final int length) {
 
 		outputStart = start;
 		outputEnd = start + length - 1;
@@ -121,13 +121,13 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return this;
 	}
 
-	public SidedInventoryComponent setHiddenSlots(int... slots) {
+	public SidedInventoryComponent setHiddenSlots(final int... slots) {
 		hiddenSlots = slots;
 		return this;
 	}
 
 	@Override
-	public boolean isStackAlreadyInSlot(int slot, ItemStack stack) {
+	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 
 		return stack != null && inventory[slot] != null
 				&& stack.isItemEqual(inventory[slot])
@@ -140,12 +140,12 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot) {
+	public ItemStack getStackInSlot(final int slot) {
 		return inventory[slot];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count) {
+	public ItemStack decrStackSize(final int index, final int count) {
 
 		if (inventory[index] != null) {
 
@@ -171,12 +171,12 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack getStackInSlotOnClosing(final int index) {
 		return null;
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(final int index, final ItemStack stack) {
 
 		inventory[index] = stack;
 
@@ -206,7 +206,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(final EntityPlayer player) {
 		return player.getDistanceSq(entity.xCoord + 0.5D, entity.yCoord + 0.5D,
 				entity.zCoord + 0.5D) <= 64.0D;
 	}
@@ -220,22 +220,22 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		return isInputSlot(slot) && entity.isWhitelisted(stack);
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getAccessibleSlotsFromSide(final int side) {
 		return getAccessibleSlots();
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int facing) {
+	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
 		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int facing) {
+	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
 		return isOutputSlot(slot);
 	}
 
@@ -245,14 +245,14 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(final NBTTagCompound nbt) {
 
-		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+		final NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		inventory = new ItemStack[inventory.length];
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
-			byte b0 = nbtTagCompound.getByte("Slot");
+			final NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
+			final byte b0 = nbtTagCompound.getByte("Slot");
 
 			if (b0 >= 0 && b0 < inventory.length) {
 				inventory[b0] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
@@ -261,11 +261,11 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		NBTTagList nbttaglist = new NBTTagList();
+	public void writeToNBT(final NBTTagCompound nbt) {
+		final NBTTagList nbttaglist = new NBTTagList();
 		for (int i = 0; i < inventory.length; ++i) {
 			if (inventory[i] != null) {
-				NBTTagCompound nbtTagCompound = new NBTTagCompound();
+				final NBTTagCompound nbtTagCompound = new NBTTagCompound();
 				nbtTagCompound.setByte("Slot", (byte) i);
 				inventory[i].writeToNBT(nbtTagCompound);
 				nbttaglist.appendTag(nbtTagCompound);
@@ -276,23 +276,23 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public boolean addStackToOutput(ItemStack stack) {
+	public boolean addStackToOutput(final ItemStack stack) {
 		return ItemStackHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
 	}
 
 	@Override
-	public void dropInventory(World world, int x, int y, int z) {
+	public void dropInventory(final World world, final int x, final int y, final int z) {
 
-		for (int i : getAccessibleSlots()) {
-			ItemStack stack = getStackInSlot(i);
+		for (final int i : getAccessibleSlots()) {
+			final ItemStack stack = getStackInSlot(i);
 			if (stack != null)
 				ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 		}
 
 		if (hiddenSlots != null)
-			for (int i : hiddenSlots) {
-				ItemStack stack = getStackInSlot(i);
+			for (final int i : hiddenSlots) {
+				final ItemStack stack = getStackInSlot(i);
 				if (stack != null)
 					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 			}

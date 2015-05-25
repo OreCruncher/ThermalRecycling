@@ -55,14 +55,14 @@ public final class ThermalRecyclerContainer extends Container {
 	
 	int spamCycle;
 
-	protected static boolean contains(int[] list, int value) {
-		for (int i : list)
+	protected static boolean contains(final int[] list, final int value) {
+		for (final int i : list)
 			if (i == value)
 				return true;
 		return false;
 	}
 
-	public ThermalRecyclerContainer(InventoryPlayer inv, IInventory tileEntity) {
+	public ThermalRecyclerContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 
 		// GUI dimension is width 427, height 240
 		currentStatus = MachineStatus.IDLE;
@@ -80,10 +80,10 @@ public final class ThermalRecyclerContainer extends Container {
 
 		for (int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
 
-			int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
+			final int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
 
-			int h = (i % 3) * 18 + 106;
-			int v = (i / 3) * 18 + 17;
+			final int h = (i % 3) * 18 + 106;
+			final int v = (i / 3) * 18 + 17;
 
 			s = new SlotRemoveOnly(entity, oSlot, h, v);
 			addSlotToContainer(s);
@@ -97,8 +97,8 @@ public final class ThermalRecyclerContainer extends Container {
 
 			// The constants are offsets from the left and top edge
 			// of the GUI
-			int h = (i % 9) * 18 + 8;
-			int v = (i / 9) * 18 + 84;
+			final int h = (i % 9) * 18 + 8;
+			final int v = (i / 9) * 18 + 84;
 
 			// We offset by 9 to skip the hotbar slots - they
 			// come next
@@ -121,18 +121,18 @@ public final class ThermalRecyclerContainer extends Container {
 
 		super.detectAndSendChanges();
 		
-		if((++spamCycle % 3) != 0) {
+		if(++spamCycle % 3 != 0) {
 			return;
 		}
 
-		MachineStatus status = entity.getStatus();
-		int progress = entity.getProgress();
-		int energy = entity.getInfoEnergyStored();
-		int energyRate = entity.getInfoEnergyPerTick();
+		final MachineStatus status = entity.getStatus();
+		final int progress = entity.getProgress();
+		final int energy = entity.getInfoEnergyStored();
+		final int energyRate = entity.getInfoEnergyPerTick();
 
 		for (int i = 0; i < crafters.size(); ++i) {
 
-			ICrafting icrafting = (ICrafting) crafters.get(i);
+			final ICrafting icrafting = (ICrafting) crafters.get(i);
 
 			if (progress != currentProgress)
 				icrafting.sendProgressBarUpdate(this,
@@ -159,25 +159,25 @@ public final class ThermalRecyclerContainer extends Container {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) {
+	public void updateProgressBar(final int id, final int data) {
 		entity.receiveClientEvent(id, data);
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(final EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
+	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
 
 		ItemStack stack = null;
-		Slot slot = (Slot) inventorySlots.get(slotIndex);
+		final Slot slot = (Slot) inventorySlots.get(slotIndex);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slot != null && slot.getHasStack()) {
 
-			ItemStack stackInSlot = slot.getStack();
+			final ItemStack stackInSlot = slot.getStack();
 			stack = stackInSlot.copy();
 
 			// If the slot is INPUT or one of the OUTPUTs, move the contents

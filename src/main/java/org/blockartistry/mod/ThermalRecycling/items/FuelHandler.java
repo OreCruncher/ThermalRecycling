@@ -40,9 +40,9 @@ public final class FuelHandler implements IFuelHandler {
 	}
 
 	@Override
-	public int getBurnTime(ItemStack fuel) {
+	public int getBurnTime(final ItemStack fuel) {
 
-		Item item = fuel.getItem();
+		final Item item = fuel.getItem();
 		int burn = 0;
 
 		if (item == ItemManager.recyclingScrap

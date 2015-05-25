@@ -43,7 +43,7 @@ public final class ScrapAssessorContainer extends Container {
 	final TileEntityBase entity;
 	final int sizeInventory;
 
-	public ScrapAssessorContainer(InventoryPlayer inv, IInventory tileEntity) {
+	public ScrapAssessorContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 
 		entity = (ScrapAssessorTileEntity) tileEntity;
 		sizeInventory = entity.getSizeInventory();
@@ -60,10 +60,10 @@ public final class ScrapAssessorContainer extends Container {
 
 		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
 
-			int oSlot = ScrapAssessorTileEntity.DISPLAY_SLOTS[i];
+			final int oSlot = ScrapAssessorTileEntity.DISPLAY_SLOTS[i];
 
-			int h = (i % 3) * 18 + 106;
-			int v = (i / 3) * 18 + 17;
+			final int h = (i % 3) * 18 + 106;
+			final int v = (i / 3) * 18 + 17;
 
 			s = new SlotLocked(entity, oSlot, h, v);
 			addSlotToContainer(s);
@@ -74,8 +74,8 @@ public final class ScrapAssessorContainer extends Container {
 
 			// The constants are offsets from the left and top edge
 			// of the GUI
-			int h = (i % 9) * 18 + 8;
-			int v = (i / 9) * 18 + 84;
+			final int h = (i % 9) * 18 + 8;
+			final int v = (i / 9) * 18 + 84;
 
 			// We offset by 9 to skip the hotbar slots - they
 			// come next
@@ -91,20 +91,20 @@ public final class ScrapAssessorContainer extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(final EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int slotIndex) {
+	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
 
 		ItemStack stack = null;
-		Slot slot = (Slot) inventorySlots.get(slotIndex);
+		final Slot slot = (Slot) inventorySlots.get(slotIndex);
 
 		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slot != null && slot.getHasStack()) {
 
-			ItemStack stackInSlot = slot.getStack();
+			final ItemStack stackInSlot = slot.getStack();
 			stack = stackInSlot.copy();
 
 			// If the slot is INPUT or one of the OUTPUTs, move the contents

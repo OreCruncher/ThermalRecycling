@@ -57,7 +57,7 @@ public abstract class MultiBlock extends Block {
 	
 	int sides;
 
-	public MultiBlock(String name, Material material, int sides, String... n) {
+	public MultiBlock(final String name, final Material material, final int sides, final String... n) {
 		super(material);
 
 		Preconditions.checkArgument(n != null && n.length > 0);
@@ -76,31 +76,31 @@ public abstract class MultiBlock extends Block {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
+	public IIcon getIcon(final int side, final int meta) {
 
-		int subType = MathHelper.clamp_int(meta, 0, icons.length - 1);
-		IIcon[] i = icons[subType];
+		final int subType = MathHelper.clamp_int(meta, 0, icons.length - 1);
+		final IIcon[] i = icons[subType];
 
-		int s = MathHelper.clamp_int(side, 0, i.length - 1);
+		final int s = MathHelper.clamp_int(side, 0, i.length - 1);
 		return i[s];
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab,
-			@SuppressWarnings("rawtypes") List subItems) {
+	public void getSubBlocks(final Item item, final CreativeTabs tab,
+			@SuppressWarnings("rawtypes") final List subItems) {
 		for (int i = 0; i < names.length; i++) {
 			subItems.add(new ItemStack(this, 1, i));
 		}
 	}
 
-	public String[] getBlockSideTextures(int subType) {
+	public String[] getBlockSideTextures(final int subType) {
 
-		ArrayList<String> textures = new ArrayList<String>();
-		int sides = icons[subType].length;
+		final ArrayList<String> textures = new ArrayList<String>();
+		final int sides = icons[subType].length;
 
-		String s = ThermalRecycling.MOD_ID + ":" + myUnlocalizedName + "_"
+		final String s = ThermalRecycling.MOD_ID + ":" + myUnlocalizedName + "_"
 				+ names[subType];
 
 		if (sides == 1) {
@@ -116,10 +116,10 @@ public abstract class MultiBlock extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
+	public void registerBlockIcons(final IIconRegister iconRegister) {
 		icons = new IIcon[names.length][sides];
 		for (int i = 0; i < names.length; i++) {
-			String[] textures = getBlockSideTextures(i);
+			final String[] textures = getBlockSideTextures(i);
 			for (int j = 0; j < textures.length; j++) {
 				icons[i][j] = iconRegister.registerIcon(textures[j]);
 			}

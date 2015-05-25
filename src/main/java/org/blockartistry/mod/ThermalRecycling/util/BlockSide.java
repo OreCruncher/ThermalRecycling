@@ -31,7 +31,7 @@ public enum BlockSide {
 	BOTTOM(0, "bottom"), TOP(1, "top"), NORTH(2, "north"), SOUTH(3, "south"), EAST(
 			4, "east"), WEST(5, "west"), ;
 
-	private BlockSide(int v, String n) {
+	private BlockSide(final int v, final String n) {
 		value = v;
 		sideName = n;
 	}
@@ -43,7 +43,7 @@ public enum BlockSide {
 
 	static {
 		lookup = new BlockSide[values().length];
-		for (BlockSide s : values()) {
+		for (final BlockSide s : values()) {
 			lookup[s.value] = s;
 		}
 	}

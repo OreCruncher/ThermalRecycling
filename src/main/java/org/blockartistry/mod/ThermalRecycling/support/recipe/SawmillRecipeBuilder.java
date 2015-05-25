@@ -36,7 +36,7 @@ public final class SawmillRecipeBuilder extends
 		SecondaryOutputRecipeBuilder<SawmillRecipeBuilder> {
 
 	@Override
-	protected int saveImpl(ItemStack stack) {
+	protected int saveImpl(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
@@ -48,12 +48,12 @@ public final class SawmillRecipeBuilder extends
 	}
 
 	@Override
-	protected String toString(ItemStack stack) {
+	protected String toString(final ItemStack stack) {
 
 		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
 		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append(String.format("Sawmill [%dx %s] => [%dx %s",
 				stack.stackSize, ItemStackHelper.resolveName(stack),

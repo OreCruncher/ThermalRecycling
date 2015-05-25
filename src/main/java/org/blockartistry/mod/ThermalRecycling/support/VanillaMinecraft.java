@@ -98,7 +98,7 @@ public final class VanillaMinecraft extends ModPlugin {
 	}
 
 	@Override
-	public void init(Configuration config) {
+	public void init(final Configuration config) {
 
 		enableDiamondRecycle = config.getBoolean(
 				CONFIG_ENABLE_DIAMOND_RECIPIES, MOD_CONFIG_SECTION,
