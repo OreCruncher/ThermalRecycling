@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
@@ -123,7 +123,7 @@ public final class RecipeDecomposition {
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack) || ItemScrapData.isScrubbedFromOutput(stack))
+				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack) || ItemData.isScrubbedFromOutput(stack))
 					projection.set(i, null);
 				else if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 					stack.setItemDamage(0);

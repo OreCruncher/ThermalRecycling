@@ -32,9 +32,6 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
-
 import cofh.lib.util.helpers.ItemHelper;
 
 import com.google.common.base.Preconditions;
@@ -204,24 +201,14 @@ public final class ItemStackHelper {
 		if (oreName == null)
 			return stack;
 
-		boolean isBlock = false;
-
 		if (oreName.startsWith("ingot"))
 			oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
 		else if (oreName.startsWith("plank"))
 			oreName = StringUtils.replaceOnce(oreName, "plank", "dust");
-		else if ((isBlock = oreName.startsWith("block")))
-			oreName = StringUtils.replaceOnce(oreName, "block", "dust");
 		else
 			return stack;
 
-		final ItemStack newStack = getItemStack(oreName);
-		if (newStack == null)
-			return stack;
-
-		newStack.stackSize = Math.min(newStack.getMaxStackSize(),
-				stack.stackSize * (isBlock ? 9 : 1));
-		return newStack;
+		return getItemStack(oreName);
 	}
 
 	public static ItemStack getPreferredStack(final ItemStack stack) {
@@ -773,39 +760,6 @@ public final class ItemStackHelper {
 		stack.setTagCompound(nbt);
 	}
 
-	/**
-	 * Obtains the item level information stored in NBT.
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public static int getItemLevel(final ItemStack item) {
-		
-		int level = 0;
-		if(item.hasTagCompound()) {
-			level = item.getTagCompound().getInteger("Level");
-		}
-		
-		if(level < 0) {
-			ModLog.warn("Processing core with invalid level set: %d", level);
-			level = 0;
-		}
-		
-		if(level > ProcessingCore.MAX_CORE_LEVEL) {
-			ModLog.warn("Processing core with invalid level set: %d", level);
-			level = ProcessingCore.MAX_CORE_LEVEL;
-		}
-		
-		return level;
-	}
-
-	public static ItemStack setLevel(final ItemStack stack, final int level) {
-		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		nbt.setInteger("Level", level);
-		stack.setTagCompound(nbt);
-		return stack;
-	}
-	
 	public static ItemStack makeGlow(final ItemStack stack) {
 		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		nbt.setTag("ench", new NBTTagList());

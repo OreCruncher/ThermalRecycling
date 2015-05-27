@@ -24,17 +24,17 @@
 
 package org.blockartistry.mod.ThermalRecycling.util;
 
-import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
+import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public final class UpgradeRecipe extends ShapedOreRecipe {
 
-	protected final int level;
+	protected final ItemLevel level;
 	protected final int craftGridSlot = 4;
 	
-	public UpgradeRecipe(final int level, final ItemStack result, final Object... recipe) {
+	public UpgradeRecipe(final ItemLevel level, final ItemStack result, final Object... recipe) {
 		super(result, recipe);
 		
 		this.level = level;
@@ -52,16 +52,16 @@ public final class UpgradeRecipe extends ShapedOreRecipe {
 		
 		// Need to make sure the current level of the item is
 		// appropriate for the level that is being crafted.
-		final int itemLevel = ItemStackHelper.getItemLevel(stack);
-		if (level != itemLevel + 1)
+		final ItemLevel nextItemLevel = ItemLevel.getLevel(stack).nextLevel();
+		if (level != nextItemLevel)
 			return null;
 		
 		// The moons align!  Manufacture an appropriate item
 		// and return it.
 		final ItemStack crafted = stack.copy();
-		ItemStackHelper.setLevel(crafted, level);
+		ItemLevel.setLevel(crafted, level);
 		
-		if(level == ProcessingCore.MAX_CORE_LEVEL) {
+		if(level == ItemLevel.ETHEREAL) {
 			ItemStackHelper.makeGlow(crafted);
 		}
 		

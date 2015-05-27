@@ -33,7 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
@@ -94,7 +94,7 @@ public final class ModForestry extends ModPlugin {
 			if (e.getValue().length == 1
 					&& e.getValue()[0] instanceof ItemStack) {
 				final ItemStack stack = (ItemStack) e.getValue()[0];
-				if (!ItemScrapData.isRecipeIgnored(stack))
+				if (!ItemData.isRecipeIgnored(stack))
 					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
 		}
@@ -136,11 +136,11 @@ public final class ModForestry extends ModPlugin {
 			final String itemName = (String) o;
 			if (itemName.startsWith("Forestry:crated")) {
 				final ItemStack stack = ItemStackHelper.getItemStack(itemName);
-				final ItemScrapData data = ItemScrapData.get(stack);
+				final ItemData data = ItemData.get(stack);
 				data.setIgnoreRecipe(true);
 				data.setScrubFromOutput(true);
 				data.setValue(ScrapValue.POOR);
-				ItemScrapData.put(data);
+				ItemData.put(stack, data);
 			}
 		}
 

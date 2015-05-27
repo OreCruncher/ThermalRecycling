@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import java.util.Collection;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
@@ -103,7 +103,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		if (output == null || output.getItem() == null)
 			return;
 
-		if (ItemScrapData.isRecipeIgnored(output))
+		if (ItemData.isRecipeIgnored(output))
 			return;
 
 		recycler.input(output)

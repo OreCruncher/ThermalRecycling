@@ -28,12 +28,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.PreviewResult;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
 public final class ScrapAssessorTileEntity extends TileEntityBase {
 
@@ -55,7 +55,7 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 
-		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
+		if (slot == CORE && CoreType.isProcessingCore(stack))
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
@@ -72,11 +72,11 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 	@Override
 	public boolean isWhitelisted(final ItemStack stack) {
-		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
+		return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
 	}
 
 	protected boolean isDecompAugmentInstalled() {
-		final ItemStack augment = getStackInSlot(CORE);
+		final ItemStack augment = inventory.getStackInSlot(CORE);
 		return augment != null
 				&& augment.getItem() == ItemManager.processingCore;
 	}
@@ -86,15 +86,15 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 		if (!worldObj.isRemote) {
 
-			final ItemStack input = getStackInSlot(INPUT);
-			final ItemStack core = getStackInSlot(CORE);
+			final ItemStack input = inventory.getStackInSlot(INPUT);
+			final ItemStack core = inventory.getStackInSlot(CORE);
 			if (input == oldStack && core == oldCore)
 				return;
 
 			// The stack changed. Clear out the display.
 			for (final int i : DISPLAY_SLOTS)
-				setInventorySlotContents(i, null);
-			setInventorySlotContents(SAMPLE, null);
+				inventory.setInventorySlotContents(i, null);
+			inventory.setInventorySlotContents(SAMPLE, null);
 
 			// Set our sentinel and check for null
 			oldStack = input;
@@ -102,11 +102,10 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 			if (input == null)
 				return;
 
-			final ScrapHandler.PreviewResult result = ScrappingTables.preview(core,
-					input);
+			final PreviewResult result = ScrappingTables.preview(core, input);
 
 			if (result != null) {
-				setInventorySlotContents(SAMPLE, result.inputRequired);
+				inventory.setInventorySlotContents(SAMPLE, result.inputRequired);
 
 				if (result.outputGenerated != null) {
 					// Cap the output in case the result buffer is larger than
@@ -114,7 +113,7 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 					final int maxUpperSlot = Math.min(result.outputGenerated.size(),
 							DISPLAY_SLOTS.length);
 					for (int i = 0; i < maxUpperSlot; i++) {
-						setInventorySlotContents(DISPLAY_SLOTS[i],
+						inventory.setInventorySlotContents(DISPLAY_SLOTS[i],
 								result.outputGenerated.get(i));
 					}
 				}

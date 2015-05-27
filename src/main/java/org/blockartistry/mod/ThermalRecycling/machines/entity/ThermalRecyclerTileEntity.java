@@ -32,12 +32,12 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
@@ -96,7 +96,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	 * is to keep the data cached and avoid repeated lookups each tick.
 	 */
 	protected ItemStack detectInputStack() {
-		final ItemStack input = getStackInSlot(INPUT);
+		final ItemStack input = inventory.getStackInSlot(INPUT);
 		if(activeStack != input) {
 			activeStack = input;
 			if(input != null) {
@@ -110,22 +110,20 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	
 	// Energy characteristics of the machine
 	protected static int operationEnergyForCore(final ItemStack core) {
-		if (core == null)
-			return ENERGY_PER_OPERATION_SCRAP;
-
-		if (ProcessingCorePolicy.isExtractionCore(core))
-			return ENERGY_PER_OPERATION_EXTRACT;
-
-		if (ProcessingCorePolicy.isDecompositionCore(core))
+		switch(CoreType.getType(core)) {
+		case DECOMPOSITION:
 			return ENERGY_PER_OPERATION_DECOMP;
-
-		// Shouldn't get here....
-		return ENERGY_PER_OPERATION_DECOMP;
+		case EXTRACTION:
+			return ENERGY_PER_OPERATION_EXTRACT;
+		case NONE:
+		default:
+			return ENERGY_PER_OPERATION_SCRAP;
+		}
 	}
 
 	@Override
 	public boolean isWhitelisted(final ItemStack stack) {
-		return ProcessingCorePolicy.canCoreProcess(getStackInSlot(CORE), stack);
+		return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
 	}
 
 	// /////////////////////////////////////
@@ -172,7 +170,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getPercentComplete() {
-		return (progress * 100) / operationEnergyForCore(getStackInSlot(CORE));
+		return (progress * 100) / operationEnergyForCore(inventory.getStackInSlot(CORE));
 	}
 
 	@Override
@@ -303,7 +301,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 
-		if (slot == CORE && ProcessingCorePolicy.isProcessingCore(stack))
+		if (slot == CORE && CoreType.isProcessingCore(stack))
 			return true;
 		return super.isItemValidForSlot(slot, stack);
 	}
@@ -349,7 +347,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 					status = MachineStatus.NEED_MORE_RESOURCES;
 				} else {
 
-					final ItemStack core = getStackInSlot(CORE);
+					final ItemStack core = inventory.getStackInSlot(CORE);
 					if (progress >= operationEnergyForCore(core)) {
 						progress = 0;
 
@@ -432,7 +430,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		for (int i = 0; i < buffer.size(); i++) {
 			final ItemStack stack = buffer.get(i);
 			if (stack != null) {
-				if (addStackToOutput(stack)) {
+				if (inventory.addStackToOutput(stack)) {
 					buffer.set(i, null);
 				} else {
 					isEmpty = false;
@@ -458,7 +456,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// inventory slots when count goes to 0.
 		final ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
 
-		buffer = ScrappingTables.scrapItems(getStackInSlot(CORE), justRecycled);
+		buffer = ScrappingTables.scrapItems(inventory.getStackInSlot(CORE), justRecycled);
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();

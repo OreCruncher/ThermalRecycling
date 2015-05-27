@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import org.apache.logging.log4j.LogManager;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
@@ -119,7 +119,7 @@ public final class ThermalRecycling {
 				writer = new BufferedWriter(new FileWriter(OUTPUT_FILE));
 
 				if (ModOptions.getEnableDebugLogging())
-					ItemScrapData.writeDiagnostic(writer);
+					ItemData.writeDiagnostic(writer);
 
 				ScrappingTables.writeDiagnostic(writer);
 				UseEffect.diagnostic(writer);

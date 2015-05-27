@@ -38,7 +38,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class FuelHandler implements IFuelHandler {
 
-	protected void registerCarbonValue(ItemStack stack) {
+	protected void registerCarbonValue(final ItemStack stack) {
 		
 		final NBTTagCompound msg = new NBTTagCompound();
 		msg.setBoolean("useBurnTime", true);

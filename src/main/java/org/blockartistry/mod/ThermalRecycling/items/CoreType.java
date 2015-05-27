@@ -22,34 +22,36 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines;
-
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
+package org.blockartistry.mod.ThermalRecycling.items;
 
 import net.minecraft.item.ItemStack;
 
-public final class ProcessingCorePolicy {
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+
+public enum CoreType {
 	
-	private ProcessingCorePolicy() {}
-
-	public static final int CORE_NONE = -1;
-	public static final int CORE_DECOMPOSITION = ProcessingCore.DECOMPOSITION;
-	public static final int CORE_EXTRACTION = ProcessingCore.EXTRACTION;
-
+	// Order is important!  Should match up with the alignment
+	// in the ProcessingCore item.
+	DECOMPOSITION,
+	EXTRACTION,
+	
+	// This should always be last
+	NONE;
+	
+	
 	/**
 	 * Indicates whether the given core can process the ItemStack in question.
 	 * 
 	 * @param stack
 	 * @return
 	 */
-	public static boolean canCoreProcess(final int core, final ItemStack stack) {
+	public static boolean canCoreProcess(final CoreType core, final ItemStack stack) {
 
-		if (core == CORE_NONE || core == CORE_DECOMPOSITION)
+		if (core == NONE || core == DECOMPOSITION)
 			return ScrappingTables.canBeScrapped(stack);
 
-		if (core == CORE_EXTRACTION)
+		if (core == EXTRACTION)
 			return stack.getItem() == ItemManager.recyclingScrap
 					|| stack.getItem() == ItemManager.recyclingScrapBox;
 
@@ -65,10 +67,12 @@ public final class ProcessingCorePolicy {
 	 * @return
 	 */
 	public static boolean canCoreProcess(final ItemStack core, final ItemStack stack) {
-		if (core != null && !isProcessingCore(core))
+		
+		if (!isProcessingCore(core)) {
 			return false;
+		}
 
-		return canCoreProcess(core == null ? CORE_NONE : core.getItemDamage(),
+		return canCoreProcess(core == null ? NONE : values()[core.getItemDamage()],
 				stack);
 	}
 
@@ -82,13 +86,10 @@ public final class ProcessingCorePolicy {
 		return core != null && core.getItem() == ItemManager.processingCore;
 	}
 
-	public static boolean isDecompositionCore(final ItemStack core) {
-		return isProcessingCore(core)
-				&& core.getItemDamage() == CORE_DECOMPOSITION;
-	}
-
-	public static boolean isExtractionCore(final ItemStack core) {
-		return isProcessingCore(core)
-				&& core.getItemDamage() == CORE_EXTRACTION;
+	public static CoreType getType(final ItemStack core) {
+		if(core == null || core.getItem() != ItemManager.processingCore) {
+			return NONE;
+		}
+		return core.getItemDamage() == 0 ? DECOMPOSITION : EXTRACTION;
 	}
 }

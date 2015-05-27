@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
@@ -117,7 +117,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setRecipeIgnored(elem, true);
+				ItemData.setRecipeIgnored(elem, true);
 				return true;
 			}
 
@@ -129,7 +129,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setRecipeIgnored(elem, false);
+				ItemData.setRecipeIgnored(elem, false);
 				return true;
 			}
 
@@ -141,7 +141,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setValue(elem, value);
+				ItemData.setValue(elem, value);
 				return true;
 			}
 
@@ -153,7 +153,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setScrubbedFromOutput(elem, true);
+				ItemData.setScrubbedFromOutput(elem, true);
 				return true;
 			}
 
@@ -165,7 +165,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setScrubbedFromOutput(elem, false);
+				ItemData.setScrubbedFromOutput(elem, false);
 				return true;
 			}
 
@@ -192,7 +192,7 @@ public abstract class ModPlugin {
 
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemScrapData.setCompostIngredientValue(elem, ingredient);
+				ItemData.setCompostIngredientValue(elem, ingredient);
 				return true;
 			}
 		});

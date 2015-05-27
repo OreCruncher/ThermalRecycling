@@ -22,52 +22,47 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.util;
+package org.blockartistry.mod.ThermalRecycling.items;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.TreeMap;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class IndexedCollection<I, E> implements Iterable<E> {
+public enum ItemLevel {
 	
-	final Object[] indexes;
-	final Object[] elements;
-	final Comparator<? super I> comparator;
+	// Order is important!
+	BASIC,
+	HARDENED,
+	REINFORCED,
+	RESONANT,
+	ETHEREAL;
 	
-	public IndexedCollection(TreeMap<I, E> map) {
-		this.indexes = map.keySet().toArray();
-		this.elements = map.values().toArray();
-		this.comparator = map.comparator();
+	public static ItemStack setLevel(final ItemStack stack, final ItemLevel level) {
+		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		nbt.setInteger("Level", level.ordinal());
+		stack.setTagCompound(nbt);
+		return stack;
+	}
+	
+	public static ItemLevel getLevel(final ItemStack stack) {
+		ItemLevel result = BASIC;
 		
+		if(stack != null && stack.hasTagCompound()) {
+			final int level = stack.getTagCompound().getInteger("Level");
+			result = values()[level];
+		}
+		
+		return result;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public E find(I key) {
-		final int index = Arrays.binarySearch((I[])indexes, (I)key, comparator);
-		return (E) (index < 0 ? null : elements[index]);
+	public ItemLevel nextLevel() {
+		return nextLevel(this);
 	}
 	
-	@Override
-	public Iterator<E> iterator() {
-		return new Iterator<E>() {
-
-			private int index = 0;
-			
-			@Override
-			public boolean hasNext() {
-				return index < elements.length;
-			}
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public E next() {
-				return (E)elements[index++];
-			}
-
-			@Override
-			public void remove() {
-			}
-		};
+	public static ItemLevel nextLevel(final ItemLevel level) {
+		final int t = level.ordinal() + 1;
+		if(t > ETHEREAL.ordinal()) {
+			return ETHEREAL;
+		}
+		return values()[t];
 	}
 }

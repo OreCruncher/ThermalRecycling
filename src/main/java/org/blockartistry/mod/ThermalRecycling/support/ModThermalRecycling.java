@@ -28,8 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
@@ -73,26 +72,26 @@ public final class ModThermalRecycling extends ModPlugin {
 				new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
 				handler);
 
-		ItemScrapData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
-		ItemScrapData.setRecipeIgnored(ItemManager.debris, true);
-		ItemScrapData.setRecipeIgnored(BlockManager.scrapBlock, true);
+		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
+		ItemData.setRecipeIgnored(ItemManager.debris, true);
+		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
 
-		ItemScrapData.setValue(new ItemStack(ItemManager.debris),
+		ItemData.setValue(new ItemStack(ItemManager.debris),
 				ScrapValue.NONE);
-		ItemScrapData.setValue(new ItemStack(BlockManager.scrapBlock),
+		ItemData.setValue(new ItemStack(BlockManager.scrapBlock),
 				ScrapValue.NONE);
 
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
 				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemScrapData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
 				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
 
 		// ////////////////////
@@ -121,7 +120,7 @@ public final class ModThermalRecycling extends ModPlugin {
 			// on can't add one - just means by default it will
 			// not be included.
 			if (stack != null) {
-				if (!ItemScrapData.isRecipeIgnored(stack)) {
+				if (!ItemData.isRecipeIgnored(stack)) {
 
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
@@ -135,9 +134,5 @@ public final class ModThermalRecycling extends ModPlugin {
 				}
 			}
 		}
-		
-		
-		// Last thing
-		RecipeData.freeze();
 	}
 }

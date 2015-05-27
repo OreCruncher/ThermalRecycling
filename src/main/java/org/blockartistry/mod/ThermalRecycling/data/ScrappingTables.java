@@ -27,22 +27,21 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
-
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.JarConfiguration;
 import org.blockartistry.mod.ThermalRecycling.util.Matrix2D;
-import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
+import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 import com.google.common.base.Optional;
 
@@ -91,7 +90,7 @@ public final class ScrappingTables {
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
-	static final ItemStack[] dontScrap;
+	static final Set<ItemStackKey> dontScrap = new HashSet<ItemStackKey>();
 	
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
@@ -182,51 +181,41 @@ public final class ScrappingTables {
 		// Scan the OreDictionary looking for blocks/items that we want
 		// to prevent from being scrapped.  Collect them in the TreeSet
 		// so that there are no duplicates and it is sorted.
-		final Set<ItemStack> temp = new TreeSet<ItemStack>(MyComparators.itemStackAscending);
 		for(final String oreName: OreDictionary.getOreNames()) {
 			if(oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot") || oreName.startsWith("nugget")) {
-				temp.addAll(OreDictionary.getOres(oreName));
+				for(final ItemStack stack: OreDictionary.getOres(oreName)) {
+					dontScrap.add(new ItemStackKey(stack));
+				}
 			}
 		}
 		
 		// Add our scrap and boxes
-		temp.add(debris);
-		temp.add(poorScrap);
-		temp.add(standardScrap);
-		temp.add(superiorScrap);
-		temp.add(poorScrapBox);
-		temp.add(standardScrapBox);
-		temp.add(superiorScrapBox);
+		dontScrap.add(new ItemStackKey(debris));
+		dontScrap.add(new ItemStackKey(poorScrap));
+		dontScrap.add(new ItemStackKey(standardScrap));
+		dontScrap.add(new ItemStackKey(superiorScrap));
+		dontScrap.add(new ItemStackKey(poorScrapBox));
+		dontScrap.add(new ItemStackKey(standardScrapBox));
+		dontScrap.add(new ItemStackKey(superiorScrapBox));
+	}
+
+	public static Optional<ItemStackWeightTable> getTable(final CoreType core, final ItemLevel level, final ScrapValue scrap) {
 		
-		// Generate an array of those items.  It will be sorted
-		// by virtue of the TreeSet.  We can then use a binary
-		// search on the list looking for matches.
-		dontScrap = temp.toArray(new ItemStack[temp.size()]);
+		final int scrapOrdinal = scrap.ordinal();
+		if(core == CoreType.NONE) {
+			return Optional.fromNullable(mustScrap.get(scrapOrdinal));
+		}
+		
+		final int levelOrdinal = level.ordinal();
+		if(core == CoreType.DECOMPOSITION) {
+			return dcompScrap.get(scrapOrdinal, levelOrdinal);
+		}
+		
+		return extractDust.get(scrapOrdinal, levelOrdinal);
 	}
-
-	public static Optional<ItemStackWeightTable> getTable(ItemStack core, final ItemStack stack) {
-
-		final int scrappingValue = ItemScrapData.get(stack).getScrapValue().ordinal();
-
-		// Safety check - if there is a core item past in, but its not a
-		// core, assume no core.
-		if (core != null && core.getItem() != ItemManager.processingCore)
-			core = null;
-
-		if (core == null)
-			return Optional.fromNullable(mustScrap.get(scrappingValue));
-
-		final int coreLevel = ItemStackHelper.getItemLevel(core);
-		Matrix2D<ItemStackWeightTable> tables = dcompScrap;
-
-		if (ProcessingCorePolicy.isExtractionCore(core))
-			tables = extractDust;
-
-		return tables.get(scrappingValue, coreLevel);
-	}
-
+	
 	public static boolean canBeScrapped(final ItemStack stack) {
-		return Arrays.binarySearch(dontScrap, stack, MyComparators.itemStackAscending) < 0;
+		return !dontScrap.contains(new ItemStackKey(stack));
 	}
 
 	public static List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {

@@ -107,6 +107,13 @@ public final class MyUtils {
 				return true;
 		return false;
 	}
+	
+	public static boolean contains(final int[] list, final int entity) {
+		for(final int e: list)
+			if(e == entity)
+				return true;
+		return false;
+	}
 
 	@SafeVarargs
 	public static <T> String join(final String joiner, final T... list) {
@@ -121,4 +128,5 @@ public final class MyUtils {
 		}
 		return builder.toString();
 	}
+
 }

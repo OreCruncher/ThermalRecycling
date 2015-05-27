@@ -26,27 +26,19 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
-
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
 
-public final class ScrapAssessorContainer extends Container {
-
-	final TileEntityBase entity;
-	final int sizeInventory;
+public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessorTileEntity> {
 
 	public ScrapAssessorContainer(final InventoryPlayer inv, final IInventory tileEntity) {
-
-		entity = (ScrapAssessorTileEntity) tileEntity;
-		sizeInventory = entity.getSizeInventory();
+		super((ScrapAssessorTileEntity)tileEntity);
 
 		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT, 11,
 				13);
@@ -69,30 +61,7 @@ public final class ScrapAssessorContainer extends Container {
 			addSlotToContainer(s);
 		}
 
-		// Add the player inventory
-		for (int i = 0; i < 27; ++i) {
-
-			// The constants are offsets from the left and top edge
-			// of the GUI
-			final int h = (i % 9) * 18 + 8;
-			final int v = (i / 9) * 18 + 84;
-
-			// We offset by 9 to skip the hotbar slots - they
-			// come next
-			s = new Slot(inv, i + 9, h, v);
-			addSlotToContainer(s);
-		}
-
-		// Add the hotbar
-		for (int i = 0; i < 9; ++i) {
-			s = new Slot(inv, i, 8 + i * 18, 142);
-			addSlotToContainer(s);
-		}
-	}
-
-	@Override
-	public boolean canInteractWith(final EntityPlayer playerIn) {
-		return entity.isUseableByPlayer(playerIn);
+		addPlayerInventory(inv);
 	}
 
 	@Override
@@ -146,5 +115,4 @@ public final class ScrapAssessorContainer extends Container {
 
 		return stack;
 	}
-
 }

@@ -27,17 +27,17 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
-import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
+import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -77,20 +77,20 @@ public abstract class ScrapHandler {
 		}
 	}
 
-	static final Map<ItemStack, ScrapHandler> handlers = new TreeMap<ItemStack, ScrapHandler>(
-			MyComparators.itemStackAscending);
+	static final Map<ItemStackKey, ScrapHandler> handlers = new HashMap<ItemStackKey, ScrapHandler>();
+	
 	public static final ScrapHandler generic = new GenericHandler();
 
 	public static void registerHandler(final ItemStack stack, final ScrapHandler handler) {
 		Preconditions.checkNotNull(stack);
 		Preconditions.checkNotNull(handler);
-		handlers.put(stack.copy(), handler);
+		handlers.put(new ItemStackKey(stack), handler);
 	}
 
 	public static ScrapHandler getHandler(final ItemStack stack) {
-		ScrapHandler handler = handlers.get(stack);
+		ScrapHandler handler = handlers.get(new ItemStackKey(stack));
 		if (handler == null)
-			handler = handlers.get(ItemStackHelper.asGeneric(stack));
+			handler = handlers.get(new ItemStackKey(stack.getItem()));
 		return handler == null ? generic : handler;
 	}
 
@@ -116,10 +116,11 @@ public abstract class ScrapHandler {
 		return RecipeData.getMinimumQuantityToRecycle(stack);
 	}
 	
-	protected ItemStack decorateStack(final ItemStack core, final ItemStack stack) {
+	protected ItemStack decorateStack(final ItemLevel level, final ItemStack stack) {
 
-		final ArrayList<String> lore = new ArrayList<String>();
-		final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+		final List<String> lore = new ArrayList<String>();
+		final ScrapValue sv = ItemData.get(stack).getScrapValue();
+		final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(CoreType.DECOMPOSITION, level, sv);
 		final double totalWeight = t.get().getTotalWeight();
 
 		for (final ItemStackItem w : t.get().getEntries()) {
@@ -152,8 +153,10 @@ public abstract class ScrapHandler {
 		return stack;
 	}
 
-	public PreviewResult preview(ItemStack core, final ItemStack stack) {
+	public PreviewResult preview(final ItemStack core, final ItemStack stack) {
 
+		CoreType coreType = CoreType.getType(core);
+		
 		// Get a base template for what the input should look like
 		final ItemStack item = stack.copy();
 		item.stackSize = 1;
@@ -161,32 +164,39 @@ public abstract class ScrapHandler {
 		List<ItemStack> result = null;
 		
 		// If a dcomp core is installed get the output and decorate
-		if (ProcessingCorePolicy.isDecompositionCore(core)) {
+		if (coreType == CoreType.DECOMPOSITION) {
 
 			final RecipeData data = RecipeData.get(stack);
-			item.stackSize = data.getMinimumInputQuantityRequired();
 			
 			// If there is output then process the result.
 			// Otherwise it will fall through and treat the item
 			// as "must scrap".
 			if(data.hasOutput()) {
-				result = ItemStackHelper.clone(getRecipeOutput(stack));
+				
+				item.stackSize = data.getMinimumInputQuantityRequired();
+				result = getRecipeOutput(stack); // Need to use this in case of scrap handlers
+				//ItemStackHelper.clone(data.getOutput());
 				
 				if(ModOptions.getEnableAssessorEnhancedLore()) {
+					final ItemLevel level = ItemLevel.getLevel(core);
 					for(final ItemStack t: result) {
-						decorateStack(core, t);
+						decorateStack(level, t);
 					}
 				}
 			}
 			else {
-				core = null;
+				coreType = CoreType.NONE;
 			}
 		}
 
 		if (result == null) {
+			
 			result = new ArrayList<ItemStack>();
-			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, stack);
+			final ItemLevel coreLevel = coreType != CoreType.NONE ? ItemLevel.getLevel(core) : ItemLevel.BASIC;
+			final ScrapValue sv = ItemData.get(stack).getScrapValue();
+			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(coreType, coreLevel, sv);
 			final double totalWeight = t.get().getTotalWeight();
+			
 			for (final ItemStackItem w : t.get().getEntries()) {
 
 				final ItemStack temp = w.getStack();

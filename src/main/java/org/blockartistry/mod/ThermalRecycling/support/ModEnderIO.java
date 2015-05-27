@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -62,15 +62,15 @@ public final class ModEnderIO extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		ItemScrapData.put(
+		ItemData.put(
 				ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
 				ScrapValue.NONE, false, false);
-		ItemScrapData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
+		ItemData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
 				ScrapValue.NONE, false, false);
-		ItemScrapData.put(
+		ItemData.put(
 				ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
 				ScrapValue.NONE, false, false);
-		ItemScrapData.put(
+		ItemData.put(
 				ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
 				ScrapValue.NONE, false, false);
 

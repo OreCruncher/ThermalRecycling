@@ -25,14 +25,12 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotRemoveOnly;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -43,26 +41,15 @@ import net.minecraft.item.ItemStack;
  * 
  * http://jabelarminecraft.blogspot.com/p/minecraft-modding-containers.html
  */
-public final class ThermalRecyclerContainer extends Container {
-
-	final ThermalRecyclerTileEntity entity;
-	final int sizeInventory;
+public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecyclerTileEntity> {
 
 	MachineStatus currentStatus;
 	int currentProgress;
 	int currentEnergy;
 	int currentEnergyRate;
 	
-	int spamCycle;
-
-	protected static boolean contains(final int[] list, final int value) {
-		for (final int i : list)
-			if (i == value)
-				return true;
-		return false;
-	}
-
 	public ThermalRecyclerContainer(final InventoryPlayer inv, final IInventory tileEntity) {
+		super((ThermalRecyclerTileEntity)tileEntity);
 
 		// GUI dimension is width 427, height 240
 		currentStatus = MachineStatus.IDLE;
@@ -70,9 +57,6 @@ public final class ThermalRecyclerContainer extends Container {
 		currentEnergy = 0;
 		currentEnergyRate = 0;
 		spamCycle = 0;
-
-		entity = (ThermalRecyclerTileEntity) tileEntity;
-		sizeInventory = entity.getSizeInventory();
 
 		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT,
 				56, 34);
@@ -91,39 +75,12 @@ public final class ThermalRecyclerContainer extends Container {
 
 		s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
-
-		// Add the player inventory
-		for (int i = 0; i < 27; ++i) {
-
-			// The constants are offsets from the left and top edge
-			// of the GUI
-			final int h = (i % 9) * 18 + 8;
-			final int v = (i / 9) * 18 + 84;
-
-			// We offset by 9 to skip the hotbar slots - they
-			// come next
-			s = new Slot(inv, i + 9, h, v);
-			addSlotToContainer(s);
-		}
-
-		// Add the hotbar
-		for (int i = 0; i < 9; ++i) {
-			s = new Slot(inv, i, 8 + i * 18, 142);
-			addSlotToContainer(s);
-		}
+		
+		addPlayerInventory(inv);
 	}
 
-	/**
-	 * Looks for changes made in the container, sends them to every listener.
-	 */
 	@Override
-	public void detectAndSendChanges() {
-
-		super.detectAndSendChanges();
-		
-		if(++spamCycle % 3 != 0) {
-			return;
-		}
+	public void handleStatus() {
 
 		final MachineStatus status = entity.getStatus();
 		final int progress = entity.getProgress();
@@ -158,17 +115,6 @@ public final class ThermalRecyclerContainer extends Container {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(final int id, final int data) {
-		entity.receiveClientEvent(id, data);
-	}
-
-	@Override
-	public boolean canInteractWith(final EntityPlayer playerIn) {
-		return entity.isUseableByPlayer(playerIn);
-	}
-
-	@Override
 	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
 
 		ItemStack stack = null;
@@ -182,7 +128,7 @@ public final class ThermalRecyclerContainer extends Container {
 
 			// If the slot is INPUT or one of the OUTPUTs, move the contents
 			// to the player inventory
-			if (contains(ThermalRecyclerTileEntity.ALL_SLOTS, slotIndex)) {
+			if (MyUtils.contains(ThermalRecyclerTileEntity.ALL_SLOTS, slotIndex)) {
 
 				if (!mergeItemStack(stackInSlot, sizeInventory,
 						sizeInventory + 36, false)) {

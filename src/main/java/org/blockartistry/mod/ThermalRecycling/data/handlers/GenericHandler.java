@@ -25,72 +25,76 @@
 package org.blockartistry.mod.ThermalRecycling.data.handlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.machines.ProcessingCorePolicy;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
-
-import com.google.common.base.Optional;
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
+import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 public class GenericHandler extends ScrapHandler {
 
 	@Override
-	public List<ItemStack> scrapItems(ItemStack core, ItemStack stack) {
+	public List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {
 
+		CoreType coreType = CoreType.getType(core);
+		
 		final List<ItemStack> result = new ArrayList<ItemStack>();
 		List<ItemStack> processingList = null;
 
 		// If a decomp core is installed, get a list of outputs from the
-		// recipes.
-		// If an extraction core and the item is a scrap box, convert to scrap
-		// with a bonus - 10 pieces total.
-		if (ProcessingCorePolicy.isDecompositionCore(core)) {
+		// recipes. If an extraction core and the item is a scrap box,
+		// convert to scrap with a bonus.
+		if (coreType == CoreType.DECOMPOSITION) {
 			processingList = getRecipeOutput(stack);
 
 			// If there isn't a recipe, process the item as if it were being
 			// scrapped without any cores.
 			if (processingList.isEmpty()) {
-				core = null;
+				processingList = Collections.singletonList(stack);
+				coreType = CoreType.NONE;
 			}
 			
-		} else if (ProcessingCorePolicy.isExtractionCore(core)
-				&& stack.getItem() == ItemManager.recyclingScrapBox) {
-			// Get scrap count plus bonus since it is a scrapbox
-			stack = new ItemStack(ItemManager.recyclingScrap,
-					8 + ModOptions.getScrapBoxBonus(), stack.getItemDamage());
+		} else if (coreType == CoreType.EXTRACTION && stack.getItem() == ItemManager.recyclingScrapBox) {
+			processingList = Collections.singletonList(new ItemStack(ItemManager.recyclingScrap,
+					8 + ModOptions.getScrapBoxBonus(), stack.getItemDamage()));
+		} else {
+			processingList = Collections.singletonList(stack);
 		}
 
-		// If we get here just scrap the input
-		if (processingList == null || processingList.isEmpty()) {
-			processingList = new ArrayList<ItemStack>();
-			processingList.add(stack);
-		}
-
+		final ItemLevel coreLevel = coreType != CoreType.NONE ? ItemLevel.getLevel(core) : ItemLevel.BASIC;
+		
 		for (final ItemStack item : processingList) {
 
-			final Optional<ItemStackWeightTable> t = ScrappingTables.getTable(core, item);
+			final ScrapValue sv = ItemData.get(item).getScrapValue();
+			final ItemStackWeightTable t = ScrappingTables.getTable(coreType, coreLevel, sv).get();
+			
 			for (int count = 0; count < item.stackSize; count++) {
 
-				final ItemStack cupieDoll = t.get().nextStack();
+				ItemStack cupieDoll = t.nextStack();
 
 				if (cupieDoll != null) {
-					final ItemStack temp = item.copy();
-					temp.stackSize = 1;
 
-					// Post process and return
 					if (ScrappingTables.keepIt(cupieDoll)) {
-						result.add(temp);
+						cupieDoll = item.copy();
+						cupieDoll.stackSize = 1;
 					} else if (ScrappingTables.dustIt(cupieDoll)) {
-						result.add(ItemStackHelper
-								.convertToDustIfPossible(temp));
-					} else {
+						cupieDoll = item.copy();
+						cupieDoll.stackSize = 1;
+						cupieDoll = ItemStackHelper.convertToDustIfPossible(cupieDoll);
+					}
+					
+					// Maybe be null in the destroy case
+					if(cupieDoll != null) {
 						result.add(cupieDoll);
 					}
 				}

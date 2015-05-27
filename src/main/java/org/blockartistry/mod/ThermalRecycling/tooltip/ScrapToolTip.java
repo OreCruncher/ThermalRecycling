@@ -29,7 +29,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
@@ -41,7 +41,7 @@ public final class ScrapToolTip implements
 	@Override
 	public Void apply(final List<String> output, final ItemStack stack) {
 
-		final ItemScrapData data = ItemScrapData.get(stack);
+		final ItemData data = ItemData.get(stack);
 
 		if (data == null)
 			return null;

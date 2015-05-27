@@ -26,12 +26,11 @@ package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
-
-import org.blockartistry.mod.ThermalRecycling.util.IndexedCollection;
+import java.util.Map;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyComparators;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.base.Preconditions;
@@ -54,22 +53,7 @@ public final class RecipeData {
 	// recipes registered.
 	private static final RecipeData ephemeral = new RecipeData();
 	
-	// Work map while building up the recipe list.  Will be discarded
-	// once completed.
-	private static TreeMap<ItemStack, RecipeData> r = new TreeMap<ItemStack, RecipeData>(
-			MyComparators.itemStackAscending);
-
-	// Concrete recipe index tailored specifically for lean
-	// operation and highly tailored to the task.
-	private static IndexedCollection<ItemStack, RecipeData> recipes;
-	
-	// Casts the collected recipes in stone and sets up the
-	// operating index.  From this point on no other recipes
-	// can be added.
-	public static void freeze() {
-		recipes = new IndexedCollection<ItemStack, RecipeData>(r);
-		r = null;
-	}
+	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
 
 	final String name;
 	final int quantityRequired;
@@ -83,7 +67,7 @@ public final class RecipeData {
 	protected RecipeData() {
 		this.name = "<Ephemeral>";
 		this.quantityRequired = 1;
-		this.isGeneric = false;
+		this.isGeneric = true;
 		this.outputStacks = Collections.emptyList();
 	}
 
@@ -113,25 +97,14 @@ public final class RecipeData {
 		return Collections.unmodifiableList(this.outputStacks);
 	}
 
-	// Internal mechanism for getting at the scratch
-	// recipe map.  Used during mod initialization.
-	protected static RecipeData _get(final ItemStack input) {
-
-		RecipeData match = r.get(input);
-
-		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			match = r.get(ItemStackHelper.asGeneric(input));
-		}
-
-		return match;
-	}
-
-	// Operating method of getting a recipe from the index
 	public static RecipeData get(final ItemStack input) {
-		RecipeData match = recipes.find(input);
+
+		RecipeData match = recipes.get(new ItemStackKey(input));
+
 		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			match = recipes.find(ItemStackHelper.asGeneric(input));
+			match = recipes.get(new ItemStackKey(input.getItem()));
 		}
+
 		return match == null ? ephemeral : match;
 	}
 
@@ -150,13 +123,13 @@ public final class RecipeData {
 		int retCode = DUPLICATE;
 
 		// See if we have an existing mapping
-		final RecipeData result = _get(input);
+		final RecipeData result = get(input);
 
 		// If we don't, or the mapping that exists is a wild card and the
 		// incoming
 		// recipe is specific, we want to add to the dictionary. The dictionary
 		// will prefer specific recipes over wild cards if possible.
-		if (result == null || result.isGeneric()
+		if (result == ephemeral || result.isGeneric()
 				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 
 			final ItemStack stack = input.copy();
@@ -182,7 +155,7 @@ public final class RecipeData {
 
 			output = MyUtils.compress(ItemStackHelper.coelece(output));
 
-			r.put(stack, new RecipeData(stack, output));
+			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));
 
 			retCode = SUCCESS;
 		}
@@ -223,9 +196,8 @@ public final class RecipeData {
 
 		writer.write("\nKnown Thermal Recycler Recipes:\n");
 		writer.write("=================================================================\n");
-		for (final RecipeData d : recipes)
+		for (final RecipeData d : recipes.values())
 			writer.write(String.format("%s\n", d.toString()));
 		writer.write("=================================================================\n");
 	}
-
 }

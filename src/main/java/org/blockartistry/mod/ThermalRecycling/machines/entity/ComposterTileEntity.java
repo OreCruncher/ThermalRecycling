@@ -47,7 +47,7 @@ import net.minecraftforge.fluids.IFluidTank;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
@@ -206,7 +206,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		if (stack == null || stack.stackSize == 0)
 			return false;
 
-		final ItemScrapData data = ItemScrapData.get(stack);
+		final ItemData data = ItemData.get(stack);
 		if (data == null)
 			return false;
 
@@ -301,6 +301,8 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 		if (!worldObj.isRemote) {
 
+			final MachineStatus previousStatus = status;
+
 			switch (status) {
 			case IDLE:
 				progress = 0;
@@ -353,8 +355,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				break;
 			}
 
-			if (status != MachineStatus.ACTIVE) {
-				setMachineActive(false);
+			if(status != previousStatus) {
+				final boolean isActive = status == MachineStatus.ACTIVE;
+				setMachineActive(isActive);
 			}
 
 			if (isRaining() && biomeHasRain())

@@ -31,7 +31,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemScrapData;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
 public final class DebugToolTip implements MultiFunction<List<String>, ItemStack, Void> {
@@ -46,7 +46,7 @@ public final class DebugToolTip implements MultiFunction<List<String>, ItemStack
 		builder.append(EnumChatFormatting.LIGHT_PURPLE);
 
 		// Generate a new we can display to make things real easy
-		String name = Item.itemRegistry.getNameForObject(stack.getItem());
+		final String name = Item.itemRegistry.getNameForObject(stack.getItem());
 
 		if (name == null)
 			builder.append("UNKNOWN");
@@ -68,7 +68,7 @@ public final class DebugToolTip implements MultiFunction<List<String>, ItemStack
 					output.add(EnumChatFormatting.WHITE + oreName);
 			}
 
-		final ItemScrapData data = ItemScrapData.get(stack);
+		final ItemData data = ItemData.get(stack);
 		if(data == null)
 			return null;
 
