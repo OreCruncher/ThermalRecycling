@@ -141,8 +141,10 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 	}
 	
 	@Override
-	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
+	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
 
+		final ItemStack stack = ctx.toProcess;
+		
 		if (stack.getItem() instanceof IPipePluggableItem) {
 
 			final List<ItemStack> output = new ArrayList<ItemStack>();
@@ -184,6 +186,6 @@ public final class BuildCraftGateScrapHandler extends GenericHandler {
 			return ItemStackHelper.clone(output);
 		}
 
-		return super.getRecipeOutput(stack);
+		return super.getRecipeOutput(ctx);
 	}
 }

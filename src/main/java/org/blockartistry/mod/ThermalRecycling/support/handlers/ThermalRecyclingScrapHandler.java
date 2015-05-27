@@ -38,8 +38,10 @@ public final class ThermalRecyclingScrapHandler extends GenericHandler {
 			.getItemStack("ThermalExpansion:Frame");
 
 	@Override
-	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
-		final List<ItemStack> result = super.getRecipeOutput(stack);
+	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
+		
+		final List<ItemStack> result = super.getRecipeOutput(ctx);
+		final ItemStack stack = ctx.toProcess;
 
 		if (result != null && stack.hasTagCompound()) {
 

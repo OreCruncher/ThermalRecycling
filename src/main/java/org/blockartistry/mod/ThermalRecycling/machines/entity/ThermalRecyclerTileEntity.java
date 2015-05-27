@@ -31,7 +31,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
@@ -79,9 +79,14 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected MachineStatus status = MachineStatus.IDLE;
 	protected List<ItemStack> buffer;
 
-	// Transient state to increase performance
+	// Transient state to increase performance.  Generally
+	// the expectations are that the same operation will
+	// occur as the previous one.  For example, when
+	// processing a full stack the data needs to be
+	// collected once, and repeated another 63 times.
 	protected ItemStack activeStack;
 	protected RecipeData activeRecipe;
+	protected ScrappingContext context;
 	
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
@@ -359,8 +364,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 						progress += ENERGY_PER_TICK;
 						energy -= ENERGY_PER_TICK;
 					}
-
-					setMachineActive(true);
 				}
 
 				break;
@@ -455,8 +458,16 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// method will handle appropriate nulling of
 		// inventory slots when count goes to 0.
 		final ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
+		final ItemStack core = inventory.getStackInSlot(CORE);
+		
+		// If we don't have a context, or the requirements of the context
+		// no longer apply, create one.
+		if(context == null || !context.canReuse(core, justRecycled)) {
+			context = new ScrappingContext(core, justRecycled);
+		}
 
-		buffer = ScrappingTables.scrapItems(inventory.getStackInSlot(CORE), justRecycled);
+		// Scrap away!
+		buffer = context.scrap();
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();

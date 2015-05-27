@@ -33,19 +33,20 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import cofh.api.energy.IEnergyStorage;
+import cofh.api.tileentity.IEnergyInfo;
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementEnergyStored;
 
 public final class ThermalRecyclerGui extends GuiBase {
 
-	final ThermalRecyclerTileEntity tileEntity;
+	private final ThermalRecyclerTileEntity tileEntity;
 
 	class EnergyStorageAdapter implements IEnergyStorage {
 
-		final ThermalRecyclerTileEntity tileEntity;
+		final IEnergyInfo storage;
 
-		public EnergyStorageAdapter(final ThermalRecyclerTileEntity entity) {
-			tileEntity = entity;
+		public EnergyStorageAdapter(final IEnergyInfo storage) {
+			this.storage = storage;
 		}
 
 		@Override
@@ -55,12 +56,12 @@ public final class ThermalRecyclerGui extends GuiBase {
 
 		@Override
 		public int getEnergyStored() {
-			return tileEntity.getInfoEnergyStored();
+			return storage.getInfoEnergyStored();
 		}
 
 		@Override
 		public int getMaxEnergyStored() {
-			return tileEntity.getInfoMaxEnergyStored();
+			return storage.getInfoMaxEnergyStored();
 		}
 
 		@Override

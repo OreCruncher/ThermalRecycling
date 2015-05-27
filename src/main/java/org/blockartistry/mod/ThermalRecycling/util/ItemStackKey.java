@@ -56,7 +56,8 @@ public final class ItemStackKey {
 	public ItemStackKey(final Item item, final int meta) {
 		this.item = item;
 		this.meta = meta;
-		this.hash = calculateHash(Item.getIdFromItem(item), meta);
+		//this.hash = calculateHash(Item.getIdFromItem(item), meta);
+		this.hash = calculateHash(item.getClass().hashCode(), meta);
 	}
 
 	public ItemStackKey(final Item item) {

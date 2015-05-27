@@ -40,14 +40,15 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 	public ScrapAssessorContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 		super((ScrapAssessorTileEntity)tileEntity);
 
-		Slot s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.INPUT, 11,
+		final IInventory inventory = entity.getMachineInventory();
+		Slot s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.INPUT, 11,
 				13);
 		addSlotToContainer(s);
 
-		s = new SlotAcceptValid(entity, ScrapAssessorTileEntity.CORE, 33, 34);
+		s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
 
-		s = new SlotLocked(entity, ScrapAssessorTileEntity.SAMPLE, 56, 34);
+		s = new SlotLocked(inventory, ScrapAssessorTileEntity.SAMPLE, 56, 34);
 		addSlotToContainer(s);
 
 		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
@@ -57,7 +58,7 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 			final int h = (i % 3) * GUI_INVENTORY_CELL_SIZE + 106;
 			final int v = (i / 3) * GUI_INVENTORY_CELL_SIZE + 17;
 
-			s = new SlotLocked(entity, oSlot, h, v);
+			s = new SlotLocked(inventory, oSlot, h, v);
 			addSlotToContainer(s);
 		}
 

@@ -32,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -69,6 +70,10 @@ public abstract class TileEntityBase extends TileEntity implements
 		inventory = inv;
 		if (inventory == null)
 			inventory = new NoInventoryComponent();
+	}
+	
+	public IInventory getMachineInventory() {
+		return inventory;
 	}
 
 	// Toggles the meta data so that it is considered active.
@@ -115,7 +120,7 @@ public abstract class TileEntityBase extends TileEntity implements
 	public Object getGuiServer(final InventoryPlayer inventory) {
 		return null;
 	}
-
+	
 	public boolean isWhitelisted(final ItemStack stack) {
 		return true;
 	}

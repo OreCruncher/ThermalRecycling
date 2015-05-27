@@ -60,7 +60,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 public final class ComposterTileEntity extends TileEntityBase implements
 		IJobProgress, IMachineFluidHandler {
 
-	static final Block[] bonemealBlackList = new Block[] { Blocks.grass,
+	private static final Block[] bonemealBlackList = new Block[] { Blocks.grass,
 			Blocks.double_plant, Blocks.deadbush, Blocks.tallgrass };
 
 	public static final int UPDATE_ACTION_PROGRESS = 0;
@@ -79,28 +79,26 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public static final int[] ALL_SLOTS = { BROWN, GREEN1, GREEN2, MEAL };
 
 	// State
-	FluidTankComponent fluidTank;
-	int progress = 0;
-	MachineStatus status = MachineStatus.IDLE;
-	int scanTickCount = 0;
-	int scanIndex = 0;
+	final private FluidTankComponent fluidTank;
+	private int progress = 0;
+	private MachineStatus status = MachineStatus.IDLE;
+	private int scanTickCount = 0;
+	private int scanIndex = 0;
 	
 	// Non-persisted state
-	BiomeGenBase myBiome = null;
-	int precipitationHeight = 0;
+	private BiomeGenBase myBiome = null;
 
-	static final int WATER_MAX_STORAGE = 4000;
-	static final int WATER_MAX_RECEIVE = WATER_MAX_STORAGE;
-	static final int COMPLETION_THRESHOLD = 1020;
-	static final int PROGRESS_DAYLIGHT_TICK = 30;
-	static final int PROGRESS_NIGHTTIME_TICK = 15;
-	static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 2;
-	static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
-	static final int RAIN_GATHER_TICK = 3;
+	private static final int WATER_MAX_STORAGE = 4000;
+	private static final int COMPLETION_THRESHOLD = 1020;
+	private static final int PROGRESS_DAYLIGHT_TICK = 30;
+	private static final int PROGRESS_NIGHTTIME_TICK = 15;
+	private static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 2;
+	private static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
+	private static final int RAIN_GATHER_TICK = 3;
 
-	static final int PLOT_SCAN_TICK_INTERVAL = 2;
-	static final int PLOT_SIZE = 9;
-	static final int PLOT_AREA = PLOT_SIZE * PLOT_SIZE;
+	private static final int PLOT_SCAN_TICK_INTERVAL = 2;
+	private static final int PLOT_SIZE = 9;
+	private static final int PLOT_AREA = PLOT_SIZE * PLOT_SIZE;
 
 	public ComposterTileEntity() {
 		super(GuiIdentifier.COMPOSTER);
@@ -217,12 +215,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public void setInventorySlotContents(final int index, final ItemStack stack) {
-		super.setInventorySlotContents(index, stack);
-
-	}
-
-	@Override
 	public Object getGuiClient(final InventoryPlayer inventory) {
 		return new ComposterGui(inventory, this);
 	}
@@ -233,12 +225,12 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	boolean hasGreenBrown() {
-		final ItemStack brown = getStackInSlot(BROWN);
+		final ItemStack brown = inventory.getStackInSlot(BROWN);
 		if (brown == null)
 			return false;
 
-		final ItemStack green1 = getStackInSlot(GREEN1);
-		final ItemStack green2 = getStackInSlot(GREEN2);
+		final ItemStack green1 = inventory.getStackInSlot(GREEN1);
+		final ItemStack green2 = inventory.getStackInSlot(GREEN2);
 
 		// This would only be true if both are null
 		if (green1 == green2)
@@ -263,7 +255,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	boolean hasOutputRoom() {
-		final ItemStack output = getStackInSlot(MEAL);
+		final ItemStack output = inventory.getStackInSlot(MEAL);
 		return output == null || output.stackSize < output.getMaxStackSize();
 	}
 
@@ -283,7 +275,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	boolean biomeHasRain() {
 		if(myBiome == null) {
 			myBiome = worldObj.getBiomeGenForCoords(xCoord, zCoord);
-			precipitationHeight = worldObj.getPrecipitationHeight(xCoord, yCoord);
 		}
 		return !(myBiome.getEnableSnow() || myBiome.getFloatRainfall() == 0);
 	}
@@ -329,8 +320,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 						progress += getEffectiveProgressThisTick();
 						fluidTank.drain(getEffectiveWaterUseThisTick(), true);
 					}
-
-					setMachineActive(true);
 				}
 				break;
 
@@ -365,25 +354,29 @@ public final class ComposterTileEntity extends TileEntityBase implements
 						RAIN_GATHER_TICK), true);
 
 			doPlotScan();
+			
+			inventory.flush();
 		}
 	}
 
 	void handleCompletion() {
 
-		ItemStack scratch = decrStackSize(BROWN, 1);
-		scratch = decrStackSize(GREEN1, 2);
-		if (scratch == null)
-			scratch = decrStackSize(GREEN2, 2);
-		else if (scratch.stackSize == 1)
-			scratch = decrStackSize(GREEN2, 1);
+		ItemStack scratch = inventory.decrStackSize(BROWN, 1);
+		scratch = inventory.decrStackSize(GREEN1, 2);
+		if (scratch == null) {
+			scratch = inventory.decrStackSize(GREEN2, 2);
+		} else if (scratch.stackSize == 1) {
+			scratch = inventory.decrStackSize(GREEN2, 1);
+		}
 
-		ItemStack output = getStackInSlot(MEAL);
-		if (output == null)
-			setInventorySlotContents(MEAL, new ItemStack(Items.dye, 1, 15));
-		else
+		final ItemStack output = inventory.getStackInSlot(MEAL);
+		if (output == null) {
+			inventory.setInventorySlotContents(MEAL, new ItemStack(Items.dye, 1, 15));
+		} else {
 			output.stackSize++;
+			inventory.setInventorySlotContents(MEAL, output);
+		}
 
-		markDirty();
 		progress = 0;
 	}
 
@@ -396,7 +389,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 	void doPlotScan() {
 
-		final ItemStack meal = getStackInSlot(MEAL);
+		final ItemStack meal = inventory.getStackInSlot(MEAL);
 		if (meal == null)
 			return;
 
@@ -423,7 +416,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 							null);
 
 				if (meal.stackSize == 0)
-					setInventorySlotContents(MEAL, null);
+					inventory.setInventorySlotContents(MEAL, null);
+				else
+					inventory.setInventorySlotContents(MEAL, meal);
 			}
 
 			if (++scanIndex == PLOT_AREA)

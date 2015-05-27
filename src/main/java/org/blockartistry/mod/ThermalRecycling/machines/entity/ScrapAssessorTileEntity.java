@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.PreviewResult;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
@@ -42,8 +42,8 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 	public static final int SAMPLE = 2;
 	public static final int[] DISPLAY_SLOTS = { 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
-	ItemStack oldStack;
-	ItemStack oldCore;
+	private ItemStack oldStack;
+	private ItemStack oldCore;
 
 	public ScrapAssessorTileEntity() {
 		super(GuiIdentifier.SCRAP_ASSESSOR);
@@ -88,36 +88,38 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 			final ItemStack input = inventory.getStackInSlot(INPUT);
 			final ItemStack core = inventory.getStackInSlot(CORE);
-			if (input == oldStack && core == oldCore)
-				return;
+			
+			if (input != oldStack || core != oldCore) {
 
-			// The stack changed. Clear out the display.
-			for (final int i : DISPLAY_SLOTS)
-				inventory.setInventorySlotContents(i, null);
-			inventory.setInventorySlotContents(SAMPLE, null);
-
-			// Set our sentinel and check for null
-			oldStack = input;
-			oldCore = core;
-			if (input == null)
-				return;
-
-			final PreviewResult result = ScrappingTables.preview(core, input);
-
-			if (result != null) {
-				inventory.setInventorySlotContents(SAMPLE, result.inputRequired);
-
-				if (result.outputGenerated != null) {
-					// Cap the output in case the result buffer is larger than
-					// what the 3x3 grid can show
-					final int maxUpperSlot = Math.min(result.outputGenerated.size(),
-							DISPLAY_SLOTS.length);
-					for (int i = 0; i < maxUpperSlot; i++) {
-						inventory.setInventorySlotContents(DISPLAY_SLOTS[i],
-								result.outputGenerated.get(i));
+				// The stack changed. Clear out the display.
+				for (final int i : DISPLAY_SLOTS)
+					inventory.setInventorySlotContents(i, null);
+				inventory.setInventorySlotContents(SAMPLE, null);
+	
+				// Set our sentinel and check for null
+				oldStack = input;
+				oldCore = core;
+				if (input != null) {
+					
+					final ScrappingContext context = new ScrappingContext(core, input);
+					final PreviewResult result = context.preview();
+		
+					inventory.setInventorySlotContents(SAMPLE, result.inputRequired);
+	
+					if (result.outputGenerated != null) {
+						// Cap the output in case the result buffer is larger than
+						// what the 3x3 grid can show
+						final int maxUpperSlot = Math.min(result.outputGenerated.size(),
+								DISPLAY_SLOTS.length);
+						for (int i = 0; i < maxUpperSlot; i++) {
+							inventory.setInventorySlotContents(DISPLAY_SLOTS[i],
+									result.outputGenerated.get(i));
+						}
 					}
 				}
 			}
+			
+			inventory.flush();
 		}
 	}
 	

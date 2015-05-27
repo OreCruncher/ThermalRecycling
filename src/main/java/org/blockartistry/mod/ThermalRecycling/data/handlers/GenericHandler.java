@@ -25,70 +25,42 @@
 package org.blockartistry.mod.ThermalRecycling.data.handlers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
-import org.blockartistry.mod.ThermalRecycling.items.CoreType;
-import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 public class GenericHandler extends ScrapHandler {
-
+	
 	@Override
-	public List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {
-
-		CoreType coreType = CoreType.getType(core);
+	public List<ItemStack> scrapItems(final ScrappingContext ctx) {
+		
+		// Initialize the context as needed
+		initializeContext(ctx);
 		
 		final List<ItemStack> result = new ArrayList<ItemStack>();
-		List<ItemStack> processingList = null;
 
-		// If a decomp core is installed, get a list of outputs from the
-		// recipes. If an extraction core and the item is a scrap box,
-		// convert to scrap with a bonus.
-		if (coreType == CoreType.DECOMPOSITION) {
-			processingList = getRecipeOutput(stack);
+		final int dataLength = ctx.recipeOutput.size();
+		for (int i = 0; i < dataLength; i++) {
 
-			// If there isn't a recipe, process the item as if it were being
-			// scrapped without any cores.
-			if (processingList.isEmpty()) {
-				processingList = Collections.singletonList(stack);
-				coreType = CoreType.NONE;
-			}
+			final ItemStack target = ctx.recipeOutput.get(i);
+			final ItemStackWeightTable t = ctx.tables[i];
 			
-		} else if (coreType == CoreType.EXTRACTION && stack.getItem() == ItemManager.recyclingScrapBox) {
-			processingList = Collections.singletonList(new ItemStack(ItemManager.recyclingScrap,
-					8 + ModOptions.getScrapBoxBonus(), stack.getItemDamage()));
-		} else {
-			processingList = Collections.singletonList(stack);
-		}
-
-		final ItemLevel coreLevel = coreType != CoreType.NONE ? ItemLevel.getLevel(core) : ItemLevel.BASIC;
-		
-		for (final ItemStack item : processingList) {
-
-			final ScrapValue sv = ItemData.get(item).getScrapValue();
-			final ItemStackWeightTable t = ScrappingTables.getTable(coreType, coreLevel, sv).get();
-			
-			for (int count = 0; count < item.stackSize; count++) {
+			for (int count = 0; count < target.stackSize; count++) {
 
 				ItemStack cupieDoll = t.nextStack();
 
 				if (cupieDoll != null) {
 
 					if (ScrappingTables.keepIt(cupieDoll)) {
-						cupieDoll = item.copy();
+						cupieDoll = target.copy();
 						cupieDoll.stackSize = 1;
 					} else if (ScrappingTables.dustIt(cupieDoll)) {
-						cupieDoll = item.copy();
+						cupieDoll = target.copy();
 						cupieDoll.stackSize = 1;
 						cupieDoll = ItemStackHelper.convertToDustIfPossible(cupieDoll);
 					}

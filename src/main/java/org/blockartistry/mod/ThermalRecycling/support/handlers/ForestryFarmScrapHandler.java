@@ -90,9 +90,10 @@ public final class ForestryFarmScrapHandler extends GenericHandler {
 	};
 
 	@Override
-	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
+	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
 		
-		final List<ItemStack> result = super.getRecipeOutput(stack);
+		final List<ItemStack> result = super.getRecipeOutput(ctx);
+		final ItemStack stack = ctx.toProcess;
 		
 		if(stack.hasTagCompound() && stack.getItemDamage() > 0) {
 			final NBTTagCompound nbt = stack.getTagCompound();

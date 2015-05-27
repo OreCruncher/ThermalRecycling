@@ -42,9 +42,11 @@ public final class ThermalExpansionScrapHandler extends GenericHandler {
 			.getItemStack("nuggetSignalum", 3);
 
 	@Override
-	protected List<ItemStack> getRecipeOutput(final ItemStack stack) {
-		final List<ItemStack> result = super.getRecipeOutput(stack);
-
+	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
+		
+		final List<ItemStack> result = super.getRecipeOutput(ctx);
+		final ItemStack stack = ctx.toProcess;
+		
 		if (result != null && stack.hasTagCompound()) {
 
 			// Crack the machine NBT to find out it's level

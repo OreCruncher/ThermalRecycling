@@ -46,16 +46,18 @@ public final class ComposterContainer extends MachineContainer<ComposterTileEnti
 	public ComposterContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 		super((ComposterTileEntity)tileEntity);
 
-		Slot s = new SlotAcceptValid(entity, ComposterTileEntity.BROWN, 42, 32);
+		final IInventory inventory = entity.getMachineInventory();
+
+		Slot s = new SlotAcceptValid(inventory, ComposterTileEntity.BROWN, 42, 32);
 		addSlotToContainer(s);
 
-		s = new SlotAcceptValid(entity, ComposterTileEntity.GREEN1, 63, 32);
+		s = new SlotAcceptValid(inventory, ComposterTileEntity.GREEN1, 63, 32);
 		addSlotToContainer(s);
 
-		s = new SlotAcceptValid(entity, ComposterTileEntity.GREEN2, 84, 32);
+		s = new SlotAcceptValid(inventory, ComposterTileEntity.GREEN2, 84, 32);
 		addSlotToContainer(s);
 
-		s = new SlotLocked(entity, ComposterTileEntity.MEAL, 134, 32);
+		s = new SlotLocked(inventory, ComposterTileEntity.MEAL, 134, 32);
 		addSlotToContainer(s);
 
 		addPlayerInventory(inv);

@@ -27,10 +27,11 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
@@ -90,7 +91,7 @@ public final class ScrappingTables {
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
-	static final Set<ItemStackKey> dontScrap = new HashSet<ItemStackKey>();
+	static final Set<ItemStackKey> dontScrap = new LinkedHashSet<ItemStackKey>();
 	
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
@@ -216,15 +217,6 @@ public final class ScrappingTables {
 	
 	public static boolean canBeScrapped(final ItemStack stack) {
 		return !dontScrap.contains(new ItemStackKey(stack));
-	}
-
-	public static List<ItemStack> scrapItems(final ItemStack core, final ItemStack stack) {
-		return ScrapHandler.getHandler(stack).scrapItems(core, stack);
-	}
-
-	public static ScrapHandler.PreviewResult preview(final ItemStack core,
-			final ItemStack stack) {
-		return ScrapHandler.getHandler(stack).preview(core, stack);
 	}
 
 	private static void dumpTable(final Writer writer, final String title,

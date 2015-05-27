@@ -37,18 +37,18 @@ import net.minecraft.world.World;
 
 public final class SidedInventoryComponent implements IMachineInventory {
 
-	protected final TileEntityBase entity;
-	protected final ItemStack[] inventory;
+	private final TileEntityBase entity;
+	private final ItemStack[] inventory;
 
-	protected int inputStart = -1;
-	protected int inputEnd = -1;
-	protected int outputStart = -1;
-	protected int outputEnd = -1;
+	private int inputStart = -1;
+	private int inputEnd = -1;
+	private int outputStart = -1;
+	private int outputEnd = -1;
 
-	protected int[] accessibleSlots;
-	protected int[] hiddenSlots;
+	private int[] accessibleSlots;
+	private int[] hiddenSlots;
 	
-	protected boolean isDirty;
+	private boolean isDirty;
 
 	public SidedInventoryComponent(final TileEntityBase parent, final int size) {
 
@@ -59,7 +59,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		inventory = new ItemStack[size];
 	}
 
-	protected int[] getAccessibleSlots() {
+	private int[] getAccessibleSlots() {
 		if (accessibleSlots != null)
 			return accessibleSlots;
 
@@ -84,15 +84,15 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return accessibleSlots;
 	}
 
-	protected boolean isInputSlot(final int slot) {
+	private boolean isInputSlot(final int slot) {
 		return inputStart != -1 && slot >= inputStart && slot <= inputEnd;
 	}
 
-	protected boolean isOutputSlot(final int slot) {
+	private boolean isOutputSlot(final int slot) {
 		return outputStart != -1 && slot >= outputStart && slot <= outputEnd;
 	}
 
-	protected void validateRangesDisjoint() {
+	private void validateRangesDisjoint() {
 
 		if (outputStart == -1 || inputStart == -1)
 			return;
@@ -175,20 +175,8 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public void setInventorySlotContents(final int index, final ItemStack stack) {
-
 		isDirty = true;
 		inventory[index] = stack;
-
-		/*
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
-		}
-
-		// if input slot reset progress
-		if (isInputSlot(index) && !isStackAlreadyInSlot(index, stack)) {
-			markDirty();
-		}
-		*/
 	}
 
 	@Override
@@ -222,7 +210,22 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-		return isInputSlot(slot) && entity.isWhitelisted(stack);
+		
+		// Can only insert items into the input slots
+		if(isInputSlot(slot)) {
+			// Get the existing contents.  If the slot is empty defer
+			// to the entity as to whether permission is granted.
+			// If there is a stack in the slot already permission must
+			// have been given prior so assume as long as the stack
+			// matches it can be fed in.
+			final ItemStack data = inventory[slot];
+			if(data == null) {
+				return entity.isWhitelisted(stack);
+			}
+			return data.isItemEqual(stack);
+		}
+		
+		return false;
 	}
 
 	@Override

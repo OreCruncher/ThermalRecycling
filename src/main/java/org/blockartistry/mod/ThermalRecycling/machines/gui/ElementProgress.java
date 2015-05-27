@@ -38,13 +38,13 @@ import cofh.lib.render.RenderHelper;
 public final class ElementProgress extends ElementBase {
 
 	public static final int DEFAULT_SCALE = 42;
-	static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(
+	private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/progress_indicator.png");
-	static final ResourceLocation JAMMED_TEXTURE = new ResourceLocation(
+	private static final ResourceLocation JAMMED_TEXTURE = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/jammed_indicator.png");
-	static final ResourceLocation POWER_TEXTURE = new ResourceLocation(
+	private static final ResourceLocation POWER_TEXTURE = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/out_of_power_indicator.png");
-	static final ResourceLocation NO_RESOURCES_TEXTURE = new ResourceLocation(
+	private static final ResourceLocation NO_RESOURCES_TEXTURE = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/no_resources_indicator.png");
 
 	public final String[] machineStatusMessages = new String[] {
@@ -52,7 +52,7 @@ public final class ElementProgress extends ElementBase {
 			"msg.MachineStatus.jammed", "msg.MachineStatus.needMoreResources",
 			"msg.MachineStatus.outOfPower" };
 
-	final IJobProgress progress;
+	private final IJobProgress progress;
 
 	public ElementProgress(final GuiBase base, final int x, final int y, final IJobProgress progress) {
 		super(base, x, y);
