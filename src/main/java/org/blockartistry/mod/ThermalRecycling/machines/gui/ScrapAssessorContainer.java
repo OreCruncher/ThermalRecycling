@@ -54,8 +54,8 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 
 			final int oSlot = ScrapAssessorTileEntity.DISPLAY_SLOTS[i];
 
-			final int h = (i % 3) * 18 + 106;
-			final int v = (i / 3) * 18 + 17;
+			final int h = (i % 3) * GUI_INVENTORY_CELL_SIZE + 106;
+			final int v = (i / 3) * GUI_INVENTORY_CELL_SIZE + 17;
 
 			s = new SlotLocked(entity, oSlot, h, v);
 			addSlotToContainer(s);
@@ -80,12 +80,9 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 			// to the player inventory
 			if (slotIndex < 11) {
 
-				if (!mergeItemStack(stackInSlot, sizeInventory,
-						sizeInventory + 36, false)) {
+				if (!mergeToPlayerInventory(stackInSlot)) {
 					return null;
 				}
-
-				slot.onSlotChange(stackInSlot, stack);
 
 			} else if (entity.isItemValidForSlot(
 					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
@@ -94,23 +91,17 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
 					return null;
 				}
-
-				slot.onSlotChange(stackInSlot, stack);
 			}
 
 			// Cleanup the stack
 			if (stackInSlot.stackSize == 0) {
 				slot.putStack(null);
-			} else {
-				slot.onSlotChanged();
 			}
 
 			// Nothing changed
 			if (stackInSlot.stackSize == stack.stackSize) {
 				return null;
 			}
-
-			slot.onPickupFromSlot(playerIn, stackInSlot);
 		}
 
 		return stack;

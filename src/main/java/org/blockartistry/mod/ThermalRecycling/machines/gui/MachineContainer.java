@@ -38,42 +38,40 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class MachineContainer<T extends TileEntityBase> extends Container {
 	
+	protected static final int PLAYER_HOTBAR_SIZE = 9;
+	protected static final int PLAYER_CHEST_SIZE = 27;
+	protected static final int PLAYER_INVENTORY_SIZE = PLAYER_HOTBAR_SIZE + PLAYER_CHEST_SIZE;
+	protected static final int GUI_INVENTORY_CELL_SIZE = 18;
+	
 	private static final int UPDATE_TICK_INTERVAL = 3;
 	
 	protected final T entity;
-	protected final int sizeInventory;
 	protected int spamCycle;
 
 	public MachineContainer(final T entity) {
 		this.entity = entity;
-		this.sizeInventory = entity.getSizeInventory();
 		this.spamCycle = 0;
 	}
 	
 	protected void addPlayerInventory(final InventoryPlayer inv) {
 		
-		Slot s;
-		
 		// Add the player inventory
-		for (int i = 0; i < 27; ++i) {
+		for (int i = 0; i < PLAYER_CHEST_SIZE; ++i) {
 
 			// The constants are offsets from the left and top edge
 			// of the GUI
-			final int h = (i % 9) * 18 + 8;
-			final int v = (i / 9) * 18 + 84;
+			final int h = (i % PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE + 8;
+			final int v = (i / PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE + 84;
 
 			// We offset by 9 to skip the hotbar slots - they
 			// come next
-			s = new Slot(inv, i + 9, h, v);
-			addSlotToContainer(s);
+			addSlotToContainer(new Slot(inv, i + 9, h, v));
 		}
 
 		// Add the hotbar
-		for (int i = 0; i < 9; ++i) {
-			s = new Slot(inv, i, 8 + i * 18, 142);
-			addSlotToContainer(s);
+		for (int i = 0; i < PLAYER_HOTBAR_SIZE; ++i) {
+			addSlotToContainer(new Slot(inv, i, 8 + i * GUI_INVENTORY_CELL_SIZE, 142));
 		}
-
 	}
 
 	/**
@@ -105,7 +103,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends Contain
     		return;
     	}
     	
-        for (int i = 0; i < this.inventorySlots.size(); ++i) {
+    	final int invSize = this.inventorySlots.size();
+        for (int i = 0; i < invSize; ++i) {
         	
             final ItemStack slotItemStack = ((Slot)this.inventorySlots.get(i)).getStack();
             ItemStack cacheItemStack = (ItemStack)this.inventoryItemStacks.get(i);
@@ -144,7 +143,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends Contain
             if(areDifferent) {
 	            this.inventoryItemStacks.set(i, cacheItemStack);
 	
-	            for (int j = 0; j < this.crafters.size(); ++j) {
+	            final int craftersSize = this.crafters.size();
+	            for (int j = 0; j < craftersSize; ++j) {
 	                ((ICrafting)this.crafters.get(j)).sendSlotContents(this, i, cacheItemStack);
 	            }
             }
@@ -162,5 +162,10 @@ public abstract class MachineContainer<T extends TileEntityBase> extends Contain
 	@Override
 	public boolean canInteractWith(final EntityPlayer playerIn) {
 		return entity.isUseableByPlayer(playerIn);
+	}
+	
+	public boolean mergeToPlayerInventory(final ItemStack stack) {
+		final int sizeInventory = entity.getSizeInventory();
+		return mergeItemStack(stack, sizeInventory, sizeInventory + PLAYER_INVENTORY_SIZE, false);
 	}
 }

@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 import java.util.Arrays;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-
 import com.google.common.base.Preconditions;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,16 +37,18 @@ import net.minecraft.world.World;
 
 public final class SidedInventoryComponent implements IMachineInventory {
 
-	final TileEntityBase entity;
-	ItemStack[] inventory;
+	protected final TileEntityBase entity;
+	protected final ItemStack[] inventory;
 
-	int inputStart = -1;
-	int inputEnd = -1;
-	int outputStart = -1;
-	int outputEnd = -1;
+	protected int inputStart = -1;
+	protected int inputEnd = -1;
+	protected int outputStart = -1;
+	protected int outputEnd = -1;
 
-	int[] accessibleSlots;
-	int[] hiddenSlots;
+	protected int[] accessibleSlots;
+	protected int[] hiddenSlots;
+	
+	protected boolean isDirty;
 
 	public SidedInventoryComponent(final TileEntityBase parent, final int size) {
 
@@ -147,27 +148,24 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public ItemStack decrStackSize(final int index, final int count) {
 
+		ItemStack stack = null;
 		if (inventory[index] != null) {
-
-			final ItemStack stack;
 
 			if (inventory[index].stackSize <= count) {
 				stack = inventory[index];
 				inventory[index] = null;
-				return stack;
 			} else {
 				stack = inventory[index].splitStack(count);
 
 				if (inventory[index].stackSize == 0) {
 					inventory[index] = null;
 				}
-
-				return stack;
 			}
-
-		} else {
-			return null;
+			
+			isDirty = true;
 		}
+		
+		return stack;
 	}
 
 	@Override
@@ -178,8 +176,10 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public void setInventorySlotContents(final int index, final ItemStack stack) {
 
+		isDirty = true;
 		inventory[index] = stack;
 
+		/*
 		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}
@@ -188,6 +188,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		if (isInputSlot(index) && !isStackAlreadyInSlot(index, stack)) {
 			markDirty();
 		}
+		*/
 	}
 
 	@Override
@@ -241,15 +242,15 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public void markDirty() {
-		entity.markDirty();
+		isDirty = true;
 	}
 
 	@Override
 	public void readFromNBT(final NBTTagCompound nbt) {
 
+		Arrays.fill(inventory, null);
 		final NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-		inventory = new ItemStack[inventory.length];
-
+		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			final NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
 			final byte b0 = nbtTagCompound.getByte("Slot");
@@ -277,6 +278,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean addStackToOutput(final ItemStack stack) {
+		isDirty = true;
 		return ItemStackHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
 	}
@@ -284,6 +286,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public void dropInventory(final World world, final int x, final int y, final int z) {
 
+		isDirty = true;
 		for (final int i : getAccessibleSlots()) {
 			final ItemStack stack = getStackInSlot(i);
 			if (stack != null)
@@ -298,5 +301,13 @@ public final class SidedInventoryComponent implements IMachineInventory {
 			}
 
 		Arrays.fill(inventory, null);
+	}
+	
+	@Override
+	public void flush() {
+		if(isDirty) {
+			isDirty = false;
+			entity.markDirty();
+		}
 	}
 }

@@ -395,6 +395,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 					energyRate = 0;
 				}
 			}
+			
+			inventory.flush();
 		}
 	}
 
@@ -441,8 +443,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (isEmpty)
 			buffer = null;
 
-		markDirty();
-
 		return isEmpty;
 	}
 
@@ -460,5 +460,10 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();
+	}
+	
+	@Override
+	public void flush() {
+		inventory.flush();
 	}
 }

@@ -31,20 +31,17 @@ import net.minecraft.util.EnumChatFormatting;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
-
 import com.google.common.base.Optional;
 
-public final class ScrapToolTip implements
-		MultiFunction<List<String>, ItemStack, Void> {
-
+public final class ScrapToolTip extends CachingToolTip {
+	
 	@Override
-	public Void apply(final List<String> output, final ItemStack stack) {
-
+	public void addToToolTip(final List<String> output, final ItemStack stack) {
+		
 		final ItemData data = ItemData.get(stack);
 
 		if (data == null)
-			return null;
+			return;
 
 		Optional<String> lore = data.getScrapValue().getTranslated();
 
@@ -59,7 +56,5 @@ public final class ScrapToolTip implements
 
 		if (lore.isPresent())
 			output.add(lore.get());
-
-		return null;
 	}
 }

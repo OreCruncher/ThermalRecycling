@@ -40,8 +40,8 @@ import cofh.lib.gui.slot.SlotLocked;
 public final class ComposterContainer extends MachineContainer<ComposterTileEntity> {
 
 	private MachineStatus currentStatus = MachineStatus.IDLE;
-	private int currentProgress;
-	private int currentWater;
+	private int currentProgress = 0;
+	private int currentWater = 0;
 
 	public ComposterContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 		super((ComposterTileEntity)tileEntity);
@@ -107,11 +107,9 @@ public final class ComposterContainer extends MachineContainer<ComposterTileEnti
 			// Trying to move stuff out of the machine inventory
 			if (slotIndex < 3) {
 
-				if (!mergeItemStack(stackInSlot, sizeInventory,
-						sizeInventory + 36, false)) {
+				if (!mergeToPlayerInventory(stackInSlot)) {
 					return null;
 				}
-				slot.onSlotChange(stackInSlot, stack);
 
 			} else {
 
@@ -135,23 +133,17 @@ public final class ComposterContainer extends MachineContainer<ComposterTileEnti
 
 				if (!mergeResult)
 					return null;
-
-				slot.onSlotChange(stackInSlot, stack);
 			}
 
 			// Cleanup the stack
 			if (stackInSlot.stackSize == 0) {
 				slot.putStack(null);
-			} else {
-				slot.onSlotChanged();
 			}
 
 			// Nothing changed
 			if (stackInSlot.stackSize == stack.stackSize) {
 				return null;
 			}
-
-			slot.onPickupFromSlot(playerIn, stackInSlot);
 		}
 
 		return stack;

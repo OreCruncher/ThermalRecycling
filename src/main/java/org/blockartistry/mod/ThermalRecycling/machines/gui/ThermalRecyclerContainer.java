@@ -43,21 +43,15 @@ import net.minecraft.item.ItemStack;
  */
 public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecyclerTileEntity> {
 
-	MachineStatus currentStatus;
-	int currentProgress;
-	int currentEnergy;
-	int currentEnergyRate;
+	private MachineStatus currentStatus = MachineStatus.IDLE;
+	private int currentProgress = 0;
+	private int currentEnergy = 0;
+	private int currentEnergyRate = 0;
 	
 	public ThermalRecyclerContainer(final InventoryPlayer inv, final IInventory tileEntity) {
 		super((ThermalRecyclerTileEntity)tileEntity);
 
 		// GUI dimension is width 427, height 240
-		currentStatus = MachineStatus.IDLE;
-		currentProgress = 0;
-		currentEnergy = 0;
-		currentEnergyRate = 0;
-		spamCycle = 0;
-
 		Slot s = new SlotAcceptValid(entity, ThermalRecyclerTileEntity.INPUT,
 				56, 34);
 		addSlotToContainer(s);
@@ -66,8 +60,8 @@ public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecy
 
 			final int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
 
-			final int h = (i % 3) * 18 + 106;
-			final int v = (i / 3) * 18 + 17;
+			final int h = (i % 3) * GUI_INVENTORY_CELL_SIZE + 106;
+			final int v = (i / 3) * GUI_INVENTORY_CELL_SIZE + 17;
 
 			s = new SlotRemoveOnly(entity, oSlot, h, v);
 			addSlotToContainer(s);
@@ -130,12 +124,9 @@ public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecy
 			// to the player inventory
 			if (MyUtils.contains(ThermalRecyclerTileEntity.ALL_SLOTS, slotIndex)) {
 
-				if (!mergeItemStack(stackInSlot, sizeInventory,
-						sizeInventory + 36, false)) {
+				if (!mergeToPlayerInventory(stackInSlot)) {
 					return null;
 				}
-
-				slot.onSlotChange(stackInSlot, stack);
 
 			} else if (entity.isItemValidForSlot(
 					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
@@ -144,23 +135,17 @@ public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecy
 				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
 					return null;
 				}
-
-				slot.onSlotChange(stackInSlot, stack);
 			}
 
 			// Cleanup the stack
 			if (stackInSlot.stackSize == 0) {
 				slot.putStack(null);
-			} else {
-				slot.onSlotChanged();
 			}
 
 			// Nothing changed
 			if (stackInSlot.stackSize == stack.stackSize) {
 				return null;
 			}
-
-			slot.onPickupFromSlot(playerIn, stackInSlot);
 		}
 
 		return stack;

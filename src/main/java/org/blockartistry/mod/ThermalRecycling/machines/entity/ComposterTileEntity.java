@@ -480,4 +480,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
 		return new FluidTankInfo[] { fluidTank.getInfo() };
 	}
+	
+	@Override
+	public void flush() {
+		inventory.flush();
+	}
 }

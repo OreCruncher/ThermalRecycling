@@ -120,4 +120,9 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 			}
 		}
 	}
+	
+	@Override
+	public void flush() {
+		inventory.flush();
+	}
 }

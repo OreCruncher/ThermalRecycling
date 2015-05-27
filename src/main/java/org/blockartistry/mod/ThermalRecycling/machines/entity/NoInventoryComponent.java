@@ -132,4 +132,9 @@ public final class NoInventoryComponent implements IMachineInventory {
 	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 		return false;
 	}
+	
+	@Override
+	public void flush() {
+		
+	}
 }
