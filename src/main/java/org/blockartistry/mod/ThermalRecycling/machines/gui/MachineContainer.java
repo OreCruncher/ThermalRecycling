@@ -40,8 +40,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends Contain
 	
 	private static final int UPDATE_TICK_INTERVAL = 3;
 	
-	final T entity;
-	final int sizeInventory;
+	protected final T entity;
+	protected final int sizeInventory;
 	protected int spamCycle;
 
 	public MachineContainer(final T entity) {
