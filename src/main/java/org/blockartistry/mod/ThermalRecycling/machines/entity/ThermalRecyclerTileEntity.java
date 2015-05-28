@@ -463,7 +463,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// If we don't have a context, or the requirements of the context
 		// no longer apply, create one.
 		if(context == null || !context.canReuse(core, justRecycled)) {
-			context = new ScrappingContext(core, justRecycled);
+			context = new ScrappingContext(core, justRecycled, activeRecipe);
 		}
 
 		// Scrap away!

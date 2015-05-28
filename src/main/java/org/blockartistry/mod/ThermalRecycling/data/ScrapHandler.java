@@ -33,7 +33,6 @@ import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
@@ -53,7 +52,7 @@ import net.minecraft.util.StatCollector;
  * the mod is up and running.
  * 
  */
-public abstract class ScrapHandler {
+public class ScrapHandler {
 
 	// Cache strings for performance
 	static final StringBuilder builder = new StringBuilder(32);
@@ -91,32 +90,66 @@ public abstract class ScrapHandler {
 		public RecipeData recipeData = null;
 		public List<ItemStack> recipeOutput = null;
 		public ItemStackWeightTable[] tables = null;
-		
+
 		public ScrappingContext(final ItemStack core, final ItemStack stack) {
+			this(core, stack, null);
+		}
+
+		public ScrappingContext(final ItemStack core, final ItemStack stack, final RecipeData recipe) {
 			this.toProcess = stack;
 			this.core = core;
 			this.coreType = CoreType.getType(core);
 			this.coreLevel = coreType == CoreType.NONE ? ItemLevel.BASIC : ItemLevel.getLevel(core);
 			this.handler = ScrapHandler.getHandler(stack);
-			this.recipeData = RecipeData.get(stack);
+			this.recipeData = recipe == null ? RecipeData.get(stack) : recipe;
 		}
 		
+		/**
+		 * Determines if the ScrappingContext can be reused based on the core
+		 * and stack references provided.
+		 * 
+		 * @param core Currently installed core in the machine
+		 * @param stack The ItemStack being processed
+		 * @return true if the context is compatible, false otherwise
+		 */
 		public boolean canReuse(final ItemStack core, final ItemStack stack) {
 			return ItemStack.areItemStacksEqual(this.core, core) && ItemStack.areItemStacksEqual(this.toProcess, stack);
 		}
 		
+		/**
+		 * Returns a list of components that result from the scrap
+		 * operation.  The parameters of the operation are based on
+		 * the ScrappingContext state.
+		 * 
+		 * @return List of 0 or more ItemStacks that result from scrapping
+		 */
 		public List<ItemStack> scrap() {
 			return handler.scrapItems(this);
 		}
 		
+		/**
+		 * Simulates a scrap operation based on the information in the
+		 * ScrappingContext.  Primarly this information is used by
+		 * the Scrap Assessor.
+		 * 
+		 * @return Projected result from if the ItemStack is scrapped
+		 */
 		public PreviewResult preview() {
 			return handler.preview(this);
 		}
 	}
 
-	static final Map<ItemStackKey, ScrapHandler> handlers = new HashMap<ItemStackKey, ScrapHandler>();
-	public static final ScrapHandler generic = new GenericHandler();
+	private static final Map<ItemStackKey, ScrapHandler> handlers = new HashMap<ItemStackKey, ScrapHandler>();
+	private static final ScrapHandler generic = new ScrapHandler();
 
+	/**
+	 * Register a special handler for the ItemStack provided.  The
+	 * ItemStack can specify a very specific item, or it can be
+	 * a generic case that matches any sub-type of a given Item.
+	 * 
+	 * @param stack ItemStack to which the handler is keyed
+	 * @param handler Handler to use when scrapping the ItemStack
+	 */
 	public static void registerHandler(final ItemStack stack, final ScrapHandler handler) {
 		Preconditions.checkNotNull(stack);
 		Preconditions.checkNotNull(handler);
@@ -173,8 +206,56 @@ public abstract class ScrapHandler {
 	 * @param ctx Context of the operation
 	 * @return Result of the scrap operation.
 	 */
-	public abstract List<ItemStack> scrapItems(final ScrappingContext ctx);
+	public List<ItemStack> scrapItems(final ScrappingContext ctx) {
+		
+		// Initialize the context as needed
+		initializeContext(ctx);
+		
+		final List<ItemStack> result = new ArrayList<ItemStack>();
 
+		final int dataLength = ctx.recipeOutput.size();
+		for (int i = 0; i < dataLength; i++) {
+
+			final ItemStack target = ctx.recipeOutput.get(i);
+			final ItemStackWeightTable t = ctx.tables[i];
+			
+			for (int count = 0; count < target.stackSize; count++) {
+
+				ItemStack cupieDoll = t.nextStack();
+
+				if (cupieDoll != null) {
+
+					if (ScrappingTables.keepIt(cupieDoll)) {
+						cupieDoll = target.copy();
+						cupieDoll.stackSize = 1;
+					} else if (ScrappingTables.dustIt(cupieDoll)) {
+						cupieDoll = target.copy();
+						cupieDoll.stackSize = 1;
+						cupieDoll = ItemStackHelper.convertToDustIfPossible(cupieDoll);
+					}
+					
+					// Maybe be null in the destroy case
+					if(cupieDoll != null) {
+						result.add(cupieDoll);
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	
+	/**
+	 * Method used by the scrap handler to get the recipe to break down an
+	 * item.  By default it looks at the RecipeData list to obtain a reverse
+	 * recipe that is sourced from Minecraft/Forge.  Specific handlers
+	 * extend ScrapHandler to provide their own method for retrieving
+	 * recipes for processing.
+	 * 
+	 * @param ctx Context for the scrapping operation
+	 * @return The reverse recipe for the ItemStack that is being scrapped
+	 */
 	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
 		return ItemStackHelper.clone(ctx.recipeData.getOutput());
 	}
@@ -220,6 +301,13 @@ public abstract class ScrapHandler {
 		}
 	}
 
+	/**
+	 * Analyzes the recipe and configuration information in the ScrappingContext
+	 * and returns back the probable results of a scrapping operation.
+	 * 
+	 * @param ctx Context for the operation
+	 * @return Results of a potential scrapping operation
+	 */
 	public PreviewResult preview(final ScrappingContext ctx) {
 		
 		initializeContext(ctx);

@@ -55,10 +55,10 @@ public final class RecipeData {
 	
 	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
 
-	final String name;
-	final int quantityRequired;
-	final boolean isGeneric;
-	final List<ItemStack> outputStacks;
+	private final String name;
+	private final int quantityRequired;
+	private final boolean isGeneric;
+	private final List<ItemStack> outputStacks;
 
 	/**
 	 * Special CTOR for creating recipes for items that do not have any recipes
@@ -161,10 +161,6 @@ public final class RecipeData {
 		}
 
 		return retCode;
-	}
-
-	public static int getMinimumQuantityToRecycle(final ItemStack item) {
-		return get(item).quantityRequired;
 	}
 
 	@Override

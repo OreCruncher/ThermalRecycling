@@ -30,10 +30,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public final class ForestryFarmScrapHandler extends GenericHandler {
+public final class ForestryFarmScrapHandler extends ScrapHandler {
 	
 	// From Forestry code.  Used to crack the underlying style
 	// of block used to make a farm block.

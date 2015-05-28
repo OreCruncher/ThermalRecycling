@@ -26,17 +26,18 @@ package org.blockartistry.mod.ThermalRecycling.support.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 
-import org.blockartistry.mod.ThermalRecycling.data.handlers.GenericHandler;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import buildcraft.api.transport.pluggable.IPipePluggableItem;
 
-public final class BuildCraftGateScrapHandler extends GenericHandler {
+public final class BuildCraftGateScrapHandler extends ScrapHandler {
 
 	static final ItemStack pulsatingChipset = ItemStackHelper
 			.getItemStack("BuildCraft|Silicon:redstoneChipset:4");
