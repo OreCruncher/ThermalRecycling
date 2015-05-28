@@ -26,8 +26,23 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 public enum MachineStatus {
 
-	IDLE, ACTIVE, JAMMED, NEED_MORE_RESOURCES, OUT_OF_POWER;
-
+	// The machine is idling waiting for work
+	IDLE,
+	
+	// The machine is active doing something
+	ACTIVE,
+	
+	// The machine wants to progress but something is
+	// delaying it.
+	JAMMED,
+	
+	// The machine is out of resources and needs more to
+	// continue.
+	NEED_MORE_RESOURCES,
+	
+	// The machine is out of power - feed it!
+	OUT_OF_POWER;
+	
 	public static MachineStatus map(final int i) {
 		return values()[i];
 	}

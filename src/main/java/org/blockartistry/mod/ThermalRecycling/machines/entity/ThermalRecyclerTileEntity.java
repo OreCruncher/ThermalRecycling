@@ -30,8 +30,8 @@ import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingContextCache;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
@@ -64,14 +64,23 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public static final int[] OUTPUT_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	static final int ENERGY_MAX_STORAGE = 60000;
-	static final int ENERGY_PER_TICK = 40;
-	static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
+	private static final int ENERGY_MAX_STORAGE = 60000;
+	private static final int ENERGY_PER_TICK = 40;
+	private static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
+	private static final int ENERGY_PER_OPERATION_SCRAP = 800;
+	private static final int ENERGY_PER_OPERATION_DECOMP = 1600;
+	private static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
 
-	static final int ENERGY_PER_OPERATION_SCRAP = 800;
-	static final int ENERGY_PER_OPERATION_DECOMP = 1600;
-	static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
-
+	private static final int LRU_CACHE_SIZE = 6;
+	
+	private class NBT {
+		public static final String ENERGY = "energy";
+		public static final String ENERGY_RATE = "energyRate";
+		public static final String PROGRESS = "progress";
+		public static final String STATUS = "status";
+		public static final String BUFFER = "buffer";
+	}
+	
 	// Entity state that needs to be serialized
 	protected int energy = 0;
 	protected int progress = 0;
@@ -84,9 +93,16 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// occur as the previous one.  For example, when
 	// processing a full stack the data needs to be
 	// collected once, and repeated another 63 times.
-	protected ItemStack activeStack;
-	protected RecipeData activeRecipe;
+	//
+	// Also to work better in farm situations the cache will
+	// remember the last N contexts that were created.
+	// Generally in a farm there is a small handful of items
+	// that come through so this LRU cache will help keep
+	// performance up.
+	protected ScrappingContextCache contextCache = null;
 	protected ScrappingContext context;
+	protected ItemStack activeStack;
+	protected ItemStack activeCore;
 	
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
@@ -96,25 +112,33 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	/**
-	 * Retrieve the stack currently in the input slot.  The RecipeData is
-	 * retrieved for the stack if it has not already been retrieved.  Goal
-	 * is to keep the data cached and avoid repeated lookups each tick.
+	 * Retrieve the stack currently in the input slot.  Data for the operation
+	 * is pulled in and cached.  Goal is to keep the data cached and avoid
+	 * repeated lookups each tick.
 	 */
 	protected ItemStack detectInputStack() {
+		
+		if(contextCache == null) {
+			contextCache = new ScrappingContextCache(LRU_CACHE_SIZE);
+		}
+
 		final ItemStack input = inventory.getStackInSlot(INPUT);
-		if(activeStack != input) {
+		final ItemStack core = inventory.getStackInSlot(CORE);
+		if(activeStack != input || activeCore != core) {
 			activeStack = input;
+			activeCore = core;
 			if(input != null) {
-				activeRecipe = RecipeData.get(input);
+				context = contextCache.getContext(core, input);
 			} else {
-				activeRecipe = null;
+				context = null;
 			}
 		}
 		return input;
 	}
 	
 	// Energy characteristics of the machine
-	protected static int operationEnergyForCore(final ItemStack core) {
+	protected int operationEnergyForCore(final ItemStack core) {
+		
 		switch(CoreType.getType(core)) {
 		case DECOMPOSITION:
 			return ENERGY_PER_OPERATION_DECOMP;
@@ -171,6 +195,10 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	//
 	// IJobProgress
 	//
+	// These are called client side so have
+	// to be careful about where we pull
+	// the data - some of it is server side.
+	//
 	// /////////////////////////////////////
 
 	@Override
@@ -193,12 +221,12 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		energy = nbt.getInteger("energy");
-		energyRate = nbt.getShort("energyRate");
-		progress = nbt.getShort("progress");
-		status = MachineStatus.map(nbt.getShort("status"));
+		energy = nbt.getInteger(NBT.ENERGY);
+		energyRate = nbt.getShort(NBT.ENERGY_RATE);
+		progress = nbt.getShort(NBT.PROGRESS);
+		status = MachineStatus.map(nbt.getShort(NBT.STATUS));
 
-		final NBTTagList nbttaglist = nbt.getTagList("buffer", 10);
+		final NBTTagList nbttaglist = nbt.getTagList(NBT.BUFFER, 10);
 		if (nbttaglist.tagCount() > 0) {
 			buffer = new ArrayList<ItemStack>(nbttaglist.tagCount());
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
@@ -212,10 +240,10 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setInteger("energy", energy);
-		nbt.setShort("energyRate", (short) energyRate);
-		nbt.setShort("progress", (short) progress);
-		nbt.setShort("status", (short) status.ordinal());
+		nbt.setInteger(NBT.ENERGY, energy);
+		nbt.setShort(NBT.ENERGY_RATE, (short) energyRate);
+		nbt.setShort(NBT.PROGRESS, (short) progress);
+		nbt.setShort(NBT.STATUS, (short) status.ordinal());
 
 		final NBTTagList nbttaglist = new NBTTagList();
 
@@ -229,7 +257,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 		}
 
-		nbt.setTag("buffer", nbttaglist);
+		nbt.setTag(NBT.BUFFER, nbttaglist);
 	}
 
 	// /////////////////////////////////////
@@ -278,7 +306,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getInfoEnergyPerTick() {
-		return getStatus() == MachineStatus.ACTIVE ? Math.min(ENERGY_PER_TICK,
+		return status == MachineStatus.ACTIVE ? Math.min(ENERGY_PER_TICK,
 				energy) : 0;
 	}
 
@@ -352,8 +380,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 					status = MachineStatus.NEED_MORE_RESOURCES;
 				} else {
 
-					final ItemStack core = inventory.getStackInSlot(CORE);
-					if (progress >= operationEnergyForCore(core)) {
+					if (progress >= operationEnergyForCore(activeCore)) {
 						progress = 0;
 
 						if (!recycleItem()) {
@@ -421,7 +448,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		return activeRecipe != null && activeRecipe.getMinimumInputQuantityRequired() <= activeStack.stackSize;
+		return context != null && context.recipeData.getMinimumInputQuantityRequired() <= activeStack.stackSize;
 	}
 
 	protected boolean flushBuffer() {
@@ -452,21 +479,10 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected boolean recycleItem() {
 
 		// Get how many items we need to snag off the stack
-		final int quantityRequired = activeRecipe.getMinimumInputQuantityRequired();
+		// and remove them.
+		decrStackSize(INPUT, context.recipeData.getMinimumInputQuantityRequired());
 
-		// Decrement our input slot. The decrStackSize
-		// method will handle appropriate nulling of
-		// inventory slots when count goes to 0.
-		final ItemStack justRecycled = decrStackSize(INPUT, quantityRequired);
-		final ItemStack core = inventory.getStackInSlot(CORE);
-		
-		// If we don't have a context, or the requirements of the context
-		// no longer apply, create one.
-		if(context == null || !context.canReuse(core, justRecycled)) {
-			context = new ScrappingContext(core, justRecycled, activeRecipe);
-		}
-
-		// Scrap away!
+		// The necessary information should be in the context already.
 		buffer = context.scrap();
 
 		// Flush the generated stacks into the output buffer

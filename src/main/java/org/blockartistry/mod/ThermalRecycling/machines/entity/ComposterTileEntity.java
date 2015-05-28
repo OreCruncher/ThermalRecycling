@@ -78,16 +78,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public static final int[] OUTPUT_HOLD = { MEAL };
 	public static final int[] ALL_SLOTS = { BROWN, GREEN1, GREEN2, MEAL };
 
-	// State
-	final private FluidTankComponent fluidTank;
-	private int progress = 0;
-	private MachineStatus status = MachineStatus.IDLE;
-	private int scanTickCount = 0;
-	private int scanIndex = 0;
-	
-	// Non-persisted state
-	private BiomeGenBase myBiome = null;
-
 	private static final int WATER_MAX_STORAGE = 4000;
 	private static final int COMPLETION_THRESHOLD = 1020;
 	private static final int PROGRESS_DAYLIGHT_TICK = 30;
@@ -99,6 +89,23 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	private static final int PLOT_SCAN_TICK_INTERVAL = 2;
 	private static final int PLOT_SIZE = 9;
 	private static final int PLOT_AREA = PLOT_SIZE * PLOT_SIZE;
+	
+	private class NBT {
+		public static final String SCAN_INDEX = "scanIndex";
+		public static final String SCAN_TICK_COUNT = "scanTickCount";
+		public static final String STATUS = "status";
+		public static final String PROGRESS = "progress";
+	}
+
+	// State
+	final private FluidTankComponent fluidTank;
+	private int progress = 0;
+	private MachineStatus status = MachineStatus.IDLE;
+	private int scanTickCount = 0;
+	private int scanIndex = 0;
+	
+	// Non-persisted state
+	private BiomeGenBase myBiome = null;
 
 	public ComposterTileEntity() {
 		super(GuiIdentifier.COMPOSTER);
@@ -175,10 +182,10 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		scanIndex = nbt.getByte("scanIndex");
-		scanTickCount = nbt.getByte("scanTickCount");
-		progress = nbt.getShort("progress");
-		status = MachineStatus.map(nbt.getShort("status"));
+		scanIndex = nbt.getByte(NBT.SCAN_INDEX);
+		scanTickCount = nbt.getByte(NBT.SCAN_TICK_COUNT);
+		progress = nbt.getShort(NBT.PROGRESS);
+		status = MachineStatus.map(nbt.getShort(NBT.STATUS));
 		fluidTank.readFromNBT(nbt);
 	}
 
@@ -186,10 +193,10 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setByte("scanIndex", (byte) scanIndex);
-		nbt.setByte("scanTickCount", (byte) scanTickCount);
-		nbt.setShort("progress", (short) progress);
-		nbt.setShort("status", (short) status.ordinal());
+		nbt.setByte(NBT.SCAN_INDEX, (byte) scanIndex);
+		nbt.setByte(NBT.SCAN_TICK_COUNT, (byte) scanTickCount);
+		nbt.setShort(NBT.PROGRESS, (short) progress);
+		nbt.setShort(NBT.STATUS, (short) status.ordinal());
 		fluidTank.writeToNBT(nbt);
 	}
 
