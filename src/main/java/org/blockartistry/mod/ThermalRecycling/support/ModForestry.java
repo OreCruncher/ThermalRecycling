@@ -48,7 +48,7 @@ public final class ModForestry extends ModPlugin {
 			"fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
 			"fireproofLog7:*", "fireproofLog8:*", "planks:*", "planks2:*",
 			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*",
-			"slabs3:*", "slabs4:*", /* "fences:*", "fences2:*", */ "stairs:*",
+			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
 			"stamps:*", "letters:*", "crate:*", "waxCast:*", "apiculture:*",
 			"arboriculture:*", "lepidopterology:*", "soil:*", "honeyedSlice:*",
 			"beeCombs:*", "apatite:*", "fertilizerCompound:*",

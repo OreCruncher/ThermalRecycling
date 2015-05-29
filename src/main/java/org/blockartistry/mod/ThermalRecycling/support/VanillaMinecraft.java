@@ -48,7 +48,15 @@ public final class VanillaMinecraft extends ModPlugin {
 		"oak_stairs", "stone_stairs", "brick_stairs", "stone_brick_stairs",
 		"nether_brick_stairs", "sandstone_stairs", "spruce_stairs",
 		"birch_stairs", "jungle_stairs", "quartz_stairs", "acacia_stairs",
-		"dark_oak_stairs", "wooden_slab:*", "stone_slab:*",
+		"dark_oak_stairs", "wooden_slab:*", "stone_slab:*", "torch",
+		"lit_pumpkin", "wooden_pressure_plate", "stone_pressure_plate",
+		"wooden_button", "stone_button", "fence", "stick", "crafting_table",
+		"chest", "ladder", "trapdoor", "fence_gate", "glass", "glass_pane",
+		"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe",
+		"wooden_axe", "stone_shovel", "stone_sword", "stone_hoe", "stone_pickaxe",
+		"stone_axe", "bowl", "string", "bow", "sign", "boat", "wooden_door",
+		"fishing_rod", ""
+		
 	};
 	
 	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",
