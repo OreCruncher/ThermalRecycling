@@ -29,11 +29,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
@@ -54,6 +56,10 @@ public final class RecipeData {
 	private static final RecipeData ephemeral = new RecipeData();
 	
 	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
+	
+	public static void freeze() {
+		recipes = ImmutableMap.copyOf(recipes);
+	}
 
 	private final String name;
 	private final int quantityRequired;

@@ -55,7 +55,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe",
 		"wooden_axe", "stone_shovel", "stone_sword", "stone_hoe", "stone_pickaxe",
 		"stone_axe", "bowl", "string", "bow", "sign", "boat", "wooden_door",
-		"fishing_rod", ""
+		"fishing_rod",
 		
 	};
 	

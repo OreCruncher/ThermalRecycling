@@ -36,6 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
@@ -55,7 +56,7 @@ public final class ItemData {
 	private static final ScrapValue DEFAULT_SCRAP_VALUE = ScrapValue.STANDARD;
 	private static final CompostIngredient DEFAULT_COMPOST_INGREDIENT = CompostIngredient.NONE;
 
-	private static final Map<ItemStackKey, ItemData> cache = new HashMap<ItemStackKey, ItemData>(1024);
+	private static Map<ItemStackKey, ItemData> cache = new HashMap<ItemStackKey, ItemData>(1024);
 
 	private final String name;
 	private ScrapValue value;
@@ -65,6 +66,10 @@ public final class ItemData {
 	private boolean isFood;
 	private boolean isGeneric;
 	private boolean isBlockedFromScrapping;
+	
+	public static void freeze() {
+		cache = ImmutableMap.copyOf(cache);
+	}
 
 	private static boolean exceptionalFood(final Item item) {
 		return item == Items.golden_apple || item == Items.golden_carrot;

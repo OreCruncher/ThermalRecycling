@@ -41,6 +41,7 @@ import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -140,8 +141,12 @@ public class ScrapHandler {
 		}
 	}
 
-	private static final Map<ItemStackKey, ScrapHandler> handlers = new HashMap<ItemStackKey, ScrapHandler>();
+	private static Map<ItemStackKey, ScrapHandler> handlers = new HashMap<ItemStackKey, ScrapHandler>();
 	private static final ScrapHandler generic = new ScrapHandler();
+	
+	public static void freeze() {
+		handlers = ImmutableMap.copyOf(handlers);
+	}
 
 	/**
 	 * Register a special handler for the ItemStack provided.  The

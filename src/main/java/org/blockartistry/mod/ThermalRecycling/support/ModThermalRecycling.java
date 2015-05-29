@@ -29,6 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
@@ -134,5 +135,10 @@ public final class ModThermalRecycling extends ModPlugin {
 				}
 			}
 		}
+		
+		// Lock our tables
+		ItemData.freeze();
+		RecipeData.freeze();
+		ScrapHandler.freeze();
 	}
 }
