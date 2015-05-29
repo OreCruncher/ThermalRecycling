@@ -42,14 +42,14 @@ public final class ItemStackKey {
 
 	// Modified Bernstein
 	// http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
-	private static int calculateHash(final int id, final int meta) {
-		int temp = (meta & 65535) << 16 | (id & 65535);
+	private static int calculateHash(int id, int meta) {
 		int hash = 0;
 		for (int i = 0; i < 4; i++) {
-			hash = (33 * hash) ^ (temp & 0xFF);
-			temp >>>= 8;
+			hash = (33 * hash) ^ (id & 0xFF);
+			hash = (33 * hash) ^ (meta & 0xFF);
+			id >>>= 8;
+			meta >>>= 8;
 		}
-
 		return hash;
 	}
 
@@ -57,7 +57,7 @@ public final class ItemStackKey {
 		this.item = item;
 		this.meta = meta;
 		//this.hash = calculateHash(Item.getIdFromItem(item), meta);
-		this.hash = calculateHash(item.getClass().hashCode(), meta);
+		this.hash = calculateHash(item.hashCode(), meta);
 	}
 
 	public ItemStackKey(final Item item) {

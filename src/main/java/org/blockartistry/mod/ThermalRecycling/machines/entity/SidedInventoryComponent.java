@@ -36,6 +36,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
 public final class SidedInventoryComponent implements IMachineInventory {
+	
+	private class NBT {
+		public static final String ITEMS = "Items";
+		public static final String SLOT = "Slot";
+	}
 
 	private final TileEntityBase entity;
 	private final ItemStack[] inventory;
@@ -84,14 +89,6 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return accessibleSlots;
 	}
 
-	private boolean isInputSlot(final int slot) {
-		return inputStart != -1 && slot >= inputStart && slot <= inputEnd;
-	}
-
-	private boolean isOutputSlot(final int slot) {
-		return outputStart != -1 && slot >= outputStart && slot <= outputEnd;
-	}
-
 	private void validateRangesDisjoint() {
 
 		if (outputStart == -1 || inputStart == -1)
@@ -130,9 +127,10 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 
-		return stack != null && inventory[slot] != null
-				&& stack.isItemEqual(inventory[slot])
-				&& ItemStack.areItemStackTagsEqual(stack, inventory[slot]);
+		final ItemStack target = inventory[slot];
+		return stack != null && target != null
+				&& stack.isItemEqual(target)
+				&& ItemStack.areItemStackTagsEqual(stack, target);
 	}
 
 	@Override
@@ -148,18 +146,13 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public ItemStack decrStackSize(final int index, final int count) {
 
-		ItemStack stack = null;
-		if (inventory[index] != null) {
+		ItemStack stack = inventory[index];
+		if ( stack != null) {
 
-			if (inventory[index].stackSize <= count) {
-				stack = inventory[index];
+			if (stack.stackSize <= count) {
 				inventory[index] = null;
 			} else {
-				stack = inventory[index].splitStack(count);
-
-				if (inventory[index].stackSize == 0) {
-					inventory[index] = null;
-				}
+				stack = stack.splitStack(count);
 			}
 			
 			isDirty = true;
@@ -210,22 +203,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-		
-		// Can only insert items into the input slots
-		if(isInputSlot(slot)) {
-			// Get the existing contents.  If the slot is empty defer
-			// to the entity as to whether permission is granted.
-			// If there is a stack in the slot already permission must
-			// have been given prior so assume as long as the stack
-			// matches it can be fed in.
-			final ItemStack data = inventory[slot];
-			if(data == null) {
-				return entity.isWhitelisted(stack);
-			}
-			return data.isItemEqual(stack);
-		}
-		
-		return false;
+		return entity.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
@@ -235,12 +213,12 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	@Override
 	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
-		return isItemValidForSlot(slot, stack);
+		return entity.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
-		return isOutputSlot(slot);
+		return outputStart != -1 && slot >= outputStart && slot <= outputEnd;
 	}
 
 	@Override
@@ -252,11 +230,11 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	public void readFromNBT(final NBTTagCompound nbt) {
 
 		Arrays.fill(inventory, null);
-		final NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+		final NBTTagList nbttaglist = nbt.getTagList(NBT.ITEMS, 10);
 		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			final NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
-			final byte b0 = nbtTagCompound.getByte("Slot");
+			final byte b0 = nbtTagCompound.getByte(NBT.SLOT);
 
 			if (b0 >= 0 && b0 < inventory.length) {
 				inventory[b0] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
@@ -270,13 +248,13 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		for (int i = 0; i < inventory.length; ++i) {
 			if (inventory[i] != null) {
 				final NBTTagCompound nbtTagCompound = new NBTTagCompound();
-				nbtTagCompound.setByte("Slot", (byte) i);
+				nbtTagCompound.setByte(NBT.SLOT, (byte) i);
 				inventory[i].writeToNBT(nbtTagCompound);
 				nbttaglist.appendTag(nbtTagCompound);
 			}
 		}
 
-		nbt.setTag("Items", nbttaglist);
+		nbt.setTag(NBT.ITEMS, nbttaglist);
 	}
 
 	@Override

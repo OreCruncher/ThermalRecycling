@@ -121,7 +121,7 @@ public abstract class TileEntityBase extends TileEntity implements
 		return null;
 	}
 	
-	public boolean isWhitelisted(final ItemStack stack) {
+	public boolean isWhitelisted(final int slot, final ItemStack stack) {
 		return true;
 	}
 	

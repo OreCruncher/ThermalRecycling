@@ -30,7 +30,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import com.google.common.base.Optional;
 
 public final class ScrapToolTip extends CachingToolTip {
@@ -46,7 +45,7 @@ public final class ScrapToolTip extends CachingToolTip {
 		Optional<String> lore = data.getScrapValue().getTranslated();
 
 		if (lore.isPresent()) {
-			if (ScrappingTables.canBeScrapped(stack))
+			if (!data.isBlockedFromScrapping())
 				output.add(lore.get());
 			else
 				output.add(lore.get() + EnumChatFormatting.GREEN + "*");

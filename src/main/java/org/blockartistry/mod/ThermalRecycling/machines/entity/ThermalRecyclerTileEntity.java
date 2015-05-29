@@ -37,6 +37,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
 import cofh.api.energy.IEnergyReceiver;
@@ -151,8 +152,34 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public boolean isWhitelisted(final ItemStack stack) {
-		return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
+
+		if(slot == INPUT) {
+			
+			if(worldObj.isRemote) {
+				return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
+			}
+			
+			// Running server side...
+			// If an item of that type is already in the active slot
+			// then the incoming item is also permitted.
+			if(activeStack != null && ItemStackHelper.areEqual(activeStack, stack)) {
+				return true;
+			}
+			
+			// Empty slot - see if there is a context cached and swipe
+			// the core information from it.  If not, then look it up.
+			CoreType coreType = context != null ? context.coreType : CoreType.getType(activeCore);
+			
+			// Speak to the oracle
+			return CoreType.canCoreProcess(coreType, stack);
+		}
+		
+		if (slot == CORE) {
+			return CoreType.isProcessingCore(stack);
+		}
+
+		return false;
 	}
 
 	// /////////////////////////////////////
@@ -330,14 +357,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	// TileEntityBase
 	//
 	// /////////////////////////////////////
-
-	@Override
-	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-
-		if (slot == CORE && CoreType.isProcessingCore(stack))
-			return true;
-		return super.isItemValidForSlot(slot, stack);
-	}
 
 	@Override
 	public void setInventorySlotContents(final int index, final ItemStack stack) {

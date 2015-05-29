@@ -100,7 +100,7 @@ public class WeightTable<T extends WeightTable.Item> {
 				title, totalWeight));
 		writer.write("==========================================================\n");
 		for (final Item i : items)
-			writer.write(String.format("%5.1f%% (%4d) %s\n",
+			writer.write(String.format("%5.2f%% (%4d) %s\n",
 					(double) i.itemWeight * 100F / totalWeight, i.itemWeight,
 					i.toString()));
 	}

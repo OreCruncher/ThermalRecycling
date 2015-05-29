@@ -27,7 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.items;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 
 public enum CoreType {
 	
@@ -49,7 +49,7 @@ public enum CoreType {
 	public static boolean canCoreProcess(final CoreType core, final ItemStack stack) {
 
 		if (core == NONE || core == DECOMPOSITION)
-			return ScrappingTables.canBeScrapped(stack);
+			return ItemData.canBeScrapped(stack);
 
 		if (core == EXTRACTION)
 			return stack.getItem() == ItemManager.recyclingScrap
@@ -68,7 +68,7 @@ public enum CoreType {
 	 */
 	public static boolean canCoreProcess(final ItemStack core, final ItemStack stack) {
 		
-		if (!isProcessingCore(core)) {
+		if (core != null && !isProcessingCore(core)) {
 			return false;
 		}
 

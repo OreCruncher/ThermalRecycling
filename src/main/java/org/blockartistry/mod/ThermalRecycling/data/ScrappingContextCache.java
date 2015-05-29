@@ -3,6 +3,7 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.LRUCache;
 
 public final class ScrappingContextCache {
@@ -25,7 +26,7 @@ public final class ScrappingContextCache {
 		@Override
 		public boolean equals(Object o) {
 			final LRUCacheKey key = (LRUCacheKey)o;
-			return ItemStack.areItemStacksEqual(this.stack, key.stack) && ItemStack.areItemStacksEqual(this.core, key.core);
+			return ItemStackHelper.areEqual(this.stack, key.stack) && ItemStackHelper.areEqual(this.core, key.core);
 		}
 	}
 	

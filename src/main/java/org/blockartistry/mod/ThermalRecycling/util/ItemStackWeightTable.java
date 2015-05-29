@@ -48,7 +48,7 @@ public final class ItemStackWeightTable extends
 		@Override
 		public String toString() {
 
-			String name = "<Nothing>";
+			String name = "Destroy";
 			if (stack != null) {
 				if (ScrappingTables.keepIt(stack))
 					name = "Keep Item";

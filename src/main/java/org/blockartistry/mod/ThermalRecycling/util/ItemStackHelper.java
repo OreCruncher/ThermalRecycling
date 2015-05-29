@@ -774,4 +774,13 @@ public final class ItemStackHelper {
 	public static ItemStack asGeneric(final Item item) {
 		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
 	}
+	
+	public static boolean areEqual(final ItemStack stack1, final ItemStack stack2) {
+		if(stack1 == null && stack2 == null)
+			return true;
+		if(stack1 == null && stack2 != null || stack1 != null && stack2 == null)
+			return false;
+		return stack1.isItemEqual(stack2) && ItemStack.areItemStackTagsEqual(stack1, stack2);
+	}
+
 }

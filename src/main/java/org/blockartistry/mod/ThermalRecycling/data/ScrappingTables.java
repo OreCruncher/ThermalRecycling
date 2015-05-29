@@ -27,16 +27,12 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.JarConfiguration;
@@ -50,7 +46,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.oredict.OreDictionary;
 
 public final class ScrappingTables {
 	
@@ -74,25 +69,23 @@ public final class ScrappingTables {
 		return stack != null && stack.isItemEqual(ScrappingTables.dust);
 	}
 
-	static final ItemStack debris = new ItemStack(ItemManager.debris);
-	static final ItemStack poorScrap = new ItemStack(
+	public static final ItemStack debris = new ItemStack(ItemManager.debris);
+	public static final ItemStack poorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.POOR);
-	static final ItemStack standardScrap = new ItemStack(
+	public static final ItemStack standardScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD);
-	static final ItemStack superiorScrap = new ItemStack(
+	public static final ItemStack superiorScrap = new ItemStack(
 			ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR);
 	
-	static final ItemStack poorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.POOR);
-	static final ItemStack standardScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD);
-	static final ItemStack superiorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.SUPERIOR);
+	public static final ItemStack poorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.POOR);
+	public static final ItemStack standardScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD);
+	public static final ItemStack superiorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.SUPERIOR);
 
 	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
 	
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
-	static final Set<ItemStackKey> dontScrap = new LinkedHashSet<ItemStackKey>();
-	
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
 		final int weight = e.getValue().getInt();
@@ -179,25 +172,6 @@ public final class ScrappingTables {
 				}
 		}
 		
-		// Scan the OreDictionary looking for blocks/items that we want
-		// to prevent from being scrapped.  Collect them in the TreeSet
-		// so that there are no duplicates and it is sorted.
-		for(final String oreName: OreDictionary.getOreNames()) {
-			if(oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot") || oreName.startsWith("nugget")) {
-				for(final ItemStack stack: OreDictionary.getOres(oreName)) {
-					dontScrap.add(new ItemStackKey(stack));
-				}
-			}
-		}
-		
-		// Add our scrap and boxes
-		dontScrap.add(new ItemStackKey(debris));
-		dontScrap.add(new ItemStackKey(poorScrap));
-		dontScrap.add(new ItemStackKey(standardScrap));
-		dontScrap.add(new ItemStackKey(superiorScrap));
-		dontScrap.add(new ItemStackKey(poorScrapBox));
-		dontScrap.add(new ItemStackKey(standardScrapBox));
-		dontScrap.add(new ItemStackKey(superiorScrapBox));
 	}
 
 	public static Optional<ItemStackWeightTable> getTable(final CoreType core, final ItemLevel level, final ScrapValue scrap) {
@@ -213,10 +187,6 @@ public final class ScrappingTables {
 		}
 		
 		return extractDust.get(scrapOrdinal, levelOrdinal);
-	}
-	
-	public static boolean canBeScrapped(final ItemStack stack) {
-		return !dontScrap.contains(new ItemStackKey(stack));
 	}
 
 	private static void dumpTable(final Writer writer, final String title,

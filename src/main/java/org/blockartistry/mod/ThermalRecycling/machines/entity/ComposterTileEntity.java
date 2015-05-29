@@ -118,11 +118,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				FluidStackHelper.FLUID_WATER, 0), WATER_MAX_STORAGE);
 	}
 
-	@Override
-	public boolean isWhitelisted(final ItemStack stack) {
-		return true;
-	}
-
 	// /////////////////////////////////////
 	//
 	// Synchronization logic across client/server

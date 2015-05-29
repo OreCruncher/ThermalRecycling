@@ -96,12 +96,13 @@ public class ScrapHandler {
 		}
 
 		public ScrappingContext(final ItemStack core, final ItemStack stack, final RecipeData recipe) {
-			this.toProcess = stack;
 			this.core = core;
 			this.coreType = CoreType.getType(core);
 			this.coreLevel = coreType == CoreType.NONE ? ItemLevel.BASIC : ItemLevel.getLevel(core);
 			this.handler = ScrapHandler.getHandler(stack);
 			this.recipeData = recipe == null ? RecipeData.get(stack) : recipe;
+			this.toProcess = stack.copy();
+			this.toProcess.stackSize = 1;
 		}
 		
 		/**
