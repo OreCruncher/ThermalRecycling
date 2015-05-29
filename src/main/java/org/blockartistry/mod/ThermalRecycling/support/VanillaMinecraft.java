@@ -44,7 +44,11 @@ public final class VanillaMinecraft extends ModPlugin {
 	static final String[] recipeIgnoreList = new String[] {
 		"chainmail_helmet", "chainmail_leggings", "chainmail_boots",
 		"chainmail_chestplate", "dye:*", "coal", "ender_pearl",
-		"blaze_powder", "diamond", "emerald",
+		"blaze_powder", "diamond", "emerald", "planks:*",
+		"oak_stairs", "stone_stairs", "brick_stairs", "stone_brick_stairs",
+		"nether_brick_stairs", "sandstone_stairs", "spruce_stairs",
+		"birch_stairs", "jungle_stairs", "quartz_stairs", "acacia_stairs",
+		"dark_oak_stairs", "wooden_slab:*", "stone_slab:*",
 	};
 	
 	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",

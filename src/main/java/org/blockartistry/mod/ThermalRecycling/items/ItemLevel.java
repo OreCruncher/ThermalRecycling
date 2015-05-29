@@ -65,4 +65,8 @@ public enum ItemLevel {
 		}
 		return values()[t];
 	}
+	
+	public static ItemLevel max(final ItemLevel in1, final ItemLevel in2) {
+		return in1.ordinal() > in2.ordinal() ? in1 : in2;
+	}
 }
