@@ -99,10 +99,10 @@ public final class RecipeData {
 
 	public static RecipeData get(final ItemStack input) {
 
-		RecipeData match = recipes.get(new ItemStackKey(input));
+		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
 
 		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			match = recipes.get(new ItemStackKey(input.getItem()));
+			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 
 		return match == null ? ephemeral : match;

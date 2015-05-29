@@ -35,10 +35,37 @@ import net.minecraftforge.oredict.OreDictionary;
  *
  */
 public final class ItemStackKey {
+	
+	// The cached key is used by the various framework routines where a temporary
+	// key is generated just to index an internal table.  It's thread local so
+	// there should be no collision.  They key should not be cached or used in
+	// an index - unpredictable results will occur.
+	private static final ThreadLocal<ItemStackKey> cachedKey = new ThreadLocal<ItemStackKey>() {
+        @Override
+		protected ItemStackKey initialValue() {
+            return new ItemStackKey();
+        }
+	};
+	
+	public static ItemStackKey getCachedKey(final ItemStack stack) {
+		final ItemStackKey key = cachedKey.get();
+		key.item = stack.getItem();
+		key.meta = stack.getItemDamage();
+		key.hash = calculateHash(key.item.hashCode(), key.meta);
+		return key;
+	}
 
-	private final Item item;
-	private final int meta;
-	private final int hash;
+	public static ItemStackKey getCachedKey(final Item item) {
+		final ItemStackKey key = cachedKey.get();
+		key.item = item;
+		key.meta = OreDictionary.WILDCARD_VALUE;
+		key.hash = calculateHash(item.hashCode(), key.meta);
+		return key;
+	}
+
+	private Item item;
+	private int meta;
+	private int hash;
 
 	// Modified Bernstein
 	// http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
@@ -53,6 +80,12 @@ public final class ItemStackKey {
 		return hash;
 	}
 
+	private ItemStackKey() {
+		this.item = null;
+		this.meta = 0;
+		this.hash = 0;
+	}
+	
 	public ItemStackKey(final Item item, final int meta) {
 		this.item = item;
 		this.meta = meta;

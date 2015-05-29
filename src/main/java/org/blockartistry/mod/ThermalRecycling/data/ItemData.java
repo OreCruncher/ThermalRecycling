@@ -247,9 +247,9 @@ public final class ItemData {
 
 	public static ItemData get(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
-		ItemData data = cache.get(new ItemStackKey(stack));
+		ItemData data = cache.get(ItemStackKey.getCachedKey(stack));
 		if (data == null)
-			data = cache.get(new ItemStackKey(stack.getItem()));
+			data = cache.get(ItemStackKey.getCachedKey(stack.getItem()));
 		if (data == null)
 			data = new ItemData(stack);
 		return data;

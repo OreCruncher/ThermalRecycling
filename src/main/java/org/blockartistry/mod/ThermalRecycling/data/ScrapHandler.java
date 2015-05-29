@@ -158,9 +158,9 @@ public class ScrapHandler {
 	}
 
 	private static ScrapHandler getHandler(final ItemStack stack) {
-		ScrapHandler handler = handlers.get(new ItemStackKey(stack));
+		ScrapHandler handler = handlers.get(ItemStackKey.getCachedKey(stack));
 		if (handler == null)
-			handler = handlers.get(new ItemStackKey(stack.getItem()));
+			handler = handlers.get(ItemStackKey.getCachedKey(stack.getItem()));
 		return handler == null ? generic : handler;
 	}
 

@@ -775,12 +775,33 @@ public final class ItemStackHelper {
 		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
 	}
 	
-	public static boolean areEqual(final ItemStack stack1, final ItemStack stack2) {
-		if(stack1 == null && stack2 == null)
-			return true;
-		if(stack1 == null && stack2 != null || stack1 != null && stack2 == null)
-			return false;
-		return stack1.isItemEqual(stack2) && ItemStack.areItemStackTagsEqual(stack1, stack2);
+	/**
+	 * Determines if the two specified tags are equal.
+	 * 
+	 * @param nbt1 First tag compound to compare
+	 * @param nbt2 Second tag compound to compare
+	 * @return true if they are equal; false otherwise
+	 */
+	public static boolean areTagsEqual(final NBTTagCompound nbt1, final NBTTagCompound nbt2) {
+        return nbt1 == null && nbt2 != null ? false : nbt1 == null || nbt1.equals(nbt2);
 	}
-
+	
+	/**
+	 * Determines if the two ItemStacks are equal.  Does not include quantity in
+	 * the determination, but does include tags.
+	 * 
+	 * @param stack1 First stack to compare
+	 * @param stack2 Second stack to compare
+	 * @return true if they are equal; false otherwise
+	 */
+	public static boolean areEqual(final ItemStack stack1, final ItemStack stack2) {
+		
+		if(stack1 == stack2)
+			return true;
+		
+		if(stack1 == null || stack2 == null)
+			return false;
+		
+		return stack1.isItemEqual(stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound);
+	}
 }

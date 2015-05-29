@@ -205,7 +205,8 @@ public abstract class TileEntityBase extends TileEntity implements
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-		return inventory.isItemValidForSlot(slot, stack);
+		return true;
+		//return inventory.isItemValidForSlot(slot, stack);
 	}
 
 	@Override

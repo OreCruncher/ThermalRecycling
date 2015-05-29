@@ -52,13 +52,20 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 		setMachineInventory(inv);
 	}
 
-	/*
-	 * @Override public boolean isItemValidForSlot(final int slot, final
-	 * ItemStack stack) {
-	 * 
-	 * if (slot == CORE && CoreType.isProcessingCore(stack)) return true; return
-	 * super.isItemValidForSlot(slot, stack); }
-	 */
+	@Override
+	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
+
+		if(slot == INPUT) {
+			return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
+		}
+			
+		if (slot == CORE) {
+			return CoreType.isProcessingCore(stack);
+		}
+
+		return false;
+	}
+	
 	@Override
 	public Object getGuiClient(final InventoryPlayer inventory) {
 		return new ScrapAssessorGui(inventory, this);
