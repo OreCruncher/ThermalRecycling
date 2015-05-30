@@ -82,7 +82,11 @@ public abstract class ModPlugin {
 	public abstract void apply();
 
 	protected String makeName(final String name) {
-		String result;
+		
+		if(name == null || name.length() < 2)
+			return name;
+		
+		final String result;
 
 		if (name.charAt(0) == '^')
 			result = name.substring(1);

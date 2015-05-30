@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +33,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
+
 import cofh.lib.util.helpers.ItemHelper;
 
 import com.google.common.base.Preconditions;
@@ -230,6 +232,9 @@ public final class ItemStackHelper {
 	}
 
 	public static ItemStack getItemStack(final String name, final int quantity) {
+		
+		if(name == null || name.isEmpty())
+			return null;
 
 		// Check our preferred list first. If we have a hit, use it.
 		ItemStack result = preferred.get(name);
@@ -626,54 +631,16 @@ public final class ItemStackHelper {
 	}
 
 	/**
-	 * Compresses the inventory array by consolidating stacks toward the
+	 * Compresses the inventory list by consolidating stacks toward the
 	 * beginning of the array. This operation occurs in place meaning the return
 	 * array is the original one passed in.
 	 * 
 	 * @param inv
 	 * @return
 	 */
-	public static ItemStack[] coelece(final ItemStack... inv) {
-
-		if (inv == null || inv.length == 1) {
-			return inv;
-		}
-
-		for (int i = 1; i < inv.length; i++) {
-
-			ItemStack stack = inv[i];
-			if (stack != null) {
-
-				for (int j = 0; j < i; j++) {
-
-					ItemStack target = inv[j];
-					if (target == null) {
-						inv[j] = stack;
-						inv[i] = null;
-						break;
-					} else if (ItemHelper.itemsIdentical(stack, target)) {
-
-						final int hold = target.getMaxStackSize() - target.stackSize;
-
-						if (hold >= stack.stackSize) {
-							target.stackSize += stack.stackSize;
-							inv[i] = null;
-							break;
-						} else if (hold != 0) {
-							stack.stackSize -= hold;
-							target.stackSize += hold;
-						}
-					}
-				}
-			}
-		}
-
-		return inv;
-	}
-
 	public static List<ItemStack> coelece(final List<ItemStack> inv) {
 
-		if (inv == null || inv.size() == 1) {
+		if (inv == null) {
 			return inv;
 		}
 
@@ -705,6 +672,9 @@ public final class ItemStackHelper {
 				}
 			}
 		}
+		
+		// Purge all null entries
+		inv.removeAll(Collections.singleton(null));
 
 		return inv;
 	}

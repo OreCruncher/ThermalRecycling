@@ -24,9 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class ModEnderIO extends ModPlugin {
 
@@ -36,7 +34,10 @@ public final class ModEnderIO extends ModPlugin {
 
 	static final String[] scrapValuesNone = new String[] {
 			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemMaterial:3",
-			"itemMaterial:4", "itemConduitFacade", "itemPowderIngot:7" };
+			"itemMaterial:4", "itemConduitFacade", "itemPowderIngot:7",
+			"itemMachinePart:1", "itemMaterial", "itemMaterial:1",
+			"itemMaterial:2"
+			};
 
 	static final String[] scrapValuesPoor = new String[] {
 			"itemLiquidConduit:0", "itemLiquidConduit:1" };
@@ -61,18 +62,6 @@ public final class ModEnderIO extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
-		ItemData.put(
-				ItemStackHelper.getItemStack("EnderIO:itemMachinePart:1"),
-				ScrapValue.NONE, false, false);
-		ItemData.put(ItemStackHelper.getItemStack("EnderIO:itemMaterial"),
-				ScrapValue.NONE, false, false);
-		ItemData.put(
-				ItemStackHelper.getItemStack("EnderIO:itemMaterial:1"),
-				ScrapValue.NONE, false, false);
-		ItemData.put(
-				ItemStackHelper.getItemStack("EnderIO:itemMaterial:2"),
-				ScrapValue.NONE, false, false);
 
 		// Armor and tools
 		smelter.append("EnderIO:item.darkSteel_helmet")

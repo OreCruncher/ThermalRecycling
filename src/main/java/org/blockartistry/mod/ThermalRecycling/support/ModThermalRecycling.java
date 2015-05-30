@@ -34,7 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+import com.google.common.collect.ObjectArrays;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -60,7 +60,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		if (configList == null || configList.length == 0)
 			whiteList = modList;
 		else
-			whiteList = MyUtils.concat(modList, configList);
+			whiteList = ObjectArrays.concat(modList, configList, String.class);
 	}
 
 	@Override
@@ -108,7 +108,8 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		//final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		final String modIds = ":" + StringUtils.join(whiteList, ":") + ":";
 
 		// Process all registered recipes
 		for (final Object o : CraftingManager.getInstance().getRecipeList()) {

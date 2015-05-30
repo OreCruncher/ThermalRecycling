@@ -32,7 +32,8 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+
+import com.google.common.collect.ImmutableList;
 
 import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
@@ -48,15 +49,15 @@ public final class RecipeDecomposition {
 	
 	private RecipeDecomposition() {}
 
-	static final String[] classIgnoreList = new String[] {
+	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>().add(
 			"forestry.lepidopterology.MatingRecipe",
 			"cofh.thermaldynamics.util.crafting.RecipeCover",
 			"mods.railcraft.common.carts.LocomotivePaintingRecipe",
 			"mods.railcraft.common.emblems.EmblemPostColorRecipe",
-			"codechicken.enderstorage.common.EnderStorageRecipe" };
+			"codechicken.enderstorage.common.EnderStorageRecipe").build();
 
-	static Field teRecipeAccessor = null;
-	static Field forestryRecipeAccessor = null;
+	private static Field teRecipeAccessor = null;
+	private static Field forestryRecipeAccessor = null;
 
 	public static List<ItemStack> decompose(final IRecipe recipe) {
 		
@@ -101,18 +102,15 @@ public final class RecipeDecomposition {
 		return projection;
 	}
 	
-	protected static boolean matchClassName(final Object obj, final String name) {
+	private static boolean matchClassName(final Object obj, final String name) {
 		return obj.getClass().getName().compareTo(name) == 0;
 	}
 
-	protected static boolean isClassIgnored(final Object obj) {
-		for (final String s : classIgnoreList)
-			if (matchClassName(obj, s))
-				return true;
-		return false;
+	private static boolean isClassIgnored(final Object obj) {
+		return classIgnoreList.contains(obj);
 	}
 
-	protected static void scrubProjection(final ItemStack inputStack, List<ItemStack> projection) {
+	private static void scrubProjection(final ItemStack inputStack, List<ItemStack> projection) {
 
 		if (projection == null)
 			return;
@@ -130,21 +128,21 @@ public final class RecipeDecomposition {
 		}
 
 		// Do final scrub on the list
-		projection = MyUtils.compress(ItemStackHelper.coelece(projection));
+		projection = ImmutableList.copyOf(ItemStackHelper.coelece(projection));
 	}
 
-	protected static List<ItemStack> project(final ShapedRecipes recipe) {
+	private static List<ItemStack> project(final ShapedRecipes recipe) {
 		return ItemStackHelper.clone(recipe.recipeItems);
 	}
 
-	protected static List<ItemStack> project(final ShapelessRecipes recipe) {
+	private static List<ItemStack> project(final ShapelessRecipes recipe) {
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 		for (final Object stack : recipe.recipeItems)
 			result.add(((ItemStack) (stack)).copy());
 		return result;
 	}
 
-	static List<ItemStack> recurseArray(final List<?> list, final int level) {
+	private static List<ItemStack> recurseArray(final List<?> list, final int level) {
 
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
@@ -162,11 +160,11 @@ public final class RecipeDecomposition {
 		return result;
 	}
 
-	protected static List<ItemStack> projectBuildcraftRecipeList(final Object... list) {
+	private static List<ItemStack> projectBuildcraftRecipeList(final Object... list) {
 		return recurseArray(Arrays.asList(list), 1);
 	}
 
-	protected static List<ItemStack> projectForgeRecipeList(final Object... list) {
+	private static List<ItemStack> projectForgeRecipeList(final Object... list) {
 
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
@@ -185,15 +183,15 @@ public final class RecipeDecomposition {
 		return result;
 	}
 
-	protected static List<ItemStack> project(final ShapedOreRecipe recipe) {
+	private static List<ItemStack> project(final ShapedOreRecipe recipe) {
 		return projectForgeRecipeList(recipe.getInput());
 	}
 
-	protected static List<ItemStack> project(final ShapelessOreRecipe recipe) {
+	private static List<ItemStack> project(final ShapelessOreRecipe recipe) {
 		return projectForgeRecipeList(recipe.getInput().toArray());
 	}
 
-	protected static List<ItemStack> projectTERecipe(final IRecipe recipe) {
+	private static List<ItemStack> projectTERecipe(final IRecipe recipe) {
 
 		List<ItemStack> result = null;
 
@@ -223,7 +221,7 @@ public final class RecipeDecomposition {
 		return result;
 	}
 
-	protected static List<ItemStack> projectForestryRecipe(final IRecipe recipe) {
+	private static List<ItemStack> projectForestryRecipe(final IRecipe recipe) {
 
 		List<ItemStack> result = null;
 

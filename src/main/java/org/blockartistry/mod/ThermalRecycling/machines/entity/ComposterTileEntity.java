@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
@@ -55,13 +56,13 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+import com.google.common.collect.ImmutableSet;
 
 public final class ComposterTileEntity extends TileEntityBase implements
 		IJobProgress, IMachineFluidHandler {
 
-	private static final Block[] bonemealBlackList = new Block[] { Blocks.grass,
-			Blocks.double_plant, Blocks.deadbush, Blocks.tallgrass };
+	private static final Set<IGrowable> bonemealBlackList = ImmutableSet.copyOf(new IGrowable[] { Blocks.grass,
+			Blocks.double_plant, Blocks.tallgrass });
 
 	public static final int UPDATE_ACTION_PROGRESS = 0;
 	public static final int UPDATE_ACTION_STATUS = 1;
@@ -203,14 +204,11 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-		if (stack == null || stack.stackSize == 0)
+		
+		if(slot == MEAL)
 			return false;
 
-		final ItemData data = ItemData.get(stack);
-		if (data == null)
-			return false;
-
-		final CompostIngredient ci = data.getCompostIngredientValue();
+		final CompostIngredient ci = ItemData.get(stack).getCompostIngredientValue();
 
 		return ci == CompostIngredient.BROWN && slot == BROWN
 				|| ci == CompostIngredient.GREEN && (slot == GREEN1 || slot == GREEN2);
@@ -355,7 +353,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				fluidTank.fill(new FluidStack(FluidStackHelper.FLUID_WATER,
 						RAIN_GATHER_TICK), true);
 
-			doPlotScan();
+			// If sky isn't blocked do the scan
+			if(status != MachineStatus.NEED_MORE_RESOURCES)
+				doPlotScan();
 			
 			inventory.flush();
 		}
@@ -385,8 +385,8 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	boolean bonemealTarget(final Block block) {
 		if (block == null || !(block instanceof IGrowable))
 			return false;
-
-		return !MyUtils.contains(bonemealBlackList, block);
+		
+		return !bonemealBlackList.contains(block);
 	}
 
 	void doPlotScan() {

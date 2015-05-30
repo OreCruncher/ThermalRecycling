@@ -33,10 +33,9 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ObjectArrays;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
@@ -56,9 +55,10 @@ public final class ItemData {
 	private static final ScrapValue DEFAULT_SCRAP_VALUE = ScrapValue.STANDARD;
 	private static final CompostIngredient DEFAULT_COMPOST_INGREDIENT = CompostIngredient.NONE;
 
-	private static Map<ItemStackKey, ItemData> cache = new HashMap<ItemStackKey, ItemData>(1024);
+	private static Map<ItemStackKey, ItemData> cache = new HashMap<ItemStackKey, ItemData>(
+			1024);
 
-	private final String name;
+	private final ItemStack stack;
 	private ScrapValue value;
 	private CompostIngredient compostValue;
 	private boolean ignoreRecipe;
@@ -66,7 +66,7 @@ public final class ItemData {
 	private boolean isFood;
 	private boolean isGeneric;
 	private boolean isBlockedFromScrapping;
-	
+
 	public static void freeze() {
 		cache = ImmutableMap.copyOf(cache);
 	}
@@ -78,9 +78,9 @@ public final class ItemData {
 	private static void setBlockedFromScrapping(final ItemStack stack) {
 		put(stack, new ItemData(stack, get(stack).setBlockedFromScrapping(true)));
 	}
-	
+
 	static {
-		
+
 		String[] whiteList = null;
 		final String[] modList = SupportedMod.getModIdList();
 		final String[] configList = ModOptions.getModWhitelist();
@@ -88,9 +88,10 @@ public final class ItemData {
 		if (configList == null || configList.length == 0)
 			whiteList = modList;
 		else
-			whiteList = MyUtils.concat(modList, configList);
+			whiteList = ObjectArrays.concat(modList, configList, String.class);
 
-		final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		// final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		final String modIds = ":" + StringUtils.join(whiteList, ":") + ":";
 
 		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
 			final String name = Item.itemRegistry.getNameForObject(o);
@@ -99,7 +100,8 @@ public final class ItemData {
 				final String modName = StringUtils.substringBefore(name, ":");
 				final Boolean isMinecraft = modName.compareTo("minecraft") == 0;
 
-				final ItemStack stack = new ItemStack(o, 1, OreDictionary.WILDCARD_VALUE);
+				final ItemStack stack = new ItemStack(o, 1,
+						OreDictionary.WILDCARD_VALUE);
 				final ItemData data = new ItemData(stack);
 
 				if (isMinecraft)
@@ -116,18 +118,20 @@ public final class ItemData {
 				cache.put(new ItemStackKey(o), data);
 			}
 		}
-		
+
 		// Scan the OreDictionary looking for blocks/items that we want
-		// to prevent from being scrapped.  Collect them in the TreeSet
+		// to prevent from being scrapped. Collect them in the TreeSet
 		// so that there are no duplicates and it is sorted.
-		for(final String oreName: OreDictionary.getOreNames()) {
-			if(oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot") || oreName.startsWith("nugget")) {
-				for(final ItemStack stack: OreDictionary.getOres(oreName)) {
+		for (final String oreName : OreDictionary.getOreNames()) {
+			if (oreName.startsWith("block") || oreName.startsWith("dust")
+					|| oreName.startsWith("ingot")
+					|| oreName.startsWith("nugget")) {
+				for (final ItemStack stack : OreDictionary.getOres(oreName)) {
 					setBlockedFromScrapping(stack);
 				}
 			}
 		}
-		
+
 		// Add our scrap and boxes
 		setBlockedFromScrapping(ScrappingTables.debris);
 		setBlockedFromScrapping(ScrappingTables.poorScrap);
@@ -139,18 +143,20 @@ public final class ItemData {
 	}
 
 	private ItemData(final ItemStack stack, final ItemData data) {
-		this(stack, data.value, data.compostValue, data.ignoreRecipe, data.scrubFromOutput, data.isBlockedFromScrapping);
+		this(stack, data.value, data.compostValue, data.ignoreRecipe,
+				data.scrubFromOutput, data.isBlockedFromScrapping);
 	}
 
 	private ItemData(final ItemStack stack) {
-		this(stack, DEFAULT_SCRAP_VALUE, DEFAULT_COMPOST_INGREDIENT, false, false, false);
+		this(stack, DEFAULT_SCRAP_VALUE, DEFAULT_COMPOST_INGREDIENT, false,
+				false, false);
 	}
 
 	private ItemData(final ItemStack stack, final ScrapValue value,
 			final CompostIngredient compost, final boolean ignoreRecipe,
 			final boolean scrubFromOutput, final boolean isBlockedFromScrapping) {
 		Preconditions.checkNotNull(stack);
-		this.name = ItemStackHelper.resolveName(stack);
+		this.stack = stack;
 		this.value = value;
 		this.compostValue = compost;
 		this.ignoreRecipe = ignoreRecipe;
@@ -158,6 +164,14 @@ public final class ItemData {
 		this.isFood = stack.getItem() instanceof ItemFood;
 		this.isGeneric = stack.getItemDamage() == OreDictionary.WILDCARD_VALUE;
 		this.isBlockedFromScrapping = isBlockedFromScrapping;
+	}
+
+	public String getName() {
+		String name = ItemStackHelper.resolveName(stack);
+		if (name.contains("UNKNOWN") || name.contains("Invalid Item")
+				|| name.contains("???"))
+			name = stack.getItem().toString() + ":" + stack.getItemDamage();
+		return name;
 	}
 
 	public ItemData setValue(final ScrapValue value) {
@@ -203,11 +217,11 @@ public final class ItemData {
 	public boolean isGeneric() {
 		return isGeneric;
 	}
-	
+
 	public boolean isBlockedFromScrapping() {
 		return isBlockedFromScrapping;
 	}
-	
+
 	public ItemData setBlockedFromScrapping(final boolean flag) {
 		isBlockedFromScrapping = flag;
 		return this;
@@ -217,47 +231,47 @@ public final class ItemData {
 	public String toString() {
 
 		return String
-				.format("%s%s [scrap value: %s; ignoreRecipe: %s; scrubFromOutput: %s; isFood: %s]",
-						name,
-						(isGeneric() ? " (GENERIC)" : ""), value.name(),
-						Boolean.toString(ignoreRecipe), Boolean
-								.toString(scrubFromOutput), Boolean
-								.toString(isFood));
+				.format("%s%s [sv: %s; ignoreRecipe: %s; scrub: %s; isFood: %s; blocked: %s]",
+						getName(), (isGeneric() ? " (GENERIC)" : ""),
+						value.name(), Boolean.toString(ignoreRecipe),
+						Boolean.toString(scrubFromOutput),
+						Boolean.toString(isFood),
+						Boolean.toString(isBlockedFromScrapping));
 	}
 
 	public static void setValue(final ItemStack stack, final ScrapValue value) {
 		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setValue(value);
-		put(stack, data);
+		put(stack, get(stack).setValue(value));
 	}
 
 	public static void setCompostIngredientValue(final ItemStack stack,
 			final CompostIngredient value) {
 		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setCompostIngredientValue(value);
-		put(stack, data);
-	}
-
-	private static ItemData getForWrite(final ItemStack stack) {
-		ItemData data = get(stack);
-		if (data == null)
-			data = new ItemData(stack);
-		else if (data.isGeneric() && stack.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
-			data = new ItemData(stack, data);
-		}
-		return data;
+		put(stack, get(stack).setCompostIngredientValue(value));
 	}
 
 	public static ItemData get(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
+		
+		// Highly specific match
 		ItemData data = cache.get(ItemStackKey.getCachedKey(stack));
-		if (data == null)
+		if(data != null)
+			return data;
+		
+		// Generic match - find the generic record and if it
+		// exists return back an appropriate entry wrapped
+		// around the ItemStack provided.  These entry
+		// "inherits" from the generic.  Note that generic
+		// entries are only possible for items that have
+		// sub-types.
+		if (stack.getHasSubtypes() && stack.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 			data = cache.get(ItemStackKey.getCachedKey(stack.getItem()));
-		if (data == null)
-			data = new ItemData(stack);
-		return data;
+			if(data != null)
+				return new ItemData(stack, data);
+		}
+		
+		// Doesn't exist - make a new one from scratch
+		return new ItemData(stack);
 	}
 
 	public static void put(final ItemStack stack, final ItemData data) {
@@ -266,31 +280,20 @@ public final class ItemData {
 		cache.put(new ItemStackKey(stack), data);
 	}
 
-	public static ItemData put(final ItemStack stack,
-			final ScrapValue value, final boolean ignoreRecipe,
-			final boolean scrubFromOutput) {
-		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setValue(value).setIgnoreRecipe(ignoreRecipe)
-				.setScrubFromOutput(scrubFromOutput);
-		put(stack, data);
-		return data;
-	}
-
-	
 	public static boolean canBeScrapped(final ItemStack stack) {
 		return !get(stack).isBlockedFromScrapping();
 	}
 
 	public static boolean isRecipeIgnored(final ItemStack stack) {
 		final ItemData data = get(stack);
-		return data != null && (data.getIgnoreRecipe() || data.isBlockedFromScrapping());
+		return data.getIgnoreRecipe() || data.isBlockedFromScrapping();
 	}
 
 	public static void setRecipeIgnored(final Item item, final boolean flag) {
 		Preconditions.checkNotNull(item);
-		final ItemStack generic = ItemStackHelper.asGeneric(item);
-		put(generic, get(generic).setIgnoreRecipe(flag));
+		final ItemStack stack = new ItemStack(item, 1,
+				item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
+		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 
 	public static void setRecipeIgnored(final Block block, final boolean flag) {
@@ -301,9 +304,7 @@ public final class ItemData {
 	public static void setRecipeIgnored(final ItemStack stack,
 			final boolean flag) {
 		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setIgnoreRecipe(flag);
-		put(stack, data);
+		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 
 	public static boolean isScrubbedFromOutput(final ItemStack stack) {
@@ -314,16 +315,13 @@ public final class ItemData {
 	public static void setScrubbedFromOutput(final ItemStack stack,
 			final boolean flag) {
 		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setScrubFromOutput(flag);
-		put(stack, data);
+		put(stack, get(stack).setScrubFromOutput(flag));
 	}
-	
-	public static void setBlockedFromScrapping(final ItemStack stack, final boolean flag) {
+
+	public static void setBlockedFromScrapping(final ItemStack stack,
+			final boolean flag) {
 		Preconditions.checkNotNull(stack);
-		final ItemData data = getForWrite(stack);
-		data.setBlockedFromScrapping(flag);
-		put(stack, data);
+		put(stack, get(stack).setBlockedFromScrapping(flag));
 	}
 
 	public static void writeDiagnostic(final Writer writer) throws Exception {

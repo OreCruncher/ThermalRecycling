@@ -120,6 +120,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		"grass", "netherrack", "ice", "snow", "vine", "hardened_clay",
 		"stained_hardened_clay:*", "glass_pane", "stained_glass_pane:*",
 		"carpet:*", "flint", "nether_brick", "lever", "end_stone",
+		"nether_brick_fence", "clay",
 	};
 
 	public VanillaMinecraft() {

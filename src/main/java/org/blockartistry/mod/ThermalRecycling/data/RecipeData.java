@@ -25,16 +25,14 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
-
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import cofh.lib.util.helpers.ItemHelper;
@@ -74,7 +72,7 @@ public final class RecipeData {
 		this.name = "<Ephemeral>";
 		this.quantityRequired = 1;
 		this.isGeneric = true;
-		this.outputStacks = Collections.emptyList();
+		this.outputStacks = ImmutableList.of();
 	}
 
 	public RecipeData(final ItemStack input, final List<ItemStack> output) {
@@ -84,7 +82,7 @@ public final class RecipeData {
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
 		this.isGeneric = input.getItemDamage() == OreDictionary.WILDCARD_VALUE;
-		this.outputStacks = output;
+		this.outputStacks = (output instanceof ImmutableList) ? output : ImmutableList.copyOf(output);
 	}
 
 	public boolean isGeneric() {
@@ -100,7 +98,7 @@ public final class RecipeData {
 	}
 
 	public List<ItemStack> getOutput() {
-		return Collections.unmodifiableList(this.outputStacks);
+		return this.outputStacks;
 	}
 
 	public static RecipeData get(final ItemStack input) {
@@ -112,10 +110,6 @@ public final class RecipeData {
 		}
 
 		return match == null ? ephemeral : match;
-	}
-
-	public static List<ItemStack> getRecipe(final ItemStack input) {
-		return ItemStackHelper.clone(get(input).getOutput());
 	}
 
 	/**
@@ -140,27 +134,31 @@ public final class RecipeData {
 
 			final ItemStack stack = input.copy();
 
-			// Traverse the list replacing WILDCARD stacks with concrete
-			// ones. The logic prefers Thermal Foundation equivalents
-			// if found.
-			for (int i = 0; i < output.size(); i++) {
-
-				ItemStack working = output.get(i);
-
-				if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-					final String oreName = ItemHelper.getOreName(working);
-
-					if (oreName != null) {
-						working = ItemStackHelper.getItemStack(oreName,
-								working.stackSize);
-						if (working != null)
-							output.set(i, working);
+			// An immutable list has already been processed by
+			// something like RecipeDecomposition
+			if(!(output instanceof ImmutableList)) {
+				// Traverse the list replacing WILDCARD stacks with concrete
+				// ones. The logic prefers Thermal Foundation equivalents
+				// if found.
+				for (int i = 0; i < output.size(); i++) {
+	
+					ItemStack working = output.get(i);
+	
+					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+						final String oreName = ItemHelper.getOreName(working);
+	
+						if (oreName != null) {
+							working = ItemStackHelper.getItemStack(oreName,
+									working.stackSize);
+							if (working != null)
+								output.set(i, working);
+						}
 					}
 				}
+	
+				output = ImmutableList.copyOf(ItemStackHelper.coelece(output));
 			}
-
-			output = MyUtils.compress(ItemStackHelper.coelece(output));
-
+			
 			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));
 
 			retCode = SUCCESS;

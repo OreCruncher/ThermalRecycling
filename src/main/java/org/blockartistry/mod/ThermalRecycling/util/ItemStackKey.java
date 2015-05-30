@@ -94,7 +94,7 @@ public final class ItemStackKey {
 	}
 
 	public ItemStackKey(final Item item) {
-		this(item, OreDictionary.WILDCARD_VALUE);
+		this(item, item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
 	}
 
 	public ItemStackKey(final Block block) {
