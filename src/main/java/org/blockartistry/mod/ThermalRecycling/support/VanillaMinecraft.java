@@ -55,7 +55,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe",
 		"wooden_axe", "stone_shovel", "stone_sword", "stone_hoe", "stone_pickaxe",
 		"stone_axe", "bowl", "string", "bow", "sign", "boat", "wooden_door",
-		"fishing_rod",
+		"fishing_rod", "paper", "hay_block", "slime_ball", "clay_ball"
 		
 	};
 	
@@ -104,6 +104,10 @@ public final class VanillaMinecraft extends ModPlugin {
 	static final String[] greenCompost = new String[] { "apple", "potato",
 			"carrot", "yellow_flower:*", "red_flower:*", "tallgrass:*",
 			"waterlily", "double_plant:*", "bread", };
+	
+	static final String[] scrubFromOutput = new String[] {
+		"water_bucket", "lava_bucket"
+	};
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -134,7 +138,8 @@ public final class VanillaMinecraft extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-
+		registerScrubFromOutput(scrubFromOutput);
+		
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
@@ -143,7 +148,8 @@ public final class VanillaMinecraft extends ModPlugin {
 		registerRecycleToWoodDust(2, "planks:*");
 		registerRecycleToWoodDust(8, "sapling:*");
 		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat",
-				"reeds", "cactus", "brown_mushroom", "red_mushroom", "pumpkin");
+				"reeds", "cactus", "brown_mushroom", "red_mushroom", "pumpkin",
+				"nether_wart");
 		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds",
 				"melon_seeds", "melon");
 

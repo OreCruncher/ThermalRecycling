@@ -24,11 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import net.minecraft.item.ItemStack;
-
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class ModMinefactoryReloaded extends ModPlugin {
 
@@ -67,6 +63,8 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrubFromOutput("MineFactoryReloaded:milkbottle");
+
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
@@ -75,10 +73,5 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 		registerRecycleToWoodDust(1, "rubberwood.log:*");
 		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
-
-		final ItemStack milkBottle = ItemStackHelper.getItemStack("MineFactoryReloaded:milkbottle");
-		final ItemData data = ItemData.get(milkBottle);
-		data.setScrubFromOutput(true);
-		ItemData.put(milkBottle, data);
 	}
 }
