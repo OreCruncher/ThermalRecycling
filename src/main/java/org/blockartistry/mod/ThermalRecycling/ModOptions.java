@@ -30,8 +30,9 @@ import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
-	
-	private ModOptions() {}
+
+	private ModOptions() {
+	}
 
 	protected static final String CATEGORY_RECYCLE_ENABLE = "recycle.enable";
 	protected static final String CATEGORY_RECYCLE_RECIPIES_CONTROL = "recycle.recipe.control";
@@ -44,6 +45,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 	protected static final String CONFIG_ENABLE_ENHANCED_LORE = "Enhanced Lore";
+	protected static final String CONFIG_BLACKLIST = "Blacklist";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -73,6 +75,7 @@ public final class ModOptions {
 	protected static boolean enableTooltips = true;
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
+	protected static String[] recyclerBlacklist = new String[] { "minecraft:cobblestone", "minecraft:sandstone:*"};
 
 	public static void load(final Configuration config) {
 
@@ -125,14 +128,14 @@ public final class ModOptions {
 				superiorScrapFuelSetting, 0, Integer.MAX_VALUE,
 				"Number of ticks Superior Scrap will burn in a furnace");
 
-		debrisFuelSetting = config.getInt(
-				CONFIG_DEBRIS_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
-				debrisFuelSetting, 0, Integer.MAX_VALUE,
+		debrisFuelSetting = config.getInt(CONFIG_DEBRIS_FUEL_SETTING,
+				CATEGORY_FUEL_SETTINGS, debrisFuelSetting, 0,
+				Integer.MAX_VALUE,
 				"Number of ticks Debris will burn in a furnace");
 
-		scrapBlockFuelSetting = config.getInt(
-				CONFIG_SCRAP_BLOCK_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
-				scrapBlockFuelSetting, 0, Integer.MAX_VALUE,
+		scrapBlockFuelSetting = config.getInt(CONFIG_SCRAP_BLOCK_FUEL_SETTING,
+				CATEGORY_FUEL_SETTINGS, scrapBlockFuelSetting, 0,
+				Integer.MAX_VALUE,
 				"Number of ticks a Block of Scrap will burn in a furnace");
 
 		scrapboxMultiplier = config
@@ -148,9 +151,15 @@ public final class ModOptions {
 				CATEGORY_MACHINES_COMPOSTER, enableComposterFX,
 				"Control whether client displays visual effects");
 
-		enableAssessorEnhancedLore = config.getBoolean(CONFIG_ENABLE_ENHANCED_LORE,
-				CATEGORY_MACHINES_ASSESSOR, enableAssessorEnhancedLore,
-				"Control whether enhanced lore is provided in the Scrap Assessor View");
+		enableAssessorEnhancedLore = config
+				.getBoolean(CONFIG_ENABLE_ENHANCED_LORE,
+						CATEGORY_MACHINES_ASSESSOR, enableAssessorEnhancedLore,
+						"Control whether enhanced lore is provided in the Scrap Assessor View");
+
+		recyclerBlacklist = config
+				.getStringList(CONFIG_BLACKLIST, CATEGORY_MACHINES_RECYCLER,
+						recyclerBlacklist,
+						"List of items to prevent the Thermal Recycler from accepting as input");
 
 		scrapBoxBonus = config
 				.getInt(CONFIG_SCRAPBOX_BONUS,
@@ -181,11 +190,11 @@ public final class ModOptions {
 	public static int getDebrisFuelSetting() {
 		return debrisFuelSetting;
 	}
-	
+
 	public static int getScrapBlockFuelSetting() {
 		return scrapBlockFuelSetting;
 	}
-	
+
 	public static int getPoorScrapFuelSetting() {
 		return poorScrapFuelSetting;
 	}
@@ -221,8 +230,12 @@ public final class ModOptions {
 	public static int getScrapBoxBonus() {
 		return scrapBoxBonus;
 	}
-	
+
 	public static boolean getEnableAssessorEnhancedLore() {
 		return enableAssessorEnhancedLore;
+	}
+	
+	public static String[] getRecyclerBlacklist() {
+		return recyclerBlacklist;
 	}
 }

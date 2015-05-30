@@ -318,6 +318,13 @@ public final class ItemData {
 		data.setScrubFromOutput(flag);
 		put(stack, data);
 	}
+	
+	public static void setBlockedFromScrapping(final ItemStack stack, final boolean flag) {
+		Preconditions.checkNotNull(stack);
+		final ItemData data = getForWrite(stack);
+		data.setBlockedFromScrapping(flag);
+		put(stack, data);
+	}
 
 	public static void writeDiagnostic(final Writer writer) throws Exception {
 

@@ -197,6 +197,18 @@ public abstract class ModPlugin {
 			}
 		});
 	}
+	
+	protected void registerItemBlockedFromScrapping(final boolean status, final String... list) {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
+
+			@Override
+			public boolean apply(final ItemStack input) {
+				ItemData.setBlockedFromScrapping(input, status);
+				return false;
+			}
+			
+		});
+	}
 
 	protected void registerPulverizeToDirt(final String name, final int rangeStart,
 			final int rangeEnd) {

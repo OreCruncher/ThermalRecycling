@@ -55,7 +55,12 @@ public final class VanillaMinecraft extends ModPlugin {
 		"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe",
 		"wooden_axe", "stone_shovel", "stone_sword", "stone_hoe", "stone_pickaxe",
 		"stone_axe", "bowl", "string", "bow", "sign", "boat", "wooden_door",
-		"fishing_rod", "paper", "hay_block", "slime_ball", "clay_ball"
+		"fishing_rod", "paper", "hay_block", "slime_ball", "clay_ball",
+		"sandstone:*", "brick_block", "mossy_cobblestone", "furnace", "lever",
+		"glowstone", "nether_brick", "nether_brick_fence", "cobblestone_wall:*",
+		"stained_hardened_clay:*", "stained_glass_pane:*", "carpet:*",
+		"wool:*", "clay", "dispenser", "dropper", "painting", "cake",
+		"lead", "snow",
 		
 	};
 	
@@ -84,7 +89,7 @@ public final class VanillaMinecraft extends ModPlugin {
 			"piston", "sticky_piston", "golden_rail", "detector_rail",
 			"activator_rail", "glowstone", "redstone_lamp", "ender_chest",
 			"enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
-			"lapis_ore", "redstone_ore", "coal_ore", "skull:*",
+			"lapis_ore", "redstone_ore", "coal_ore", "skull:*", "name_tag",
 
 	};
 
@@ -106,7 +111,15 @@ public final class VanillaMinecraft extends ModPlugin {
 			"waterlily", "double_plant:*", "bread", };
 	
 	static final String[] scrubFromOutput = new String[] {
-		"water_bucket", "lava_bucket"
+		"water_bucket", "lava_bucket", "milk_bucket"
+	};
+	
+	static final String[] blockFromScrapping = new String[] {
+		"cobblestone", "stone", "sand:*", "sandstone:*", "snowball",
+		"cobblestone_wall:*", "dirt:*", "gravel", "stone_slab:*",
+		"grass", "netherrack", "ice", "snow", "vine", "hardened_clay",
+		"stained_hardened_clay:*", "glass_pane", "stained_glass_pane:*",
+		"carpet:*", "flint", "nether_brick", "lever", "end_stone",
 	};
 
 	public VanillaMinecraft() {
@@ -143,10 +156,13 @@ public final class VanillaMinecraft extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		registerItemBlockedFromScrapping(false, "wool:*");
+		registerItemBlockedFromScrapping(true, blockFromScrapping);
 
 		registerRecycleToWoodDust(1, "log:*", "log2:*");
 		registerRecycleToWoodDust(2, "planks:*");
-		registerRecycleToWoodDust(8, "sapling:*");
+		registerRecycleToWoodDust(8, "sapling:*", "dye:*");
 		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat",
 				"reeds", "cactus", "brown_mushroom", "red_mushroom", "pumpkin",
 				"nether_wart");
