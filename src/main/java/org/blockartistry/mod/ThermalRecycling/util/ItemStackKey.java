@@ -58,7 +58,7 @@ public final class ItemStackKey {
 	public static ItemStackKey getCachedKey(final Item item) {
 		final ItemStackKey key = cachedKey.get();
 		key.item = item;
-		key.meta = OreDictionary.WILDCARD_VALUE;
+		key.meta = item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0;
 		key.hash = calculateHash(item.hashCode(), key.meta);
 		return key;
 	}
@@ -89,7 +89,6 @@ public final class ItemStackKey {
 	public ItemStackKey(final Item item, final int meta) {
 		this.item = item;
 		this.meta = meta;
-		//this.hash = calculateHash(Item.getIdFromItem(item), meta);
 		this.hash = calculateHash(item.hashCode(), meta);
 	}
 

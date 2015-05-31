@@ -76,7 +76,12 @@ public final class ItemData {
 	}
 
 	private static void setBlockedFromScrapping(final ItemStack stack) {
-		put(stack, new ItemData(stack, get(stack).setBlockedFromScrapping(true)));
+		put(stack,
+				new ItemData(stack, get(stack).setBlockedFromScrapping(true)));
+	}
+	
+	private static ItemStack getGenericIfPossible(final Item item) {
+		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
 	}
 
 	static {
@@ -100,8 +105,7 @@ public final class ItemData {
 				final String modName = StringUtils.substringBefore(name, ":");
 				final Boolean isMinecraft = modName.compareTo("minecraft") == 0;
 
-				final ItemStack stack = new ItemStack(o, 1,
-						OreDictionary.WILDCARD_VALUE);
+				final ItemStack stack = getGenericIfPossible(o);
 				final ItemData data = new ItemData(stack);
 
 				if (isMinecraft)
@@ -115,7 +119,7 @@ public final class ItemData {
 				data.setIgnoreRecipe(food);
 				data.setScrubFromOutput(food);
 
-				cache.put(new ItemStackKey(o), data);
+				cache.put(new ItemStackKey(stack), data);
 			}
 		}
 
@@ -252,24 +256,25 @@ public final class ItemData {
 
 	public static ItemData get(final ItemStack stack) {
 		Preconditions.checkNotNull(stack);
-		
+
 		// Highly specific match
 		ItemData data = cache.get(ItemStackKey.getCachedKey(stack));
-		if(data != null)
+		if (data != null)
 			return data;
-		
+
 		// Generic match - find the generic record and if it
 		// exists return back an appropriate entry wrapped
-		// around the ItemStack provided.  These entry
-		// "inherits" from the generic.  Note that generic
+		// around the ItemStack provided. These entry
+		// "inherits" from the generic. Note that generic
 		// entries are only possible for items that have
 		// sub-types.
-		if (stack.getHasSubtypes() && stack.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+		if (stack.getHasSubtypes()
+				&& stack.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
 			data = cache.get(ItemStackKey.getCachedKey(stack.getItem()));
-			if(data != null)
+			if (data != null)
 				return new ItemData(stack, data);
 		}
-		
+
 		// Doesn't exist - make a new one from scratch
 		return new ItemData(stack);
 	}
@@ -291,8 +296,7 @@ public final class ItemData {
 
 	public static void setRecipeIgnored(final Item item, final boolean flag) {
 		Preconditions.checkNotNull(item);
-		final ItemStack stack = new ItemStack(item, 1,
-				item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
+		final ItemStack stack = getGenericIfPossible(item);
 		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 

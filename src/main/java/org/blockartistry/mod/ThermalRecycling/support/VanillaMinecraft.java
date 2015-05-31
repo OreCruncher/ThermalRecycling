@@ -60,7 +60,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		"glowstone", "nether_brick", "nether_brick_fence", "cobblestone_wall:*",
 		"stained_hardened_clay:*", "stained_glass_pane:*", "carpet:*",
 		"wool:*", "clay", "dispenser", "dropper", "painting", "cake",
-		"lead", "snow",
+		"lead", "snow", "glass_bottle", "item_frame", "sugar", "flower_pot",
 		
 	};
 	
@@ -120,7 +120,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		"grass", "netherrack", "ice", "snow", "vine", "hardened_clay",
 		"stained_hardened_clay:*", "glass_pane", "stained_glass_pane:*",
 		"carpet:*", "flint", "nether_brick", "lever", "end_stone",
-		"nether_brick_fence", "clay",
+		"nether_brick_fence", "clay", "glass_bottle", "ladder", "sugar",
 	};
 
 	public VanillaMinecraft() {

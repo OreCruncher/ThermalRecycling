@@ -737,14 +737,6 @@ public final class ItemStackHelper {
 		return stack;
 	}
 
-	public static ItemStack asGeneric(final ItemStack stack) {
-		return asGeneric(stack.getItem());
-	}
-
-	public static ItemStack asGeneric(final Item item) {
-		return new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
-	}
-	
 	/**
 	 * Determines if the two specified tags are equal.
 	 * 
