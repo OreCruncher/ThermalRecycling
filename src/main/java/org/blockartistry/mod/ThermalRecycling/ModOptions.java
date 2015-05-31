@@ -39,6 +39,9 @@ public final class ModOptions {
 	protected static final String CATEGORY_LOGGING_CONTROL = "logging";
 	protected static final String CATEGORY_MODS = "mods";
 
+	protected static final String CATEGORY_GENERAL = "recycle.general";
+	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
+
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
 	protected static final String CATEGORY_MACHINES_ASSESSOR = "machines.assessor";
@@ -75,7 +78,9 @@ public final class ModOptions {
 	protected static boolean enableTooltips = true;
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
-	protected static String[] recyclerBlacklist = new String[] { "minecraft:cobblestone", "minecraft:sandstone:*"};
+	protected static boolean enableScrapboxSpawn = true;
+	protected static String[] recyclerBlacklist = new String[] {
+			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
 	public static void load(final Configuration config) {
 
@@ -168,6 +173,10 @@ public final class ModOptions {
 						0,
 						4,
 						"The bonus amount of scrap a scrapbox will get when processed with Core: Extraction");
+
+		enableScrapboxSpawn = config.getBoolean(CONFIG_ENABLE_SCRAPBOX_SPAWNING,
+				CATEGORY_GENERAL, enableScrapboxSpawn,
+				"Controls whether a Scrap Box will spawn items on right click");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -234,8 +243,12 @@ public final class ModOptions {
 	public static boolean getEnableAssessorEnhancedLore() {
 		return enableAssessorEnhancedLore;
 	}
-	
+
 	public static String[] getRecyclerBlacklist() {
 		return recyclerBlacklist;
+	}
+	
+	public static boolean getEnableScrapboxSpawn() {
+		return enableScrapboxSpawn;
 	}
 }

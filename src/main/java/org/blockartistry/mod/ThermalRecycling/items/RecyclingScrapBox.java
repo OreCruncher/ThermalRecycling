@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
@@ -68,7 +69,7 @@ public final class RecyclingScrapBox extends ItemBase {
 	@Override
 	public ItemStack onItemRightClick(final ItemStack stack, final World world,
 			final EntityPlayer player) {
-		if (!world.isRemote) {
+		if (!world.isRemote && ModOptions.getEnableScrapboxSpawn()) {
 			UseEffect.triggerEffect(stack, world, player);
 			player.addStat(AchievementManager.doingMyPart, 1);
 		}
