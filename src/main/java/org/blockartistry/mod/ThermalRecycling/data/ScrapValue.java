@@ -31,7 +31,7 @@ import net.minecraft.util.StatCollector;
 public enum ScrapValue {
 
 	// ORDERING IS IMPORTANT!
-	NONE(null),
+	NONE("msg.ItemScrapValue.none"),
 	POOR("msg.ItemScrapValue.poor"),
 	STANDARD("msg.ItemScrapValue.standard"),
 	SUPERIOR("msg.ItemScrapValue.superior");
