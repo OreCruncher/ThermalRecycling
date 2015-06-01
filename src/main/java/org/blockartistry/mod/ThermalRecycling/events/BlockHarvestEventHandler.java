@@ -22,30 +22,30 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.proxy;
+package org.blockartistry.mod.ThermalRecycling.events;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.events.ToolTipEventHandler;
-import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
-import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
+import java.util.ArrayList;
+import java.util.List;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
-public final class ProxyClient extends Proxy {
+import com.google.common.base.Predicate;
 
-	@Override
-	public void init(final FMLInitializationEvent event) {
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-		super.init(event);
+public class BlockHarvestEventHandler {
+	
+	public static final List<Predicate<HarvestDropsEvent>> hooks = new ArrayList<Predicate<HarvestDropsEvent>>();
 
-		// Initialize the tool tip event handler
-		new ToolTipEventHandler();
-
-		// Register hooks based on configuration
-		if (ModOptions.getEnableTooltips())
-			ToolTipEventHandler.hooks.add(new ScrapToolTip());
-
-		if (ModOptions.getEnableDebugLogging())
-			ToolTipEventHandler.hooks.add(new DebugToolTip());
+	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+	public void onBlockHarvestEvent(final HarvestDropsEvent event) {
+		for (final Predicate<HarvestDropsEvent> p : hooks)
+			p.apply(event);
+	}
+	
+	public BlockHarvestEventHandler() {
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 }

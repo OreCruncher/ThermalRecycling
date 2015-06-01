@@ -36,9 +36,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class Material extends ItemBase {
 	
 	public static final int PAPER_LOG = 0;
+	public static final int WORMS = 1;
 
 	public Material() {
-		super("paperlog");
+		super("paperlog", "worms");
 
 		setUnlocalizedName("Material");
 		setHasSubtypes(true);

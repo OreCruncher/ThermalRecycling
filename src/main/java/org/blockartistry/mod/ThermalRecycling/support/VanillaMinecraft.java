@@ -41,29 +41,31 @@ public final class VanillaMinecraft extends ModPlugin {
 	static boolean enableNetherStarRecycle = true;
 	static int quantityRottenFleshToLeather = 2;
 
-	static final String[] recipeIgnoreList = new String[] {
-		"chainmail_helmet", "chainmail_leggings", "chainmail_boots",
-		"chainmail_chestplate", "dye:*", "coal", "ender_pearl",
-		"blaze_powder", "diamond", "emerald", "planks:*",
-		"oak_stairs", "stone_stairs", "brick_stairs", "stone_brick_stairs",
-		"nether_brick_stairs", "sandstone_stairs", "spruce_stairs",
-		"birch_stairs", "jungle_stairs", "quartz_stairs", "acacia_stairs",
-		"dark_oak_stairs", "wooden_slab:*", "stone_slab:*", "torch",
-		"lit_pumpkin", "wooden_pressure_plate", "stone_pressure_plate",
-		"wooden_button", "stone_button", "fence", "stick", "crafting_table",
-		"chest", "ladder", "trapdoor", "fence_gate", "glass", "glass_pane",
-		"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe",
-		"wooden_axe", "stone_shovel", "stone_sword", "stone_hoe", "stone_pickaxe",
-		"stone_axe", "bowl", "string", "bow", "sign", "boat", "wooden_door",
-		"fishing_rod", "paper", "hay_block", "slime_ball", "clay_ball",
-		"sandstone:*", "brick_block", "mossy_cobblestone", "furnace", "lever",
-		"glowstone", "nether_brick", "nether_brick_fence", "cobblestone_wall:*",
-		"stained_hardened_clay:*", "stained_glass_pane:*", "carpet:*",
-		"wool:*", "clay", "dispenser", "dropper", "painting", "cake",
-		"lead", "snow", "glass_bottle", "item_frame", "sugar", "flower_pot",
-		
+	static final String[] recipeIgnoreList = new String[] { "chainmail_helmet",
+			"chainmail_leggings", "chainmail_boots", "chainmail_chestplate",
+			"dye:*", "coal", "ender_pearl", "blaze_powder", "diamond",
+			"emerald", "planks:*", "oak_stairs", "stone_stairs",
+			"brick_stairs", "stone_brick_stairs", "nether_brick_stairs",
+			"sandstone_stairs", "spruce_stairs", "birch_stairs",
+			"jungle_stairs", "quartz_stairs", "acacia_stairs",
+			"dark_oak_stairs", "wooden_slab:*", "stone_slab:*", "torch",
+			"lit_pumpkin", "wooden_pressure_plate", "stone_pressure_plate",
+			"wooden_button", "stone_button", "fence", "stick",
+			"crafting_table", "chest", "ladder", "trapdoor", "fence_gate",
+			"glass", "glass_pane", "wooden_shovel", "wooden_sword",
+			"wooden_hoe", "wooden_pickaxe", "wooden_axe", "stone_shovel",
+			"stone_sword", "stone_hoe", "stone_pickaxe", "stone_axe", "bowl",
+			"string", "bow", "sign", "boat", "wooden_door", "fishing_rod",
+			"paper", "hay_block", "slime_ball", "clay_ball", "sandstone:*",
+			"brick_block", "mossy_cobblestone", "furnace", "lever",
+			"glowstone", "nether_brick", "nether_brick_fence",
+			"cobblestone_wall:*", "stained_hardened_clay:*",
+			"stained_glass_pane:*", "carpet:*", "wool:*", "clay", "dispenser",
+			"dropper", "painting", "cake", "lead", "snow", "glass_bottle",
+			"item_frame", "sugar", "flower_pot",
+
 	};
-	
+
 	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",
 			"rotten_flesh", "tnt", "coal_block", "gold_nugget",
 			"leather_helmet", "leather_chestplate", "leather_leggings",
@@ -107,21 +109,19 @@ public final class VanillaMinecraft extends ModPlugin {
 			"leaves:*", "leaves2:*", "deadbush", "vine", "wheat", };
 
 	static final String[] greenCompost = new String[] { "apple", "potato",
-			"carrot", "yellow_flower:*", "red_flower:*", "tallgrass:*",
+			"carrots", "yellow_flower:*", "red_flower:*", "tallgrass:*",
 			"waterlily", "double_plant:*", "bread", };
-	
-	static final String[] scrubFromOutput = new String[] {
-		"water_bucket", "lava_bucket", "milk_bucket"
-	};
-	
-	static final String[] blockFromScrapping = new String[] {
-		"cobblestone", "stone", "sand:*", "sandstone:*", "snowball",
-		"cobblestone_wall:*", "dirt:*", "gravel", "stone_slab:*",
-		"grass", "netherrack", "ice", "snow", "vine", "hardened_clay",
-		"stained_hardened_clay:*", "glass_pane", "stained_glass_pane:*",
-		"carpet:*", "flint", "nether_brick", "lever", "end_stone",
-		"nether_brick_fence", "clay", "glass_bottle", "ladder", "sugar",
-	};
+
+	static final String[] scrubFromOutput = new String[] { "water_bucket",
+			"lava_bucket", "milk_bucket" };
+
+	static final String[] blockFromScrapping = new String[] { "cobblestone",
+			"stone", "sand:*", "sandstone:*", "snowball", "cobblestone_wall:*",
+			"dirt:*", "gravel", "stone_slab:*", "grass", "netherrack", "ice",
+			"snow", "vine", "hardened_clay", "stained_hardened_clay:*",
+			"glass_pane", "stained_glass_pane:*", "carpet:*", "flint",
+			"nether_brick", "lever", "end_stone", "nether_brick_fence", "clay",
+			"glass_bottle", "ladder", "sugar", };
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -153,11 +153,11 @@ public final class VanillaMinecraft extends ModPlugin {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrubFromOutput(scrubFromOutput);
-		
+
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		registerItemBlockedFromScrapping(false, "wool:*");
 		registerItemBlockedFromScrapping(true, blockFromScrapping);
 
@@ -301,5 +301,17 @@ public final class VanillaMinecraft extends ModPlugin {
 
 		pulverizer.setEnergy(1200).appendSubtypeRange(Items.fish, 0, 4, 8)
 				.output(Items.rotten_flesh).save();
+
+		// Glass items
+		pulverizer.setEnergy(3200)
+				.appendSubtypeRange(Blocks.stained_glass, 0, 15)
+				.output(Blocks.sand).save();
+		pulverizer.setEnergy(3200).append(Blocks.glass_pane, 8)
+				.output(Blocks.sand, 3).save();
+		pulverizer.setEnergy(3200)
+				.appendSubtypeRange(Blocks.stained_glass_pane, 0, 15, 8)
+				.output(Blocks.sand, 3).save();
+		pulverizer.setEnergy(3200).append(Items.glass_bottle)
+				.output(Blocks.sand).save();
 	}
 }

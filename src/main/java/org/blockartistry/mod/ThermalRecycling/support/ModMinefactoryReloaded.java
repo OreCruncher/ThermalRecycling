@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import net.minecraft.init.Blocks;
+
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModMinefactoryReloaded extends ModPlugin {
@@ -73,5 +75,15 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 		registerRecycleToWoodDust(1, "rubberwood.log:*");
 		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
+
+		// Glass
+		pulverizer
+				.setEnergy(3200)
+				.appendSubtypeRange("MineFactoryReloaded:stainedglass.pane", 0,
+						15, 8).output(Blocks.sand, 3).save();
+		pulverizer
+				.setEnergy(3200)
+				.appendSubtypeRange("MineFactoryReloaded:stainedglass.block",
+						0, 15).output(Blocks.sand).save();
 	}
 }

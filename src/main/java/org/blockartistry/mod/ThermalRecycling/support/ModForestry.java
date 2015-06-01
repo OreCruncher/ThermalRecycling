@@ -95,7 +95,10 @@ public final class ModForestry extends ModPlugin {
 					&& e.getValue()[0] instanceof ItemStack) {
 				final ItemStack stack = (ItemStack) e.getValue()[0];
 				if (!ItemData.isRecipeIgnored(stack))
-					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
+					recycler.input(stack)
+							.useRecipe(
+									RecipeDecomposition.decomposeForestry(
+											stack, e.getKey())).save();
 			}
 		}
 	}
@@ -124,10 +127,11 @@ public final class ModForestry extends ModPlugin {
 		registerCompostIngredient(CompostIngredient.GREEN, "fruits:*");
 
 		registerPulverizeToDirt("sapling", 0, 0);
-		
+
 		// Hook for farm blocks
 		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
@@ -174,5 +178,10 @@ public final class ModForestry extends ModPlugin {
 		pulverizer.setEnergy(200).append("Forestry:canEmpty")
 				.output("nuggetTin", 2).secondaryOutput("nuggetTin").chance(10)
 				.save();
+
+		// Glass
+		pulverizer.setEnergy(3200)
+				.appendSubtypeRange("Forestry:stained", 0, 15)
+				.output(Blocks.sand).save();
 	}
 }

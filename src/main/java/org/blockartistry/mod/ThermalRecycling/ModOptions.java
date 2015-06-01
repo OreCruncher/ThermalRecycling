@@ -41,6 +41,7 @@ public final class ModOptions {
 
 	protected static final String CATEGORY_GENERAL = "recycle.general";
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
+	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
@@ -81,6 +82,7 @@ public final class ModOptions {
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
+	protected static int wormDropChance = 15;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
@@ -184,6 +186,12 @@ public final class ModOptions {
 				CATEGORY_FUEL_SETTINGS, paperLogFuelSetting, 0,
 				Integer.MAX_VALUE,
 				"Number of ticks a Paper Log will burn in a furnace");
+
+		wormDropChance = config.getInt(CONFIG_WORM_DROP_CHANCE,
+				CATEGORY_GENERAL, wormDropChance, 0,
+				Integer.MAX_VALUE,
+				"Chance that breaking a grass block will drop worms (1 in N)");
+
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -261,5 +269,9 @@ public final class ModOptions {
 	
 	public static boolean getEnableScrapboxSpawn() {
 		return enableScrapboxSpawn;
+	}
+	
+	public static int getWormDropChance() {
+		return wormDropChance;
 	}
 }

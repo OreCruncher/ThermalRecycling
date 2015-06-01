@@ -22,30 +22,34 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.proxy;
+package org.blockartistry.mod.ThermalRecycling.events;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.events.ToolTipEventHandler;
-import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
-import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
+import java.util.ArrayList;
+import java.util.List;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public final class ProxyClient extends Proxy {
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-	@Override
-	public void init(final FMLInitializationEvent event) {
+public final class ToolTipEventHandler {
 
-		super.init(event);
+	public static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
 
-		// Initialize the tool tip event handler
-		new ToolTipEventHandler();
+	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+	public void onToolTipEvent(final ItemTooltipEvent event) {
 
-		// Register hooks based on configuration
-		if (ModOptions.getEnableTooltips())
-			ToolTipEventHandler.hooks.add(new ScrapToolTip());
+		if (event == null || event.itemStack == null || event.toolTip == null)
+			return;
 
-		if (ModOptions.getEnableDebugLogging())
-			ToolTipEventHandler.hooks.add(new DebugToolTip());
+		for (final MultiFunction<List<String>, ItemStack, Void> f : hooks)
+			f.apply(event.toolTip, event.itemStack);
+	}
+
+	public ToolTipEventHandler() {
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 }

@@ -22,34 +22,37 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling;
+package org.blockartistry.mod.ThermalRecycling.events;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
-import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.Material;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
-public final class ToolTipEventHandler {
+import com.google.common.base.Predicate;
 
-	public static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
+public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 
-	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-	public void onToolTipEvent(final ItemTooltipEvent event) {
-
-		if (event == null || event.itemStack == null || event.toolTip == null)
-			return;
-
-		for (final MultiFunction<List<String>, ItemStack, Void> f : hooks)
-			f.apply(event.toolTip, event.itemStack);
-	}
-
-	public ToolTipEventHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	private static final Random random = new Random();
+	
+	@Override
+	public boolean apply(final HarvestDropsEvent input) {
+		
+		// Chance of dropping worms IIF not silk touching, it is a player
+		// performing the action (no machines), and the block is grass.
+		if(input.isSilkTouching || input.harvester == null || input.harvester instanceof FakePlayer || input.block != Blocks.grass)
+			return true;
+		
+		if(random.nextInt(ModOptions.getWormDropChance()) == 0) {
+			input.drops.add(new ItemStack(ItemManager.material, 1, Material.WORMS));
+		}
+		
+		return true;
 	}
 }
