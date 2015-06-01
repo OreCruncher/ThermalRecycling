@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.Material;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
@@ -34,6 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
+
 import com.google.common.collect.ObjectArrays;
 
 import net.minecraft.item.Item;
@@ -76,12 +78,17 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
 		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
+		ItemData.setRecipeIgnored(ItemManager.material, true);
+		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
 
 		ItemData.setValue(new ItemStack(ItemManager.debris),
 				ScrapValue.NONE);
 		ItemData.setValue(new ItemStack(BlockManager.scrapBlock),
 				ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
 
+		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
+		
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,

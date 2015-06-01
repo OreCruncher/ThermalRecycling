@@ -19,6 +19,9 @@ item.ProcessingCore.decomposition_3.name=§3Core: Decomposition (Resonant)
 item.ProcessingCore.decomposition_4.name=§5Core: Decomposition (Ethereal)
 item.ProcessingCore.extraction.name=Core: Extraction
 
+item.PaperLogMaker.paperlogmaker.name=Paper Log Maker
+item.Material.paperlog.name=Paper Log
+
 tile.Test.item1.name=Test Block (WIP)
 tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Scrap Assessor

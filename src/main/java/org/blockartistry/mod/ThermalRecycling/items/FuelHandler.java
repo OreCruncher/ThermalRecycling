@@ -87,6 +87,8 @@ public final class FuelHandler implements IFuelHandler {
 			burn = ModOptions.getDebrisFuelSetting();
 		} else if(item == Item.getItemFromBlock(BlockManager.scrapBlock)) {
 			burn = ModOptions.getScrapBlockFuelSetting();
+		} else if(item == ItemManager.material && fuel.getItemDamage() == 0) {
+			burn = ModOptions.getPaperLogFuelSetting();
 		}
 
 		return burn;

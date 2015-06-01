@@ -24,40 +24,37 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import org.blockartistry.mod.ThermalRecycling.items.Debris;
-import org.blockartistry.mod.ThermalRecycling.items.PaperLogMaker;
-import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
-import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
-import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
-/**
- * Contains references to all Items in the mod as well as logic for
- * registration.
- *
- */
-public final class ItemManager {
+import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
-	public static final RecyclingScrap recyclingScrap = new RecyclingScrap();
-	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
-	public static final ProcessingCore processingCore = new ProcessingCore();
+import cpw.mods.fml.common.registry.GameRegistry;
 
-	public static final Debris debris = new Debris();
-	public static final Material material = new Material();
-	public static final PaperLogMaker paperLogMaker = new PaperLogMaker();
+public class Material extends ItemBase {
+	
+	public static final int PAPER_LOG = 0;
 
-	static void registerItems() {
+	public Material() {
+		super("paperlog");
 
-		recyclingScrap.register();
-		recyclingScrapBox.register();
-		processingCore.register();
-
-		debris.register();
-		material.register();
-		paperLogMaker.register();
-
+		setUnlocalizedName("Material");
+		setHasSubtypes(true);
+		setMaxStackSize(64);
 	}
 
-	public ItemManager() {
-		registerItems();
+	@Override
+	public void register() {
+		super.register();
+
+		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+			ItemManager.material, 1, PAPER_LOG), "ppp", "plp", "ppp", 'p',
+			new ItemStack(Items.paper), 'l', new ItemStack(
+					ItemManager.paperLogMaker, 1,
+					OreDictionary.WILDCARD_VALUE));
+
+		GameRegistry.addRecipe(recipe);
 	}
 }

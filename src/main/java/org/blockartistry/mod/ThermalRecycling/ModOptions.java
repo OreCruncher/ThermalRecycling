@@ -61,6 +61,7 @@ public final class ModOptions {
 	protected static final String CONFIG_SCRAPBOX_MULTIPLIER = "Scrapbox Multiplier";
 	protected static final String CONFIG_DEBRIS_FUEL_SETTING = "Debris Fuel Ticks";
 	protected static final String CONFIG_SCRAP_BLOCK_FUEL_SETTING = "Scrap Block Fuel Ticks";
+	protected static final String CONFIG_PAPER_LOG_FUEL_SETTING = "Paper Log Fuel Ticks";
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -73,6 +74,7 @@ public final class ModOptions {
 	protected static int debrisFuelSetting = 200;
 	protected static int scrapBlockFuelSetting = 2000;
 	protected static int scrapboxMultiplier = 9;
+	protected static int paperLogFuelSetting = 800;
 	protected static boolean enableRecyclerFX = true;
 	protected static boolean enableComposterFX = true;
 	protected static boolean enableTooltips = true;
@@ -177,6 +179,11 @@ public final class ModOptions {
 		enableScrapboxSpawn = config.getBoolean(CONFIG_ENABLE_SCRAPBOX_SPAWNING,
 				CATEGORY_GENERAL, enableScrapboxSpawn,
 				"Controls whether a Scrap Box will spawn items on right click");
+
+		paperLogFuelSetting = config.getInt(CONFIG_PAPER_LOG_FUEL_SETTING,
+				CATEGORY_FUEL_SETTINGS, paperLogFuelSetting, 0,
+				Integer.MAX_VALUE,
+				"Number of ticks a Paper Log will burn in a furnace");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -196,6 +203,10 @@ public final class ModOptions {
 		return modWhitelist;
 	}
 
+	public static int getPaperLogFuelSetting() {
+		return paperLogFuelSetting;
+	}
+	
 	public static int getDebrisFuelSetting() {
 		return debrisFuelSetting;
 	}
