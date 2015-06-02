@@ -289,15 +289,14 @@ public final class ItemStackHelper {
 				}
 			}
 
-			// If we did have a hit on a base item, set the subtype
+			// If we did have a hit on a base item, set the sub-type
 			// as needed.
 			if (result != null && subType != -1) {
-				result.setItemDamage(subType);
-			}
-			
-			if(subType == OreDictionary.WILDCARD_VALUE && !result.getHasSubtypes()) {
-				ModLog.warn("[%s] GENERIC requested but Item does not support sub-types", name);
-				result.setItemDamage(0);
+				if(subType == OreDictionary.WILDCARD_VALUE && !result.getHasSubtypes()) {
+					ModLog.warn("[%s] GENERIC requested but Item does not support sub-types", name);
+				} else {
+					result.setItemDamage(subType);
+				}
 			}
 		}
 
