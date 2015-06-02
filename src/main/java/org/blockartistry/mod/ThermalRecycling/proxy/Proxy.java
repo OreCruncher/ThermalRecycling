@@ -33,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.events.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
@@ -69,6 +70,8 @@ public class Proxy {
 		new BlockHarvestEventHandler();
 		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
 
+		new BiomeDecorationHandler();
+		
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",
 					WailaHandler.class.getName() + ".callbackRegister");

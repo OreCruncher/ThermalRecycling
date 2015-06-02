@@ -42,6 +42,7 @@ public final class ModOptions {
 	protected static final String CATEGORY_GENERAL = "recycle.general";
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
+	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Rubble Pile Density";
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
@@ -83,6 +84,7 @@ public final class ModOptions {
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
 	protected static int wormDropChance = 15;
+	protected static int rubblePileDensity = 60;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
@@ -191,6 +193,11 @@ public final class ModOptions {
 				CATEGORY_GENERAL, wormDropChance, 0,
 				Integer.MAX_VALUE,
 				"Chance that breaking a grass block will drop worms (1 in N)");
+		
+		rubblePileDensity = config.getInt(CONFIG_RUBBLE_PILE_DENSITY,
+				CATEGORY_GENERAL, rubblePileDensity, 0,
+				Integer.MAX_VALUE,
+				"Attempts per chunk to place rubble piles (higher more frequent discovery)");
 
 	}
 
@@ -273,5 +280,9 @@ public final class ModOptions {
 	
 	public static int getWormDropChance() {
 		return wormDropChance;
+	}
+	
+	public static int getRubblePileDensity() {
+		return rubblePileDensity;
 	}
 }
