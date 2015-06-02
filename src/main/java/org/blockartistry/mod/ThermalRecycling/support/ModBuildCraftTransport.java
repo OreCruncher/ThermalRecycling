@@ -39,10 +39,10 @@ import net.minecraft.item.ItemStack;
 public final class ModBuildCraftTransport extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "pipeFacade:*",
-			"pipePlug:*", "pipeGate:*", "pipeWaterproof", };
+			"pipePlug", "pipeGate", "pipeWaterproof", };
 
 	static final String[] scrapValuesNone = new String[] { "pipeFacade:*",
-			"pipePlug:*", "pipeWaterproof", "pipeWire:*",
+			"pipePlug", "pipeWaterproof", "pipeWire:*",
 			"item.buildcraftPipe.pipeitemswood",
 			"item.buildcraftPipe.pipeitemsemerald",
 			"item.buildcraftPipe.pipeitemscobblestone",
@@ -84,7 +84,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 
 	static final String[] scrapValuesStandard = new String[] {};
 
-	static final String[] scrapValuesSuperior = new String[] { "pipeGate:*" };
+	static final String[] scrapValuesSuperior = new String[] { "pipeGate" };
 
 	public ModBuildCraftTransport() {
 		super(SupportedMod.BUILDCRAFT_TRANSPORT);

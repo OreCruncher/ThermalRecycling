@@ -35,6 +35,8 @@ import net.minecraftforge.common.util.Constants;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import com.google.common.collect.ImmutableList;
+
 import buildcraft.api.transport.pluggable.IPipePluggableItem;
 
 public final class BuildCraftGateScrapHandler extends ScrapHandler {
@@ -75,37 +77,37 @@ public final class BuildCraftGateScrapHandler extends ScrapHandler {
 		final ItemStack yellowPipeWire = ItemStackHelper
 				.getItemStack("BuildCraft|Transport:pipeWire:3");
 
-		basicGate = new ArrayList<ItemStack>();
-		basicGate.add(redstoneChipset);
+		basicGate = new ImmutableList.Builder<ItemStack>()
+			.add(redstoneChipset).build();
 
-		ironGate = new ArrayList<ItemStack>();
-		ironGate.add(ironChipset);
-		ironGate.add(redPipeWire);
+		ironGate = new ImmutableList.Builder<ItemStack>()
+			.add(ironChipset)
+			.add(redPipeWire).build();
 
-		goldGate = new ArrayList<ItemStack>();
-		goldGate.add(goldenChipset);
-		goldGate.add(redPipeWire);
-		goldGate.add(bluePipeWire);
+		goldGate = new ImmutableList.Builder<ItemStack>()
+			.add(goldenChipset)
+			.add(redPipeWire)
+			.add(bluePipeWire).build();
 
-		diamondGate = new ArrayList<ItemStack>();
-		diamondGate.add(diamondChipset);
-		diamondGate.add(redPipeWire);
-		diamondGate.add(bluePipeWire);
-		diamondGate.add(greenPipeWire);
-		diamondGate.add(yellowPipeWire);
+		diamondGate = new ImmutableList.Builder<ItemStack>()
+			.add(diamondChipset)
+			.add(redPipeWire)
+			.add(bluePipeWire)
+			.add(greenPipeWire)
+			.add(yellowPipeWire).build();
 
-		quartzGate = new ArrayList<ItemStack>();
-		quartzGate.add(quartzChipset);
-		quartzGate.add(redPipeWire);
-		quartzGate.add(bluePipeWire);
-		quartzGate.add(greenPipeWire);
+		quartzGate = new ImmutableList.Builder<ItemStack>()
+			.add(quartzChipset)
+			.add(redPipeWire)
+			.add(bluePipeWire)
+			.add(greenPipeWire).build();
 
-		emeraldGate = new ArrayList<ItemStack>();
-		emeraldGate.add(emeraldChipset);
-		emeraldGate.add(redPipeWire);
-		emeraldGate.add(bluePipeWire);
-		emeraldGate.add(greenPipeWire);
-		emeraldGate.add(yellowPipeWire);
+		emeraldGate = new ImmutableList.Builder<ItemStack>()
+			.add(emeraldChipset)
+			.add(redPipeWire)
+			.add(bluePipeWire)
+			.add(greenPipeWire)
+			.add(yellowPipeWire).build();
 	}
 
 	static final int MATERIAL_REDSTONE = 0;

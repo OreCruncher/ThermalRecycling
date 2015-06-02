@@ -63,7 +63,7 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 		final BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
 		ScrapHandler
 				.registerHandler(ItemStackHelper
-						.getItemStack("BuildCraft|Transport:pipeGate:*"),
+						.getItemStack("BuildCraft|Transport:pipeGate"),
 						handler);
 	}
 }

@@ -49,34 +49,34 @@ public final class ModForestry extends ModPlugin {
 			"fireproofLog7:*", "fireproofLog8:*", "planks:*", "planks2:*",
 			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*",
 			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
-			"stamps:*", "letters:*", "crate:*", "waxCast:*", "apiculture:*",
-			"arboriculture:*", "lepidopterology:*", "soil:*", "honeyedSlice:*",
-			"beeCombs:*", "apatite:*", "fertilizerCompound:*",
-			"fertilizerBio:*", "carton:*", "pipette:*", "scoop:*",
-			"catalogue:*", "soil:*", "core:1", "mulch", };
+			"stamps:*", "letters", "crate", "waxCast", "apiculture:*",
+			"arboriculture:*", "lepidopterology:*", "soil:*", "honeyedSlice",
+			"beeCombs:*", "apatite", "fertilizerCompound",
+			"fertilizerBio", "carton", "pipette", "scoop",
+			"catalogue", "soil:*", "core:1", "mulch", };
 
 	static final String[] scrapValuesNone = new String[] { "log1:*", "log2:*",
 			"log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
 			"fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*",
 			"fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
-			"fireproofLog7:*", "fireproofLog8:*", "waxCapsule:*",
-			"refractoryEmpty:*", "beeDroneGE:*", "propolis:*", "sapling:*",
-			"phosphor:*", "beeswax:*", "refractoryWax:*", "fruits:*",
-			"honeyDrop:*", "honeydew:*", "royalJelly:*", "waxCast:*",
-			"beeCombs:*", "woodPulp:*", "oakStick", "carton", "planks:*",
+			"fireproofLog7:*", "fireproofLog8:*", "waxCapsule",
+			"refractoryEmpty", "beeDroneGE:*", "propolis:*", "sapling:*",
+			"phosphor", "beeswax", "refractoryWax", "fruits:*",
+			"honeyDrop:*", "honeydew", "royalJelly", "waxCast",
+			"beeCombs:*", "woodPulp", "oakStick", "carton", "planks:*",
 			"planks2:*", "fireproofPlanks1:*", "fireproofPlanks2:*",
 			"slabs1:*", "slabs2:*", "slabs3:*", "slabs4:*", "fences:*",
-			"fences2:*", "stairs:*", "stamps:*", "letters:*", "crate:*",
-			"waxCast:*", "leaves:*", "stained:*", "fertilizerCompound:*",
-			"fertilizerBio:*", "pipette:*", "scoop:*", "catalogue:*",
-			"honeyedSlice:*", "soil:*", "stump:*", "mushroom:*", "saplingGE:*",
+			"fences2:*", "stairs:*", "stamps:*", "letters", "crate",
+			"leaves:*", "stained:*", "fertilizerCompound",
+			"fertilizerBio", "pipette", "scoop", "catalogue",
+			"honeyedSlice", "soil:*", "stump:*", "mushroom:*", "saplingGE:*",
 			"apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
 			"brokenBronzePickaxe", "item.PipeItemsPropolis:0"
 
 	};
 
 	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*",
-			"pollen:*", "apatite:*", };
+			"pollen:*", "apatite", };
 
 	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*",
 			"beePrincessGE:*", "beeQueenGE:*", };

@@ -28,15 +28,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 
 import cofh.lib.util.helpers.ItemHelper;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
@@ -56,7 +59,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public final class ItemStackHelper {
 
 	protected static final Random rand = new Random();
-	protected static final HashMap<String, ItemStack> preferred = new HashMap<String, ItemStack>();
+	protected static Map<String, ItemStack> preferred = new HashMap<String, ItemStack>();
 
 	static final Item materialBase = GameData.getItemRegistry().getObject(
 			"ThermalFoundation:material");
@@ -193,6 +196,8 @@ public final class ItemStackHelper {
 		preferred.put("gearSignalum", new ItemStack(materialBase, 1, 138));
 		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
 		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
+		
+		preferred = ImmutableMap.copyOf(preferred);
 
 	}
 
@@ -289,13 +294,12 @@ public final class ItemStackHelper {
 			if (result != null && subType != -1) {
 				result.setItemDamage(subType);
 			}
+			
+			if(subType == OreDictionary.WILDCARD_VALUE && !result.getHasSubtypes()) {
+				ModLog.warn("[%s] GENERIC requested but Item does not support sub-types", name);
+				result.setItemDamage(0);
+			}
 		}
-
-		// Log if we didn't find an item - it's possible that the recipe has a
-		// type
-		// or the mod has changed where the item no longer exists.
-		// if (result == null)
-		// ModLog.info("Unable to locate item: " + name);
 
 		return result;
 	}

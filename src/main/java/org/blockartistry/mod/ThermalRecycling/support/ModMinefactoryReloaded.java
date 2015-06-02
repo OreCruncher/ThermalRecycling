@@ -30,19 +30,19 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModMinefactoryReloaded extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "sugarcharcoal:*",
-			"fertilizer:*", "ceramicdye:*", "stainedglass.block:*",
-			"stainedglass.pane:*", "rubberwood.log:*", "rubberwood.leaves:*",
-			"rubberwood.sapling:*", "milkbottle:*", "meat.ingot.raw",
+	static final String[] recipeIgnoreList = new String[] { "sugarcharcoal",
+			"fertilizer", "ceramicdye:*", "stainedglass.block:*",
+			"stainedglass.pane:*", "rubberwood.log", "rubberwood.leaves:*",
+			"rubberwood.sapling:*", "milkbottle", "meat.ingot.raw",
 			"meat.ingot.cooked", "meat.nugget.raw", "meat.nugget.cooked",
 			"road:*", "brick:*", "stone:*", "tank", "machineblock:0", };
 
-	static final String[] scrapValuesNone = new String[] { "sugarcharcoal:*",
-			"fertilizer:*", "ceramicdye:*", "stainedglass.block:*",
-			"stainedglass.pane:*", "plastic.cup:*", "plastic.raw:*",
-			"plastic.sheet:*", "rubberwood.log:*", "rubberwood.leaves:*",
-			"rubberwood.sapling:*", "plastic.boots:*", "straw:*",
-			"rubber.raw:*", "rubber.bar:*", "vinescaffold:*", "milkbottle:*",
+	static final String[] scrapValuesNone = new String[] { "sugarcharcoal",
+			"fertilizer", "ceramicdye:*", "stainedglass.block:*",
+			"stainedglass.pane:*", "plastic.cup:*", "plastic.raw",
+			"plastic.sheet", "rubberwood.log", "rubberwood.leaves:*",
+			"rubberwood.sapling:*", "plastic.boots", "straw",
+			"rubber.raw", "rubber.bar", "vinescaffold", "milkbottle",
 			"meat.ingot.raw", "meat.ingot.cooked", "meat.nugget.raw",
 			"meat.nugget.cooked", "ruler", "record.blank", "plastic.bag",
 			"xpextractor", "safarinet.singleuse", "rednet.meter:0", "hammer",
@@ -65,14 +65,14 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 	public void apply() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrubFromOutput("MineFactoryReloaded:milkbottle");
+		registerScrubFromOutput("milkbottle");
 
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		registerRecycleToWoodDust(1, "rubberwood.log:*");
+		registerRecycleToWoodDust(1, "rubberwood.log");
 		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
 
