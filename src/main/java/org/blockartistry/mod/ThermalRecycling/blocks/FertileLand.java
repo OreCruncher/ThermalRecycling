@@ -27,8 +27,9 @@ package org.blockartistry.mod.ThermalRecycling.blocks;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.Material;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -59,6 +60,8 @@ public class FertileLand extends BlockFarmland {
 		setTickRandomly(false);
 		setBlockName("FertileLand");
 		setBlockTextureName("farmland");
+		
+		setCreativeTab(CreativeTabManager.tab);
 	}
 
 	@Override

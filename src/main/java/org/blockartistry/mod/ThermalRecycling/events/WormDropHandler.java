@@ -27,8 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.events;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.Material;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

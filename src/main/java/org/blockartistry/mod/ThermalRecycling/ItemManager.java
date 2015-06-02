@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.items.Debris;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.PaperLogMaker;
 import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
