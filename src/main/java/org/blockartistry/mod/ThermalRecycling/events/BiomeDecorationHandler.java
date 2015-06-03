@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.events;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -35,31 +36,44 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BiomeDecorationHandler {
-	
+
 	private final int MIN_Y = 5;
 	private final int MAX_Y = 55;
 	private final int SPREAD = MAX_Y - MIN_Y;
-	
+	private final int PLACE_ATTEMPTS = 2;
+
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onWorldDecoration(DecorateBiomeEvent.Decorate event) {
 
-		if((event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT) && event.type == EventType.FLOWERS) {
+		if ((event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT)
+				&& event.type == EventType.FLOWERS) {
 
 			final int attempts = ModOptions.getRubblePileDensity();
-			
-			for(int i = 0; i < attempts; i++) {
 
-				final int x = event.chunkX + event.rand.nextInt(16) + 8;
-				final int z = event.chunkZ + event.rand.nextInt(16) + 8;
-				final int y = event.rand.nextInt(SPREAD) + MIN_Y;
-				
-				if(event.world.isAirBlock(x, y, z) && BlockManager.pileOfRubble.canBlockStay(event.world, x, y, z)) {
-					event.world.setBlock(x, y, z, BlockManager.pileOfRubble);
+			// Use our random routine, but seed with the provided
+			// Random. The provided Random seed is deterministic
+			// where map gen is concerned.
+			final XorShiftRandom random = new XorShiftRandom(event.rand);
+
+			for (int i = 0; i < attempts; i++) {
+
+				final int x = event.chunkX + random.nextInt(16) + 8;
+				final int z = event.chunkZ + random.nextInt(16) + 8;
+				int y = random.nextInt(SPREAD) + MIN_Y;
+
+				for(int j = 0; j < PLACE_ATTEMPTS; j++) {
+					if (event.world.isAirBlock(x, y, z)
+							&& BlockManager.pileOfRubble.canBlockStay(event.world,
+									x, y, z)) {
+						event.world.setBlock(x, y, z, BlockManager.pileOfRubble);
+						break;
+					}
+					y--;
 				}
 			}
 		}
 	}
-	
+
 	public BiomeDecorationHandler() {
 		MinecraftForge.TERRAIN_GEN_BUS.register(this);
 	}
