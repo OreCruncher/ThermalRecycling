@@ -44,6 +44,7 @@ public final class ModOptions {
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
 	
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
+	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
 	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Density";
 	protected static final String CONFIG_RUBBLE_PILE_DROP_COUNT = "Number of Drops";
 
@@ -92,6 +93,7 @@ public final class ModOptions {
 
 	protected static int rubblePileDensity = 60;
 	protected static int rubblePileDropCount = 4;
+	protected static boolean rubblePileDisable = false;
 
 	public static void load(final Configuration config) {
 
@@ -209,6 +211,9 @@ public final class ModOptions {
 				Integer.MAX_VALUE,
 				"Number of stacks to drop when rubble pile is broken");
 
+		rubblePileDisable = config.getBoolean(CONFIG_RUBBLE_PILE_DISABLE,
+				CATEGORY_RUBBLE, rubblePileDisable,
+				"Enable/Disable Pile of Rubble worldgen");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -298,5 +303,9 @@ public final class ModOptions {
 	
 	public static int getRubblePileDropCount() {
 		return rubblePileDropCount;
+	}
+	
+	public static boolean getRubblePileDisable() {
+		return rubblePileDisable;
 	}
 }

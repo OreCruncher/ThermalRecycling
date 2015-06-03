@@ -70,7 +70,8 @@ public class Proxy {
 		new BlockHarvestEventHandler();
 		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
 
-		new BiomeDecorationHandler();
+		if(!ModOptions.getRubblePileDisable())
+			new BiomeDecorationHandler();
 		
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",
