@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,43 +21,40 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.tooltip;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+public class XorShiftRandom extends Random {
 
-import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
+	private static final long serialVersionUID = 1422228009367463911L;
 
-public abstract class CachingToolTip implements MultiFunction<List<String>, ItemStack, Void> {
+	private long seed;
 
-	private Item lastItem;
-	private int lastMeta;
-	private List<String> cachedLore = Collections.emptyList();
-
-	public abstract void addToToolTip(final List<String> output, final ItemStack stack);
-	
-	@Override
-	public Void apply(final List<String> output, final ItemStack stack) {
-		
-		final Item item = stack.getItem();
-		final int meta = stack.getItemDamage();
-		if(lastItem == item && lastMeta == meta) {
-			output.addAll(cachedLore);
-			return null;
-		}
-		
-		lastItem = item;
-		lastMeta = meta;
-		cachedLore = new ArrayList<String>();
-		
-		addToToolTip(cachedLore, stack);
-		output.addAll(cachedLore);
-		
-		return null;
+	public XorShiftRandom() {
+		this(System.nanoTime());
 	}
 
+	public XorShiftRandom(long seed) {
+		this.seed = seed;
+	}
+
+	public long getSeed() {
+		return seed;
+	}
+
+	public void setSeed(long seed) {
+		this.seed = seed;
+		super.setSeed(seed);
+	}
+
+	protected int next(int nbits) {
+		long x = seed;
+		x ^= (x << 21);
+		x ^= (x >>> 35);
+		x ^= (x << 4);
+		seed = x;
+		x &= ((1L << nbits) - 1);
+		return (int) x;
+	}
 }

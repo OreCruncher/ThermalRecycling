@@ -29,6 +29,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -39,7 +40,7 @@ import com.google.common.base.Predicate;
 
 public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 
-	private static final Random random = new Random();
+	private static final Random random = new XorShiftRandom();
 	
 	@Override
 	public boolean apply(final HarvestDropsEvent input) {

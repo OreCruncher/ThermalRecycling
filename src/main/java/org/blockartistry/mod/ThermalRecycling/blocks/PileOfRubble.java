@@ -31,6 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -49,7 +50,7 @@ import net.minecraftforge.common.ChestGenHooks;
 
 public class PileOfRubble extends Block {
 
-	private static final Random random = new Random();
+	private static final Random random = new XorShiftRandom();
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
 	private static final ChestGenHooks rubbleContent = ChestGenHooks
 			.getInfo(CHEST_PILE_OF_RUBBLE);
@@ -94,7 +95,7 @@ public class PileOfRubble extends Block {
 		rubbleContent.addItem(new WeightedRandomChestContent(
 				Items.iron_pickaxe, 0, 1, 1, 4));
 		rubbleContent.addItem(new WeightedRandomChestContent(Items.iron_helmet,
-				0, 1, 1, 4));
+				0, 1, 1, 3));
 
 		rubbleContent.addItem(new WeightedRandomChestContent(
 				ItemManager.recyclingScrap, 0, 1, 2, 5));
@@ -129,18 +130,11 @@ public class PileOfRubble extends Block {
 		return false;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False
-	 * (examples: signs, buttons, stairs, etc)
-	 */
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
-	/**
-	 * The type of render function that is called for this block
-	 */
 	@Override
 	public int getRenderType() {
 		// http://www.minecraftforum.net/forums/archive/tutorials/928513-creating-mods-mcp-getrendertype
@@ -176,13 +170,6 @@ public class PileOfRubble extends Block {
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 
-	/**
-	 * Derived class should override this method to ensure that BLOCK_FRONT is
-	 * set to an appropriate icon. Otherwise the thermalRecycler will have a
-	 * side texture for the front.
-	 * 
-	 * @param iconRegister
-	 */
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {
