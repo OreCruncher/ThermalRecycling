@@ -91,8 +91,8 @@ public final class ModOptions {
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
-	protected static int rubblePileDensity = 60;
-	protected static int rubblePileDropCount = 4;
+	protected static int rubblePileDensity = 80;
+	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
 
 	public static void load(final Configuration config) {

@@ -65,5 +65,8 @@ public final class ModThermalExpansion extends ModPlugin {
 		registerScrubFromOutput("material:512", "material:513", "florb:*");
 		
 		registerCompostIngredient(CompostIngredient.BROWN, "^dustWood");
+		
+		// Register some stuff for the Pile of Rubble
+		registerPileOfRubbleDrop(1, 1, 3, "satchel:1");
 	}
 }

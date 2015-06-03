@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.blocks;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -51,60 +50,48 @@ import net.minecraftforge.common.ChestGenHooks;
 public class PileOfRubble extends Block {
 
 	private static final Random random = new XorShiftRandom();
+	private static final int ITEM_DAMAGE = 20;
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
 	private static final ChestGenHooks rubbleContent = ChestGenHooks
 			.getInfo(CHEST_PILE_OF_RUBBLE);
+	
+	public static void addRubbleDrop(final ItemStack stack, final int min, final int max, final int weight) {
+		rubbleContent.addItem(new WeightedRandomChestContent(stack, min, max, weight));
+	}
+	
+	public static void addRubbleDrop(final Item item, final int min, final int max, final int weight) {
+		rubbleContent.addItem(new WeightedRandomChestContent(item, 0, min, max, weight));
+	}
+
+	public static void addRubbleDrop(final Block block, final int min, final int max, final int weight) {
+		rubbleContent.addItem(new WeightedRandomChestContent(Item.getItemFromBlock(block), 0, min, max, weight));
+	}
 
 	static {
 
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.cobblestone), 0, 1, 4, 12));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.stone), 0, 1, 2, 9));
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.coal, 0, 1,
-				3, 8));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.gravel), 0, 1, 2, 9));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.sand), 0, 1, 2, 8));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.dirt), 0, 1, 3, 10));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.clay), 0, 1, 1, 7));
+		addRubbleDrop(Blocks.cobblestone, 1, 4, 12);
+		addRubbleDrop(Blocks.stone, 1, 2, 9);
+		addRubbleDrop(Items.coal, 1, 3, 8);
+		addRubbleDrop(Blocks.gravel, 1, 2, 9);
+		addRubbleDrop(Blocks.sand, 1, 2, 8);
+		addRubbleDrop(Blocks.dirt, 1, 3, 10);
+		addRubbleDrop(Blocks.clay, 1, 1, 7);
 
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.bread, 0, 1,
-				3, 8));
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.cooked_beef,
-				0, 1, 3, 6));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.torch), 0, 1, 8, 8));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.iron_ore), 0, 1, 3, 5));
-		rubbleContent.addItem(new WeightedRandomChestContent(ItemStackHelper
-				.getItemStack("ThermalFoundation:Ore:0"), 1, 3, 5));
-		rubbleContent.addItem(new WeightedRandomChestContent(ItemStackHelper
-				.getItemStack("ThermalFoundation:Ore:1"), 1, 3, 5));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.gold_ore), 0, 1, 2, 3));
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.redstone, 0,
-				1, 2, 3));
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.diamond, 0,
-				1, 1, 1));
-		rubbleContent.addItem(new WeightedRandomChestContent(Item
-				.getItemFromBlock(Blocks.tnt), 0, 1, 1, 4));
-		rubbleContent.addItem(new WeightedRandomChestContent(
-				Items.iron_pickaxe, 0, 1, 1, 4));
-		rubbleContent.addItem(new WeightedRandomChestContent(Items.iron_helmet,
-				0, 1, 1, 3));
-
-		rubbleContent.addItem(new WeightedRandomChestContent(
-				ItemManager.recyclingScrap, 0, 1, 2, 5));
-		rubbleContent.addItem(new WeightedRandomChestContent(
-				ItemManager.recyclingScrapBox, 0, 1, 1, 2));
-		rubbleContent.addItem(new WeightedRandomChestContent(
-				ItemManager.recyclingScrap, 1, 1, 2, 4));
-		rubbleContent.addItem(new WeightedRandomChestContent(
-				ItemManager.recyclingScrapBox, 1, 1, 1, 1));
+		addRubbleDrop(Items.bread, 1, 3, 8);
+		addRubbleDrop(Items.cooked_beef, 1, 3, 6);
+		addRubbleDrop(Items.rotten_flesh, 1, 2, 5);
+		addRubbleDrop(Items.bone, 1, 2, 5);
+		addRubbleDrop(Blocks.torch, 1, 8, 8);
+		addRubbleDrop(Blocks.iron_ore, 1, 3, 5);
+		addRubbleDrop(Blocks.gold_ore, 1, 2, 3);
+		addRubbleDrop(Items.redstone, 1, 2, 3);
+		addRubbleDrop(Items.diamond, 1, 1, 1);
+		addRubbleDrop(Items.emerald, 1, 1, 1);
+		addRubbleDrop(Blocks.tnt, 1, 1, 4);
+		
+		addRubbleDrop(new ItemStack(Items.iron_pickaxe, 1, ITEM_DAMAGE), 1, 1, 4);
+		addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
+		addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
 	}
 
 	@SideOnly(Side.CLIENT)

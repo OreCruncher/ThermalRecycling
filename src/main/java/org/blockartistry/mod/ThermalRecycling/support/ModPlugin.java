@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
@@ -226,6 +227,17 @@ public abstract class ModPlugin {
 				return true;
 			}
 
+		});
+	}
+	
+	protected void registerPileOfRubbleDrop(final int min, final int max, final int weight, final String... list) {
+		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
+
+			@Override
+			public boolean apply(final ItemStack input) {
+				PileOfRubble.addRubbleDrop(input, min, max, weight);
+				return false;
+			}
 		});
 	}
 }

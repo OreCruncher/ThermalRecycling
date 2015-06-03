@@ -183,5 +183,10 @@ public final class ModForestry extends ModPlugin {
 		pulverizer.setEnergy(3200)
 				.appendSubtypeRange("Forestry:stained", 0, 15)
 				.output(Blocks.sand).save();
+		
+		// Pile of Rubble - add apatite, empty can, and scoop
+		registerPileOfRubbleDrop(1, 3, 5, "apatite");
+		registerPileOfRubbleDrop(1, 2, 3, "canEmpty");
+		registerPileOfRubbleDrop(1, 1, 2, "scoop");
 	}
 }

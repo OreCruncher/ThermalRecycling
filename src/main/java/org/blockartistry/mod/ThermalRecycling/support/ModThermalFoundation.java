@@ -202,5 +202,8 @@ public final class ModThermalFoundation extends ModPlugin {
 			registerExtraTiCGearRecipe("ThermalFoundation:material:139");
 			registerExtraTiCGearRecipe("ThermalFoundation:material:140");
 		}
+		
+		// Pile of Rubble - add Copper and Tin ores
+		registerPileOfRubbleDrop(1, 3, 5, "Ore:0", "Ore:1" );
 	}
 }

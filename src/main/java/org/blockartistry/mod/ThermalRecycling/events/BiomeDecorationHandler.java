@@ -36,7 +36,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BiomeDecorationHandler {
 	
-	private final int MIN_Y = 10;
+	private final int MIN_Y = 5;
 	private final int MAX_Y = 55;
 	private final int SPREAD = MAX_Y - MIN_Y;
 	

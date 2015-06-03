@@ -28,14 +28,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
-
 import com.google.common.collect.ObjectArrays;
 
 import net.minecraft.item.Item;
@@ -155,5 +156,11 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.freeze();
 		RecipeData.freeze();
 		ScrapHandler.freeze();
+		
+		// Register scrap items for Pile of Rubble
+		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
+		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);
+		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
+		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
 	}
 }
