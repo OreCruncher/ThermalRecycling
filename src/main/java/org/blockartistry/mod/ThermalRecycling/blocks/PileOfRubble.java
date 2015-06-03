@@ -79,6 +79,10 @@ public class PileOfRubble extends Block {
 				.getItemFromBlock(Blocks.torch), 0, 1, 8, 8));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.iron_ore), 0, 1, 3, 5));
+		rubbleContent.addItem(new WeightedRandomChestContent(ItemStackHelper
+				.getItemStack("ThermalFoundation:Ore:0"), 1, 3, 5));
+		rubbleContent.addItem(new WeightedRandomChestContent(ItemStackHelper
+				.getItemStack("ThermalFoundation:Ore:1"), 1, 3, 5));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.gold_ore), 0, 1, 2, 3));
 		rubbleContent.addItem(new WeightedRandomChestContent(Items.redstone, 0,
@@ -145,11 +149,13 @@ public class PileOfRubble extends Block {
 
 	@Override
 	protected boolean canSilkHarvest() {
+		// No silk touch - gotta break it
 		return false;
 	}
 
 	@Override
 	public int quantityDropped(Random random) {
+		// Prevent the Pile of Scrap from dropping
 		return 0;
 	}
 
@@ -193,6 +199,7 @@ public class PileOfRubble extends Block {
 	}
 
 	public boolean canBlockStay(World world, int x, int y, int z) {
+		// Make sure the block underneath is solid
 		return world.getBlock(x, y - 1, z).getMaterial().isSolid();
 	}
 
