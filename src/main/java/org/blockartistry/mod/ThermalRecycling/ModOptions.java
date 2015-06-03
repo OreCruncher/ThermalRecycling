@@ -42,7 +42,10 @@ public final class ModOptions {
 	protected static final String CATEGORY_GENERAL = "recycle.general";
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
-	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Rubble Pile Density";
+	
+	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
+	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Density";
+	protected static final String CONFIG_RUBBLE_PILE_DROP_COUNT = "Number of Drops";
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
@@ -84,9 +87,11 @@ public final class ModOptions {
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
 	protected static int wormDropChance = 15;
-	protected static int rubblePileDensity = 60;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
+
+	protected static int rubblePileDensity = 60;
+	protected static int rubblePileDropCount = 4;
 
 	public static void load(final Configuration config) {
 
@@ -195,9 +200,14 @@ public final class ModOptions {
 				"Chance that breaking a grass block will drop worms (1 in N)");
 		
 		rubblePileDensity = config.getInt(CONFIG_RUBBLE_PILE_DENSITY,
-				CATEGORY_GENERAL, rubblePileDensity, 0,
+				CATEGORY_RUBBLE, rubblePileDensity, 0,
 				Integer.MAX_VALUE,
 				"Attempts per chunk to place rubble piles (higher more frequent discovery)");
+
+		rubblePileDropCount = config.getInt(CONFIG_RUBBLE_PILE_DROP_COUNT,
+				CATEGORY_RUBBLE, rubblePileDropCount, 0,
+				Integer.MAX_VALUE,
+				"Number of stacks to drop when rubble pile is broken");
 
 	}
 
@@ -284,5 +294,9 @@ public final class ModOptions {
 	
 	public static int getRubblePileDensity() {
 		return rubblePileDensity;
+	}
+	
+	public static int getRubblePileDropCount() {
+		return rubblePileDropCount;
 	}
 }

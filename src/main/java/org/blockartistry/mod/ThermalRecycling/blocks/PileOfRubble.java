@@ -28,6 +28,7 @@ import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -50,11 +51,11 @@ public class PileOfRubble extends Block {
 
 	private static final Random random = new Random();
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
-	private static final ChestGenHooks rubbleContent = ChestGenHooks.getInfo(CHEST_PILE_OF_RUBBLE);
-	private static final int NUMBER_OF_DROP_ITEMS = 6;
+	private static final ChestGenHooks rubbleContent = ChestGenHooks
+			.getInfo(CHEST_PILE_OF_RUBBLE);
 
 	static {
-		
+
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.cobblestone), 0, 1, 4, 12));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
@@ -70,16 +71,26 @@ public class PileOfRubble extends Block {
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.clay), 0, 1, 1, 7));
 
+		rubbleContent.addItem(new WeightedRandomChestContent(Items.bread, 0, 1,
+				3, 8));
+		rubbleContent.addItem(new WeightedRandomChestContent(Items.cooked_beef,
+				0, 1, 3, 6));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.torch), 0, 1, 8, 8));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.iron_ore), 0, 1, 3, 5));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.gold_ore), 0, 1, 2, 3));
+		rubbleContent.addItem(new WeightedRandomChestContent(Items.redstone, 0,
+				1, 2, 3));
 		rubbleContent.addItem(new WeightedRandomChestContent(Items.diamond, 0,
 				1, 1, 1));
 		rubbleContent.addItem(new WeightedRandomChestContent(Item
 				.getItemFromBlock(Blocks.tnt), 0, 1, 1, 4));
+		rubbleContent.addItem(new WeightedRandomChestContent(
+				Items.iron_pickaxe, 0, 1, 1, 4));
+		rubbleContent.addItem(new WeightedRandomChestContent(Items.iron_helmet,
+				0, 1, 1, 4));
 
 		rubbleContent.addItem(new WeightedRandomChestContent(
 				ItemManager.recyclingScrap, 0, 1, 2, 5));
@@ -99,13 +110,13 @@ public class PileOfRubble extends Block {
 
 		setBlockName("PileOfRubble");
 		setCreativeTab(CreativeTabManager.tab);
-		
+
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setStepSound(soundTypeStone);
 		setHarvestLevel("pickaxe", 3);
 
-        setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.375F, 0.9375F);
+		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.375F, 0.9375F);
 
 	}
 
@@ -137,23 +148,23 @@ public class PileOfRubble extends Block {
 		return false;
 	}
 
-    @Override
+	@Override
 	public int quantityDropped(Random random) {
-        return 0;
-    }
+		return 0;
+	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block,
 			int meta) {
 
 		if (!world.isRemote) {
-			// Spawn in some items from the drop table
-			for(int i = 0; i < NUMBER_OF_DROP_ITEMS; i++) {
+			final int dropCount = ModOptions.getRubblePileDropCount();
+			for (int i = 0; i < dropCount; i++) {
 				final ItemStack stack = rubbleContent.getOneItem(random);
-				if(stack != null) {
+				if (stack != null) {
 					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 				}
-				
+
 			}
 		}
 		super.breakBlock(world, x, y, z, block, meta);
@@ -169,7 +180,8 @@ public class PileOfRubble extends Block {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {
-		icon = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":pileOfRubble");
+		icon = iconRegister.registerIcon(ThermalRecycling.MOD_ID
+				+ ":pileOfRubble");
 	}
 
 	// http://www.minecraftforge.net/forum/index.php/topic,13626.0.html
@@ -179,11 +191,11 @@ public class PileOfRubble extends Block {
 	public IIcon getIcon(final int side, int metadata) {
 		return icon;
 	}
-	
-    public boolean canBlockStay(World world, int x, int y, int z) {
-        return world.getBlock(x, y - 1, z).getMaterial().isSolid();
-    }
-	
+
+	public boolean canBlockStay(World world, int x, int y, int z) {
+		return world.getBlock(x, y - 1, z).getMaterial().isSolid();
+	}
+
 	public void register() {
 		GameRegistry.registerBlock(this, getUnlocalizedName());
 	}

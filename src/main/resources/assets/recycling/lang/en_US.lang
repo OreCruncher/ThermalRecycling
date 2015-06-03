@@ -23,6 +23,7 @@ item.PaperLogMaker.paperlogmaker.name=Paper Log Maker
 item.Material.paperlog.name=Paper Log
 item.Material.worms.name=Handful of Worms
 
+tile.PileOfRubble.name=Pile of Rubble
 tile.FertileLand.name=Fertile Land
 tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Scrap Assessor
