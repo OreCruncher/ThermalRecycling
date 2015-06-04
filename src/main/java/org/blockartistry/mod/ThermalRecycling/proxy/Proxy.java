@@ -33,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
@@ -72,6 +73,9 @@ public class Proxy {
 
 		if(!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();
+		
+		if(!ModOptions.getDisableAnvilRepair())
+			new AnvilHandler();
 		
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",
