@@ -32,7 +32,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class AnvilHandler {
+public final class AnvilHandler {
 
 	private static final int[] EXPERIENCE_COST = { 2, 3, 4 };
 	private static final int[] REPAIR_AMOUNT_SCRAP = { 3, 9, 27 };
