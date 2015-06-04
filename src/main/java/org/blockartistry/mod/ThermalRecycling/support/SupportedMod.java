@@ -74,6 +74,12 @@ public enum SupportedMod {
 	ENDER_STORAGE("Ender Storage", "EnderStorage", ModEnderStorage.class),
 	
 	EXTRABIOMESXL("ExtrabiomesXL", "ExtrabiomesXL", ModExtrabiomesXL.class),
+	
+	SOLARFLUX("Solar Flux", "SolarFlux", ModSolarFlux.class),
+	
+	RFDRILLS("RFDrills", "rfdrills", ModRFDrills.class),
+	
+	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks", ModSimplyJetpacks.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
