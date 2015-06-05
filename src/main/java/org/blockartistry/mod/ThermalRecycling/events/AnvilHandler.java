@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.events;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +35,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class AnvilHandler {
 
+	private static final int RENAME_COST = 3;
 	private static final int[] EXPERIENCE_COST = { 3, 4, 5 };
 	private static final int[] REPAIR_AMOUNT_SCRAP = { 15, 30, 60 };
 	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 135, 270, 540 };
@@ -55,34 +57,46 @@ public final class AnvilHandler {
 		final ItemStack repairMaterial = event.right;
 
 		if (itemToRepair == null || repairMaterial == null
-				|| !itemToRepair.isItemDamaged()
 				|| !isValidRepairItem(repairMaterial))
 			return;
 
-		int repairAmount = 0;
-
-		if (repairMaterial.getItem() == ItemManager.recyclingScrap)
-			repairAmount = REPAIR_AMOUNT_SCRAP[repairMaterial.getItemDamage()];
-		else
-			repairAmount = REPAIR_AMOUNT_SCRAPBOX[repairMaterial
-					.getItemDamage()];
-
-		// Figure out the quantity needed to fully repair the item
-		final int itemDamage = itemToRepair.getItemDamage();
-		int howManyUnits = itemDamage / repairAmount;
-		if (itemDamage % repairAmount != 0)
-			howManyUnits++;
-
-		// Cap it
-		howManyUnits = Math.min(howManyUnits, repairMaterial.stackSize);
-		final int damageRepaired = Math.min(itemDamage, howManyUnits
-				* repairAmount);
-
-		event.cost = EXPERIENCE_COST[repairMaterial.getItemDamage()];
-		event.materialCost = howManyUnits;
+		// Make a copy of the item and figure out any rename
+		// cost.  Items that are not damagable can be renamed,
+		// like tags.
 		event.output = itemToRepair.copy();
-		event.output.setItemDamage(event.output.getItemDamage()
-				- damageRepaired);
+		if(!event.name.isEmpty()) {
+			event.cost = RENAME_COST;
+			event.materialCost = 1;
+			ItemStackHelper.setItemName(event.output, event.name);
+		}
+		
+		// Figure out a repair cost if the item is damaged
+		if(event.output.isItemDamaged()) {
+			
+			int repairAmount = 0;
+
+			if (repairMaterial.getItem() == ItemManager.recyclingScrap)
+				repairAmount = REPAIR_AMOUNT_SCRAP[repairMaterial.getItemDamage()];
+			else
+				repairAmount = REPAIR_AMOUNT_SCRAPBOX[repairMaterial
+						.getItemDamage()];
+			
+			// Figure out the quantity needed to fully repair the item
+			final int itemDamage = itemToRepair.getItemDamage();
+			int howManyUnits = itemDamage / repairAmount;
+			if (itemDamage % repairAmount != 0)
+				howManyUnits++;
+
+			// Cap it
+			howManyUnits = Math.min(howManyUnits, repairMaterial.stackSize);
+			final int damageRepaired = Math.min(itemDamage, howManyUnits
+					* repairAmount);
+
+			event.cost += EXPERIENCE_COST[repairMaterial.getItemDamage()];
+			event.materialCost += howManyUnits;
+			event.output.setItemDamage(event.output.getItemDamage()
+					- damageRepaired);
+		}
 	}
 
 	public AnvilHandler() {

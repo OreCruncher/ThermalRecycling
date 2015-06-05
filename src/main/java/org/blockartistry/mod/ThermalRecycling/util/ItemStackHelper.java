@@ -713,6 +713,24 @@ public final class ItemStackHelper {
 
 		return false;
 	}
+	
+	public static void setItemName(final ItemStack stack, final String name) {
+		
+		if (stack == null)
+			return;
+
+		NBTTagCompound nbt = stack.getTagCompound();
+		if (nbt == null)
+			nbt = new NBTTagCompound();
+
+		NBTTagCompound display = nbt.getCompoundTag("display");
+		if(display == null)
+			display = new NBTTagCompound();
+		display.setString("Name", name);
+
+		nbt.setTag("display", display);
+		stack.setTagCompound(nbt);
+	}
 
 	public static void setItemLore(final ItemStack stack, final List<String> lore) {
 		
@@ -726,7 +744,9 @@ public final class ItemStackHelper {
 		final NBTTagList l = new NBTTagList();
 		for(final String s: lore)
 			l.appendTag(new NBTTagString(s));
-		final NBTTagCompound display = new NBTTagCompound();
+		NBTTagCompound display = nbt.getCompoundTag("display");
+		if(display == null)
+			display = new NBTTagCompound();
 		display.setTag("Lore", l);
 
 		nbt.setTag("display", display);
