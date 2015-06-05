@@ -36,6 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
+import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
@@ -76,6 +77,8 @@ public class Proxy {
 		
 		if(!ModOptions.getDisableAnvilRepair())
 			new AnvilHandler();
+		
+		new EntityItemMergeHandler();
 		
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",

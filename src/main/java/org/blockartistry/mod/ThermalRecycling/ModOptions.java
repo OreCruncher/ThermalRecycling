@@ -43,6 +43,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
 	protected static final String CONFIG_DISABLE_ANVIL = "Disable Anvil Repair";
+	protected static final String CONFIG_ITEM_MERGE_RANGE = "EntityItem Merge Range";
 	
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -90,6 +91,7 @@ public final class ModOptions {
 	protected static boolean enableScrapboxSpawn = true;
 	protected static int wormDropChance = 15;
 	protected static boolean disableAnvilRepair = false;
+	protected static double entityItemMergeRange = 0;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
@@ -220,6 +222,12 @@ public final class ModOptions {
 		disableAnvilRepair = config.getBoolean(CONFIG_DISABLE_ANVIL,
 				CATEGORY_GENERAL, disableAnvilRepair,
 				"Enable/Disable repair of items using scrap in an anvil");
+
+		entityItemMergeRange = config.getFloat(CONFIG_ITEM_MERGE_RANGE,
+				CATEGORY_GENERAL, (float) entityItemMergeRange, 0F,
+				6F,
+				"Max distance to merge items on the ground (0 to disable)");
+
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -317,5 +325,9 @@ public final class ModOptions {
 	
 	public static boolean getDisableAnvilRepair() {
 		return disableAnvilRepair;
+	}
+	
+	public static double getEntityItemMergeRange() {
+		return entityItemMergeRange;
 	}
 }
