@@ -34,9 +34,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class AnvilHandler {
 
-	private static final int[] EXPERIENCE_COST = { 2, 3, 4 };
-	private static final int[] REPAIR_AMOUNT_SCRAP = { 3, 9, 27 };
-	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 27, 81, 243 };
+	private static final int[] EXPERIENCE_COST = { 3, 4, 5 };
+	private static final int[] REPAIR_AMOUNT_SCRAP = { 15, 30, 60 };
+	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 135, 270, 540 };
 
 	private boolean isValidRepairItem(final ItemStack stack) {
 
