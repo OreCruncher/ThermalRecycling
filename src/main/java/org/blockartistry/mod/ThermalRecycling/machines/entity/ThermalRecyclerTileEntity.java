@@ -40,6 +40,8 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
+import cpw.mods.fml.common.Optional;
+
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -49,6 +51,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Optional.InterfaceList(
+	value={
+		@Optional.Interface(iface="cofh.api.energy.IEnergyReciever", modid="CoFHCore", striprefs=true),
+		@Optional.Interface(iface="cofh.api.tileentity.IEnergyInfo", modid="CoFHCore", striprefs=true),
+	}
+)
 public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		IEnergyReceiver, IEnergyInfo, IJobProgress {
 
