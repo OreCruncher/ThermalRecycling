@@ -38,6 +38,8 @@ public enum SupportedMod {
 
 	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics",
 			ModThermalDynamics.class),
+			
+	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal", ModRedstoneArsenal.class),
 
 	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded",
 			ModMinefactoryReloaded.class),
