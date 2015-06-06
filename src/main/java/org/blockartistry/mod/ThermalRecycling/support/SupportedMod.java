@@ -86,6 +86,8 @@ public enum SupportedMod {
 	RFWINDMILLS("RF Windmills", "rfwindmill", ModRFWindmills.class),
 	
 	REDSTONE_ARMORY("Redstone Armory", "RArm", ModRedstoneArmory.class),
+	
+	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
