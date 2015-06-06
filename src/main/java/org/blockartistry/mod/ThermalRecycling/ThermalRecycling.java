@@ -26,13 +26,13 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+
 import org.apache.logging.log4j.LogManager;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
-
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -49,16 +49,31 @@ public final class ThermalRecycling {
 	public static final String MOD_NAME = "Thermal Recycling";
 	public static final String VERSION = "@VERSION@";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
-			+ "after:BuildCraft|Core;"
-			+ "after:ThermalDynamics;"
 			+ "after:ThermalFoundation;"
-			+ "after:Forestry;"
+			+ "after:ThermalDynamics;"
+			+ "after:RedstoneArsenal;"
 			+ "after:MineFactoryReloaded;"
 			+ "after:Thaumcraft;"
+			+ "after:BuildCraft|Core;"
+			+ "after:BuildCraft|Transport;"
+			+ "after:BuildCraft|Silicon;"
+			+ "after:BuildCraft|Builders;"
+			+ "after:BuildCraft|Energy;"
+			+ "after:BuildCraft|Factory;"
+			+ "after:Forestry;"
 			+ "after:Railcraft;"
 			+ "after:advgenerators;"
 			+ "after:EnderIO;"
-			+ "after:Waila;";
+			+ "after:IronChest;"
+			+ "after:ChickenChunks;"
+			+ "after:rftools;"
+			+ "after:EnderStorage;"
+			+ "after:ExtrabiomesXL;"
+			+ "after:SolarFlux;"
+			+ "after:rfdrills;"
+			+ "after:simplyjetpacks;"
+			+ "after:rfwindmill;"
+			+ "after:RArm;";
 
 	static final String OUTPUT_FILE = "ThermalRecycling.log";
 

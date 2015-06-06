@@ -238,6 +238,13 @@ public final class ThermalRecyclerRecipeBuilder {
 		return this;
 	}
 	
+	public ThermalRecyclerRecipeBuilder useRecipe(final IRecipe recipe) {
+		Preconditions.checkNotNull(recipe);
+		input = recipe.getRecipeOutput();
+		useRecipe(RecipeDecomposition.decompose(recipe));
+		return this;
+	}
+	
 	public ThermalRecyclerRecipeBuilder scrubOutput(final String item) {
 		
 		final ItemStack stack = ItemStackHelper.getItemStack(item);

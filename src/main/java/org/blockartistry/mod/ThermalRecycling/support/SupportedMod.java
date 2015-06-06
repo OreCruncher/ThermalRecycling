@@ -137,4 +137,18 @@ public enum SupportedMod {
 			result[i] = values()[i].getModId();
 		return result;
 	}
+	
+	public static String getDependencies() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("required-after:ThermalExpansion;");
+		for(String s: getModIdList()) {
+			if("ThermalExpansion".equalsIgnoreCase(s))
+				continue;
+			
+			builder.append("after:");
+			builder.append(s);
+			builder.append(';');
+		}
+		return builder.toString();
+	}
 }

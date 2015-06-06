@@ -176,7 +176,8 @@ public final class RecipeDecomposition {
 			else if (o instanceof ArrayList) {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
-				result.add(ItemStackHelper.getPreferredStack(t.get(0)));
+				if(t.size() > 0)
+					result.add(ItemStackHelper.getPreferredStack(t.get(0)));
 			}
 		}
 

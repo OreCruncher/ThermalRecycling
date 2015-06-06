@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
@@ -37,6 +38,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
+
 import com.google.common.collect.ObjectArrays;
 
 import net.minecraft.item.Item;
@@ -139,7 +141,11 @@ public final class ModThermalRecycling extends ModPlugin {
 					
 					if (modIds.contains(":"
 							+ StringUtils.substringBefore(name, ":") + ":")) {
-						recycler.useRecipe(stack).save();
+						try {
+							recycler.useRecipe(recipe).save();
+						} catch(Throwable t) {
+							ModLog.catching(t);
+						}
 					}
 				}
 			}
