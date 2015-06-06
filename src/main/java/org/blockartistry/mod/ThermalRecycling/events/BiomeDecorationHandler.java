@@ -43,7 +43,7 @@ public class BiomeDecorationHandler {
 	private final int PLACE_ATTEMPTS = 2;
 
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onWorldDecoration(DecorateBiomeEvent.Decorate event) {
+	public void onWorldDecoration(final DecorateBiomeEvent.Decorate event) {
 
 		if ((event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT)
 				&& event.type == EventType.FLOWERS) {

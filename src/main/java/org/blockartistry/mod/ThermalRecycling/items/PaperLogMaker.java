@@ -49,20 +49,20 @@ public class PaperLogMaker extends ItemBase {
 	}
 
 	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemstack) {
+	public boolean doesContainerItemLeaveCraftingGrid(final ItemStack itemstack) {
 		// Leave in the grid for shift click
 		return false;
 	}
 
 	@Override
-	public ItemStack getContainerItem(ItemStack itemStack) {
-		ItemStack stack = itemStack.copy();
+	public ItemStack getContainerItem(final ItemStack itemStack) {
+		final ItemStack stack = itemStack.copy();
 		stack.setItemDamage(stack.getItemDamage() + 1);
 		return stack;
 	}
 
 	@Override
-	public boolean hasContainerItem(ItemStack stack) {
+	public boolean hasContainerItem(final ItemStack stack) {
 		return stack.getItemDamage() < MAX_DAMAGE - 1;
 	}
 
@@ -75,7 +75,7 @@ public class PaperLogMaker extends ItemBase {
 	public void register() {
 		super.register();
 
-		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 				ItemManager.paperLogMaker), "s  ", "sss", "w w", 's',
 				new ItemStack(Items.stick, 1, OreDictionary.WILDCARD_VALUE),
 				'w', new ItemStack(Blocks.wooden_slab, 1,

@@ -135,14 +135,14 @@ public class PileOfRubble extends Block {
 	}
 
 	@Override
-	public int quantityDropped(Random random) {
+	public int quantityDropped(final Random random) {
 		// Prevent the Pile of Scrap from dropping
 		return 0;
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block,
-			int meta) {
+	public void breakBlock(final World world, final int x, final int y, final int z, final Block block,
+			final int meta) {
 
 		if (!world.isRemote) {
 			final int dropCount = ModOptions.getRubblePileDropCount();
@@ -168,11 +168,11 @@ public class PileOfRubble extends Block {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IIcon getIcon(final int side, int metadata) {
+	public IIcon getIcon(final int side, final int metadata) {
 		return icon;
 	}
 
-	public boolean canBlockStay(World world, int x, int y, int z) {
+	public boolean canBlockStay(final World world, final int x, final int y, final int z) {
 		// Make sure the block underneath is solid
 		return world.getBlock(x, y - 1, z).getMaterial().isSolid();
 	}

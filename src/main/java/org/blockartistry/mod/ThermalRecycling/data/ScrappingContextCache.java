@@ -50,7 +50,7 @@ public final class ScrappingContextCache {
 		}
 		
 		@Override
-		public boolean equals(Object o) {
+		public boolean equals(final Object o) {
 			final LRUCacheKey key = (LRUCacheKey)o;
 			return ItemStackHelper.areEqual(this.stack, key.stack) && ItemStackHelper.areEqual(this.core, key.core);
 		}
@@ -58,7 +58,7 @@ public final class ScrappingContextCache {
 	
 	private final LRUCache<LRUCacheKey, ScrappingContext> cache;
 	
-	public ScrappingContextCache(int entries) {
+	public ScrappingContextCache(final int entries) {
 		this.cache = new LRUCache<LRUCacheKey, ScrappingContext>(entries);
 	}
 	

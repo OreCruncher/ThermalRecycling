@@ -199,7 +199,7 @@ public class ScrapHandler {
 			
 			ctx.tables = new ItemStackWeightTable[ctx.recipeOutput.size()];
 			for(int i = 0; i < ctx.tables.length; i++) {
-				ScrapValue sv = ItemData.get(ctx.recipeOutput.get(i)).getScrapValue();
+				final ScrapValue sv = ItemData.get(ctx.recipeOutput.get(i)).getScrapValue();
 				ctx.tables[i] = ScrappingTables.getTable(ctx.coreType, ctx.coreLevel, sv).get();;
 			}
 		}

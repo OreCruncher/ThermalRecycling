@@ -38,9 +38,9 @@ public class LRUCache<K, V> {
 	/**
 	 * Creates a new LRU cache of the specified size.
 	 */
-	public LRUCache(int cacheSize) {
+	public LRUCache(final int cacheSize) {
 		this.cacheSize = cacheSize;
-		int hashTableCapacity = (int) Math
+		final int hashTableCapacity = (int) Math
 				.ceil(cacheSize / hashTableLoadFactor) + 1;
 		map = new LinkedHashMap<K, V>(hashTableCapacity, hashTableLoadFactor,
 				true) {
@@ -48,7 +48,7 @@ public class LRUCache<K, V> {
 			private static final long serialVersionUID = 1;
 
 			@Override
-			protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+			protected boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
 				return size() > LRUCache.this.cacheSize;
 			}
 		};
@@ -58,7 +58,7 @@ public class LRUCache<K, V> {
 	 * Retrieves an entry from the cache.  The one that is retrieved
 	 * becomes the most recently used entry.
 	 */
-	public V get(K key) {
+	public V get(final K key) {
 		return map.get(key);
 	}
 
@@ -68,7 +68,7 @@ public class LRUCache<K, V> {
 	 * cache, it is replaced by the new entry. If the cache is full, the LRU
 	 * (least recently used) entry is removed from the cache.
 	 */
-	public void put(K key, V value) {
+	public void put(final K key, final V value) {
 		map.put(key, value);
 	}
 

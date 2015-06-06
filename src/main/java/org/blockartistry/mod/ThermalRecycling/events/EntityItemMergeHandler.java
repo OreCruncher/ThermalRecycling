@@ -71,7 +71,7 @@ public final class EntityItemMergeHandler {
 	// stack for merging.
 	private List<EntityItem> getEntityItems(final World world) {
 		final List<EntityItem> result = new ArrayList<EntityItem>();
-		for (Object o : world.getLoadedEntityList()) {
+		for (final Object o : world.getLoadedEntityList()) {
 			if (o instanceof EntityItem) {
 				final EntityItem entity = (EntityItem) o;
 				if (isPossibleEntity(entity)
@@ -85,7 +85,7 @@ public final class EntityItemMergeHandler {
 
 	private void mergeItems(final World world) {
 
-		List<EntityItem> entities = getEntityItems(world);
+		final List<EntityItem> entities = getEntityItems(world);
 		if (entities.size() > 1) {
 			for (int i = 0; i < entities.size(); i++) {
 

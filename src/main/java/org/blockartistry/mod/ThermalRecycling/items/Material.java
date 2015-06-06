@@ -51,7 +51,7 @@ public class Material extends ItemBase {
 	public void register() {
 		super.register();
 
-		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 			ItemManager.material, 1, PAPER_LOG), "ppp", "plp", "ppp", 'p',
 			new ItemStack(Items.paper), 'l', new ItemStack(
 					ItemManager.paperLogMaker, 1,

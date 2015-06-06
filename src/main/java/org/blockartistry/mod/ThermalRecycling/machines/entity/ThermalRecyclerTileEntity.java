@@ -177,7 +177,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			
 			// Empty slot - see if there is a context cached and swipe
 			// the core information from it.  If not, then look it up.
-			CoreType coreType = context != null ? context.coreType : CoreType.getType(activeCore);
+			final CoreType coreType = context != null ? context.coreType : CoreType.getType(activeCore);
 			
 			// Speak to the oracle
 			return CoreType.canCoreProcess(coreType, stack);

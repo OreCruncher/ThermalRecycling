@@ -88,7 +88,7 @@ public class XorShiftRandom extends Random {
 	 * 
 	 * @param seed
 	 */
-	public XorShiftRandom(long seed) {
+	public XorShiftRandom(final long seed) {
 		this.seed = seed;
 	}
 
@@ -104,12 +104,12 @@ public class XorShiftRandom extends Random {
 	/* (non-Javadoc)
 	 * @see java.util.Random#setSeed(long)
 	 */
-	public void setSeed(long seed) {
+	public void setSeed(final long seed) {
 		this.seed = seed;
 		super.setSeed(seed);
 	}
 
-	protected int next(int nbits) {
+	protected int next(final int nbits) {
 		long x = seed;
 		x ^= (x << 21);
 		x ^= (x >>> 35);

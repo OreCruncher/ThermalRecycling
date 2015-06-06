@@ -48,9 +48,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class FertileLand extends BlockFarmland {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon surfaceIcon;
-
 	public FertileLand() {
 		super();
 
@@ -60,26 +57,29 @@ public class FertileLand extends BlockFarmland {
 		setTickRandomly(false);
 		setBlockName("FertileLand");
 		setBlockTextureName("farmland");
-		
+
 		setCreativeTab(CreativeTabManager.tab);
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) {
+	public void updateTick(final World world, final int x, final int y,
+			final int z, final Random random) {
 
 	}
 
 	@Override
-	public void onFallenUpon(World world, int x, int y, int z, Entity entity,
-			float what) {
+	public void onFallenUpon(final World world, final int x, final int y,
+			final int z, final Entity entity, final float what) {
 
 	}
 
-	public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable) {
+	public boolean canSustainPlant(final IBlockAccess world, final int x,
+			final int y, final int z, final ForgeDirection direction,
+			final IPlantable plantable) {
 		final EnumPlantType plant = plantable.getPlantType(world, x, y + 1, z);
-        // Crops or reeds
+		// Crops or reeds
 		return plant == EnumPlantType.Crop || plant == EnumPlantType.Beach;
-    }
+	}
 
 	@Override
 	protected boolean canSilkHarvest() {
@@ -87,7 +87,7 @@ public class FertileLand extends BlockFarmland {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
+	public IIcon getIcon(final int side, final int meta) {
 		return super.getIcon(side, 7);
 	}
 
@@ -95,9 +95,8 @@ public class FertileLand extends BlockFarmland {
 		GameRegistry.registerBlock(this, getUnlocalizedName());
 
 		GameRegistry.addShapelessRecipe(
-				new ItemStack(BlockManager.fertileLand),
-				new ItemStack(Blocks.dirt),
-				new ItemStack(Items.water_bucket),
+				new ItemStack(BlockManager.fertileLand), new ItemStack(
+						Blocks.dirt), new ItemStack(Items.water_bucket),
 				new ItemStack(ItemManager.material, 1, Material.WORMS));
 	}
 }
