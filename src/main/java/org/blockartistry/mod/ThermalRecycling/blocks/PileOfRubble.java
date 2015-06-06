@@ -103,10 +103,9 @@ public class PileOfRubble extends Block {
 		setBlockName("PileOfRubble");
 		setCreativeTab(CreativeTabManager.tab);
 
-		setHardness(5.0F);
+		setHardness(2.0F);
 		setResistance(10.0F);
 		setStepSound(soundTypeStone);
-		setHarvestLevel("pickaxe", 3);
 
 		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.375F, 0.9375F);
 
