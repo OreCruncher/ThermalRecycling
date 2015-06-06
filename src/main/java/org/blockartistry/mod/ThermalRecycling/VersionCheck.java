@@ -22,33 +22,24 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.proxy;
+package org.blockartistry.mod.ThermalRecycling;
 
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.VersionCheck;
-import org.blockartistry.mod.ThermalRecycling.events.ToolTipEventHandler;
-import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
-import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import net.minecraft.nbt.NBTTagCompound;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-
-public final class ProxyClient extends Proxy {
-
-	@Override
-	public void init(final FMLInitializationEvent event) {
-
-		super.init(event);
+public final class VersionCheck {
+	
+	private static final String CURSE_PROJECT_NAME = "229666-thermal-recycling";
+	private static final String MOD_NAME_TEMPLATE = "ThermalRecycling-1.7.10-[].jar";
+	
+	public static void register() {
 		
-		VersionCheck.register();
-
-		// Initialize the tool tip event handler
-		new ToolTipEventHandler();
-
-		// Register hooks based on configuration
-		if (ModOptions.getEnableTooltips())
-			ToolTipEventHandler.hooks.add(new ScrapToolTip());
-
-		if (ModOptions.getEnableDebugLogging())
-			ToolTipEventHandler.hooks.add(new DebugToolTip());
+		if(Loader.isModLoaded("VersionChecker")) {
+			final NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("curseProjectName", CURSE_PROJECT_NAME);
+			nbt.setString("curseFilenameParser",MOD_NAME_TEMPLATE);
+			FMLInterModComms.sendRuntimeMessage(ThermalRecycling.MOD_ID, "VersionChecker", "addVersionCheck", nbt);
+		}
 	}
 }

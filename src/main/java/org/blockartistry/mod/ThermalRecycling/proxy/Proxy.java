@@ -61,7 +61,7 @@ public class Proxy {
 
 		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe",
 				UpgradeRecipe.class, Category.SHAPED, "");
-
+		
 		new ItemManager();
 		new BlockManager();
 		AchievementManager.registerAchievements();

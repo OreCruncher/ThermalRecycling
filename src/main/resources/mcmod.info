@@ -2,14 +2,14 @@
 	{
 		"modid": "recycling",
 		"name": "Thermal Recycling",
-		"description": "Thermal Expansion 4.x add-on that provides additional recipes for recycling",
+		"description": "Thermal Expansion 4.x add-on that provides machines to use the STUFF that is collected",
 		"version": "$version",
 		"mcversion": "$mcversion",
 		"url": "https://github.com/OreCruncher/ThermalRecycling/wiki",
 		"updateUrl": "",
 		"authorList": [ "OreCruncher" ],
 		"credits": "Thanks to TeamCoFH (http://teamcofh.com) for the Thermal Expansion family of mods!",
-		"logoFile": "",
+		"logoFile": "assets/recycling/textures/logo.png",
 		"screenshots": [],
 		"parent":"",
 		"dependencies": []
