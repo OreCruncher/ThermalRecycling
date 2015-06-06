@@ -1,0 +1,62 @@
+# FR French Translations
+# Made by HanatekYurii for 0.3.8.2
+itemGroup.ThermalRecycling=Thermal Recycling
+itemGroup.TagLine=Réduisez! Réutilisez! Recyclez!
+
+item.Debris.debris.name=Déchets de recyclage
+item.RecyclingScrap.poor.name=Débris Pauvres
+item.RecyclingScrap.standard.name=Débris
+item.RecyclingScrap.superior.name=Débris Supérieurs
+item.RecyclingScrapBox.poor.name=Boîte de Débris Pauvres
+item.RecyclingScrapBox.poor.desc=Sent comme les chaussettes de gym moisies
+item.RecyclingScrapBox.standard.name=Boîte de Débris
+item.RecyclingScrapBox.standard.desc=N'a pas l'air trop mal
+item.RecyclingScrapBox.superior.name=Boîte de Débris Supérieurs
+item.RecyclingScrapBox.superior.desc=Certainement une boîte pleine de surprises...
+item.ProcessingCore.decomposition.name=Coeur: Décomposition (Basique)
+item.ProcessingCore.decomposition_1.name=Coeur: Décomposition (Durci)
+item.ProcessingCore.decomposition_2.name=§eCoeur: Décomposition (Renforcé)
+item.ProcessingCore.decomposition_3.name=§3Coeur: Décomposition (Résonant)
+item.ProcessingCore.decomposition_4.name=§5Coeur: Décomposition (Éthéré)
+item.ProcessingCore.extraction.name=Coeur: Extraction
+
+item.PaperLogMaker.paperlogmaker.name=Fabricateur de Bûche de Papier
+item.Material.paperlog.name=Bûche de Papier
+item.Material.worms.name=Poignée de Vers
+
+tile.PileOfRubble.name=Pile de Gravats
+tile.FertileLand.name=Terre Fertile
+tile.MachineThermalRecycler.name=Recycleur Thermal
+tile.MachineScrapAssessor.name=Contrôleur de Débris
+tile.MachineComposter.name=Composteur
+tile.ScrapBlock.scrap.name=Bloc de Débris
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Détruire
+msg.ScrapPreview.keep=Conserver
+msg.ScrapPreview.dust=Poussière (si possible)
+
+# Machine Status
+msg.MachineStatus.idle=En Veille
+msg.MachineStatus.active=%d%%
+msg.MachineStatus.jammed=Bloqué!
+msg.MachineStatus.needMoreResources=Nécéssite plus de ressources!
+msg.MachineStatus.outOfPower=A court d'Energie
+msg.MachineStatus.needMoreWater=Nécéssite de l'eau
+msg.MachineStatus.cantSeeSky=Nécéssite une exposition au ciel
+
+# Achievements
+achievement.feelingScrappy=Une Senstaion de Débris!
+achievement.feelingScrappy.desc=Fabriquez un Recycleur Thermal
+achievement.doingMyPart=Faisant Ma Part
+achievement.doingMyPart.desc=Utilisez une Boîte de Débris
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eScrap Value: §7Aucune
+msg.ItemScrapValue.poor=§eScrap Value: §fPauvre
+msg.ItemScrapValue.standard=§eScrap Value: §9Standard
+msg.ItemScrapValue.superior=§eScrap Value: §6Supérieure
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§eComposte: §6Brun
+msg.ItemCompostIngredientValue.green=§eComposte: §2Vert
