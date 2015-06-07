@@ -31,7 +31,6 @@ import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -76,8 +75,8 @@ public final class RecipeData {
 	}
 
 	public RecipeData(final ItemStack input, final List<ItemStack> output) {
-		Preconditions.checkNotNull(input);
-		Preconditions.checkNotNull(output);
+		assert input != null;
+		assert output != null;
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
@@ -117,8 +116,8 @@ public final class RecipeData {
 	 * output.
 	 */
 	public static int put(final ItemStack input, List<ItemStack> output) {
-		Preconditions.checkNotNull(input);
-		Preconditions.checkNotNull(output);
+		assert input != null;
+		assert output != null;
 
 		int retCode = DUPLICATE;
 

@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 import java.util.Arrays;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import com.google.common.base.Preconditions;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -56,9 +55,9 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	private boolean isDirty;
 
 	public SidedInventoryComponent(final TileEntityBase parent, final int size) {
-
-		Preconditions.checkNotNull(parent);
-		Preconditions.checkArgument(size > 0);
+		
+		assert parent != null;
+		assert size > 0;
 
 		entity = parent;
 		inventory = new ItemStack[size];
@@ -94,9 +93,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		if (outputStart == -1 || inputStart == -1)
 			return;
 
-		Preconditions.checkState(
-				!(inputStart < outputEnd && outputStart < inputEnd),
-				"Input and output ranges overlap");
+		assert inputStart < outputEnd && outputStart > inputEnd: "Input and output ranges overlap";
 	}
 
 	public SidedInventoryComponent setInputRange(final int start, final int length) {

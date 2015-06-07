@@ -33,7 +33,6 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ObjectArrays;
 
@@ -159,7 +158,7 @@ public final class ItemData {
 	private ItemData(final ItemStack stack, final ScrapValue value,
 			final CompostIngredient compost, final boolean ignoreRecipe,
 			final boolean scrubFromOutput, final boolean isBlockedFromScrapping) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		this.stack = stack;
 		this.value = value;
 		this.compostValue = compost;
@@ -244,18 +243,18 @@ public final class ItemData {
 	}
 
 	public static void setValue(final ItemStack stack, final ScrapValue value) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		put(stack, get(stack).setValue(value));
 	}
 
 	public static void setCompostIngredientValue(final ItemStack stack,
 			final CompostIngredient value) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		put(stack, get(stack).setCompostIngredientValue(value));
 	}
 
 	public static ItemData get(final ItemStack stack) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 
 		// Highly specific match
 		ItemData data = cache.get(ItemStackKey.getCachedKey(stack));
@@ -280,8 +279,8 @@ public final class ItemData {
 	}
 
 	public static void put(final ItemStack stack, final ItemData data) {
-		Preconditions.checkNotNull(data);
-		Preconditions.checkNotNull(stack);
+		assert data != null;
+		assert stack != null;
 		cache.put(new ItemStackKey(stack), data);
 	}
 
@@ -295,36 +294,36 @@ public final class ItemData {
 	}
 
 	public static void setRecipeIgnored(final Item item, final boolean flag) {
-		Preconditions.checkNotNull(item);
+		assert item != null;
 		final ItemStack stack = getGenericIfPossible(item);
 		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 
 	public static void setRecipeIgnored(final Block block, final boolean flag) {
-		Preconditions.checkNotNull(block);
+		assert block != null;
 		setRecipeIgnored(Item.getItemFromBlock(block), flag);
 	}
 
 	public static void setRecipeIgnored(final ItemStack stack,
 			final boolean flag) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 
 	public static boolean isScrubbedFromOutput(final ItemStack stack) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		return get(stack).isScrubbedFromOutput();
 	}
 
 	public static void setScrubbedFromOutput(final ItemStack stack,
 			final boolean flag) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		put(stack, get(stack).setScrubFromOutput(flag));
 	}
 
 	public static void setBlockedFromScrapping(final ItemStack stack,
 			final boolean flag) {
-		Preconditions.checkNotNull(stack);
+		assert stack != null;
 		put(stack, get(stack).setBlockedFromScrapping(flag));
 	}
 

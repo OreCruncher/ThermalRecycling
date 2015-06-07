@@ -40,7 +40,6 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStac
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.item.ItemStack;
@@ -157,8 +156,8 @@ public class ScrapHandler {
 	 * @param handler Handler to use when scrapping the ItemStack
 	 */
 	public static void registerHandler(final ItemStack stack, final ScrapHandler handler) {
-		Preconditions.checkNotNull(stack);
-		Preconditions.checkNotNull(handler);
+		assert stack != null;
+		assert handler != null;
 		handlers.put(new ItemStackKey(stack), handler);
 	}
 

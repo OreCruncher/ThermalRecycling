@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
@@ -38,8 +36,8 @@ public final class SawmillRecipeBuilder extends
 	@Override
 	protected int saveImpl(final ItemStack stack) {
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		assert stack != null;
+		assert output != null;
 
 		ThermalExpansionHelper.addSawmillRecipe(energy, stack, output,
 				secondaryOutput, secondaryChance);
@@ -50,8 +48,8 @@ public final class SawmillRecipeBuilder extends
 	@Override
 	protected String toString(final ItemStack stack) {
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		assert stack != null;
+		assert output != null;
 
 		final StringBuilder builder = new StringBuilder();
 

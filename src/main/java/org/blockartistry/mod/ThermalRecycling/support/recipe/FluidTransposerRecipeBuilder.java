@@ -28,8 +28,6 @@ import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
@@ -53,10 +51,10 @@ public final class FluidTransposerRecipeBuilder extends
 
 	@Override
 	protected String toString(final ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		
+		assert stack != null;
+		assert fluid != null;
+		assert output != null;
 
 		return String.format("Fluid Transposer [%dx %s] => [%dx %s, %dmb %s]",
 				stack.stackSize, ItemStackHelper.resolveName(stack),
@@ -66,10 +64,10 @@ public final class FluidTransposerRecipeBuilder extends
 
 	@Override
 	protected int saveImpl(final ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(fluid, "FluidStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		
+		assert stack != null;
+		assert fluid != null;
+		assert output != null;
 
 		ThermalExpansionHelper.addTransposerExtract(energy, stack, output,
 				fluid, 100, false);
@@ -78,8 +76,8 @@ public final class FluidTransposerRecipeBuilder extends
 	}
 
 	public FluidTransposerRecipeBuilder fluid(final String fluidId) {
-
-		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
+		
+		assert fluidId != null;
 
 		this.fluid = FluidStackHelper.getFluidStack(fluidId,
 				DEFAULT_FLUID_AMOUNT);
@@ -87,10 +85,9 @@ public final class FluidTransposerRecipeBuilder extends
 	}
 
 	public FluidTransposerRecipeBuilder fluid(final String fluidId, final int quantity) {
-
-		Preconditions.checkNotNull(fluidId, "Output FluidStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Fluid quantity must be greater than 0");
+		
+		assert fluidId != null;
+		assert quantity > 0;
 
 		this.fluid = FluidStackHelper.getFluidStack(fluidId, quantity);
 		return THIS;

@@ -26,8 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,63 +46,53 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 	}
 
 	public This secondaryInput(final Block block) {
-
-		Preconditions.checkNotNull(block,
-				"Secondary input ItemStack cannot be null");
+		
+		assert block != null;
 
 		return secondaryInput(new ItemStack(block));
 	}
 
 	public This secondaryInput(final Block block, final int quantity) {
 
-		Preconditions.checkNotNull(block,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greather than 0");
+		assert block != null;
+		assert quantity > 0;
 
 		return secondaryInput(new ItemStack(block, quantity));
 	}
 
 	public This secondaryInput(final Item item) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary input ItemStack cannot be null");
+		assert item != null;
 
 		return secondaryInput(new ItemStack(item));
 	}
 
 	public This secondaryInput(final Item item, final int quantity) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greather than 0");
+		assert item != null;
+		assert quantity > 0;
 
 		return secondaryInput(new ItemStack(item, quantity));
 	}
 
 	public This secondaryInput(final String item) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary input ItemStack cannot be null");
+		assert item != null;
 
 		return secondaryInput(item, 1);
 	}
 
 	public This secondaryInput(final String item, final int quantity) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greather than 0");
+		assert item != null;
+		assert quantity > 0;
 
 		return secondaryInput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
 	public This secondaryInput(final ItemStack sec) {
 
-		Preconditions.checkNotNull(sec,
-				"Secondary input ItemStack cannot be null");
+		assert sec != null;
 
 		this.secondaryInput = sec;
 		return THIS;

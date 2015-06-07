@@ -26,8 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -52,62 +50,52 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 
 	public This secondaryOutput(final Block block) {
 
-		Preconditions.checkNotNull(block,
-				"Secondary output ItemStack cannot be null");
+		assert block != null;
 
 		return secondaryOutput(new ItemStack(block));
 	}
 
 	public This secondaryOutput(final Block block, final int quantity) {
 
-		Preconditions.checkNotNull(block,
-				"Secondary output ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greater than 0");
+		assert block != null;
+		assert quantity > 0;
 
 		return secondaryOutput(new ItemStack(block, quantity));
 	}
 
 	public This secondaryOutput(final Item item) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary output ItemStack cannot be null");
+		assert item != null;
 
 		return secondaryOutput(new ItemStack(item));
 	}
 
 	public This secondaryOutput(final Item item, final int quantity) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary output ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greater than 0");
+		assert item != null;
+		assert quantity > 0;
 
 		return secondaryOutput(new ItemStack(item, quantity));
 	}
 
 	public This secondaryOutput(final String item) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary output ItemStack cannot be null");
+		assert item != null;
 
 		return secondaryOutput(item, 1);
 	}
 
 	public This secondaryOutput(final String item, final int quantity) {
 
-		Preconditions.checkNotNull(item,
-				"Secondary output ItemStack cannot be null");
-		Preconditions.checkArgument(quantity > 0,
-				"Quantity must be greater than 0");
+		assert item != null;
+		assert quantity > 0;
 
 		return secondaryOutput(ItemStackHelper.getItemStack(item, quantity));
 	}
 
 	public This secondaryOutput(final ItemStack sec) {
 
-		Preconditions.checkNotNull(sec,
-				"Secondary output ItemStack cannot be null");
+		assert sec != null;
 
 		this.secondaryOutput = sec;
 		return THIS;
@@ -115,8 +103,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 
 	public This chance(final int chance) {
 
-		Preconditions.checkArgument(chance > 0 && chance <= 100,
-				"Secondary chance must be 1-100");
+		assert chance > 0 && chance <= 100;
 
 		this.secondaryChance = chance;
 		return THIS;

@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
@@ -36,9 +34,9 @@ public final class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuild
 
 	@Override
 	protected int saveImpl(final ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		
+		assert stack != null;
+		assert output != null;
 
 		ThermalExpansionHelper.addFurnaceRecipe(energy, stack, output);
 
@@ -47,9 +45,9 @@ public final class FurnaceRecipeBuilder extends RecipeBuilder<FurnaceRecipeBuild
 
 	@Override
 	protected String toString(final ItemStack stack) {
-
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		
+		assert stack != null;
+		assert output != null;
 
 		return String.format("Redstone Furnace [%dx %s] => [%dx %s]",
 				stack.stackSize, ItemStackHelper.resolveName(stack),

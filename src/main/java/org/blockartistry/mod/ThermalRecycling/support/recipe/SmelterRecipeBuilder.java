@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-import com.google.common.base.Preconditions;
-
 import net.minecraft.item.ItemStack;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 
@@ -38,10 +36,9 @@ public class SmelterRecipeBuilder extends
 	@Override
 	protected int saveImpl(final ItemStack stack) {
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(secondaryInput,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		assert stack != null;
+		assert secondaryInput != null;
+		assert output != null;
 
 		ThermalExpansionHelper.addSmelterRecipe(energy, stack, secondaryInput,
 				output);
@@ -52,10 +49,9 @@ public class SmelterRecipeBuilder extends
 	@Override
 	protected String toString(final ItemStack stack) {
 
-		Preconditions.checkNotNull(stack, "Input ItemStack cannot be null");
-		Preconditions.checkNotNull(secondaryInput,
-				"Secondary input ItemStack cannot be null");
-		Preconditions.checkNotNull(output, "Output ItemStack cannot be null");
+		assert stack != null;
+		assert secondaryInput != null;
+		assert output != null;
 
 		return String.format("Induction Smelter [%dx %s, %dx %s] => [%dx %s]",
 				stack.stackSize, ItemStackHelper.resolveName(stack),
