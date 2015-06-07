@@ -123,7 +123,7 @@ public final class RecipeDecomposition {
 	}
 
 	private static boolean isClassIgnored(final Object obj) {
-		return classIgnoreList.contains(obj);
+		return classIgnoreList.contains(obj.getClass().getName());
 	}
 
 	private static void scrubProjection(final ItemStack inputStack,
