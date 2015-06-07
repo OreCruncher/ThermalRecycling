@@ -262,6 +262,12 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
+	public void coeleceOutput() {
+		isDirty = true;
+		ItemStackHelper.coelece(inventory, outputStart, outputEnd);
+	}
+
+	@Override
 	public void dropInventory(final World world, final int x, final int y, final int z) {
 
 		isDirty = true;

@@ -228,6 +228,11 @@ public abstract class TileEntityBase extends TileEntity implements
 	public boolean addStackToOutput(final ItemStack stack) {
 		return inventory.addStackToOutput(stack);
 	}
+	
+	@Override
+	public void coeleceOutput() {
+		inventory.coeleceOutput();
+	}
 
 	@Override
 	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {

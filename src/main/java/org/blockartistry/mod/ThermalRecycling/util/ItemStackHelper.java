@@ -665,6 +665,51 @@ public final class ItemStackHelper {
 	 * @param inv
 	 * @return
 	 */
+	public static void coelece(final ItemStack[] inv, final int startSlot, final int endSlot) {
+		
+		assert inv != null;
+		assert startSlot >= 0 && endSlot >= startSlot;
+		assert startSlot < inv.length;
+
+		for (int i = startSlot + 1; i <= endSlot; i++) {
+
+			final ItemStack stack = inv[i];
+			if (stack != null) {
+
+				for (int j = startSlot; j < i; j++) {
+
+					final ItemStack target = inv[j];
+					if (target == null) {
+						inv[j] = stack;
+						inv[i] = null;
+						break;
+					} else if (ItemHelper.itemsIdentical(stack, target)) {
+
+						final int hold = target.getMaxStackSize()
+								- target.stackSize;
+
+						if (hold >= stack.stackSize) {
+							target.stackSize += stack.stackSize;
+							inv[i] = null;
+							break;
+						} else if (hold != 0) {
+							stack.stackSize -= hold;
+							target.stackSize += hold;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Compresses the inventory list by consolidating stacks toward the
+	 * beginning of the array. This operation occurs in place meaning the return
+	 * array is the original one passed in.
+	 * 
+	 * @param inv
+	 * @return
+	 */
 	public static List<ItemStack> coelece(final List<ItemStack> inv) {
 
 		if (inv == null) {

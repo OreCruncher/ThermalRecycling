@@ -497,8 +497,16 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 		}
 
-		if (isEmpty)
+		if (isEmpty) {
 			buffer = null;
+		} else {
+			// If the buffer couldn't be fully flushed
+			// consolidate the output slots - there may
+			// be inefficient stack placement.  Only
+			// do this on a potential jam situation as to
+			// avoid repeated looping.
+			inventory.coeleceOutput();
+		}
 
 		return isEmpty;
 	}

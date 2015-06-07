@@ -125,6 +125,11 @@ public final class NoInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
+	public void coeleceOutput() {
+		
+	}
+
+	@Override
 	public void dropInventory(final World world, final int x, final int y, final int z) {
 	}
 

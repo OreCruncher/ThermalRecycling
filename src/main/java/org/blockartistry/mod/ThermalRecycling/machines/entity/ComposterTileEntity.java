@@ -276,7 +276,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		if(myBiome == null) {
 			myBiome = worldObj.getBiomeGenForCoords(xCoord, zCoord);
 		}
-		return !(myBiome.getEnableSnow() || myBiome.getFloatRainfall() == 0);
+		return !(myBiome.getEnableSnow() || myBiome.rainfall == 0);
 	}
 
 	int getEffectiveProgressThisTick() {
