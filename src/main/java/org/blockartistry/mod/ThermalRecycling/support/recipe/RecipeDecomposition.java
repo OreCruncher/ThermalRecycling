@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -46,21 +47,31 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public final class RecipeDecomposition {
-	
-	private RecipeDecomposition() {}
 
-	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>().add(
-			"forestry.lepidopterology.MatingRecipe",
-			"cofh.thermaldynamics.util.crafting.RecipeCover",
-			"mods.railcraft.common.carts.LocomotivePaintingRecipe",
-			"mods.railcraft.common.emblems.EmblemPostColorRecipe",
-			"codechicken.enderstorage.common.EnderStorageRecipe").build();
+	private RecipeDecomposition() {
+	}
+
+	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>()
+			.add("forestry.lepidopterology.MatingRecipe",
+					"cofh.thermaldynamics.util.crafting.RecipeCover",
+					"mods.railcraft.common.carts.LocomotivePaintingRecipe",
+					"mods.railcraft.common.emblems.EmblemPostColorRecipe",
+					"codechicken.enderstorage.common.EnderStorageRecipe")
+			.build();
 
 	private static Field teRecipeAccessor = null;
 	private static Field forestryRecipeAccessor = null;
 
+	private static Field ae2ShapedRecipeAccessor = null;
+	private static Field ae2ShapelessRecipeAccessor = null;
+	private static Field ae2ItemNameAccessor = null;
+	private static Field ae2NameSpaceAccessor = null;
+	private static Field ae2MetaAccessor = null;
+	private static Field ae2GroupIngredientInputAccessor = null;
+	private static Field ae2IngredientSetInputAccessor = null;
+
 	public static List<ItemStack> decompose(final IRecipe recipe) {
-		
+
 		List<ItemStack> projection = null;
 
 		if (recipe instanceof ShapedRecipes) {
@@ -77,31 +88,36 @@ public final class RecipeDecomposition {
 		} else if (matchClassName(recipe,
 				"forestry.core.utils.ShapedRecipeCustom")) {
 			projection = projectForestryRecipe(recipe);
+		} else if (matchClassName(recipe, "appeng.recipes.game.ShapedRecipe")) {
+			projection = projectAE2ShapedRecipe(recipe);
+		} else if (matchClassName(recipe, "appeng.recipes.game.ShapelessRecipe")) {
+			projection = projectAE2ShapelessRecipe(recipe);
 		} else if (!isClassIgnored(recipe)) {
-			ModLog.info("Unknown recipe class: %s", recipe.getClass()
-					.getName());
+			ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
 		}
 
-		if(projection != null)
+		if (projection != null)
 			scrubProjection(recipe.getRecipeOutput(), projection);
 
 		return projection;
 	}
 
-	public static List<ItemStack> decomposeBuildCraft(final ItemStack input, final Object... output) {
+	public static List<ItemStack> decomposeBuildCraft(final ItemStack input,
+			final Object... output) {
 		final List<ItemStack> projection = projectBuildcraftRecipeList(output);
-		if(projection != null)
+		if (projection != null)
 			scrubProjection(input, projection);
 		return projection;
 	}
-	
-	public static List<ItemStack> decomposeForestry(final ItemStack input, final Object... output) {
+
+	public static List<ItemStack> decomposeForestry(final ItemStack input,
+			final Object... output) {
 		final List<ItemStack> projection = projectForgeRecipeList(output);
-		if(projection != null)
+		if (projection != null)
 			scrubProjection(input, projection);
 		return projection;
 	}
-	
+
 	private static boolean matchClassName(final Object obj, final String name) {
 		return obj.getClass().getName().compareTo(name) == 0;
 	}
@@ -110,7 +126,8 @@ public final class RecipeDecomposition {
 		return classIgnoreList.contains(obj);
 	}
 
-	private static void scrubProjection(final ItemStack inputStack, List<ItemStack> projection) {
+	private static void scrubProjection(final ItemStack inputStack,
+			List<ItemStack> projection) {
 
 		if (projection == null)
 			return;
@@ -121,7 +138,8 @@ public final class RecipeDecomposition {
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack) || ItemData.isScrubbedFromOutput(stack))
+				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack)
+						|| ItemData.isScrubbedFromOutput(stack))
 					projection.set(i, null);
 				else if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 					stack.setItemDamage(0);
@@ -142,7 +160,8 @@ public final class RecipeDecomposition {
 		return result;
 	}
 
-	private static List<ItemStack> recurseArray(final List<?> list, final int level) {
+	private static List<ItemStack> recurseArray(final List<?> list,
+			final int level) {
 
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
@@ -160,7 +179,8 @@ public final class RecipeDecomposition {
 		return result;
 	}
 
-	private static List<ItemStack> projectBuildcraftRecipeList(final Object... list) {
+	private static List<ItemStack> projectBuildcraftRecipeList(
+			final Object... list) {
 		return recurseArray(Arrays.asList(list), 1);
 	}
 
@@ -176,7 +196,7 @@ public final class RecipeDecomposition {
 			else if (o instanceof ArrayList) {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
-				if(t.size() > 0)
+				if (t.size() > 0)
 					result.add(ItemStackHelper.getPreferredStack(t.get(0)));
 			}
 		}
@@ -229,13 +249,15 @@ public final class RecipeDecomposition {
 		try {
 
 			if (forestryRecipeAccessor == null) {
-				final Field temp = recipe.getClass().getDeclaredField("ingredients");
+				final Field temp = recipe.getClass().getDeclaredField(
+						"ingredients");
 				temp.setAccessible(true);
 				forestryRecipeAccessor = temp;
 			}
 
 			try {
-				final Object[] shaped = (Object[]) forestryRecipeAccessor.get(recipe);
+				final Object[] shaped = (Object[]) forestryRecipeAccessor
+						.get(recipe);
 				result = projectForgeRecipeList(shaped);
 			} catch (Exception e) {
 			}
@@ -245,6 +267,167 @@ public final class RecipeDecomposition {
 		} catch (SecurityException e) {
 			;
 		} catch (IllegalArgumentException e) {
+			;
+		}
+
+		return result;
+	}
+
+	private static Object getFromGroupIngredient(final Object input)
+			throws Throwable {
+		if (ae2GroupIngredientInputAccessor == null) {
+			ae2GroupIngredientInputAccessor = input.getClass()
+					.getDeclaredField("ingredients");
+			ae2GroupIngredientInputAccessor.setAccessible(true);
+		}
+
+		final Object result = ((List<?>) ae2GroupIngredientInputAccessor
+				.get(input)).get(0);
+		if (matchClassName(result, "appeng.recipes.IngredientSet"))
+			return getFromIngredientSet(result);
+
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static ItemStack getFromIngredientSet(final Object input)
+			throws Throwable {
+		if (ae2IngredientSetInputAccessor == null) {
+			ae2IngredientSetInputAccessor = input.getClass().getDeclaredField(
+					"items");
+			ae2IngredientSetInputAccessor.setAccessible(true);
+		}
+
+		final List<ItemStack> list = (List<ItemStack>) ae2IngredientSetInputAccessor
+				.get(input);
+
+		// Return the last in the list - it is more than likely the
+		// Fluix version based on analysis.
+		return list.get(list.size() - 1).copy();
+	}
+
+	private static List<ItemStack> projectAE2Recipe(final List<?> input) {
+		final List<ItemStack> result = new ArrayList<ItemStack>();
+
+		for (Object o : input) {
+			if (o != null) {
+
+				try {
+
+					final ItemStack stack;
+					if (matchClassName(o, "appeng.recipes.IngredientSet")) {
+						stack = getFromIngredientSet(o);
+					} else {
+
+						if (matchClassName(o, "appeng.recipes.GroupIngredient")) {
+							o = getFromGroupIngredient(o);
+						}
+
+						// Possible an ItemStack came back because of
+						// IngredientSets
+						if (o instanceof ItemStack) {
+							stack = (ItemStack) o;
+						} else {
+
+							if (ae2ItemNameAccessor == null) {
+								ae2ItemNameAccessor = o.getClass()
+										.getDeclaredField("itemName");
+								ae2ItemNameAccessor.setAccessible(true);
+
+								ae2NameSpaceAccessor = o.getClass()
+										.getDeclaredField("nameSpace");
+								ae2NameSpaceAccessor.setAccessible(true);
+
+								ae2MetaAccessor = o.getClass()
+										.getDeclaredField("meta");
+								ae2MetaAccessor.setAccessible(true);
+							}
+
+							final String nameSpace = (String) ae2NameSpaceAccessor
+									.get(o);
+							final String itemName = (String) ae2ItemNameAccessor
+									.get(o);
+							final int meta = ae2MetaAccessor.getInt(o);
+
+							final String theItem;
+							if (nameSpace.equalsIgnoreCase("oredictionary")) {
+								theItem = itemName;
+							} else {
+								if (nameSpace
+										.equalsIgnoreCase("appliedenergistics2")) {
+
+									final StringBuilder builder = new StringBuilder();
+									builder.append(nameSpace);
+									builder.append(':');
+									if (itemName.startsWith("Block"))
+										builder.append("tile.");
+									else
+										builder.append("item.");
+									builder.append(itemName);
+									builder.append(':');
+									builder.append(meta);
+									theItem = builder.toString();
+
+								} else {
+									theItem = StringUtils.join(Arrays.asList(
+											nameSpace, itemName, meta), ":");
+								}
+							}
+
+							stack = ItemStackHelper.getItemStack(theItem);
+						}
+					}
+
+					if (stack != null) {
+						result.add(stack);
+					}
+
+				} catch (Throwable t) {
+					;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	private static List<ItemStack> projectAE2ShapelessRecipe(
+			final IRecipe recipe) {
+
+		try {
+
+			if (ae2ShapelessRecipeAccessor == null) {
+				ae2ShapelessRecipeAccessor = recipe.getClass()
+						.getDeclaredField("input");
+				ae2ShapelessRecipeAccessor.setAccessible(true);
+			}
+
+			return projectAE2Recipe((List<?>) ae2ShapelessRecipeAccessor
+					.get(recipe));
+
+		} catch (Throwable t) {
+			;
+		}
+
+		return null;
+	}
+
+	private static List<ItemStack> projectAE2ShapedRecipe(final IRecipe recipe) {
+
+		List<ItemStack> result = new ArrayList<ItemStack>();
+
+		try {
+
+			if (ae2ShapedRecipeAccessor == null) {
+				ae2ShapedRecipeAccessor = recipe.getClass().getDeclaredField(
+						"input");
+				ae2ShapedRecipeAccessor.setAccessible(true);
+			}
+
+			return projectAE2Recipe(Arrays
+					.asList((Object[]) ae2ShapedRecipeAccessor.get(recipe)));
+
+		} catch (Throwable t) {
 			;
 		}
 
