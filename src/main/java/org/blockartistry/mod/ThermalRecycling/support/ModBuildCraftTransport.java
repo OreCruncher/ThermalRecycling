@@ -127,9 +127,13 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		for (final IFlexibleRecipe<ItemStack> r : recipes)
 			registerBuildcraftRecipe(r);
 
+		// BuildCraft 7.x busted the API - so much for backward compatibility
+		// and interface contracts...
+		/*
 		final List<? extends IIntegrationRecipe> recipes1 = BuildcraftRecipeRegistry.integrationTable
 				.getRecipes();
 		for (final IIntegrationRecipe r : recipes1)
 			registerBuildcraftRecipe(r);
+			*/
 	}
 }
