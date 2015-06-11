@@ -1,5 +1,8 @@
 # BR Portuguese Translations
 itemGroup.ThermalRecycling=Thermal Recycling
+itemGroup.TagLine=Reduza! Reutilize! Recicle!
+
+item.Debris.debris.name=Detritos de Reciclagem
 item.RecyclingScrap.poor.name=Sucata Inferior
 item.RecyclingScrap.standard.name=Sucata
 item.RecyclingScrap.superior.name=Sucata Superior
@@ -9,21 +12,51 @@ item.RecyclingScrapBox.standard.name=Caixa de Sucata
 item.RecyclingScrapBox.standard.desc=Não parece tão mal
 item.RecyclingScrapBox.superior.name=Caixa de Sucata Superior
 item.RecyclingScrapBox.superior.desc=Com certeza uma caixa de maravilhas...
-item.ProcessingCore.decomposition.name=Núcleo: Decomposição
+item.ProcessingCore.decomposition.name=Núcleo: Decomposição 
+item.ProcessingCore.decomposition_1.name=Núcleo: Decomposição (Básico)
+item.ProcessingCore.decomposition_2.name=§eNúcleo: Decomposição (Reforçado)
+item.ProcessingCore.decomposition_3.name=§3Núcleo: Decomposição (Ressoante)
+item.ProcessingCore.decomposition_4.name=§5Núcleo: Decomposição (Etéreo)
+item.ProcessingCore.decomposition.name=Núcleo: Extração
 
+item.PaperLogMaker.paperlogmaker.name=Fazedor de Madeira de Papel
+item.Material.paperlog.name=Madeira de Papel
+item.Material.worms.name=Punhado de Minhocas
+
+tile.PileOfRubble.name=Pilha de Entulho
+tile.FertileLand.name=Terra Fértil
 tile.Test.item1.name=Bloco de Teste (WIP)
 tile.MachineThermalRecycler.name=Reciclador Termal
 tile.MachineScrapAssessor.name=Assessor de Sucata
+tile.MachineComposter.name=Composteira
+tile.ScrapBlock.scrap.name=Bloco de Sucata
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Destruir
+msg.ScrapPreview.keep=Manter
+msg.ScrapPreview.dust=Pulverizar (se possível)
 
 # Machine Status
 msg.MachineStatus.idle=Inativo
 msg.MachineStatus.active=%d%%
 msg.MachineStatus.jammed=Emperrado!
-msg.MachineStatus.needMoreResources=Necessita de mais recursos!
+msg.MachineStatus.needMoreResources=Precisa de mais recursos!
 msg.MachineStatus.outOfPower=Sem energia
+msg.MachineStatus.needMoreWater=Precisa de água
+msg.MachineStatus.cantSeeSky=Precisa ver o céu
 
 # Achievements
 achievement.feelingScrappy=Se sentindo um lixo!
 achievement.feelingScrappy.desc=Faça um Reciclador Termal
 achievement.doingMyPart=Fazendo minha parte
 achievement.doingMyPart.desc=Usar uma caixa de sucata
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eValor como Sucata: §7Nenhum
+msg.ItemScrapValue.poor=§eValor como Sucata: §fInferior
+msg.ItemScrapValue.standard=§eValor como Sucata: §9Padrão
+msg.ItemScrapValue.superior=§eValor como Sucata: §6Superior
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§eComposto: §6Marrom
+msg.ItemCompostIngredientValue.green=§eComposto: §2Verde
