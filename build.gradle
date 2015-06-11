@@ -64,7 +64,7 @@ dependencies {
     //compile "com.mod-buildcraft:buildcraft:6.4.13:dev"
     compile 'net.sengir.forestry:forestry_1.7.10:3.5.7.16:dev'
 
-    compile name: "buildcraft", version: "7.0.7", classifier: "dev"
+    compile name: "buildcraft", version: "7.0.9", classifier: "dev"
     
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..

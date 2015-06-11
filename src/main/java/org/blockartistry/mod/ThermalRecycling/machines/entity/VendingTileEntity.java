@@ -22,10 +22,21 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
-public enum GuiIdentifier {
+import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING;
+public class VendingTileEntity extends TileEntityBase {
+
+	public VendingTileEntity() {
+		super(GuiIdentifier.VENDING);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void flush() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

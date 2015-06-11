@@ -22,10 +22,16 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.machines;
 
-public enum GuiIdentifier {
+import net.minecraft.block.Block;
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING;
+import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
+public final class MachineVendingBlock extends MultiItemBlock {
+
+	public MachineVendingBlock(final Block block) {
+
+		super(block);
+	}
 }

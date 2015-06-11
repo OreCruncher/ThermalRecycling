@@ -22,26 +22,36 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-import net.minecraft.init.Blocks;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 
-public final class ModBuildCraftEnergy extends ModPlugin {
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import cofh.lib.gui.GuiBase;
 
-	public ModBuildCraftEnergy() {
-		super(SupportedMod.BUILDCRAFT_ENERGY);
+public final class VendingGui extends GuiBase {
+
+	private final VendingTileEntity tileEntity;
+
+	public VendingGui(final InventoryPlayer playerInventory, final IInventory entity) {
+		super(new ThermalRecyclerContainer(playerInventory, entity),
+				new ResourceLocation(ThermalRecycling.MOD_ID,
+						"textures/thermalrecycler_gui.png"));
+
+		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
+
+		name = StatCollector.translateToLocal("tile.MachineVending.name");
+		tileEntity = (VendingTileEntity) entity;
 	}
 
 	@Override
-	public void apply() {
+	public void initGui() {
+		super.initGui();
 
-		// Redstone Engine
-		sawmill.append("BuildCraft|Energy:engineBlock")
-				.output(Blocks.planks, 6).secondaryOutput("ingotIron").save();
-
-		// Stirling Engine
-		pulverizer.append("BuildCraft|Energy:engineBlock:1")
-				.output(Blocks.cobblestone, 15).secondaryOutput("ingotIron")
-				.save();
 	}
 }

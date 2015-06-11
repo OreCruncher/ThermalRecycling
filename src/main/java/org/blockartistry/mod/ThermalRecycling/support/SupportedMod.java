@@ -38,8 +38,9 @@ public enum SupportedMod {
 
 	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics",
 			ModThermalDynamics.class),
-			
-	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal", ModRedstoneArsenal.class),
+
+	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal",
+			ModRedstoneArsenal.class),
 
 	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded",
 			ModMinefactoryReloaded.class),
@@ -47,15 +48,18 @@ public enum SupportedMod {
 	THAUMCRAFT("Thaumcraft", "Thaumcraft", ModThaumcraft.class),
 
 	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core",
-			ModBuildCraftCore.class), BUILDCRAFT_TRANSPORT(
-			"BuildCraft|Transport", "BuildCraft|Transport",
-			ModBuildCraftTransport.class), BUILDCRAFT_SILICON(
-			"BuildCraft|Silicon", "BuildCraft|Silicon",
-			ModBuildCraftSilicon.class), BUILDCRAFT_BUILDERS(
-			"BuildCraft|Builders", "BuildCraft|Builders",
-			ModBuildCraftBuilders.class), BUILDCRAFT_ENERGY(
-			"BuildCraft|Energy", "BuildCraft|Energy", ModBuildCraftEnergy.class), BUILDCRAFT_FACTORY(
-			"BuildCraft|Factory", "BuildCraft|Factory",
+			ModBuildCraftCore.class),
+
+	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport",
+			ModBuildCraftTransport.class),
+
+	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon",
+			ModBuildCraftSilicon.class),
+
+	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders",
+			ModBuildCraftBuilders.class),
+
+	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory",
 			ModBuildCraftFactory.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
@@ -72,22 +76,24 @@ public enum SupportedMod {
 	CHICKEN_CHUNKS("Chicken Chunks", "ChickenChunks", ModChickenChunks.class),
 
 	RFTOOLS("RFTools", "rftools", ModRFTools.class),
-	
+
 	ENDER_STORAGE("Ender Storage", "EnderStorage", ModEnderStorage.class),
-	
+
 	EXTRABIOMESXL("ExtrabiomesXL", "ExtrabiomesXL", ModExtrabiomesXL.class),
-	
+
 	SOLARFLUX("Solar Flux", "SolarFlux", ModSolarFlux.class),
-	
+
 	RFDRILLS("RFDrills", "rfdrills", ModRFDrills.class),
-	
-	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks", ModSimplyJetpacks.class),
-	
+
+	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks",
+			ModSimplyJetpacks.class),
+
 	RFWINDMILLS("RF Windmills", "rfwindmill", ModRFWindmills.class),
-	
+
 	REDSTONE_ARMORY("Redstone Armory", "RArm", ModRedstoneArmory.class),
-	
-	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
+
+	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2",
+			ModAppliedEnergistics2.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
@@ -139,14 +145,14 @@ public enum SupportedMod {
 			result[i] = values()[i].getModId();
 		return result;
 	}
-	
+
 	public static String getDependencies() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("required-after:ThermalExpansion;");
-		for(String s: getModIdList()) {
-			if("ThermalExpansion".equalsIgnoreCase(s))
+		for (String s : getModIdList()) {
+			if ("ThermalExpansion".equalsIgnoreCase(s))
 				continue;
-			
+
 			builder.append("after:");
 			builder.append(s);
 			builder.append(';');

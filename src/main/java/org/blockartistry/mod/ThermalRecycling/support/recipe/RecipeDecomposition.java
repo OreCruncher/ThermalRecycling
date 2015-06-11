@@ -166,7 +166,7 @@ public final class RecipeDecomposition {
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
 		if (level == 3)
-			result.add((ItemStack) list.get(0));
+			result.add(((ItemStack) list.get(0)).copy());
 		else
 			for (final Object o : list) {
 				if (o instanceof ItemStack)
@@ -197,7 +197,7 @@ public final class RecipeDecomposition {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
 				if (t.size() > 0)
-					result.add(ItemStackHelper.getPreferredStack(t.get(0)));
+					result.add(ItemStackHelper.getPreferredStack(t.get(0).copy()));
 			}
 		}
 

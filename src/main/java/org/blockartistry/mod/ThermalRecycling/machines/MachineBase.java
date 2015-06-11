@@ -203,4 +203,6 @@ public abstract class MachineBase extends BlockContainer {
 	public void register() {
 		GameRegistry.registerBlock(this, myUnlocalizedName);
 	}
+	
+	public void registerRenderer() { }
 }

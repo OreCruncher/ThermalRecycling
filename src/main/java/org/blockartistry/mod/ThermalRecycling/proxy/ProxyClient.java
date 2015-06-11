@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.VersionCheck;
 import org.blockartistry.mod.ThermalRecycling.events.ToolTipEventHandler;
@@ -50,5 +51,8 @@ public final class ProxyClient extends Proxy {
 
 		if (ModOptions.getEnableDebugLogging())
 			ToolTipEventHandler.hooks.add(new DebugToolTip());
+		
+		// Register renderers
+		//BlockManager.vending.registerRenderer();
 	}
 }
