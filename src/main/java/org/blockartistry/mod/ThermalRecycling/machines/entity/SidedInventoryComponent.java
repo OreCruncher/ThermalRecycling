@@ -255,6 +255,12 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		return ItemStackHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
 	}
+	
+	@Override
+	public boolean removeStackFromOutput(final ItemStack stack) {
+		isDirty = true;
+		return ItemStackHelper.removeItemStackFromInventory(inventory, stack, outputStart, outputEnd - outputStart + 1);
+	}
 
 	@Override
 	public void coeleceOutput() {

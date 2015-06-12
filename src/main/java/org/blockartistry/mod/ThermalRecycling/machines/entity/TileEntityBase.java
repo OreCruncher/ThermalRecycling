@@ -230,6 +230,11 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 	
 	@Override
+	public boolean removeStackFromOutput(final ItemStack stack) {
+		return inventory.removeStackFromOutput(stack);
+	}
+	
+	@Override
 	public void coeleceOutput() {
 		inventory.coeleceOutput();
 	}

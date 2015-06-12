@@ -42,4 +42,6 @@ public interface IMachineInventory extends INBTSerializer, ISidedInventory {
 	
 	void flush();
 
+	boolean removeStackFromOutput(ItemStack stack);
+
 }

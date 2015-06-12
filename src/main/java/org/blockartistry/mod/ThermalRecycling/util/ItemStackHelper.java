@@ -785,6 +785,27 @@ public final class ItemStackHelper {
 
 		return false;
 	}
+	
+	public static boolean removeItemStackFromInventory(final ItemStack inv[], final ItemStack stack, final int startSlot, final int endSlot) {
+		if(stack == null || stack.stackSize == 0)
+			return true;
+		
+		for(int slot = startSlot; slot <= endSlot && stack.stackSize > 0; slot++) {
+			ItemStack invStack = inv[slot];
+			if(invStack != null && ItemStackHelper.areEqual(invStack, stack)) {
+				if(invStack.stackSize > stack.stackSize) {
+					invStack.stackSize -= stack.stackSize;
+					stack.stackSize = 0;
+				} else {
+					stack.stackSize -= invStack.stackSize;
+					inv[slot] = null;
+				}
+			}
+		}
+		
+		return stack.stackSize == 0;
+	}
+
 
 	public static void setItemName(final ItemStack stack, final String name) {
 

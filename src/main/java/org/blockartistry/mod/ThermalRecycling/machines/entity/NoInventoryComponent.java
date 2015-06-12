@@ -142,4 +142,9 @@ public final class NoInventoryComponent implements IMachineInventory {
 	public void flush() {
 		
 	}
+
+	@Override
+	public boolean removeStackFromOutput(final ItemStack stack) {
+		return false;
+	}
 }
