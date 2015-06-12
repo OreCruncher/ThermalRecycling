@@ -101,7 +101,7 @@ public abstract class TileEntityBase extends TileEntity implements
 	public boolean onBlockActivated(final World world, final int x, final int y, final int z,
 			final EntityPlayer player, final int side, final float a, final float b, final float c) {
 
-		if (!world.isRemote) {
+		if (!world.isRemote && !player.isSneaking()) {
 			player.openGui(ThermalRecycling.MOD_ID, myGui.ordinal(), world, x,
 					y, z);
 		}

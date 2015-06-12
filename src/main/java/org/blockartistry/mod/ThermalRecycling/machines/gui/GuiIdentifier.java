@@ -26,6 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 public enum GuiIdentifier {
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING, VENDING_STORAGE;
+	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING, VENDING_OWNER;
 
 }

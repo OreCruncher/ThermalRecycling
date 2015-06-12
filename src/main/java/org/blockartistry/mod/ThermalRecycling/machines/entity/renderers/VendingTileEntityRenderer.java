@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -36,12 +37,9 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 
 @SideOnly(Side.CLIENT)
@@ -76,34 +74,6 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 		TOP_EDGE_OFFSET - 5 * IMAGE_SIZE,
 	};
 	
-	private static ItemStack[] input1 = new ItemStack[] {
-		new ItemStack(Blocks.dirt, 64),
-		new ItemStack(Blocks.cobblestone, 64),
-		new ItemStack(Blocks.gravel, 64),
-		new ItemStack(Blocks.sand, 64),
-		new ItemStack(Blocks.cactus, 64),
-		new ItemStack(Blocks.crafting_table, 64)
-	};
-
-	private static ItemStack[] input2 = new ItemStack[] {
-		new ItemStack(Items.redstone, 64),
-		new ItemStack(Items.dye, 64, 15),
-		new ItemStack(Items.wheat, 64),
-		new ItemStack(Items.bucket, 64),
-		new ItemStack(Items.wheat_seeds, 64),
-		new ItemStack(Items.wooden_door, 64)
-	};
-	
-	private static ItemStack[] output = new ItemStack[] {
-		new ItemStack(Blocks.planks, 64),
-		new ItemStack(Blocks.log, 64),
-		new ItemStack(Blocks.log2, 64),
-		new ItemStack(Blocks.sapling, 64),
-		new ItemStack(Items.cake, 64),
-		new ItemStack(Items.apple, 64)
-		
-	};
-
 	public VendingTileEntityRenderer() {
 		super();
 		
@@ -112,7 +82,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 	}
 	
 	
-	protected void renderItem(final World world, final ItemStack stack, final int rotation, final int x, final int y) {
+	protected void renderItem(final ItemStack stack, final int x, final int y) {
+		
+		if(stack == null)
+			return;
 		
         item.setEntityItemStack(stack);
 		
@@ -132,12 +105,15 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
         GL11.glPopMatrix();	
 	}
 	
-	protected void renderTradeInventory(final TileEntity te, final int rotation) {
+	protected void renderTradeInventory(final TileEntity te) {
 		
-		for(int i = 0; i < input1.length; i++) {
-			renderItem(te.getWorldObj(), input1[i], rotation, 0, i);
-			renderItem(te.getWorldObj(), input2[i], rotation, 1, i);
-			renderItem(te.getWorldObj(), output[i], rotation, 2, i);
+		final VendingTileEntity vte = (VendingTileEntity) te;
+		
+		for(int i = 0; i < 6; i++) {
+			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
+			renderItem(vte.getStackInSlot(base), 0, i);
+			renderItem(vte.getStackInSlot(base + 6), 1, i);
+			renderItem(vte.getStackInSlot(base + 12), 2, i);
 		}
 	}
 
@@ -173,7 +149,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 		
 		// Render the contents of the trade inventory
 		if(te != null) {
-			renderTradeInventory(te, rotation);
+			renderTradeInventory(te);
 		}
 
 		GL11.glPopMatrix();

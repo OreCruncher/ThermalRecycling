@@ -71,7 +71,7 @@ public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecy
 		s = new SlotAcceptValid(inventory, ThermalRecyclerTileEntity.CORE, 33, 34);
 		addSlotToContainer(s);
 		
-		addPlayerInventory(inv);
+		addPlayerInventory(inv, 166);
 	}
 
 	@Override

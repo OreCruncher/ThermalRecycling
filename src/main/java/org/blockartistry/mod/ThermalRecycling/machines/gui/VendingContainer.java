@@ -28,8 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTil
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
-import cofh.lib.gui.slot.SlotAcceptValid;
-import cofh.lib.gui.slot.SlotRemoveOnly;
+import cofh.lib.gui.slot.SlotLocked;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -48,7 +47,27 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 		// GUI dimension is width 427, height 240
 		final IInventory inventory = entity.getMachineInventory();
-		addPlayerInventory(inv);
+		
+		// Add configuration slots
+		for (int i = 0; i < 6; i++) {
+
+			final int slotBase = VendingTileEntity.CONFIG_SLOT_START + i;
+			final int x = (i < 3) ? 17 : 97;
+			final int y = (i < 3) ? i * GUI_INVENTORY_CELL_SIZE + 17 : (i - 3)
+					* GUI_INVENTORY_CELL_SIZE + 17;
+			
+			Slot slot = new SlotLocked(inventory, slotBase, x, y);
+			addSlotToContainer(slot);
+
+			slot = new SlotLocked(inventory, slotBase + 6, x + GUI_INVENTORY_CELL_SIZE, y);
+			addSlotToContainer(slot);
+			
+			MultiSlot ms = new MultiSlot(inventory, slotBase + 12, x + GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
+			ms.setInfinite();
+			addSlotToContainer(ms);
+		}
+
+		addPlayerInventory(inv, 166);
 	}
 
 	@Override

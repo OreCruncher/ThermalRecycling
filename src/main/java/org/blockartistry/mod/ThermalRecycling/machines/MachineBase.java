@@ -91,7 +91,7 @@ public abstract class MachineBase extends BlockContainer {
 		if (!world.isRemote) {
 			final TileEntity te = world.getTileEntity(x, y, z);
 
-			if (!(te instanceof TileEntityBase) || player.isSneaking())
+			if (!(te instanceof TileEntityBase))
 				// Returns false so it doesn't update anything
 				return false;
 			

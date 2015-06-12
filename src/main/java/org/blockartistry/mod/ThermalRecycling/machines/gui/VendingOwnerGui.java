@@ -32,16 +32,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import cofh.lib.gui.GuiBase;
 
-public final class VendingGui extends GuiBase {
+public final class VendingOwnerGui extends GuiBase {
 
-	public VendingGui(final InventoryPlayer playerInventory, final IInventory entity) {
-		super(new VendingContainer(playerInventory, entity),
+	public VendingOwnerGui(final InventoryPlayer playerInventory,
+			final IInventory entity) {
+		super(new VendingOwnerContainer(playerInventory, entity),
 				new ResourceLocation(ThermalRecycling.MOD_ID,
-						"textures/vending_gui.png"));
+						"textures/vendingowner_gui.png"));
 
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
 		name = StatCollector.translateToLocal("tile.MachineVending.name");
+		ySize = 232;
 	}
 
 	@Override

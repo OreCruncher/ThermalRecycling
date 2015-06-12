@@ -36,6 +36,8 @@ import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingGui;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingOwnerContainer;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingOwnerGui;
 
 public class VendingTileEntity extends TileEntityBase {
 	
@@ -45,20 +47,22 @@ public class VendingTileEntity extends TileEntityBase {
 	public static final UUID NO_OWNER = new UUID(0, 0);
 	
 	// Slot geometry - based on hardened strongbox storage
-	private static final int GENERAL_INVENTORY_SIZE = 9 * 6;
-	private static final int CONFIG_INVENTORY_SIZE = 3 * 6;
-	private static final int TOTAL_INVENTORY_SIZE = GENERAL_INVENTORY_SIZE + CONFIG_INVENTORY_SIZE;
-	private static final int INVENTORY_SLOT_START = 0;
-	private static final int CONFIG_SLOT_START = GENERAL_INVENTORY_SIZE;
+	public static final int GENERAL_INVENTORY_SIZE = 9 * 3;
+	public static final int CONFIG_INVENTORY_SIZE = 3 * 6;
+	public static final int TOTAL_INVENTORY_SIZE = GENERAL_INVENTORY_SIZE + CONFIG_INVENTORY_SIZE;
+	public static final int INVENTORY_SLOT_START = 0;
+	public static final int CONFIG_SLOT_START = GENERAL_INVENTORY_SIZE;
 	
 	private final class NBT {
 		public final static String OWNER = "owner";
 		public final static String OWNER_NAME = "ownerName";
+		public final static String ADMIN_MODE = "admin";
 	}
 	
 	// Persisted state
 	private UUID ownerId = NO_OWNER;
 	private String ownerName = "";
+	private boolean adminMode = false;
 	
 	public VendingTileEntity() {
 		super(GuiIdentifier.VENDING);
@@ -80,7 +84,11 @@ public class VendingTileEntity extends TileEntityBase {
 	}
 	
 	public String getOwnerName() {
-		return ownerName;
+		return adminMode ? "Administrator" : ownerName;
+	}
+	
+	public boolean isAdminMode() {
+		return adminMode;
 	}
 	
 	// /////////////////////////////////////
@@ -96,6 +104,7 @@ public class VendingTileEntity extends TileEntityBase {
 		if(nbt.hasKey(NBT.OWNER)) {
 			ownerId = UUID.fromString(nbt.getString(NBT.OWNER));
 			ownerName = nbt.getString(NBT.OWNER_NAME);
+			adminMode = nbt.getBoolean(NBT.ADMIN_MODE);
 		}
 	}
 
@@ -105,6 +114,7 @@ public class VendingTileEntity extends TileEntityBase {
 		
 		nbt.setString(NBT.OWNER, ownerId.toString());
 		nbt.setString(NBT.OWNER_NAME, ownerName);
+		nbt.setBoolean(NBT.ADMIN_MODE, adminMode);
 	}
 
 	// /////////////////////////////////////
@@ -119,6 +129,7 @@ public class VendingTileEntity extends TileEntityBase {
 
 		if (!world.isRemote) {
 			
+			final boolean isOpped = player.capabilities.isCreativeMode;
 			boolean isOwner = false;
 			GuiIdentifier theGui = myGui;
 			
@@ -127,18 +138,22 @@ public class VendingTileEntity extends TileEntityBase {
 			if(ownerId.compareTo(NO_OWNER) == 0) {
 				ownerId = player.getPersistentID();
 				ownerName = player.getDisplayName();
+				adminMode = isOpped;
 				isOwner = true;
 				markDirty();
 			} else {
 				isOwner = ownerId.compareTo(player.getPersistentID()) == 0;
-				if(isOwner)
+				
+				// If this is the owner keep the owner name in sync
+				if(isOwner) {
 					ownerName = player.getDisplayName();
+				}
 			}
-
+			
 			// If the owner is opening without sneaking then go to
 			// the storage GUI.  Otherwise the trade GUI will be opened.
-			if(isOwner && !player.isSneaking()) {
-				theGui = GuiIdentifier.VENDING_STORAGE;
+			if((isOwner || isOpped) && !player.isSneaking()) {
+				theGui = GuiIdentifier.VENDING_OWNER;
 			}
 			
 			player.openGui(ThermalRecycling.MOD_ID, theGui.ordinal(), world, x,
@@ -150,11 +165,15 @@ public class VendingTileEntity extends TileEntityBase {
 
 	@Override
 	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
+		if(id == GuiIdentifier.VENDING_OWNER)
+			return new VendingOwnerGui(inventory, this);
 		return new VendingGui(inventory, this);
 	}
 
 	@Override
 	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
+		if(id == GuiIdentifier.VENDING_OWNER)
+			return new VendingOwnerContainer(inventory, this);
 		return new VendingContainer(inventory, this);
 	}
 

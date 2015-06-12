@@ -38,11 +38,15 @@ public class VendingMachineBreakHandler implements Predicate<BreakEvent> {
 	public boolean apply(final BreakEvent evt) {
 		
 		if(!evt.isCanceled() && evt.block instanceof MachineVending) {
-			TileEntity te = evt.world.getTileEntity(evt.x, evt.y, evt.z);
-			if(te instanceof VendingTileEntity) {
-				final VendingTileEntity vending = (VendingTileEntity) te;
-				if(!vending.okToBreak(evt.getPlayer()))
-					evt.setCanceled(true);
+			
+			// Do the check only if player is non-OP
+			if(!evt.getPlayer().capabilities.isCreativeMode) {
+				TileEntity te = evt.world.getTileEntity(evt.x, evt.y, evt.z);
+				if(te instanceof VendingTileEntity) {
+					final VendingTileEntity vending = (VendingTileEntity) te;
+					if(!vending.okToBreak(evt.getPlayer()))
+						evt.setCanceled(true);
+				}
 			}
 		}
 		

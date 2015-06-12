@@ -24,49 +24,65 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
+import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
-import cofh.lib.gui.slot.SlotAcceptValid;
-import cofh.lib.gui.slot.SlotLocked;
+public final class VendingOwnerContainer extends
+		MachineContainer<VendingTileEntity> {
 
-public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessorTileEntity> {
-
-	public ScrapAssessorContainer(final InventoryPlayer inv, final IInventory tileEntity) {
-		super((ScrapAssessorTileEntity)tileEntity);
+	public VendingOwnerContainer(final InventoryPlayer inv,
+			final IInventory tileEntity) {
+		super((VendingTileEntity) tileEntity);
 
 		final IInventory inventory = entity.getMachineInventory();
-		Slot s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.INPUT, 11,
-				13);
-		addSlotToContainer(s);
 
-		s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.CORE, 33, 34);
-		addSlotToContainer(s);
+		final int yOffset = 84;
 
-		s = new SlotLocked(inventory, ScrapAssessorTileEntity.SAMPLE, 56, 34);
-		addSlotToContainer(s);
+		// Add vending machine inventory
+		for (int i = 0; i < PLAYER_CHEST_SIZE; ++i) {
 
-		for (int i = 0; i < ScrapAssessorTileEntity.DISPLAY_SLOTS.length; i++) {
+			// The constants are offsets from the left and top edge
+			// of the GUI
+			final int h = (i % PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE
+					+ 8;
+			final int v = (i / PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE
+					+ yOffset;
 
-			final int oSlot = ScrapAssessorTileEntity.DISPLAY_SLOTS[i];
-
-			final int h = (i % 3) * GUI_INVENTORY_CELL_SIZE + 106;
-			final int v = (i / 3) * GUI_INVENTORY_CELL_SIZE + 17;
-
-			s = new SlotLocked(inventory, oSlot, h, v);
-			addSlotToContainer(s);
+			addSlotToContainer(new Slot(inventory, i, h, v));
 		}
 
-		addPlayerInventory(inv, 166);
+		// Add configuration slots
+		for (int i = 0; i < 6; i++) {
+
+			final int slotBase = VendingTileEntity.CONFIG_SLOT_START + i;
+			final int x = (i < 3) ? 17 : 97;
+			final int y = (i < 3) ? i * GUI_INVENTORY_CELL_SIZE + 17 : (i - 3)
+					* GUI_INVENTORY_CELL_SIZE + 17;
+			
+			MultiSlot slot = new MultiSlot(inventory, slotBase, x, y);
+			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
+			addSlotToContainer(slot);
+
+			slot = new MultiSlot(inventory, slotBase + 6, x + GUI_INVENTORY_CELL_SIZE, y);
+			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
+			addSlotToContainer(slot);
+			
+			slot = new MultiSlot(inventory, slotBase + 12, x + GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
+			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
+			addSlotToContainer(slot);
+		}
+
+		// Add the player inventory
+		addPlayerInventory(inv, 232);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
+	public ItemStack transferStackInSlot(final EntityPlayer playerIn,
+			final int slotIndex) {
 
 		ItemStack stack = null;
 		final Slot slot = (Slot) inventorySlots.get(slotIndex);
@@ -77,19 +93,20 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 			final ItemStack stackInSlot = slot.getStack();
 			stack = stackInSlot.copy();
 
-			// If the slot is INPUT or one of the OUTPUTs, move the contents
-			// to the player inventory
-			if (slotIndex < 11) {
+			// If it is one of the general container slots, move to player
+			// inventory.
+			if (slotIndex < VendingTileEntity.CONFIG_SLOT_START) {
 
 				if (!mergeToPlayerInventory(stackInSlot)) {
 					return null;
 				}
 
-			} else if (entity.isItemValidForSlot(
-					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
+			} else if (slotIndex >= VendingTileEntity.TOTAL_INVENTORY_SIZE) {
 
 				// Try moving to the input slot
-				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
+				if (!mergeItemStack(stackInSlot,
+						VendingTileEntity.INVENTORY_SLOT_START,
+						VendingTileEntity.GENERAL_INVENTORY_SIZE, false)) {
 					return null;
 				}
 			}

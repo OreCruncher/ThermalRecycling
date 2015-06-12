@@ -60,7 +60,7 @@ public final class ComposterContainer extends MachineContainer<ComposterTileEnti
 		s = new SlotLocked(inventory, ComposterTileEntity.MEAL, 134, 32);
 		addSlotToContainer(s);
 
-		addPlayerInventory(inv);
+		addPlayerInventory(inv, 166);
 	}
 
 	/**
