@@ -39,7 +39,7 @@ public final class VendingGui extends GuiBase {
 	private final VendingTileEntity tileEntity;
 
 	public VendingGui(final InventoryPlayer playerInventory, final IInventory entity) {
-		super(new ThermalRecyclerContainer(playerInventory, entity),
+		super(new VendingContainer(playerInventory, entity),
 				new ResourceLocation(ThermalRecycling.MOD_ID,
 						"textures/thermalrecycler_gui.png"));
 

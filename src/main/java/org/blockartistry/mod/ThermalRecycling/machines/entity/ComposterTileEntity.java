@@ -215,12 +215,12 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public Object getGuiClient(final InventoryPlayer inventory) {
+	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ComposterGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(final InventoryPlayer inventory) {
+	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ComposterContainer(inventory, this);
 	}
 

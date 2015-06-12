@@ -372,12 +372,12 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public Object getGuiClient(final InventoryPlayer inventory) {
+	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ThermalRecyclerGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(final InventoryPlayer inventory) {
+	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ThermalRecyclerContainer(inventory, this);
 	}
 

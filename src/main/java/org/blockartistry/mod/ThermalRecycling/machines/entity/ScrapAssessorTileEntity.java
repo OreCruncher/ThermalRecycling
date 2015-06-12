@@ -67,12 +67,12 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 	}
 	
 	@Override
-	public Object getGuiClient(final InventoryPlayer inventory) {
+	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ScrapAssessorGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(final InventoryPlayer inventory) {
+	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return new ScrapAssessorContainer(inventory, this);
 	}
 

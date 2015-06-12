@@ -113,11 +113,11 @@ public abstract class TileEntityBase extends TileEntity implements
 
 	}
 
-	public Object getGuiClient(final InventoryPlayer inventory) {
+	public Object getGuiClient(GuiIdentifier id, final InventoryPlayer inventory) {
 		return null;
 	}
 
-	public Object getGuiServer(final InventoryPlayer inventory) {
+	public Object getGuiServer(GuiIdentifier id, final InventoryPlayer inventory) {
 		return null;
 	}
 	

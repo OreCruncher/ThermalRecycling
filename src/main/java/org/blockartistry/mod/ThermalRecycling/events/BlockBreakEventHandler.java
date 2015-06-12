@@ -22,10 +22,30 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.events;
 
-public enum GuiIdentifier {
+import java.util.ArrayList;
+import java.util.List;
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING, VENDING_STORAGE;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import com.google.common.base.Predicate;
+
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+public class BlockBreakEventHandler {
+	
+	public static final List<Predicate<BreakEvent>> hooks = new ArrayList<Predicate<BreakEvent>>();
+
+	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
+	public void onBlockBreak(final BreakEvent event) {
+		for (final Predicate<BreakEvent> p : hooks)
+			p.apply(event);
+	}
+	
+	public BlockBreakEventHandler() {
+		MinecraftForge.EVENT_BUS.register(this);
+	}
 
 }

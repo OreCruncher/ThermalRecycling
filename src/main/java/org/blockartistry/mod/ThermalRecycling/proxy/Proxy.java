@@ -35,8 +35,10 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BiomeDecorationHandler;
+import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
+import org.blockartistry.mod.ThermalRecycling.events.VendingMachineBreakHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
@@ -69,8 +71,13 @@ public class Proxy {
 		new GuiHandler();
 		new FuelHandler();
 		
+		// Hook for worm drop
 		new BlockHarvestEventHandler();
 		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
+		
+		// Hook to prevent vending machines from being broken
+		//new BlockBreakEventHandler();
+		//BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
 
 		if(!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();

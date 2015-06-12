@@ -46,7 +46,7 @@ public final class GuiHandler implements IGuiHandler {
 
 		final TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileEntityBase) {
-			return ((TileEntityBase) te).getGuiClient(player.inventory);
+			return ((TileEntityBase) te).getGuiClient(GuiIdentifier.values()[id], player.inventory);
 		}
 
 		return null;
@@ -58,7 +58,7 @@ public final class GuiHandler implements IGuiHandler {
 
 		final TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileEntityBase) {
-			return ((TileEntityBase) te).getGuiServer(player.inventory);
+			return ((TileEntityBase) te).getGuiServer(GuiIdentifier.values()[id], player.inventory);
 		}
 
 		return null;

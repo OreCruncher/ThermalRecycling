@@ -30,6 +30,8 @@ import org.blockartistry.mod.ThermalRecycling.machines.entity.renderers.VendingT
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -73,6 +75,7 @@ public class MachineVending extends MachineBase {
 
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerRenderer() {
 		VendingTileEntityRenderer renderer = new VendingTileEntityRenderer();

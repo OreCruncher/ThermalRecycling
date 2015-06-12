@@ -204,5 +204,6 @@ public abstract class MachineBase extends BlockContainer {
 		GameRegistry.registerBlock(this, myUnlocalizedName);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public void registerRenderer() { }
 }

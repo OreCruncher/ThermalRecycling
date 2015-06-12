@@ -48,24 +48,6 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 		// GUI dimension is width 427, height 240
 		final IInventory inventory = entity.getMachineInventory();
-		Slot s = new SlotAcceptValid(inventory, ThermalRecyclerTileEntity.INPUT,
-				56, 34);
-		addSlotToContainer(s);
-
-		for (int i = 0; i < ThermalRecyclerTileEntity.OUTPUT_SLOTS.length; i++) {
-
-			final int oSlot = ThermalRecyclerTileEntity.OUTPUT_SLOTS[i];
-
-			final int h = (i % 3) * GUI_INVENTORY_CELL_SIZE + 106;
-			final int v = (i / 3) * GUI_INVENTORY_CELL_SIZE + 17;
-
-			s = new SlotRemoveOnly(inventory, oSlot, h, v);
-			addSlotToContainer(s);
-		}
-
-		s = new SlotAcceptValid(inventory, ThermalRecyclerTileEntity.CORE, 33, 34);
-		addSlotToContainer(s);
-		
 		addPlayerInventory(inv);
 	}
 

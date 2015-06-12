@@ -25,6 +25,8 @@
 package org.blockartistry.mod.ThermalRecycling.machines.entity;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -35,7 +37,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
 public final class SidedInventoryComponent implements IMachineInventory {
-	
+
 	private class NBT {
 		public static final String ITEMS = "Items";
 		public static final String SLOT = "Slot";
@@ -51,11 +53,11 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 	private int[] accessibleSlots;
 	private int[] hiddenSlots;
-	
+
 	private boolean isDirty;
 
 	public SidedInventoryComponent(final TileEntityBase parent, final int size) {
-		
+
 		assert parent != null;
 		assert size > 0;
 
@@ -67,51 +69,42 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		if (accessibleSlots != null)
 			return accessibleSlots;
 
-		int size = 0;
-		if (inputStart != -1)
-			size = inputEnd - inputStart + 1;
-		if (outputStart != -1)
-			size += outputEnd - outputStart + 1;
+		final Set<Integer> slots = new HashSet<Integer>(64);
+		if (inputStart != -1) {
+			for (int i = inputStart; i <= inputEnd; i++) {
+				slots.add(i);
+			}
+		}
 
-		if (size == 0)
-			return null;
+		if (outputStart != -1) {
+			for (int i = outputStart; i <= outputEnd; i++) {
+				slots.add(i);
+			}
+		}
 
-		accessibleSlots = new int[size];
-		int index = 0;
-		if (inputStart != -1)
-			for (int x = inputStart; x <= inputEnd; x++)
-				accessibleSlots[index++] = x;
-		if (outputStart != -1)
-			for (int x = outputStart; x <= outputEnd; x++)
-				accessibleSlots[index++] = x;
+		accessibleSlots = new int[slots.size()];
+		int i = 0;
+		for (final Integer v : slots) {
+			accessibleSlots[i++] = v.intValue();
+		}
 
 		return accessibleSlots;
 	}
 
-	private void validateRangesDisjoint() {
-
-		if (outputStart == -1 || inputStart == -1)
-			return;
-
-		assert inputStart < outputEnd && outputStart > inputEnd: "Input and output ranges overlap";
-	}
-
-	public SidedInventoryComponent setInputRange(final int start, final int length) {
+	public SidedInventoryComponent setInputRange(final int start,
+			final int length) {
 
 		inputStart = start;
 		inputEnd = start + length - 1;
 
-		validateRangesDisjoint();
-
 		return this;
 	}
 
-	public SidedInventoryComponent setOutputRange(final int start, final int length) {
+	public SidedInventoryComponent setOutputRange(final int start,
+			final int length) {
 
 		outputStart = start;
 		outputEnd = start + length - 1;
-
-		validateRangesDisjoint();
 
 		return this;
 	}
@@ -125,8 +118,7 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 
 		final ItemStack target = inventory[slot];
-		return stack != null && target != null
-				&& stack.isItemEqual(target)
+		return stack != null && target != null && stack.isItemEqual(target)
 				&& ItemStack.areItemStackTagsEqual(stack, target);
 	}
 
@@ -144,17 +136,17 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	public ItemStack decrStackSize(final int index, final int count) {
 
 		ItemStack stack = inventory[index];
-		if ( stack != null) {
+		if (stack != null) {
 
 			if (stack.stackSize <= count) {
 				inventory[index] = null;
 			} else {
 				stack = stack.splitStack(count);
 			}
-			
+
 			isDirty = true;
 		}
-		
+
 		return stack;
 	}
 
@@ -209,12 +201,14 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
+	public boolean canInsertItem(final int slot, final ItemStack stack,
+			final int facing) {
 		return entity.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
+	public boolean canExtractItem(final int slot, final ItemStack stack,
+			final int facing) {
 		return outputStart != -1 && slot >= outputStart && slot <= outputEnd;
 	}
 
@@ -228,9 +222,10 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 		Arrays.fill(inventory, null);
 		final NBTTagList nbttaglist = nbt.getTagList(NBT.ITEMS, 10);
-		
+
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			final NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
+			final NBTTagCompound nbtTagCompound = nbttaglist
+					.getCompoundTagAt(i);
 			final byte b0 = nbtTagCompound.getByte(NBT.SLOT);
 
 			if (b0 >= 0 && b0 < inventory.length) {
@@ -268,7 +263,8 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	}
 
 	@Override
-	public void dropInventory(final World world, final int x, final int y, final int z) {
+	public void dropInventory(final World world, final int x, final int y,
+			final int z) {
 
 		isDirty = true;
 		for (final int i : getAccessibleSlots()) {
@@ -286,10 +282,10 @@ public final class SidedInventoryComponent implements IMachineInventory {
 
 		Arrays.fill(inventory, null);
 	}
-	
+
 	@Override
 	public void flush() {
-		if(isDirty) {
+		if (isDirty) {
 			isDirty = false;
 			entity.markDirty();
 		}

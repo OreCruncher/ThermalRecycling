@@ -22,10 +22,30 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.machines.gui;
+package org.blockartistry.mod.ThermalRecycling.events;
 
-public enum GuiIdentifier {
+import org.blockartistry.mod.ThermalRecycling.machines.MachineVending;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING, VENDING_STORAGE;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
+import com.google.common.base.Predicate;
+
+public class VendingMachineBreakHandler implements Predicate<BreakEvent> {
+
+	@Override
+	public boolean apply(final BreakEvent evt) {
+		
+		if(!evt.isCanceled() && evt.block instanceof MachineVending) {
+			TileEntity te = evt.world.getTileEntity(evt.x, evt.y, evt.z);
+			if(te instanceof VendingTileEntity) {
+				final VendingTileEntity vending = (VendingTileEntity) te;
+				if(!vending.okToBreak(evt.getPlayer()))
+					evt.setCanceled(true);
+			}
+		}
+		
+		return true;
+	}
 }
