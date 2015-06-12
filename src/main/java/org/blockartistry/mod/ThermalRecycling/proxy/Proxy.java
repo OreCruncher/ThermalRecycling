@@ -76,8 +76,8 @@ public class Proxy {
 		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
 		
 		// Hook to prevent vending machines from being broken
-		//new BlockBreakEventHandler();
-		//BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
+		new BlockBreakEventHandler();
+		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
 
 		if(!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();

@@ -6,10 +6,13 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
+@SideOnly(Side.CLIENT)
 public class VendingModel extends ModelBase {
 	// fields
 	ModelRenderer Back;

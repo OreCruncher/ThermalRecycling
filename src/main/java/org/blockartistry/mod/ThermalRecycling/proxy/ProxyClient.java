@@ -53,6 +53,6 @@ public final class ProxyClient extends Proxy {
 			ToolTipEventHandler.hooks.add(new DebugToolTip());
 		
 		// Register renderers
-		//BlockManager.vending.registerRenderer();
+		BlockManager.vending.registerRenderer();
 	}
 }

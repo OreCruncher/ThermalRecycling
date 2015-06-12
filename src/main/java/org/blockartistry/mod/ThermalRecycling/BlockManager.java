@@ -56,7 +56,7 @@ public final class BlockManager {
 		thermalRecycler.register();
 		scrapAssessor.register();
 		composter.register();
-		//vending.register();
+		vending.register();
 	}
 
 	public BlockManager() {
