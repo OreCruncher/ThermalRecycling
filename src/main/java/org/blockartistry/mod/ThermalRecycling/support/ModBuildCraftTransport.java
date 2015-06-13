@@ -25,15 +25,12 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import java.util.Collection;
-import java.util.List;
-
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.IFlexibleRecipe;
 import buildcraft.api.recipes.IFlexibleRecipeViewable;
-import buildcraft.api.recipes.IIntegrationRecipe;
 import net.minecraft.item.ItemStack;
 
 public final class ModBuildCraftTransport extends ModPlugin {

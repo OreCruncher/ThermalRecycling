@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import cofh.lib.gui.slot.SlotLocked;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -62,7 +63,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 					+ GUI_INVENTORY_CELL_SIZE, y);
 			addSlotToContainer(slot);
 
-			MultiSlot ms = new MultiSlot(inventory, slotBase + 12, x
+			final MultiSlot ms = new MultiSlot(inventory, slotBase + 12, x
 					+ GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
 			ms.setInfinite().setPhantom();
 			addSlotToContainer(ms);
@@ -72,14 +73,14 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 	}
 
 	@Override
-	public ItemStack slotClick(int slotIndex, int button, int modifier,
-			EntityPlayer player) {
+	public ItemStack slotClick(final int slotIndex, final int button, final int modifier,
+			final EntityPlayer player) {
 
 		if (player == null) {
 			return null;
 		}
 
-		Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
+		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
 				.get(slotIndex);
 		if (slot instanceof MultiSlot) {
 			if (((MultiSlot) slot).isPhantom()) {
@@ -96,7 +97,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 		// Get the result of the potential trade. If there is nothing,
 		// or the player inventory cannot hold the stack then return null.
-		ItemStack result = slot.getStack();
+		final ItemStack result = slot.getStack();
 		if (result == null
 				|| !canPlayerAccept(playerInventory, result, result.stackSize))
 			return null;
@@ -127,17 +128,24 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 		// OK - things should work. Do the transaction. Handle Vending
 		// Machine first.
 		if (input1 != null) {
-			entity.addStackToOutput(input1.copy());
+			if (!entity.isAdminMode()) {
+				entity.addStackToOutput(input1.copy());
+			}
 			ItemStackHelper.removeItemStackFromInventory(
 					playerInventory.mainInventory, input1.copy(), 0, 36);
 		}
 		if (input2 != null) {
-			entity.addStackToOutput(input2.copy());
+			if (!entity.isAdminMode()) {
+				entity.addStackToOutput(input2.copy());
+			}
 			ItemStackHelper.removeItemStackFromInventory(
 					playerInventory.mainInventory, input2.copy(), 0, 36);
 		}
-		
-		entity.removeStackFromOutput(result.copy());
+
+		if (!entity.isAdminMode()) {
+			entity.removeStackFromOutput(result.copy());
+		}
+
 		playerInventory.addItemStackToInventory(result.copy());
 
 		player.onUpdate();
@@ -191,7 +199,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 			final ItemStack stack2, final int slotStart, final int slotEnd) {
 
 		// Admin Vending Machines can always accept payment
-		if(entity.isAdminMode())
+		if (entity.isAdminMode())
 			return true;
 
 		// If both are null then payment is not required
@@ -241,7 +249,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 			final int amount, final int slotStart, final int slotEnd) {
 
 		// If it is an Admin Vending Machine it can always satisfy a request.
-		if(entity.isAdminMode())
+		if (entity.isAdminMode())
 			return true;
 
 		int count = amount;

@@ -147,9 +147,9 @@ public enum SupportedMod {
 	}
 
 	public static String getDependencies() {
-		final StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder(128);
 		builder.append("required-after:ThermalExpansion;");
-		for (String s : getModIdList()) {
+		for (final String s : getModIdList()) {
 			if ("ThermalExpansion".equalsIgnoreCase(s))
 				continue;
 

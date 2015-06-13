@@ -30,6 +30,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public final class VersionCheck {
 	
+	private VersionCheck() { }
+	
 	private static final String CURSE_PROJECT_NAME = "229666-thermal-recycling";
 	private static final String MOD_NAME_TEMPLATE = "ThermalRecycling-1.7.10-[].jar";
 	

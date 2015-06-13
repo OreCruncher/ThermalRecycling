@@ -45,9 +45,4 @@ public final class VendingOwnerGui extends GuiBase {
 		name = StatCollector.translateToLocal("tile.MachineVending.name");
 		ySize = 232;
 	}
-
-	@Override
-	public void initGui() {
-		super.initGui();
-	}
 }

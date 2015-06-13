@@ -173,7 +173,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		GL11.glDisable(2929);
 		GL11.glEnable(3042);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		byte byte0 = 0;
+		final byte byte0 = 0;
 		GL11.glDisable(3553);
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);

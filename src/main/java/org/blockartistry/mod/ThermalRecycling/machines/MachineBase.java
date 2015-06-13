@@ -51,8 +51,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class MachineBase extends BlockContainer {
-	
-	private static ItemStack lockTool = ItemStackHelper.getItemStack("ThermalExpansion:material:16");
+
+	private static ItemStack lockTool = ItemStackHelper
+			.getItemStack("ThermalExpansion:material:16");
 
 	public static int BLOCK_BOTTOM = 0;
 	public static int BLOCK_TOP = 1;
@@ -84,20 +85,20 @@ public abstract class MachineBase extends BlockContainer {
 		setStepSound(soundTypeMetal);
 		setHarvestLevel("pickaxe", 3);
 	}
-	
+
 	protected static boolean holdingRotateTool(final EntityPlayer player) {
 		final ItemStack item = player.getCurrentEquippedItem();
-		if(item == null)
+		if (item == null)
 			return false;
-		
+
 		return item.getItem() instanceof IToolHammer;
 	}
-	
+
 	protected static boolean holdingLockTool(final EntityPlayer player) {
 		final ItemStack item = player.getCurrentEquippedItem();
-		if(item == null)
+		if (item == null)
 			return false;
-		
+
 		return ItemStackHelper.areEqual(item, lockTool);
 	}
 
@@ -120,17 +121,17 @@ public abstract class MachineBase extends BlockContainer {
 				if (FluidStackHelper.applyPlayerContainerInteraction(world, te,
 						player))
 					return true;
-			
+
 			final TileEntityBase entity = (TileEntityBase) te;
-			
+
 			// If the player is holding a tool rotate
-			if(holdingRotateTool(player)) {
+			if (holdingRotateTool(player)) {
 				return entity.rotateBlock();
-			} else if(holdingLockTool(player) && entity.isLockable(player)) {
+			} else if (holdingLockTool(player) && entity.isLockable(player)) {
 				return entity.toggleLock();
 			} else {
-				return entity.onBlockActivated(world, x, y, z,
-						player, side, a, b, c);
+				return entity.onBlockActivated(world, x, y, z, player, side, a,
+						b, c);
 			}
 		}
 
@@ -204,7 +205,7 @@ public abstract class MachineBase extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IIcon getIcon(final int side, int metadata) {
+	public IIcon getIcon(final int side, final int metadata) {
 
 		// BLOCK_BOTTOM and BLOCK_TOP
 		if (side == 0 || side == 1)
@@ -215,12 +216,12 @@ public abstract class MachineBase extends BlockContainer {
 		if (metadata == 0 && side == 3)
 			return icons[BLOCK_FRONT];
 
-		final boolean isActive = (metadata & META_ACTIVE_INDICATOR) != 0;
 		final int meta = metadata & ~META_ACTIVE_INDICATOR;
 
 		if (side != meta)
 			return icons[BLOCK_SIDE];
 
+		final boolean isActive = (metadata & META_ACTIVE_INDICATOR) != 0;
 		return icons[isActive ? BLOCK_ACTIVE : BLOCK_FRONT];
 	}
 

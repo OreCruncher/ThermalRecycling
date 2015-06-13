@@ -193,13 +193,13 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 	}
 
 	@Override
-	public ItemStack slotClick(int slotIndex, int button, int modifier,
-			EntityPlayer player) {
+	public ItemStack slotClick(final int slotIndex, final int button, final int modifier,
+			final EntityPlayer player) {
 		if (player == null) {
 			return null;
 		}
 
-		Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
+		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
 				.get(slotIndex);
 		if (slot instanceof MultiSlot) {
 			if (((MultiSlot) slot).isPhantom()) {
@@ -209,11 +209,11 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		return super.slotClick(slotIndex, button, modifier, player);
 	}
 
-	private ItemStack slotClickMultiSlot(Slot slot, int mouseButton,
-			int modifier, EntityPlayer player) {
+	private ItemStack slotClickMultiSlot(final Slot slot, final int mouseButton,
+			final int modifier, final EntityPlayer player) {
 		ItemStack stack = null;
 
-		ItemStack stackSlot = slot.getStack();
+		final ItemStack stackSlot = slot.getStack();
 		if (stackSlot != null) {
 			stack = stackSlot.copy();
 		}
@@ -221,9 +221,9 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		if (mouseButton == 2) {
 			fillPhantomSlot(slot, null, mouseButton, modifier);
 		} else if (mouseButton == 0 || mouseButton == 1) {
-			InventoryPlayer playerInv = player.inventory;
+			final InventoryPlayer playerInv = player.inventory;
 
-			ItemStack stackHeld = playerInv.getItemStack();
+			final ItemStack stackHeld = playerInv.getItemStack();
 
 			if (stackSlot == null) {
 				if (stackHeld != null && slot.isItemValid(stackHeld)) {
@@ -239,8 +239,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 				}
 			}
 		} else if (mouseButton == 5) {
-			InventoryPlayer playerInv = player.inventory;
-			ItemStack stackHeld = playerInv.getItemStack();
+			final InventoryPlayer playerInv = player.inventory;
+			final ItemStack stackHeld = playerInv.getItemStack();
 			if (!slot.getHasStack()) {
 				fillPhantomSlot(slot, stackHeld, mouseButton, modifier);
 			}
@@ -248,7 +248,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		return stack;
 	}
 
-	protected void adjustPhantomSlot(Slot slot, int mouseButton, int modifier) {
+	protected void adjustPhantomSlot(final Slot slot, final int mouseButton, final int modifier) {
 		if (!((MultiSlot) slot).canAdjustPhantom()) {
 			return;
 		}
@@ -275,8 +275,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		slot.putStack(stackSlot);
 	}
 
-	protected void fillPhantomSlot(Slot slot, ItemStack stackHeld,
-			int mouseButton, int modifier) {
+	protected void fillPhantomSlot(final Slot slot, final ItemStack stackHeld,
+			final int mouseButton, final int modifier) {
 		if (!((MultiSlot) slot).canAdjustPhantom()) {
 			return;
 		}
@@ -290,7 +290,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		if (stackSize > slot.getSlotStackLimit()) {
 			stackSize = slot.getSlotStackLimit();
 		}
-		ItemStack phantomStack = stackHeld.copy();
+		final ItemStack phantomStack = stackHeld.copy();
 		phantomStack.stackSize = stackSize;
 
 		slot.putStack(phantomStack);

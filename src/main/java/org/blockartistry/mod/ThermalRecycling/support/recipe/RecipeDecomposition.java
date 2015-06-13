@@ -196,7 +196,7 @@ public final class RecipeDecomposition {
 			else if (o instanceof ArrayList) {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
-				if (t.size() > 0)
+				if (!t.isEmpty())
 					result.add(ItemStackHelper.getPreferredStack(t.get(0).copy()));
 			}
 		}
@@ -357,15 +357,15 @@ public final class RecipeDecomposition {
 										.equalsIgnoreCase("appliedenergistics2")) {
 
 									final StringBuilder builder = new StringBuilder();
-									builder.append(nameSpace);
-									builder.append(':');
+									builder.append(nameSpace)
+										.append(':');
 									if (itemName.startsWith("Block"))
 										builder.append("tile.");
 									else
 										builder.append("item.");
-									builder.append(itemName);
-									builder.append(':');
-									builder.append(meta);
+									builder.append(itemName)
+										.append(':')
+										.append(meta);
 									theItem = builder.toString();
 
 								} else {
@@ -414,8 +414,6 @@ public final class RecipeDecomposition {
 
 	private static List<ItemStack> projectAE2ShapedRecipe(final IRecipe recipe) {
 
-		List<ItemStack> result = new ArrayList<ItemStack>();
-
 		try {
 
 			if (ae2ShapedRecipeAccessor == null) {
@@ -431,7 +429,7 @@ public final class RecipeDecomposition {
 			;
 		}
 
-		return result;
+		return new ArrayList<ItemStack>();
 	}
 
 	public static IRecipe findRecipe(final ItemStack stack) {

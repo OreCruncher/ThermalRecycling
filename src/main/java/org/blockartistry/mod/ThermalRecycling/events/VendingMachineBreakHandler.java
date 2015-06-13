@@ -41,7 +41,7 @@ public class VendingMachineBreakHandler implements Predicate<BreakEvent> {
 			
 			// Do the check only if player is non-OP
 			if(!evt.getPlayer().capabilities.isCreativeMode) {
-				TileEntity te = evt.world.getTileEntity(evt.x, evt.y, evt.z);
+				final TileEntity te = evt.world.getTileEntity(evt.x, evt.y, evt.z);
 				if(te instanceof VendingTileEntity) {
 					final VendingTileEntity vending = (VendingTileEntity) te;
 					if(!vending.okToBreak(evt.getPlayer()))

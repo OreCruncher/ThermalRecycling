@@ -116,11 +116,11 @@ public abstract class TileEntityBase extends TileEntity implements
 
 	}
 
-	public Object getGuiClient(GuiIdentifier id, final InventoryPlayer inventory) {
+	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return null;
 	}
 
-	public Object getGuiServer(GuiIdentifier id, final InventoryPlayer inventory) {
+	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
 		return null;
 	}
 	
@@ -277,13 +277,13 @@ public abstract class TileEntityBase extends TileEntity implements
 
 	public boolean rotateBlock() {
 		final int facing = getFacing();
-		ForgeDirection newDirection = ForgeDirection.getOrientation(facing).getRotation(ForgeDirection.UP);
+		final ForgeDirection newDirection = ForgeDirection.getOrientation(facing).getRotation(ForgeDirection.UP);
 		if(newDirection != ForgeDirection.UNKNOWN)
 			setFacing(newDirection.ordinal());
 		return newDirection != ForgeDirection.UNKNOWN;
 	}
 
-	public boolean setFacing(int i) {
+	public boolean setFacing(final int i) {
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		meta = i | (meta & MachineBase.META_ACTIVE_INDICATOR);
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);

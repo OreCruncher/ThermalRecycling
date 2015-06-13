@@ -24,39 +24,24 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 public class MultiSlot extends Slot {
 	
-	private static final ResourceLocation notAvailable = new ResourceLocation(ThermalRecycling.MOD_ID, "textures/slot_not_available.png");
-	
-	protected IResourceAvailable available;
 	protected boolean isPhantom;
 	protected boolean isInfinite;
 	protected boolean canAdjustPhantom = true;
 	protected boolean canShift = true;
 	protected int stackLimit;
 
-	public static interface IResourceAvailable {
-		boolean areResourcesAvailable(final int slotIndex);
-	}
-	
-	public MultiSlot(final IResourceAvailable available, final IInventory inventory, final int slotIndex, final int xPos, final int yPos) {
+	public MultiSlot(final IInventory inventory, final int slotIndex, final int xPos, final int yPos) {
 		super(inventory, slotIndex, xPos, yPos);
 		this.stackLimit = -1;
-		this.available = available;
 	}
 	
-	public MultiSlot(IInventory inventory, int slotIndex, int xPos, int yPos) {
-		this(null, inventory, slotIndex, xPos, yPos);
-	}
-
 	public MultiSlot setInfinite() {
 		this.isInfinite = true;
 		return this;
@@ -73,23 +58,23 @@ public class MultiSlot extends Slot {
 	}
 
 	@Override
-	public void putStack(ItemStack itemStack) {
+	public void putStack(final ItemStack itemStack) {
 		if (!isPhantom() || canAdjustPhantom()) {
 			super.putStack(itemStack);
 		}
 	}
 
-	public MultiSlot setCanAdjustPhantom(boolean canAdjust) {
+	public MultiSlot setCanAdjustPhantom(final boolean canAdjust) {
 		this.canAdjustPhantom = canAdjust;
 		return this;
 	}
 
-	public MultiSlot setCanShift(boolean canShift) {
+	public MultiSlot setCanShift(final boolean canShift) {
 		this.canShift = canShift;
 		return this;
 	}
 
-	public MultiSlot setStackLimit(int limit) {
+	public MultiSlot setStackLimit(final int limit) {
 		this.stackLimit = limit;
 		return this;
 	}
@@ -103,7 +88,7 @@ public class MultiSlot extends Slot {
 	}
 
 	@Override
-	public boolean canTakeStack(EntityPlayer stack) {
+	public boolean canTakeStack(final EntityPlayer stack) {
 		return !isPhantom();
 	}
 
@@ -121,31 +106,18 @@ public class MultiSlot extends Slot {
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i) {
+	public ItemStack decrStackSize(final int i) {
 		if (!isInfinite) {
 			return super.decrStackSize(i);
 		}
 
-		ItemStack stack = inventory.getStackInSlot(getSlotIndex());
+		final ItemStack stack = inventory.getStackInSlot(getSlotIndex());
 		if (stack == null) {
 			return null;
 		}
 
-		ItemStack result = stack.copy();
+		final ItemStack result = stack.copy();
 		result.stackSize = i;
 		return result;
 	}
-	
-	/*
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getBackgroundIconIndex() {
-		boolean isAvailable = false;
-		if(available != null)
-			isAvailable = available.areResourcesAvailable(getSlotIndex());
-		
-		return isAvailable ? null : notAvailable;
-	}
-	*/
 }

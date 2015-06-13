@@ -43,9 +43,4 @@ public final class VendingGui extends GuiBase {
 
 		name = StatCollector.translateToLocal("tile.MachineVending.name");
 	}
-
-	@Override
-	public void initGui() {
-		super.initGui();
-	}
 }
