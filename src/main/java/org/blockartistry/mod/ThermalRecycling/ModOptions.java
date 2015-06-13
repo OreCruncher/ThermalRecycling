@@ -53,10 +53,14 @@ public final class ModOptions {
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
 	protected static final String CATEGORY_MACHINES_ASSESSOR = "machines.assessor";
+	protected static final String CATEGORY_MACHINES_VENDING = "machines.vending";
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 	protected static final String CONFIG_ENABLE_ENHANCED_LORE = "Enhanced Lore";
 	protected static final String CONFIG_BLACKLIST = "Blacklist";
+	protected static final String CONFIG_VENDING_ITEM_RENDER_RANGE = "Item Render Range";
+	protected static final String CONFIG_VENDING_NAME_RENDER_RANGE = "Name Render Range";
+	protected static final String CONFIG_VENDING_QUANTITY_RENDER_RANGE = "Quantity Render Range";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -98,6 +102,10 @@ public final class ModOptions {
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
+	
+	protected static int vendingItemRenderRange = 6;
+	protected static int vendingNameRenderRange = 8;
+	protected static int vendingQuantityRenderRange = 4;
 
 	public static void load(final Configuration config) {
 
@@ -228,6 +236,20 @@ public final class ModOptions {
 				6F,
 				"Max distance to merge items on the ground (0 to disable)");
 
+		vendingItemRenderRange = config.getInt(CONFIG_VENDING_ITEM_RENDER_RANGE,
+				CATEGORY_MACHINES_VENDING, vendingItemRenderRange, 0,
+				64,
+				"Block range when items are rendered in a Vending Machine");
+
+		vendingNameRenderRange = config.getInt(CONFIG_VENDING_NAME_RENDER_RANGE,
+				CATEGORY_MACHINES_VENDING, vendingNameRenderRange, 0,
+				64,
+				"Block range when the name is rendered for a Vending Machine");
+
+		vendingQuantityRenderRange = config.getInt(CONFIG_VENDING_QUANTITY_RENDER_RANGE,
+				CATEGORY_MACHINES_VENDING, vendingQuantityRenderRange, 0,
+				64,
+				"Block range when item quantities are rendered for a Vending Machine");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -329,5 +351,17 @@ public final class ModOptions {
 	
 	public static double getEntityItemMergeRange() {
 		return entityItemMergeRange;
+	}
+
+	public static int getVendingItemRenderRange() {
+		return vendingItemRenderRange;
+	}
+	
+	public static int getVendingNameRenderRange() {
+		return vendingNameRenderRange;
+	}
+	
+	public static int getVendingQuantityRenderRange() {
+		return vendingQuantityRenderRange;
 	}
 }

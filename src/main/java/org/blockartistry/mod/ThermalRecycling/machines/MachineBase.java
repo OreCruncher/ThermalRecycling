@@ -31,7 +31,9 @@ import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import cofh.api.item.IToolHammer;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,6 +51,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class MachineBase extends BlockContainer {
+	
+	private static ItemStack lockTool = ItemStackHelper.getItemStack("ThermalExpansion:material:16");
 
 	public static int BLOCK_BOTTOM = 0;
 	public static int BLOCK_TOP = 1;
@@ -80,13 +84,30 @@ public abstract class MachineBase extends BlockContainer {
 		setStepSound(soundTypeMetal);
 		setHarvestLevel("pickaxe", 3);
 	}
+	
+	protected static boolean holdingRotateTool(final EntityPlayer player) {
+		final ItemStack item = player.getCurrentEquippedItem();
+		if(item == null)
+			return false;
+		
+		return item.getItem() instanceof IToolHammer;
+	}
+	
+	protected static boolean holdingLockTool(final EntityPlayer player) {
+		final ItemStack item = player.getCurrentEquippedItem();
+		if(item == null)
+			return false;
+		
+		return ItemStackHelper.areEqual(item, lockTool);
+	}
 
 	/*
 	 * Forward the block activated request to the corresponding TileEntity
 	 */
 	@Override
-	public boolean onBlockActivated(final World world, final int x, final int y, final int z,
-			final EntityPlayer player, final int side, final float a, final float b, final float c) {
+	public boolean onBlockActivated(final World world, final int x,
+			final int y, final int z, final EntityPlayer player,
+			final int side, final float a, final float b, final float c) {
 
 		if (!world.isRemote) {
 			final TileEntity te = world.getTileEntity(x, y, z);
@@ -94,21 +115,31 @@ public abstract class MachineBase extends BlockContainer {
 			if (!(te instanceof TileEntityBase))
 				// Returns false so it doesn't update anything
 				return false;
-			
-			if(te instanceof IMachineFluidHandler)
-				if(FluidStackHelper.applyPlayerContainerInteraction(world, te, player))
-					return true;
 
-			return ((TileEntityBase) te).onBlockActivated(world, x, y, z,
-					player, side, a, b, c);
+			if (te instanceof IMachineFluidHandler)
+				if (FluidStackHelper.applyPlayerContainerInteraction(world, te,
+						player))
+					return true;
+			
+			final TileEntityBase entity = (TileEntityBase) te;
+			
+			// If the player is holding a tool rotate
+			if(holdingRotateTool(player)) {
+				return entity.rotateBlock();
+			} else if(holdingLockTool(player) && entity.isLockable(player)) {
+				return entity.toggleLock();
+			} else {
+				return entity.onBlockActivated(world, x, y, z,
+						player, side, a, b, c);
+			}
 		}
 
 		return true;
 	}
 
 	@Override
-	public void breakBlock(final World world, final int x, final int y, final int z, final Block oldBlock,
-			final int oldMeta) {
+	public void breakBlock(final World world, final int x, final int y,
+			final int z, final Block oldBlock, final int oldMeta) {
 		if (!world.isRemote) {
 			final TileEntity te = world.getTileEntity(x, y, z);
 			if (te instanceof TileEntityBase) {
@@ -120,7 +151,8 @@ public abstract class MachineBase extends BlockContainer {
 	}
 
 	@Override
-	public int getLightValue(final IBlockAccess world, final int x, final int y, final int z) {
+	public int getLightValue(final IBlockAccess world, final int x,
+			final int y, final int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		meta = meta & META_ACTIVE_INDICATOR;
 
@@ -129,7 +161,8 @@ public abstract class MachineBase extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y,
+			final int z, final Random rand) {
 
 		final TileEntity te = world.getTileEntity(x, y, z);
 
@@ -164,46 +197,52 @@ public abstract class MachineBase extends BlockContainer {
 			icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
 	}
 
-	// http://www.minecraftforge.net/forum/index.php/topic,13626.0.html
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(final int side, int metadata) {
-		// Take off bit 4 since that indicates active
-		int frontId = BLOCK_FRONT;
 
-		if ((metadata & META_ACTIVE_INDICATOR) != 0)
-			frontId = BLOCK_ACTIVE;
-
-		metadata &= ~META_ACTIVE_INDICATOR;
-
+		// BLOCK_BOTTOM and BLOCK_TOP
 		if (side == 0 || side == 1)
 			return icons[side];
 
-		if (metadata == 2 && side == 2)
-			return icons[frontId];
-		else if (metadata == 3 && side == 5)
-			return icons[frontId];
-		else if (metadata == 0 && side == 3)
-			return icons[frontId];
-		else if (metadata == 1 && side == 4)
-			return icons[frontId];
+		// If metadata is 0 it means we are rendering in
+		// inventory.
+		if (metadata == 0 && side == 3)
+			return icons[BLOCK_FRONT];
 
-		return icons[BLOCK_SIDE];
+		final boolean isActive = (metadata & META_ACTIVE_INDICATOR) != 0;
+		final int meta = metadata & ~META_ACTIVE_INDICATOR;
+
+		if (side != meta)
+			return icons[BLOCK_SIDE];
+
+		return icons[isActive ? BLOCK_ACTIVE : BLOCK_FRONT];
 	}
 
+	// Map the MathHelper result into metadata
+	private static final int[] dirMap = new int[] { 2, 5, 3, 4 };
+
 	@Override
-	public void onBlockPlacedBy(final World world, final int x, final int y, final int z,
-			final EntityLivingBase entity, final ItemStack p_149689_6_) {
-		final int whichDirectionFacing = MathHelper
-				.floor_double(entity.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
-		world.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing, 2);
+	public void onBlockPlacedBy(final World world, final int x, final int y,
+			final int z, final EntityLivingBase entity,
+			final ItemStack p_149689_6_) {
+
+		// From the furnace code
+		final int i = MathHelper
+				.floor_double((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		world.setBlockMetadataWithNotify(x, y, z, dirMap[i], 2);
 	}
 
 	public void register() {
 		GameRegistry.registerBlock(this, myUnlocalizedName);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	public void registerRenderer() { }
+	public void registerRenderer() {
+	}
 }

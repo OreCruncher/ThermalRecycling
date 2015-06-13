@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.lwjgl.opengl.GL11;
@@ -41,6 +42,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -63,7 +65,17 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	private static final float FRONT_EDGE_OFFSET = -0.12F;
 	private static final float IMAGE_SIZE = 0.28F;
 
-	// GL11.glTranslatef( 0.25F - x * 0.28F, 0.1F - y * 0.28F, -0.12F);
+	private static final float f = 0.5F; // 1.6F;
+	private static final float f1 = 0.01666667F * f;
+
+	// These are squared distance measures
+	private static final double ITEM_RENDER_RANGE = Math.pow(
+			ModOptions.getVendingItemRenderRange(), 2);
+	private static final double ITEM_QUANTITY_RENDER_RANGE = Math.pow(
+			ModOptions.getVendingQuantityRenderRange(), 2);
+	private static final double VENDING_TITLE_RENDER_RANGE = Math.pow(
+			ModOptions.getVendingNameRenderRange(), 2);
+
 	private static final float[] xOffset = new float[] {
 			LEFT_EDGE_OFFSET - 0 * IMAGE_SIZE,
 			LEFT_EDGE_OFFSET - 1 * IMAGE_SIZE,
@@ -74,6 +86,12 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			TOP_EDGE_OFFSET - 2 * IMAGE_SIZE, TOP_EDGE_OFFSET - 3 * IMAGE_SIZE,
 			TOP_EDGE_OFFSET - 4 * IMAGE_SIZE, TOP_EDGE_OFFSET - 5 * IMAGE_SIZE, };
 
+	private static final int[] rotationFacings = new int[] { 0, 0, 0, 180, 270,
+			90, 0 };
+
+	// Dynamic setting
+	private double playerRange = 0;
+
 	public VendingTileEntityRenderer() {
 		super();
 
@@ -81,7 +99,12 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.setRenderManager(RenderManager.instance);
 	}
 
-	protected void renderItem(final ItemStack stack, final int x, final int y) {
+	protected boolean playerInRange(final double range) {
+		return playerRange <= range;
+	}
+
+	protected void renderItem(final ItemStack stack, final int x, final int y,
+			final boolean includeQuantity) {
 
 		if (stack == null)
 			return;
@@ -92,17 +115,40 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		// Flip
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-
 		GL11.glTranslatef(xOffset[x], yOffset[y], FRONT_EDGE_OFFSET);
+		GL11.glPushMatrix();
+
 		GL11.glScalef(BLOCK_SCALE * 1.1F, BLOCK_SCALE * 1.1F,
 				BLOCK_SCALE * 1.1F);
 
-		if (Block.getBlockFromItem(stack.getItem()).isNormalCube()) {
+		final Block block = Block.getBlockFromItem(stack.getItem());
+		if (block != Blocks.air) {
 			GL11.glTranslatef(0.0F, 0.22F, 0.0F);
+			GL11.glRotatef(90, 0, 1F, 0);
 		}
-		
+
 		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-		
+		GL11.glPopMatrix();
+
+		if (includeQuantity && stack.stackSize > 1) {
+
+			final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+
+			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+			GL11.glScalef(-f1, -f1, f1);
+
+			GL11.glDisable(2896);
+			GL11.glDisable(2929);
+			GL11.glDisable(3042);
+
+			final String amt = String.valueOf(stack.stackSize);
+			font.drawStringWithShadow(amt, 13 - font.getStringWidth(amt), -12,
+					16777215);
+			GL11.glEnable(2896);
+			GL11.glEnable(2929);
+
+		}
+
 		GL11.glPopMatrix();
 	}
 
@@ -110,15 +156,13 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		if (name.isEmpty())
 			return;
 
-		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-		Tessellator tessellator = Tessellator.instance;
+		final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		final Tessellator tessellator = Tessellator.instance;
 
-		float f = 0.5F; // 1.6F;
-		float f1 = 0.01666667F * f;
 		final int nameWidth = font.getStringWidth(name) / 2;
 
 		GL11.glPushMatrix();
-		
+
 		// Flip
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		GL11.glTranslatef(0F, 0.48F, -0.51F);
@@ -152,12 +196,13 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	protected void renderTradeInventory(final TileEntity te) {
 
 		final VendingTileEntity vte = (VendingTileEntity) te;
+		final boolean includeQuantity = playerInRange(ITEM_QUANTITY_RENDER_RANGE);
 
 		for (int i = 0; i < 6; i++) {
 			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
-			renderItem(vte.getStackInSlot(base), 0, i);
-			renderItem(vte.getStackInSlot(base + 6), 1, i);
-			renderItem(vte.getStackInSlot(base + 12), 2, i);
+			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity);
+			renderItem(vte.getStackInSlot(base + 6), 1, i, includeQuantity);
+			renderItem(vte.getStackInSlot(base + 12), 2, i, includeQuantity);
 		}
 	}
 
@@ -166,6 +211,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			final double y, final double z, final float scale) {
 
 		final VendingTileEntity vte = (VendingTileEntity) te;
+		if (vte != null) {
+			playerRange = Minecraft.getMinecraft().thePlayer.getDistanceSq(
+					vte.xCoord, vte.yCoord, vte.zCoord);
+		}
 
 		GL11.glPushMatrix();
 
@@ -181,22 +230,27 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		int rotation = 0;
 
-		if (te != null) {
+		if (vte != null) {
 			// Rotate based on facing
-			rotation = 90 * (te.getBlockMetadata() & 7) - 180;
+			rotation = rotationFacings[te.getBlockMetadata() & 7];
 			GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
 		} else {
 			// Render the item in inventory
-			GL11.glRotatef(180, 0F, 1.0F, 0F);
+			GL11.glTranslated(0F, 0.5F, 0F);
+			GL11.glRotatef(90, 0F, 1.0F, 0F);
 		}
 
 		// Render
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
 		// Render the contents of the trade inventory
-		if (te != null) {
-			renderTradeInventory(te);
-			renderName(vte.getOwnerName());
+		if (vte != null) {
+
+			if (playerInRange(ITEM_RENDER_RANGE))
+				renderTradeInventory(vte);
+
+			if (playerInRange(VENDING_TITLE_RENDER_RANGE))
+				renderName(vte.getOwnerName());
 		}
 
 		GL11.glPopMatrix();

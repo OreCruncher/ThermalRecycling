@@ -31,6 +31,8 @@ tile.MachineComposter.name=Composter
 tile.MachineVending.name=Vending Machine
 tile.ScrapBlock.scrap.name=Block of Scrap
 
+msg.MachineVending.adminName=Server Shop
+
 # Additional text for Scrap Assessor lore
 msg.ScrapPreview.destroy=Destroy
 msg.ScrapPreview.keep=Keep

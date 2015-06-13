@@ -29,7 +29,8 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
-
+import cofh.api.tileentity.IReconfigurableFacing;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -40,10 +41,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
+@Optional.Interface(iface="cofh.api.tileentity.IReconfigurableFacing", modid="CoFHCore", striprefs=true)
 public abstract class TileEntityBase extends TileEntity implements
-		IMachineInventory {
-
+		IMachineInventory, IReconfigurableFacing  {
+	
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
 
@@ -242,5 +245,48 @@ public abstract class TileEntityBase extends TileEntity implements
 	@Override
 	public boolean isStackAlreadyInSlot(final int slot, final ItemStack stack) {
 		return inventory.isStackAlreadyInSlot(slot, stack);
+	}
+	
+	/**
+	 * Indicates if the machine can be locked.  The notion of locked is
+	 * up to the implementation.
+	 */
+	public boolean isLockable(final EntityPlayer player) {
+		return false;
+	}
+	
+	/**
+	 * Toggles the lock status of the machine.
+	 */
+	public boolean toggleLock() {
+		return false;
+	}
+	
+	// /////////////////////////////////////
+	//
+	// IReconfigurableFacing
+	//
+	// /////////////////////////////////////
+	public int getFacing() {
+		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & ~MachineBase.META_ACTIVE_INDICATOR;
+	}
+
+	public boolean allowYAxisFacing() {
+		return false;
+	}
+
+	public boolean rotateBlock() {
+		final int facing = getFacing();
+		ForgeDirection newDirection = ForgeDirection.getOrientation(facing).getRotation(ForgeDirection.UP);
+		if(newDirection != ForgeDirection.UNKNOWN)
+			setFacing(newDirection.ordinal());
+		return newDirection != ForgeDirection.UNKNOWN;
+	}
+
+	public boolean setFacing(int i) {
+		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		meta = i | (meta & MachineBase.META_ACTIVE_INDICATOR);
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);
+		return true;
 	}
 }
