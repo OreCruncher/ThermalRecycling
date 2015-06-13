@@ -27,15 +27,20 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.renderers.VendingTileEntityRenderer;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class MachineVending extends MachineBase {
 
@@ -72,7 +77,17 @@ public class MachineVending extends MachineBase {
 
 		GameRegistry.registerTileEntity(VendingTileEntity.class,
 				"vendingTileEntity");
-
+		
+		final ShapedOreRecipe recipe = new ShapedOreRecipe(
+				BlockManager.vending,
+				"PPP",
+				"P P",
+				"GSG",
+				'P', "plankWood",
+				'G', "gearCopper",
+				'S', ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:2"));
+		
+		GameRegistry.addRecipe(recipe);
 	}
 
 	@SideOnly(Side.CLIENT)
