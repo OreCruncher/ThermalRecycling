@@ -791,7 +791,7 @@ public final class ItemStackHelper {
 			return true;
 		
 		for(int slot = startSlot; slot <= endSlot && stack.stackSize > 0; slot++) {
-			ItemStack invStack = inv[slot];
+			final ItemStack invStack = inv[slot];
 			if(invStack != null && ItemStackHelper.areEqual(invStack, stack)) {
 				if(invStack.stackSize > stack.stackSize) {
 					invStack.stackSize -= stack.stackSize;

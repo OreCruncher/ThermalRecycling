@@ -31,7 +31,11 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -43,73 +47,113 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 @SideOnly(Side.CLIENT)
-public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer implements IItemRenderer {
+public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
+		implements IItemRenderer {
 
 	private static final ResourceLocation texture = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/blocks/VendingModel.png");
 	private static final ModelBase model = new VendingModel();
-	
+
 	private static final RenderItem itemRenderer = new RenderItem();
 	private static final EntityItem item = new EntityItem(null);
-	
+
 	private static final float BLOCK_SCALE = 0.35F;
 	private static final float LEFT_EDGE_OFFSET = 0.25F;
 	private static final float TOP_EDGE_OFFSET = 0.1F;
 	private static final float FRONT_EDGE_OFFSET = -0.12F;
 	private static final float IMAGE_SIZE = 0.28F;
-	
+
 	// GL11.glTranslatef( 0.25F - x * 0.28F, 0.1F - y * 0.28F, -0.12F);
 	private static final float[] xOffset = new float[] {
-		LEFT_EDGE_OFFSET - 0 * IMAGE_SIZE,
-		LEFT_EDGE_OFFSET - 1 * IMAGE_SIZE,
-		LEFT_EDGE_OFFSET - 2 * IMAGE_SIZE,
-	};
-	
+			LEFT_EDGE_OFFSET - 0 * IMAGE_SIZE,
+			LEFT_EDGE_OFFSET - 1 * IMAGE_SIZE,
+			LEFT_EDGE_OFFSET - 2 * IMAGE_SIZE, };
+
 	private static final float[] yOffset = new float[] {
-		TOP_EDGE_OFFSET - 0 * IMAGE_SIZE,
-		TOP_EDGE_OFFSET - 1 * IMAGE_SIZE,
-		TOP_EDGE_OFFSET - 2 * IMAGE_SIZE,
-		TOP_EDGE_OFFSET - 3 * IMAGE_SIZE,
-		TOP_EDGE_OFFSET - 4 * IMAGE_SIZE,
-		TOP_EDGE_OFFSET - 5 * IMAGE_SIZE,
-	};
-	
+			TOP_EDGE_OFFSET - 0 * IMAGE_SIZE, TOP_EDGE_OFFSET - 1 * IMAGE_SIZE,
+			TOP_EDGE_OFFSET - 2 * IMAGE_SIZE, TOP_EDGE_OFFSET - 3 * IMAGE_SIZE,
+			TOP_EDGE_OFFSET - 4 * IMAGE_SIZE, TOP_EDGE_OFFSET - 5 * IMAGE_SIZE, };
+
 	public VendingTileEntityRenderer() {
 		super();
-		
+
 		item.hoverStart = 0F;
 		itemRenderer.setRenderManager(RenderManager.instance);
 	}
-	
-	
+
 	protected void renderItem(final ItemStack stack, final int x, final int y) {
-		
-		if(stack == null)
+
+		if (stack == null)
 			return;
-		
-        item.setEntityItemStack(stack);
-		
+
+		item.setEntityItemStack(stack);
+
 		GL11.glPushMatrix();
-		
-        // Flip
+
+		// Flip
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-		GL11.glTranslatef( xOffset[x], yOffset[y], FRONT_EDGE_OFFSET);
-        GL11.glScalef(BLOCK_SCALE * 1.1F, BLOCK_SCALE * 1.1F, BLOCK_SCALE * 1.1F);
+		GL11.glTranslatef(xOffset[x], yOffset[y], FRONT_EDGE_OFFSET);
+		GL11.glScalef(BLOCK_SCALE * 1.1F, BLOCK_SCALE * 1.1F,
+				BLOCK_SCALE * 1.1F);
 
-        if(Block.getBlockFromItem(stack.getItem()).isNormalCube()) {
-          GL11.glTranslatef(0.0F, 0.22F, 0.0F);
-        }
-        
-        itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-        GL11.glPopMatrix();	
+		if (Block.getBlockFromItem(stack.getItem()).isNormalCube()) {
+			GL11.glTranslatef(0.0F, 0.22F, 0.0F);
+		}
+		
+		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+		
+		GL11.glPopMatrix();
 	}
-	
+
+	protected void renderName(final String name) {
+		if (name.isEmpty())
+			return;
+
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		Tessellator tessellator = Tessellator.instance;
+
+		float f = 0.5F; // 1.6F;
+		float f1 = 0.01666667F * f;
+		final int nameWidth = font.getStringWidth(name) / 2;
+
+		GL11.glPushMatrix();
+		
+		// Flip
+		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslatef(0F, 0.48F, -0.51F);
+		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+		GL11.glScalef(-f1, -f1, f1);
+		GL11.glDisable(2896);
+		GL11.glDepthMask(false);
+		GL11.glDisable(2929);
+		GL11.glEnable(3042);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		byte byte0 = 0;
+		GL11.glDisable(3553);
+		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+		tessellator.addVertex(-nameWidth - 1, -1 + byte0, 0.0D);
+		tessellator.addVertex(-nameWidth - 1, 8 + byte0, 0.0D);
+		tessellator.addVertex(nameWidth + 1, 8 + byte0, 0.0D);
+		tessellator.addVertex(nameWidth + 1, -1 + byte0, 0.0D);
+		tessellator.draw();
+		GL11.glEnable(3553);
+		font.drawString(name, -nameWidth, byte0, 553648127);
+		GL11.glEnable(2929);
+		GL11.glDepthMask(true);
+		font.drawString(name, -nameWidth, byte0, -1);
+		GL11.glEnable(2896);
+		GL11.glDisable(3042);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
+	}
+
 	protected void renderTradeInventory(final TileEntity te) {
-		
+
 		final VendingTileEntity vte = (VendingTileEntity) te;
-		
-		for(int i = 0; i < 6; i++) {
+
+		for (int i = 0; i < 6; i++) {
 			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
 			renderItem(vte.getStackInSlot(base), 0, i);
 			renderItem(vte.getStackInSlot(base + 6), 1, i);
@@ -118,24 +162,26 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 	}
 
 	@Override
-	public void renderTileEntityAt(final TileEntity te, final double x, final double y, final double z,
-			final float scale) {
+	public void renderTileEntityAt(final TileEntity te, final double x,
+			final double y, final double z, final float scale) {
+
+		final VendingTileEntity vte = (VendingTileEntity) te;
 
 		GL11.glPushMatrix();
-		
+
 		// Offset our image so it aligns right with
 		// the voxel grid
 		GL11.glTranslated(x + 0.5, y + 1.5, z + 0.5);
 		bindTexture(texture);
 
 		GL11.glPushMatrix();
-		
+
 		// Flip
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
 		int rotation = 0;
-		
-		if(te != null) {
+
+		if (te != null) {
 			// Rotate based on facing
 			rotation = 90 * (te.getBlockMetadata() & 7) - 180;
 			GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
@@ -143,19 +189,20 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 			// Render the item in inventory
 			GL11.glRotatef(180, 0F, 1.0F, 0F);
 		}
-		
+
 		// Render
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-		
+
 		// Render the contents of the trade inventory
-		if(te != null) {
+		if (te != null) {
 			renderTradeInventory(te);
+			renderName(vte.getOwnerName());
 		}
 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-	
+
 	@Override
 	public boolean handleRenderType(final ItemStack itemStack,
 			final ItemRenderType itemRenderType) {
@@ -164,12 +211,14 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer i
 
 	@Override
 	public boolean shouldUseRenderHelper(final ItemRenderType itemRenderType,
-			final ItemStack itemStack, final ItemRendererHelper itemRendererHelper) {
+			final ItemStack itemStack,
+			final ItemRendererHelper itemRendererHelper) {
 		return true;
 	}
 
 	@Override
-	public void renderItem(final ItemRenderType type, final ItemStack item, final Object... data) {
+	public void renderItem(final ItemRenderType type, final ItemStack item,
+			final Object... data) {
 		renderTileEntityAt(null, 0D, 0D, 0D, 0f);
 	}
 }

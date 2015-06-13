@@ -24,22 +24,37 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class MultiSlot extends Slot {
-
+	
+	private static final ResourceLocation notAvailable = new ResourceLocation(ThermalRecycling.MOD_ID, "textures/slot_not_available.png");
+	
+	protected IResourceAvailable available;
 	protected boolean isPhantom;
 	protected boolean isInfinite;
 	protected boolean canAdjustPhantom = true;
 	protected boolean canShift = true;
 	protected int stackLimit;
 
-	public MultiSlot(IInventory inventory, int slotIndex, int xPos, int yPos) {
+	public static interface IResourceAvailable {
+		boolean areResourcesAvailable(final int slotIndex);
+	}
+	
+	public MultiSlot(final IResourceAvailable available, final IInventory inventory, final int slotIndex, final int xPos, final int yPos) {
 		super(inventory, slotIndex, xPos, yPos);
 		this.stackLimit = -1;
+		this.available = available;
+	}
+	
+	public MultiSlot(IInventory inventory, int slotIndex, int xPos, int yPos) {
+		this(null, inventory, slotIndex, xPos, yPos);
 	}
 
 	public MultiSlot setInfinite() {
@@ -120,4 +135,17 @@ public class MultiSlot extends Slot {
 		result.stackSize = i;
 		return result;
 	}
+	
+	/*
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IIcon getBackgroundIconIndex() {
+		boolean isAvailable = false;
+		if(available != null)
+			isAvailable = available.areResourcesAvailable(getSlotIndex());
+		
+		return isAvailable ? null : notAvailable;
+	}
+	*/
 }

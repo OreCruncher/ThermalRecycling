@@ -138,15 +138,18 @@ public class VendingTileEntity extends TileEntityBase {
 			if(ownerId.compareTo(NO_OWNER) == 0) {
 				ownerId = player.getPersistentID();
 				ownerName = player.getDisplayName();
-				adminMode = isOpped;
+				//adminMode = isOpped;
 				isOwner = true;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				markDirty();
 			} else {
 				isOwner = ownerId.compareTo(player.getPersistentID()) == 0;
 				
 				// If this is the owner keep the owner name in sync
-				if(isOwner) {
+				if(isOwner && !ownerName.equals(player.getDisplayName())) {
 					ownerName = player.getDisplayName();
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					markDirty();
 				}
 			}
 			
