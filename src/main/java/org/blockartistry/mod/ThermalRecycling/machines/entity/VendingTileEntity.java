@@ -54,6 +54,7 @@ public class VendingTileEntity extends TileEntityBase {
 			.translateToLocal("msg.MachineVending.adminName");
 	
 	private static final boolean BLOCK_PIPE_CONNECTION = ModOptions.getVendingDisallowPipeConnection();
+	private static final int[] emptyList = new int[0];
 
 	// Slot geometry - based on hardened strongbox storage
 	public static final int GENERAL_INVENTORY_SIZE = 9 * 3;
@@ -219,7 +220,7 @@ public class VendingTileEntity extends TileEntityBase {
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(final int side) {
-		return BLOCK_PIPE_CONNECTION ? new int[0] : inventory.getAccessibleSlotsFromSide(side);
+		return BLOCK_PIPE_CONNECTION ? emptyList : inventory.getAccessibleSlotsFromSide(side);
 	}
 
 	@Override
