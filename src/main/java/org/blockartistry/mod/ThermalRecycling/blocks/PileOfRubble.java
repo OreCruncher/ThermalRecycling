@@ -49,7 +49,7 @@ import net.minecraftforge.common.ChestGenHooks;
 
 public final class PileOfRubble extends Block {
 
-	private static final Random random = new XorShiftRandom();
+	private static final Random random = XorShiftRandom.shared;
 	private static final int ITEM_DAMAGE = 20;
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
 	private static final ChestGenHooks rubbleContent = ChestGenHooks

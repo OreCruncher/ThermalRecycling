@@ -28,6 +28,12 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class XorShiftRandom extends Random {
+	
+	/**
+	 * General shared randomizer for when logic needs one in a
+	 * pinch.
+	 */
+	public static final Random shared = new XorShiftRandom();
 
 	private static final long serialVersionUID = 1422228009367463911L;
 	private static Field getSeed = null;

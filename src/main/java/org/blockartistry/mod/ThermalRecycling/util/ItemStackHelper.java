@@ -57,7 +57,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public final class ItemStackHelper {
 
-	protected static final Random rand = new XorShiftRandom();
+	protected static final Random rand = XorShiftRandom.shared;
 	protected static Map<String, ItemStack> preferred = new HashMap<String, ItemStack>();
 
 	static final Item materialBase = GameData.getItemRegistry().getObject(

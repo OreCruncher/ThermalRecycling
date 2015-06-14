@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
+import java.util.Random;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +43,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class Material extends ItemBase {
 
-	private static final XorShiftRandom random = new XorShiftRandom();
+	private static final Random random = XorShiftRandom.shared;
 	private static final int MIN_EGGS_TO_SPAWN = 0;
 	private static final int SPREAD_EGGS_TO_SPAWN = 4;
 

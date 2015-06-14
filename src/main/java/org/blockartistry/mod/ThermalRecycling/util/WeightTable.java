@@ -32,7 +32,7 @@ import java.util.Random;
 
 public class WeightTable<T extends WeightTable.Item> {
 
-	static final Random random = new XorShiftRandom();
+	static final Random random = XorShiftRandom.shared;
 
 	protected final List<T> items = new ArrayList<T>();
 	protected final Random rand;

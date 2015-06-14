@@ -40,7 +40,7 @@ import com.google.common.base.Predicate;
 
 public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 
-	private static final Random random = new XorShiftRandom();
+	private static final Random random = XorShiftRandom.shared;
 	
 	@Override
 	public boolean apply(final HarvestDropsEvent input) {
