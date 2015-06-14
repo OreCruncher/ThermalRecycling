@@ -626,7 +626,7 @@ public final class ItemStackHelper {
 	}
 
 	public static void spawnIntoWorld(final World world, final ItemStack stack,
-			final int x, final int y, final int z) {
+			final double x, final double y, final double z) {
 
 		if (stack == null)
 			return;

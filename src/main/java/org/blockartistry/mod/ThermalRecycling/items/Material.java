@@ -24,6 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -31,11 +34,17 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Material extends ItemBase {
-	
+
+	private static final XorShiftRandom random = new XorShiftRandom();
+	private static final int MIN_EGGS_TO_SPAWN = 0;
+	private static final int SPREAD_EGGS_TO_SPAWN = 4;
+
 	public static final int PAPER_LOG = 0;
 	public static final int WORMS = 1;
 
@@ -48,14 +57,36 @@ public class Material extends ItemBase {
 	}
 
 	@Override
+	public boolean itemInteractionForEntity(ItemStack stack,
+			EntityPlayer player, EntityLivingBase target) {
+
+		if (target.worldObj.isRemote || stack.getItemDamage() != WORMS)
+			return false;
+
+		if (target instanceof EntityChicken) {
+
+			stack.stackSize--;
+
+			final ItemStack eggs = new ItemStack(Items.egg, MIN_EGGS_TO_SPAWN
+					+ random.nextInt(SPREAD_EGGS_TO_SPAWN));
+			ItemStackHelper.spawnIntoWorld(target.worldObj, eggs, target.posX,
+					target.posY, target.posZ);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public void register() {
 		super.register();
 
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
-			ItemManager.material, 1, PAPER_LOG), "ppp", "plp", "ppp", 'p',
-			new ItemStack(Items.paper), 'l', new ItemStack(
-					ItemManager.paperLogMaker, 1,
-					OreDictionary.WILDCARD_VALUE));
+				ItemManager.material, 1, PAPER_LOG), "ppp", "plp", "ppp", 'p',
+				new ItemStack(Items.paper), 'l', new ItemStack(
+						ItemManager.paperLogMaker, 1,
+						OreDictionary.WILDCARD_VALUE));
 
 		GameRegistry.addRecipe(recipe);
 	}
