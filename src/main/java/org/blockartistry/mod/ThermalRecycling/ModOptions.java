@@ -61,6 +61,7 @@ public final class ModOptions {
 	protected static final String CONFIG_VENDING_ITEM_RENDER_RANGE = "Item Render Range";
 	protected static final String CONFIG_VENDING_NAME_RENDER_RANGE = "Name Render Range";
 	protected static final String CONFIG_VENDING_QUANTITY_RENDER_RANGE = "Quantity Render Range";
+	protected static final String CONFIG_VENDING_BLOCK_PIPE_CONNECTION = "Disallow Pipe Connection";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -106,6 +107,7 @@ public final class ModOptions {
 	protected static int vendingItemRenderRange = 6;
 	protected static int vendingNameRenderRange = 8;
 	protected static int vendingQuantityRenderRange = 4;
+	protected static boolean vendingDisallowPipeConnection = true;
 
 	public static void load(final Configuration config) {
 
@@ -250,6 +252,10 @@ public final class ModOptions {
 				CATEGORY_MACHINES_VENDING, vendingQuantityRenderRange, 0,
 				64,
 				"Block range when item quantities are rendered for a Vending Machine");
+		
+		vendingDisallowPipeConnection = config.getBoolean(CONFIG_VENDING_BLOCK_PIPE_CONNECTION,
+				CATEGORY_MACHINES_VENDING, vendingDisallowPipeConnection,
+				"Blocks connection of item transport pipes to a Vending Machine");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -363,5 +369,9 @@ public final class ModOptions {
 	
 	public static int getVendingQuantityRenderRange() {
 		return vendingQuantityRenderRange;
+	}
+	
+	public static boolean getVendingDisallowPipeConnection() {
+		return vendingDisallowPipeConnection;
 	}
 }

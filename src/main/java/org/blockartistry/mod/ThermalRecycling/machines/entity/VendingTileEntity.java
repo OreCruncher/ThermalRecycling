@@ -33,6 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingContainer;
@@ -51,6 +52,8 @@ public class VendingTileEntity extends TileEntityBase {
 	// shop
 	private static final String adminVendingName = StatCollector
 			.translateToLocal("msg.MachineVending.adminName");
+	
+	private static final boolean BLOCK_PIPE_CONNECTION = ModOptions.getVendingDisallowPipeConnection();
 
 	// Slot geometry - based on hardened strongbox storage
 	public static final int GENERAL_INVENTORY_SIZE = 9 * 3;
@@ -212,6 +215,21 @@ public class VendingTileEntity extends TileEntityBase {
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		return slot < CONFIG_SLOT_START;
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(final int side) {
+		return BLOCK_PIPE_CONNECTION ? new int[0] : inventory.getAccessibleSlotsFromSide(side);
+	}
+
+	@Override
+	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
+		return BLOCK_PIPE_CONNECTION ? false : inventory.canInsertItem(slot, stack, facing);
+	}
+
+	@Override
+	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
+		return BLOCK_PIPE_CONNECTION ? false : inventory.canExtractItem(slot, stack, facing);
 	}
 
 	@Override
