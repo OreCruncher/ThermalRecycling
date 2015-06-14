@@ -74,6 +74,8 @@ public final class Material extends ItemBase {
 			ItemStackHelper.spawnIntoWorld(target.worldObj, eggs, target.posX,
 					target.posY, target.posZ);
 
+			target.playSound("mob.chicken.plop", 1.0F,
+					(random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			return true;
 		}
 
