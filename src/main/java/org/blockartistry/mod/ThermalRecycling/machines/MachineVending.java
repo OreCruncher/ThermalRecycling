@@ -54,6 +54,15 @@ public class MachineVending extends MachineBase {
 	}
 
 	@Override
+	public boolean canPlaceBlockAt(final World world, final int x, final int y,
+			final int z) {
+		// Both target block and the one above need to be replaceable
+		return world.getBlock(x, y, z).isReplaceable(world, x, y, z)
+				&& world.getBlock(x, y + 1, z)
+						.isReplaceable(world, x, y + 1, z);
+	}
+
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -67,23 +76,19 @@ public class MachineVending extends MachineBase {
 	public int getRenderType() {
 		return -1;
 	}
-	
+
 	@Override
 	public void register() {
 		super.register();
 
 		GameRegistry.registerTileEntity(VendingTileEntity.class,
 				"vendingTileEntity");
-		
+
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(
-				BlockManager.vending,
-				"PPP",
-				"P P",
-				"GSG",
-				'P', "plankWood",
-				'G', "gearCopper",
-				'S', ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:2"));
-		
+				BlockManager.vending, "PPP", "P P", "GSG", 'P', "plankWood",
+				'G', "gearCopper", 'S',
+				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:2"));
+
 		GameRegistry.addRecipe(recipe);
 	}
 
@@ -91,7 +96,9 @@ public class MachineVending extends MachineBase {
 	@Override
 	public void registerRenderer() {
 		final VendingTileEntityRenderer renderer = new VendingTileEntityRenderer();
-		ClientRegistry.bindTileEntitySpecialRenderer(VendingTileEntity.class, renderer);
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockManager.vending), renderer);
+		ClientRegistry.bindTileEntitySpecialRenderer(VendingTileEntity.class,
+				renderer);
+		MinecraftForgeClient.registerItemRenderer(
+				Item.getItemFromBlock(BlockManager.vending), renderer);
 	}
 }
