@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
@@ -42,6 +43,9 @@ import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
 import com.google.common.collect.ImmutableMap;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
@@ -65,6 +69,13 @@ public class ScrapHandler {
 	static final String loreSuperiorScrap = StatCollector.translateToLocal("item.RecyclingScrap.superior.name");
 	
 	static final DecimalFormat doubleFormatter = new DecimalFormat("0.0% ");
+	
+	// This is the max XP that an experience bottle can give. When an XP
+	// bottle is used the XP is random: 3 + rnd(5) + rnd(5).  This puts
+	// the average XP in the neighborhood of 7.  I chose 11 since it is
+	// the largest amount possible, and this gives some lossiness to
+	// the scrapping process where XP is concerned.
+	protected static final int EXPERIENCE_PER_BOTTLE = 11;
 	
 	public static class PreviewResult {
 
@@ -168,6 +179,84 @@ public class ScrapHandler {
 		return handler == null ? generic : handler;
 	}
 
+	// Pseudo estimation of levels - it's close enough
+    protected static int getExpToLevel(final int level) {
+        return level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+    }
+
+    protected static int estimateTotalXPForLevels(final int levels) {
+    	int xp = 0;
+    	for(int i = 0; i < levels; i++) {
+    		xp += getExpToLevel(i);
+    	}
+    	
+    	return xp;
+    }
+    
+    // Estimation routine from the Anvil repair logic
+	protected int getEnchantmentBottleCount(final ScrappingContext ctx) {
+		
+		int experience = 0;
+		
+		// NOTE: If you use the "x" option in the inventory display to
+		// create an enchanted book getEnchantments() will not see those
+		// enchants.  Reason is the tagging in the NBT is different than
+		// a normal Vanilla enchanted book.  The books dropped by the
+		// scrapbox routines work fine, however, since it utilizes the
+		// Vanilla routines for creation.
+		@SuppressWarnings("unchecked")
+		Map<Integer, Integer> enchants = EnchantmentHelper.getEnchantments(ctx.toProcess);
+		
+		if(enchants != null && !enchants.isEmpty()) {
+			int count = 0;
+			for(Entry<Integer, Integer> e: enchants.entrySet()) {
+				
+				final int enchantId = e.getKey().intValue();
+				final Enchantment ench = Enchantment.enchantmentsList[enchantId];
+				final int level = Math.min(e.getValue().intValue(), ench.getMaxLevel());
+
+				int l1 = 0;
+				count++;
+				switch (ench.getWeight()) {
+				case 1: // '\001'
+					l1 = 8;
+					break;
+
+				case 2: // '\002'
+					l1 = 4;
+					break;
+
+				case 5: // '\005'
+					l1 = 2;
+					break;
+
+				case 10: // '\n'
+					l1 = 1;
+					break;
+				}
+				
+				l1 = Math.max(1, l1 / 2);
+				experience += count + level * l1;
+			}
+		}
+
+		return estimateTotalXPForLevels(experience) / EXPERIENCE_PER_BOTTLE;
+	}
+	
+	protected List<ItemStack> getEnchantmentBottles(final ScrappingContext ctx) {
+		
+		final List<ItemStack> result = new ArrayList<ItemStack>();
+		int bottles = getEnchantmentBottleCount(ctx);
+
+		while(bottles > 0) {
+			final int stackSize = Math.min(bottles, 64);
+			result.add(new ItemStack(Items.experience_bottle, stackSize));
+			bottles -= stackSize;
+		}
+		
+		return result;
+	}
+	
 	protected void initializeContext(final ScrappingContext ctx) {
 		// If the recipe data in the context is null it means it hasn't
 		// been through the mill.  Process the information.
@@ -180,6 +269,10 @@ public class ScrapHandler {
 				
 				if(ctx.recipeOutput == null)
 					ctx.recipeOutput = getRecipeOutput(ctx);
+				
+				// Add any enchantment bottles from scrapping a
+				// magic item/book.
+				ctx.recipeOutput.addAll(getEnchantmentBottles(ctx));
 	
 				// If there isn't a recipe, process the item as if it were being
 				// scrapped without any cores.
@@ -327,7 +420,7 @@ public class ScrapHandler {
 		if (ctx.coreType == CoreType.DECOMPOSITION) {
 
 			item.stackSize = ctx.recipeData.getMinimumInputQuantityRequired();
-			result = getRecipeOutput(ctx);
+			result = ctx.recipeOutput;
 			
 			if(ModOptions.getEnableAssessorEnhancedLore()) {
 				decorateStacks(ctx, result);
