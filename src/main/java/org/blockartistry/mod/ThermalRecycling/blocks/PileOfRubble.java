@@ -47,7 +47,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 
-public class PileOfRubble extends Block {
+public final class PileOfRubble extends Block {
 
 	private static final Random random = new XorShiftRandom();
 	private static final int ITEM_DAMAGE = 20;

@@ -39,17 +39,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class ProcessingCore extends ItemBase {
 	
-	/*
-	public static final int DECOMPOSITION = 0;
-	public static final int EXTRACTION = 1;
-
-	public static final int LEVEL_BASIC = 0;
-	public static final int LEVEL_HARDENED = 1;
-	public static final int LEVEL_REINFORCED = 2;
-	public static final int LEVEL_RESONANT = 3;
-	public static final int LEVEL_ETHEREAL = 4;
-	public static final int MAX_CORE_LEVEL = LEVEL_ETHEREAL;
-	*/
 	private static final String[] types = new String[] { "decomposition",
 			"extraction" };
 

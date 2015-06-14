@@ -36,7 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class PaperLogMaker extends ItemBase {
+public final class PaperLogMaker extends ItemBase {
 
 	private static final int MAX_DAMAGE = 128;
 

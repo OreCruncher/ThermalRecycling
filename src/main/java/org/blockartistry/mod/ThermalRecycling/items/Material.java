@@ -39,7 +39,7 @@ import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class Material extends ItemBase {
+public final class Material extends ItemBase {
 
 	private static final XorShiftRandom random = new XorShiftRandom();
 	private static final int MIN_EGGS_TO_SPAWN = 0;
