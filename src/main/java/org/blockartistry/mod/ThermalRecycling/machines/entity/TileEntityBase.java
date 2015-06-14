@@ -282,7 +282,15 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	public boolean rotateBlock() {
-		final int facing = getFacing();
+		
+		int facing = getFacing();
+		
+		// Check to see if the direction is valid.  If it isn't
+		// make it valid.  This could happen when upgrading from
+		// a pre v0.3.9.x build when rotation was put in.
+		if(facing < 2 || facing > 5)
+			facing = 2;
+		
 		final ForgeDirection newDirection = ForgeDirection.getOrientation(facing).getRotation(ForgeDirection.UP);
 		if(newDirection != ForgeDirection.UNKNOWN)
 			setFacing(newDirection.ordinal());
