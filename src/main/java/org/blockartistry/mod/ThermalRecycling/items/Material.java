@@ -65,7 +65,7 @@ public final class Material extends ItemBase {
 		if (target.worldObj.isRemote || stack.getItemDamage() != WORMS)
 			return false;
 
-		if (target instanceof EntityChicken) {
+		if (target instanceof EntityChicken && !target.isChild()) {
 
 			stack.stackSize--;
 
