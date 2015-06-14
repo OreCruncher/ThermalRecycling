@@ -147,4 +147,9 @@ public final class NoInventoryComponent implements IMachineInventory {
 	public boolean removeStackFromOutput(final ItemStack stack) {
 		return false;
 	}
+
+	@Override
+	public ItemStack[] getRawInventory() {
+		return null;
+	}
 }

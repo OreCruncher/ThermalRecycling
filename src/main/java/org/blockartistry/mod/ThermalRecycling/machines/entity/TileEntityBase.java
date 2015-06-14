@@ -29,6 +29,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
+
 import cofh.api.tileentity.IReconfigurableFacing;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
@@ -247,6 +248,11 @@ public abstract class TileEntityBase extends TileEntity implements
 		return inventory.isStackAlreadyInSlot(slot, stack);
 	}
 	
+	@Override
+	public ItemStack[] getRawInventory() {
+		return inventory.getRawInventory();
+	}
+
 	/**
 	 * Indicates if the machine can be locked.  The notion of locked is
 	 * up to the implementation.

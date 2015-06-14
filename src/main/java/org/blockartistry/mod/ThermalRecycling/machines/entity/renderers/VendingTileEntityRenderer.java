@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -45,6 +46,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -104,7 +106,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	}
 
 	protected void renderItem(final ItemStack stack, final int x, final int y,
-			final boolean includeQuantity) {
+			final boolean includeQuantity, final boolean noResources) {
 
 		if (stack == null)
 			return;
@@ -130,7 +132,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 		GL11.glPopMatrix();
 
-		if (includeQuantity && stack.stackSize > 1) {
+		if (includeQuantity && (stack.stackSize > 1 || noResources)) {
 
 			final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 
@@ -141,7 +143,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			GL11.glDisable(2929);
 			GL11.glDisable(3042);
 
-			final String amt = String.valueOf(stack.stackSize);
+			String amt = String.valueOf(stack.stackSize);
+			if (noResources)
+				amt = EnumChatFormatting.RED + amt;
+
 			font.drawStringWithShadow(amt, 13 - font.getStringWidth(amt), -12,
 					16777215);
 			GL11.glEnable(2896);
@@ -200,9 +205,22 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		for (int i = 0; i < 6; i++) {
 			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
-			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity);
-			renderItem(vte.getStackInSlot(base + 6), 1, i, includeQuantity);
-			renderItem(vte.getStackInSlot(base + 12), 2, i, includeQuantity);
+			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity, false);
+			renderItem(vte.getStackInSlot(base + 6), 1, i, includeQuantity,
+					false);
+
+			final ItemStack stack = vte.getStackInSlot(base + 12);
+			boolean colorCode = false;
+			if (!vte.isAdminMode() && stack != null) {
+				colorCode = !InventoryHelper.doesInventoryContain(
+						vte.getRawInventory(),
+						VendingTileEntity.INVENTORY_SLOT_START,
+						VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, stack,
+						null);
+			}
+
+			renderItem(stack, 2, i, includeQuantity,
+					colorCode);
 		}
 	}
 

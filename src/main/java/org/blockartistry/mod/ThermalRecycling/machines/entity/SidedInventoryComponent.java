@@ -296,4 +296,9 @@ public final class SidedInventoryComponent implements IMachineInventory {
 			entity.markDirty();
 		}
 	}
+
+	@Override
+	public ItemStack[] getRawInventory() {
+		return inventory;
+	}
 }

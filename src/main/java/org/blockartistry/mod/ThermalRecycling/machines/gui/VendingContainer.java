@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cofh.lib.gui.slot.SlotLocked;
@@ -73,8 +74,8 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 	}
 
 	@Override
-	public ItemStack slotClick(final int slotIndex, final int button, final int modifier,
-			final EntityPlayer player) {
+	public ItemStack slotClick(final int slotIndex, final int button,
+			final int modifier, final EntityPlayer player) {
 
 		if (player == null) {
 			return null;
@@ -93,19 +94,25 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 	protected ItemStack doTrade(final Slot slot, final EntityPlayer player) {
 
-		final InventoryPlayer playerInventory = player.inventory;
+		final ItemStack[] entityInventory = entity.getRawInventory();
+		final ItemStack[] playerInventory = player.inventory.mainInventory;
 
 		// Get the result of the potential trade. If there is nothing,
 		// or the player inventory cannot hold the stack then return null.
 		final ItemStack result = slot.getStack();
 		if (result == null
-				|| !canPlayerAccept(playerInventory, result, result.stackSize))
+				|| !InventoryHelper.canInventoryAccept(playerInventory, 0,
+						playerInventory.length - 1, result, null))
 			return null;
 
+		final boolean normalMode = !entity.isAdminMode();
+
 		// Can the inventory provide the result item?
-		if (!doesInventoryContain(result, result.stackSize,
-				VendingTileEntity.INVENTORY_SLOT_START,
-				VendingTileEntity.GENERAL_INVENTORY_SIZE - 1))
+		if (normalMode
+				&& !InventoryHelper.doesInventoryContain(entityInventory,
+						VendingTileEntity.INVENTORY_SLOT_START,
+						VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, result,
+						null))
 			return null;
 
 		// Get the input slots. We do some math on the slot index to
@@ -116,171 +123,42 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 		final ItemStack input2 = entity.getStackInSlot(index + 6);
 
 		// See if the vending inventory can accept the required items
-		if (!canInventoryAccept(input1, input2,
-				VendingTileEntity.INVENTORY_SLOT_START,
-				VendingTileEntity.GENERAL_INVENTORY_SIZE - 1))
+		if (normalMode
+				&& !InventoryHelper.canInventoryAccept(entityInventory,
+						VendingTileEntity.INVENTORY_SLOT_START,
+						VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, input1,
+						input2))
 			return null;
 
 		// See if the player can provide the payment
-		if (!canPlayerInventoryProvide(playerInventory, input1, input2))
+		if (!InventoryHelper.doesInventoryContain(playerInventory, 0,
+				playerInventory.length - 1, input1, input2))
 			return null;
 
-		// OK - things should work. Do the transaction. Handle Vending
-		// Machine first.
+		// OK - things should work. Do the transaction.
 		if (input1 != null) {
 			if (!entity.isAdminMode()) {
 				entity.addStackToOutput(input1.copy());
 			}
-			ItemStackHelper.removeItemStackFromInventory(
-					playerInventory.mainInventory, input1.copy(), 0, 36);
+			ItemStackHelper.removeItemStackFromInventory(playerInventory,
+					input1.copy(), 0, playerInventory.length - 1);
 		}
 		if (input2 != null) {
 			if (!entity.isAdminMode()) {
 				entity.addStackToOutput(input2.copy());
 			}
-			ItemStackHelper.removeItemStackFromInventory(
-					playerInventory.mainInventory, input2.copy(), 0, 36);
+			ItemStackHelper.removeItemStackFromInventory(playerInventory,
+					input2.copy(), 0, playerInventory.length - 1);
 		}
 
 		if (!entity.isAdminMode()) {
 			entity.removeStackFromOutput(result.copy());
 		}
 
-		playerInventory.addItemStackToInventory(result.copy());
-
+		player.inventory.addItemStackToInventory(result.copy());
 		player.onUpdate();
 
 		return null;
-	}
-
-	protected boolean canPlayerInventoryProvide(
-			final InventoryPlayer playerInventory, final ItemStack stack1,
-			final ItemStack stack2) {
-
-		// If no payment is required then sure, the player
-		// can provide nothing.
-		if (stack1 == null && stack2 == null)
-			return true;
-
-		if (ItemStackHelper.areEqual(stack1, stack2)) {
-			int count = stack1.stackSize + stack2.stackSize;
-			for (int i = 0; i < playerInventory.getSizeInventory() && count > 0; i++) {
-				final ItemStack inv = playerInventory.getStackInSlot(i);
-				if (ItemStackHelper.areEqual(stack1, inv)) {
-					count -= inv.stackSize;
-				}
-			}
-
-			return count < 1;
-
-		} else {
-
-			// Two different types of stacks. Have to handle nulls.
-			int count1 = stack1 != null ? stack1.stackSize : 0;
-			int count2 = stack2 != null ? stack2.stackSize : 0;
-			for (int i = 0; i < playerInventory.getSizeInventory()
-					&& (count1 > 0 || count2 > 0); i++) {
-				final ItemStack inv = playerInventory.getStackInSlot(i);
-				if (inv == null)
-					continue;
-
-				if (ItemStackHelper.areEqual(inv, stack1)) {
-					count1 -= inv.stackSize;
-				} else if (ItemStackHelper.areEqual(inv, stack2)) {
-					count2 -= inv.stackSize;
-				}
-			}
-
-			return count1 < 1 && count2 < 1;
-		}
-	}
-
-	protected boolean canInventoryAccept(final ItemStack stack1,
-			final ItemStack stack2, final int slotStart, final int slotEnd) {
-
-		// Admin Vending Machines can always accept payment
-		if (entity.isAdminMode())
-			return true;
-
-		// If both are null then payment is not required
-		if (stack1 == null && stack2 == null)
-			return true;
-
-		if (ItemStackHelper.areEqual(stack1, stack2)) {
-			int count = stack1.stackSize + stack2.stackSize;
-			for (int i = slotStart; i <= slotEnd && count > 0; i++) {
-				final ItemStack inv = entity.getStackInSlot(i);
-				if (inv == null) {
-					count -= stack1.getMaxStackSize();
-				} else if (ItemStackHelper.areEqual(stack1, inv)) {
-					count -= inv.getMaxStackSize() - inv.stackSize;
-				}
-			}
-
-			return count < 1;
-
-		} else {
-
-			// Two different types of stacks. Have to handle nulls.
-			int count1 = stack1 != null ? stack1.stackSize : 0;
-			int count2 = stack2 != null ? stack2.stackSize : 0;
-			for (int i = slotStart; i <= slotEnd && (count1 > 0 || count2 > 0); i++) {
-				final ItemStack inv = entity.getStackInSlot(i);
-				if (inv == null) {
-					if (count1 > 0) {
-						count1 -= stack1.getMaxStackSize();
-					} else if (count2 > 0) {
-						count2 -= stack2.getMaxStackSize();
-					}
-				} else if (ItemStackHelper.areEqual(inv, stack1)) {
-					count1 -= inv.getMaxStackSize() - inv.stackSize;
-				} else if (ItemStackHelper.areEqual(inv, stack2)) {
-					count2 -= inv.getMaxStackSize() - inv.stackSize;
-				}
-			}
-
-			return count1 < 1 && count2 < 1;
-		}
-	}
-
-	// Determines if the vending inventory contains enough of the
-	// items to give to the player.
-	protected boolean doesInventoryContain(final ItemStack stack,
-			final int amount, final int slotStart, final int slotEnd) {
-
-		// If it is an Admin Vending Machine it can always satisfy a request.
-		if (entity.isAdminMode())
-			return true;
-
-		int count = amount;
-		for (int i = slotStart; i <= slotEnd && count > 0; i++) {
-			final ItemStack inv = entity.getStackInSlot(i);
-			if (inv != null && ItemStackHelper.areEqual(inv, stack)) {
-				count -= inv.stackSize;
-			}
-		}
-
-		return count < 1;
-	}
-
-	// Determines if the player has space in his inventory to hold
-	// the ItemStack.
-	protected boolean canPlayerAccept(final InventoryPlayer inventoryPlayer,
-			final ItemStack stack, final int amount) {
-
-		// Loop through the inventory decrementing the count until it hits
-		// zero or less. If > 0 at the end of the loop there is no space.
-		int count = amount;
-		for (int i = 0; i < inventoryPlayer.getSizeInventory() && count > 0; i++) {
-			final ItemStack inv = inventoryPlayer.getStackInSlot(i);
-			if (inv == null) {
-				count -= stack.getMaxStackSize();
-			} else if (ItemStackHelper.areEqual(stack, inv)) {
-				count -= inv.getMaxStackSize() - inv.stackSize;
-			}
-		}
-
-		return count < 1;
 	}
 
 	@Override
