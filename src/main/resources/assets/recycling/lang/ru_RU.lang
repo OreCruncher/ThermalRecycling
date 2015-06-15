@@ -1,0 +1,64 @@
+#Russian translation by Grom PE [15 Jun 2015]
+itemGroup.ThermalRecycling=Thermal Recycling
+itemGroup.TagLine=Разделяй и перерабатывай!
+
+item.Debris.debris.name=Переработанный мусор
+item.RecyclingScrap.poor.name=Хлам
+item.RecyclingScrap.standard.name=Лом
+item.RecyclingScrap.superior.name=Ценный лом
+item.RecyclingScrapBox.poor.name=Коробка хлама
+item.RecyclingScrapBox.poor.desc=Кажется, чем-то пахнет
+item.RecyclingScrapBox.standard.name=Коробка лома
+item.RecyclingScrapBox.standard.desc=Неплохие детали
+item.RecyclingScrapBox.superior.name=Коробка ценного лома
+item.RecyclingScrapBox.superior.desc=Мечта каждого механика
+item.ProcessingCore.decomposition.name=Ядро расщепления (Основн.)
+item.ProcessingCore.decomposition_1.name=Ядро расщепления (Усилен.)
+item.ProcessingCore.decomposition_2.name=§eЯдро расщепления (Укреплён.)
+item.ProcessingCore.decomposition_3.name=§3Ядро расщепления (Резонирующ.)
+item.ProcessingCore.decomposition_4.name=§5Ядро расщепления (Эфирн.)
+item.ProcessingCore.extraction.name=Ядро извлечения
+
+item.PaperLogMaker.paperlogmaker.name=Макулатуратор
+item.Material.paperlog.name=Макулатура
+item.Material.worms.name=Горсть червей
+
+tile.PileOfRubble.name=Кучка щебня
+tile.FertileLand.name=Удобренная земля
+tile.MachineThermalRecycler.name=Термический перерабатыватель
+tile.MachineScrapAssessor.name=Оценщик лома
+tile.MachineComposter.name=Компостер
+tile.MachineVending.name=Торговый автомат
+tile.ScrapBlock.scrap.name=Блок мусора
+
+msg.MachineVending.adminName=Серверный магазин
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Уничтожится
+msg.ScrapPreview.keep=Останется
+msg.ScrapPreview.dust=Раздробится (по возможности)
+
+# Machine Status
+msg.MachineStatus.idle=Бездействие
+msg.MachineStatus.active=%d%%
+msg.MachineStatus.jammed=Застрял!
+msg.MachineStatus.needMoreResources=Нужно больше ресурсов!
+msg.MachineStatus.outOfPower=Обесточен
+msg.MachineStatus.needMoreWater=Нужна вода
+msg.MachineStatus.cantSeeSky=Нужно открытое небо
+
+# Achievements
+achievement.feelingScrappy=Пора навести порядок!
+achievement.feelingScrappy.desc=Сделайте термический перерабатыватель
+achievement.doingMyPart=Делаю, что могу
+achievement.doingMyPart.desc=Используйте коробку лома
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eЦенность лома: §7Нет
+msg.ItemScrapValue.poor=§eЦенность лома: §fХлам
+msg.ItemScrapValue.standard=§eЦенность лома: §9Обычный
+msg.ItemScrapValue.superior=§eЦенность лома: §6Ценный
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§eКомпост: §6Коричневый
+msg.ItemCompostIngredientValue.green=§eКомпост: §2Зелёный
