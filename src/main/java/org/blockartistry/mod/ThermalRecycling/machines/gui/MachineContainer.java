@@ -201,8 +201,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 
 		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
 				.get(slotIndex);
-		if (slot instanceof MultiSlot) {
-			if (((MultiSlot) slot).isPhantom()) {
+		if (slot instanceof TradeSlot) {
+			if (((TradeSlot) slot).isPhantom()) {
 				return slotClickMultiSlot(slot, button, modifier, player);
 			}
 		}
@@ -249,7 +249,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 	}
 
 	protected void adjustPhantomSlot(final Slot slot, final int mouseButton, final int modifier) {
-		if (!((MultiSlot) slot).canAdjustPhantom()) {
+		if (!((TradeSlot) slot).canAdjustPhantom()) {
 			return;
 		}
 		ItemStack stackSlot = slot.getStack();
@@ -277,7 +277,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 
 	protected void fillPhantomSlot(final Slot slot, final ItemStack stackHeld,
 			final int mouseButton, final int modifier) {
-		if (!((MultiSlot) slot).canAdjustPhantom()) {
+		if (!((TradeSlot) slot).canAdjustPhantom()) {
 			return;
 		}
 

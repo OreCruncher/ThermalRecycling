@@ -63,15 +63,15 @@ public final class VendingOwnerContainer extends
 			final int y = (i < 3) ? i * GUI_INVENTORY_CELL_SIZE + 17 : (i - 3)
 					* GUI_INVENTORY_CELL_SIZE + 17;
 			
-			MultiSlot slot = new MultiSlot(inventory, slotBase, x, y);
+			TradeSlot slot = new TradeSlot(inventory, slotBase, x, y);
 			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
 			addSlotToContainer(slot);
 
-			slot = new MultiSlot(inventory, slotBase + 6, x + GUI_INVENTORY_CELL_SIZE, y);
+			slot = new TradeSlot(inventory, slotBase + 6, x + GUI_INVENTORY_CELL_SIZE, y);
 			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
 			addSlotToContainer(slot);
 			
-			slot = new MultiSlot(inventory, slotBase + 12, x + GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
+			slot = new TradeSlot(inventory, slotBase + 12, x + GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
 			slot.setPhantom().setCanAdjustPhantom(true).setCanShift(true);
 			addSlotToContainer(slot);
 		}

@@ -64,7 +64,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 					+ GUI_INVENTORY_CELL_SIZE, y);
 			addSlotToContainer(slot);
 
-			final MultiSlot ms = new MultiSlot(inventory, slotBase + 12, x
+			final TradeSlot ms = new TradeSlot(inventory, slotBase + 12, x
 					+ GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
 			ms.setInfinite().setPhantom();
 			addSlotToContainer(ms);
@@ -83,8 +83,8 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
 				.get(slotIndex);
-		if (slot instanceof MultiSlot) {
-			if (((MultiSlot) slot).isPhantom()) {
+		if (slot instanceof TradeSlot) {
+			if (((TradeSlot) slot).isPhantom()) {
 				return doTrade(slot, player);
 			}
 		}

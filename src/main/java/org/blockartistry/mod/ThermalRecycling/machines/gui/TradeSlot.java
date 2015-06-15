@@ -29,7 +29,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class MultiSlot extends Slot {
+public class TradeSlot extends Slot {
 	
 	protected boolean isPhantom;
 	protected boolean isInfinite;
@@ -37,22 +37,22 @@ public class MultiSlot extends Slot {
 	protected boolean canShift = true;
 	protected int stackLimit;
 
-	public MultiSlot(final IInventory inventory, final int slotIndex, final int xPos, final int yPos) {
+	public TradeSlot(final IInventory inventory, final int slotIndex, final int xPos, final int yPos) {
 		super(inventory, slotIndex, xPos, yPos);
 		this.stackLimit = -1;
 	}
 	
-	public MultiSlot setInfinite() {
+	public TradeSlot setInfinite() {
 		this.isInfinite = true;
 		return this;
 	}
 
-	public MultiSlot setPhantom() {
+	public TradeSlot setPhantom() {
 		isPhantom = true;
 		return this;
 	}
 
-	public MultiSlot blockShift() {
+	public TradeSlot blockShift() {
 		canShift = false;
 		return this;
 	}
@@ -64,17 +64,17 @@ public class MultiSlot extends Slot {
 		}
 	}
 
-	public MultiSlot setCanAdjustPhantom(final boolean canAdjust) {
+	public TradeSlot setCanAdjustPhantom(final boolean canAdjust) {
 		this.canAdjustPhantom = canAdjust;
 		return this;
 	}
 
-	public MultiSlot setCanShift(final boolean canShift) {
+	public TradeSlot setCanShift(final boolean canShift) {
 		this.canShift = canShift;
 		return this;
 	}
 
-	public MultiSlot setStackLimit(final int limit) {
+	public TradeSlot setStackLimit(final int limit) {
 		this.stackLimit = limit;
 		return this;
 	}
