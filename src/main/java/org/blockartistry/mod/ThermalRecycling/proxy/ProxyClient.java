@@ -27,13 +27,22 @@ package org.blockartistry.mod.ThermalRecycling.proxy;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.VersionCheck;
+import org.blockartistry.mod.ThermalRecycling.client.TextureManager;
 import org.blockartistry.mod.ThermalRecycling.events.ToolTipEventHandler;
 import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
 import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
-
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public final class ProxyClient extends Proxy {
+
+	@Override
+	public void preInit(final FMLPreInitializationEvent event) {
+		super.preInit(event);
+
+		// Hook for "one off" texture registrations
+		new TextureManager();
+	}
 
 	@Override
 	public void init(final FMLInitializationEvent event) {

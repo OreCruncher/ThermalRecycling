@@ -106,7 +106,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	}
 
 	protected void renderItem(final ItemStack stack, final int x, final int y,
-			final boolean includeQuantity, final boolean noResources) {
+			final boolean includeQuantity, final EnumChatFormatting color) {
 
 		if (stack == null)
 			return;
@@ -132,7 +132,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 		GL11.glPopMatrix();
 
-		if (includeQuantity && (stack.stackSize > 1 || noResources)) {
+		if (includeQuantity) {
 
 			final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 
@@ -143,10 +143,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			GL11.glDisable(2929);
 			GL11.glDisable(3042);
 
-			String amt = String.valueOf(stack.stackSize);
-			if (noResources)
-				amt = EnumChatFormatting.RED + amt;
-
+			String amt = color + String.valueOf(stack.stackSize);
 			font.drawStringWithShadow(amt, 13 - font.getStringWidth(amt), -12,
 					16777215);
 			GL11.glEnable(2896);
@@ -205,9 +202,9 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		for (int i = 0; i < 6; i++) {
 			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
-			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity, false);
+			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity, EnumChatFormatting.WHITE);
 			renderItem(vte.getStackInSlot(base + 6), 1, i, includeQuantity,
-					false);
+					EnumChatFormatting.WHITE);
 
 			final ItemStack stack = vte.getStackInSlot(base + 12);
 			boolean colorCode = false;
@@ -220,7 +217,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			}
 
 			renderItem(stack, 2, i, includeQuantity,
-					colorCode);
+					colorCode ? EnumChatFormatting.RED : EnumChatFormatting.GREEN);
 		}
 	}
 

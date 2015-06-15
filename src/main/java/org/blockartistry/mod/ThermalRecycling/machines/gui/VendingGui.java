@@ -25,9 +25,11 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.client.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import cofh.lib.gui.GuiBase;
@@ -42,5 +44,22 @@ public final class VendingGui extends GuiBase {
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
 		name = StatCollector.translateToLocal("tile.MachineVending.name");
+	}
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		super.drawGuiContainerBackgroundLayer(f, i, j);
+		
+		// Loop through the slots looking for TradeSlots so we can
+		// render the resource available background colors
+		for (int i1 = 0; i1 < inventorySlots.inventorySlots.size(); i1++) {
+			Slot slot = (Slot) inventorySlots.inventorySlots.get(i1);
+			if(slot instanceof TradeSlot && slot.getHasStack()) {
+				final TradeSlot ts = (TradeSlot) slot;
+				final int x = guiLeft + ts.xDisplayPosition;
+				final int y = guiTop + ts.yDisplayPosition;
+				drawIcon(ts.isAvailable() ? TextureManager.slotResourceAvailable : TextureManager.slotResourceNotAvailable, x, y, 1);
+			}
+		}
 	}
 }

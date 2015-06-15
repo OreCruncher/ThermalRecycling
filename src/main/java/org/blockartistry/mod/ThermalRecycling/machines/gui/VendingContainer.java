@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.TradeSlot.IResourceAvailableCheck;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -40,7 +41,8 @@ import net.minecraft.item.ItemStack;
  * 
  * http://jabelarminecraft.blogspot.com/p/minecraft-modding-containers.html
  */
-public final class VendingContainer extends MachineContainer<VendingTileEntity> {
+public final class VendingContainer extends MachineContainer<VendingTileEntity>
+		implements IResourceAvailableCheck {
 
 	public VendingContainer(final InventoryPlayer inv,
 			final IInventory tileEntity) {
@@ -66,7 +68,7 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 
 			final TradeSlot ms = new TradeSlot(inventory, slotBase + 12, x
 					+ GUI_INVENTORY_CELL_SIZE * 2 + 9, y);
-			ms.setInfinite().setPhantom();
+			ms.setInfinite().setPhantom().setResourceAvaialbleCheck(this);
 			addSlotToContainer(ms);
 		}
 
@@ -166,5 +168,20 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity> 
 			final int slotIndex) {
 		// No shift+click behavior in this GUI
 		return null;
+	}
+
+	@Override
+	public boolean isAvailable(final Slot slot) {
+		if(entity.isAdminMode())
+			return true;
+		
+		final ItemStack[] inv = entity.getRawInventory();
+		final ItemStack stack = inv[slot.getSlotIndex()];
+		if(stack != null)
+			return InventoryHelper.doesInventoryContain(inv,
+					VendingTileEntity.INVENTORY_SLOT_START,
+					VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, stack, null);
+		
+		return true;
 	}
 }

@@ -31,6 +31,11 @@ import net.minecraft.item.ItemStack;
 
 public class TradeSlot extends Slot {
 	
+	public static interface IResourceAvailableCheck {
+		boolean isAvailable(final Slot slot);
+	}
+	
+	protected IResourceAvailableCheck available = null;
 	protected boolean isPhantom;
 	protected boolean isInfinite;
 	protected boolean canAdjustPhantom = true;
@@ -49,6 +54,11 @@ public class TradeSlot extends Slot {
 
 	public TradeSlot setPhantom() {
 		isPhantom = true;
+		return this;
+	}
+	
+	public TradeSlot setResourceAvaialbleCheck(final IResourceAvailableCheck check) {
+		available = check;
 		return this;
 	}
 
@@ -85,6 +95,10 @@ public class TradeSlot extends Slot {
 
 	public boolean canAdjustPhantom() {
 		return canAdjustPhantom;
+	}
+	
+	public boolean isAvailable() {
+		return available == null || available.isAvailable(this);
 	}
 
 	@Override
