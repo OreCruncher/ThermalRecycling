@@ -49,6 +49,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.IItemRenderer;
 
 @SideOnly(Side.CLIENT)
@@ -58,6 +59,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	private static final ResourceLocation texture = new ResourceLocation(
 			ThermalRecycling.MOD_ID, "textures/blocks/VendingModel.png");
 	private static final ModelBase model = new VendingModel();
+	private static final String FREE = EnumChatFormatting.GREEN + StatCollector.translateToLocal("msg.MachineVending.free");
 
 	private static final RenderItem itemRenderer = new RenderItem();
 	private static final EntityItem item = new EntityItem(null);
@@ -88,7 +90,9 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			TOP_EDGE_OFFSET - 0 * IMAGE_SIZE, TOP_EDGE_OFFSET - 1 * IMAGE_SIZE,
 			TOP_EDGE_OFFSET - 2 * IMAGE_SIZE, TOP_EDGE_OFFSET - 3 * IMAGE_SIZE,
 			TOP_EDGE_OFFSET - 4 * IMAGE_SIZE, TOP_EDGE_OFFSET - 5 * IMAGE_SIZE, };
-
+	
+	private static final float FREE_X_OFFSET = xOffset[0] - IMAGE_SIZE/2;
+	
 	private static final int[] rotationFacings = new int[] { 0, 0, 0, 180, 270,
 			90, 0 };
 
@@ -108,9 +112,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
         final float red = (float)(color >> 16 & 255) / 255.0F;
         final float blue = (float)(color >> 8 & 255) / 255.0F;
         final float green = (float)(color & 255) / 255.0F;
-        //final float alpha = (float)(color >> 24 & 255) / 255.0F;
         Tessellator.instance.setColorRGBA_F(red, blue, green, alpha);
-
 	}
 	
 	protected boolean playerInRange(final double range) {
@@ -148,19 +150,18 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 			final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 
+			// Move the number slightly in front of the item
+			GL11.glTranslatef(0F, 0F, -0.11F);
 			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 			GL11.glScalef(-f1, -f1, f1);
 
 			GL11.glDisable(2896);
-			GL11.glDisable(2929);
 			GL11.glDisable(3042);
 
 			String amt = color + String.valueOf(stack.stackSize);
-			font.drawStringWithShadow(amt, 13 - font.getStringWidth(amt), -12,
+			font.drawString(amt, 13 - font.getStringWidth(amt), -12,
 					16777215);
 			GL11.glEnable(2896);
-			GL11.glEnable(2929);
-
 		}
 
 		GL11.glPopMatrix();
@@ -185,14 +186,12 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		GL11.glScalef(-f1, -f1, f1);
 		GL11.glDisable(2896);
 		GL11.glDepthMask(false);
-		GL11.glDisable(2929);
 		GL11.glEnable(3042);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		final byte byte0 = 0;
 		GL11.glDisable(3553);
 		tessellator.startDrawingQuads();
 		setColor(backColor, 0.5F);
-		//tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
 		tessellator.addVertex(-nameWidth - 1, -1 + byte0, 0.0D);
 		tessellator.addVertex(-nameWidth - 1, 8 + byte0, 0.0D);
 		tessellator.addVertex(nameWidth + 1, 8 + byte0, 0.0D);
@@ -200,12 +199,32 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		tessellator.draw();
 		GL11.glEnable(3553);
 		font.drawString(name, -nameWidth, byte0, backColor);
-		GL11.glEnable(2929);
 		GL11.glDepthMask(true);
 		font.drawString(name, -nameWidth, byte0, color); //-1);
 		GL11.glEnable(2896);
 		GL11.glDisable(3042);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
+	}
+	
+	protected void renderFREE(final int y) {
+		
+		final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+
+		GL11.glPushMatrix();
+		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslatef(FREE_X_OFFSET, yOffset[y] + 0.15F, FRONT_EDGE_OFFSET);
+
+		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+		GL11.glScalef(-f1 * 1.3F, -f1 * 1.3F, f1 * 1.3F);
+
+		GL11.glDisable(2896);
+		GL11.glDisable(3042);
+
+		font.drawString(FREE, -font.getStringWidth(FREE) / 2, 0,
+				16777215);
+		GL11.glEnable(2896);
+		
 		GL11.glPopMatrix();
 	}
 
@@ -215,23 +234,36 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		final boolean includeQuantity = playerInRange(ITEM_QUANTITY_RENDER_RANGE);
 
 		for (int i = 0; i < 6; i++) {
+			
 			final int base = i + VendingTileEntity.CONFIG_SLOT_START;
-			renderItem(vte.getStackInSlot(base), 0, i, includeQuantity, EnumChatFormatting.WHITE);
-			renderItem(vte.getStackInSlot(base + 6), 1, i, includeQuantity,
-					EnumChatFormatting.WHITE);
+			final ItemStack input1 = vte.getStackInSlot(base);
+			final ItemStack input2 = vte.getStackInSlot(base + 6);
+			final ItemStack trade = vte.getStackInSlot(base + 12);
+			
+			if(input1 != null)
+				renderItem(input1, 0, i, includeQuantity, EnumChatFormatting.WHITE);
+			
+			if(input2 != null)
+				renderItem(input2, 1, i, includeQuantity, EnumChatFormatting.WHITE);
+			
+			if(trade != null) {
 
-			final ItemStack stack = vte.getStackInSlot(base + 12);
-			boolean colorCode = false;
-			if (!vte.isAdminMode() && stack != null) {
-				colorCode = !InventoryHelper.doesInventoryContain(
-						vte.getRawInventory(),
-						VendingTileEntity.INVENTORY_SLOT_START,
-						VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, stack,
-						null);
+				if(input1 == null && input2 == null) {
+					renderFREE(i);
+				}
+				
+				boolean colorCode = false;
+				if (!vte.isAdminMode() && trade != null) {
+					colorCode = !InventoryHelper.doesInventoryContain(
+							vte.getRawInventory(),
+							VendingTileEntity.INVENTORY_SLOT_START,
+							VendingTileEntity.GENERAL_INVENTORY_SIZE - 1, trade,
+							null);
+				}
+	
+				renderItem(trade, 2, i, includeQuantity,
+						colorCode ? EnumChatFormatting.RED : EnumChatFormatting.GREEN);
 			}
-
-			renderItem(stack, 2, i, includeQuantity,
-					colorCode ? EnumChatFormatting.RED : EnumChatFormatting.GREEN);
 		}
 	}
 

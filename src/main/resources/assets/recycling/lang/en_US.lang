@@ -32,6 +32,7 @@ tile.MachineVending.name=Vending Machine
 tile.ScrapBlock.scrap.name=Block of Scrap
 
 msg.MachineVending.adminName=Server Shop
+msg.MachineVending.free=FREE
 
 # Additional text for Scrap Assessor lore
 msg.ScrapPreview.destroy=Destroy
