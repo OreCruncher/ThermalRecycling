@@ -30,6 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
+import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -105,7 +106,7 @@ public abstract class MachineBase extends BlockContainer {
 	
 	protected static boolean holdingDyeTool(final EntityPlayer player) {
 		final ItemStack item = player.getCurrentEquippedItem();
-		return item != null && item.getItem() == Items.dye;
+		return item != null && DyeHelper.isDye(item);
 	}
 
 	/*
@@ -133,14 +134,14 @@ public abstract class MachineBase extends BlockContainer {
 			// If the player is holding a tool rotate
 			if (holdingRotateTool(player)) {
 				return entity.rotateBlock();
-			} else if (holdingLockTool(player) && entity.isLockable(player)) {
+			} else if (entity.isLockable(player) && holdingLockTool(player)) {
 				return entity.toggleLock();
-			} else if(holdingDyeTool(player) && entity.isNameColorable(player)) {
-				final ItemStack stack = player.getCurrentEquippedItem();
-				if(player.isSneaking())
-					entity.setNameBackgroundColor(stack.getItemDamage());
+			} else if(entity.isNameColorable(player) && holdingDyeTool(player)) {
+				final int color = DyeHelper.getDyeColor(player.getCurrentEquippedItem());
+				if(entity.getNameColor() == color)
+					entity.setNameBackgroundColor(color);
 				else
-					entity.setNameColor(stack.getItemDamage());
+					entity.setNameColor(color);
 			} else {
 				return entity.onBlockActivated(world, x, y, z, player, side, a,
 						b, c);

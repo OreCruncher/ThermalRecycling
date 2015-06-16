@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -44,7 +45,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
@@ -102,6 +102,17 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.setRenderManager(RenderManager.instance);
 	}
 
+	
+	protected void setColor(final int color, final float alpha) {
+	
+        final float red = (float)(color >> 16 & 255) / 255.0F;
+        final float blue = (float)(color >> 8 & 255) / 255.0F;
+        final float green = (float)(color & 255) / 255.0F;
+        //final float alpha = (float)(color >> 24 & 255) / 255.0F;
+        Tessellator.instance.setColorRGBA_F(red, blue, green, alpha);
+
+	}
+	
 	protected boolean playerInRange(final double range) {
 		return playerRange <= range;
 	}
@@ -161,8 +172,8 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 		final Tessellator tessellator = Tessellator.instance;
-		final int color = ItemDye.field_150922_c[fColor];
-		final int backColor = ItemDye.field_150922_c[bColor];
+		final int color = DyeHelper.getDyeRenderColor(fColor);
+		final int backColor = DyeHelper.getDyeRenderColor(bColor);
 		final int nameWidth = font.getStringWidth(name) / 2;
 
 		GL11.glPushMatrix();
@@ -180,7 +191,8 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		final byte byte0 = 0;
 		GL11.glDisable(3553);
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+		setColor(backColor, 0.5F);
+		//tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
 		tessellator.addVertex(-nameWidth - 1, -1 + byte0, 0.0D);
 		tessellator.addVertex(-nameWidth - 1, 8 + byte0, 0.0D);
 		tessellator.addVertex(nameWidth + 1, 8 + byte0, 0.0D);
