@@ -52,8 +52,9 @@ public class VendingTileEntity extends TileEntityBase {
 	// shop
 	private static final String adminVendingName = StatCollector
 			.translateToLocal("msg.MachineVending.adminName");
-	
-	private static final boolean BLOCK_PIPE_CONNECTION = ModOptions.getVendingDisallowPipeConnection();
+
+	private static final boolean BLOCK_PIPE_CONNECTION = ModOptions
+			.getVendingDisallowPipeConnection();
 	private static final int[] emptyList = new int[0];
 
 	// Slot geometry - based on hardened strongbox storage
@@ -68,12 +69,16 @@ public class VendingTileEntity extends TileEntityBase {
 		public final static String OWNER = "owner";
 		public final static String OWNER_NAME = "ownerName";
 		public final static String ADMIN_MODE = "admin";
+		public final static String NAME_COLOR = "nameColor";
+		public final static String NAME_BG_COLOR = "nameBGColor";
 	}
 
 	// Persisted state
 	private UUID ownerId = NO_OWNER;
 	private String ownerName = "";
 	private boolean adminMode = false;
+	private int color = 15;
+	private int backgroundColor = 0;
 
 	public VendingTileEntity() {
 		super(GuiIdentifier.VENDING);
@@ -92,8 +97,7 @@ public class VendingTileEntity extends TileEntityBase {
 	// Called by break event handler to see if it is OK to break
 	// the block based on ownership.
 	public boolean okToBreak(final EntityPlayer player) {
-		return ownerId.compareTo(NO_OWNER) == 0
-				|| ownerId.compareTo(player.getPersistentID()) == 0;
+		return ownerId.compareTo(NO_OWNER) == 0 || isOwner(player);
 	}
 
 	public String getOwnerName() {
@@ -102,6 +106,10 @@ public class VendingTileEntity extends TileEntityBase {
 
 	public boolean isAdminMode() {
 		return adminMode;
+	}
+
+	public boolean isOwner(final EntityPlayer player) {
+		return ownerId.compareTo(player.getPersistentID()) == 0;
 	}
 
 	/**
@@ -122,6 +130,51 @@ public class VendingTileEntity extends TileEntityBase {
 		return true;
 	}
 
+	/**
+	 * Sets the color to use when displaying the name tag on the exterior
+	 * surface.
+	 * 
+	 * @param color
+	 */
+	@Override
+	public void setNameColor(final int color) {
+		if (color >= 0 && color < 16) {
+			this.color = color;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			markDirty();
+		}
+	}
+
+	/**
+	 * Sets the background color to use when displaying the name tag on the
+	 * exterior surface.
+	 * 
+	 * @param color
+	 */
+	@Override
+	public void setNameBackgroundColor(final int color) {
+		if (color >= 0 && color < 16) {
+			this.backgroundColor = color;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			markDirty();
+		}
+	}
+
+	@Override
+	public int getNameColor() {
+		return color;
+	}
+	
+	@Override
+	public int getNameBackgroundColor() {
+		return backgroundColor;
+	}
+
+	@Override
+	public boolean isNameColorable(final EntityPlayer player) {
+		return player.capabilities.isCreativeMode || isOwner(player);
+	}
+
 	// /////////////////////////////////////
 	//
 	// INBTSerializer
@@ -135,7 +188,12 @@ public class VendingTileEntity extends TileEntityBase {
 		if (nbt.hasKey(NBT.OWNER)) {
 			ownerId = UUID.fromString(nbt.getString(NBT.OWNER));
 			ownerName = nbt.getString(NBT.OWNER_NAME);
-			adminMode = nbt.getBoolean(NBT.ADMIN_MODE);
+		}
+		adminMode = nbt.getBoolean(NBT.ADMIN_MODE);
+
+		if (nbt.hasKey(NBT.NAME_COLOR)) {
+			color = nbt.getByte(NBT.NAME_COLOR);
+			backgroundColor = nbt.getByte(NBT.NAME_BG_COLOR);
 		}
 	}
 
@@ -146,6 +204,8 @@ public class VendingTileEntity extends TileEntityBase {
 		nbt.setString(NBT.OWNER, ownerId.toString());
 		nbt.setString(NBT.OWNER_NAME, ownerName);
 		nbt.setBoolean(NBT.ADMIN_MODE, adminMode);
+		nbt.setByte(NBT.NAME_COLOR, (byte) color);
+		nbt.setByte(NBT.NAME_BG_COLOR, (byte) backgroundColor);
 	}
 
 	// /////////////////////////////////////
@@ -217,20 +277,25 @@ public class VendingTileEntity extends TileEntityBase {
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		return slot < CONFIG_SLOT_START;
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(final int side) {
-		return BLOCK_PIPE_CONNECTION ? emptyList : inventory.getAccessibleSlotsFromSide(side);
+		return BLOCK_PIPE_CONNECTION ? emptyList : inventory
+				.getAccessibleSlotsFromSide(side);
 	}
 
 	@Override
-	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
-		return BLOCK_PIPE_CONNECTION ? false : inventory.canInsertItem(slot, stack, facing);
+	public boolean canInsertItem(final int slot, final ItemStack stack,
+			final int facing) {
+		return BLOCK_PIPE_CONNECTION ? false : inventory.canInsertItem(slot,
+				stack, facing);
 	}
 
 	@Override
-	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
-		return BLOCK_PIPE_CONNECTION ? false : inventory.canExtractItem(slot, stack, facing);
+	public boolean canExtractItem(final int slot, final ItemStack stack,
+			final int facing) {
+		return BLOCK_PIPE_CONNECTION ? false : inventory.canExtractItem(slot,
+				stack, facing);
 	}
 
 	@Override

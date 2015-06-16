@@ -268,6 +268,22 @@ public abstract class TileEntityBase extends TileEntity implements
 		return false;
 	}
 	
+	public boolean isNameColorable(final EntityPlayer player) {
+		return false;
+	}
+	
+	public int getNameColor() {
+		return 15;
+	}
+	
+	public int getNameBackgroundColor() {
+		return 0;
+	}
+	
+	public void setNameColor(final int color) { }
+	
+	public void setNameBackgroundColor(final int color) { }
+
 	// /////////////////////////////////////
 	//
 	// IReconfigurableFacing

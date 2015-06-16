@@ -44,6 +44,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
@@ -154,13 +155,14 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 
-	protected void renderName(final String name) {
+	protected void renderName(final String name, final int fColor, final int bColor) {
 		if (name.isEmpty())
 			return;
 
 		final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 		final Tessellator tessellator = Tessellator.instance;
-
+		final int color = ItemDye.field_150922_c[fColor];
+		final int backColor = ItemDye.field_150922_c[bColor];
 		final int nameWidth = font.getStringWidth(name) / 2;
 
 		GL11.glPushMatrix();
@@ -185,10 +187,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		tessellator.addVertex(nameWidth + 1, -1 + byte0, 0.0D);
 		tessellator.draw();
 		GL11.glEnable(3553);
-		font.drawString(name, -nameWidth, byte0, 553648127);
+		font.drawString(name, -nameWidth, byte0, backColor);
 		GL11.glEnable(2929);
 		GL11.glDepthMask(true);
-		font.drawString(name, -nameWidth, byte0, -1);
+		font.drawString(name, -nameWidth, byte0, color); //-1);
 		GL11.glEnable(2896);
 		GL11.glDisable(3042);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -265,7 +267,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 				renderTradeInventory(vte);
 
 			if (playerInRange(VENDING_TITLE_RENDER_RANGE))
-				renderName(vte.getOwnerName());
+				renderName(vte.getOwnerName(), vte.getNameColor(), vte.getNameBackgroundColor());
 		}
 
 		GL11.glPopMatrix();

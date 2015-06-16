@@ -43,6 +43,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -54,7 +55,7 @@ public abstract class MachineBase extends BlockContainer {
 
 	private static ItemStack lockTool = ItemStackHelper
 			.getItemStack("ThermalExpansion:material:16");
-
+	
 	public static int BLOCK_BOTTOM = 0;
 	public static int BLOCK_TOP = 1;
 	public static int BLOCK_SIDE = 2;
@@ -101,6 +102,11 @@ public abstract class MachineBase extends BlockContainer {
 
 		return ItemStackHelper.areEqual(item, lockTool);
 	}
+	
+	protected static boolean holdingDyeTool(final EntityPlayer player) {
+		final ItemStack item = player.getCurrentEquippedItem();
+		return item != null && item.getItem() == Items.dye;
+	}
 
 	/*
 	 * Forward the block activated request to the corresponding TileEntity
@@ -129,6 +135,12 @@ public abstract class MachineBase extends BlockContainer {
 				return entity.rotateBlock();
 			} else if (holdingLockTool(player) && entity.isLockable(player)) {
 				return entity.toggleLock();
+			} else if(holdingDyeTool(player) && entity.isNameColorable(player)) {
+				final ItemStack stack = player.getCurrentEquippedItem();
+				if(player.isSneaking())
+					entity.setNameBackgroundColor(stack.getItemDamage());
+				else
+					entity.setNameColor(stack.getItemDamage());
 			} else {
 				return entity.onBlockActivated(world, x, y, z, player, side, a,
 						b, c);
