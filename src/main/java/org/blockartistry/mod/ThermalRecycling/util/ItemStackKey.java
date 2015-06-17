@@ -50,7 +50,7 @@ public final class ItemStackKey {
 	public static ItemStackKey getCachedKey(final ItemStack stack) {
 		final ItemStackKey key = cachedKey.get();
 		key.item = stack.getItem();
-		key.meta = stack.getItemDamage();
+		key.meta = stack.getHasSubtypes() ? stack.getItemDamage() : 0;
 		key.hash = calculateHash(key.item.hashCode(), key.meta);
 		return key;
 	}
