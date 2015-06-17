@@ -124,12 +124,13 @@ public final class RecipeData {
 		// See if we have an existing mapping
 		final RecipeData result = get(input);
 
-		// If we don't, or the mapping that exists is a wild card and the
-		// incoming
-		// recipe is specific, we want to add to the dictionary. The dictionary
-		// will prefer specific recipes over wild cards if possible.
-		if (result == ephemeral || result.isGeneric()
-				&& input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+		// Use the incoming recipe if:
+		// * It doesn't exist
+		// * Existing entry is wildcard and the new one isn't
+		// * The new entry has a quantity greater than the existing one
+		if (result == ephemeral
+			|| (result.isGeneric() && input.getItemDamage() != OreDictionary.WILDCARD_VALUE)
+			|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
 
 			final ItemStack stack = input.copy();
 
