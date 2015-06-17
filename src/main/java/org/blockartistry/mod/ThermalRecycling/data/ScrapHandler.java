@@ -72,10 +72,9 @@ public class ScrapHandler {
 	
 	// This is the max XP that an experience bottle can give. When an XP
 	// bottle is used the XP is random: 3 + rnd(5) + rnd(5).  This puts
-	// the average XP in the neighborhood of 7.  I chose 11 since it is
-	// the largest amount possible, and this gives some lossiness to
-	// the scrapping process where XP is concerned.
-	protected static final int EXPERIENCE_PER_BOTTLE = 11;
+	// the average XP in the neighborhood of 7.  The reason the factor is
+	// so large is to reduce the impact of XP farms.
+	protected static final int EXPERIENCE_PER_BOTTLE = 44;
 	
 	public static class PreviewResult {
 
@@ -239,8 +238,14 @@ public class ScrapHandler {
 				experience += count + level * l1;
 			}
 		}
+		
+		// Make sure there is at least one bottle if there was
+		// an enchant on the item.
+		int numberOfBottles = estimateTotalXPForLevels(experience) / EXPERIENCE_PER_BOTTLE;
+		if(numberOfBottles == 0 && experience > 0)
+			numberOfBottles = 1;
 
-		return estimateTotalXPForLevels(experience) / EXPERIENCE_PER_BOTTLE;
+		return numberOfBottles;
 	}
 	
 	protected List<ItemStack> getEnchantmentBottles(final ScrappingContext ctx) {

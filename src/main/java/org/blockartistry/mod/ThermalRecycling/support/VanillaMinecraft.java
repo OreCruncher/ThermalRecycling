@@ -69,7 +69,7 @@ public final class VanillaMinecraft extends ModPlugin {
 	static final String[] scrapValuesPoor = new String[] { "cake", "gunpowder",
 			"rotten_flesh", "tnt", "coal_block", "gold_nugget",
 			"leather_helmet", "leather_chestplate", "leather_leggings",
-			"leather_boots", "brewing_stand", };
+			"leather_boots", "brewing_stand", "experience_bottle"};
 
 	static final String[] scrapValuesStandard = new String[] { "blaze_powder",
 			"blaze_rod", "ender_eye", "ender_pearl", "chainmail_boots",
@@ -87,7 +87,7 @@ public final class VanillaMinecraft extends ModPlugin {
 			"golden_carrot", "golden_apple", "speckled_melon", "compass",
 			"clock", "cauldron", "magma_cream", "ghast_tear", "hopper",
 			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate",
-			"daylight_detector", "experience_bottle", "shears", "quartz",
+			"daylight_detector", "shears", "quartz",
 			"piston", "sticky_piston", "golden_rail", "detector_rail",
 			"activator_rail", "glowstone", "redstone_lamp", "ender_chest",
 			"enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
@@ -209,7 +209,10 @@ public final class VanillaMinecraft extends ModPlugin {
 					.save();
 			pulverizer.append(Items.diamond_boots).output(Items.diamond, 4)
 					.save();
-			pulverizer.append(Items.diamond_sword, Items.diamond_hoe)
+			pulverizer.append(Items.diamond_sword)
+					.output(Items.diamond).secondaryOutput("dustWood")
+					.save();
+			pulverizer.append(Items.diamond_hoe)
 					.output(Items.diamond, 2).secondaryOutput("dustWood", 2)
 					.save();
 			pulverizer.append(Items.diamond_axe, Items.diamond_pickaxe)
