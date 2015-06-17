@@ -37,8 +37,8 @@ public final class AnvilHandler {
 
 	private static final int RENAME_COST = 3;
 	private static final int[] EXPERIENCE_COST = { 3, 4, 5 };
-	private static final int[] REPAIR_AMOUNT_SCRAP = { 15, 30, 60 };
-	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 135, 270, 540 };
+	private static final int[] REPAIR_AMOUNT_SCRAP = { 3, 6, 12 };
+	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 27, 54, 108 };
 
 	private boolean isValidRepairItem(final ItemStack stack) {
 
@@ -61,8 +61,8 @@ public final class AnvilHandler {
 			return;
 
 		// Make a copy of the item and figure out any rename
-		// cost.  Items that are not damagable can be renamed,
-		// like tags.
+		// cost.  Items can be renamed even if they are not
+		// normally repaired in an anvil.
 		event.output = itemToRepair.copy();
 		if(!event.name.isEmpty()) {
 			event.cost = RENAME_COST;
