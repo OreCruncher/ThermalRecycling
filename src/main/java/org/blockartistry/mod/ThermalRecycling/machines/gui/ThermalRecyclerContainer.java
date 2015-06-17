@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
@@ -129,12 +130,15 @@ public final class ThermalRecyclerContainer extends MachineContainer<ThermalRecy
 					return null;
 				}
 
-			} else if (entity.isItemValidForSlot(
-					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
-
-				// Try moving to the input slot
-				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
-					return null;
+			} else {
+				
+				final int targetSlot = CoreType.isProcessingCore(stackInSlot) ? ThermalRecyclerTileEntity.CORE
+						: ThermalRecyclerTileEntity.INPUT;
+				if (entity.isItemValidForSlot(targetSlot, stackInSlot)) {
+					// Try moving to the input slot
+					if (!mergeItemStack(stackInSlot, targetSlot, targetSlot + 1, false)) {
+						return null;
+					}
 				}
 			}
 

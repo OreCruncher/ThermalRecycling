@@ -30,19 +30,22 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
+
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
 
-public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessorTileEntity> {
+public final class ScrapAssessorContainer extends
+		MachineContainer<ScrapAssessorTileEntity> {
 
-	public ScrapAssessorContainer(final InventoryPlayer inv, final IInventory tileEntity) {
-		super((ScrapAssessorTileEntity)tileEntity);
+	public ScrapAssessorContainer(final InventoryPlayer inv,
+			final IInventory tileEntity) {
+		super((ScrapAssessorTileEntity) tileEntity);
 
 		final IInventory inventory = entity.getMachineInventory();
-		Slot s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.INPUT, 11,
-				13);
+		Slot s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.INPUT,
+				11, 13);
 		addSlotToContainer(s);
 
 		s = new SlotAcceptValid(inventory, ScrapAssessorTileEntity.CORE, 33, 34);
@@ -66,7 +69,8 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int slotIndex) {
+	public ItemStack transferStackInSlot(final EntityPlayer playerIn,
+			final int slotIndex) {
 
 		ItemStack stack = null;
 		final Slot slot = (Slot) inventorySlots.get(slotIndex);
@@ -85,12 +89,15 @@ public final class ScrapAssessorContainer extends MachineContainer<ScrapAssessor
 					return null;
 				}
 
-			} else if (entity.isItemValidForSlot(
-					ThermalRecyclerTileEntity.INPUT, stackInSlot)) {
+			} else {
 
-				// Try moving to the input slot
-				if (!mergeItemStack(stackInSlot, 0, 1, false)) {
-					return null;
+				final int targetSlot = CoreType.isProcessingCore(stackInSlot) ? ScrapAssessorTileEntity.CORE
+						: ScrapAssessorTileEntity.INPUT;
+				if (entity.isItemValidForSlot(targetSlot, stackInSlot)) {
+					// Try moving to the input slot
+					if (!mergeItemStack(stackInSlot, targetSlot, targetSlot + 1, false)) {
+						return null;
+					}
 				}
 			}
 
