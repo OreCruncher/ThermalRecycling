@@ -50,8 +50,8 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
-		final ItemStack result = new ItemStack(stack.getItem(),
-				rnd.nextInt(maxQuantity) + 1, scrap.getItemDamage());
+		final ItemStack result = stack.copy();
+		result.stackSize = rnd.nextInt(maxQuantity) + 1; 
 		UseEffect.spawnIntoWorld(result, world, player);
 
 		if (result.getItem() == Items.nether_star)

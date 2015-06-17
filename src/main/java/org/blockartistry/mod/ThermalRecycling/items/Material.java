@@ -36,7 +36,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -44,8 +43,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class Material extends ItemBase {
 
 	private static final Random random = XorShiftRandom.shared;
-	private static final int MIN_EGGS_TO_SPAWN = 0;
-	private static final int SPREAD_EGGS_TO_SPAWN = 4;
+	private static final int EGG_ACCELERATION = 3000;
 
 	public static final int PAPER_LOG = 0;
 	public static final int WORMS = 1;
@@ -65,17 +63,19 @@ public final class Material extends ItemBase {
 		if (target.worldObj.isRemote || stack.getItemDamage() != WORMS)
 			return false;
 
-		if (target instanceof EntityChicken && !target.isChild()) {
+		if (target instanceof EntityChicken) {
+			
+			// If the chicken is a child, make it an adult.  If it is
+			// an adult, accelerate egg laying.
+			final EntityChicken chicken = (EntityChicken) target;
+			if(chicken.isChild()) {
+				chicken.setGrowingAge(-1);
+			} else {
+				chicken.timeUntilNextEgg -= random.nextInt(EGG_ACCELERATION) + EGG_ACCELERATION;
+			}
 
 			stack.stackSize--;
 
-			final ItemStack eggs = new ItemStack(Items.egg, MIN_EGGS_TO_SPAWN
-					+ random.nextInt(SPREAD_EGGS_TO_SPAWN));
-			ItemStackHelper.spawnIntoWorld(target.worldObj, eggs, target.posX,
-					target.posY, target.posZ);
-
-			target.playSound("mob.chicken.plop", 1.0F,
-					(random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 			return true;
 		}
 

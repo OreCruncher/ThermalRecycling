@@ -53,6 +53,8 @@ achievement.feelingScrappy=Feeling Scrappy!
 achievement.feelingScrappy.desc=Craft a Thermal Recycler
 achievement.doingMyPart=Doing My Part
 achievement.doingMyPart.desc=Use a scrap box
+achievement.lottoWinner=Lotto Winner!
+achievement.lottoWinner.desc=Get a Nether Star from a Scrap Box
 
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§eScrap Value: §7None
