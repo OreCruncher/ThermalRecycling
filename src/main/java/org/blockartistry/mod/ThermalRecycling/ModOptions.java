@@ -75,6 +75,15 @@ public final class ModOptions {
 	protected static final String CONFIG_DEBRIS_FUEL_SETTING = "Debris Fuel Ticks";
 	protected static final String CONFIG_SCRAP_BLOCK_FUEL_SETTING = "Scrap Block Fuel Ticks";
 	protected static final String CONFIG_PAPER_LOG_FUEL_SETTING = "Paper Log Fuel Ticks";
+	
+	protected static final String CATEGORY_REPAIR_SETTINGS = "Repair Settings";
+	protected static final String CONFIG_POOR_SCRAP_REPAIR_SETTING = "Poor Scrap Repair Value";
+	protected static final String CONFIG_STANDARD_SCRAP_REPAIR_SETTING = "Standard Scrap Repair Value";
+	protected static final String CONFIG_SUPERIOR_SCRAP_REPAIR_SETTING = "Superior Scrap Repair Value";
+	protected static final String CONFIG_RENAME_COST = "Rename Cost";
+	protected static final String CONFIG_POOR_XP_COST = "Poor Scrap Level Cost";
+	protected static final String CONFIG_STANDARD_XP_COST = "Standard Scrap Level Cost";
+	protected static final String CONFIG_SUPERIOR_XP_COST = "Superior Scrap Level Cost";
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -109,6 +118,15 @@ public final class ModOptions {
 	protected static int vendingQuantityRenderRange = 4;
 	protected static boolean vendingDisallowPipeConnection = true;
 
+	protected static int poorScrapRepairValue = 3;
+	protected static int standardScrapRepairValue = 6;
+	protected static int superiorScrapRepairValue = 12;
+	protected static int scrapboxRepairMultiplier = 9;
+	protected static int renameCost = 3;
+	protected static int poorXPCost = 3;
+	protected static int standardXPCost = 4;
+	protected static int superiorXPCost = 5;
+	
 	public static void load(final Configuration config) {
 
 		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
@@ -255,7 +273,47 @@ public final class ModOptions {
 		
 		vendingDisallowPipeConnection = config.getBoolean(CONFIG_VENDING_BLOCK_PIPE_CONNECTION,
 				CATEGORY_MACHINES_VENDING, vendingDisallowPipeConnection,
-				"Blocks connection of item transport pipes to a Vending Machine");
+				"Blocks connection of item transport piCATEGORY_MACHINES_VENDINGpes to a Vending Machine");
+	
+		poorScrapRepairValue = config.getInt(CONFIG_POOR_SCRAP_REPAIR_SETTING,
+				CATEGORY_REPAIR_SETTINGS, poorScrapRepairValue, 0,
+				64,
+				"Poor Scrap Repair Value");
+
+		standardScrapRepairValue = config.getInt(CONFIG_STANDARD_SCRAP_REPAIR_SETTING,
+				CATEGORY_REPAIR_SETTINGS, standardScrapRepairValue, 0,
+				64,
+				"Standard Scrap Repair Value");
+
+		superiorScrapRepairValue = config.getInt(CONFIG_SUPERIOR_SCRAP_REPAIR_SETTING,
+				CATEGORY_REPAIR_SETTINGS, superiorScrapRepairValue, 0,
+				64,
+				"Superior Scrap Repair Value");
+		
+		scrapboxRepairMultiplier = config.getInt(CONFIG_SCRAPBOX_MULTIPLIER,
+				CATEGORY_REPAIR_SETTINGS, scrapboxRepairMultiplier, 0,
+				64,
+				"Multiplier for a Scrap Box");
+		
+		renameCost = config.getInt(CONFIG_RENAME_COST,
+				CATEGORY_REPAIR_SETTINGS, renameCost, 0,
+				64,
+				"Level cost to rename an item");
+		
+		poorXPCost = config.getInt(CONFIG_POOR_XP_COST,
+				CATEGORY_REPAIR_SETTINGS, poorXPCost, 0,
+				64,
+				"Level cost to use Poor Scrap for repair");
+		
+		standardXPCost = config.getInt(CONFIG_STANDARD_XP_COST,
+				CATEGORY_REPAIR_SETTINGS, standardXPCost, 0,
+				64,
+				"Level cost to use Standard Scrap for repair");
+		
+		superiorXPCost = config.getInt(CONFIG_SUPERIOR_XP_COST,
+				CATEGORY_REPAIR_SETTINGS, superiorXPCost, 0,
+				64,
+				"Level cost to use Superior Scrap for repair");
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -373,5 +431,37 @@ public final class ModOptions {
 	
 	public static boolean getVendingDisallowPipeConnection() {
 		return vendingDisallowPipeConnection;
+	}
+
+	public static int getPoorScrapRepairValue() {
+		return poorScrapRepairValue;
+	}
+	
+	public static int getStandardScrapRepairValue() {
+		return standardScrapRepairValue;
+	}
+
+	public static int getSuperiorScrapRepairValue() {
+		return superiorScrapRepairValue;
+	}
+
+	public static int getScrapboxRepairMultiplier() {
+		return scrapboxRepairMultiplier;
+	}
+
+	public static int getRepairRenameCost() {
+		return renameCost;
+	}
+	
+	public static int getPoorRepairXPCost() {
+		return poorXPCost;
+	}
+	
+	public static int getStandardRepairXPCost() {
+		return standardXPCost;
+	}
+	
+	public static int getSuperiorRepairXPCost() {
+		return superiorXPCost;
 	}
 }

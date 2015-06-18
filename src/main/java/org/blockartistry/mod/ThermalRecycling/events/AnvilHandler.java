@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.events;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
@@ -35,10 +36,19 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class AnvilHandler {
 
-	private static final int RENAME_COST = 3;
-	private static final int[] EXPERIENCE_COST = { 3, 4, 5 };
-	private static final int[] REPAIR_AMOUNT_SCRAP = { 3, 6, 12 };
-	private static final int[] REPAIR_AMOUNT_SCRAPBOX = { 27, 54, 108 };
+	private static final int RENAME_COST = ModOptions.getRepairRenameCost();
+	private static final int[] EXPERIENCE_COST = {
+			ModOptions.getPoorRepairXPCost(),
+			ModOptions.getStandardRepairXPCost(),
+			ModOptions.getSuperiorRepairXPCost() };
+	private static final int[] REPAIR_AMOUNT_SCRAP = {
+			ModOptions.getPoorScrapRepairValue(),
+			ModOptions.getStandardScrapRepairValue(),
+			ModOptions.getSuperiorScrapRepairValue() };
+	private static final int[] REPAIR_AMOUNT_SCRAPBOX = {
+			REPAIR_AMOUNT_SCRAP[0] * ModOptions.getScrapboxRepairMultiplier(),
+			REPAIR_AMOUNT_SCRAP[1] * ModOptions.getScrapboxRepairMultiplier(),
+			REPAIR_AMOUNT_SCRAP[2] * ModOptions.getScrapboxRepairMultiplier() };
 
 	private boolean isValidRepairItem(final ItemStack stack) {
 
@@ -52,7 +62,7 @@ public final class AnvilHandler {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = false)
 	public void onAnvilChange(final AnvilUpdateEvent event) {
-		
+
 		final ItemStack itemToRepair = event.left;
 		final ItemStack repairMaterial = event.right;
 
@@ -61,26 +71,27 @@ public final class AnvilHandler {
 			return;
 
 		// Make a copy of the item and figure out any rename
-		// cost.  Items can be renamed even if they are not
+		// cost. Items can be renamed even if they are not
 		// normally repaired in an anvil.
 		event.output = itemToRepair.copy();
-		if(!event.name.isEmpty()) {
+		if (!event.name.isEmpty()) {
 			event.cost = RENAME_COST;
 			event.materialCost = 1;
 			ItemStackHelper.setItemName(event.output, event.name);
 		}
-		
+
 		// Figure out a repair cost if the item is damaged
-		if(event.output.isItemDamaged()) {
-			
+		if (event.output.isItemDamaged()) {
+
 			int repairAmount = 0;
 
 			if (repairMaterial.getItem() == ItemManager.recyclingScrap)
-				repairAmount = REPAIR_AMOUNT_SCRAP[repairMaterial.getItemDamage()];
+				repairAmount = REPAIR_AMOUNT_SCRAP[repairMaterial
+						.getItemDamage()];
 			else
 				repairAmount = REPAIR_AMOUNT_SCRAPBOX[repairMaterial
 						.getItemDamage()];
-			
+
 			// Figure out the quantity needed to fully repair the item
 			final int itemDamage = itemToRepair.getItemDamage();
 			int howManyUnits = itemDamage / repairAmount;
