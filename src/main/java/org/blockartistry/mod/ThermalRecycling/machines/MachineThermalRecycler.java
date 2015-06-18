@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -44,7 +45,8 @@ public final class MachineThermalRecycler extends MachineBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(final World p_149915_1_, final int p_149915_2_) {
+	public TileEntity createNewTileEntity(final World p_149915_1_,
+			final int p_149915_2_) {
 		return new ThermalRecyclerTileEntity();
 	}
 
@@ -53,10 +55,12 @@ public final class MachineThermalRecycler extends MachineBase {
 	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
-		icons[BLOCK_FRONT] = iconRegister
-				.registerIcon("minecraft:furnace_front_off");
-		icons[BLOCK_ACTIVE] = iconRegister
-				.registerIcon("minecraft:furnace_front_on");
+		icons[BLOCK_FRONT] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
+				+ ":Recycler_Front_Off");
+		icons[BLOCK_ACTIVE] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
+				+ ":Recycler_Front_Working");
+		icons[BLOCK_JAMMED] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
+				+ ":Recycler_Front_Jammed");
 	}
 
 	@Override

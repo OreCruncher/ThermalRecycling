@@ -345,8 +345,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			}
 
 			if(status != previousStatus) {
-				final boolean isActive = status == MachineStatus.ACTIVE;
-				setMachineActive(isActive);
+				setMachineFaceMask(status);
 			}
 
 			if (isRaining() && biomeHasRain())

@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -57,6 +58,7 @@ public final class MachineScrapAssessor extends MachineBase {
 		super.registerBlockIcons(iconRegister);
 		icons[BLOCK_TOP] = iconRegister
 				.registerIcon("minecraft:crafting_table_top");
+		icons[BLOCK_FRONT] = icons[BLOCK_ACTIVE] = icons[BLOCK_JAMMED] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":Assessor_Front");
 	}
 
 	@Override

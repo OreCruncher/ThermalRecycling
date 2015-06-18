@@ -446,9 +446,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 
 			if(status != previousStatus) {
-				final boolean isActive = status == MachineStatus.ACTIVE;
-				setMachineActive(isActive);
-				if(!isActive) {
+				setMachineFaceMask(status);
+				if(status != MachineStatus.ACTIVE) {
 					energyRate = 0;
 				}
 			}

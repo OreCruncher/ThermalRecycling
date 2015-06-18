@@ -124,7 +124,7 @@ public final class PileOfRubble extends Block {
 	@Override
 	public int getRenderType() {
 		// http://www.minecraftforum.net/forums/archive/tutorials/928513-creating-mods-mcp-getrendertype
-		return 6; // Crops
+		return 1; // Cross
 	}
 
 	@Override

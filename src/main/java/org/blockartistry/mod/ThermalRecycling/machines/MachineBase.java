@@ -61,8 +61,11 @@ public abstract class MachineBase extends BlockContainer {
 	public static int BLOCK_SIDE = 2;
 	public static int BLOCK_FRONT = 3;
 	public static int BLOCK_ACTIVE = 4;
+	public static int BLOCK_JAMMED = 5;
 
-	public static int META_ACTIVE_INDICATOR = 8;
+	public static int META_SIDE_MASK = 0x7;
+	public static int META_ACTIVE_INDICATOR = 0x8;
+	public static int META_JAMMED_INDICATOR = 0x10;
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] icons;
@@ -166,10 +169,8 @@ public abstract class MachineBase extends BlockContainer {
 	@Override
 	public int getLightValue(final IBlockAccess world, final int x,
 			final int y, final int z) {
-		int meta = world.getBlockMetadata(x, y, z);
-		meta = meta & META_ACTIVE_INDICATOR;
-
-		return meta != 0 ? 8 : 0;
+		final TileEntityBase te = (TileEntityBase) world.getTileEntity(x, y, z);
+		return te != null && te.isActive() ? 8 : 0;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -196,18 +197,14 @@ public abstract class MachineBase extends BlockContainer {
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {
 
-		icons = new IIcon[5];
-		icons[BLOCK_BOTTOM] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
-				+ ":Machine_bottom");
-		icons[BLOCK_TOP] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
-				+ ":Machine_top");
-		icons[BLOCK_SIDE] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
-				+ ":Machine_side");
+		icons = new IIcon[6];
+		icons[BLOCK_BOTTOM] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Bottom");
+		icons[BLOCK_TOP] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Top");
+		icons[BLOCK_SIDE] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Side");
 
-		if (icons[BLOCK_FRONT] == null)
-			icons[BLOCK_FRONT] = icons[BLOCK_SIDE];
-		if (icons[BLOCK_ACTIVE] == null)
-			icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
+		icons[BLOCK_FRONT] = icons[BLOCK_SIDE];
+		icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
+		icons[BLOCK_JAMMED] = icons[BLOCK_FRONT];
 	}
 
 	@Override
@@ -225,16 +222,24 @@ public abstract class MachineBase extends BlockContainer {
 
 		// If metadata is 0 it means we are rendering in
 		// inventory.
-		if (metadata == 0 && side == 3)
-			return icons[BLOCK_FRONT];
+		if (metadata == 0) {
+			if(side == 3)
+				return icons[BLOCK_FRONT];
+			else
+				return icons[BLOCK_SIDE];
+		}
 
-		final int meta = metadata & ~META_ACTIVE_INDICATOR;
+		final int meta = metadata & META_SIDE_MASK;
 
 		if (side != meta)
 			return icons[BLOCK_SIDE];
-
-		final boolean isActive = (metadata & META_ACTIVE_INDICATOR) != 0;
-		return icons[isActive ? BLOCK_ACTIVE : BLOCK_FRONT];
+		
+		int front = BLOCK_FRONT;
+		if((metadata & META_JAMMED_INDICATOR) != 0)
+			front = BLOCK_JAMMED;
+		else if((metadata & META_ACTIVE_INDICATOR) != 0)
+			front = BLOCK_ACTIVE;
+		return icons[front];
 	}
 
 	// Map the MathHelper result into metadata

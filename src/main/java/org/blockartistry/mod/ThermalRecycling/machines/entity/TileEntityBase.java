@@ -29,6 +29,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 
 import cofh.api.tileentity.IReconfigurableFacing;
 import cpw.mods.fml.common.Optional;
@@ -48,8 +49,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory, IReconfigurableFacing  {
 	
+	private static class NBT {
+		public static final String EXTENDED_META = "eMeta";
+	};
+	
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
+	protected int extendedMeta = 0;
 
 	public TileEntityBase(final GuiIdentifier gui) {
 		myGui = gui;
@@ -79,27 +85,35 @@ public abstract class TileEntityBase extends TileEntity implements
 	public IInventory getMachineInventory() {
 		return inventory;
 	}
-
-	// Toggles the meta data so that it is considered active.
-	// This will result in the active face being displayed as well as
-	// have a little bit of light.
-	protected void setMachineActive(final boolean toggle) {
-
+	
+	public boolean isActive() {
+		return (extendedMeta & MachineBase.META_ACTIVE_INDICATOR) != 0;
+	}
+	
+	public boolean isJammed() {
+		return (extendedMeta & MachineBase.META_JAMMED_INDICATOR) != 0;
+	}
+	
+	protected void setMachineFaceMask(final MachineStatus status) {
 		if (!worldObj.isRemote) {
 
-			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			int meta = getBlockMetadata();
 			final int temp = meta;
 
-			if (toggle)
+			if (status == MachineStatus.ACTIVE)
 				meta |= MachineBase.META_ACTIVE_INDICATOR;
 			else
 				meta &= ~MachineBase.META_ACTIVE_INDICATOR;
+			
+			if (status == MachineStatus.JAMMED)
+				meta |= MachineBase.META_JAMMED_INDICATOR;
+			else
+				meta &= ~MachineBase.META_JAMMED_INDICATOR;
 
-			if (meta != temp)
-				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord,
-						meta, 2);
+			if (meta != temp) {
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);
+			}
 		}
-
 	}
 
 	public boolean onBlockActivated(final World world, final int x, final int y, final int z,
@@ -138,12 +152,14 @@ public abstract class TileEntityBase extends TileEntity implements
 	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		inventory.readFromNBT(nbt);
+		extendedMeta = nbt.getInteger(NBT.EXTENDED_META);
 	}
 
 	@Override
 	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		inventory.writeToNBT(nbt);
+		nbt.setInteger(NBT.EXTENDED_META, extendedMeta);
 	}
 
 	// /////////////////////////////////////
@@ -290,7 +306,7 @@ public abstract class TileEntityBase extends TileEntity implements
 	//
 	// /////////////////////////////////////
 	public int getFacing() {
-		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & ~MachineBase.META_ACTIVE_INDICATOR;
+		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord); // & ~MachineBase.META_ACTIVE_INDICATOR;
 	}
 
 	public boolean allowYAxisFacing() {
@@ -314,9 +330,11 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	public boolean setFacing(final int i) {
+		/*
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		meta = i | (meta & MachineBase.META_ACTIVE_INDICATOR);
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);
+		*/
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i, 2);
 		return true;
 	}
 }
