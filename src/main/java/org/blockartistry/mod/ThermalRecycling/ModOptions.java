@@ -44,6 +44,7 @@ public final class ModOptions {
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
 	protected static final String CONFIG_DISABLE_ANVIL = "Disable Anvil Repair";
 	protected static final String CONFIG_ITEM_MERGE_RANGE = "EntityItem Merge Range";
+	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
 	
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -106,6 +107,7 @@ public final class ModOptions {
 	protected static int wormDropChance = 15;
 	protected static boolean disableAnvilRepair = false;
 	protected static double entityItemMergeRange = 0;
+	protected static int xpBottleValue = 44;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 
@@ -255,6 +257,11 @@ public final class ModOptions {
 				CATEGORY_GENERAL, (float) entityItemMergeRange, 0F,
 				6F,
 				"Max distance to merge items on the ground (0 to disable)");
+
+		xpBottleValue = config.getInt(CONFIG_XP_BOTTLE_VALUE,
+				CATEGORY_GENERAL, xpBottleValue, 0,
+				Integer.MAX_VALUE,
+				"Divisor value for calculating number of bottles to return when scrapping (higher means less bottles; 0 disables)");
 
 		vendingItemRenderRange = config.getInt(CONFIG_VENDING_ITEM_RENDER_RANGE,
 				CATEGORY_MACHINES_VENDING, vendingItemRenderRange, 0,
@@ -463,5 +470,9 @@ public final class ModOptions {
 	
 	public static int getSuperiorRepairXPCost() {
 		return superiorXPCost;
+	}
+	
+	public static int getXpBottleValue() {
+		return xpBottleValue;
 	}
 }

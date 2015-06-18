@@ -70,11 +70,7 @@ public class ScrapHandler {
 	
 	static final DecimalFormat doubleFormatter = new DecimalFormat("0.0% ");
 	
-	// This is the max XP that an experience bottle can give. When an XP
-	// bottle is used the XP is random: 3 + rnd(5) + rnd(5).  This puts
-	// the average XP in the neighborhood of 7.  The reason the factor is
-	// so large is to reduce the impact of XP farms.
-	protected static final int EXPERIENCE_PER_BOTTLE = 44;
+	protected static final int EXPERIENCE_PER_BOTTLE = ModOptions.getXpBottleValue();
 	
 	public static class PreviewResult {
 
@@ -251,6 +247,9 @@ public class ScrapHandler {
 	protected List<ItemStack> getEnchantmentBottles(final ScrappingContext ctx) {
 		
 		final List<ItemStack> result = new ArrayList<ItemStack>();
+		if(EXPERIENCE_PER_BOTTLE == 0)
+			return result;
+		
 		int bottles = getEnchantmentBottleCount(ctx);
 
 		while(bottles > 0) {
