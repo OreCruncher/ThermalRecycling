@@ -291,7 +291,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-
+			
 			final MachineStatus previousStatus = status;
 
 			switch (status) {
@@ -344,10 +344,11 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				break;
 			}
 
-			if(status != previousStatus) {
-				setMachineFaceMask(status);
+			// Toggle the glow based on status
+			if(previousStatus != status) {
+				setActiveStatus();
 			}
-
+			
 			if (isRaining() && biomeHasRain())
 				fluidTank.fill(new FluidStack(FluidStackHelper.FLUID_WATER,
 						RAIN_GATHER_TICK), true);

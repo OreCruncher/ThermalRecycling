@@ -446,7 +446,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			}
 
 			if(status != previousStatus) {
-				setMachineFaceMask(status);
+				setActiveStatus();
+				markDirty();
 				if(status != MachineStatus.ACTIVE) {
 					energyRate = 0;
 				}
@@ -482,6 +483,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (buffer == null) {
 			return true;
 		}
+		
+		inventory.coeleceOutput();
 
 		boolean isEmpty = true;
 
@@ -498,13 +501,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		if (isEmpty) {
 			buffer = null;
-		} else {
-			// If the buffer couldn't be fully flushed
-			// consolidate the output slots - there may
-			// be inefficient stack placement.  Only
-			// do this on a potential jam situation as to
-			// avoid repeated looping.
-			inventory.coeleceOutput();
 		}
 
 		return isEmpty;

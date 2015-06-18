@@ -27,9 +27,9 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -55,7 +55,7 @@ public abstract class MachineBase extends BlockContainer {
 
 	private static ItemStack lockTool = ItemStackHelper
 			.getItemStack("ThermalExpansion:material:16");
-	
+
 	public static int BLOCK_BOTTOM = 0;
 	public static int BLOCK_TOP = 1;
 	public static int BLOCK_SIDE = 2;
@@ -64,16 +64,13 @@ public abstract class MachineBase extends BlockContainer {
 	public static int BLOCK_JAMMED = 5;
 
 	public static int META_SIDE_MASK = 0x7;
-	public static int META_ACTIVE_INDICATOR = 0x8;
-	public static int META_JAMMED_INDICATOR = 0x10;
+	public static int META_ACTIVE_LIGHT_BIT = 0x8;
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] icons;
 
 	public final String[] names;
 	public final String myUnlocalizedName;
-
-	protected int facing;
 
 	public MachineBase(final String name) {
 		super(Material.iron);
@@ -105,7 +102,7 @@ public abstract class MachineBase extends BlockContainer {
 
 		return ItemStackHelper.areEqual(item, lockTool);
 	}
-	
+
 	protected static boolean holdingDyeTool(final EntityPlayer player) {
 		final ItemStack item = player.getCurrentEquippedItem();
 		return item != null && DyeHelper.isDye(item);
@@ -138,9 +135,10 @@ public abstract class MachineBase extends BlockContainer {
 				return entity.rotateBlock();
 			} else if (entity.isLockable(player) && holdingLockTool(player)) {
 				return entity.toggleLock();
-			} else if(entity.isNameColorable(player) && holdingDyeTool(player)) {
-				final int color = DyeHelper.getDyeColor(player.getCurrentEquippedItem());
-				if(entity.getNameColor() == color)
+			} else if (entity.isNameColorable(player) && holdingDyeTool(player)) {
+				final int color = DyeHelper.getDyeColor(player
+						.getCurrentEquippedItem());
+				if (entity.getNameColor() == color)
 					entity.setNameBackgroundColor(color);
 				else
 					entity.setNameColor(color);
@@ -165,12 +163,12 @@ public abstract class MachineBase extends BlockContainer {
 
 		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
-
+	
 	@Override
 	public int getLightValue(final IBlockAccess world, final int x,
 			final int y, final int z) {
-		final TileEntityBase te = (TileEntityBase) world.getTileEntity(x, y, z);
-		return te != null && te.isActive() ? 8 : 0;
+		final int meta = world.getBlockMetadata(x, y, z);
+		return (meta & META_ACTIVE_LIGHT_BIT) != 0 ? 8 : 0;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -198,9 +196,12 @@ public abstract class MachineBase extends BlockContainer {
 	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		icons = new IIcon[6];
-		icons[BLOCK_BOTTOM] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Bottom");
-		icons[BLOCK_TOP] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Top");
-		icons[BLOCK_SIDE] = iconRegister.registerIcon("ThermalExpansion:machine/Machine_Side");
+		icons[BLOCK_BOTTOM] = iconRegister
+				.registerIcon("ThermalExpansion:machine/Machine_Bottom");
+		icons[BLOCK_TOP] = iconRegister
+				.registerIcon("ThermalExpansion:machine/Machine_Top");
+		icons[BLOCK_SIDE] = iconRegister
+				.registerIcon("ThermalExpansion:machine/Machine_Side");
 
 		icons[BLOCK_FRONT] = icons[BLOCK_SIDE];
 		icons[BLOCK_ACTIVE] = icons[BLOCK_FRONT];
@@ -222,23 +223,35 @@ public abstract class MachineBase extends BlockContainer {
 
 		// If metadata is 0 it means we are rendering in
 		// inventory.
-		if (metadata == 0) {
-			if(side == 3)
-				return icons[BLOCK_FRONT];
-			else
-				return icons[BLOCK_SIDE];
-		}
+		if (side == 3)
+			return icons[BLOCK_FRONT];
+		
+		return icons[BLOCK_SIDE];
+	}
 
-		final int meta = metadata & META_SIDE_MASK;
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+		// BLOCK_BOTTOM and BLOCK_TOP
+		if (side == 0 || side == 1)
+			return icons[side];
 
+		final int meta = world.getBlockMetadata(x, y, z) & META_SIDE_MASK;
 		if (side != meta)
 			return icons[BLOCK_SIDE];
-		
+
+		// Get our tile entity to figure out the right thing to display
+		final TileEntityBase te = (TileEntityBase) world.getTileEntity(x, y, z);
+		if (te == null)
+			return icons[BLOCK_SIDE];
+
+		// We are dealing with the front. Figure the correct icon.
 		int front = BLOCK_FRONT;
-		if((metadata & META_JAMMED_INDICATOR) != 0)
+		if (te.getStatus() == MachineStatus.JAMMED)
 			front = BLOCK_JAMMED;
-		else if((metadata & META_ACTIVE_INDICATOR) != 0)
+		else if (te.getStatus() == MachineStatus.ACTIVE)
 			front = BLOCK_ACTIVE;
+
 		return icons[front];
 	}
 
