@@ -86,7 +86,7 @@ public final class ElementProgress extends ElementBase {
 		final MachineStatus status = progress.getStatus();
 		if (status == MachineStatus.ACTIVE || status == MachineStatus.IDLE)
 			return;
-
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if (status == MachineStatus.JAMMED)
@@ -96,7 +96,7 @@ public final class ElementProgress extends ElementBase {
 		else
 			RenderHelper.bindTexture(NO_RESOURCES_TEXTURE);
 
-		drawTexturedModalRect(posX, posY, 0, 0, sizeX, sizeY);
+		gui.drawSizedTexturedModalRect(posX + 5, posY + 2, 0, 0, 12, 12, 12, 12);
 	}
 
 	@Override
