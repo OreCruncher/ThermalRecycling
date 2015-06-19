@@ -77,10 +77,10 @@ public final class MachineThermalRecycler extends MachineBase {
 				'P',
 				Blocks.piston,
 				'S',
-				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:1"),
+				Blocks.chest,
 				'B',
 				ItemStackHelper
-						.getItemStack("ThermalExpansion:tool.battleWrenchInvar"),
+						.getItemStack("ThermalExpansion:wrench"),
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
 				'G', "gearCopper", 'R', ItemStackHelper
 						.getItemStack("ThermalExpansion:material:1"));

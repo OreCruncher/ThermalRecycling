@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -80,8 +79,8 @@ public final class ProcessingCore extends ItemBase {
 		ShapedOreRecipe recipe = new ShapedOreRecipe(
 				decompCore,
 				" h ", "mMm", "tst", 'h',
-				Blocks.hopper,
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'm', "ingotIron",
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
 				't', "gearTin",
 				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
@@ -94,8 +93,8 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore1,
 				" h ", "mMm", "tst", 'h',
-				Blocks.hopper,
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'm', "ingotIron",
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:1"),
 				't', "gearTin",
 				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
@@ -118,8 +117,8 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore2,
 				" h ", "mMm", "tst", 'h',
-				Blocks.hopper,
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'm', "ingotIron",
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:2"),
 				't', "gearTin",
 				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
@@ -142,8 +141,8 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore3,
 				" h ", "mMm", "tst", 'h',
-				Blocks.hopper,
-				'm', ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				'm', "ingotIron",
 				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:3"),
 				't', "gearTin",
 				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
