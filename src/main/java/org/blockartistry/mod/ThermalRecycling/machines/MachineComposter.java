@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -56,9 +55,8 @@ public final class MachineComposter extends MachineBase {
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {
 
-		icons = new IIcon[6];
-		icons[BLOCK_BOTTOM] = icons[BLOCK_TOP] = iconRegister
-				.registerIcon(ThermalRecycling.MOD_ID + ":crate_side");
+		super.registerBlockIcons(iconRegister);
+		icons[BLOCK_TOP] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":Composter_Top");
 		icons[BLOCK_SIDE] = icons[BLOCK_FRONT] = icons[BLOCK_ACTIVE] = icons[BLOCK_JAMMED] = iconRegister
 				.registerIcon(ThermalRecycling.MOD_ID + ":Composter_Side");
 	}

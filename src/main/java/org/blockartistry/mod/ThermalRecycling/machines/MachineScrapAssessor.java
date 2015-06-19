@@ -56,8 +56,7 @@ public final class MachineScrapAssessor extends MachineBase {
 	public void registerBlockIcons(final IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
-		icons[BLOCK_TOP] = iconRegister
-				.registerIcon("minecraft:crafting_table_top");
+		icons[BLOCK_TOP] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":Assessor_Top");
 		icons[BLOCK_FRONT] = icons[BLOCK_ACTIVE] = icons[BLOCK_JAMMED] = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":Assessor_Front");
 	}
 
