@@ -109,7 +109,7 @@ public final class VanillaMinecraft extends ModPlugin {
 			"leaves:*", "leaves2:*", "deadbush", "vine", "wheat", };
 
 	static final String[] greenCompost = new String[] { "apple", "potato",
-			"carrots", "yellow_flower:*", "red_flower:*", "tallgrass:*",
+			"carrot", "yellow_flower:*", "red_flower:*", "tallgrass:*",
 			"waterlily", "double_plant:*", "bread", };
 
 	static final String[] scrubFromOutput = new String[] { "water_bucket",
