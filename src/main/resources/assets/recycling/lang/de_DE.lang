@@ -1,0 +1,67 @@
+# German Translation by Mazzelfassel
+itemGroup.ThermalRecycling=Thermal Recycling
+itemGroup.TagLine=Reduzieren! Wiederverwenden! Wiederverwerten!
+
+item.Debris.debris.name=Recycling Debris
+item.RecyclingScrap.poor.name=Minderwertiger Schrott
+item.RecyclingScrap.standard.name=Schrott
+item.RecyclingScrap.superior.name=Hochwertiger Schrott
+item.RecyclingScrapBox.poor.name=Box aus Minderwertigem Schrott
+item.RecyclingScrapBox.poor.desc=Riecht wie alte Sportsocken
+item.RecyclingScrapBox.standard.name=Box aus Schrott
+item.RecyclingScrapBox.standard.desc=Sieht gar nicht so schlecht aus
+item.RecyclingScrapBox.superior.name=Box aus Hochwertigem Schrott
+item.RecyclingScrapBox.superior.desc=Sicherlich eine Box der Wunder...
+item.ProcessingCore.decomposition.name=Kern: Zersetzung (Basis)
+item.ProcessingCore.decomposition_1.name=Kern: Zersetzung (Gehärtet)
+item.ProcessingCore.decomposition_2.name=§eKern: Zersetzung (Verstärkt)
+item.ProcessingCore.decomposition_3.name=§3Kern: Zersetzung (Resonant)
+item.ProcessingCore.decomposition_4.name=§5Kern: Zersetzung (Ätherisch)
+item.ProcessingCore.extraction.name=Kern: Extraktion
+
+item.PaperLogMaker.paperlogmaker.name=Papier-Presse
+item.Material.paperlog.name=Papier Brikett
+item.Material.worms.name=Handvoll Würmer
+
+tile.PileOfRubble.name=Haufen Trümmer
+tile.FertileLand.name=Fruchtbares Land
+tile.MachineThermalRecycler.name=Thermal Recycler
+tile.MachineScrapAssessor.name=Schrott Gutachter
+tile.MachineComposter.name=Komposter
+tile.MachineVending.name=Verkaufsautomat
+tile.ScrapBlock.scrap.name=Block aus Schrott
+
+msg.MachineVending.adminName=Server Shop
+msg.MachineVending.free=FREE
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Zerstören
+msg.ScrapPreview.keep=Halten
+msg.ScrapPreview.dust=Staub (wenn möglich)
+
+# Machine Status
+msg.MachineStatus.idle=inaktiv
+msg.MachineStatus.active=%d%%
+msg.MachineStatus.jammed=Gestört!
+msg.MachineStatus.needMoreResources=Braucht mehr Ressourcen!
+msg.MachineStatus.outOfPower=Keine Energie
+msg.MachineStatus.needMoreWater=Braucht Wasser
+msg.MachineStatus.cantSeeSky=Braucht freie Sicht zum Himmel
+
+# Achievements
+achievement.feelingScrappy=Sich drecking fühlen!
+achievement.feelingScrappy.desc=Baue einen Thermal Recycler
+achievement.doingMyPart=Seinen Teil beisteuern
+achievement.doingMyPart.desc=Benutze eine Schrott Box
+achievement.lottoWinner=Lotto Gewinner!
+achievement.lottoWinner.desc=Bekomme einen Netherstern aus einer Schrott Box
+
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eScrap Value: §7Keine
+msg.ItemScrapValue.poor=§eScrap Value: §fMinderwertig
+msg.ItemScrapValue.standard=§eScrap Value: §9Standard
+msg.ItemScrapValue.superior=§eScrap Value: §6Hochwertig
+
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§eCompost: §6Braun
+msg.ItemCompostIngredientValue.green=§eCompost: §2Grün
