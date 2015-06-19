@@ -42,6 +42,7 @@ public final class ModOptions {
 	protected static final String CATEGORY_GENERAL = "recycle.general";
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
+	protected static final String CONFIG_WORM_DROP_CHANCE_RAIN = "Worm Drop Chance (Rain)";
 	protected static final String CONFIG_DISABLE_ANVIL = "Disable Anvil Repair";
 	protected static final String CONFIG_ITEM_MERGE_RANGE = "EntityItem Merge Range";
 	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
@@ -104,7 +105,8 @@ public final class ModOptions {
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
-	protected static int wormDropChance = 15;
+	protected static int wormDropChance = 20;
+	protected static int wormDropChanceRain = 8; 
 	protected static boolean disableAnvilRepair = false;
 	protected static double entityItemMergeRange = 0;
 	protected static int xpBottleValue = 44;
@@ -234,7 +236,12 @@ public final class ModOptions {
 				CATEGORY_GENERAL, wormDropChance, 0,
 				Integer.MAX_VALUE,
 				"Chance that breaking a grass block will drop worms (1 in N)");
-		
+
+		wormDropChanceRain = config.getInt(CONFIG_WORM_DROP_CHANCE_RAIN,
+				CATEGORY_GENERAL, wormDropChanceRain, 0,
+				Integer.MAX_VALUE,
+				"Chance that breaking a grass block will drop worms when raining (1 in N)");
+
 		rubblePileDensity = config.getInt(CONFIG_RUBBLE_PILE_DENSITY,
 				CATEGORY_RUBBLE, rubblePileDensity, 0,
 				Integer.MAX_VALUE,
@@ -403,7 +410,11 @@ public final class ModOptions {
 	public static int getWormDropChance() {
 		return wormDropChance;
 	}
-	
+
+	public static int getWormDropChanceRain() {
+		return wormDropChanceRain;
+	}
+
 	public static int getRubblePileDensity() {
 		return rubblePileDensity;
 	}

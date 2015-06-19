@@ -33,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
@@ -41,6 +42,12 @@ import com.google.common.base.Predicate;
 public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 
 	private static final Random random = XorShiftRandom.shared;
+	private static final int DROP_CHANCE = ModOptions.getWormDropChance();
+	private static final int DROP_CHANCE_RAIN = ModOptions.getWormDropChanceRain();
+	
+	private static boolean dropWorms(final World world) {
+		return random.nextInt(world.isRaining() ? DROP_CHANCE_RAIN : DROP_CHANCE) == 0;
+	}
 	
 	@Override
 	public boolean apply(final HarvestDropsEvent input) {
@@ -50,7 +57,7 @@ public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 		if(input.isSilkTouching || input.harvester == null || input.harvester instanceof FakePlayer || input.block != Blocks.grass)
 			return true;
 		
-		if(random.nextInt(ModOptions.getWormDropChance()) == 0) {
+		if(dropWorms(input.world)) {
 			input.drops.add(new ItemStack(ItemManager.material, 1, Material.WORMS));
 		}
 		
