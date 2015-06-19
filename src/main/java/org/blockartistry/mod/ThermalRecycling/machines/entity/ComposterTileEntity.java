@@ -64,9 +64,8 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	private static final Set<IGrowable> bonemealBlackList = ImmutableSet.copyOf(new IGrowable[] { Blocks.grass,
 			Blocks.double_plant, Blocks.tallgrass });
 
-	public static final int UPDATE_ACTION_PROGRESS = 0;
-	public static final int UPDATE_ACTION_STATUS = 1;
-	public static final int UPDATE_WATER_LEVEL = 2;
+	public static final int UPDATE_ACTION_PROGRESS = 10;
+	public static final int UPDATE_WATER_LEVEL = 11;
 
 	public static final int BROWN = 0;
 	public static final int GREEN1 = 1;
@@ -94,14 +93,12 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	private class NBT {
 		public static final String SCAN_INDEX = "scanIndex";
 		public static final String SCAN_TICK_COUNT = "scanTickCount";
-		public static final String STATUS = "status";
 		public static final String PROGRESS = "progress";
 	}
 
 	// State
 	final private FluidTankComponent fluidTank;
 	private int progress = 0;
-	private MachineStatus status = MachineStatus.IDLE;
 	private int scanTickCount = 0;
 	private int scanIndex = 0;
 	
@@ -135,14 +132,11 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		case UPDATE_ACTION_PROGRESS:
 			progress = param;
 			break;
-		case UPDATE_ACTION_STATUS:
-			status = MachineStatus.map(param);
-			break;
 		case UPDATE_WATER_LEVEL:
 			fluidTank.getFluid().amount = param;
 			break;
 		default:
-			;
+			return super.receiveClientEvent(action, param);
 		}
 
 		return true;
@@ -163,11 +157,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		return (progress * 100) / COMPLETION_THRESHOLD;
 	}
 
-	@Override
-	public MachineStatus getStatus() {
-		return status;
-	}
-
 	// /////////////////////////////////////
 	//
 	// INBTSerializer
@@ -181,7 +170,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		scanIndex = nbt.getByte(NBT.SCAN_INDEX);
 		scanTickCount = nbt.getByte(NBT.SCAN_TICK_COUNT);
 		progress = nbt.getShort(NBT.PROGRESS);
-		status = MachineStatus.map(nbt.getShort(NBT.STATUS));
 		fluidTank.readFromNBT(nbt);
 	}
 
@@ -192,7 +180,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		nbt.setByte(NBT.SCAN_INDEX, (byte) scanIndex);
 		nbt.setByte(NBT.SCAN_TICK_COUNT, (byte) scanTickCount);
 		nbt.setShort(NBT.PROGRESS, (short) progress);
-		nbt.setShort(NBT.STATUS, (short) status.ordinal());
 		fluidTank.writeToNBT(nbt);
 	}
 
@@ -347,6 +334,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			// Toggle the glow based on status
 			if(previousStatus != status) {
 				setActiveStatus();
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 			
 			if (isRaining() && biomeHasRain())

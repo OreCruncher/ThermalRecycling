@@ -30,11 +30,13 @@ import net.minecraft.item.ItemStack;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.PreviewResult;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
+import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
-public final class ScrapAssessorTileEntity extends TileEntityBase {
+public final class ScrapAssessorTileEntity extends TileEntityBase implements IJobProgress {
 
 	public static final int INPUT = 0;
 	public static final int CORE = 1;
@@ -54,16 +56,8 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-
-		if(slot == INPUT) {
-			return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
-		}
-			
-		if (slot == CORE) {
-			return CoreType.isProcessingCore(stack);
-		}
-
-		return false;
+		return slot == INPUT
+				|| (slot == CORE && CoreType.isProcessingCore(stack));
 	}
 	
 	@Override
@@ -99,6 +93,8 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 			final ItemStack core = inventory.getStackInSlot(CORE);
 
 			if (input != oldStack || core != oldCore) {
+				
+				status = MachineStatus.IDLE;
 
 				// The stack changed. Clear out the display.
 				for (final int i : DISPLAY_SLOTS)
@@ -112,22 +108,26 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 
 					final ScrappingContext context = new ScrappingContext(core,
 							input);
-					final PreviewResult result = context.preview();
+					status = context.shouldJam ? MachineStatus.JAMMED : MachineStatus.IDLE;
 
-					inventory.setInventorySlotContents(SAMPLE,
-							result.inputRequired);
-
-					if (result.outputGenerated != null) {
-						// Cap the output in case the result buffer is larger
-						// than
-						// what the 3x3 grid can show
-						final int maxUpperSlot = Math.min(
-								result.outputGenerated.size(),
-								DISPLAY_SLOTS.length);
-						for (int i = 0; i < maxUpperSlot; i++) {
-							inventory.setInventorySlotContents(
-									DISPLAY_SLOTS[i],
-									result.outputGenerated.get(i));
+					if(status == MachineStatus.IDLE) {
+						final PreviewResult result = context.preview();
+	
+						inventory.setInventorySlotContents(SAMPLE,
+								result.inputRequired);
+	
+						if (result.outputGenerated != null) {
+							// Cap the output in case the result buffer is larger
+							// than
+							// what the 3x3 grid can show
+							final int maxUpperSlot = Math.min(
+									result.outputGenerated.size(),
+									DISPLAY_SLOTS.length);
+							for (int i = 0; i < maxUpperSlot; i++) {
+								inventory.setInventorySlotContents(
+										DISPLAY_SLOTS[i],
+										result.outputGenerated.get(i));
+							}
 						}
 					}
 				}
@@ -140,5 +140,15 @@ public final class ScrapAssessorTileEntity extends TileEntityBase {
 	@Override
 	public void flush() {
 		inventory.flush();
+	}
+	
+	@Override
+	public MachineStatus getStatus() {
+		return status;
+	}
+
+	@Override
+	public int getPercentComplete() {
+		return 0;
 	}
 }

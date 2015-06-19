@@ -26,18 +26,20 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
-
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
 
 public final class ScrapAssessorContainer extends
 		MachineContainer<ScrapAssessorTileEntity> {
+	
+	private MachineStatus currentStatus = MachineStatus.IDLE;
 
 	public ScrapAssessorContainer(final InventoryPlayer inv,
 			final IInventory tileEntity) {
@@ -66,6 +68,24 @@ public final class ScrapAssessorContainer extends
 		}
 
 		addPlayerInventory(inv, 166);
+	}
+
+	@Override
+	public void handleStatus() {
+
+		final MachineStatus status = entity.getStatus();
+
+		for (int i = 0; i < crafters.size(); ++i) {
+
+			final ICrafting icrafting = (ICrafting) crafters.get(i);
+
+			if (status != currentStatus)
+				icrafting.sendProgressBarUpdate(this,
+						ScrapAssessorTileEntity.UPDATE_ACTION_STATUS,
+						status.ordinal());
+		}
+
+		currentStatus = status;
 	}
 
 	@Override

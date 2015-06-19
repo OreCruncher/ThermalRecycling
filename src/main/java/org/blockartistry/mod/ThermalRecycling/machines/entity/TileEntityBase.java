@@ -49,8 +49,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory, IReconfigurableFacing  {
 	
+	// Reserve 0-9 for TileEntityBase
+	public static final int UPDATE_ACTION_STATUS = 0;
+	
+	private static class NBT {
+		public static final String STATUS = "status";
+	};
+	
 	protected IMachineInventory inventory = new NoInventoryComponent();
 	protected GuiIdentifier myGui;
+	
+	// Part of the TileEntity state
+	protected MachineStatus status = MachineStatus.IDLE;
 
 	public TileEntityBase(final GuiIdentifier gui) {
 		myGui = gui;
@@ -70,6 +80,27 @@ public abstract class TileEntityBase extends TileEntity implements
 		writeToNBT(syncData);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
 				this.zCoord, 1, syncData);
+	}
+
+	/*
+	 * Called when a status update occurs.  Sub-class should process actions
+	 * first before delegating to this implementation.
+	 */
+	@Override
+	public boolean receiveClientEvent(final int action, final int param) {
+
+		if (!worldObj.isRemote)
+			return true;
+
+		switch (action) {
+		case UPDATE_ACTION_STATUS:
+			status = MachineStatus.map(param);
+			break;
+		default:
+			;
+		}
+
+		return true;
 	}
 
 	protected void setMachineInventory(final IMachineInventory inv) {
@@ -133,12 +164,14 @@ public abstract class TileEntityBase extends TileEntity implements
 	public void readFromNBT(final NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		inventory.readFromNBT(nbt);
+		status = MachineStatus.map(nbt.getShort(NBT.STATUS));
 	}
 
 	@Override
 	public void writeToNBT(final NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		inventory.writeToNBT(nbt);
+		nbt.setShort(NBT.STATUS, (short) status.ordinal());
 	}
 
 	// /////////////////////////////////////
@@ -316,6 +349,6 @@ public abstract class TileEntityBase extends TileEntity implements
 	}
 
 	public MachineStatus getStatus() {
-		return MachineStatus.IDLE;
+		return status;
 	}
 }

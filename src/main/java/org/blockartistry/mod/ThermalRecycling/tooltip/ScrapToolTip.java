@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.tooltip;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import com.google.common.base.Optional;
 
@@ -45,10 +43,7 @@ public final class ScrapToolTip extends CachingToolTip {
 		Optional<String> lore = data.getScrapValue().getTranslated();
 
 		if (lore.isPresent()) {
-			if (!data.isBlockedFromScrapping())
-				output.add(lore.get());
-			else
-				output.add(lore.get() + EnumChatFormatting.GREEN + "*");
+			output.add(lore.get());
 		}
 
 		lore = data.getCompostIngredientValue().getTranslated();

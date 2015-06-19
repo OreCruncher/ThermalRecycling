@@ -89,6 +89,7 @@ public class ScrapHandler {
 		public final ItemStack core;
 		public CoreType coreType;
 		public ItemLevel coreLevel;
+		public final boolean shouldJam;
 		
 		// These are filled in by the scrap handler so if it
 		// comes back it doesn't have to query data, again.
@@ -109,6 +110,7 @@ public class ScrapHandler {
 			this.recipeData = recipe == null ? RecipeData.get(stack) : recipe;
 			this.toProcess = stack.copy();
 			this.toProcess.stackSize = 1;
+			this.shouldJam = !CoreType.canCoreProcess(this.coreType, stack);
 		}
 		
 		/**

@@ -37,7 +37,6 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 
 import cpw.mods.fml.common.Optional;
@@ -51,20 +50,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Optional.InterfaceList(
-	value={
-		@Optional.Interface(iface="cofh.api.energy.IEnergyReciever", modid="CoFHCore", striprefs=true),
-		@Optional.Interface(iface="cofh.api.tileentity.IEnergyInfo", modid="CoFHCore", striprefs=true),
-	}
-)
+@Optional.InterfaceList(value = {
+		@Optional.Interface(iface = "cofh.api.energy.IEnergyReciever", modid = "CoFHCore", striprefs = true),
+		@Optional.Interface(iface = "cofh.api.tileentity.IEnergyInfo", modid = "CoFHCore", striprefs = true), })
 public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		IEnergyReceiver, IEnergyInfo, IJobProgress {
 
 	// Update actions
-	public static final int UPDATE_ACTION_ENERGY = 0;
-	public static final int UPDATE_ACTION_PROGRESS = 1;
-	public static final int UPDATE_ACTION_ENERGY_RATE = 2;
-	public static final int UPDATE_ACTION_STATUS = 3;
+	public static final int UPDATE_ACTION_ENERGY = 10;
+	public static final int UPDATE_ACTION_PROGRESS = 11;
+	public static final int UPDATE_ACTION_ENERGY_RATE = 12;
 
 	// Slot geometry for the machine
 	public static final int INPUT = 0;
@@ -81,25 +76,23 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	private static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
 
 	private static final int LRU_CACHE_SIZE = 6;
-	
+
 	private class NBT {
 		public static final String ENERGY = "energy";
 		public static final String ENERGY_RATE = "energyRate";
 		public static final String PROGRESS = "progress";
-		public static final String STATUS = "status";
 		public static final String BUFFER = "buffer";
 	}
-	
+
 	// Entity state that needs to be serialized
 	protected int energy = 0;
 	protected int progress = 0;
 	protected int energyRate = 0;
-	protected MachineStatus status = MachineStatus.IDLE;
 	protected List<ItemStack> buffer;
 
-	// Transient state to increase performance.  Generally
+	// Transient state to increase performance. Generally
 	// the expectations are that the same operation will
-	// occur as the previous one.  For example, when
+	// occur as the previous one. For example, when
 	// processing a full stack the data needs to be
 	// collected once, and repeated another 63 times.
 	//
@@ -112,31 +105,32 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	protected ScrappingContext context;
 	protected ItemStack activeStack;
 	protected ItemStack activeCore;
-	
+
 	public ThermalRecyclerTileEntity() {
 		super(GuiIdentifier.THERMAL_RECYCLER);
-		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
+		final SidedInventoryComponent inv = new SidedInventoryComponent(this,
+				11);
 		inv.setInputRange(0, 1).setOutputRange(1, 9).setHiddenSlots(CORE);
 		setMachineInventory(inv);
 	}
 
 	/**
-	 * Retrieve the stack currently in the input slot.  Data for the operation
-	 * is pulled in and cached.  Goal is to keep the data cached and avoid
-	 * repeated lookups each tick.
+	 * Retrieve the stack currently in the input slot. Data for the operation is
+	 * pulled in and cached. Goal is to keep the data cached and avoid repeated
+	 * lookups each tick.
 	 */
 	protected ItemStack detectInputStack() {
-		
-		if(contextCache == null) {
+
+		if (contextCache == null) {
 			contextCache = new ScrappingContextCache(LRU_CACHE_SIZE);
 		}
 
 		final ItemStack input = inventory.getStackInSlot(INPUT);
 		final ItemStack core = inventory.getStackInSlot(CORE);
-		if(activeStack != input || activeCore != core) {
+		if (activeStack != input || activeCore != core) {
 			activeStack = input;
 			activeCore = core;
-			if(input != null) {
+			if (input != null) {
 				context = contextCache.getContext(core, input);
 			} else {
 				context = null;
@@ -144,11 +138,11 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		}
 		return input;
 	}
-	
+
 	// Energy characteristics of the machine
 	protected int operationEnergyForCore(final ItemStack core) {
-		
-		switch(CoreType.getType(core)) {
+
+		switch (CoreType.getType(core)) {
 		case DECOMPOSITION:
 			return ENERGY_PER_OPERATION_DECOMP;
 		case EXTRACTION:
@@ -161,33 +155,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
-
-		if(slot == INPUT) {
-			
-			if(worldObj.isRemote) {
-				return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
-			}
-			
-			// Running server side...
-			// If an item of that type is already in the active slot
-			// then the incoming item is also permitted.
-			if(activeStack != null && ItemStackHelper.areEqual(activeStack, stack)) {
-				return true;
-			}
-			
-			// Empty slot - see if there is a context cached and swipe
-			// the core information from it.  If not, then look it up.
-			final CoreType coreType = context != null ? context.coreType : CoreType.getType(activeCore);
-			
-			// Speak to the oracle
-			return CoreType.canCoreProcess(coreType, stack);
-		}
-		
-		if (slot == CORE) {
-			return CoreType.isProcessingCore(stack);
-		}
-
-		return false;
+		return slot == INPUT
+				|| (slot == CORE && CoreType.isProcessingCore(stack));
 	}
 
 	// /////////////////////////////////////
@@ -204,7 +173,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		switch (action) {
 		case UPDATE_ACTION_ENERGY:
-			energy = param*10;
+			energy = param * 10;
 			break;
 		case UPDATE_ACTION_PROGRESS:
 			progress = param;
@@ -212,11 +181,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		case UPDATE_ACTION_ENERGY_RATE:
 			energyRate = param;
 			break;
-		case UPDATE_ACTION_STATUS:
-			status = MachineStatus.map(param);
-			break;
 		default:
-			;
+			return super.receiveClientEvent(action, param);
 		}
 
 		return true;
@@ -238,7 +204,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 	@Override
 	public int getPercentComplete() {
-		return (progress * 100) / operationEnergyForCore(inventory.getStackInSlot(CORE));
+		return (progress * 100)
+				/ operationEnergyForCore(inventory.getStackInSlot(CORE));
 	}
 
 	@Override
@@ -259,7 +226,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		energy = nbt.getInteger(NBT.ENERGY);
 		energyRate = nbt.getShort(NBT.ENERGY_RATE);
 		progress = nbt.getShort(NBT.PROGRESS);
-		status = MachineStatus.map(nbt.getShort(NBT.STATUS));
 
 		final NBTTagList nbttaglist = nbt.getTagList(NBT.BUFFER, 10);
 		if (nbttaglist.tagCount() > 0) {
@@ -278,7 +244,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		nbt.setInteger(NBT.ENERGY, energy);
 		nbt.setShort(NBT.ENERGY_RATE, (short) energyRate);
 		nbt.setShort(NBT.PROGRESS, (short) progress);
-		nbt.setShort(NBT.STATUS, (short) status.ordinal());
 
 		final NBTTagList nbttaglist = new NBTTagList();
 
@@ -372,12 +337,14 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	@Override
-	public Object getGuiClient(final GuiIdentifier id, final InventoryPlayer inventory) {
+	public Object getGuiClient(final GuiIdentifier id,
+			final InventoryPlayer inventory) {
 		return new ThermalRecyclerGui(inventory, this);
 	}
 
 	@Override
-	public Object getGuiServer(final GuiIdentifier id, final InventoryPlayer inventory) {
+	public Object getGuiServer(final GuiIdentifier id,
+			final InventoryPlayer inventory) {
 		return new ThermalRecyclerContainer(inventory, this);
 	}
 
@@ -393,8 +360,13 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 			case IDLE:
 				progress = 0;
-				if (inputSlotStack != null)
-					status = MachineStatus.ACTIVE;
+				if (inputSlotStack != null) {
+					if(context.shouldJam) {
+						status = MachineStatus.JAMMED;
+					} else {
+						status = MachineStatus.ACTIVE;
+					}
+				}
 				break;
 
 			case ACTIVE:
@@ -423,8 +395,13 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 				break;
 
 			case JAMMED:
-				if (flushBuffer())
-					status = MachineStatus.ACTIVE;
+				if ((context == null || !context.shouldJam) && flushBuffer()) {
+					if(inputSlotStack == null) {
+						status = MachineStatus.IDLE;
+					} else {
+						status = MachineStatus.ACTIVE;
+					}
+				}
 				break;
 
 			case NEED_MORE_RESOURCES:
@@ -445,20 +422,22 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 				break;
 			}
 
-			if(status != previousStatus) {
-				setActiveStatus();
-				markDirty();
-				if(status != MachineStatus.ACTIVE) {
+			if (status != previousStatus) {
+				if (status != MachineStatus.ACTIVE) {
 					energyRate = 0;
 				}
+				setActiveStatus();
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				markDirty();
 			}
-			
+
 			inventory.flush();
 		}
 	}
 
 	@Override
-	public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random rand) {
+	public void randomDisplayTick(final World world, final int x, final int y,
+			final int z, final Random rand) {
 		if (!ModOptions.getEnableRecyclerFX())
 			return;
 
@@ -475,7 +454,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		return context != null && context.recipeData.getMinimumInputQuantityRequired() <= activeStack.stackSize;
+		return context != null
+				&& context.recipeData.getMinimumInputQuantityRequired() <= activeStack.stackSize;
 	}
 
 	protected boolean flushBuffer() {
@@ -483,7 +463,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		if (buffer == null) {
 			return true;
 		}
-		
+
 		inventory.coeleceOutput();
 
 		boolean isEmpty = true;
@@ -510,7 +490,8 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Get how many items we need to snag off the stack
 		// and remove them.
-		decrStackSize(INPUT, context.recipeData.getMinimumInputQuantityRequired());
+		decrStackSize(INPUT,
+				context.recipeData.getMinimumInputQuantityRequired());
 
 		// The necessary information should be in the context already.
 		buffer = context.scrap();
@@ -518,7 +499,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 		// Flush the generated stacks into the output buffer
 		return flushBuffer();
 	}
-	
+
 	@Override
 	public void flush() {
 		inventory.flush();
