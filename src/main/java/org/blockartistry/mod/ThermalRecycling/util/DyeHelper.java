@@ -48,7 +48,7 @@ public final class DyeHelper {
 	}
 	
 	public static boolean isDye(final ItemStack stack) {
-		final List<ItemStack> possibles = OreDictionary.getOres(GENERAL_DYE_ENTRY, false);
+		final List<ItemStack> possibles = OreDictionary.getOres(GENERAL_DYE_ENTRY);
 		if (possibles == null || possibles.isEmpty())
 			return false;
 		for (final ItemStack item : possibles) {
@@ -63,7 +63,7 @@ public final class DyeHelper {
 
 		for (int i = 0; i < dyeEntries.size(); i++) {
 			final List<ItemStack> possibles = OreDictionary.getOres(
-					dyeEntries.get(i), false);
+					dyeEntries.get(i));
 			if (possibles == null || possibles.isEmpty())
 				continue;
 			for (final ItemStack item : possibles) {
