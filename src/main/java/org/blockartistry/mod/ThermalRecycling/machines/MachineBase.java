@@ -84,7 +84,7 @@ public abstract class MachineBase extends BlockContainer {
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setStepSound(soundTypeMetal);
-		setHarvestLevel("pickaxe", 3);
+		//setHarvestLevel("pickaxe", 3);
 	}
 
 	protected static boolean holdingRotateTool(final EntityPlayer player) {
