@@ -1,15 +1,20 @@
-###Build Status
-Master Branch: [![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycling.svg?branch=master)](https://travis-ci.org/OreCruncher/ThermalRecycling)
-
-
 ###Thermal Recycling
-
 Thermal Recycling is an add-on for Thermal Expansion 4.x that adds three machines (Thermal Recycler, Scrap Assessor, and Composter), and a bunch of Redstone Furnace, Pulverizer, Sawmill, and Induction Smelter recipes that allow for "recycling" of various blocks and items.
 
 Further information can be found on the [Wiki](https://github.com/OreCruncher/ThermalRecycling/wiki).
 
+###Credits
+* GromPE - textures and Russian translations
+* Mazzelfassel - German translations
+* HanatakeYurii - French translations
+* LorenzoDCC - Portuguese translations
+* 3TUSK - Chinese translations
+
 ###Use in Modpacks
 Thermal Recycling can be used freely in modpacks.  No credit is required, but it would be nice to have an 'at a boy. :)
+
+###Build Status
+Master Branch: [![Master Branch](https://travis-ci.org/OreCruncher/ThermalRecycling.svg?branch=master)](https://travis-ci.org/OreCruncher/ThermalRecycling)
 
 ###License
 The MIT License (MIT)
