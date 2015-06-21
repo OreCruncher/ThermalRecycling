@@ -29,8 +29,6 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 
-import com.google.common.base.Preconditions;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -43,6 +41,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 
 public abstract class MultiBlock extends Block {
+	
+	private static final String[] sideNames = new String[] {
+		"bottom", "top", "north", "south", "east", "west"
+	};
 
 	/**
 	 * A list of internal names for all the subtypes implemented by the derived
@@ -60,7 +62,8 @@ public abstract class MultiBlock extends Block {
 	public MultiBlock(final String name, final Material material, final int sides, final String... n) {
 		super(material);
 
-		Preconditions.checkArgument(n != null && n.length > 0);
+		assert n != null;
+		assert n.length > 0;
 
 		names = n;
 		myUnlocalizedName = name;
@@ -107,7 +110,7 @@ public abstract class MultiBlock extends Block {
 			textures.add(s);
 		} else {
 			for (int i = 0; i < sides; i++) {
-				textures.add(s + "_" + BlockSide.lookup[i].sideName);
+				textures.add(s + "_" + sideNames[i]);
 			}
 		}
 

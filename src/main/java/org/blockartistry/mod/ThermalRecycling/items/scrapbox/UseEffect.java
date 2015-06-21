@@ -26,17 +26,17 @@ package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.Location;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public final class UseEffect {
@@ -134,8 +134,11 @@ public final class UseEffect {
 		if (stack == null)
 			return;
 
-		final Location loc = new Location(player);
-		ItemStackHelper.spawnIntoWorld(world, stack, loc.x, loc.y, loc.z);
+		final int x = MathHelper.floor_double(player.posX);
+		final int y = MathHelper.floor_double(player.boundingBox.minY) - 1;
+		final int z = MathHelper.floor_double(player.posZ);
+
+		ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 
 	}
 
@@ -145,8 +148,11 @@ public final class UseEffect {
 		if (entity == null)
 			return;
 
-		final Location loc = new Location(player);
-		entity.setPosition(loc.x, loc.y, loc.z);
+		final int x = MathHelper.floor_double(entity.posX);
+		final int y = MathHelper.floor_double(entity.boundingBox.minY) - 1;
+		final int z = MathHelper.floor_double(entity.posZ);
+		
+		entity.setPosition(x, y, z);
 		world.spawnEntityInWorld(entity);
 	}
 
