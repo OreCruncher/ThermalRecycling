@@ -87,3 +87,6 @@ msg.BookTitle8.name=Weekly Parody
 msg.BookTitle8.desc=Don't Fear the Creeper
 msg.BookTitle9.name=Better Blocks and Mines
 msg.BookTitle9.desc=Rattle your neighbor with skulls!
+
+# Version checking strings
+msg.NewVersionAvailable=A new version of Thermal Recycling (v%s) is available!
