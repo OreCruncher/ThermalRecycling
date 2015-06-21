@@ -42,6 +42,10 @@ public final class ProxyClient extends Proxy {
 
 		// Hook for "one off" texture registrations
 		new TextureManager();
+
+		// Register early to give the background process a good amount
+		// of time to get the mod version data
+		VersionCheck.register();
 	}
 
 	@Override
@@ -49,8 +53,6 @@ public final class ProxyClient extends Proxy {
 
 		super.init(event);
 		
-		VersionCheck.register();
-
 		// Initialize the tool tip event handler
 		new ToolTipEventHandler();
 
