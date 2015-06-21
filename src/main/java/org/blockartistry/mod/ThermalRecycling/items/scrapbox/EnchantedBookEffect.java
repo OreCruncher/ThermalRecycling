@@ -26,8 +26,11 @@ package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -40,10 +43,26 @@ import net.minecraft.world.World;
 
 public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
-	static final List<String> tagLine = Collections.singletonList(StatCollector.translateToLocal("itemGroup.TagLine"));
+	private static final List<String> titles;
+	private static final List<List<String>> descriptions;
 	
-	final Enchantment enchant;
-	final int level;
+	static {
+
+		final Builder<String> titleBuilder = ImmutableList.builder();
+		final Builder<List<String>> descBuilder = ImmutableList.builder();
+		
+		for(int i = 0; i < 10; i++) {
+			final String base = "msg.BookTitle" + i;
+			titleBuilder.add(StatCollector.translateToLocal(base + ".name"));
+			descBuilder.add(Collections.singletonList(StatCollector.translateToLocal(base + ".desc")));
+		}
+		
+		titles = titleBuilder.build();
+		descriptions = descBuilder.build();
+	}
+	
+	private final Enchantment enchant;
+	private final int level;
 
 	public EnchantedBookEffect(final int weight, final int level) {
 		this(weight, null, level);
@@ -85,8 +104,11 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 		for (int i = 0; i < enchants.length; i++)
 			if (i != j)
 				Items.enchanted_book.addEnchantment(book, enchants[i]);
+		
+		final int index = XorShiftRandom.shared.nextInt(titles.size());
 
-		ItemStackHelper.setItemLore(book, tagLine);
+		ItemStackHelper.setItemName(book, titles.get(index));
+		ItemStackHelper.setItemLore(book, descriptions.get(index));
 		UseEffect.spawnIntoWorld(book, world, player);
 	}
 

@@ -65,3 +65,25 @@ msg.ItemScrapValue.superior=§eScrap Value: §6Superior
 # Compost Ingredient Value for lore
 msg.ItemCompostIngredientValue.brown=§eCompost: §6Brown
 msg.ItemCompostIngredientValue.green=§eCompost: §2Green
+
+# Random titles for Enchanted Books that drop from Scrap Boxes
+msg.BookTitle0.name=Popular Recycling
+msg.BookTitle0.desc=Reduce! Reuse! Recycle!
+msg.BookTitle1.name=TPS Report
+msg.BookTitle1.desc=PC LOAD LETTER
+msg.BookTitle2.name=Sword & Shovel
+msg.BookTitle2.desc=Quarterly Minecraft Report
+msg.BookTitle3.name=Creeper Monthly
+msg.BookTitle3.desc=Phsst! Phsst!
+msg.BookTitle4.name=Beautiful Zombie
+msg.BookTitle4.desc=101 Beauty Tips
+msg.BookTitle5.name=Aviation
+msg.BookTitle5.desc=Fly the Porcine Skies!
+msg.BookTitle6.name=On Record
+msg.BookTitle6.desc=For Discerning Collectors
+msg.BookTitle7.name=Steve's Travels
+msg.BookTitle7.desc=The End: Is it Really?
+msg.BookTitle8.name=Weekly Parody
+msg.BookTitle8.desc=Don't Fear the Creeper
+msg.BookTitle9.name=Better Blocks and Mines
+msg.BookTitle9.desc=Rattle your neighbor with skulls!
