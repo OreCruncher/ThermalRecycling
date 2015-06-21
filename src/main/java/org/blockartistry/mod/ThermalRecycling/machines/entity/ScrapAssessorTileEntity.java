@@ -71,20 +71,6 @@ public final class ScrapAssessorTileEntity extends TileEntityBase implements IJo
 	}
 
 	@Override
-	public boolean isWhitelisted(final int slot, final ItemStack stack) {
-		
-		if (slot == INPUT) {
-			return CoreType.canCoreProcess(inventory.getStackInSlot(CORE), stack);
-		}
-		
-		if (slot == CORE) {
-			return CoreType.isProcessingCore(stack);
-		}
-
-		return false;
-	}
-
-	@Override
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
@@ -142,11 +128,6 @@ public final class ScrapAssessorTileEntity extends TileEntityBase implements IJo
 		inventory.flush();
 	}
 	
-	@Override
-	public MachineStatus getStatus() {
-		return status;
-	}
-
 	@Override
 	public int getPercentComplete() {
 		return 0;

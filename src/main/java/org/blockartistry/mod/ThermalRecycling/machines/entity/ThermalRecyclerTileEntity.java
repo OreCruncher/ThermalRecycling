@@ -208,11 +208,6 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 				/ operationEnergyForCore(inventory.getStackInSlot(CORE));
 	}
 
-	@Override
-	public MachineStatus getStatus() {
-		return status;
-	}
-
 	// /////////////////////////////////////
 	//
 	// INBTSerializer

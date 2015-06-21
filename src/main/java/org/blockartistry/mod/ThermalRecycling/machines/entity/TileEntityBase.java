@@ -151,10 +151,6 @@ public abstract class TileEntityBase extends TileEntity implements
 		return null;
 	}
 	
-	public boolean isWhitelisted(final int slot, final ItemStack stack) {
-		return true;
-	}
-	
 	@Override
 	public void dropInventory(final World world, final int x, final int y, final int z) {
 		inventory.dropInventory(world, x, y, z);
