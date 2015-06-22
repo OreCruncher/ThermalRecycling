@@ -35,7 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.items.Materials;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 
@@ -49,12 +49,12 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class ModThermalRecycling extends ModPlugin {
-	
+
 	public ModThermalRecycling() {
 		super(SupportedMod.THERMAL_RECYCLING);
 	}
 
-	String[] whiteList;
+	private String[] whiteList;
 
 	@Override
 	public void init(final Configuration config) {
@@ -70,13 +70,12 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	@Override
 	public void apply() {
-		
+
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
 		// Need to be able to see any special frames in real time.
-		ScrapHandler.registerHandler(
-				new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
-				handler);
+		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore,
+				1, OreDictionary.WILDCARD_VALUE), handler);
 
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
@@ -84,14 +83,17 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setRecipeIgnored(ItemManager.material, true);
 		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
 
-		ItemData.setValue(new ItemStack(ItemManager.debris),
-				ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
 		ItemData.setValue(new ItemStack(BlockManager.scrapBlock),
 				ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker),
+				ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.material, 1,
+				Material.LITTER_BAG), ScrapValue.NONE);
 
-		ItemData.setValue(new ItemStack(ItemManager.material, 1, Materials.PAPER_LOG), ScrapValue.POOR);
-		
+		ItemData.setValue(new ItemStack(ItemManager.material, 1,
+				Material.PAPER_LOG), ScrapValue.POOR);
+
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
@@ -118,7 +120,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		//final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
+		// final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
 		final String modIds = ":" + StringUtils.join(whiteList, ":") + ":";
 
 		// Process all registered recipes
@@ -136,33 +138,33 @@ public final class ModThermalRecycling extends ModPlugin {
 
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
-					final String name = Item.itemRegistry.getNameForObject(stack
-							.getItem());
-					
+					final String name = Item.itemRegistry
+							.getNameForObject(stack.getItem());
+
 					if (modIds.contains(":"
 							+ StringUtils.substringBefore(name, ":") + ":")) {
 						try {
 							recycler.useRecipe(recipe).save();
-						} catch(Throwable t) {
+						} catch (Throwable t) {
 							ModLog.catching(t);
 						}
 					}
 				}
 			}
 		}
-		
-		// Apply the blacklist from the configuration.  We need to fix up
+
+		// Apply the blacklist from the configuration. We need to fix up
 		// each entry with a ^ so the underlying routine just does what it
 		// needs to do.
-		for(final String s: ModOptions.getRecyclerBlacklist()) {
+		for (final String s : ModOptions.getRecyclerBlacklist()) {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
-		
+
 		// Lock our tables
 		ItemData.freeze();
 		RecipeData.freeze();
 		ScrapHandler.freeze();
-		
+
 		// Register scrap items for Pile of Rubble
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);

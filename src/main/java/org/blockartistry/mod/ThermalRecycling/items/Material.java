@@ -47,7 +47,7 @@ import com.google.common.collect.ImmutableList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public final class Materials extends ItemBase {
+public final class Material extends ItemBase {
 
 	private static final Random random = XorShiftRandom.shared;
 	private static final int EGG_ACCELERATION = 3000;
@@ -60,10 +60,10 @@ public final class Materials extends ItemBase {
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions
 					.getInventoryTrashList()));
 
-	public Materials() {
+	public Material() {
 		super("paperlog", "worms", "litterBag");
 
-		setUnlocalizedName("Materials");
+		setUnlocalizedName("Material");
 		setHasSubtypes(true);
 		setMaxStackSize(64);
 	}

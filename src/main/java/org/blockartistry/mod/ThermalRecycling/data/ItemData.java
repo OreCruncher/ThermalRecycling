@@ -29,10 +29,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ObjectArrays;
 
@@ -143,6 +146,9 @@ public final class ItemData {
 		setBlockedFromScrapping(ScrappingTables.poorScrapBox);
 		setBlockedFromScrapping(ScrappingTables.standardScrapBox);
 		setBlockedFromScrapping(ScrappingTables.superiorScrapBox);
+		
+		// Litter Bags
+		setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG));
 	}
 
 	private ItemData(final ItemStack stack, final ItemData data) {

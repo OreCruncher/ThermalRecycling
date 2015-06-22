@@ -30,7 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.items.Materials;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -38,7 +38,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -95,14 +94,14 @@ public final class PileOfRubble extends Block {
 		addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
 		addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
 		
-		addRubbleDrop(new ItemStack(ItemManager.material, 1, Materials.LITTER_BAG), 1, 2, 4);
+		addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
 	}
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon icon;
 
 	public PileOfRubble() {
-		super(Material.rock);
+		super(net.minecraft.block.material.Material.rock);
 
 		setBlockName("PileOfRubble");
 		setCreativeTab(CreativeTabManager.tab);
