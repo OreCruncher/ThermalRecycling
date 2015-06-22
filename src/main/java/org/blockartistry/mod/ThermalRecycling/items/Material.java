@@ -37,6 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
@@ -114,7 +115,8 @@ public final class Material extends ItemBase {
 			}
 
 			stack.stackSize--;
-
+			player.addStat(AchievementManager.doinTheTrash, 1);
+			
 			// Force a resync of the player inventory
 			if (isDirty) {
 				((EntityPlayerMP) player)

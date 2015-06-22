@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import org.blockartistry.mod.ThermalRecycling.achievement.DoinTheTrash;
 import org.blockartistry.mod.ThermalRecycling.achievement.DoingMyPart;
 import org.blockartistry.mod.ThermalRecycling.achievement.FeelingScrappy;
 import org.blockartistry.mod.ThermalRecycling.achievement.LottoWinner;
@@ -49,6 +50,7 @@ public final class AchievementManager extends AchievementPage {
 	// the achievement will show on the proper page!
 
 	public static final Achievement lottoWinner = new LottoWinner();
+	public static final Achievement doinTheTrash = new DoinTheTrash();
 
 	public static final Achievement feelingScrappy = new FeelingScrappy();
 	public static final Achievement doingMyPart = new DoingMyPart();
@@ -58,6 +60,7 @@ public final class AchievementManager extends AchievementPage {
 	public static void registerAchievements() {
 
 		lottoWinner.registerStat();
+		doinTheTrash.registerStat();
 
 		feelingScrappy.registerStat();
 		doingMyPart.registerStat();
@@ -71,7 +74,7 @@ public final class AchievementManager extends AchievementPage {
 	}
 
 	public AchievementManager() {
-		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, feelingScrappy, doingMyPart);
+		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, doinTheTrash, feelingScrappy, doingMyPart);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
