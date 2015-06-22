@@ -24,19 +24,26 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
+
+import com.google.common.collect.ImmutableList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -47,9 +54,14 @@ public final class Material extends ItemBase {
 
 	public static final int PAPER_LOG = 0;
 	public static final int WORMS = 1;
+	public static final int LITTER_BAG = 2;
+
+	private static final List<ItemStack> trash = ImmutableList
+			.copyOf(ItemStackHelper.getItemStacks(ModOptions
+					.getInventoryTrashList()));
 
 	public Material() {
-		super("paperlog", "worms");
+		super("paperlog", "worms", "litterBag");
 
 		setUnlocalizedName("Material");
 		setHasSubtypes(true);
@@ -64,14 +76,15 @@ public final class Material extends ItemBase {
 			return false;
 
 		if (target instanceof EntityChicken) {
-			
-			// If the chicken is a child, make it an adult.  If it is
+
+			// If the chicken is a child, make it an adult. If it is
 			// an adult, accelerate egg laying.
 			final EntityChicken chicken = (EntityChicken) target;
-			if(chicken.isChild()) {
+			if (chicken.isChild()) {
 				chicken.setGrowingAge(-1);
 			} else {
-				chicken.timeUntilNextEgg -= random.nextInt(EGG_ACCELERATION) + EGG_ACCELERATION;
+				chicken.timeUntilNextEgg -= random.nextInt(EGG_ACCELERATION)
+						+ EGG_ACCELERATION;
 			}
 
 			stack.stackSize--;
@@ -83,14 +96,52 @@ public final class Material extends ItemBase {
 	}
 
 	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
+			int x, int y, int z, int p_77648_7_, float p_77648_8_,
+			float p_77648_9_, float p_77648_10_) {
+
+		if (!world.isRemote && !trash.isEmpty()
+				&& stack.getItemDamage() == LITTER_BAG
+				&& player instanceof EntityPlayerMP) {
+
+			boolean isDirty = false;
+
+			for (final ItemStack item : trash) {
+				final int meta = item.getItemDamage() == OreDictionary.WILDCARD_VALUE ? -1
+						: item.getItemDamage();
+				if (player.inventory.clearInventory(item.getItem(), meta) > 0)
+					isDirty = true;
+			}
+
+			stack.stackSize--;
+
+			// Force a resync of the player inventory
+			if (isDirty) {
+				((EntityPlayerMP) player)
+						.sendContainerToPlayer(player.inventoryContainer);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public void register() {
 		super.register();
 
-		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
+		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 				ItemManager.material, 1, PAPER_LOG), "ppp", "plp", "ppp", 'p',
 				new ItemStack(Items.paper), 'l', new ItemStack(
 						ItemManager.paperLogMaker, 1,
 						OreDictionary.WILDCARD_VALUE));
+
+		GameRegistry.addRecipe(recipe);
+
+		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 8,
+				LITTER_BAG), "d d", "d d", "ddd", 'd', new ItemStack(
+				ItemManager.debris));
 
 		GameRegistry.addRecipe(recipe);
 	}

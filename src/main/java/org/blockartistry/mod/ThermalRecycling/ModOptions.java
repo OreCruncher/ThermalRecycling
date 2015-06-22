@@ -46,6 +46,7 @@ public final class ModOptions {
 	protected static final String CONFIG_DISABLE_ANVIL = "Disable Anvil Repair";
 	protected static final String CONFIG_ITEM_MERGE_RANGE = "EntityItem Merge Range";
 	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
+	protected static final String CONFIG_TRASH_LIST = "Inventory Trash List";
 	
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -114,7 +115,11 @@ public final class ModOptions {
 	protected static int xpBottleValue = 44;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
-
+	protected static String[] inventoryTrashList = new String[] {
+		"minecraft:cobblestone", "minecraft:sandstone:*", "minecraft:sand:*",
+		"minecraft:gravel", "minecraft:dirt",
+	};
+	
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
@@ -221,6 +226,12 @@ public final class ModOptions {
 				.getStringList(CONFIG_BLACKLIST, CATEGORY_MACHINES_RECYCLER,
 						recyclerBlacklist,
 						"List of items to prevent the Thermal Recycler from accepting as input");
+
+		inventoryTrashList = config
+				.getStringList(CONFIG_TRASH_LIST, CATEGORY_GENERAL,
+						inventoryTrashList,
+						"List of items to delete from inventory when using a Litter Bag");
+
 
 		scrapBoxBonus = config
 				.getInt(CONFIG_SCRAPBOX_BONUS,
@@ -412,6 +423,10 @@ public final class ModOptions {
 
 	public static String[] getRecyclerBlacklist() {
 		return recyclerBlacklist;
+	}
+	
+	public static String[] getInventoryTrashList() {
+		return inventoryTrashList;
 	}
 	
 	public static boolean getEnableScrapboxSpawn() {

@@ -232,6 +232,19 @@ public final class ItemStackHelper {
 		return newStack;
 	}
 
+	public static List<ItemStack> getItemStacks(final String... items) {
+	
+		final List<ItemStack> result = new ArrayList<ItemStack>();
+		
+		for(final String s: items) {
+			final ItemStack stack = getItemStack(s);
+			if(stack != null)
+				result.add(stack);
+		}
+		
+		return result;
+	}
+	
 	public static ItemStack getItemStack(final String name) {
 		return getItemStack(name, 1);
 	}

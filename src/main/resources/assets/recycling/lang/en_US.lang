@@ -22,6 +22,7 @@ item.ProcessingCore.extraction.name=Core: Extraction
 item.PaperLogMaker.paperlogmaker.name=Paper Log Maker
 item.Material.paperlog.name=Paper Log
 item.Material.worms.name=Handful of Worms
+item.Material.litterBag.name=Litter Bag
 
 tile.PileOfRubble.name=Pile of Rubble
 tile.FertileLand.name=Fertile Land
