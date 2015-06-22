@@ -25,7 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.items.Debris;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.items.Materials;
 import org.blockartistry.mod.ThermalRecycling.items.PaperLogMaker;
 import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
@@ -43,7 +43,7 @@ public final class ItemManager {
 	public static final ProcessingCore processingCore = new ProcessingCore();
 
 	public static final Debris debris = new Debris();
-	public static final Material material = new Material();
+	public static final Materials material = new Materials();
 	public static final PaperLogMaker paperLogMaker = new PaperLogMaker();
 
 	static void registerItems() {

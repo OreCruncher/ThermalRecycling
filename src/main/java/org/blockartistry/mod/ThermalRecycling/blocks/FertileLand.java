@@ -29,7 +29,7 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.items.Materials;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -97,6 +97,6 @@ public final class FertileLand extends BlockFarmland {
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(BlockManager.fertileLand), new ItemStack(
 						Blocks.dirt), new ItemStack(Items.water_bucket),
-				new ItemStack(ItemManager.material, 1, Material.WORMS));
+				new ItemStack(ItemManager.material, 1, Materials.WORMS));
 	}
 }

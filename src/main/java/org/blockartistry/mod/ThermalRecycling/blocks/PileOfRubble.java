@@ -27,8 +27,10 @@ package org.blockartistry.mod.ThermalRecycling.blocks;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
+import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.items.Materials;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -92,6 +94,8 @@ public final class PileOfRubble extends Block {
 		addRubbleDrop(new ItemStack(Items.iron_pickaxe, 1, ITEM_DAMAGE), 1, 1, 4);
 		addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
 		addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
+		
+		addRubbleDrop(new ItemStack(ItemManager.material, 1, Materials.LITTER_BAG), 1, 2, 4);
 	}
 
 	@SideOnly(Side.CLIENT)

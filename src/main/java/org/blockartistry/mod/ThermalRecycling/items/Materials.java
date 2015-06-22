@@ -47,7 +47,7 @@ import com.google.common.collect.ImmutableList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public final class Material extends ItemBase {
+public final class Materials extends ItemBase {
 
 	private static final Random random = XorShiftRandom.shared;
 	private static final int EGG_ACCELERATION = 3000;
@@ -60,10 +60,10 @@ public final class Material extends ItemBase {
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions
 					.getInventoryTrashList()));
 
-	public Material() {
+	public Materials() {
 		super("paperlog", "worms", "litterBag");
 
-		setUnlocalizedName("Material");
+		setUnlocalizedName("Materials");
 		setHasSubtypes(true);
 		setMaxStackSize(64);
 	}
@@ -102,7 +102,7 @@ public final class Material extends ItemBase {
 
 		if (!world.isRemote && !trash.isEmpty()
 				&& stack.getItemDamage() == LITTER_BAG
-				&& player instanceof EntityPlayerMP) {
+				&& player instanceof EntityPlayerMP && player.isSneaking()) {
 
 			boolean isDirty = false;
 

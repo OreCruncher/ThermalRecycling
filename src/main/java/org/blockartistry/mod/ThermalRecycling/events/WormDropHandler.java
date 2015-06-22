@@ -28,7 +28,7 @@ import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.items.Materials;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraft.init.Blocks;
@@ -58,7 +58,7 @@ public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 			return true;
 		
 		if(dropWorms(input.world)) {
-			input.drops.add(new ItemStack(ItemManager.material, 1, Material.WORMS));
+			input.drops.add(new ItemStack(ItemManager.material, 1, Materials.WORMS));
 		}
 		
 		return true;

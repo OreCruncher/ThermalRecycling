@@ -35,7 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.items.Materials;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 
@@ -90,7 +90,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				ScrapValue.NONE);
 		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
 
-		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
+		ItemData.setValue(new ItemStack(ItemManager.material, 1, Materials.PAPER_LOG), ScrapValue.POOR);
 		
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
 				RecyclingScrap.POOR), ScrapValue.POOR);
