@@ -109,7 +109,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -132,5 +132,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		for (final IIntegrationRecipe r : recipes1)
 			registerBuildcraftRecipe(r);
 			*/
+		
+		return true;
 	}
 }

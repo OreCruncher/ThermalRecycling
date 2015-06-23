@@ -37,7 +37,7 @@ public final class ModThermalExpansion extends ModPlugin {
 	}
 	
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		final ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
 
@@ -58,6 +58,9 @@ public final class ModThermalExpansion extends ModPlugin {
 		ScrapHandler.registerHandler(
 				ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"),
 				handler);
+		ScrapHandler.registerHandler(
+				ItemStackHelper.getItemStack("ThermalExpansion:satchel:*"),
+				handler);
 
 		// Sawdust and whatnot
 		registerScrapValues(ScrapValue.NONE, "material:512", "material:513",
@@ -66,7 +69,14 @@ public final class ModThermalExpansion extends ModPlugin {
 		
 		registerCompostIngredient(CompostIngredient.BROWN, "^dustWood");
 		
+		return true;
+	}
+	
+	@Override
+	public boolean postInit() {
 		// Register some stuff for the Pile of Rubble
 		registerPileOfRubbleDrop(1, 1, 3, "satchel:1");
+		
+		return true;
 	}
 }

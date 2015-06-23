@@ -33,7 +33,7 @@ public final class ModThermalDynamics extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		// Ignore covers and the impulse ducts.  The ducts have a bidirectional
 		// conversion recipe that can dupe hardened glass and lead.
@@ -130,5 +130,7 @@ public final class ModThermalDynamics extends ModPlugin {
 						"ThermalDynamics:ThermalDynamics_16:5")
 				.output("nuggetElectrum", 3)
 				.secondaryOutput("nuggetSignalum", 3).save();
+		
+		return true;
 	}
 }

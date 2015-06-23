@@ -75,7 +75,7 @@ public final class ModThaumcraft extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -146,5 +146,7 @@ public final class ModThaumcraft extends ModPlugin {
 
 		smelter.append("Thaumcraft:ItemShovelVoid").secondaryInput(Blocks.sand)
 				.output("ingotVoid").save();
+		
+		return true;
 	}
 }

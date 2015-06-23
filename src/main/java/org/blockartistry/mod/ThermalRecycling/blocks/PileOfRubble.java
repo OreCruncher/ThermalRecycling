@@ -27,10 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.blocks;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -39,8 +37,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -51,7 +47,6 @@ import net.minecraftforge.common.ChestGenHooks;
 public final class PileOfRubble extends Block {
 
 	private static final Random random = XorShiftRandom.shared;
-	private static final int ITEM_DAMAGE = 20;
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
 	private static final ChestGenHooks rubbleContent = ChestGenHooks
 			.getInfo(CHEST_PILE_OF_RUBBLE);
@@ -66,35 +61,6 @@ public final class PileOfRubble extends Block {
 
 	public static void addRubbleDrop(final Block block, final int min, final int max, final int weight) {
 		rubbleContent.addItem(new WeightedRandomChestContent(Item.getItemFromBlock(block), 0, min, max, weight));
-	}
-
-	static {
-
-		addRubbleDrop(Blocks.cobblestone, 1, 4, 12);
-		addRubbleDrop(Blocks.stone, 1, 2, 9);
-		addRubbleDrop(Items.coal, 1, 3, 8);
-		addRubbleDrop(Blocks.gravel, 1, 2, 9);
-		addRubbleDrop(Blocks.sand, 1, 2, 8);
-		addRubbleDrop(Blocks.dirt, 1, 3, 10);
-		addRubbleDrop(Blocks.clay, 1, 1, 7);
-
-		addRubbleDrop(Items.bread, 1, 3, 8);
-		addRubbleDrop(Items.cooked_beef, 1, 3, 6);
-		addRubbleDrop(Items.rotten_flesh, 1, 2, 5);
-		addRubbleDrop(Items.bone, 1, 2, 5);
-		addRubbleDrop(Blocks.torch, 1, 8, 8);
-		addRubbleDrop(Blocks.iron_ore, 1, 3, 5);
-		addRubbleDrop(Blocks.gold_ore, 1, 2, 3);
-		addRubbleDrop(Items.redstone, 1, 2, 3);
-		addRubbleDrop(Items.diamond, 1, 1, 1);
-		addRubbleDrop(Items.emerald, 1, 1, 1);
-		addRubbleDrop(Blocks.tnt, 1, 1, 4);
-		
-		addRubbleDrop(new ItemStack(Items.iron_pickaxe, 1, ITEM_DAMAGE), 1, 1, 4);
-		addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
-		addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
-		
-		addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
 	}
 
 	@SideOnly(Side.CLIENT)

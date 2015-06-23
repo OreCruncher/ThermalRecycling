@@ -35,7 +35,7 @@ public final class ModBuildCraftFactory extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerScrapValues(ScrapValue.NONE, "tankBlock", "autoWorkbenchBlock");
 		registerScrapValues(ScrapValue.SUPERIOR, "machineBlock",
@@ -45,5 +45,6 @@ public final class ModBuildCraftFactory extends ModPlugin {
 				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
 				.save();
 
+		return true;
 	}
 }

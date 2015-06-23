@@ -233,18 +233,18 @@ public final class ItemStackHelper {
 	}
 
 	public static List<ItemStack> getItemStacks(final String... items) {
-	
+
 		final List<ItemStack> result = new ArrayList<ItemStack>();
-		
-		for(final String s: items) {
+
+		for (final String s : items) {
 			final ItemStack stack = getItemStack(s);
-			if(stack != null)
+			if (stack != null)
 				result.add(stack);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static ItemStack getItemStack(final String name) {
 		return getItemStack(name, 1);
 	}
@@ -442,10 +442,10 @@ public final class ItemStackHelper {
 	}
 
 	public static void append(final List<ItemStack> list, final ItemStack stack) {
-		
+
 		assert list != null;
 		assert stack != null;
-		
+
 		list.add(stack);
 	}
 
@@ -554,7 +554,7 @@ public final class ItemStackHelper {
 
 		assert list != null;
 		assert item != null;
-		assert start >=0 && end >= start;
+		assert start >= 0 && end >= start;
 		assert quantity > 0;
 
 		list.addAll(ItemStackHelper.getItemStackRange(item, start, end,
@@ -678,8 +678,9 @@ public final class ItemStackHelper {
 	 * @param inv
 	 * @return
 	 */
-	public static void coelece(final ItemStack[] inv, final int startSlot, final int endSlot) {
-		
+	public static void coelece(final ItemStack[] inv, final int startSlot,
+			final int endSlot) {
+
 		assert inv != null;
 		assert startSlot >= 0 && endSlot >= startSlot;
 		assert startSlot < inv.length;
@@ -798,15 +799,16 @@ public final class ItemStackHelper {
 
 		return false;
 	}
-	
-	public static boolean removeItemStackFromInventory(final ItemStack inv[], final ItemStack stack, final int startSlot, final int endSlot) {
-		if(stack == null || stack.stackSize == 0)
+
+	public static boolean removeItemStackFromInventory(final ItemStack inv[],
+			final ItemStack stack, final int startSlot, final int endSlot) {
+		if (stack == null || stack.stackSize == 0)
 			return true;
-		
-		for(int slot = startSlot; slot <= endSlot && stack.stackSize > 0; slot++) {
+
+		for (int slot = startSlot; slot <= endSlot && stack.stackSize > 0; slot++) {
 			final ItemStack invStack = inv[slot];
-			if(invStack != null && ItemStackHelper.areEqual(invStack, stack)) {
-				if(invStack.stackSize > stack.stackSize) {
+			if (invStack != null && ItemStackHelper.areEqual(invStack, stack)) {
+				if (invStack.stackSize > stack.stackSize) {
 					invStack.stackSize -= stack.stackSize;
 					stack.stackSize = 0;
 				} else {
@@ -815,10 +817,9 @@ public final class ItemStackHelper {
 				}
 			}
 		}
-		
+
 		return stack.stackSize == 0;
 	}
-
 
 	public static void setItemName(final ItemStack stack, final String name) {
 
@@ -905,5 +906,45 @@ public final class ItemStackHelper {
 		return stack1.isItemEqual(stack2)
 				&& areTagsEqual(stack1.stackTagCompound,
 						stack2.stackTagCompound);
+	}
+
+	/**
+	 * Clears the target inventory of ItemStacks matching the provided Item and
+	 * metadata values. Passing in WILDCARD_VALUE for metadata will match all
+	 * subtypes for the provided Item.
+	 * 
+	 * @param inv
+	 * @param item
+	 * @param meta
+	 * @return
+	 */
+	public static boolean clearInventory(final ItemStack[] inv,
+			final Item item, final int meta) {
+		
+		assert inv != null;
+
+		int cleared = 0;
+
+		for (int i = 0; i < inv.length; i++) {
+
+			final ItemStack stack = inv[i];
+
+			if (stack != null
+					&& (item == null || stack.getItem() == item)
+					&& (meta == OreDictionary.WILDCARD_VALUE || stack
+							.getItemDamage() == meta)) {
+				cleared += stack.stackSize;
+				inv[i] = null;
+			}
+		}
+
+		return cleared != 0;
+	}
+
+	public static boolean clearInventory(final ItemStack[] inv,
+			final ItemStack stack) {
+		assert inv != null;
+		assert stack != null;
+		return clearInventory(inv, stack.getItem(), stack.getItemDamage());
 	}
 }

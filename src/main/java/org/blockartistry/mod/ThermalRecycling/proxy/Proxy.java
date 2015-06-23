@@ -43,7 +43,6 @@ import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
-import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
@@ -57,36 +56,38 @@ public class Proxy {
 
 	public void preInit(final FMLPreInitializationEvent event) {
 		FakePlayerHelper.initialize("ThermalRecycling");
+		
+		ModPlugin.preInitPlugins();
 	}
 
 	public void init(final FMLInitializationEvent event) {
 
 		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe",
 				UpgradeRecipe.class, Category.SHAPED, "");
-		
+
 		new ItemManager();
 		new BlockManager();
 		AchievementManager.registerAchievements();
 
 		new GuiHandler();
 		new FuelHandler();
-		
+
 		// Hook for worm drop
 		new BlockHarvestEventHandler();
 		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
-		
+
 		// Hook to prevent vending machines from being broken
 		new BlockBreakEventHandler();
 		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
 
-		if(!ModOptions.getRubblePileDisable())
+		if (!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();
-		
-		if(!ModOptions.getDisableAnvilRepair())
+
+		if (!ModOptions.getDisableAnvilRepair())
 			new AnvilHandler();
-		
+
 		new EntityItemMergeHandler();
-		
+
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",
 					WailaHandler.class.getName() + ".callbackRegister");
@@ -94,41 +95,10 @@ public class Proxy {
 
 	public void postInit(final FMLPostInitializationEvent event) {
 
-		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper.getProfile().toString());
-
-		for (final SupportedMod mod : SupportedMod.values()) {
-
-			if (!mod.isLoaded()) {
-
-				ModLog.info("Mod [%s (%s)] not detected - skipping",
-						mod.getName(), mod.getModId());
-
-			} else {
-
-				// Get the plugin to process
-				final ModPlugin plugin = mod.getPlugin();
-				if (plugin == null)
-					continue;
-
-				plugin.init(ThermalRecycling.config());
-
-				if (!ModOptions.getModProcessingEnabled(mod)) {
-
-					ModLog.info("Mod [%s (%s)] not enabled - skipping",
-							plugin.getName(), plugin.getModId());
-
-				} else {
-
-					ModLog.info("Loading recipes for [%s]", plugin.getName());
-
-					try {
-						plugin.apply();
-					} catch (Exception e) {
-						ModLog.warn("Error processing recipes!");
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+		ModPlugin.initializePlugins();
+		ModPlugin.postInitPlugins();
+		
+		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper
+				.getProfile().toString());
 	}
 }

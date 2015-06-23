@@ -43,13 +43,16 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerReci
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
+import cofh.api.core.IInitializer;
+
 import com.google.common.base.Predicate;
 
+import cpw.mods.fml.common.Optional;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 
-public abstract class ModPlugin {
+@Optional.Interface(iface = "cofh.api.core.IInitializer", modid = "CoFHCore", striprefs = true)
+public abstract class ModPlugin implements IInitializer {
 
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
@@ -75,12 +78,20 @@ public abstract class ModPlugin {
 		return mod.getName();
 	}
 
-	public void init(final Configuration config) {
-		// Nothing by default - override in a derived class to get
-		// config options for the plugin
+	@Override
+	public boolean preInit() {
+		return true;
 	}
 
-	public abstract void apply();
+	@Override
+	public boolean initialize() {
+		return true;
+	}
+
+	@Override
+	public boolean postInit() {
+		return true;
+	}
 
 	protected String makeName(final String name) {
 		
@@ -97,7 +108,7 @@ public abstract class ModPlugin {
 		return result;
 	}
 
-	void forEachSubject(final List<String> subjects, final Predicate<ItemStack> op) {
+	protected void forEachSubject(final List<String> subjects, final Predicate<ItemStack> op) {
 		
 		Apply.forEach(subjects, new Predicate<String>() {
 			
@@ -239,5 +250,50 @@ public abstract class ModPlugin {
 				return false;
 			}
 		});
+	}
+	
+	
+	public static void preInitPlugins() {
+		
+		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
+
+		for (final ModPlugin plugin : plugins) {
+
+			try {
+				plugin.preInit();
+			} catch (Exception e) {
+				ModLog.warn("Error pre-initializing plugin [%s]", plugin.getName());
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void initializePlugins() {
+		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
+
+		for (final ModPlugin plugin : plugins) {
+
+			try {
+				ModLog.info("Loading recipes for [%s]", plugin.getName());
+				plugin.initialize();
+			} catch (Exception e) {
+				ModLog.warn("Error initializing plugin [%s]", plugin.getName());
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void postInitPlugins() {
+		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
+
+		for (final ModPlugin plugin : plugins) {
+
+			try {
+				plugin.postInit();
+			} catch (Exception e) {
+				ModLog.warn("Error post-initializing plugin [%s]", plugin.getName());
+				e.printStackTrace();
+			}
+		}
 	}
 }

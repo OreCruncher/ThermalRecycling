@@ -39,13 +39,10 @@ import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 
-import com.google.common.collect.ObjectArrays;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class ModThermalRecycling extends ModPlugin {
@@ -54,22 +51,8 @@ public final class ModThermalRecycling extends ModPlugin {
 		super(SupportedMod.THERMAL_RECYCLING);
 	}
 
-	private String[] whiteList;
-
 	@Override
-	public void init(final Configuration config) {
-
-		final String[] modList = SupportedMod.getModIdList();
-		final String[] configList = ModOptions.getModWhitelist();
-
-		if (configList == null || configList.length == 0)
-			whiteList = modList;
-		else
-			whiteList = ObjectArrays.concat(modList, configList, String.class);
-	}
-
-	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
@@ -120,8 +103,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		// final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
-		final String modIds = ":" + StringUtils.join(whiteList, ":") + ":";
+		final String modIds = ":" + StringUtils.join(SupportedMod.getEffectiveModIdList(), ":") + ":";
 
 		// Process all registered recipes
 		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
@@ -165,10 +147,20 @@ public final class ModThermalRecycling extends ModPlugin {
 		RecipeData.freeze();
 		ScrapHandler.freeze();
 
+		return true;
+	}
+
+	@Override
+	public boolean postInit() {
 		// Register scrap items for Pile of Rubble
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);
 		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
 		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
+
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1,
+				Material.LITTER_BAG), 1, 2, 4);
+
+		return true;
 	}
 }

@@ -33,10 +33,11 @@ public final class ModChickenChunks extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerScrapValues(ScrapValue.SUPERIOR, "chickenChunkLoader:*");
 
+		return true;
 	}
 
 }

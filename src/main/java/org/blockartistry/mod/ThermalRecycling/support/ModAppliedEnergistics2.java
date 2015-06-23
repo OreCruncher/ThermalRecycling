@@ -66,7 +66,7 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -74,5 +74,6 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
+		return true;
 	}
 }

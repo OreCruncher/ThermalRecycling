@@ -49,7 +49,7 @@ public final class ModRFDrills extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -63,5 +63,7 @@ public final class ModRFDrills extends ModPlugin {
 
 		fluid.setEnergy(16000).append("rfdrills:motor_te:4")
 				.output("rfdrills:motor_te:5").fluid("cryotheum", 4000).save();
+		
+		return true;
 	}
 }

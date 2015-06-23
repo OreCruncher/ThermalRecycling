@@ -52,7 +52,7 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -65,5 +65,7 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 				.registerHandler(ItemStackHelper
 						.getItemStack("BuildCraft|Transport:pipeGate"),
 						handler);
+		
+		return true;
 	}
 }

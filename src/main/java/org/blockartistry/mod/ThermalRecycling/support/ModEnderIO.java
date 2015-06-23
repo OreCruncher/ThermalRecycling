@@ -55,7 +55,7 @@ public final class ModEnderIO extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -128,5 +128,7 @@ public final class ModEnderIO extends ModPlugin {
 		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 4, 5)
 				.output("EnderIO:itemAlloy:2")
 				.secondaryOutput("EnderIO:itemAlloy:7", 2).save();
+		
+		return true;
 	}
 }

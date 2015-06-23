@@ -75,7 +75,7 @@ public final class ModRailcraft extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerRecipesToReveal(recipeRevealList);
@@ -208,5 +208,7 @@ public final class ModRailcraft extends ModPlugin {
 		// Metal posts and platforms
 		pulverizer.append("Railcraft:post:2").output("nuggetSteel", 1).save();
 		pulverizer.append("Railcraft:post:6").output("nuggetSteel", 5).save();
+		
+		return true;
 	}
 }

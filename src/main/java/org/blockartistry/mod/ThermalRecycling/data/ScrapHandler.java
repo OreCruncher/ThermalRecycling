@@ -273,8 +273,7 @@ public class ScrapHandler {
 			// convert to scrap with a bonus.
 			if (ctx.coreType == CoreType.DECOMPOSITION) {
 				
-				if(ctx.recipeOutput == null)
-					ctx.recipeOutput = getRecipeOutput(ctx);
+				ctx.recipeOutput = getRecipeOutput(ctx);
 				
 				// Add any enchantment bottles from scrapping a
 				// magic item/book.

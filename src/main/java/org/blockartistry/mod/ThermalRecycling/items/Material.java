@@ -107,16 +107,14 @@ public final class Material extends ItemBase {
 
 			boolean isDirty = false;
 
-			for (final ItemStack item : trash) {
-				final int meta = item.getItemDamage() == OreDictionary.WILDCARD_VALUE ? -1
-						: item.getItemDamage();
-				if (player.inventory.clearInventory(item.getItem(), meta) > 0)
+			for (final ItemStack item : trash)
+				if (ItemStackHelper.clearInventory(
+						player.inventory.mainInventory, item))
 					isDirty = true;
-			}
 
 			stack.stackSize--;
 			player.addStat(AchievementManager.doinTheTrash, 1);
-			
+
 			// Force a resync of the player inventory
 			if (isDirty) {
 				((EntityPlayerMP) player)

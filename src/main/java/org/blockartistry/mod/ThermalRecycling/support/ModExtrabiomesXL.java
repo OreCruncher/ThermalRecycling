@@ -86,7 +86,7 @@ public final class ModExtrabiomesXL extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -112,5 +112,7 @@ public final class ModExtrabiomesXL extends ModPlugin {
 
 		registerCompostIngredient(CompostIngredient.GREEN, "plants4",
 				"flower1:*", "flower2:*", "flower3:*", "grass:*");
+		
+		return true;
 	}
 }

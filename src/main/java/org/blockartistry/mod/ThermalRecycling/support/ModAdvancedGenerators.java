@@ -29,11 +29,4 @@ public final class ModAdvancedGenerators extends ModPlugin {
 	public ModAdvancedGenerators() {
 		super(SupportedMod.ADVANCED_GENERATORS);
 	}
-
-
-	
-	@Override
-	public void apply() {
-		
-	}
 }

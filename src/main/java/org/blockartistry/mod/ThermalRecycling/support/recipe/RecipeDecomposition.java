@@ -437,8 +437,10 @@ public final class RecipeDecomposition {
 		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
 			final IRecipe r = (IRecipe) o;
 			// craftingEquivalent
-			if (ItemHelper.itemsEqualForCrafting(stack, r.getRecipeOutput()))
+			if(ItemStackHelper.areEqual(stack, r.getRecipeOutput()))
 				return r;
+			//if (ItemHelper.itemsEqualForCrafting(stack, r.getRecipeOutput()))
+			//	return r;
 		}
 
 		return null;

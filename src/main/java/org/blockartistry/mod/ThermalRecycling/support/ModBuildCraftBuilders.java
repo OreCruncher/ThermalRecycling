@@ -36,7 +36,7 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerScrapValues(ScrapValue.NONE, "markerBlock", "pathMarkerBlock",
 				"libraryBlock");
@@ -54,5 +54,7 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 		sawmill.append("BuildCraft|Builders:architectBlock")
 				.output(Blocks.planks, 4).secondaryOutput(Items.diamond, 8)
 				.save();
+		
+		return true;
 	}
 }

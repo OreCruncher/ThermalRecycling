@@ -29,9 +29,4 @@ public final class ModEnderStorage extends ModPlugin {
 	public ModEnderStorage() {
 		super(SupportedMod.ENDER_STORAGE);
 	}
-
-	@Override
-	public void apply() {
-
-	}
 }

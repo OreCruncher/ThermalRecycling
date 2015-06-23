@@ -64,11 +64,13 @@ public class ModRedstoneArmory extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		return true;
 	}
 }

@@ -35,7 +35,7 @@ public final class ModBuildCraftCore extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerScrapValues(ScrapValue.NONE, "woodenGearItem", "stoneGearItem",
 				"mapLocation", "list");
@@ -52,5 +52,7 @@ public final class ModBuildCraftCore extends ModPlugin {
 			// manage to get BC related Gold Gears.
 			recycler.useRecipe("BuildCraft|Core:goldGearItem").scrubOutput("gearIron").save();
 		}
+		
+		return true;
 	}
 }

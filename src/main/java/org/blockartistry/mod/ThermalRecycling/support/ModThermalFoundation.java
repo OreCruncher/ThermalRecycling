@@ -132,7 +132,7 @@ public final class ModThermalFoundation extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		//registerRecipesToReveal(recipeRevealList);
@@ -203,7 +203,14 @@ public final class ModThermalFoundation extends ModPlugin {
 			registerExtraTiCGearRecipe("ThermalFoundation:material:140");
 		}
 		
+		return true;
+	}
+	
+	@Override
+	public boolean postInit() {
 		// Pile of Rubble - add Copper and Tin ores
 		registerPileOfRubbleDrop(1, 3, 5, "Ore:0", "Ore:1" );
+		
+		return true;
 	}
 }

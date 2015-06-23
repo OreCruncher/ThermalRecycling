@@ -36,9 +36,12 @@ import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
+import forestry.api.storage.StorageManager;
 
 public final class ModForestry extends ModPlugin {
 
@@ -51,9 +54,9 @@ public final class ModForestry extends ModPlugin {
 			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
 			"stamps:*", "letters", "crate", "waxCast", "apiculture:*",
 			"arboriculture:*", "lepidopterology:*", "soil:*", "honeyedSlice",
-			"beeCombs:*", "apatite", "fertilizerCompound",
-			"fertilizerBio", "carton", "pipette", "scoop",
-			"catalogue", "soil:*", "core:1", "mulch", };
+			"beeCombs:*", "apatite", "fertilizerCompound", "fertilizerBio",
+			"carton", "pipette", "scoop", "catalogue", "soil:*", "core:1",
+			"mulch", };
 
 	static final String[] scrapValuesNone = new String[] { "log1:*", "log2:*",
 			"log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
@@ -61,17 +64,17 @@ public final class ModForestry extends ModPlugin {
 			"fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
 			"fireproofLog7:*", "fireproofLog8:*", "waxCapsule",
 			"refractoryEmpty", "beeDroneGE:*", "propolis:*", "sapling:*",
-			"phosphor", "beeswax", "refractoryWax", "fruits:*",
-			"honeyDrop:*", "honeydew", "royalJelly", "waxCast",
-			"beeCombs:*", "woodPulp", "oakStick", "carton", "planks:*",
-			"planks2:*", "fireproofPlanks1:*", "fireproofPlanks2:*",
-			"slabs1:*", "slabs2:*", "slabs3:*", "slabs4:*", "fences:*",
-			"fences2:*", "stairs:*", "stamps:*", "letters", "crate",
-			"leaves:*", "stained:*", "fertilizerCompound",
-			"fertilizerBio", "pipette", "scoop", "catalogue",
-			"honeyedSlice", "soil:*", "stump:*", "mushroom:*", "saplingGE:*",
-			"apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
-			"brokenBronzePickaxe", "item.PipeItemsPropolis:0"
+			"phosphor", "beeswax", "refractoryWax", "fruits:*", "honeyDrop:*",
+			"honeydew", "royalJelly", "waxCast", "beeCombs:*", "woodPulp",
+			"oakStick", "carton", "planks:*", "planks2:*",
+			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*",
+			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
+			"stamps:*", "letters", "crate", "leaves:*", "stained:*",
+			"fertilizerCompound", "fertilizerBio", "pipette", "scoop",
+			"catalogue", "honeyedSlice", "soil:*", "stump:*", "mushroom:*",
+			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat",
+			"brokenBronzeShovel", "brokenBronzePickaxe",
+			"item.PipeItemsPropolis:0"
 
 	};
 
@@ -104,7 +107,29 @@ public final class ModForestry extends ModPlugin {
 	}
 
 	@Override
-	public void apply() {
+	public boolean preInit() {
+
+		StorageManager.crateRegistry.registerCrate(ScrappingTables.debris,
+				"recycling:cratedDebris");
+		StorageManager.crateRegistry.registerCrate(ScrappingTables.poorScrap,
+				"recycling:cratedPoorScrap");
+		StorageManager.crateRegistry.registerCrate(
+				ScrappingTables.poorScrapBox, "recycling:cratedPoorScrapBox");
+		StorageManager.crateRegistry.registerCrate(
+				ScrappingTables.standardScrap, "recycling:cratedStandardScrap");
+		StorageManager.crateRegistry.registerCrate(
+				ScrappingTables.standardScrapBox,
+				"recycling:cratedStandardScrapBox");
+		StorageManager.crateRegistry.registerCrate(
+				ScrappingTables.superiorScrap, "recycling:cratedSuperiorScrap");
+		StorageManager.crateRegistry.registerCrate(
+				ScrappingTables.superiorScrapBox,
+				"recycling:cratedSuperiorScrapBox");
+		return true;
+	}
+
+	@Override
+	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
@@ -138,7 +163,8 @@ public final class ModForestry extends ModPlugin {
 		// get something for the effort of making these crates.
 		for (final Object o : Item.itemRegistry.getKeys()) {
 			final String itemName = (String) o;
-			if (itemName.startsWith("Forestry:crated")) {
+			if (itemName.startsWith("Forestry:crated")
+					|| itemName.startsWith("recycling:crated")) {
 				final ItemStack stack = ItemStackHelper.getItemStack(itemName);
 				final ItemData data = ItemData.get(stack);
 				data.setIgnoreRecipe(true);
@@ -183,10 +209,18 @@ public final class ModForestry extends ModPlugin {
 		pulverizer.setEnergy(3200)
 				.appendSubtypeRange("Forestry:stained", 0, 15)
 				.output(Blocks.sand).save();
-		
+
+		return true;
+	}
+	
+	@Override
+	public boolean postInit() {
+
 		// Pile of Rubble - add apatite, empty can, and scoop
 		registerPileOfRubbleDrop(1, 3, 5, "apatite");
 		registerPileOfRubbleDrop(1, 2, 3, "canEmpty");
 		registerPileOfRubbleDrop(1, 1, 2, "scoop");
+
+		return true;
 	}
 }

@@ -24,6 +24,11 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
+
 import cpw.mods.fml.common.Loader;
 
 public enum SupportedMod {
@@ -158,5 +163,28 @@ public enum SupportedMod {
 			builder.append(';');
 		}
 		return builder.toString();
+	}
+	
+	public static List<ModPlugin> getPluginsForLoadedMods() {
+		final List<ModPlugin> plugins = new ArrayList<ModPlugin>();
+		for(final SupportedMod m: values()) {
+			if(m.isLoaded() && ModOptions.getModProcessingEnabled(m))
+				plugins.add(m.getPlugin());
+		}
+		
+		return plugins;
+	}
+	
+	public static List<String> getEffectiveModIdList() {
+		final List<String> idList = new ArrayList<String>();
+		for(final SupportedMod m: values()) {
+			if(m.isLoaded() && ModOptions.getModProcessingEnabled(m))
+				idList.add(m.getModId());
+		}
+		
+		for(final String s: ModOptions.getModWhitelist())
+			idList.add(s);
+
+		return idList;
 	}
 }
