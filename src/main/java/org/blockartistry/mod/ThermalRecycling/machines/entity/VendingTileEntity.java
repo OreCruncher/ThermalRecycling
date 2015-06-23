@@ -111,6 +111,13 @@ public class VendingTileEntity extends TileEntityBase {
 	public boolean isOwner(final EntityPlayer player) {
 		return ownerId.compareTo(player.getPersistentID()) == 0;
 	}
+	
+	public void setOwner(final EntityPlayer player) {
+		ownerId = player.getPersistentID();
+		ownerName = player.getDisplayName();
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		markDirty();
+	}
 
 	/**
 	 * Indicates if the machine can be locked. The notion of locked is up to the
@@ -228,11 +235,8 @@ public class VendingTileEntity extends TileEntityBase {
 			// See if the owner needs to be set. The first one to access the
 			// device after placement becomes the owner.
 			if (ownerId.compareTo(NO_OWNER) == 0) {
-				ownerId = player.getPersistentID();
-				ownerName = player.getDisplayName();
+				setOwner(player);
 				isOwner = true;
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-				markDirty();
 			} else {
 				isOwner = ownerId.compareTo(player.getPersistentID()) == 0;
 

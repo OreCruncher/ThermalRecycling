@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.events;
+package org.blockartistry.mod.ThermalRecycling.world;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;

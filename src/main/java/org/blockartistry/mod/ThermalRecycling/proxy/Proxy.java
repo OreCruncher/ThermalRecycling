@@ -34,7 +34,6 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
-import org.blockartistry.mod.ThermalRecycling.events.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
@@ -46,6 +45,8 @@ import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
+import org.blockartistry.mod.ThermalRecycling.world.BiomeDecorationHandler;
+import org.blockartistry.mod.ThermalRecycling.world.VendingVillageStructureHandler;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -79,6 +80,9 @@ public class Proxy {
 		// Hook to prevent vending machines from being broken
 		new BlockBreakEventHandler();
 		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
+		
+		// Village gen
+		new VendingVillageStructureHandler();
 
 		if (!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();
