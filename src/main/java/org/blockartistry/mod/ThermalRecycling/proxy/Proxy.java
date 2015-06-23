@@ -81,8 +81,9 @@ public class Proxy {
 		new BlockBreakEventHandler();
 		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
 		
-		// Village gen
-		new VendingVillageStructureHandler();
+		// Village generation
+		if(ModOptions.getEnableVillageGen())
+			new VendingVillageStructureHandler();
 
 		if (!ModOptions.getRubblePileDisable())
 			new BiomeDecorationHandler();

@@ -47,6 +47,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ITEM_MERGE_RANGE = "EntityItem Merge Range";
 	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
 	protected static final String CONFIG_TRASH_LIST = "Inventory Trash List";
+	protected static final String CONFIG_ENABLE_VILLAGE_GEN = "Enable Village Worldgen";
 	
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -120,6 +121,7 @@ public final class ModOptions {
 		"minecraft:gravel", "minecraft:dirt",
 	};
 	
+	protected static boolean enableVillageWorldgen = true;
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
@@ -232,6 +234,9 @@ public final class ModOptions {
 						inventoryTrashList,
 						"List of items to delete from inventory when using a Litter Bag");
 
+		enableVillageWorldgen = config.getBoolean(CONFIG_ENABLE_VILLAGE_GEN,
+				CATEGORY_GENERAL, enableVillageWorldgen,
+				"Controls whether mod specific village generation will occur");
 
 		scrapBoxBonus = config
 				.getInt(CONFIG_SCRAPBOX_BONUS,
@@ -511,5 +516,9 @@ public final class ModOptions {
 	
 	public static int getXpBottleValue() {
 		return xpBottleValue;
+	}
+	
+	public static boolean getEnableVillageGen() {
+		return enableVillageWorldgen;
 	}
 }
