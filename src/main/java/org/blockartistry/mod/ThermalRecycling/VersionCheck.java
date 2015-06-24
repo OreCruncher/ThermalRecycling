@@ -76,7 +76,7 @@ public final class VersionCheck implements Runnable {
 			this.isAlpha = false;
 		}
 
-		public SoftwareVersion(final String versionString) {
+		public SoftwareVersion(String versionString) {
 
 			// This can happen when running in debug
 			if (versionString.charAt(0) == '@') {
@@ -91,6 +91,10 @@ public final class VersionCheck implements Runnable {
 			assert versionString != null;
 			assert versionString.length() > 0;
 
+			isAlpha = StringUtils.containsIgnoreCase(versionString, "ALPHA");
+			if(isAlpha)
+				versionString = StringUtils.remove(versionString, "ALPHA");
+			
 			final String[] parts = StringUtils.split(versionString, ".");
 			final int numComponents = parts.length;
 
@@ -100,15 +104,10 @@ public final class VersionCheck implements Runnable {
 			this.minor = Integer.parseInt(parts[1]);
 			this.revision = Integer.parseInt(parts[2]);
 			if (numComponents == 4) {
-				this.isAlpha = StringUtils
-						.containsIgnoreCase(parts[3], "ALPHA");
-				this.patch = Integer.parseInt(StringUtils.remove(parts[3],
-						"ALPHA"));
+				this.patch = Integer.parseInt(parts[3]);
 			} else {
-				this.isAlpha = false;
 				this.patch = 0;
 			}
-
 		}
 
 		@Override

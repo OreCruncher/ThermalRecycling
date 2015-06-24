@@ -110,21 +110,21 @@ public final class ModForestry extends ModPlugin {
 	public boolean preInit() {
 
 		StorageManager.crateRegistry.registerCrate(ScrappingTables.debris,
-				"recycling:cratedDebris");
+				"cratedDebris");
 		StorageManager.crateRegistry.registerCrate(ScrappingTables.poorScrap,
-				"recycling:cratedPoorScrap");
+				"cratedPoorScrap");
 		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.poorScrapBox, "recycling:cratedPoorScrapBox");
+				ScrappingTables.poorScrapBox, "cratedPoorScrapBox");
 		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.standardScrap, "recycling:cratedStandardScrap");
+				ScrappingTables.standardScrap, "cratedStandardScrap");
 		StorageManager.crateRegistry.registerCrate(
 				ScrappingTables.standardScrapBox,
-				"recycling:cratedStandardScrapBox");
+				"cratedStandardScrapBox");
 		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.superiorScrap, "recycling:cratedSuperiorScrap");
+				ScrappingTables.superiorScrap, "cratedSuperiorScrap");
 		StorageManager.crateRegistry.registerCrate(
 				ScrappingTables.superiorScrapBox,
-				"recycling:cratedSuperiorScrapBox");
+				"cratedSuperiorScrapBox");
 		return true;
 	}
 
