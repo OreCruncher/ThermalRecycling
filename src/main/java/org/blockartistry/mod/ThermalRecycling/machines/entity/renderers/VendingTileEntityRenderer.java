@@ -24,6 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
+import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D;
+
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
@@ -51,6 +54,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 @SideOnly(Side.CLIENT)
 public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
@@ -106,6 +110,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.setRenderManager(RenderManager.instance);
 	}
 
+	private static boolean is3D(final ItemStack stack) {
+		final IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(stack, ENTITY);
+		return renderer != null ? renderer.shouldUseRenderHelper(ENTITY, stack, BLOCK_3D) : false; // stack.getItem().isFull3D();
+	}
 	
 	protected void setColor(final int color, final float alpha) {
 	
@@ -140,8 +148,10 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		final Block block = Block.getBlockFromItem(stack.getItem());
 		if (block != Blocks.air) {
 			GL11.glTranslatef(0.0F, 0.22F, 0.0F);
-			GL11.glRotatef(90, 0, 1F, 0);
 		}
+		
+		if(block != Blocks.air || is3D(stack))
+			GL11.glRotatef(90, 0, 1F, 0);
 
 		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 		GL11.glPopMatrix();
