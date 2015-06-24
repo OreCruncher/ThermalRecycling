@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import net.minecraft.item.ItemStack;
+
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
@@ -60,11 +62,11 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
+		// Not sure how pipeGate can be null - maybe someone disabled the module?
 		final BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
-		ScrapHandler
-				.registerHandler(ItemStackHelper
-						.getItemStack("BuildCraft|Transport:pipeGate"),
-						handler);
+		ItemStack pipeGate = ItemStackHelper.getItemStack("BuildCraft|Transport:pipeGate");
+		if(pipeGate != null)
+			ScrapHandler.registerHandler(pipeGate, handler);
 		
 		return true;
 	}
