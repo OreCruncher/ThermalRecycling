@@ -32,8 +32,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
@@ -57,9 +55,7 @@ public class VendingTileEntity extends TileEntityBase {
 
 	private static final boolean BLOCK_PIPE_CONNECTION = ModOptions
 			.getVendingDisallowPipeConnection();
-	private static final int[] emptyList = new int[0];
 
-	// Slot geometry - based on hardened strongbox storage
 	public static final int GENERAL_INVENTORY_SIZE = 9 * 3;
 	public static final int CONFIG_INVENTORY_SIZE = 3 * 6;
 	public static final int TOTAL_INVENTORY_SIZE = GENERAL_INVENTORY_SIZE
@@ -99,7 +95,7 @@ public class VendingTileEntity extends TileEntityBase {
 	// Called by break event handler to see if it is OK to break
 	// the block based on ownership.
 	public boolean okToBreak(final EntityPlayer player) {
-		return ownerId.compareTo(NO_OWNER) == 0 || isOwner(player);
+		return !isOwned() || isOwner(player);
 	}
 
 	public String getOwnerName() {
@@ -109,11 +105,19 @@ public class VendingTileEntity extends TileEntityBase {
 	public boolean isAdminMode() {
 		return adminMode;
 	}
+	
+	public boolean isOwnedByMod() {
+		return ownerId.compareTo(FakePlayerHelper.getFakePlayerID()) == 0;
+	}
 
 	public boolean isOwner(final EntityPlayer player) {
 		return ownerId.compareTo(player.getPersistentID()) == 0;
 	}
-	
+
+	public boolean isOwned() {
+		return ownerId.compareTo(NO_OWNER) != 0;
+	}
+
 	public void setOwner(final EntityPlayer player) {
 		ownerId = player.getPersistentID();
 		ownerName = player.getDisplayName();
@@ -173,7 +177,7 @@ public class VendingTileEntity extends TileEntityBase {
 	public int getNameColor() {
 		return color;
 	}
-	
+
 	@Override
 	public int getNameBackgroundColor() {
 		return backgroundColor;
@@ -236,11 +240,11 @@ public class VendingTileEntity extends TileEntityBase {
 
 			// See if the owner needs to be set. The first one to access the
 			// device after placement becomes the owner.
-			if (ownerId.compareTo(NO_OWNER) == 0) {
+			if (!isOwned()) {
 				setOwner(player);
 				isOwner = true;
 			} else {
-				isOwner = ownerId.compareTo(player.getPersistentID()) == 0;
+				isOwner = isOwner(player);
 
 				// If this is the owner keep the owner name in sync
 				if (isOwner && !ownerName.equals(player.getDisplayName())) {
@@ -285,36 +289,14 @@ public class VendingTileEntity extends TileEntityBase {
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(final int side) {
-		return BLOCK_PIPE_CONNECTION ? emptyList : inventory
-				.getAccessibleSlotsFromSide(side);
-	}
-
-	@Override
-	public boolean canInsertItem(final int slot, final ItemStack stack,
-			final int facing) {
-		return BLOCK_PIPE_CONNECTION ? false : inventory.canInsertItem(slot,
-				stack, facing);
-	}
-
-	@Override
-	public boolean canExtractItem(final int slot, final ItemStack stack,
-			final int facing) {
-		return BLOCK_PIPE_CONNECTION ? false : inventory.canExtractItem(slot,
-				stack, facing);
+	public boolean dropInventoryWhenBroke() {
+		return !(isAdminMode() || isOwnedByMod());
 	}
 	
 	@Override
-	public void dropInventory(final World world, final int x, final int y, final int z) {
-		
-		// We don't want to drop the inventory if the vending machine is in server mode
-		// or if it is owned by the mod (village structure)
-		if(isAdminMode() || this.isOwner(FakePlayerHelper.getFakePlayer((WorldServer)worldObj).get()))
-			return;
-		
-		super.dropInventory(world, x, y, z);
+	public boolean allowPipeConnection() {
+		return !(BLOCK_PIPE_CONNECTION || isAdminMode() || isOwnedByMod());
 	}
-
 
 	@Override
 	public void flush() {

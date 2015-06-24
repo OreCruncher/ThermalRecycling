@@ -38,8 +38,8 @@ public final class FakePlayerHelper {
 	
 	private FakePlayerHelper() {}
 
-	static GameProfile profile = null;
-	static WeakReference<EntityPlayer> fakePlayer = new WeakReference<EntityPlayer>(
+	private static GameProfile profile = null;
+	private static WeakReference<EntityPlayer> fakePlayer = new WeakReference<EntityPlayer>(
 			null);
 
 	public static void initialize(final GameProfile profile) {
@@ -53,9 +53,14 @@ public final class FakePlayerHelper {
 		FakePlayerHelper.profile = new GameProfile(UUID.nameUUIDFromBytes(name
 				.getBytes()), "[" + name + "]");
 	}
-	
+
 	public static final GameProfile getProfile() {
 		return profile;
+	}
+	
+	public static final UUID getFakePlayerID() {
+		assert profile != null;
+		return profile.getId();
 	}
 
 	private static WeakReference<EntityPlayer> createNewPlayer(final WorldServer world) {

@@ -48,7 +48,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 @Optional.Interface(iface="cofh.api.tileentity.IReconfigurableFacing", modid="CoFHCore", striprefs=true)
 public abstract class TileEntityBase extends TileEntity implements
 		IMachineInventory, IReconfigurableFacing  {
-	
+
+	private static final int[] emptyList = new int[0];
+
 	// Reserve 0-9 for TileEntityBase
 	public static final int UPDATE_ACTION_STATUS = 0;
 	
@@ -82,6 +84,14 @@ public abstract class TileEntityBase extends TileEntity implements
 				this.zCoord, 1, syncData);
 	}
 
+	public boolean dropInventoryWhenBroke() {
+		return true;
+	}
+
+	public boolean allowPipeConnection() {
+		return true;
+	}
+	
 	/*
 	 * Called when a status update occurs.  Sub-class should process actions
 	 * first before delegating to this implementation.
@@ -153,7 +163,8 @@ public abstract class TileEntityBase extends TileEntity implements
 	
 	@Override
 	public void dropInventory(final World world, final int x, final int y, final int z) {
-		inventory.dropInventory(world, x, y, z);
+		if(dropInventoryWhenBroke())
+			inventory.dropInventory(world, x, y, z);
 	}
 
 	@Override
@@ -234,22 +245,21 @@ public abstract class TileEntityBase extends TileEntity implements
 	@Override
 	public boolean isItemValidForSlot(final int slot, final ItemStack stack) {
 		return true;
-		//return inventory.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(final int side) {
-		return inventory.getAccessibleSlotsFromSide(side);
+		return allowPipeConnection()  ? inventory.getAccessibleSlotsFromSide(side) : emptyList;
 	}
 
 	@Override
 	public boolean canInsertItem(final int slot, final ItemStack stack, final int facing) {
-		return inventory.canInsertItem(slot, stack, facing);
+		return allowPipeConnection() ? inventory.canInsertItem(slot, stack, facing) : false;
 	}
 
 	@Override
 	public boolean canExtractItem(final int slot, final ItemStack stack, final int facing) {
-		return inventory.canExtractItem(slot, stack, facing);
+		return allowPipeConnection() ? inventory.canExtractItem(slot, stack, facing) : false;
 	}
 
 	@Override
