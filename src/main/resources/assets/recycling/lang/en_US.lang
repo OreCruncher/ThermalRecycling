@@ -49,6 +49,14 @@ msg.MachineStatus.outOfPower=Out of power
 msg.MachineStatus.needMoreWater=Need water
 msg.MachineStatus.cantSeeSky=Need to see the sky
 
+# Village Vend-O strings
+msg.VendoFormat=Vend-O-%s
+msg.VendoFormat.Priest=Priest
+msg.VendoFormat.Librarian=Librarian
+msg.VendoFormat.Butcher=Butcher
+msg.VendoFormat.Farmer=Farmer
+msg.VendoFormat.Blacksmith=Blacksmith
+
 # Achievements
 achievement.feelingScrappy=Feeling Scrappy!
 achievement.feelingScrappy.desc=Craft a Thermal Recycler

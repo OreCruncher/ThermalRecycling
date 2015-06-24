@@ -30,14 +30,8 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
-import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
-import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
-
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureVillagePieces;
@@ -97,40 +91,8 @@ public class VendingVillageStructure extends StructureVillagePieces.Village {
 					j1, k1);
 
 			if (te != null) {
-				
 				ModLog.debug("Village Vending: %d, %d, %d", i1, j1, k1);
-				
-				te.setNameBackgroundColor(4); // Blue
-				te.setNameColor(11); // Yellow
-				te.setOwner(FakePlayerHelper.getFakePlayer((WorldServer) world, i1, j1, k1).get());
-				//te.toggleLock(); // Set admin mode
-				
-				// Set the inventory
-				final ItemStack[] inv = te.getRawInventory();
-				final int profession = XorShiftRandom.shared.nextInt(5);
-				final int count = 2 + XorShiftRandom.shared.nextInt(5);
-				int index = 0;
-				for(final MerchantRecipe rm: SellingList.getRecipeList(profession, count)) {
-					if(rm != null) {
-						final int base = index + VendingTileEntity.CONFIG_SLOT_START;
-						inv[base] = rm.getItemToBuy().copy();
-						if(rm.hasSecondItemToBuy())
-							inv[base + 6] = rm.getSecondItemToBuy().copy();
-						final ItemStack stack = inv[base + 12] = rm.getItemToSell().copy();
-						
-						// Put items in inventory to give to the player
-						int stacks = 0;
-						if(stack.isStackable())
-							stacks = random.nextInt(6) + random.nextInt(6) + 2;
-						else
-							stacks = random.nextInt(3) + 1;
-						
-						for(int i = 0; i < stacks; i++)
-							te.addStackToOutput(stack.copy());
-						
-						index++;
-					}
-				}
+				VendingSetup.configure(te);
 			}
 
 			return true;

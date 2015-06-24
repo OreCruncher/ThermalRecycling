@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraft.enchantment.Enchantment;
@@ -39,24 +41,103 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.world.WorldServer;
 
-public final class SellingList {
+public final class VendingSetup {
 
-	private SellingList() {
+	private static Random random = XorShiftRandom.shared;
+
+	private enum Profession {
+		
+		FARMER("msg.VendoFormat.Farmer"),
+		LIBRARIAN("msg.VendoFormat.Librarian"),
+		PRIEST("msg.VendoFormat.Priest"),
+		BLACKSMITH("msg.VendoFormat.Blacksmith"),
+		BUTCHER("msg.VendoFormat.Butcher");
+		
+		public final String name;
+		
+		private Profession(final String name) {
+			this.name = StatCollector.translateToLocal(name);
+		}
+		
+		public static Profession randomProfession() {
+			return values()[random.nextInt(5)];
+		}
+	}
+	
+	// Name plate color.  Numbers correspond to dyes.
+	private static final int BACKGROUND_COLOR = 4; // BLUE
+	private static final int FOREGROUND_COLOR = 11; // YELLOW
+	
+	private static final String VENDO_FORMAT = StatCollector.translateToLocal("msg.VendoFormat");
+	
+
+	private static final Item[] AITEM = new Item[] { Items.iron_sword,
+			Items.diamond_sword, Items.iron_chestplate,
+			Items.diamond_chestplate, Items.iron_axe, Items.diamond_axe,
+			Items.iron_pickaxe, Items.diamond_pickaxe };
+
+	private VendingSetup() {
 	}
 
+	/**
+	 * Configures a Vending Machine for village operation.
+	 *
+	 * @param vte Vending TileEntity to configure
+	 */
+	public static void configure(final VendingTileEntity vte) {
+
+		vte.setNameBackgroundColor(BACKGROUND_COLOR);
+		vte.setNameColor(FOREGROUND_COLOR);
+
+		final ItemStack[] inv = vte.getRawInventory();
+		final Profession profession = Profession.randomProfession();
+		final int count = 2 + random.nextInt(5);
+
+		// Use this method because if the spawn point is created before
+		// the world is launched it is not possible to have a FakePlayer
+		// "log in".
+		vte.setOwnerId(FakePlayerHelper.getFakePlayerID());
+		vte.setName(String.format(VENDO_FORMAT, profession.name));
+		
+		int index = 0;
+		for(final MerchantRecipe rm: VendingSetup.getRecipeList(profession, count)) {
+			if(rm != null) {
+				final int base = index + VendingTileEntity.CONFIG_SLOT_START;
+				inv[base] = rm.getItemToBuy().copy();
+				if(rm.hasSecondItemToBuy())
+					inv[base + 6] = rm.getSecondItemToBuy().copy();
+				final ItemStack stack = inv[base + 12] = rm.getItemToSell().copy();
+				
+				// Put items in inventory to give to the player
+				int stacks = 0;
+				if(stack.isStackable())
+					stacks = random.nextInt(6) + random.nextInt(6) + 2;
+				else
+					stacks = random.nextInt(3) + 1;
+				
+				for(int i = 0; i < stacks; i++)
+					vte.addStackToOutput(stack.copy());
+				
+				index++;
+			}
+		}
+
+	}
+	
 	private static float adjustProbability(final float prob, final float factor) {
 		final float f1 = prob + factor;
 		return f1 > 0.9F ? 0.9F - (f1 - 0.9F) : f1;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<MerchantRecipe> getRecipeList(final int profession,
+	private static List<MerchantRecipe> getRecipeList(final Profession profession,
 			final int count) {
 
-		final Random random = XorShiftRandom.shared;
 		final MerchantRecipeList merchantrecipelist = new MerchantRecipeList();
 		final float factor = MathHelper.sqrt_float((float) count) * 0.2F;
 		int k = 0;
@@ -64,7 +145,7 @@ public final class SellingList {
 		label50:
 
 		switch (profession) {
-		case 0:
+		case FARMER:
 			EntityVillager.func_146091_a(merchantrecipelist, Items.wheat,
 					random, adjustProbability(0.9F, factor));
 			EntityVillager.func_146091_a(merchantrecipelist,
@@ -101,7 +182,7 @@ public final class SellingList {
 			}
 
 			break;
-		case 1:
+		case LIBRARIAN:
 			EntityVillager.func_146091_a(merchantrecipelist, Items.paper,
 					random, adjustProbability(0.8F, factor));
 			EntityVillager.func_146091_a(merchantrecipelist, Items.book,
@@ -135,7 +216,7 @@ public final class SellingList {
 			}
 
 			break;
-		case 2:
+		case PRIEST:
 			EntityVillager.func_146089_b(merchantrecipelist, Items.ender_eye,
 					random, adjustProbability(0.3F, factor));
 			EntityVillager.func_146089_b(merchantrecipelist,
@@ -146,12 +227,8 @@ public final class SellingList {
 			EntityVillager.func_146089_b(merchantrecipelist,
 					Item.getItemFromBlock(Blocks.glowstone), random,
 					adjustProbability(0.3F, factor));
-			Item[] aitem = new Item[] { Items.iron_sword, Items.diamond_sword,
-					Items.iron_chestplate, Items.diamond_chestplate,
-					Items.iron_axe, Items.diamond_axe, Items.iron_pickaxe,
-					Items.diamond_pickaxe };
-			Item[] aitem1 = aitem;
-			int j = aitem.length;
+
+			int j = AITEM.length;
 			k = 0;
 
 			while (true) {
@@ -159,7 +236,7 @@ public final class SellingList {
 					break label50;
 				}
 
-				Item item = aitem1[k];
+				Item item = AITEM[k];
 
 				if (random.nextFloat() < adjustProbability(0.05F, factor)) {
 					merchantrecipelist.add(new MerchantRecipe(new ItemStack(
@@ -171,7 +248,7 @@ public final class SellingList {
 
 				++k;
 			}
-		case 3:
+		case BLACKSMITH:
 			EntityVillager.func_146091_a(merchantrecipelist, Items.coal,
 					random, adjustProbability(0.7F, factor));
 			EntityVillager.func_146091_a(merchantrecipelist, Items.iron_ingot,
@@ -239,7 +316,8 @@ public final class SellingList {
 					Items.chainmail_leggings, random,
 					adjustProbability(0.1F, factor));
 			break;
-		case 4:
+		case BUTCHER:
+		default:
 			EntityVillager.func_146091_a(merchantrecipelist, Items.coal,
 					random, adjustProbability(0.7F, factor));
 			EntityVillager.func_146091_a(merchantrecipelist, Items.porkchop,

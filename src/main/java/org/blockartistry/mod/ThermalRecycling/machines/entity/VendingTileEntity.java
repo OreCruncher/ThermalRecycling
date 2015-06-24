@@ -124,6 +124,18 @@ public class VendingTileEntity extends TileEntityBase {
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		markDirty();
 	}
+	
+	public void setOwnerId(final UUID id) {
+		ownerId = id;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		markDirty();
+	}
+	
+	public void setName(final String name) {
+		ownerName = name;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		markDirty();
+	}
 
 	/**
 	 * Indicates if the machine can be locked. The notion of locked is up to the
@@ -247,11 +259,8 @@ public class VendingTileEntity extends TileEntityBase {
 				isOwner = isOwner(player);
 
 				// If this is the owner keep the owner name in sync
-				if (isOwner && !ownerName.equals(player.getDisplayName())) {
-					ownerName = player.getDisplayName();
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-					markDirty();
-				}
+				if (isOwner && !ownerName.equals(player.getDisplayName()))
+					setName(player.getDisplayName());
 			}
 
 			// If the owner is opening without sneaking then go to
