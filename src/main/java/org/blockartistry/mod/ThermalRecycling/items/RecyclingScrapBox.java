@@ -28,6 +28,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -60,10 +61,14 @@ public final class RecyclingScrapBox extends ItemBase {
 	@Override
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer player,
-			@SuppressWarnings("rawtypes") final List info, final boolean p_77624_4_) {
+	public void addInformation(final ItemStack stack,
+			final EntityPlayer player,
+			@SuppressWarnings("rawtypes") final List info,
+			final boolean p_77624_4_) {
+		final int i = MathHelper.clamp_int(stack.getItemDamage(), 0,
+				types.length - 1);
 		info.add(StatCollector.translateToLocal(String.format("%s.%s.desc",
-				getUnlocalizedName(), types[stack.getItemDamage()])));
+				getUnlocalizedName(), types[i])));
 	}
 
 	@Override
