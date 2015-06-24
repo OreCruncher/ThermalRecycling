@@ -32,6 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
@@ -40,6 +41,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingOwnerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.VendingOwnerGui;
+import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 
 public class VendingTileEntity extends TileEntityBase {
 
@@ -301,6 +303,18 @@ public class VendingTileEntity extends TileEntityBase {
 		return BLOCK_PIPE_CONNECTION ? false : inventory.canExtractItem(slot,
 				stack, facing);
 	}
+	
+	@Override
+	public void dropInventory(final World world, final int x, final int y, final int z) {
+		
+		// We don't want to drop the inventory if the vending machine is in server mode
+		// or if it is owned by the mod (village structure)
+		if(isAdminMode() || this.isOwner(FakePlayerHelper.getFakePlayer((WorldServer)worldObj).get()))
+			return;
+		
+		super.dropInventory(world, x, y, z);
+	}
+
 
 	@Override
 	public void flush() {
