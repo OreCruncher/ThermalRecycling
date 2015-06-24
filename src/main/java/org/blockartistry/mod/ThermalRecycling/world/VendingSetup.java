@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -44,7 +45,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
-import net.minecraft.world.WorldServer;
 
 public final class VendingSetup {
 
@@ -52,16 +52,20 @@ public final class VendingSetup {
 
 	private enum Profession {
 		
-		FARMER("msg.VendoFormat.Farmer"),
-		LIBRARIAN("msg.VendoFormat.Librarian"),
-		PRIEST("msg.VendoFormat.Priest"),
-		BLACKSMITH("msg.VendoFormat.Blacksmith"),
-		BUTCHER("msg.VendoFormat.Butcher");
+		FARMER("msg.VendoFormat.Farmer", DyeHelper.COLOR_GREEN, DyeHelper.COLOR_WHITE),
+		LIBRARIAN("msg.VendoFormat.Librarian", DyeHelper.COLOR_YELLOW, DyeHelper.COLOR_BLUE),
+		PRIEST("msg.VendoFormat.Priest", DyeHelper.COLOR_LIGHTGRAY, DyeHelper.COLOR_GRAY),
+		BLACKSMITH("msg.VendoFormat.Blacksmith", DyeHelper.COLOR_BLACK, DyeHelper.COLOR_YELLOW),
+		BUTCHER("msg.VendoFormat.Butcher", DyeHelper.COLOR_YELLOW, DyeHelper.COLOR_RED);
 		
 		public final String name;
+		public final int foreColor;
+		public final int backColor;
 		
-		private Profession(final String name) {
+		private Profession(final String name, final int fColor, final int bColor) {
 			this.name = StatCollector.translateToLocal(name);
+			this.foreColor = fColor;
+			this.backColor = bColor;
 		}
 		
 		public static Profession randomProfession() {
@@ -69,12 +73,7 @@ public final class VendingSetup {
 		}
 	}
 	
-	// Name plate color.  Numbers correspond to dyes.
-	private static final int BACKGROUND_COLOR = 4; // BLUE
-	private static final int FOREGROUND_COLOR = 11; // YELLOW
-	
 	private static final String VENDO_FORMAT = StatCollector.translateToLocal("msg.VendoFormat");
-	
 
 	private static final Item[] AITEM = new Item[] { Items.iron_sword,
 			Items.diamond_sword, Items.iron_chestplate,
@@ -91,9 +90,6 @@ public final class VendingSetup {
 	 */
 	public static void configure(final VendingTileEntity vte) {
 
-		vte.setNameBackgroundColor(BACKGROUND_COLOR);
-		vte.setNameColor(FOREGROUND_COLOR);
-
 		final ItemStack[] inv = vte.getRawInventory();
 		final Profession profession = Profession.randomProfession();
 		final int count = 2 + random.nextInt(5);
@@ -103,6 +99,8 @@ public final class VendingSetup {
 		// "log in".
 		vte.setOwnerId(FakePlayerHelper.getFakePlayerID());
 		vte.setName(String.format(VENDO_FORMAT, profession.name));
+		vte.setNameBackgroundColor(profession.backColor);
+		vte.setNameColor(profession.foreColor);
 		
 		int index = 0;
 		for(final MerchantRecipe rm: VendingSetup.getRecipeList(profession, count)) {

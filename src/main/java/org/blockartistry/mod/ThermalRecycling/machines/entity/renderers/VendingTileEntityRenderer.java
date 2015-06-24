@@ -201,7 +201,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		final byte byte0 = 0;
 		GL11.glDisable(3553);
 		tessellator.startDrawingQuads();
-		setColor(backColor, 0.5F);
+		setColor(backColor, 0.75F);
 		tessellator.addVertex(-nameWidth - 1, -1 + byte0, 0.0D);
 		tessellator.addVertex(-nameWidth - 1, 8 + byte0, 0.0D);
 		tessellator.addVertex(nameWidth + 1, 8 + byte0, 0.0D);
