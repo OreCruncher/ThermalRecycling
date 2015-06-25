@@ -38,6 +38,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
@@ -56,13 +57,14 @@ public final class Material extends ItemBase {
 	public static final int PAPER_LOG = 0;
 	public static final int WORMS = 1;
 	public static final int LITTER_BAG = 2;
+	public static final int GARDEN_SHEARS = 3;
 
 	private static final List<ItemStack> trash = ImmutableList
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions
 					.getInventoryTrashList()));
 
 	public Material() {
-		super("paperlog", "worms", "litterBag");
+		super("paperlog", "worms", "litterBag", "gardenShears");
 
 		setUnlocalizedName("Material");
 		setHasSubtypes(true);
@@ -101,27 +103,54 @@ public final class Material extends ItemBase {
 			int x, int y, int z, int p_77648_7_, float p_77648_8_,
 			float p_77648_9_, float p_77648_10_) {
 
-		if (!world.isRemote && !trash.isEmpty()
-				&& stack.getItemDamage() == LITTER_BAG
-				&& player instanceof EntityPlayerMP && player.isSneaking()) {
+		if (!world.isRemote) {
+			switch (stack.getItemDamage()) {
+			case LITTER_BAG:
+				if (!trash.isEmpty() && player instanceof EntityPlayerMP
+						&& player.isSneaking()) {
 
-			boolean isDirty = false;
+					boolean isDirty = false;
 
-			for (final ItemStack item : trash)
-				if (ItemStackHelper.clearInventory(
-						player.inventory.mainInventory, item))
-					isDirty = true;
+					for (final ItemStack item : trash)
+						if (ItemStackHelper.clearInventory(
+								player.inventory.mainInventory, item))
+							isDirty = true;
 
-			stack.stackSize--;
-			player.addStat(AchievementManager.doinTheTrash, 1);
+					stack.stackSize--;
 
-			// Force a resync of the player inventory
-			if (isDirty) {
-				((EntityPlayerMP) player)
-						.sendContainerToPlayer(player.inventoryContainer);
+					player.addStat(AchievementManager.doinTheTrash, 1);
+
+					// Force a resync of the player inventory
+					if (isDirty) {
+						((EntityPlayerMP) player)
+								.sendContainerToPlayer(player.inventoryContainer);
+					}
+
+					return true;
+				}
+				break;
+
+			case GARDEN_SHEARS:
+				if (player instanceof EntityPlayerMP) {
+
+					if (player.isSneaking()) {
+
+						final int xIndex = x - 1;
+						final int zIndex = z - 1;
+
+						for (int dX = 0; dX < 3; dX++)
+							for (int dZ = 0; dZ < 3; dZ++)
+								BlockManager.lawn.setLawn(world, xIndex + dX,
+										y, zIndex + dZ, player);
+
+					} else {
+						BlockManager.lawn.setLawn(world, x, y, z, player);
+					}
+					
+					player.addStat(AchievementManager.shearBeauty, 1);
+				}
+				break;
 			}
-
-			return true;
 		}
 
 		return false;
@@ -142,6 +171,12 @@ public final class Material extends ItemBase {
 		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 8,
 				LITTER_BAG), "d d", "d d", "ddd", 'd', new ItemStack(
 				ItemManager.debris));
+
+		GameRegistry.addRecipe(recipe);
+
+		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1,
+				GARDEN_SHEARS), "i i", " i ", "s s", 'i', "ingotIron", 's',
+				new ItemStack(Items.stick, 1, OreDictionary.WILDCARD_VALUE));
 
 		GameRegistry.addRecipe(recipe);
 	}
