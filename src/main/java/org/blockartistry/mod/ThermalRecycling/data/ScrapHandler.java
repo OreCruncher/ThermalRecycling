@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
@@ -164,8 +165,16 @@ public class ScrapHandler {
 	 * @param handler Handler to use when scrapping the ItemStack
 	 */
 	public static void registerHandler(final ItemStack stack, final ScrapHandler handler) {
-		assert stack != null;
+		
+		// Possible if mods start changing names or something decides not to have the item
+		// load.  Fail silently rather than asserting out.
+		if(stack == null) {
+			ModLog.warn("ScrapHandler.registerHandler(): key stack is null - missing item from mod?");
+			return;
+		}
+		
 		assert handler != null;
+
 		handlers.put(new ItemStackKey(stack), handler);
 	}
 
