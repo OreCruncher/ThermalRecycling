@@ -120,7 +120,7 @@ public final class ModOptions {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 	protected static String[] inventoryTrashList = new String[] {
 		"minecraft:cobblestone", "minecraft:sandstone:*", "minecraft:sand:*",
-		"minecraft:gravel", "minecraft:dirt",
+		"minecraft:gravel", "minecraft:dirt", "minecraft:snowball",
 	};
 	
 	protected static boolean enableVillageWorldgen = true;
