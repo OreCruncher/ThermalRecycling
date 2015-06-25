@@ -26,11 +26,13 @@ package org.blockartistry.mod.ThermalRecycling.events;
 
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -43,24 +45,36 @@ public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 
 	private static final Random random = XorShiftRandom.shared;
 	private static final int DROP_CHANCE = ModOptions.getWormDropChance();
-	private static final int DROP_CHANCE_RAIN = ModOptions.getWormDropChanceRain();
-	
+	private static final int DROP_CHANCE_RAIN = ModOptions
+			.getWormDropChanceRain();
+
 	private static boolean dropWorms(final World world) {
-		return random.nextInt(world.isRaining() ? DROP_CHANCE_RAIN : DROP_CHANCE) == 0;
+		return random.nextInt(world.isRaining() ? DROP_CHANCE_RAIN
+				: DROP_CHANCE) == 0;
 	}
-	
+
+	private static boolean acceptableBlock(final Block block) {
+		return block == Blocks.grass || block == BlockManager.lawn;
+	}
+
+	// Chance of dropping worms IIF not silk touching, it is a player
+	// performing the action (no machines), and the block is grass like.
+	private static boolean okToDropWorms(final HarvestDropsEvent event) {
+		return !(event.isSilkTouching || event.harvester == null
+				|| event.harvester instanceof FakePlayer || !acceptableBlock(event.block));
+	}
+
 	@Override
 	public boolean apply(final HarvestDropsEvent input) {
-		
-		// Chance of dropping worms IIF not silk touching, it is a player
-		// performing the action (no machines), and the block is grass.
-		if(input.isSilkTouching || input.harvester == null || input.harvester instanceof FakePlayer || input.block != Blocks.grass)
+
+		if (!okToDropWorms(input))
 			return true;
-		
-		if(dropWorms(input.world)) {
-			input.drops.add(new ItemStack(ItemManager.material, 1, Material.WORMS));
+
+		if (dropWorms(input.world)) {
+			input.drops.add(new ItemStack(ItemManager.material, 1,
+					Material.WORMS));
 		}
-		
+
 		return true;
 	}
 }
