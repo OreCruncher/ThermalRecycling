@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
 import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
 
@@ -51,7 +52,17 @@ import cpw.mods.fml.common.Optional;
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila")
 public final class WailaHandler implements IWailaDataProvider {
 	
-	private List<String> gatherText(final ItemStack stack, final List<String> text) {
+	private static final String OPTION_REVEAL_ON_SNEAKING = ThermalRecycling.MOD_ID + ".sneakingonly";
+	
+	private static boolean revealOnSneak(final IWailaConfigHandler config) {
+		return config.getConfig(OPTION_REVEAL_ON_SNEAKING, false);
+	}
+	
+	private List<String> gatherText(final ItemStack stack, final List<String> text, final IWailaDataAccessor accessor, final IWailaConfigHandler config) {
+		
+		// If the player only wants to reveal when sneaking...
+		if(revealOnSneak(config) && !accessor.getPlayer().isSneaking())
+			return text;
 		
 		if (scrapToolTip != null)
 			scrapToolTip.apply(text, stack);
@@ -80,6 +91,9 @@ public final class WailaHandler implements IWailaDataProvider {
 			register.registerTailProvider(instance, Block.class);
 			break;
 		}
+		
+		// Options
+		register.addConfig(ThermalRecycling.MOD_NAME, OPTION_REVEAL_ON_SNEAKING, false);
 	}
 
 	private ScrapToolTip scrapToolTip = null;
@@ -101,7 +115,7 @@ public final class WailaHandler implements IWailaDataProvider {
 			final List<String> currenttip, final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
 
-		return gatherText(itemStack, currenttip);
+		return gatherText(itemStack, currenttip, accessor, config);
 	}
 
 	@Override
@@ -110,7 +124,7 @@ public final class WailaHandler implements IWailaDataProvider {
 			final List<String> currenttip, final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
 
-		return gatherText(itemStack, currenttip);
+		return gatherText(itemStack, currenttip, accessor, config);
 	}
 
 	@Override
@@ -119,7 +133,7 @@ public final class WailaHandler implements IWailaDataProvider {
 			final List<String> currenttip, final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
 
-		return gatherText(itemStack, currenttip);
+		return gatherText(itemStack, currenttip, accessor, config);
 	}
 
 	@Override

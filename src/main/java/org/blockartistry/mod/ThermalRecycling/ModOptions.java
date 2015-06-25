@@ -71,6 +71,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
 	protected static final String CONFIG_ENABLE_WAILA = "Enable Waila Display";
 	protected static final String CONFIG_WAILA_DATA_LOCATION = "Waila Data Location";
+	protected static final String CONFIG_WAILA_REVEAL_ON_SNEAK = "Waila Reveal on Sneak";
 	protected static final String CONFIG_ENABLE_ONLINE_VERSION_CHECK = "Enable Online Version Check";
 
 	protected static final String CATEGORY_FUEL_SETTINGS = "Fuel Settings";
@@ -95,6 +96,7 @@ public final class ModOptions {
 	protected static boolean enableRecipeLogging = true;
 	protected static boolean enableDebugLogging = false;
 	protected static int wailaDataLocation = 2;
+	protected static boolean wailaRevealOnSneak = false;
 	protected static boolean enableVersionChecking = true;
 	protected static boolean enableWailaDisplay = true;
 	protected static String[] modWhitelist = new String[] {};
@@ -165,6 +167,11 @@ public final class ModOptions {
 		wailaDataLocation = config.getInt(CONFIG_WAILA_DATA_LOCATION,
 				CATEGORY_MODS, wailaDataLocation, 0, 2,
 				"Display data in Waila 0: header, 1: body, 2: tail");
+
+		wailaRevealOnSneak = config.getBoolean(CONFIG_WAILA_REVEAL_ON_SNEAK,
+				CATEGORY_MODS, wailaRevealOnSneak,
+				"Show Waila HUD information only when player is sneaking");
+
 
 		for (final SupportedMod mod : SupportedMod.values()) {
 
@@ -426,6 +433,10 @@ public final class ModOptions {
 	
 	public static int getWailaDataLocation() {
 		return wailaDataLocation;
+	}
+	
+	public static boolean getWailaRevealOnSneaking() {
+		return wailaRevealOnSneak;
 	}
 
 	public static int getScrapBoxBonus() {
