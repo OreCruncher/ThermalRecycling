@@ -39,6 +39,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 
 // Modeled after the BuildCraft version check system.
@@ -169,6 +170,9 @@ public final class VersionCheck implements Runnable {
 				final String msg = StatCollector.translateToLocalFormatted(
 						"msg.NewVersionAvailable", currentVersion);
 				event.player.addChatMessage(new ChatComponentText(msg));
+				
+				IChatComponent component = IChatComponent.Serializer.func_150699_a(StatCollector.translateToLocal("msg.downloadLink"));
+				event.player.addChatMessage(component);
 			}
 		}
 	}
