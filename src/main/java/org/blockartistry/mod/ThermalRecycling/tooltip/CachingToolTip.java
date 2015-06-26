@@ -42,7 +42,7 @@ public abstract class CachingToolTip implements MultiFunction<List<String>, Item
 	public abstract void addToToolTip(final List<String> output, final ItemStack stack);
 	
 	@Override
-	public Void apply(final List<String> output, final ItemStack stack) {
+	public final Void apply(final List<String> output, final ItemStack stack) {
 		
 		final Item item = stack.getItem();
 		final int meta = stack.getItemDamage();

@@ -306,6 +306,7 @@ public final class RecipeDecomposition {
 		return list.get(list.size() - 1).copy();
 	}
 
+	@SuppressWarnings("unchecked")
 	private static List<ItemStack> projectAE2Recipe(final List<?> input) {
 		final List<ItemStack> result = new ArrayList<ItemStack>();
 
