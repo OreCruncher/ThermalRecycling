@@ -48,7 +48,7 @@ public final class ModOptions {
 	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
 	protected static final String CONFIG_TRASH_LIST = "Inventory Trash List";
 	protected static final String CONFIG_ENABLE_VILLAGE_GEN = "Enable Village Worldgen";
-	
+
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
 	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Density";
@@ -81,7 +81,7 @@ public final class ModOptions {
 	protected static final String CONFIG_DEBRIS_FUEL_SETTING = "Debris Fuel Ticks";
 	protected static final String CONFIG_SCRAP_BLOCK_FUEL_SETTING = "Scrap Block Fuel Ticks";
 	protected static final String CONFIG_PAPER_LOG_FUEL_SETTING = "Paper Log Fuel Ticks";
-	
+
 	protected static final String CATEGORY_REPAIR_SETTINGS = "Repair Settings";
 	protected static final String CONFIG_POOR_SCRAP_REPAIR_SETTING = "Poor Scrap Repair Value";
 	protected static final String CONFIG_STANDARD_SCRAP_REPAIR_SETTING = "Standard Scrap Repair Value";
@@ -112,22 +112,22 @@ public final class ModOptions {
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
 	protected static int wormDropChance = 20;
-	protected static int wormDropChanceRain = 8; 
+	protected static int wormDropChanceRain = 8;
 	protected static boolean disableAnvilRepair = false;
 	protected static double entityItemMergeRange = 0;
 	protected static int xpBottleValue = 44;
 	protected static String[] recyclerBlacklist = new String[] {
 			"minecraft:cobblestone", "minecraft:sandstone:*" };
 	protected static String[] inventoryTrashList = new String[] {
-		"minecraft:cobblestone", "minecraft:sandstone:*", "minecraft:sand:*",
-		"minecraft:gravel", "minecraft:dirt", "minecraft:snowball",
-	};
-	
+			"minecraft:cobblestone", "minecraft:sandstone:*",
+			"minecraft:sand:*", "minecraft:gravel", "minecraft:dirt",
+			"minecraft:snowball", };
+
 	protected static boolean enableVillageWorldgen = true;
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
-	
+
 	protected static int vendingItemRenderRange = 6;
 	protected static int vendingNameRenderRange = 8;
 	protected static int vendingQuantityRenderRange = 4;
@@ -141,222 +141,210 @@ public final class ModOptions {
 	protected static int poorXPCost = 3;
 	protected static int standardXPCost = 4;
 	protected static int superiorXPCost = 5;
-	
+
 	public static void load(final Configuration config) {
 
+		String comment = "Enables/disables debug logging of the mod";
 		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING,
-				CATEGORY_LOGGING_CONTROL, enableDebugLogging,
-				"Enables/disables debug logging of the mod");
+				CATEGORY_LOGGING_CONTROL, enableDebugLogging, comment);
 
-		enableRecipeLogging = config
-				.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
-						CATEGORY_LOGGING_CONTROL, enableRecipeLogging,
-						"Enables/disables logging of recipes to the Forge log during startup");
+		comment = "Enables/disables logging of recipes to the Forge log during startup";
+		enableRecipeLogging = config.getBoolean(CONFIG_ENABLE_RECIPE_LOGGING,
+				CATEGORY_LOGGING_CONTROL, enableRecipeLogging, comment);
 
-		enableVersionChecking = config
-				.getBoolean(CONFIG_ENABLE_ONLINE_VERSION_CHECK,
-						CATEGORY_LOGGING_CONTROL, enableVersionChecking,
-						"Enables/disables online version checking");
+		comment = "Enables/disables online version checking";
+		enableVersionChecking = config.getBoolean(
+				CONFIG_ENABLE_ONLINE_VERSION_CHECK, CATEGORY_LOGGING_CONTROL,
+				enableVersionChecking, comment);
 
+		comment = "Enables/disables display of scrap information via Waila";
 		enableWailaDisplay = config.getBoolean(CONFIG_ENABLE_WAILA,
-				CATEGORY_MODS, enableWailaDisplay,
-				"Enables/disables display of scrap information via Waila");
+				CATEGORY_MODS, enableWailaDisplay, comment);
 
+		comment = "Display data in Waila 0: header, 1: body, 2: tail";
 		wailaDataLocation = config.getInt(CONFIG_WAILA_DATA_LOCATION,
-				CATEGORY_MODS, wailaDataLocation, 0, 2,
-				"Display data in Waila 0: header, 1: body, 2: tail");
+				CATEGORY_MODS, wailaDataLocation, 0, 2, comment);
 
 		for (final SupportedMod mod : SupportedMod.values()) {
 
-			final boolean b = config
-					.getBoolean(
-							mod.getModId(),
-							CATEGORY_RECYCLE_ENABLE,
-							true,
-							String.format(
-									"Enable/Disable whether recycling recipes for items from [%s] are added",
-									mod.getName()));
+			comment = String
+					.format("Enable/Disable whether recycling recipes for items from [%s] are added",
+							mod.getName());
+			final boolean b = config.getBoolean(mod.getModId(),
+					CATEGORY_RECYCLE_ENABLE, true, comment);
 
 			enableModProcessing.put(mod, b);
 		}
 
+		comment = "ModIds to add to the internal whitelist";
 		modWhitelist = config.getStringList("Whitelist", CATEGORY_MODS,
-				modWhitelist, "ModIds to add to the internal whitelist");
+				modWhitelist, comment);
 
+		comment = "Controls the display of tooltips in the client";
 		enableTooltips = config.getBoolean("Enable Tooltips", CATEGORY_MODS,
-				enableTooltips,
-				"Controls the display of tooltips in the client");
+				enableTooltips, comment);
 
+		comment = "Number of ticks Poor Scrap will burn in a furnace";
 		poorScrapFuelSetting = config.getInt(CONFIG_POOR_SCRAP_FUEL_SETTING,
 				CATEGORY_FUEL_SETTINGS, poorScrapFuelSetting, 0,
-				Integer.MAX_VALUE,
-				"Number of ticks Poor Scrap will burn in a furnace");
+				Integer.MAX_VALUE, comment);
 
+		comment = "Number of ticks Standard Scrap will burn in a furnace";
 		standardScrapFuelSetting = config.getInt(
 				CONFIG_STANDARD_SCRAP_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
-				standardScrapFuelSetting, 0, Integer.MAX_VALUE,
-				"Number of ticks Standard Scrap will burn in a furnace");
+				standardScrapFuelSetting, 0, Integer.MAX_VALUE, comment);
 
+		comment = "Number of ticks Superior Scrap will burn in a furnace";
 		superiorScrapFuelSetting = config.getInt(
 				CONFIG_SUPERIOR_SCRAP_FUEL_SETTING, CATEGORY_FUEL_SETTINGS,
-				superiorScrapFuelSetting, 0, Integer.MAX_VALUE,
-				"Number of ticks Superior Scrap will burn in a furnace");
+				superiorScrapFuelSetting, 0, Integer.MAX_VALUE, comment);
 
+		comment = "Number of ticks Debris will burn in a furnace";
 		debrisFuelSetting = config.getInt(CONFIG_DEBRIS_FUEL_SETTING,
 				CATEGORY_FUEL_SETTINGS, debrisFuelSetting, 0,
-				Integer.MAX_VALUE,
-				"Number of ticks Debris will burn in a furnace");
+				Integer.MAX_VALUE, comment);
 
+		comment = "Number of ticks a Block of Scrap will burn in a furnace";
 		scrapBlockFuelSetting = config.getInt(CONFIG_SCRAP_BLOCK_FUEL_SETTING,
 				CATEGORY_FUEL_SETTINGS, scrapBlockFuelSetting, 0,
-				Integer.MAX_VALUE,
-				"Number of ticks a Block of Scrap will burn in a furnace");
+				Integer.MAX_VALUE, comment);
 
-		scrapboxMultiplier = config
-				.getInt(CONFIG_SCRAPBOX_MULTIPLIER, CATEGORY_FUEL_SETTINGS,
-						scrapboxMultiplier, 0, Integer.MAX_VALUE,
-						"Number of ticks a ScrapBox will burn in multiples of the base scrap type");
+		comment = "Number of ticks a ScrapBox will burn in multiples of the base scrap type";
+		scrapboxMultiplier = config.getInt(CONFIG_SCRAPBOX_MULTIPLIER,
+				CATEGORY_FUEL_SETTINGS, scrapboxMultiplier, 0,
+				Integer.MAX_VALUE, comment);
 
+		comment = "Control whether client displays visual effects";
 		enableRecyclerFX = config.getBoolean(CONFIG_ENABLE_FX,
-				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX,
-				"Control whether client displays visual effects");
+				CATEGORY_MACHINES_RECYCLER, enableRecyclerFX, comment);
 
 		enableComposterFX = config.getBoolean(CONFIG_ENABLE_FX,
-				CATEGORY_MACHINES_COMPOSTER, enableComposterFX,
-				"Control whether client displays visual effects");
+				CATEGORY_MACHINES_COMPOSTER, enableComposterFX, comment);
 
-		enableAssessorEnhancedLore = config
-				.getBoolean(CONFIG_ENABLE_ENHANCED_LORE,
-						CATEGORY_MACHINES_ASSESSOR, enableAssessorEnhancedLore,
-						"Control whether enhanced lore is provided in the Scrap Assessor View");
+		comment = "Control whether enhanced lore is provided in the Scrap Assessor View";
+		enableAssessorEnhancedLore = config.getBoolean(
+				CONFIG_ENABLE_ENHANCED_LORE, CATEGORY_MACHINES_ASSESSOR,
+				enableAssessorEnhancedLore, comment);
 
-		recyclerBlacklist = config
-				.getStringList(CONFIG_BLACKLIST, CATEGORY_MACHINES_RECYCLER,
-						recyclerBlacklist,
-						"List of items to prevent the Thermal Recycler from accepting as input");
+		comment = "List of items to prevent the Thermal Recycler from accepting as input";
+		recyclerBlacklist = config.getStringList(CONFIG_BLACKLIST,
+				CATEGORY_MACHINES_RECYCLER, recyclerBlacklist, comment);
 
-		inventoryTrashList = config
-				.getStringList(CONFIG_TRASH_LIST, CATEGORY_GENERAL,
-						inventoryTrashList,
-						"List of items to delete from inventory when using a Litter Bag");
+		comment = "List of items to delete from inventory when using a Litter Bag";
+		inventoryTrashList = config.getStringList(CONFIG_TRASH_LIST,
+				CATEGORY_GENERAL, inventoryTrashList, comment);
 
+		comment = "Controls whether mod specific village generation will occur";
 		enableVillageWorldgen = config.getBoolean(CONFIG_ENABLE_VILLAGE_GEN,
-				CATEGORY_GENERAL, enableVillageWorldgen,
-				"Controls whether mod specific village generation will occur");
+				CATEGORY_GENERAL, enableVillageWorldgen, comment);
 
-		scrapBoxBonus = config
-				.getInt(CONFIG_SCRAPBOX_BONUS,
-						CATEGORY_MACHINES_RECYCLER,
-						scrapBoxBonus,
-						0,
-						4,
-						"The bonus amount of scrap a scrapbox will get when processed with Core: Extraction");
+		comment = "The bonus amount of scrap a scrapbox will get when processed with Core: Extraction";
+		scrapBoxBonus = config.getInt(CONFIG_SCRAPBOX_BONUS,
+				CATEGORY_MACHINES_RECYCLER, scrapBoxBonus, 0, 4, comment);
 
-		enableScrapboxSpawn = config.getBoolean(CONFIG_ENABLE_SCRAPBOX_SPAWNING,
-				CATEGORY_GENERAL, enableScrapboxSpawn,
-				"Controls whether a Scrap Box will spawn items on right click");
+		comment = "Controls whether a Scrap Box will spawn items on right click";
+		enableScrapboxSpawn = config.getBoolean(
+				CONFIG_ENABLE_SCRAPBOX_SPAWNING, CATEGORY_GENERAL,
+				enableScrapboxSpawn, comment);
 
+		comment = "Number of ticks a Paper Log will burn in a furnace";
 		paperLogFuelSetting = config.getInt(CONFIG_PAPER_LOG_FUEL_SETTING,
 				CATEGORY_FUEL_SETTINGS, paperLogFuelSetting, 0,
-				Integer.MAX_VALUE,
-				"Number of ticks a Paper Log will burn in a furnace");
+				Integer.MAX_VALUE, comment);
 
-		wormDropChance = config.getInt(CONFIG_WORM_DROP_CHANCE,
-				CATEGORY_GENERAL, wormDropChance, 0,
-				Integer.MAX_VALUE,
-				"Chance that breaking a grass block will drop worms (1 in N)");
+		comment = "Chance that breaking a grass block will drop worms (1 in N)";
+		wormDropChance = config
+				.getInt(CONFIG_WORM_DROP_CHANCE, CATEGORY_GENERAL,
+						wormDropChance, 0, Integer.MAX_VALUE, comment);
 
+		comment = "Chance that breaking a grass block will drop worms when raining (1 in N)";
 		wormDropChanceRain = config.getInt(CONFIG_WORM_DROP_CHANCE_RAIN,
-				CATEGORY_GENERAL, wormDropChanceRain, 0,
-				Integer.MAX_VALUE,
-				"Chance that breaking a grass block will drop worms when raining (1 in N)");
+				CATEGORY_GENERAL, wormDropChanceRain, 0, Integer.MAX_VALUE,
+				comment);
 
+		comment = "Attempts per chunk to place rubble piles (higher more frequent discovery)";
 		rubblePileDensity = config.getInt(CONFIG_RUBBLE_PILE_DENSITY,
-				CATEGORY_RUBBLE, rubblePileDensity, 0,
-				Integer.MAX_VALUE,
-				"Attempts per chunk to place rubble piles (higher more frequent discovery)");
+				CATEGORY_RUBBLE, rubblePileDensity, 0, Integer.MAX_VALUE,
+				comment);
 
+		comment = "Number of stacks to drop when rubble pile is broken";
 		rubblePileDropCount = config.getInt(CONFIG_RUBBLE_PILE_DROP_COUNT,
-				CATEGORY_RUBBLE, rubblePileDropCount, 0,
-				Integer.MAX_VALUE,
-				"Number of stacks to drop when rubble pile is broken");
+				CATEGORY_RUBBLE, rubblePileDropCount, 0, Integer.MAX_VALUE,
+				comment);
 
+		comment = "Enable/Disable Pile of Rubble worldgen";
 		rubblePileDisable = config.getBoolean(CONFIG_RUBBLE_PILE_DISABLE,
-				CATEGORY_RUBBLE, rubblePileDisable,
-				"Enable/Disable Pile of Rubble worldgen");
+				CATEGORY_RUBBLE, rubblePileDisable, comment);
 
+		comment = "Enable/Disable repair of items using scrap in an anvil";
 		disableAnvilRepair = config.getBoolean(CONFIG_DISABLE_ANVIL,
-				CATEGORY_GENERAL, disableAnvilRepair,
-				"Enable/Disable repair of items using scrap in an anvil");
+				CATEGORY_GENERAL, disableAnvilRepair, comment);
 
-		entityItemMergeRange = config.getFloat(CONFIG_ITEM_MERGE_RANGE,
-				CATEGORY_GENERAL, (float) entityItemMergeRange, 0F,
-				6F,
-				"Max distance to merge items on the ground (0 to disable)");
+		comment = "Max distance to merge items on the ground (0 to disable)";
+		entityItemMergeRange = config
+				.getFloat(CONFIG_ITEM_MERGE_RANGE, CATEGORY_GENERAL,
+						(float) entityItemMergeRange, 0F, 6F, comment);
 
-		xpBottleValue = config.getInt(CONFIG_XP_BOTTLE_VALUE,
-				CATEGORY_GENERAL, xpBottleValue, 0,
-				Integer.MAX_VALUE,
-				"Divisor value for calculating number of bottles to return when scrapping (higher means less bottles; 0 disables)");
+		comment = "Divisor value for calculating number of bottles to return when scrapping (higher means less bottles; 0 disables)";
+		xpBottleValue = config.getInt(CONFIG_XP_BOTTLE_VALUE, CATEGORY_GENERAL,
+				xpBottleValue, 0, Integer.MAX_VALUE, comment);
 
-		vendingItemRenderRange = config.getInt(CONFIG_VENDING_ITEM_RENDER_RANGE,
-				CATEGORY_MACHINES_VENDING, vendingItemRenderRange, 0,
-				64,
-				"Block range when items are rendered in a Vending Machine");
+		comment = "Block range when items are rendered in a Vending Machine";
+		vendingItemRenderRange = config.getInt(
+				CONFIG_VENDING_ITEM_RENDER_RANGE, CATEGORY_MACHINES_VENDING,
+				vendingItemRenderRange, 0, 64, comment);
 
-		vendingNameRenderRange = config.getInt(CONFIG_VENDING_NAME_RENDER_RANGE,
-				CATEGORY_MACHINES_VENDING, vendingNameRenderRange, 0,
-				64,
-				"Block range when the name is rendered for a Vending Machine");
+		comment = "Block range when the name is rendered for a Vending Machine";
+		vendingNameRenderRange = config.getInt(
+				CONFIG_VENDING_NAME_RENDER_RANGE, CATEGORY_MACHINES_VENDING,
+				vendingNameRenderRange, 0, 64, comment);
 
-		vendingQuantityRenderRange = config.getInt(CONFIG_VENDING_QUANTITY_RENDER_RANGE,
-				CATEGORY_MACHINES_VENDING, vendingQuantityRenderRange, 0,
-				64,
-				"Block range when item quantities are rendered for a Vending Machine");
-		
-		vendingDisallowPipeConnection = config.getBoolean(CONFIG_VENDING_BLOCK_PIPE_CONNECTION,
+		comment = "Block range when item quantities are rendered for a Vending Machine";
+		vendingQuantityRenderRange = config.getInt(
+				CONFIG_VENDING_QUANTITY_RENDER_RANGE,
+				CATEGORY_MACHINES_VENDING, vendingQuantityRenderRange, 0, 64,
+				comment);
+
+		comment = "Blocks connection of item transport pipes to a Vending Machine";
+		vendingDisallowPipeConnection = config.getBoolean(
+				CONFIG_VENDING_BLOCK_PIPE_CONNECTION,
 				CATEGORY_MACHINES_VENDING, vendingDisallowPipeConnection,
-				"Blocks connection of item transport piCATEGORY_MACHINES_VENDINGpes to a Vending Machine");
-	
+				comment);
+
+		comment = "Poor Scrap Repair Value";
 		poorScrapRepairValue = config.getInt(CONFIG_POOR_SCRAP_REPAIR_SETTING,
-				CATEGORY_REPAIR_SETTINGS, poorScrapRepairValue, 0,
-				64,
-				"Poor Scrap Repair Value");
+				CATEGORY_REPAIR_SETTINGS, poorScrapRepairValue, 0, 64, comment);
 
-		standardScrapRepairValue = config.getInt(CONFIG_STANDARD_SCRAP_REPAIR_SETTING,
-				CATEGORY_REPAIR_SETTINGS, standardScrapRepairValue, 0,
-				64,
-				"Standard Scrap Repair Value");
+		comment = "Standard Scrap Repair Value";
+		standardScrapRepairValue = config.getInt(
+				CONFIG_STANDARD_SCRAP_REPAIR_SETTING, CATEGORY_REPAIR_SETTINGS,
+				standardScrapRepairValue, 0, 64, comment);
 
-		superiorScrapRepairValue = config.getInt(CONFIG_SUPERIOR_SCRAP_REPAIR_SETTING,
-				CATEGORY_REPAIR_SETTINGS, superiorScrapRepairValue, 0,
-				64,
-				"Superior Scrap Repair Value");
-		
+		comment = "Superior Scrap Repair Value";
+		superiorScrapRepairValue = config.getInt(
+				CONFIG_SUPERIOR_SCRAP_REPAIR_SETTING, CATEGORY_REPAIR_SETTINGS,
+				superiorScrapRepairValue, 0, 64, comment);
+
+		comment = "Multiplier for a Scrap Box";
 		scrapboxRepairMultiplier = config.getInt(CONFIG_SCRAPBOX_MULTIPLIER,
-				CATEGORY_REPAIR_SETTINGS, scrapboxRepairMultiplier, 0,
-				64,
-				"Multiplier for a Scrap Box");
-		
+				CATEGORY_REPAIR_SETTINGS, scrapboxRepairMultiplier, 0, 64,
+				comment);
+
+		comment = "Level cost to rename an item";
 		renameCost = config.getInt(CONFIG_RENAME_COST,
-				CATEGORY_REPAIR_SETTINGS, renameCost, 0,
-				64,
-				"Level cost to rename an item");
-		
+				CATEGORY_REPAIR_SETTINGS, renameCost, 0, 64, comment);
+
+		comment = "Level cost to use Poor Scrap for repair";
 		poorXPCost = config.getInt(CONFIG_POOR_XP_COST,
-				CATEGORY_REPAIR_SETTINGS, poorXPCost, 0,
-				64,
-				"Level cost to use Poor Scrap for repair");
-		
+				CATEGORY_REPAIR_SETTINGS, poorXPCost, 0, 64, comment);
+
+		comment = "Level cost to use Standard Scrap for repair";
 		standardXPCost = config.getInt(CONFIG_STANDARD_XP_COST,
-				CATEGORY_REPAIR_SETTINGS, standardXPCost, 0,
-				64,
-				"Level cost to use Standard Scrap for repair");
-		
+				CATEGORY_REPAIR_SETTINGS, standardXPCost, 0, 64, comment);
+
+		comment = "Level cost to use Superior Scrap for repair";
 		superiorXPCost = config.getInt(CONFIG_SUPERIOR_XP_COST,
-				CATEGORY_REPAIR_SETTINGS, superiorXPCost, 0,
-				64,
-				"Level cost to use Superior Scrap for repair");
+				CATEGORY_REPAIR_SETTINGS, superiorXPCost, 0, 64, comment);
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -379,7 +367,7 @@ public final class ModOptions {
 	public static int getPaperLogFuelSetting() {
 		return paperLogFuelSetting;
 	}
-	
+
 	public static int getDebrisFuelSetting() {
 		return debrisFuelSetting;
 	}
@@ -415,7 +403,7 @@ public final class ModOptions {
 	public static boolean getEnableTooltips() {
 		return enableTooltips;
 	}
-	
+
 	public static boolean getOnlineVersionChecking() {
 		return enableVersionChecking;
 	}
@@ -423,11 +411,11 @@ public final class ModOptions {
 	public static boolean getEnableWaila() {
 		return enableWailaDisplay;
 	}
-	
+
 	public static int getWailaDataLocation() {
 		return wailaDataLocation;
 	}
-	
+
 	public static int getScrapBoxBonus() {
 		return scrapBoxBonus;
 	}
@@ -439,15 +427,15 @@ public final class ModOptions {
 	public static String[] getRecyclerBlacklist() {
 		return recyclerBlacklist;
 	}
-	
+
 	public static String[] getInventoryTrashList() {
 		return inventoryTrashList;
 	}
-	
+
 	public static boolean getEnableScrapboxSpawn() {
 		return enableScrapboxSpawn;
 	}
-	
+
 	public static int getWormDropChance() {
 		return wormDropChance;
 	}
@@ -459,19 +447,19 @@ public final class ModOptions {
 	public static int getRubblePileDensity() {
 		return rubblePileDensity;
 	}
-	
+
 	public static int getRubblePileDropCount() {
 		return rubblePileDropCount;
 	}
-	
+
 	public static boolean getRubblePileDisable() {
 		return rubblePileDisable;
 	}
-	
+
 	public static boolean getDisableAnvilRepair() {
 		return disableAnvilRepair;
 	}
-	
+
 	public static double getEntityItemMergeRange() {
 		return entityItemMergeRange;
 	}
@@ -479,15 +467,15 @@ public final class ModOptions {
 	public static int getVendingItemRenderRange() {
 		return vendingItemRenderRange;
 	}
-	
+
 	public static int getVendingNameRenderRange() {
 		return vendingNameRenderRange;
 	}
-	
+
 	public static int getVendingQuantityRenderRange() {
 		return vendingQuantityRenderRange;
 	}
-	
+
 	public static boolean getVendingDisallowPipeConnection() {
 		return vendingDisallowPipeConnection;
 	}
@@ -495,7 +483,7 @@ public final class ModOptions {
 	public static int getPoorScrapRepairValue() {
 		return poorScrapRepairValue;
 	}
-	
+
 	public static int getStandardScrapRepairValue() {
 		return standardScrapRepairValue;
 	}
@@ -511,23 +499,23 @@ public final class ModOptions {
 	public static int getRepairRenameCost() {
 		return renameCost;
 	}
-	
+
 	public static int getPoorRepairXPCost() {
 		return poorXPCost;
 	}
-	
+
 	public static int getStandardRepairXPCost() {
 		return standardXPCost;
 	}
-	
+
 	public static int getSuperiorRepairXPCost() {
 		return superiorXPCost;
 	}
-	
+
 	public static int getXpBottleValue() {
 		return xpBottleValue;
 	}
-	
+
 	public static boolean getEnableVillageGen() {
 		return enableVillageWorldgen;
 	}
