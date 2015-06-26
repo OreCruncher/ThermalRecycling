@@ -50,7 +50,7 @@ public final class DyeHelper {
 	public static final int COLOR_MAGENTA = 13;
 	public static final int COLOR_ORANGE = 14;
 	public static final int COLOR_WHITE = 15;
-	
+
 	private static final int DEFAULT_COLOR = COLOR_WHITE;
 
 	private static final List<String> dyeEntries = new ImmutableList.Builder<String>()
@@ -58,29 +58,30 @@ public final class DyeHelper {
 					"dyePurple", "dyeCyan", "dyeLightGray", "dyeGray",
 					"dyePink", "dyeLime", "dyeYellow", "dyeLightBlue",
 					"dyeMagenta", "dyeOrange", "dyeWhite").build();
-	
+
 	private static final String GENERAL_DYE_ENTRY = "dye";
 
 	private DyeHelper() {
 	}
-	
+
 	public static boolean isDye(final ItemStack stack) {
-		final List<ItemStack> possibles = OreDictionary.getOres(GENERAL_DYE_ENTRY);
+		final List<ItemStack> possibles = OreDictionary
+				.getOres(GENERAL_DYE_ENTRY);
 		if (possibles == null || possibles.isEmpty())
 			return false;
 		for (final ItemStack item : possibles) {
 			if (ItemHelper.itemsEqualForCrafting(stack, item))
 				return true;
 		}
-		
+
 		return false;
 	}
 
 	public static int getDyeColor(final ItemStack stack) {
 
 		for (int i = 0; i < dyeEntries.size(); i++) {
-			final List<ItemStack> possibles = OreDictionary.getOres(
-					dyeEntries.get(i));
+			final List<ItemStack> possibles = OreDictionary.getOres(dyeEntries
+					.get(i));
 			if (possibles == null || possibles.isEmpty())
 				continue;
 			for (final ItemStack item : possibles) {
@@ -93,7 +94,7 @@ public final class DyeHelper {
 	}
 
 	public static int getDyeRenderColor(final int color) {
-		return color < 0 || color > 15 ? DEFAULT_COLOR
+		return color < 0 || color > 15 ? ItemDye.field_150922_c[DEFAULT_COLOR]
 				: ItemDye.field_150922_c[color];
 	}
 }
