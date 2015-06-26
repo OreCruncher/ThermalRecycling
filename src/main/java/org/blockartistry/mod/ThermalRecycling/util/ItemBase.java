@@ -104,7 +104,9 @@ public abstract class ItemBase extends Item {
 
 	@Override
 	public IIcon getIconFromDamage(final int subType) {
-		return icons[subType];
+		final int i = MathHelper
+				.clamp_int(subType, 0, icons.length - 1);
+		return icons[i];
 	}
 
 	@Override
