@@ -255,11 +255,11 @@ public final class ModOptions {
 		comment = "Chance that breaking a grass block will drop worms (1 in N)";
 		wormDropChance = config
 				.getInt(CONFIG_WORM_DROP_CHANCE, CATEGORY_GENERAL,
-						wormDropChance, 0, Integer.MAX_VALUE, comment);
+						wormDropChance, 1, Integer.MAX_VALUE, comment);
 
 		comment = "Chance that breaking a grass block will drop worms when raining (1 in N)";
 		wormDropChanceRain = config.getInt(CONFIG_WORM_DROP_CHANCE_RAIN,
-				CATEGORY_GENERAL, wormDropChanceRain, 0, Integer.MAX_VALUE,
+				CATEGORY_GENERAL, wormDropChanceRain, 1, Integer.MAX_VALUE,
 				comment);
 
 		comment = "Attempts per chunk to place rubble piles (higher more frequent discovery)";
