@@ -93,9 +93,9 @@ public final class VersionCheck implements Runnable {
 			assert versionString.length() > 0;
 
 			isAlpha = StringUtils.containsIgnoreCase(versionString, "ALPHA");
-			if(isAlpha)
+			if (isAlpha)
 				versionString = StringUtils.remove(versionString, "ALPHA");
-			
+
 			final String[] parts = StringUtils.split(versionString, ".");
 			final int numComponents = parts.length;
 
@@ -169,9 +169,8 @@ public final class VersionCheck implements Runnable {
 			if (status == UpdateStatus.OUTDATED) {
 				final String msg = StatCollector.translateToLocalFormatted(
 						"msg.NewVersionAvailable", currentVersion);
-				event.player.addChatMessage(new ChatComponentText(msg));
-				
-				IChatComponent component = IChatComponent.Serializer.func_150699_a(StatCollector.translateToLocal("msg.downloadLink"));
+				IChatComponent component = IChatComponent.Serializer
+						.func_150699_a(msg);
 				event.player.addChatMessage(component);
 			}
 		}

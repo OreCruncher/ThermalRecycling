@@ -104,5 +104,4 @@ msg.BookTitle9.name=Better Blocks and Mines
 msg.BookTitle9.desc=Rattle your neighbor with skulls!
 
 # Version checking strings
-msg.NewVersionAvailable=§rA new version of §2Thermal Recycling§r (v%s) is available!
-msg.downloadLink=["Click for... [",{"text":"CurseForge Thermal Recycling Project","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Download page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/229666-thermal-recycling"}},"]"]
+msg.NewVersionAvailable=["§6Update Available: §9[",{"text":"§2Thermal Recycling §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/229666-thermal-recycling"}},"§9]"]
