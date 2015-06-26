@@ -147,6 +147,8 @@ public final class Material extends ItemBase {
 						BlockManager.lawn.setLawn(world, x, y, z, player);
 					}
 					
+					world.playSoundAtEntity(player, "mob.sheep.shear", 0.2F, 0.0F);
+					
 					player.addStat(AchievementManager.shearBeauty, 1);
 				}
 				break;
