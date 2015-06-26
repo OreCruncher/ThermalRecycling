@@ -24,15 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-
 import org.apache.logging.log4j.LogManager;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
-import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
+
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -41,6 +35,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 @Mod(modid = ThermalRecycling.MOD_ID, useMetadata = true, dependencies = ThermalRecycling.DEPENDENCIES, version = ThermalRecycling.VERSION)
 public final class ThermalRecycling {
@@ -49,6 +45,7 @@ public final class ThermalRecycling {
 	public static final String MOD_NAME = "Thermal Recycling";
 	public static final String VERSION = "@VERSION@";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
+			+ "after:MineTweaker;"
 			+ "after:ThermalFoundation;"
 			+ "after:ThermalDynamics;"
 			+ "after:RedstoneArsenal;"
@@ -75,7 +72,7 @@ public final class ThermalRecycling {
 			+ "after:rfwindmill;"
 			+ "after:RArm;";
 
-	static final String OUTPUT_FILE = "ThermalRecycling.log";
+	public static final String OUTPUT_FILE = "ThermalRecycling.log";
 
 	@Instance(MOD_ID)
 	protected static ThermalRecycling instance;
@@ -116,42 +113,22 @@ public final class ThermalRecycling {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-
 		proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
-
 		proxy.postInit(event);
 		config.save();
+	}
 
-		if (ModOptions.getEnableRecipeLogging()) {
-
-			BufferedWriter writer = null;
-
-			try {
-				writer = new BufferedWriter(new FileWriter(OUTPUT_FILE));
-
-				if (ModOptions.getEnableDebugLogging())
-					ItemData.writeDiagnostic(writer);
-
-				ScrappingTables.writeDiagnostic(writer);
-				UseEffect.diagnostic(writer);
-				RecipeData.writeDiagnostic(writer);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					// Close the writer regardless of what happens...
-					writer.close();
-				} catch (Exception e) {
-				}
-			}
-
-			ModLog.info("Recipe load complete - check the file %s for details",
-					OUTPUT_FILE);
-		}
+	@EventHandler
+	public void serverStarting(final FMLServerStartingEvent event) {
+		proxy.serverStarting(event);
+	}
+	
+	@EventHandler
+	public void serverStopping(final FMLServerStoppingEvent event) {
+		proxy.serverStopping(event);
 	}
 }

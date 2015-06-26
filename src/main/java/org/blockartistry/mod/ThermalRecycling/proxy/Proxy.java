@@ -24,6 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 
@@ -33,6 +36,9 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
@@ -40,6 +46,7 @@ import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
 import org.blockartistry.mod.ThermalRecycling.events.VendingMachineBreakHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
+import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
@@ -52,9 +59,13 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
 public class Proxy {
 
+	private static boolean started = false;
+	
 	public void preInit(final FMLPreInitializationEvent event) {
 		FakePlayerHelper.initialize("ThermalRecycling");
 		
@@ -101,9 +112,53 @@ public class Proxy {
 	public void postInit(final FMLPostInitializationEvent event) {
 
 		ModPlugin.initializePlugins();
-		ModPlugin.postInitPlugins();
 		
 		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper
 				.getProfile().toString());
+	}
+	
+	public void serverStarting(final FMLServerStartingEvent event) {
+		
+		if(!started) {
+			started = true;
+
+			// Do this here since this does the heavy lifting on decomposing
+			// the recipe list.  MineTweaker may have changes applied and
+			// we need to be sensitive to them.
+			ModPlugin.postInitPlugins();
+			
+			if (ModOptions.getEnableRecipeLogging()) {
+
+				BufferedWriter writer = null;
+
+				try {
+					writer = new BufferedWriter(new FileWriter(ThermalRecycling.OUTPUT_FILE));
+
+					if (ModOptions.getEnableDebugLogging())
+						ItemData.writeDiagnostic(writer);
+
+					ScrappingTables.writeDiagnostic(writer);
+					UseEffect.diagnostic(writer);
+					RecipeData.writeDiagnostic(writer);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						// Close the writer regardless of what happens...
+						writer.close();
+					} catch (Exception e) {
+					}
+				}
+
+				ModLog.info("Recipe load complete - check the file %s for details",
+						ThermalRecycling.OUTPUT_FILE);
+			}
+
+		}
+	}
+	
+	public void serverStopping(final FMLServerStoppingEvent event) {
+		
 	}
 }

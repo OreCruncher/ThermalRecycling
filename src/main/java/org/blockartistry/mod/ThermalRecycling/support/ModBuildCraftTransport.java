@@ -117,6 +117,12 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
+		return true;
+	}
+	
+	@Override
+	public boolean postInit() {
+
 		// Scan the recipes
 		final Collection<IFlexibleRecipe<ItemStack>> recipes = BuildcraftRecipeRegistry.assemblyTable
 				.getRecipes();

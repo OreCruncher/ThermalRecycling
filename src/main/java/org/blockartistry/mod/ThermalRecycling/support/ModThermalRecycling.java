@@ -97,6 +97,20 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
+		// Apply the blacklist from the configuration. We need to fix up
+		// each entry with a ^ so the underlying routine just does what it
+		// needs to do.
+		for (final String s : ModOptions.getRecyclerBlacklist()) {
+			registerItemBlockedFromScrapping(true, "^" + s);
+		}
+
+
+		return true;
+	}
+
+	@Override
+	public boolean postInit() {
+
 		// ////////////////////
 		//
 		// Process the recipes
@@ -135,23 +149,11 @@ public final class ModThermalRecycling extends ModPlugin {
 			}
 		}
 
-		// Apply the blacklist from the configuration. We need to fix up
-		// each entry with a ^ so the underlying routine just does what it
-		// needs to do.
-		for (final String s : ModOptions.getRecyclerBlacklist()) {
-			registerItemBlockedFromScrapping(true, "^" + s);
-		}
-
 		// Lock our tables
 		ItemData.freeze();
 		RecipeData.freeze();
 		ScrapHandler.freeze();
 
-		return true;
-	}
-
-	@Override
-	public boolean postInit() {
 		// Register scrap items for Pile of Rubble
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);

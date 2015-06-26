@@ -174,12 +174,6 @@ public final class ModForestry extends ModPlugin {
 			}
 		}
 
-		// Dig into the Forestry crafting data and extract additional recipes
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager
-				.getRecipes());
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager
-				.getRecipes());
-
 		pulverizer.setEnergy(1200).append("Forestry:saplingGE", 8)
 				.output(Blocks.dirt).save();
 
@@ -215,6 +209,12 @@ public final class ModForestry extends ModPlugin {
 	
 	@Override
 	public boolean postInit() {
+
+		// Dig into the Forestry crafting data and extract additional recipes
+		registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager
+				.getRecipes());
+		registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager
+				.getRecipes());
 
 		// Pile of Rubble - add apatite, empty can, and scoop
 		registerPileOfRubbleDrop(1, 3, 5, "apatite");
