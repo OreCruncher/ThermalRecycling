@@ -110,6 +110,10 @@ public final class RecipeData {
 
 		return match == null ? ephemeral : match;
 	}
+	
+	public static void remove(final ItemStack stack) {
+		recipes.remove(ItemStackKey.getCachedKey(stack));
+	}
 
 	/**
 	 * Adds the given recipe to the tracking tables. It assumes control over

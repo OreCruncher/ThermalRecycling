@@ -49,6 +49,7 @@ import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
+import org.blockartistry.mod.ThermalRecycling.tweaker.MineTweakerSupport;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
@@ -107,6 +108,9 @@ public class Proxy {
 		if (ModOptions.getEnableWaila())
 			FMLInterModComms.sendMessage("Waila", "register",
 					WailaHandler.class.getName() + ".callbackRegister");
+		
+		// Register with MineTweaker if present
+		MineTweakerSupport.initialize();
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {

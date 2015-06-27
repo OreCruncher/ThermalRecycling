@@ -36,6 +36,11 @@ repositories {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
     }
+    
+    ivy {
+        name "MineTweaker3"
+        artifactPattern "http://minetweaker3.powerofbytes.com/download/[module]-[revision].[ext]"
+    }
 }
 
 apply plugin: 'forge'
@@ -63,6 +68,7 @@ dependencies {
     compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
     compile 'net.sengir.forestry:forestry_1.7.10:3.5.7.16:dev'
     compile name: "buildcraft", version: "7.0.12", classifier: "dev"
+    compile name: 'MineTweaker3', version: "Dev-1.7.10-3.0.9C", ext: 'jar'
     
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
