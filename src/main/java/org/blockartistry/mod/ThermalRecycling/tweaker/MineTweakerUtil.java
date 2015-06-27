@@ -23,25 +23,40 @@
 
 package org.blockartistry.mod.ThermalRecycling.tweaker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import minetweaker.MineTweakerAPI;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import net.minecraft.item.ItemStack;
 
-import cpw.mods.fml.common.Loader;
+public final class MineTweakerUtil {
 
-public final class MineTweakerSupport {
-	
-	private static final String MINETWEAKER = "MineTweaker3";
-	
-	private MineTweakerSupport() {
+	private MineTweakerUtil() {
 		
 	}
 	
-	public static void initialize() {
-		if(Loader.isModLoaded(MINETWEAKER)) {
-			ModLog.info("Registering hooks with MineTweaker");
-			
-			MineTweakerAPI.registerClass(ItemDataRegistry.class);
-			MineTweakerAPI.registerClass(RecipeDataRegistry.class);
+	public static List<ItemStack> getStackList(final IItemStack... stacks) {
+		final List<ItemStack> result = new ArrayList<ItemStack>();
+		for(final IItemStack iis: stacks) {
+			result.add(MineTweakerMC.getItemStack(iis));
 		}
+		
+		return result;
+	}
+	
+	public static boolean checkArgument(final boolean test, final String failureMessage) {
+		if(!test)
+			MineTweakerAPI.logError(failureMessage);
+		
+		return test;
+	}
+	
+	public static boolean checkNotNull(final Object obj, final String failureMessage) {
+		if(obj == null)
+			MineTweakerAPI.logError(failureMessage);
+		
+		return obj != null;
 	}
 }

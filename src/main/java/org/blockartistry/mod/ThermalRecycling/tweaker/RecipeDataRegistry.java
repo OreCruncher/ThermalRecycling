@@ -41,16 +41,26 @@ public final class RecipeDataRegistry {
 	@ZenMethod
 	public static void add(IItemStack input, IItemStack[] output) {
 		
-		if(!MineTweakerSupport.checkArgument(output != null && output.length > 0, "invalid number of output stacks specified"))
+		if(!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
+			return;
+		
+		if(!MineTweakerUtil.checkNotNull(output, "output cannot be null"))
+			return;
+
+		if(!MineTweakerUtil.checkArgument(output.length > 0, "invalid number of output stacks specified"))
 			return;
 		
 		final ItemStack stack = MineTweakerMC.getItemStack(input);
-		final List<ItemStack> result = MineTweakerSupport.getStackList(output);
+		final List<ItemStack> result = MineTweakerUtil.getStackList(output);
 		RecipeData.put(stack, result);
 	}
 	
 	@ZenMethod
 	public static void remove(IItemStack stack) {
+
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
 		RecipeData.remove(item);
 	}

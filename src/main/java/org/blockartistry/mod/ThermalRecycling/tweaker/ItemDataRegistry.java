@@ -40,10 +40,13 @@ public final class ItemDataRegistry {
 	@ZenMethod
 	public static void set(final IItemStack stack, final int compostValue, final int scrapValue, final boolean ignoreRecipe, final boolean scrubFromOutput, final boolean blockFromScrapping) {
 		
-		if(!MineTweakerSupport.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
 			return;
 		
-		if(!MineTweakerSupport.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
+		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
+			return;
+		
+		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
 			return;
 		
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
@@ -61,7 +64,10 @@ public final class ItemDataRegistry {
 	@ZenMethod
 	public static void setCompostIngredient(final IItemStack stack, final int compostValue) {
 		
-		if(!MineTweakerSupport.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
+		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
 			return;
 
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
@@ -72,7 +78,10 @@ public final class ItemDataRegistry {
 	@ZenMethod
 	public static void setScrapValue(final IItemStack stack, final int scrapValue) {
 		
-		if(!MineTweakerSupport.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
+		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
 			return;
 
 		final ScrapValue sv = ScrapValue.values()[scrapValue];
@@ -82,18 +91,30 @@ public final class ItemDataRegistry {
 	
 	@ZenMethod
 	public static void setIgnoreRecipe(final IItemStack stack, final boolean ignoreRecipe) {
+
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
 		ItemData.setRecipeIgnored(item, ignoreRecipe);
 	}
 	
 	@ZenMethod
 	public static void setScrubFromOutput(final IItemStack stack, final boolean scrubFromOutput) {
+
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
 		ItemData.setScrubbedFromOutput(item, scrubFromOutput);
 	}
 	
 	@ZenMethod
 	public static void setBlockedFromScrapping(final IItemStack stack, final boolean blockedFromScrapping) {
+
+		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
+			return;
+		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
 		ItemData.setBlockedFromScrapping(item, blockedFromScrapping);
 	}

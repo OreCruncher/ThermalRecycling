@@ -26,7 +26,6 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import org.apache.logging.log4j.LogManager;
 import org.blockartistry.mod.ThermalRecycling.proxy.Proxy;
-
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -45,7 +44,7 @@ public final class ThermalRecycling {
 	public static final String MOD_NAME = "Thermal Recycling";
 	public static final String VERSION = "@VERSION@";
 	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
-			+ "after:MineTweaker;"
+			+ "after:MineTweaker3;"
 			+ "after:ThermalFoundation;"
 			+ "after:ThermalDynamics;"
 			+ "after:RedstoneArsenal;"
