@@ -24,24 +24,27 @@
 package org.blockartistry.mod.ThermalRecycling.tweaker;
 
 import minetweaker.MineTweakerAPI;
-import org.blockartistry.mod.ThermalRecycling.ModLog;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import cpw.mods.fml.common.Loader;
 
 public final class MineTweakerSupport {
-	
+
 	private static final String MINETWEAKER = "MineTweaker3";
-	
+
 	private MineTweakerSupport() {
-		
+
 	}
-	
+
 	public static void initialize() {
-		if(Loader.isModLoaded(MINETWEAKER)) {
+		if (Loader.isModLoaded(MINETWEAKER)) {
 			ModLog.info("Registering hooks with MineTweaker");
-			
+
 			MineTweakerAPI.registerClass(ItemDataRegistry.class);
 			MineTweakerAPI.registerClass(RecipeDataRegistry.class);
+
+			// Register the constants
+			Constants.register();
 		}
 	}
 }
