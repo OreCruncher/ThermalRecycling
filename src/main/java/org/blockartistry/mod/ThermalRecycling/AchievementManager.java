@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling;
 
 import org.blockartistry.mod.ThermalRecycling.achievement.DoinTheTrash;
 import org.blockartistry.mod.ThermalRecycling.achievement.DoingMyPart;
+import org.blockartistry.mod.ThermalRecycling.achievement.DystopianFuture;
 import org.blockartistry.mod.ThermalRecycling.achievement.FeelingScrappy;
 import org.blockartistry.mod.ThermalRecycling.achievement.LottoWinner;
 import org.blockartistry.mod.ThermalRecycling.achievement.ShearBeauty;
@@ -53,6 +54,7 @@ public final class AchievementManager extends AchievementPage {
 	public static final Achievement lottoWinner = new LottoWinner();
 	public static final Achievement doinTheTrash = new DoinTheTrash();
 	public static final Achievement shearBeauty = new ShearBeauty();
+	public static final Achievement dystopianFuture = new DystopianFuture();
 
 	public static final Achievement feelingScrappy = new FeelingScrappy();
 	public static final Achievement doingMyPart = new DoingMyPart();
@@ -64,6 +66,7 @@ public final class AchievementManager extends AchievementPage {
 		lottoWinner.registerStat();
 		doinTheTrash.registerStat();
 		shearBeauty.registerStat();
+		dystopianFuture.registerStat();
 
 		feelingScrappy.registerStat();
 		doingMyPart.registerStat();
@@ -77,7 +80,9 @@ public final class AchievementManager extends AchievementPage {
 	}
 
 	public AchievementManager() {
-		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, doinTheTrash, feelingScrappy, doingMyPart, shearBeauty);
+		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"),
+				lottoWinner, doinTheTrash, feelingScrappy, doingMyPart,
+				shearBeauty, dystopianFuture);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)

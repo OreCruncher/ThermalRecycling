@@ -24,7 +24,14 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+
 import org.blockartistry.mod.ThermalRecycling.items.Debris;
+import org.blockartistry.mod.ThermalRecycling.items.FoodItem;
+import org.blockartistry.mod.ThermalRecycling.items.FoodItem.OnEat;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.PaperLogMaker;
 import org.blockartistry.mod.ThermalRecycling.items.ProcessingCore;
@@ -46,6 +53,17 @@ public final class ItemManager {
 	public static final Material material = new Material();
 	public static final PaperLogMaker paperLogMaker = new PaperLogMaker();
 
+	public static final FoodItem soylentGreen = new FoodItem("soylentGreen",
+			10, 1.0F, false).setLore(
+			StatCollector.translateToLocal("msg.itLooksEdible")).setOnEaten(
+			new OnEat() {
+				@Override
+				public void onEat(ItemStack stack, World world,
+						EntityPlayer player) {
+					player.addStat(AchievementManager.dystopianFuture, 1);
+				}
+			});
+
 	static void registerItems() {
 
 		recyclingScrap.register();
@@ -56,6 +74,7 @@ public final class ItemManager {
 		material.register();
 		paperLogMaker.register();
 
+		soylentGreen.register();
 	}
 
 	public ItemManager() {

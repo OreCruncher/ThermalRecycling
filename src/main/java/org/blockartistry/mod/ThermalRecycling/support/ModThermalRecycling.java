@@ -104,7 +104,6 @@ public final class ModThermalRecycling extends ModPlugin {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
 
-
 		return true;
 	}
 
@@ -117,7 +116,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		final String modIds = ":" + StringUtils.join(SupportedMod.getEffectiveModIdList(), ":") + ":";
+		final String modIds = ":"
+				+ StringUtils.join(SupportedMod.getEffectiveModIdList(), ":")
+				+ ":";
 
 		// Process all registered recipes
 		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
@@ -162,6 +163,9 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1,
 				Material.LITTER_BAG), 1, 2, 4);
+
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1,
+				2, 6);
 
 		return true;
 	}

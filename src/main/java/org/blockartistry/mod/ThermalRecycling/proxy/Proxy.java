@@ -42,6 +42,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
+import org.blockartistry.mod.ThermalRecycling.events.EntityEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
 import org.blockartistry.mod.ThermalRecycling.events.VendingMachineBreakHandler;
 import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
@@ -92,6 +93,9 @@ public class Proxy {
 		// Hook to prevent vending machines from being broken
 		new BlockBreakEventHandler();
 		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
+		
+		// Hook various entity events
+		new EntityEventHandler();
 		
 		// Village generation
 		if(ModOptions.getEnableVillageGen())

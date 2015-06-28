@@ -25,6 +25,9 @@ item.Material.worms.name=Handful of Worms
 item.Material.litterBag.name=Litter Bag
 item.Material.gardenShears.name=Garden Shears
 
+item.soylentGreen.name=§2Soylent Green
+msg.itLooksEdible=It looks edible...
+
 tile.PileOfRubble.name=Pile of Rubble
 tile.FertileLand.name=Fertile Land
 tile.MachineThermalRecycler.name=Thermal Recycler
@@ -70,6 +73,8 @@ achievement.doinTheTrash=Doin' the Trash!
 achievement.doinTheTrash.desc=Clear trash from your inventory using a Litter Bag
 achievement.shearBeauty=Shear Beauty
 achievement.shearBeauty.desc=Use Garden Shears to create Manicured Lawn
+achievement.dystopianFuture=Dystopian Future
+achievement.dystopianFuture.desc=Consume §2Soylent Green
 
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§eScrap Value: §7None
