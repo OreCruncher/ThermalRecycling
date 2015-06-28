@@ -51,18 +51,23 @@ public final class PileOfRubble extends Block {
 	private static final ChestGenHooks rubbleContent = ChestGenHooks
 			.getInfo(CHEST_PILE_OF_RUBBLE);
 	
+	private static boolean hasContent = false;
+	
 	public static void addRubbleDrop(final ItemStack stack, final int min, final int max, final int weight) {
+		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(stack, min, max, weight));
 	}
 	
 	public static void addRubbleDrop(final Item item, final int min, final int max, final int weight) {
+		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(item, 0, min, max, weight));
 	}
 
 	public static void addRubbleDrop(final Block block, final int min, final int max, final int weight) {
+		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(Item.getItemFromBlock(block), 0, min, max, weight));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	protected IIcon icon;
 
@@ -77,7 +82,6 @@ public final class PileOfRubble extends Block {
 		setStepSound(soundTypeStone);
 
 		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.375F, 0.9375F);
-
 	}
 
 	@Override
@@ -112,14 +116,13 @@ public final class PileOfRubble extends Block {
 	public void breakBlock(final World world, final int x, final int y, final int z, final Block block,
 			final int meta) {
 
-		if (!world.isRemote) {
+		if (!world.isRemote && hasContent) {
 			final int dropCount = ModOptions.getRubblePileDropCount();
 			for (int i = 0; i < dropCount; i++) {
 				final ItemStack stack = rubbleContent.getOneItem(random);
 				if (stack != null) {
 					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
 				}
-
 			}
 		}
 		super.breakBlock(world, x, y, z, block, meta);
