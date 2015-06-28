@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.items;
 
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -59,6 +60,7 @@ public class FoodItem extends ItemFood {
 
 		setUnlocalizedName(unlocalizedName);
 		setMaxStackSize(64);
+		setCreativeTab(CreativeTabManager.tab);
 	}
 
 	public FoodItem(final String unlocalizedName, final int healAmount,
