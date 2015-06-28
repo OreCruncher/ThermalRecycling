@@ -359,14 +359,14 @@ public final class ItemStackHelper {
 
 			try {
 				result = stack.getDisplayName();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				;
 			}
 
 			if (result == null) {
 				try {
 					result = stack.getUnlocalizedName();
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					;
 				}
 			}
