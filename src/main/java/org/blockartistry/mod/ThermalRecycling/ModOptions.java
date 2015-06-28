@@ -62,6 +62,7 @@ public final class ModOptions {
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 	protected static final String CONFIG_ENABLE_ENHANCED_LORE = "Enhanced Lore";
 	protected static final String CONFIG_BLACKLIST = "Blacklist";
+	protected static final String CONFIG_RECIPE_COMPONENT_BLACKLIST = "Recipe Component Blacklist";
 	protected static final String CONFIG_VENDING_ITEM_RENDER_RANGE = "Item Render Range";
 	protected static final String CONFIG_VENDING_NAME_RENDER_RANGE = "Name Render Range";
 	protected static final String CONFIG_VENDING_QUANTITY_RENDER_RANGE = "Quantity Render Range";
@@ -122,6 +123,9 @@ public final class ModOptions {
 			"minecraft:cobblestone", "minecraft:sandstone:*",
 			"minecraft:sand:*", "minecraft:gravel", "minecraft:dirt",
 			"minecraft:snowball", };
+	protected static String[] recipeComponentBlacklist = new String[] {
+		"ProjectE:item.pe_philosophers_stone"
+	};
 
 	protected static boolean enableVillageWorldgen = true;
 	protected static int rubblePileDensity = 80;
@@ -229,6 +233,10 @@ public final class ModOptions {
 		comment = "List of items to prevent the Thermal Recycler from accepting as input";
 		recyclerBlacklist = config.getStringList(CONFIG_BLACKLIST,
 				CATEGORY_MACHINES_RECYCLER, recyclerBlacklist, comment);
+
+		comment = "Recipes containing these items will be ignored";
+		recipeComponentBlacklist = config.getStringList(CONFIG_RECIPE_COMPONENT_BLACKLIST,
+				CATEGORY_MACHINES_RECYCLER, recipeComponentBlacklist, comment);
 
 		comment = "List of items to delete from inventory when using a Litter Bag";
 		inventoryTrashList = config.getStringList(CONFIG_TRASH_LIST,
@@ -518,5 +526,9 @@ public final class ModOptions {
 
 	public static boolean getEnableVillageGen() {
 		return enableVillageWorldgen;
+	}
+	
+	public static String[] getRecipeComponentBlacklist() {
+		return recipeComponentBlacklist;
 	}
 }

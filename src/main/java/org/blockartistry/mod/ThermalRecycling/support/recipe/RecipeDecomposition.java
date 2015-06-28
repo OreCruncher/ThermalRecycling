@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -58,6 +59,10 @@ public final class RecipeDecomposition {
 					"mods.railcraft.common.emblems.EmblemPostColorRecipe",
 					"codechicken.enderstorage.common.EnderStorageRecipe")
 			.build();
+	
+	private static final List<ItemStack> recipeComponentBlacklist = ImmutableList
+			.copyOf(ItemStackHelper.getItemStacks(ModOptions
+					.getRecipeComponentBlacklist()));
 
 	private static Field teRecipeAccessor = null;
 	private static Field forestryRecipeAccessor = null;
@@ -97,24 +102,24 @@ public final class RecipeDecomposition {
 		}
 
 		if (projection != null)
-			scrubProjection(recipe.getRecipeOutput(), projection);
+			projection = scrubProjection(recipe.getRecipeOutput(), projection);
 
 		return projection;
 	}
 
 	public static List<ItemStack> decomposeBuildCraft(final ItemStack input,
 			final Object... output) {
-		final List<ItemStack> projection = projectBuildcraftRecipeList(output);
+		List<ItemStack> projection = projectBuildcraftRecipeList(output);
 		if (projection != null)
-			scrubProjection(input, projection);
+			projection = scrubProjection(input, projection);
 		return projection;
 	}
 
 	public static List<ItemStack> decomposeForestry(final ItemStack input,
 			final Object... output) {
-		final List<ItemStack> projection = projectForgeRecipeList(output);
+		List<ItemStack> projection = projectForgeRecipeList(output);
 		if (projection != null)
-			scrubProjection(input, projection);
+			projection = scrubProjection(input, projection);
 		return projection;
 	}
 
@@ -126,11 +131,25 @@ public final class RecipeDecomposition {
 		return classIgnoreList.contains(obj.getClass().getName());
 	}
 
-	private static void scrubProjection(final ItemStack inputStack,
+	private static boolean notConsumed(final ItemStack stack) {
+		return stack.getItem().hasContainerItem(stack);
+	}
+	
+	private static boolean ignoreRecipe(final List<ItemStack> projection) {
+		
+		for(final ItemStack p: projection)
+			for(final ItemStack s: recipeComponentBlacklist)
+				if(ItemStackHelper.areEqual(p, s))
+					return true;
+		
+		return false;
+	}
+	
+	private static List<ItemStack> scrubProjection(final ItemStack inputStack,
 			List<ItemStack> projection) {
 
-		if (projection == null)
-			return;
+		if (projection == null || ignoreRecipe(projection))
+			return null;
 
 		// Scan for the list looking for wildcards as well
 		// as those items that match the input. Sometimes
@@ -139,14 +158,14 @@ public final class RecipeDecomposition {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
 				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack)
-						|| ItemData.isScrubbedFromOutput(stack))
+						|| ItemData.isScrubbedFromOutput(stack) || notConsumed(stack))
 					projection.set(i, null);
 				else if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 					stack.setItemDamage(0);
 		}
 
 		// Do final scrub on the list
-		projection = ImmutableList.copyOf(ItemStackHelper.coelece(projection));
+		return ImmutableList.copyOf(ItemStackHelper.coelece(projection));
 	}
 
 	private static List<ItemStack> project(final ShapedRecipes recipe) {
