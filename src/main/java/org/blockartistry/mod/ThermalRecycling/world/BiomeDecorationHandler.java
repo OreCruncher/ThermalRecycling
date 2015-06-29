@@ -38,8 +38,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class BiomeDecorationHandler {
 
 	private final int MIN_Y = 5;
-	private final int MAX_Y = 55;
-	private final int SPREAD = MAX_Y - MIN_Y;
 	private final int PLACE_ATTEMPTS = 2;
 
 	@SubscribeEvent(priority = EventPriority.LOW)
@@ -48,7 +46,19 @@ public class BiomeDecorationHandler {
 		if ((event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT)
 				&& event.type == EventType.FLOWERS) {
 
-			final int attempts = ModOptions.getRubblePileDensity();
+			// Calculate the range and scaling based on
+			// the world sea level.  Normal sea level is assumed
+			// to be 64, which is the Overworld sea level.
+			final int groundLevel = event.world.provider
+					.getAverageGroundLevel();
+			final int attempts = (int) (ModOptions.getRubblePileDensity() * ((float) groundLevel / 64F));
+			final int maxY = groundLevel - 4;
+			final int spread = maxY - MIN_Y;
+			
+			// In case someone does something real funky with a
+			// dimension.
+			if(spread < 1 || attempts < 1)
+				return;
 
 			// Use our random routine, but seed with the provided
 			// Random. The provided Random seed is deterministic
@@ -59,13 +69,14 @@ public class BiomeDecorationHandler {
 
 				final int x = event.chunkX + random.nextInt(16) + 8;
 				final int z = event.chunkZ + random.nextInt(16) + 8;
-				int y = random.nextInt(SPREAD) + MIN_Y;
+				int y = random.nextInt(spread) + MIN_Y;
 
-				for(int j = 0; j < PLACE_ATTEMPTS; j++) {
+				for (int j = 0; j < PLACE_ATTEMPTS; j++) {
 					if (event.world.isAirBlock(x, y, z)
-							&& BlockManager.pileOfRubble.canBlockStay(event.world,
-									x, y, z)) {
-						event.world.setBlock(x, y, z, BlockManager.pileOfRubble);
+							&& BlockManager.pileOfRubble.canBlockStay(
+									event.world, x, y, z)) {
+						event.world
+								.setBlock(x, y, z, BlockManager.pileOfRubble);
 						break;
 					}
 					y--;
