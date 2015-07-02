@@ -158,6 +158,10 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity>
 		}
 
 		player.inventory.addItemStackToInventory(result.copy());
+		
+		// play a tink sound to signal the trade
+		if(player.worldObj.isRemote)
+			player.playSound("random.orb", 0.5F, 5F);
 		player.onUpdate();
 
 		return null;
