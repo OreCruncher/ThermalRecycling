@@ -29,6 +29,7 @@ import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
@@ -111,7 +112,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 	private static final float FREE_X_OFFSET = xOffset[0] - IMAGE_SIZE / 2;
 
 	private static final int[] rotationFacings = new int[] { 0, 0, 0, 180, 270,
-			90, 0 };
+			90, 0, 0 };
 
 	// Dynamic setting
 	private double playerRange = 0;
@@ -320,7 +321,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 
 		if (vte != null) {
 			// Rotate based on facing
-			rotation = rotationFacings[te.getBlockMetadata() & 7];
+			rotation = rotationFacings[vte.getBlockMetadata() & MachineBase.META_SIDE_MASK];
 			GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
 		} else {
 			// Render the item in inventory
