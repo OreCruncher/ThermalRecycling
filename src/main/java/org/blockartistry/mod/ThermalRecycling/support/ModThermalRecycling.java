@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -116,10 +115,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		//
 		// ////////////////////
 
-		final String modIds = ":"
-				+ StringUtils.join(SupportedMod.getEffectiveModIdList(), ":")
-				+ ":";
-
 		// Process all registered recipes
 		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
 
@@ -138,8 +133,7 @@ public final class ModThermalRecycling extends ModPlugin {
 					final String name = Item.itemRegistry
 							.getNameForObject(stack.getItem());
 
-					if (modIds.contains(":"
-							+ StringUtils.substringBefore(name, ":") + ":")) {
+					if (SupportedMod.isModWhitelisted(name)) {
 						try {
 							recycler.useRecipe(recipe).save();
 						} catch (Throwable t) {

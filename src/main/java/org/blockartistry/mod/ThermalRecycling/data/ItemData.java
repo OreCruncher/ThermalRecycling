@@ -28,17 +28,13 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ObjectArrays;
-
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -88,24 +84,11 @@ public final class ItemData {
 
 	static {
 
-		String[] whiteList = null;
-		final String[] modList = SupportedMod.getModIdList();
-		final String[] configList = ModOptions.getModWhitelist();
-
-		if (configList == null || configList.length == 0)
-			whiteList = modList;
-		else
-			whiteList = ObjectArrays.concat(modList, configList, String.class);
-
-		// final String modIds = ":" + MyUtils.join(":", whiteList) + ":";
-		final String modIds = ":" + StringUtils.join(whiteList, ":") + ":";
-
 		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
 			final String name = Item.itemRegistry.getNameForObject(o);
 			if (name != null) {
 
-				final String modName = StringUtils.substringBefore(name, ":");
-				final Boolean isMinecraft = modName.compareTo("minecraft") == 0;
+				final Boolean isMinecraft = name.startsWith("minecraft:");
 
 				final ItemStack stack = getGenericIfPossible(o);
 				final ItemData data = new ItemData(stack);
@@ -113,7 +96,7 @@ public final class ItemData {
 				if (isMinecraft)
 					data.setValue(ScrapValue.NONE);
 				else
-					data.setValue(modIds.contains(":" + modName + ":") ? DEFAULT_SCRAP_VALUE
+					data.setValue(SupportedMod.isModWhitelisted(name) ? DEFAULT_SCRAP_VALUE
 							: ScrapValue.NONE);
 
 				final boolean food = o instanceof ItemFood

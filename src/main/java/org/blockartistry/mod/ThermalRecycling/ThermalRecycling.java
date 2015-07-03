@@ -43,33 +43,7 @@ public final class ThermalRecycling {
 	public static final String MOD_ID = "recycling";
 	public static final String MOD_NAME = "Thermal Recycling";
 	public static final String VERSION = "@VERSION@";
-	public static final String DEPENDENCIES = "required-after:ThermalExpansion;"
-			+ "after:MineTweaker3;"
-			+ "after:ThermalFoundation;"
-			+ "after:ThermalDynamics;"
-			+ "after:RedstoneArsenal;"
-			+ "after:MineFactoryReloaded;"
-			+ "after:Thaumcraft;"
-			+ "after:BuildCraft|Core;"
-			+ "after:BuildCraft|Transport;"
-			+ "after:BuildCraft|Silicon;"
-			+ "after:BuildCraft|Builders;"
-			+ "after:BuildCraft|Energy;"
-			+ "after:BuildCraft|Factory;"
-			+ "after:Forestry;"
-			+ "after:Railcraft;"
-			+ "after:advgenerators;"
-			+ "after:EnderIO;"
-			+ "after:IronChest;"
-			+ "after:ChickenChunks;"
-			+ "after:rftools;"
-			+ "after:EnderStorage;"
-			+ "after:ExtrabiomesXL;"
-			+ "after:SolarFlux;"
-			+ "after:rfdrills;"
-			+ "after:simplyjetpacks;"
-			+ "after:rfwindmill;"
-			+ "after:RArm;";
+	public static final String DEPENDENCIES = "required-after:ThermalExpansion;after:*;";
 
 	public static final String OUTPUT_FILE = "ThermalRecycling.log";
 

@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
 import cpw.mods.fml.common.Loader;
@@ -35,44 +36,33 @@ public enum SupportedMod {
 
 	VANILLA("Minecraft", "minecraft", VanillaMinecraft.class),
 
-	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation",
-			ModThermalFoundation.class),
+	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation", ModThermalFoundation.class),
 
-	THERMAL_EXPANSION("Thermal Expansion", "ThermalExpansion",
-			ModThermalExpansion.class),
+	THERMAL_EXPANSION("Thermal Expansion", "ThermalExpansion", ModThermalExpansion.class),
 
-	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics",
-			ModThermalDynamics.class),
+	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics", ModThermalDynamics.class),
 
-	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal",
-			ModRedstoneArsenal.class),
+	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal", ModRedstoneArsenal.class),
 
-	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded",
-			ModMinefactoryReloaded.class),
+	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded", ModMinefactoryReloaded.class),
 
 	THAUMCRAFT("Thaumcraft", "Thaumcraft", ModThaumcraft.class),
 
-	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core",
-			ModBuildCraftCore.class),
+	BUILDCRAFT_CORE("BuildCraft|Core", "BuildCraft|Core", ModBuildCraftCore.class),
 
-	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport",
-			ModBuildCraftTransport.class),
+	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport", ModBuildCraftTransport.class),
 
-	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon",
-			ModBuildCraftSilicon.class),
+	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon", ModBuildCraftSilicon.class),
 
-	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders",
-			ModBuildCraftBuilders.class),
+	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
 
-	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory",
-			ModBuildCraftFactory.class),
+	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
 
 	RAILCRAFT("Railcraft", "Railcraft", ModRailcraft.class),
 
-	ADVANCED_GENERATORS("Advanced Generators", "advgenerators",
-			ModAdvancedGenerators.class),
+	ADVANCED_GENERATORS("Advanced Generators", "advgenerators", ModAdvancedGenerators.class),
 
 	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class),
 
@@ -90,28 +80,27 @@ public enum SupportedMod {
 
 	RFDRILLS("RFDrills", "rfdrills", ModRFDrills.class),
 
-	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks",
-			ModSimplyJetpacks.class),
+	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks", ModSimplyJetpacks.class),
 
 	RFWINDMILLS("RF Windmills", "rfwindmill", ModRFWindmills.class),
 
 	REDSTONE_ARMORY("Redstone Armory", "RArm", ModRedstoneArmory.class),
 
-	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2",
-			ModAppliedEnergistics2.class),
+	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
 	// prior to the crafting manager recipe scan.
-	THERMAL_RECYCLING("Thermal Recycling", "recycling",
-			ModThermalRecycling.class);
+	THERMAL_RECYCLING("Thermal Recycling", "recycling", ModThermalRecycling.class);
 
 	private final String name;
 	private final String modId;
 	private final Class<? extends ModPlugin> pluginFactory;
 
-	private SupportedMod(final String name, final String modId,
-			final Class<? extends ModPlugin> clazz) {
+	private static final String SEPARATOR = ":";
+	private static String modIdString = null;
+
+	private SupportedMod(final String name, final String modId, final Class<? extends ModPlugin> clazz) {
 
 		this.name = name;
 		this.modId = modId;
@@ -140,51 +129,36 @@ public enum SupportedMod {
 	}
 
 	public boolean isLoaded() {
-		return this == VANILLA || this == THERMAL_RECYCLING
-				|| Loader.isModLoaded(modId);
+		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
 	}
 
-	public static String[] getModIdList() {
-		final String[] result = new String[values().length];
-		for (int i = 0; i < values().length; i++)
-			result[i] = values()[i].getModId();
-		return result;
-	}
-
-	public static String getDependencies() {
-		final StringBuilder builder = new StringBuilder(128);
-		builder.append("required-after:ThermalExpansion;");
-		for (final String s : getModIdList()) {
-			if ("ThermalExpansion".equalsIgnoreCase(s))
-				continue;
-
-			builder.append("after:");
-			builder.append(s);
-			builder.append(';');
-		}
-		return builder.toString();
-	}
-	
 	public static List<ModPlugin> getPluginsForLoadedMods() {
 		final List<ModPlugin> plugins = new ArrayList<ModPlugin>();
-		for(final SupportedMod m: values()) {
-			if(m.isLoaded() && ModOptions.getModProcessingEnabled(m))
+		for (final SupportedMod m : values()) {
+			if (m.isLoaded() && ModOptions.getModProcessingEnabled(m))
 				plugins.add(m.getPlugin());
 		}
-		
+
 		return plugins;
 	}
-	
-	public static List<String> getEffectiveModIdList() {
+
+	private static List<String> getEffectiveModIdList() {
 		final List<String> idList = new ArrayList<String>();
-		for(final SupportedMod m: values()) {
-			if(m.isLoaded() && ModOptions.getModProcessingEnabled(m))
+		for (final SupportedMod m : values()) {
+			if (m.isLoaded() && ModOptions.getModProcessingEnabled(m))
 				idList.add(m.getModId());
 		}
-		
-		for(final String s: ModOptions.getModWhitelist())
+
+		for (final String s : ModOptions.getModWhitelist())
 			idList.add(s);
 
 		return idList;
+	}
+
+	public static boolean isModWhitelisted(final String itemId) {
+		if (modIdString == null)
+			modIdString = SEPARATOR + StringUtils.join(getEffectiveModIdList(), SEPARATOR) + SEPARATOR;
+		final String modId = StringUtils.substringBefore(itemId, SEPARATOR);
+		return modId == null || modId.isEmpty() ? false : modIdString.contains(SEPARATOR + modId + SEPARATOR);
 	}
 }
