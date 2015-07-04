@@ -30,12 +30,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public final class CreativeTabManager {
-
+	
 	public static CreativeTabs tab = new CreativeTabs("ThermalRecycling") {
 		@Override
 		@SideOnly(Side.CLIENT)
 		public Item getTabIconItem() {
-			return ItemManager.recyclingScrap;
+			return Item.getItemFromBlock(BlockManager.thermalRecycler);
 		}
 	};
 }
