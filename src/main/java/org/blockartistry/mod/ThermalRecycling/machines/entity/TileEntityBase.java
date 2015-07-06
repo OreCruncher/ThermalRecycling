@@ -29,7 +29,6 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 
 import cofh.api.tileentity.IReconfigurableFacing;
 import cpw.mods.fml.common.Optional;

@@ -28,8 +28,8 @@ import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -84,7 +84,6 @@ public abstract class MachineBase extends BlockContainer {
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setStepSound(soundTypeMetal);
-		//setHarvestLevel("pickaxe", 3);
 	}
 
 	protected static boolean holdingRotateTool(final EntityPlayer player) {

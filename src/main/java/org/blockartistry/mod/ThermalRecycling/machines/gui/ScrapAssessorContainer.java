@@ -32,6 +32,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ScrapAssessorTileEntity;
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;

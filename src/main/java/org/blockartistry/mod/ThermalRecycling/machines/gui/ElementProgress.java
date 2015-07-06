@@ -27,6 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.IJobProgress;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.ResourceLocation;

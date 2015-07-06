@@ -33,8 +33,6 @@ import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingContextCache;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ThermalRecyclerGui;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;

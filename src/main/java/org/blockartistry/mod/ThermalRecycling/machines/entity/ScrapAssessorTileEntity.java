@@ -30,8 +30,6 @@ import net.minecraft.item.ItemStack;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.PreviewResult;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler.ScrappingContext;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ScrapAssessorGui;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;

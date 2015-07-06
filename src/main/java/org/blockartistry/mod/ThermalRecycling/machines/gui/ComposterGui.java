@@ -32,6 +32,7 @@ import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementFluidTank;

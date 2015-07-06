@@ -34,6 +34,8 @@ import net.minecraft.item.ItemStack;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
+
 import cofh.lib.gui.slot.SlotAcceptValid;
 import cofh.lib.gui.slot.SlotLocked;
 

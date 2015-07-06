@@ -52,8 +52,6 @@ import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.IJobProgress;
-import org.blockartistry.mod.ThermalRecycling.machines.gui.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import com.google.common.collect.ImmutableSet;

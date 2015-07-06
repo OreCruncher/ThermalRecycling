@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ThermalRecyclerTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
