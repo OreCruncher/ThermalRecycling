@@ -38,7 +38,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class FuelHandler implements IFuelHandler {
 
-	protected void registerCarbonValue(final ItemStack stack) {
+	private FuelHandler() {
+	}
+
+	private static void registerCarbonValue(final ItemStack stack) {
 		
 		final NBTTagCompound msg = new NBTTagCompound();
 		msg.setBoolean("useBurnTime", true);
@@ -48,17 +51,6 @@ public final class FuelHandler implements IFuelHandler {
 		FMLInterModComms.sendMessage(SupportedMod.ADVANCED_GENERATORS.getModId(), "AddCarbonValue", msg);
 	}
 	
-	public FuelHandler() {
-		GameRegistry.registerFuelHandler(this);
-		
-		if(SupportedMod.ADVANCED_GENERATORS.isLoaded()) {
-			// Configure Syngas carbon sources.  IMC support
-			// was added in 0.9.13.72
-			registerCarbonValue(new ItemStack(ItemManager.debris));
-			registerCarbonValue(new ItemStack(BlockManager.scrapBlock));
-		}
-	}
-
 	@Override
 	public int getBurnTime(final ItemStack fuel) {
 
@@ -92,5 +84,16 @@ public final class FuelHandler implements IFuelHandler {
 		}
 
 		return burn;
+	}
+	
+	public static void register() {
+		GameRegistry.registerFuelHandler(new FuelHandler());
+		
+		if(SupportedMod.ADVANCED_GENERATORS.isLoaded()) {
+			// Configure Syngas carbon sources.  IMC support
+			// was added in 0.9.13.72
+			registerCarbonValue(new ItemStack(ItemManager.debris));
+			registerCarbonValue(new ItemStack(BlockManager.scrapBlock));
+		}
 	}
 }

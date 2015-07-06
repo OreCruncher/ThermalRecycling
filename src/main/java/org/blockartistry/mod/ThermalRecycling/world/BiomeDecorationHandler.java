@@ -35,7 +35,7 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BiomeDecorationHandler {
+public final class BiomeDecorationHandler {
 
 	private final int MIN_Y = 5;
 	private final int PLACE_ATTEMPTS = 2;
@@ -85,7 +85,10 @@ public class BiomeDecorationHandler {
 		}
 	}
 
-	public BiomeDecorationHandler() {
-		MinecraftForge.TERRAIN_GEN_BUS.register(this);
+	private BiomeDecorationHandler() {
+	}
+	
+	public static void register() {
+		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeDecorationHandler());
 	}
 }

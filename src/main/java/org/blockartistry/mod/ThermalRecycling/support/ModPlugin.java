@@ -43,16 +43,13 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerReci
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
-import cofh.api.core.IInitializer;
-
 import com.google.common.base.Predicate;
 
-import cpw.mods.fml.common.Optional;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
-@Optional.Interface(iface = "cofh.api.core.IInitializer", modid = "CoFHCore", striprefs = true)
-public abstract class ModPlugin implements IInitializer {
+public abstract class ModPlugin {
 
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
@@ -78,17 +75,14 @@ public abstract class ModPlugin implements IInitializer {
 		return mod.getName();
 	}
 
-	@Override
-	public boolean preInit() {
+	public boolean preInit(final Configuration config) {
 		return true;
 	}
 
-	@Override
 	public boolean initialize() {
 		return true;
 	}
 
-	@Override
 	public boolean postInit() {
 		return true;
 	}
@@ -253,14 +247,14 @@ public abstract class ModPlugin implements IInitializer {
 	}
 	
 	
-	public static void preInitPlugins() {
+	public static void preInitPlugins(final Configuration config) {
 		
 		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
 
 		for (final ModPlugin plugin : plugins) {
 
 			try {
-				plugin.preInit();
+				plugin.preInit(config);
 			} catch (Exception e) {
 				ModLog.warn("Error pre-initializing plugin [%s]", plugin.getName());
 				e.printStackTrace();

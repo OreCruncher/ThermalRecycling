@@ -33,15 +33,16 @@ import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
 import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.config.Configuration;
 
 public final class ProxyClient extends Proxy {
 
 	@Override
-	public void preInit(final FMLPreInitializationEvent event) {
-		super.preInit(event);
+	public void preInit(final FMLPreInitializationEvent event, final Configuration config) {
+		super.preInit(event, config);
 
 		// Hook for "one off" texture registrations
-		new TextureManager();
+		TextureManager.register();
 
 		// Register early to give the background process a good amount
 		// of time to get the mod version data
@@ -54,14 +55,14 @@ public final class ProxyClient extends Proxy {
 		super.init(event);
 		
 		// Initialize the tool tip event handler
-		new ToolTipEventHandler();
+		ToolTipEventHandler.register();
 
 		// Register hooks based on configuration
 		if (ModOptions.getEnableTooltips())
-			ToolTipEventHandler.hooks.add(new ScrapToolTip());
+			ToolTipEventHandler.addHook(new ScrapToolTip());
 
 		if (ModOptions.getEnableDebugLogging())
-			ToolTipEventHandler.hooks.add(new DebugToolTip());
+			ToolTipEventHandler.addHook(new DebugToolTip());
 		
 		// Register renderers
 		BlockManager.vending.registerRenderer();

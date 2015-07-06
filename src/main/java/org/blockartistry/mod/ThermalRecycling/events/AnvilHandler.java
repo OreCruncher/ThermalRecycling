@@ -110,7 +110,10 @@ public final class AnvilHandler {
 		}
 	}
 
-	public AnvilHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	private AnvilHandler() {
+	}
+	
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new AnvilHandler());
 	}
 }

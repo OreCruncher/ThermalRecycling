@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
@@ -134,9 +133,7 @@ public final class VanillaMinecraft extends ModPlugin {
 	}
 
 	@Override
-	public boolean preInit() {
-
-		final Configuration config = ThermalRecycling.config();
+	public boolean preInit(final Configuration config) {
 
 		enableDiamondRecycle = config.getBoolean(
 				CONFIG_ENABLE_DIAMOND_RECIPIES, MOD_CONFIG_SECTION,

@@ -31,6 +31,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
@@ -107,7 +108,7 @@ public final class ModForestry extends ModPlugin {
 	}
 
 	@Override
-	public boolean preInit() {
+	public boolean preInit(final Configuration config) {
 
 		StorageManager.crateRegistry.registerCrate(ScrappingTables.debris,
 				"cratedDebris");

@@ -35,9 +35,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 public final class GuiHandler implements IGuiHandler {
 
-	public GuiHandler() {
-		NetworkRegistry.INSTANCE.registerGuiHandler(
-				ThermalRecycling.instance(), this);
+	private GuiHandler() {
 	}
 
 	@Override
@@ -62,5 +60,10 @@ public final class GuiHandler implements IGuiHandler {
 		}
 
 		return null;
+	}
+	
+	public static void register() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(
+				ThermalRecycling.instance(), new GuiHandler());
 	}
 }

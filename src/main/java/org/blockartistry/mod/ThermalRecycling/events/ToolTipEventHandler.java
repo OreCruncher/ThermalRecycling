@@ -37,7 +37,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ToolTipEventHandler {
 
-	public static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
+	private static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onToolTipEvent(final ItemTooltipEvent event) {
@@ -49,7 +49,14 @@ public final class ToolTipEventHandler {
 			f.apply(event.toolTip, event.itemStack);
 	}
 
-	public ToolTipEventHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	private ToolTipEventHandler() {
+	}
+	
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new ToolTipEventHandler());
+	}
+	
+	public static void addHook(final MultiFunction<List<String>, ItemStack, Void> hook) {
+		hooks.add(hook);
 	}
 }

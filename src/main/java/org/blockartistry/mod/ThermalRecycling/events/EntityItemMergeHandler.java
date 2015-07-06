@@ -111,11 +111,14 @@ public final class EntityItemMergeHandler {
 		}
 	}
 
-	public EntityItemMergeHandler() {
+	private EntityItemMergeHandler() {
+	}
+	
+	public static void register() {
 		if (MERGE_RANGE > 0) {
 			ModLog.info("Item merging enabled with a range of %f",
 					ModOptions.getEntityItemMergeRange());
-			FMLCommonHandler.instance().bus().register(this);
+			FMLCommonHandler.instance().bus().register(new EntityItemMergeHandler());
 		}
 	}
 }

@@ -45,6 +45,9 @@ import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
  */
 public final class ItemManager {
 
+	private ItemManager() {
+	}
+
 	public static final RecyclingScrap recyclingScrap = new RecyclingScrap();
 	public static final RecyclingScrapBox recyclingScrapBox = new RecyclingScrapBox();
 	public static final ProcessingCore processingCore = new ProcessingCore();
@@ -64,7 +67,7 @@ public final class ItemManager {
 				}
 			});
 
-	static void registerItems() {
+	public static void register() {
 
 		recyclingScrap.register();
 		recyclingScrapBox.register();
@@ -75,9 +78,5 @@ public final class ItemManager {
 		paperLogMaker.register();
 
 		soylentGreen.register();
-	}
-
-	public ItemManager() {
-		registerItems();
 	}
 }

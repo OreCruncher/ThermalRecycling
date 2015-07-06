@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.proxy;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 
@@ -58,7 +59,6 @@ import org.blockartistry.mod.ThermalRecycling.world.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.world.VendingVillageStructureHandler;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -68,10 +68,10 @@ public class Proxy {
 
 	private static boolean started = false;
 	
-	public void preInit(final FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event, final Configuration config) {
 		FakePlayerHelper.initialize("ThermalRecycling");
 		
-		ModPlugin.preInitPlugins();
+		ModPlugin.preInitPlugins(config);
 	}
 
 	public void init(final FMLInitializationEvent event) {
@@ -79,41 +79,38 @@ public class Proxy {
 		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe",
 				UpgradeRecipe.class, Category.SHAPED, "");
 
-		new ItemManager();
-		new BlockManager();
+		ItemManager.register();
+		BlockManager.register();
 		AchievementManager.registerAchievements();
 
-		new GuiHandler();
-		new FuelHandler();
+		GuiHandler.register();
+		FuelHandler.register();
 
 		// Hook for worm drop
-		new BlockHarvestEventHandler();
-		BlockHarvestEventHandler.hooks.add(new WormDropHandler());
+		BlockHarvestEventHandler.register();
+		BlockHarvestEventHandler.addHook(new WormDropHandler());
 
 		// Hook to prevent vending machines from being broken
-		new BlockBreakEventHandler();
-		BlockBreakEventHandler.hooks.add(new VendingMachineBreakHandler());
+		BlockBreakEventHandler.register();
+		BlockBreakEventHandler.addHook(new VendingMachineBreakHandler());
 		
 		// Hook various entity events
-		new EntityEventHandler();
+		EntityEventHandler.register();
 		
 		// Village generation
 		if(ModOptions.getEnableVillageGen())
-			new VendingVillageStructureHandler();
+			VendingVillageStructureHandler.register();
 
 		if (!ModOptions.getRubblePileDisable())
-			new BiomeDecorationHandler();
+			BiomeDecorationHandler.register();
 
 		if (!ModOptions.getDisableAnvilRepair())
-			new AnvilHandler();
+			AnvilHandler.register();
 
-		new EntityItemMergeHandler();
+		EntityItemMergeHandler.register();
 
-		if (ModOptions.getEnableWaila())
-			FMLInterModComms.sendMessage("Waila", "register",
-					WailaHandler.class.getName() + ".callbackRegister");
+		WailaHandler.register();
 		
-		// Register with MineTweaker if present
 		MineTweakerSupport.initialize();
 	}
 

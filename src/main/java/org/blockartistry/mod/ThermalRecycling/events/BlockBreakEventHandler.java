@@ -36,7 +36,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BlockBreakEventHandler {
 	
-	public static final List<Predicate<BreakEvent>> hooks = new ArrayList<Predicate<BreakEvent>>();
+	private BlockBreakEventHandler() {
+	}
+	
+	private static final List<Predicate<BreakEvent>> hooks = new ArrayList<Predicate<BreakEvent>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onBlockBreak(final BreakEvent event) {
@@ -44,8 +47,11 @@ public class BlockBreakEventHandler {
 			p.apply(event);
 	}
 	
-	public BlockBreakEventHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new BlockBreakEventHandler());
 	}
-
+	
+	public static void addHook(final Predicate<BreakEvent> hook) {
+		hooks.add(hook);
+	}
 }

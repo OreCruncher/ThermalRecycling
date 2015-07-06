@@ -48,6 +48,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.event.FMLInterModComms;
 
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila")
 public final class WailaHandler implements IWailaDataProvider {
@@ -146,5 +147,11 @@ public final class WailaHandler implements IWailaDataProvider {
 	public NBTTagCompound getNBTData(final EntityPlayerMP arg0, final TileEntity arg1,
 			final NBTTagCompound arg2, final World arg3, final int arg4, final int arg5, final int arg6) {
 		return null;
+	}
+	
+	public static void register() {
+		if (ModOptions.getEnableWaila())
+			FMLInterModComms.sendMessage("Waila", "register",
+					WailaHandler.class.getName() + ".callbackRegister");
 	}
 }

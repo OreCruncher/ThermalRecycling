@@ -35,13 +35,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TextureManager {
+public final class TextureManager {
 	
 	public static IIcon slotResourceNotAvailable;
 	public static IIcon slotResourceAvailable;
 
-	public TextureManager() {
-		MinecraftForge.EVENT_BUS.register(this);
+	private TextureManager() {
 	}
 	
 	@SubscribeEvent
@@ -55,5 +54,9 @@ public class TextureManager {
 			slotResourceAvailable = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":slot_resource_available");
 			
 		}
+	}
+	
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new TextureManager());
 	}
 }

@@ -41,8 +41,7 @@ public class VendingVillageStructureHandler implements VillagerRegistry.IVillage
 		MapGenStructureIO.registerStructure(VendingVillageStructure.class, ThermalRecycling.MOD_ID + "Vend");
 	}
 	
-	public VendingVillageStructureHandler() {
-		VillagerRegistry.instance().registerVillageCreationHandler(this);
+	private VendingVillageStructureHandler() {
 	}
 
 	@Override
@@ -61,5 +60,8 @@ public class VendingVillageStructureHandler implements VillagerRegistry.IVillage
 			List pieces, Random random, int p1, int p2, int p3, int p4, int p5) {
 		return VendingVillageStructure.buildComponent(startPiece, pieces, random, p1, p2, p3, p4, p5);
 	}
-
+	
+	public static void register() {
+		VillagerRegistry.instance().registerVillageCreationHandler(new VendingVillageStructureHandler());
+	}
 }

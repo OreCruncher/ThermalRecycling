@@ -37,7 +37,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BlockHarvestEventHandler {
 	
-	public static final List<Predicate<HarvestDropsEvent>> hooks = new ArrayList<Predicate<HarvestDropsEvent>>();
+	private BlockHarvestEventHandler() {
+	}
+
+	private static final List<Predicate<HarvestDropsEvent>> hooks = new ArrayList<Predicate<HarvestDropsEvent>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onBlockHarvestEvent(final HarvestDropsEvent event) {
@@ -45,7 +48,11 @@ public class BlockHarvestEventHandler {
 			p.apply(event);
 	}
 	
-	public BlockHarvestEventHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new BlockHarvestEventHandler());
+	}
+	
+	public static void addHook(final Predicate<HarvestDropsEvent> hook) {
+		hooks.add(hook);
 	}
 }

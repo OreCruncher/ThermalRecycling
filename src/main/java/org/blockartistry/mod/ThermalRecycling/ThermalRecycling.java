@@ -61,12 +61,6 @@ public final class ThermalRecycling {
 		return proxy;
 	}
 
-	protected static Configuration config;
-
-	public static Configuration config() {
-		return config;
-	}
-
 	public ThermalRecycling() {
 		ModLog.setLogger(LogManager.getLogger(MOD_ID));
 	}
@@ -75,13 +69,12 @@ public final class ThermalRecycling {
 	public void preInit(final FMLPreInitializationEvent event) {
 
 		// Load up our configuration
-		config = new Configuration(event.getSuggestedConfigurationFile());
+		final Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.load();
 		ModOptions.load(config);
+		proxy.preInit(event, config);
 		config.save();
-
-		proxy.preInit(event);
 	}
 
 	@EventHandler
@@ -92,7 +85,6 @@ public final class ThermalRecycling {
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
 		proxy.postInit(event);
-		config.save();
 	}
 
 	@EventHandler

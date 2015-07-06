@@ -40,6 +40,9 @@ import org.blockartistry.mod.ThermalRecycling.machines.MachineVending;
  */
 public final class BlockManager {
 	
+	private BlockManager() {
+	}
+
 	public static final ScrapBlock scrapBlock = new ScrapBlock();
 	public static final MachineThermalRecycler thermalRecycler = new MachineThermalRecycler();
 	public static final MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
@@ -49,7 +52,7 @@ public final class BlockManager {
 	public static final PileOfRubble pileOfRubble = new PileOfRubble();
 	public static final Lawn lawn = new Lawn();
 
-	static void registerBlocks() {
+	public static void register() {
 
 		scrapBlock.register();
 		fertileLand.register();
@@ -60,9 +63,5 @@ public final class BlockManager {
 		scrapAssessor.register();
 		composter.register();
 		vending.register();
-	}
-
-	public BlockManager() {
-		registerBlocks();
 	}
 }

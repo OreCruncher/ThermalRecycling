@@ -42,6 +42,9 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 public final class EntityEventHandler {
 	
+	private EntityEventHandler() {
+	}
+	
 	// 1 in n
 	private static final int SOYLENT_DROP_RATE = 3;
 	
@@ -71,7 +74,7 @@ public final class EntityEventHandler {
 		}
 	}
 
-	public EntityEventHandler() {
-		MinecraftForge.EVENT_BUS.register(this);
+	public static void register() {
+		MinecraftForge.EVENT_BUS.register(new EntityEventHandler());
 	}
 }
