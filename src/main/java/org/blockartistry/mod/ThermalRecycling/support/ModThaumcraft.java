@@ -107,7 +107,7 @@ public final class ModThaumcraft extends ModPlugin {
 		furnace.append("Thaumcraft:ItemLeggingsThaumium")
 				.output("ingotThaumium", 7).save();
 		furnace.append("Thaumcraft:ItemBootsThaumium")
-				.output("ingotThaumium", 5).save();
+				.output("ingotThaumium", 4).save();
 		furnace.append("Thaumcraft:ItemShovelThaumium").output("ingotThaumium")
 				.save();
 		furnace.append("Thaumcraft:ItemPickThaumium",
