@@ -31,9 +31,11 @@ package org.blockartistry.mod.ThermalRecycling.waila;
 
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineVendingTop;
 import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
 import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
 
@@ -93,6 +95,8 @@ public final class WailaHandler implements IWailaDataProvider {
 			break;
 		}
 		
+		register.registerStackProvider(instance, MachineVendingTop.class);
+		
 		// Options
 		register.addConfig(ThermalRecycling.MOD_NAME, OPTION_REVEAL_ON_SNEAKING, false);
 	}
@@ -140,6 +144,12 @@ public final class WailaHandler implements IWailaDataProvider {
 	@Override
 	public ItemStack getWailaStack(final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
+		
+		// Want our vending machine tops to have the bottom tooltip
+		if(accessor.getBlock() == BlockManager.vendingTop) {
+			return new ItemStack(BlockManager.vending);
+		}
+		
 		return null;
 	}
 

@@ -22,40 +22,29 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.events;
+package org.blockartistry.mod.ThermalRecycling.nei;
 
-import org.blockartistry.mod.ThermalRecycling.machines.MachineVending;
-import org.blockartistry.mod.ThermalRecycling.machines.MachineVendingTop;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import cpw.mods.fml.common.Loader;
+import net.minecraft.item.ItemStack;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 
-import com.google.common.base.Predicate;
+import codechicken.nei.api.API;
 
-public class VendingMachineBreakHandler implements Predicate<BreakEvent> {
-
-	@Override
-	public boolean apply(final BreakEvent evt) {
+public final class NEIManager {
+	
+	private NEIManager() { }
+	
+	private static void hideItems() {
+		API.hideItem(new ItemStack(BlockManager.vendingTop));
+	}
+	
+	public static void initialize() {
 		
-		if(!evt.isCanceled() && (evt.block instanceof MachineVending || evt.block instanceof MachineVendingTop)) {
-			
-			// Do the check only if player is non-OP
-			if(!evt.getPlayer().capabilities.isCreativeMode) {
-				
-				int baseY = evt.y;
-				if(evt.block instanceof MachineVendingTop)
-					baseY--;
-				
-				final TileEntity te = evt.world.getTileEntity(evt.x, baseY, evt.z);
-				if(te instanceof VendingTileEntity) {
-					final VendingTileEntity vending = (VendingTileEntity) te;
-					if(!vending.okToBreak(evt.getPlayer()))
-						evt.setCanceled(true);
-				}
-			}
-		}
+		// If NEI is not loaded just skip
+		if(!Loader.isModLoaded("NotEnoughItems"))
+			return;
 		
-		return true;
+		hideItems();
 	}
 }

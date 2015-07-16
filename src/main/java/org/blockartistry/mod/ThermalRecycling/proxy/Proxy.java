@@ -50,6 +50,7 @@ import org.blockartistry.mod.ThermalRecycling.events.WormDropHandler;
 import org.blockartistry.mod.ThermalRecycling.items.FuelHandler;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiHandler;
+import org.blockartistry.mod.ThermalRecycling.nei.NEIManager;
 import org.blockartistry.mod.ThermalRecycling.support.ModPlugin;
 import org.blockartistry.mod.ThermalRecycling.tweaker.MineTweakerSupport;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
@@ -120,6 +121,9 @@ public class Proxy {
 		
 		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper
 				.getProfile().toString());
+		
+		// Do our NEI thing
+		NEIManager.initialize();
 	}
 	
 	public void serverStarting(final FMLServerStartingEvent event) {

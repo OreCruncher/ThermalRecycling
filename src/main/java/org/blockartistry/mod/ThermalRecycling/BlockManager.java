@@ -32,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.machines.MachineComposter;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineVending;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineVendingTop;
 
 /**
  * Contains references to all Blocks in the mod as well as logic for
@@ -48,6 +49,7 @@ public final class BlockManager {
 	public static final MachineScrapAssessor scrapAssessor = new MachineScrapAssessor();
 	public static final MachineComposter composter = new MachineComposter();
 	public static final MachineVending vending = new MachineVending();
+	public static final MachineVendingTop vendingTop = new MachineVendingTop();
 	public static final FertileLand fertileLand = new FertileLand();
 	public static final PileOfRubble pileOfRubble = new PileOfRubble();
 	public static final Lawn lawn = new Lawn();
@@ -63,5 +65,6 @@ public final class BlockManager {
 		scrapAssessor.register();
 		composter.register();
 		vending.register();
+		vendingTop.register();
 	}
 }

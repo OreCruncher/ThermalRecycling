@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.renderers.VendingTileEntityRenderer;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -33,7 +34,10 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -51,6 +55,33 @@ public class MachineVending extends MachineBase {
 	@Override
 	public TileEntity createNewTileEntity(final World world, final int meta) {
 		return new VendingTileEntity();
+	}
+
+	@Override
+	public void breakBlock(final World world, final int x, final int y,
+			final int z, final Block oldBlock, final int oldMeta) {
+		if (!world.isRemote) {
+			final TileEntity te = world.getTileEntity(x, y, z);
+			if (te instanceof TileEntityBase) {
+				((TileEntityBase) te).dropInventory(world, x, y, z);
+			}
+		}
+
+		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
+		
+		// Clear out the top gag block
+		final int gagY = y + 1;
+		if(!world.isRemote && world.getBlock(x, gagY, z) == BlockManager.vendingTop)
+			world.setBlockToAir(x, gagY, z);
+	}
+
+	@Override
+	public void onBlockPlacedBy(final World world, final int x, final int y,
+			final int z, final EntityLivingBase entity,
+			final ItemStack p_149689_6_) {
+		
+		super.onBlockPlacedBy(world, x, y, z, entity, p_149689_6_);
+		world.setBlock(x, y + 1, z, BlockManager.vendingTop);
 	}
 
 	@Override

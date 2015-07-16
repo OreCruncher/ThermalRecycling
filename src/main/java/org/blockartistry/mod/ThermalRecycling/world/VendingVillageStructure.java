@@ -86,6 +86,7 @@ public class VendingVillageStructure extends StructureVillagePieces.Village {
 
 		if (box.isVecInside(i1, j1, k1)) {
 			world.setBlock(i1, j1, k1, BlockManager.vending, orientations[coordBaseMode], 2);
+			world.setBlock(i1, j1 + 1, k1, BlockManager.vendingTop, 0, 2);
 			
 			VendingTileEntity te = (VendingTileEntity) world.getTileEntity(i1,
 					j1, k1);
