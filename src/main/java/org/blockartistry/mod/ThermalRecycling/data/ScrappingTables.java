@@ -84,7 +84,7 @@ public final class ScrappingTables {
 	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
 	
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
-	static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
+	//static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
@@ -92,23 +92,23 @@ public final class ScrappingTables {
 		final String key = e.getKey();
 		
 		if("destroy".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(null, weight);
+			item = new ItemStackItem(null, weight);
 		else if("debris".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(debris, weight);
+			item = new ItemStackItem(debris, weight);
 		else if("keep".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(keep, weight);
+			item = new ItemStackItem(keep, weight);
 		else if("dust".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(dust, weight);
+			item = new ItemStackItem(dust, weight);
 		else if("poorScrap".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(poorScrap, weight);
+			item = new ItemStackItem(poorScrap, weight);
 		else if("standardScrap".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(standardScrap, weight);
+			item = new ItemStackItem(standardScrap, weight);
 		else if("superiorScrap".equalsIgnoreCase(key))
-			item = table.new ItemStackItem(superiorScrap, weight);
+			item = new ItemStackItem(superiorScrap, weight);
 		else {
 			final ItemStack stack = ItemStackHelper.getItemStack(key);
 			if(stack != null)
-				item = table.new ItemStackItem(stack, weight);
+				item = new ItemStackItem(stack, weight);
 		}
 
 		return item;
@@ -142,7 +142,7 @@ public final class ScrappingTables {
 			
 			final JarConfiguration config = new JarConfiguration(in);
 			processTables("dcomp", dcompScrap, config);
-			processTables("extract", extractDust, config);
+			//processTables("extract", extractDust, config);
 
 			for(final ScrapValue sv: ScrapValue.values()) {
 				final String category = sv.name() + "_MustScrap";
@@ -176,17 +176,19 @@ public final class ScrappingTables {
 
 	public static Optional<ItemStackWeightTable> getTable(final CoreType core, final ItemLevel level, final ScrapValue scrap) {
 		
+		assert core != CoreType.EXTRACTION;
+		
 		final int scrapOrdinal = scrap.ordinal();
 		if(core == CoreType.NONE) {
 			return Optional.fromNullable(mustScrap.get(scrapOrdinal));
 		}
 		
 		final int levelOrdinal = level.ordinal();
-		if(core == CoreType.DECOMPOSITION) {
+		//if(core == CoreType.DECOMPOSITION) {
 			return dcompScrap.get(scrapOrdinal, levelOrdinal);
-		}
+		//}
 		
-		return extractDust.get(scrapOrdinal, levelOrdinal);
+		//return extractDust.get(scrapOrdinal, levelOrdinal);
 	}
 
 	private static void dumpTable(final Writer writer, final String title,
@@ -219,7 +221,7 @@ public final class ScrappingTables {
 
 		writer.write("\n================\nScrap Tables\n================\n");
 		dumpTable(writer, "Core: Decomposition", dcompScrap);
-		dumpTable(writer, "Core: Extraction", extractDust);
+		//dumpTable(writer, "Core: Extraction", extractDust);
 		dumpTable(writer, "Must Scrap", mustScrap);
 	}
 }

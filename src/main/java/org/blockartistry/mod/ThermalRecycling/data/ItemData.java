@@ -64,6 +64,7 @@ public final class ItemData {
 	private boolean isFood;
 	private boolean isGeneric;
 	private boolean isBlockedFromScrapping;
+	private boolean isBlockedFromExtraction;
 
 	public static void freeze() {
 		cache = ImmutableMap.copyOf(cache);
@@ -73,11 +74,14 @@ public final class ItemData {
 		return item == Items.golden_apple || item == Items.golden_carrot;
 	}
 
-	private static void setBlockedFromScrapping(final ItemStack stack) {
-		put(stack,
-				new ItemData(stack, get(stack).setBlockedFromScrapping(true)));
+	public static void setBlockedFromScrapping(final ItemStack stack, final boolean flag) {
+		put(stack, get(stack).setBlockedFromScrapping(flag));
 	}
-	
+
+	public static void setBlockedFromExtraction(final ItemStack stack, final boolean flag) {
+		put(stack, get(stack).setBlockedFromExtraction(flag));
+	}
+
 	private static ItemStack getGenericIfPossible(final Item item) {
 		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
 	}
@@ -116,37 +120,37 @@ public final class ItemData {
 					|| oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
 				for (final ItemStack stack : OreDictionary.getOres(oreName)) {
-					setBlockedFromScrapping(stack);
+					setBlockedFromScrapping(stack, true);
 				}
 			}
 		}
 
 		// Add our scrap and boxes
-		setBlockedFromScrapping(ScrappingTables.debris);
-		setBlockedFromScrapping(ScrappingTables.poorScrap);
-		setBlockedFromScrapping(ScrappingTables.standardScrap);
-		setBlockedFromScrapping(ScrappingTables.superiorScrap);
-		setBlockedFromScrapping(ScrappingTables.poorScrapBox);
-		setBlockedFromScrapping(ScrappingTables.standardScrapBox);
-		setBlockedFromScrapping(ScrappingTables.superiorScrapBox);
+		setBlockedFromScrapping(ScrappingTables.debris, true);
+		setBlockedFromScrapping(ScrappingTables.poorScrap, true);
+		setBlockedFromScrapping(ScrappingTables.standardScrap, true);
+		setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
+		setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
+		setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
+		setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
 		
 		// Litter Bags
-		setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG));
+		setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
 	}
 
 	private ItemData(final ItemStack stack, final ItemData data) {
 		this(stack, data.value, data.compostValue, data.ignoreRecipe,
-				data.scrubFromOutput, data.isBlockedFromScrapping);
+				data.scrubFromOutput, data.isBlockedFromScrapping, data.isBlockedFromExtraction);
 	}
 
 	private ItemData(final ItemStack stack) {
 		this(stack, DEFAULT_SCRAP_VALUE, DEFAULT_COMPOST_INGREDIENT, false,
-				false, false);
+				false, false, true);
 	}
 
 	private ItemData(final ItemStack stack, final ScrapValue value,
 			final CompostIngredient compost, final boolean ignoreRecipe,
-			final boolean scrubFromOutput, final boolean isBlockedFromScrapping) {
+			final boolean scrubFromOutput, final boolean isBlockedFromScrapping, final boolean isBlockedFromExtraction) {
 		assert stack != null;
 		this.stack = stack;
 		this.value = value;
@@ -156,6 +160,7 @@ public final class ItemData {
 		this.isFood = stack.getItem() instanceof ItemFood;
 		this.isGeneric = stack.getItemDamage() == OreDictionary.WILDCARD_VALUE;
 		this.isBlockedFromScrapping = isBlockedFromScrapping;
+		this.isBlockedFromExtraction = isBlockedFromExtraction;
 	}
 
 	public String getName() {
@@ -213,9 +218,18 @@ public final class ItemData {
 	public boolean isBlockedFromScrapping() {
 		return isBlockedFromScrapping;
 	}
+	
+	public boolean isBlockedFromExtraction() {
+		return isBlockedFromExtraction;
+	}
 
 	public ItemData setBlockedFromScrapping(final boolean flag) {
 		isBlockedFromScrapping = flag;
+		return this;
+	}
+	
+	public ItemData setBlockedFromExtraction(final boolean flag) {
+		isBlockedFromExtraction = flag;
 		return this;
 	}
 
@@ -223,12 +237,13 @@ public final class ItemData {
 	public String toString() {
 
 		return String
-				.format("%s%s [sv: %s; ignoreRecipe: %s; scrub: %s; isFood: %s; blocked: %s]",
+				.format("%s%s [sv: %s; ignoreRecipe: %s; scrub: %s; isFood: %s; block scrap: %s; block extract: %s]",
 						getName(), (isGeneric() ? " (GENERIC)" : ""),
 						value.name(), Boolean.toString(ignoreRecipe),
 						Boolean.toString(scrubFromOutput),
 						Boolean.toString(isFood),
-						Boolean.toString(isBlockedFromScrapping));
+						Boolean.toString(isBlockedFromScrapping),
+						Boolean.toString(isBlockedFromExtraction));
 	}
 
 	public static void setValue(final ItemStack stack, final ScrapValue value) {
@@ -276,6 +291,10 @@ public final class ItemData {
 	public static boolean canBeScrapped(final ItemStack stack) {
 		return !get(stack).isBlockedFromScrapping();
 	}
+	
+	public static boolean canBeExtracted(final ItemStack stack) {
+		return !get(stack).isBlockedFromExtraction();
+	}
 
 	public static boolean isRecipeIgnored(final ItemStack stack) {
 		final ItemData data = get(stack);
@@ -308,12 +327,6 @@ public final class ItemData {
 			final boolean flag) {
 		assert stack != null;
 		put(stack, get(stack).setScrubFromOutput(flag));
-	}
-
-	public static void setBlockedFromScrapping(final ItemStack stack,
-			final boolean flag) {
-		assert stack != null;
-		put(stack, get(stack).setBlockedFromScrapping(flag));
 	}
 
 	public static void writeDiagnostic(final Writer writer) throws Exception {

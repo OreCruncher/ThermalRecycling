@@ -447,8 +447,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	}
 
 	protected boolean hasItemToRecycle() {
-		return context != null
-				&& context.recipeData.getMinimumInputQuantityRequired() <= activeStack.stackSize;
+		return context != null && context.inputQuantityRequired <= activeStack.stackSize;
 	}
 
 	protected boolean flushBuffer() {
@@ -483,8 +482,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 		// Get how many items we need to snag off the stack
 		// and remove them.
-		decrStackSize(INPUT,
-				context.recipeData.getMinimumInputQuantityRequired());
+		decrStackSize(INPUT, context.inputQuantityRequired);
 
 		// The necessary information should be in the context already.
 		buffer = context.scrap();

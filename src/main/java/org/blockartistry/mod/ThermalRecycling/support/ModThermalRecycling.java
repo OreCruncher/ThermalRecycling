@@ -29,6 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
+import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
@@ -37,6 +38,8 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -89,6 +92,54 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
 				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
 
+		// Configure extraction recipes
+		registerExtractionRecipe(
+				ScrappingTables.poorScrap,
+				new ItemStackItem(null, 120),
+				new ItemStackItem(ScrappingTables.standardScrap, 60),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15"), 10),
+				new ItemStackItem(ItemStackHelper.dustCoal, 10),
+				new ItemStackItem(ItemStackHelper.dustCharcoal, 10),
+				new ItemStackItem(ItemStackHelper.sulfer, 10),
+				new ItemStackItem(ItemStackHelper.dustIron, 20),
+				new ItemStackItem(ItemStackHelper.dustTin, 20),
+				new ItemStackItem(ItemStackHelper.dustCopper, 20),
+				new ItemStackItem(ItemStackHelper.dustNickel, 20));
+		
+		registerExtractionRecipe(
+				ScrappingTables.standardScrap,
+				new ItemStackItem(null, 78),
+				new ItemStackItem(ScrappingTables.superiorScrap, 52),
+				new ItemStackItem(ItemStackHelper.dustCoal, 10),
+				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
+				new ItemStackItem(ItemStackHelper.dustIron, 20),
+				new ItemStackItem(ItemStackHelper.dustTin, 20),
+				new ItemStackItem(ItemStackHelper.dustCopper, 20),
+				new ItemStackItem(ItemStackHelper.dustSilver, 20),
+				new ItemStackItem(ItemStackHelper.dustLead, 20),
+				new ItemStackItem(ItemStackHelper.dustGold, 10));
+
+		registerExtractionRecipe(
+				ScrappingTables.superiorScrap,
+				new ItemStackItem(ItemStackHelper.dustGold, 20),
+				new ItemStackItem(ItemStackHelper.dustPlatinum, 20),
+				new ItemStackItem(ItemStackHelper.dustElectrum, 20),
+				new ItemStackItem(ItemStackHelper.dustSignalum, 10),
+				new ItemStackItem(ItemStackHelper.dustLumium, 10),
+				new ItemStackItem(ItemStackHelper.dustEnderium, 10));
+		
+		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
+		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
+		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
+		
+		registerExtractionRecipe(
+				ItemStackHelper.getItemStack("minecraft:netherrack", 1),
+				new ItemStackItem(null, 95),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:glowstone_dust"), 2),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:redstone"), 2),
+				new ItemStackItem(ItemStackHelper.dustElectrum, 1)
+				);
+
 		// ////////////////////
 		//
 		// Add recipe blacklist items first
@@ -102,7 +153,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		for (final String s : ModOptions.getRecyclerBlacklist()) {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
-
+		
 		return true;
 	}
 
@@ -148,6 +199,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.freeze();
 		RecipeData.freeze();
 		ScrapHandler.freeze();
+		ExtractionData.freeze();
 
 		// Register scrap items for Pile of Rubble
 		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);

@@ -47,15 +47,10 @@ public enum CoreType {
 	 * @return
 	 */
 	public static boolean canCoreProcess(final CoreType core, final ItemStack stack) {
-
-		if (core == NONE || core == DECOMPOSITION)
-			return ItemData.canBeScrapped(stack);
-
-		if (core == EXTRACTION)
-			return stack.getItem() == ItemManager.recyclingScrap
-					|| stack.getItem() == ItemManager.recyclingScrapBox;
-
-		return false;
+		final ItemData data = ItemData.get(stack);
+		if(core == EXTRACTION)
+			return !data.isBlockedFromExtraction();
+		return !data.isBlockedFromScrapping();
 	}
 
 	/**

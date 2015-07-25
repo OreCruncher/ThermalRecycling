@@ -31,6 +31,7 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
+import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
@@ -41,6 +42,8 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilde
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
 import com.google.common.base.Predicate;
@@ -246,6 +249,15 @@ public abstract class ModPlugin {
 		});
 	}
 	
+	protected void registerExtractionRecipe(final ItemStack input, final ItemStackItem... entries) {
+		
+		final ItemStackWeightTable table = new ItemStackWeightTable();
+		for(final ItemStackItem e: entries)
+			table.add(e);
+		
+		ItemData.setBlockedFromExtraction(input, false);
+		ExtractionData.put(input, table);
+	}
 	
 	public static void preInitPlugins(final Configuration config) {
 		

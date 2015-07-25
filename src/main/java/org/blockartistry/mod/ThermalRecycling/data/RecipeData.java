@@ -53,7 +53,7 @@ public final class RecipeData {
 	private static final RecipeData ephemeral = new RecipeData();
 	
 	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
-	
+
 	public static void freeze() {
 		recipes = ImmutableMap.copyOf(recipes);
 	}
@@ -73,7 +73,7 @@ public final class RecipeData {
 		this.isGeneric = true;
 		this.outputStacks = ImmutableList.of();
 	}
-
+	
 	public RecipeData(final ItemStack input, final List<ItemStack> output) {
 		assert input != null;
 		assert output != null;
@@ -99,7 +99,7 @@ public final class RecipeData {
 	public List<ItemStack> getOutput() {
 		return this.outputStacks;
 	}
-
+	
 	public static RecipeData get(final ItemStack input) {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
@@ -170,14 +170,14 @@ public final class RecipeData {
 
 		return retCode;
 	}
-
+	
 	@Override
 	public String toString() {
 
 		final StringBuilder builder = new StringBuilder(128);
 		builder.append(String.format("[%dx %s] => [", quantityRequired, name));
 
-		if (outputStacks == null || outputStacks.isEmpty()) {
+		if (!hasOutput()) {
 			builder.append("none");
 		} else {
 			boolean sawOne = false;
@@ -198,7 +198,7 @@ public final class RecipeData {
 
 	public static void writeDiagnostic(final Writer writer) throws Exception {
 
-		writer.write("\nKnown Thermal Recycler Recipes:\n");
+		writer.write("\nKnown Thermal Recycler Decomp Recipes:\n");
 		writer.write("=================================================================\n");
 		for (final RecipeData d : recipes.values())
 			writer.write(String.format("%s\n", d.toString()));

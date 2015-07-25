@@ -37,6 +37,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
@@ -149,6 +150,7 @@ public class Proxy {
 					ScrappingTables.writeDiagnostic(writer);
 					UseEffect.diagnostic(writer);
 					RecipeData.writeDiagnostic(writer);
+					ExtractionData.writeDiagnostic(writer);
 
 				} catch (Exception e) {
 					e.printStackTrace();

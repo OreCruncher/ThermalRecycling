@@ -91,11 +91,13 @@ public class ScrapHandler {
 		public CoreType coreType;
 		public ItemLevel coreLevel;
 		public final boolean shouldJam;
+		public int inputQuantityRequired;
 		
 		// These are filled in by the scrap handler so if it
 		// comes back it doesn't have to query data, again.
 		public ScrapHandler handler;
 		public RecipeData recipeData = null;
+		public ExtractionData extractData = null;
 		public List<ItemStack> recipeOutput = null;
 		public ItemStackWeightTable[] tables = null;
 
@@ -108,10 +110,17 @@ public class ScrapHandler {
 			this.coreType = CoreType.getType(core);
 			this.coreLevel = coreType == CoreType.NONE ? ItemLevel.BASIC : ItemLevel.getLevel(core);
 			this.handler = ScrapHandler.getHandler(stack);
-			this.recipeData = recipe == null ? RecipeData.get(stack) : recipe;
 			this.toProcess = stack.copy();
 			this.toProcess.stackSize = 1;
 			this.shouldJam = !CoreType.canCoreProcess(this.coreType, stack);
+			
+			if(this.coreType == CoreType.EXTRACTION) {
+				this.extractData = ExtractionData.get(stack);
+				this.inputQuantityRequired = this.extractData.getMinimumInputQuantityRequired();
+			} else {
+				this.recipeData = RecipeData.get(stack);
+				this.inputQuantityRequired = this.recipeData.getMinimumInputQuantityRequired();
+			}
 		}
 		
 		/**
@@ -296,17 +305,30 @@ public class ScrapHandler {
 					ctx.coreLevel = ItemLevel.BASIC;
 				}
 				
-			} else if (ctx.coreType == CoreType.EXTRACTION && ctx.toProcess.getItem() == ItemManager.recyclingScrapBox) {
-				ctx.recipeOutput = Collections.singletonList(new ItemStack(ItemManager.recyclingScrap,
-						8 + ModOptions.getScrapBoxBonus(), ctx.toProcess.getItemDamage()));
+			} else if (ctx.coreType == CoreType.EXTRACTION) {
+				if(ctx.toProcess.getItem() == ItemManager.recyclingScrapBox) {
+					ctx.recipeOutput = Collections.singletonList(new ItemStack(ItemManager.recyclingScrap,
+							8 + ModOptions.getScrapBoxBonus(), ctx.toProcess.getItemDamage()));
+				}
+				else {
+					final ItemStack stack = ctx.toProcess.copy();
+					stack.stackSize = 1;
+					ctx.recipeOutput = Collections.singletonList(stack);
+				}
+				
+				ctx.tables = new ItemStackWeightTable[] { ExtractionData.get(ctx.recipeOutput.get(0)).getOutput() };
 			} else {
 				ctx.recipeOutput = Collections.singletonList(ctx.toProcess);
 			}
-			
-			ctx.tables = new ItemStackWeightTable[ctx.recipeOutput.size()];
-			for(int i = 0; i < ctx.tables.length; i++) {
-				final ScrapValue sv = ItemData.get(ctx.recipeOutput.get(i)).getScrapValue();
-				ctx.tables[i] = ScrappingTables.getTable(ctx.coreType, ctx.coreLevel, sv).get();;
+
+			// Get the weight tables if they haven't already been provided.  Extraction cores
+			// have special tables for determining output.
+			if(ctx.tables == null) {
+				ctx.tables = new ItemStackWeightTable[ctx.recipeOutput.size()];
+				for(int i = 0; i < ctx.tables.length; i++) {
+					final ScrapValue sv = ItemData.get(ctx.recipeOutput.get(i)).getScrapValue();
+					ctx.tables[i] = ScrappingTables.getTable(ctx.coreType, ctx.coreLevel, sv).get();;
+				}
 			}
 		}
 	}
@@ -426,20 +448,19 @@ public class ScrapHandler {
 
 		// Get a base template for what the input should look like
 		final ItemStack item = ctx.toProcess.copy();
-		item.stackSize = 1;
+		item.stackSize = ctx.inputQuantityRequired;
 
 		List<ItemStack> result = null;
 		
 		// If a dcomp core is installed get the output and decorate
 		if (ctx.coreType == CoreType.DECOMPOSITION) {
 
-			item.stackSize = ctx.recipeData.getMinimumInputQuantityRequired();
 			result = ctx.recipeOutput;
 			
 			if(ModOptions.getEnableAssessorEnhancedLore()) {
 				decorateStacks(ctx, result);
 			}
-		}
+		} 
 
 		if (result == null) {
 			
