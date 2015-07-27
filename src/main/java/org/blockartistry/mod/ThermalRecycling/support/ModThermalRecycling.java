@@ -59,8 +59,8 @@ public final class ModThermalRecycling extends ModPlugin {
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
 		// Need to be able to see any special frames in real time.
-		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore,
-				1, OreDictionary.WILDCARD_VALUE), handler);
+		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
+				handler);
 
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
@@ -69,76 +69,46 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
 
 		ItemData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(BlockManager.scrapBlock),
-				ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker),
-				ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(ItemManager.material, 1,
-				Material.LITTER_BAG), ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
+		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), ScrapValue.NONE);
 
-		ItemData.setValue(new ItemStack(ItemManager.material, 1,
-				Material.PAPER_LOG), ScrapValue.POOR);
+		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
 
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
-				RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
-				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1,
-				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
-				RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
-				RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1,
-				RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD),
+				ScrapValue.STANDARD);
+		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
+				ScrapValue.SUPERIOR);
 
 		// Configure extraction recipes
-		registerExtractionRecipe(
-				ScrappingTables.poorScrap,
-				new ItemStackItem(null, 120),
+		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15"), 10),
-				new ItemStackItem(ItemStackHelper.dustCoal, 10),
-				new ItemStackItem(ItemStackHelper.dustCharcoal, 10),
-				new ItemStackItem(ItemStackHelper.sulfer, 10),
-				new ItemStackItem(ItemStackHelper.dustIron, 20),
-				new ItemStackItem(ItemStackHelper.dustTin, 20),
-				new ItemStackItem(ItemStackHelper.dustCopper, 20),
+				new ItemStackItem(ItemStackHelper.dustCoal, 10), new ItemStackItem(ItemStackHelper.dustCharcoal, 10),
+				new ItemStackItem(ItemStackHelper.sulfer, 10), new ItemStackItem(ItemStackHelper.dustIron, 20),
+				new ItemStackItem(ItemStackHelper.dustTin, 20), new ItemStackItem(ItemStackHelper.dustCopper, 20),
 				new ItemStackItem(ItemStackHelper.dustNickel, 20));
-		
-		registerExtractionRecipe(
-				ScrappingTables.standardScrap,
-				new ItemStackItem(null, 78),
-				new ItemStackItem(ScrappingTables.superiorScrap, 52),
-				new ItemStackItem(ItemStackHelper.dustCoal, 10),
-				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
-				new ItemStackItem(ItemStackHelper.dustIron, 20),
-				new ItemStackItem(ItemStackHelper.dustTin, 20),
-				new ItemStackItem(ItemStackHelper.dustCopper, 20),
-				new ItemStackItem(ItemStackHelper.dustSilver, 20),
-				new ItemStackItem(ItemStackHelper.dustLead, 20),
-				new ItemStackItem(ItemStackHelper.dustGold, 10));
 
-		registerExtractionRecipe(
-				ScrappingTables.superiorScrap,
-				new ItemStackItem(ItemStackHelper.dustGold, 20),
+		registerExtractionRecipe(ScrappingTables.standardScrap, new ItemStackItem(null, 78),
+				new ItemStackItem(ScrappingTables.superiorScrap, 52), new ItemStackItem(ItemStackHelper.dustCoal, 10),
+				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
+				new ItemStackItem(ItemStackHelper.dustIron, 20), new ItemStackItem(ItemStackHelper.dustTin, 20),
+				new ItemStackItem(ItemStackHelper.dustCopper, 20), new ItemStackItem(ItemStackHelper.dustSilver, 20),
+				new ItemStackItem(ItemStackHelper.dustLead, 20), new ItemStackItem(ItemStackHelper.dustGold, 10));
+
+		registerExtractionRecipe(ScrappingTables.superiorScrap, new ItemStackItem(ItemStackHelper.dustGold, 20),
 				new ItemStackItem(ItemStackHelper.dustPlatinum, 20),
 				new ItemStackItem(ItemStackHelper.dustElectrum, 20),
-				new ItemStackItem(ItemStackHelper.dustSignalum, 10),
-				new ItemStackItem(ItemStackHelper.dustLumium, 10),
+				new ItemStackItem(ItemStackHelper.dustSignalum, 10), new ItemStackItem(ItemStackHelper.dustLumium, 10),
 				new ItemStackItem(ItemStackHelper.dustEnderium, 10));
-		
+
 		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
-		
-		registerExtractionRecipe(
-				ItemStackHelper.getItemStack("minecraft:netherrack", 1),
-				new ItemStackItem(null, 95),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:glowstone_dust"), 2),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:redstone"), 2),
-				new ItemStackItem(ItemStackHelper.dustElectrum, 1)
-				);
 
 		// ////////////////////
 		//
@@ -153,7 +123,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		for (final String s : ModOptions.getRecyclerBlacklist()) {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
-		
+
 		return true;
 	}
 
@@ -181,8 +151,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 					// If the name is prefixed with any of the mods
 					// we know about then we can create the recipe.
-					final String name = Item.itemRegistry
-							.getNameForObject(stack.getItem());
+					final String name = Item.itemRegistry.getNameForObject(stack.getItem());
 
 					if (SupportedMod.isModWhitelisted(name)) {
 						try {
@@ -207,11 +176,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
 		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
 
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1,
-				Material.LITTER_BAG), 1, 2, 4);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
 
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1,
-				2, 6);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 2, 6);
 
 		return true;
 	}

@@ -53,6 +53,7 @@ public class ExtractionData {
 		this.quantityRequired = 1;
 		this.isGeneric = true;
 		this.extraction = new ItemStackWeightTable();
+		this.isDefault = true;
 	}
 	
 	protected ExtractionData(final ItemStack input, final ItemStackWeightTable table) {
@@ -63,12 +64,18 @@ public class ExtractionData {
 		this.quantityRequired = input.stackSize;
 		this.isGeneric = input.getItemDamage() == OreDictionary.WILDCARD_VALUE;
 		this.extraction = table;
+		this.isDefault = false;
 	}
 
 	private final String name;
 	private final int quantityRequired;
 	private final boolean isGeneric;
 	private ItemStackWeightTable extraction;
+	private final boolean isDefault;
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
 	
 	public boolean isGeneric() {
 		return isGeneric;
