@@ -151,19 +151,29 @@ public final class VanillaMinecraft extends ModPlugin {
 		registerPulverizeToDirt("sapling", 0, 5);
 
 		// Extraction recipes
-		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:netherrack", 1), new ItemStackItem(null, 95),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:glowstone_dust"), 2),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:redstone"), 2),
-				new ItemStackItem(ItemStackHelper.dustElectrum, 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:netherrack", 1),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:gravel"), 40),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:glowstone_dust"), 4),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:redstone"), 4),
+				new ItemStackItem(ItemStackHelper.dustElectrum, 2));
 
-		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:end_stone"), new ItemStackItem(null, 7),
+		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:end_stone"),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:stone"), 3),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:ender_pearl"), 1));
 
+		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:soul_sand"),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:sand"), 8),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:gravel"), 7),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:ghast_tear"), 1));
+
 		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:pumpkin"),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:pumpkin_seeds", 8), 1));
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:pumpkin_seeds", 6), 1));
 
 		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:melon_block"),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:melon_seeds", 16), 1));
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:melon_seeds", 12), 1));
+		
+		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:wheat"),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:wheat_seeds", 2), 1));
 
 		// Recycle some parts
 		sawmill.setEnergy(800).append(Blocks.ladder).output("dustWood", 2).save();

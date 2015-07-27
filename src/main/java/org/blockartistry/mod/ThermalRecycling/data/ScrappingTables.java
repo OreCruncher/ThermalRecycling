@@ -84,7 +84,6 @@ public final class ScrappingTables {
 	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
 	
 	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
-	//static final Matrix2D<ItemStackWeightTable> extractDust = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
 	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
@@ -184,11 +183,7 @@ public final class ScrappingTables {
 		}
 		
 		final int levelOrdinal = level.ordinal();
-		//if(core == CoreType.DECOMPOSITION) {
-			return dcompScrap.get(scrapOrdinal, levelOrdinal);
-		//}
-		
-		//return extractDust.get(scrapOrdinal, levelOrdinal);
+		return dcompScrap.get(scrapOrdinal, levelOrdinal);
 	}
 
 	private static void dumpTable(final Writer writer, final String title,
@@ -221,7 +216,6 @@ public final class ScrappingTables {
 
 		writer.write("\n================\nScrap Tables\n================\n");
 		dumpTable(writer, "Core: Decomposition", dcompScrap);
-		//dumpTable(writer, "Core: Extraction", extractDust);
 		dumpTable(writer, "Must Scrap", mustScrap);
 	}
 }
