@@ -90,7 +90,7 @@ public class ScrapHandler {
 		public final ItemStack core;
 		public CoreType coreType;
 		public ItemLevel coreLevel;
-		public final boolean shouldJam;
+		public boolean shouldJam;
 		public int inputQuantityRequired;
 		
 		// These are filled in by the scrap handler so if it
@@ -117,6 +117,8 @@ public class ScrapHandler {
 			if(this.coreType == CoreType.EXTRACTION) {
 				this.extractData = ExtractionData.get(stack);
 				this.inputQuantityRequired = this.extractData.getMinimumInputQuantityRequired();
+				if(this.extractData.isDefault())
+					this.shouldJam = true;
 			} else {
 				this.recipeData = RecipeData.get(stack);
 				this.inputQuantityRequired = this.recipeData.getMinimumInputQuantityRequired();
