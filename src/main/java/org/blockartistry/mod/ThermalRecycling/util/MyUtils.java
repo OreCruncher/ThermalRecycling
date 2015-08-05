@@ -33,4 +33,19 @@ public final class MyUtils {
 				return true;
 		return false;
 	}
+	
+	public static int[] split(String split, String list) throws Exception {
+		
+		String[] tokens = list.split(split);
+		if(tokens == null || tokens.length == 0)
+			return new int[] { };
+		
+		int[] result = new int[tokens.length];
+		for(int i = 0; i < tokens.length; i++) {
+			Integer v = Integer.parseInt(tokens[i]);
+			result[i] = v;
+		}
+		
+		return result;
+	}
 }

@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.world;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -37,27 +38,40 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class BiomeDecorationHandler {
 
+	private static final int[] dimensionList = ModOptions.getRubbleDimensionList();
+	private static final boolean dimensionListBlack = ModOptions.getRubbleDimensionListAsBlack();
+
 	private final int MIN_Y = 5;
 	private final int PLACE_ATTEMPTS = 2;
+
+	private static boolean isGenAllowedInDimension(int dimension) {
+		final boolean inList = MyUtils.contains(dimensionList, dimension);
+		if (dimensionListBlack)
+			return !inList;
+		return inList;
+	}
+
+	private static boolean isGenerationAllowed(final DecorateBiomeEvent.Decorate event) {
+		return (event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT)
+				&& event.type == EventType.FLOWERS && isGenAllowedInDimension(event.world.provider.dimensionId);
+	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onWorldDecoration(final DecorateBiomeEvent.Decorate event) {
 
-		if ((event.getResult() == Result.ALLOW || event.getResult() == Result.DEFAULT)
-				&& event.type == EventType.FLOWERS) {
+		if (isGenerationAllowed(event)) {
 
 			// Calculate the range and scaling based on
-			// the world sea level.  Normal sea level is assumed
+			// the world sea level. Normal sea level is assumed
 			// to be 64, which is the Overworld sea level.
-			final int groundLevel = event.world.provider
-					.getAverageGroundLevel();
+			final int groundLevel = event.world.provider.getAverageGroundLevel();
 			final int attempts = (int) (ModOptions.getRubblePileDensity() * ((float) groundLevel / 64F));
 			final int maxY = groundLevel - 4;
 			final int spread = maxY - MIN_Y;
-			
+
 			// In case someone does something real funky with a
 			// dimension.
-			if(spread < 1 || attempts < 1)
+			if (spread < 1 || attempts < 1)
 				return;
 
 			// Use our random routine, but seed with the provided
@@ -73,10 +87,8 @@ public final class BiomeDecorationHandler {
 
 				for (int j = 0; j < PLACE_ATTEMPTS; j++) {
 					if (event.world.isAirBlock(x, y, z)
-							&& BlockManager.pileOfRubble.canBlockStay(
-									event.world, x, y, z)) {
-						event.world
-								.setBlock(x, y, z, BlockManager.pileOfRubble);
+							&& BlockManager.pileOfRubble.canBlockStay(event.world, x, y, z)) {
+						event.world.setBlock(x, y, z, BlockManager.pileOfRubble);
 						break;
 					}
 					y--;
@@ -87,7 +99,7 @@ public final class BiomeDecorationHandler {
 
 	private BiomeDecorationHandler() {
 	}
-	
+
 	public static void register() {
 		MinecraftForge.TERRAIN_GEN_BUS.register(new BiomeDecorationHandler());
 	}

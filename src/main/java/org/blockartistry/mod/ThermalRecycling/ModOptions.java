@@ -1,5 +1,5 @@
 /*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+CONFIG_RUBBLE_PILE_DISABLE * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -27,6 +27,8 @@ package org.blockartistry.mod.ThermalRecycling;
 import java.util.HashMap;
 
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
@@ -53,6 +55,8 @@ public final class ModOptions {
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
 	protected static final String CONFIG_RUBBLE_PILE_DENSITY = "Density";
 	protected static final String CONFIG_RUBBLE_PILE_DROP_COUNT = "Number of Drops";
+	protected static final String CONFIG_RUBBLE_DIMENSION_LIST = "Generation Dimension List";
+	protected static final String CONFIG_RUBBLE_DIMENSION_LIST_AS_BLACK = "Dimension List As Blacklist";
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
@@ -131,6 +135,8 @@ public final class ModOptions {
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
+	protected static int[] rubbleDimensionList = new int[] { };
+	protected static boolean rubbleDimensionListAsBlack = true;
 
 	protected static int vendingItemRenderRange = 6;
 	protected static int vendingNameRenderRange = 8;
@@ -284,6 +290,17 @@ public final class ModOptions {
 		rubblePileDisable = config.getBoolean(CONFIG_RUBBLE_PILE_DISABLE,
 				CATEGORY_RUBBLE, rubblePileDisable, comment);
 
+		comment = "Dimension list for Pile of Rubble generation";
+		String temp = config.getString(CONFIG_RUBBLE_DIMENSION_LIST, CATEGORY_RUBBLE, "", comment);
+		try {
+			rubbleDimensionList = MyUtils.split(",", temp);
+		} catch(Throwable e) {
+			ModLog.warn("Error in rubble dimension list: %s", temp);
+		}
+		
+		comment = "Dimension list is a black list rather than white list";
+		rubbleDimensionListAsBlack = config.getBoolean(CONFIG_RUBBLE_DIMENSION_LIST_AS_BLACK, CATEGORY_RUBBLE, rubbleDimensionListAsBlack, comment);
+		
 		comment = "Enable/Disable repair of items using scrap in an anvil";
 		disableAnvilRepair = config.getBoolean(CONFIG_DISABLE_ANVIL,
 				CATEGORY_GENERAL, disableAnvilRepair, comment);
@@ -462,6 +479,14 @@ public final class ModOptions {
 
 	public static boolean getRubblePileDisable() {
 		return rubblePileDisable;
+	}
+	
+	public static boolean getRubbleDimensionListAsBlack() {
+		return rubbleDimensionListAsBlack;
+	}
+	
+	public static int[] getRubbleDimensionList() {
+		return rubbleDimensionList;
 	}
 
 	public static boolean getDisableAnvilRepair() {
