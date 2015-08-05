@@ -59,7 +59,7 @@ public final class EntityEventHandler {
 	}
 
 	private static boolean soylentCandidate(final Entity entity) {
-		return entity instanceof EntityVillager
+		return entity instanceof EntityVillager || entity instanceof EntityPlayerMP
 				|| (entity instanceof EntityZombie && ((EntityZombie) entity)
 						.isVillager());
 	}
