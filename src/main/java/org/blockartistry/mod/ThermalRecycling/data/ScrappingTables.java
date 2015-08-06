@@ -54,8 +54,8 @@ public final class ScrappingTables {
 	private static final String[] UPGRADE_NAMES = new String[] { "Basic",
 			"Hardened", "Reinforced", "Resonant", "Ethereal", };
 
-	static final ItemStack keep = new ItemStack(Blocks.dirt);
-	static final ItemStack dust = new ItemStack(Blocks.cobblestone);
+	static final ItemStack keep = new ItemStack(Blocks.bedrock);
+	static final ItemStack dust = new ItemStack(Blocks.air);
 
 	public static boolean destroyIt(final ItemStack stack) {
 		return stack == null;
