@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.List;
+
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -38,6 +40,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
@@ -126,18 +129,11 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		return true;
 	}
-
-	@Override
-	public boolean postInit() {
-
-		// ////////////////////
-		//
-		// Process the recipes
-		//
-		// ////////////////////
+	
+	private void processRecipeList(final List<Object> recipes, final boolean vanillaOnly) {
 
 		// Process all registered recipes
-		for (final Object o : CraftingManager.getInstance().getRecipeList()) {
+		for (final Object o : recipes) {
 
 			final IRecipe recipe = (IRecipe) o;
 			final ItemStack stack = recipe.getRecipeOutput();
@@ -146,7 +142,7 @@ public final class ModThermalRecycling extends ModPlugin {
 			// the list. This does not mean that something later
 			// on can't add one - just means by default it will
 			// not be included.
-			if (stack != null) {
+			if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
 				if (!ItemData.isRecipeIgnored(stack)) {
 
 					// If the name is prefixed with any of the mods
@@ -155,6 +151,9 @@ public final class ModThermalRecycling extends ModPlugin {
 
 					if (SupportedMod.isModWhitelisted(name)) {
 						try {
+							final List<ItemStack> output = RecipeDecomposition.decompose(recipe);
+							if(vanillaOnly && !ItemStackHelper.isVanilla(output))
+								continue;
 							recycler.useRecipe(recipe).save();
 						} catch (Throwable t) {
 							ModLog.catching(t);
@@ -163,6 +162,21 @@ public final class ModThermalRecycling extends ModPlugin {
 				}
 			}
 		}
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean postInit() {
+
+		// ////////////////////
+		//
+		// Process the recipes
+		//
+		// ////////////////////
+		final List<Object> recipes = CraftingManager.getInstance().getRecipeList();
+		processRecipeList(recipes, true);
+		processRecipeList(recipes, false);
 
 		// Lock our tables
 		ItemData.freeze();

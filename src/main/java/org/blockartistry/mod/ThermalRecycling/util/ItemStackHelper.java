@@ -947,4 +947,28 @@ public final class ItemStackHelper {
 		assert stack != null;
 		return clearInventory(inv, stack.getItem(), stack.getItemDamage());
 	}
+	
+	/**
+	 * Determines if an ItemStacks represents a Vanilla item
+	 * @param output
+	 * @return
+	 */
+	public static boolean isVanilla(final List<ItemStack> output) {
+		assert output != null;
+		assert output.size() > 0;
+		for(final ItemStack item: output)
+			if(!isVanilla(item))
+				return false;
+		return true;
+	}
+
+	public static boolean isVanilla(final ItemStack stack) {
+		assert stack != null;
+		return isVanilla(stack.getItem());
+	}
+
+	public static boolean isVanilla(final Item item) {
+		final String name = Item.itemRegistry.getNameForObject(item);
+		return name != null && name.startsWith("minecraft");
+	}
 }

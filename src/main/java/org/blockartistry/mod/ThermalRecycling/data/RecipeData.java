@@ -100,6 +100,21 @@ public final class RecipeData {
 		return this.outputStacks;
 	}
 	
+	public boolean isVanillaOutput() {
+		
+		if(hasOutput())  {
+			
+			for(final ItemStack stack: getOutput()) {
+				if(!ItemStackHelper.isVanilla(stack))
+					return false;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static RecipeData get(final ItemStack input) {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
