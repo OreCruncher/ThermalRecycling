@@ -88,9 +88,11 @@ public class Proxy {
 		GuiHandler.register();
 		FuelHandler.register();
 
-		// Hook for worm drop
 		BlockHarvestEventHandler.register();
-		BlockHarvestEventHandler.addHook(new WormDropHandler());
+
+		// Hook for worm drop
+		if(ModOptions.getWormDropChance() != Integer.MAX_VALUE && ModOptions.getWormDropChance() != 0)
+			BlockHarvestEventHandler.addHook(new WormDropHandler());
 
 		// Hook to prevent vending machines from being broken
 		BlockBreakEventHandler.register();
