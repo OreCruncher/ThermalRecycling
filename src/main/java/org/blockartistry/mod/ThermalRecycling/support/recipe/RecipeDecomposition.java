@@ -244,9 +244,14 @@ public final class RecipeDecomposition {
 			}
 
 			try {
+
 				final ShapedOreRecipe shaped = (ShapedOreRecipe) teRecipeAccessor
 						.get(recipe);
-				result = project(shaped);
+				
+				if("cofh.thermalexpansion.util.crafting.RecipeMachine".contains(shaped.getClass().getName())) { 
+					result = project(shaped);
+				}
+				
 			} catch (Exception e) {
 			}
 
