@@ -195,7 +195,7 @@ public final class VanillaMinecraft extends ModPlugin {
 			pulverizer.append(Items.diamond_chestplate).output(Items.diamond, 8).save();
 			pulverizer.append(Items.diamond_leggings).output(Items.diamond, 7).save();
 			pulverizer.append(Items.diamond_boots).output(Items.diamond, 4).save();
-			pulverizer.append(Items.diamond_sword).output(Items.diamond).secondaryOutput("dustWood").save();
+			pulverizer.append(Items.diamond_sword).output(Items.diamond, 2).secondaryOutput("dustWood").save();
 			pulverizer.append(Items.diamond_hoe).output(Items.diamond, 2).secondaryOutput("dustWood", 2).save();
 			pulverizer.append(Items.diamond_axe, Items.diamond_pickaxe).output(Items.diamond, 3)
 					.secondaryOutput("dustWood", 2).save();
