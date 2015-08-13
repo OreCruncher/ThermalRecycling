@@ -44,6 +44,7 @@ public class WeightTable<T extends WeightTable.Item> {
 		protected Random rnd;
 
 		public Item(final int weight) {
+			assert weight > 0;
 			this.itemWeight = weight;
 		}
 		
@@ -65,6 +66,9 @@ public class WeightTable<T extends WeightTable.Item> {
 	}
 
 	public void add(final T entry) {
+		assert entry != null;
+		assert entry.itemWeight > 0;
+		
 		totalWeight += entry.itemWeight;
 		entry.rnd = rand;
 		items.add(entry);
@@ -77,6 +81,8 @@ public class WeightTable<T extends WeightTable.Item> {
 
 	public T next() {
 
+		assert totalWeight > 0;
+		
 		int targetWeight = rand.nextInt(totalWeight);
 
 		int i = 0;
