@@ -109,6 +109,9 @@ public final class ModThermalRecycling extends ModPlugin {
 				new ItemStackItem(ItemStackHelper.dustSignalum, 10), new ItemStackItem(ItemStackHelper.dustLumium, 10),
 				new ItemStackItem(ItemStackHelper.dustEnderium, 10));
 
+		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionary.WILDCARD_VALUE),
+				new ItemStackItem(null, 1));
+
 		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
@@ -129,7 +132,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		return true;
 	}
-	
+
 	private void processRecipeList(final List<Object> recipes, final boolean vanillaOnly) {
 
 		// Process all registered recipes
@@ -152,7 +155,7 @@ public final class ModThermalRecycling extends ModPlugin {
 					if (SupportedMod.isModWhitelisted(name)) {
 						try {
 							final List<ItemStack> output = RecipeDecomposition.decompose(recipe);
-							if(vanillaOnly && !ItemStackHelper.isVanilla(output))
+							if (vanillaOnly && !ItemStackHelper.isVanilla(output))
 								continue;
 							recycler.useRecipe(recipe).save();
 						} catch (Throwable t) {
