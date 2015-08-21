@@ -44,6 +44,8 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -111,6 +113,28 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionary.WILDCARD_VALUE),
 				new ItemStackItem(null, 1));
+
+		// Soylent Red and Yellow
+		registerExtractionRecipe(new ItemStack(Blocks.pumpkin, 6),
+				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
+		registerExtractionRecipe(new ItemStack(Items.carrot, 12),
+				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
+		registerExtractionRecipe(new ItemStack(Items.potato, 16),
+				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
+		registerExtractionRecipe(new ItemStack(Items.apple, 12),
+				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
+
+		registerExtractionRecipe(new ItemStack(Items.beef, 6),
+				new ItemStackItem(new ItemStack(ItemManager.soylentRed), 1));
+		registerExtractionRecipe(new ItemStack(Items.porkchop, 8),
+				new ItemStackItem(new ItemStack(ItemManager.soylentRed), 1));
+		registerExtractionRecipe(new ItemStack(Items.fish, 12),
+				new ItemStackItem(new ItemStack(ItemManager.soylentRed), 1));
+		registerExtractionRecipe(new ItemStack(Items.chicken, 8),
+				new ItemStackItem(new ItemStack(ItemManager.soylentRed), 1));
+
+		registerExtractionRecipe(new ItemStack(Items.rotten_flesh, 16),
+				new ItemStackItem(new ItemStack(ItemManager.soylentGreen), 1));
 
 		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);

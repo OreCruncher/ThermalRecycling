@@ -26,6 +26,8 @@ item.Material.litterBag.name=Litter Bag
 item.Material.gardenShears.name=Garden Shears
 
 item.soylentGreen.name=§2Soylent Green
+item.soylentYellow.name=§eSoylent Yellow
+item.soylentRed.name=§4Soylent Red
 msg.itLooksEdible=It looks edible...
 
 tile.PileOfRubble.name=Pile of Rubble

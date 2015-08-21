@@ -40,6 +40,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+// Info on food items in Minecraft: http://bedrockminer.jimdo.com/modding-tutorials/basic-modding-1-7/custom-food/
+
 public class FoodItem extends ItemFood {
 
 	public static abstract class OnEat {
