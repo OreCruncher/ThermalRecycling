@@ -89,6 +89,8 @@ public enum SupportedMod {
 	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
 	
 	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", ModImmersiveEngineering.class),
+	
+	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
