@@ -1,0 +1,114 @@
+# Belgian/Dutch translations
+itemGroup.ThermalRecycling=Thermische recyclage
+itemGroup.TagLine=Verklein! Herbruik! Recycleer!
+ 
+item.Debris.debris.name=Recyclerend puin
+item.RecyclingScrap.poor.name=Inferieur stukje
+item.RecyclingScrap.standard.name=Stukje
+item.RecyclingScrap.superior.name=Superieur stukje
+item.RecyclingScrapBox.poor.name=Doos met inferieure stukjes
+item.RecyclingScrapBox.poor.desc=Ruikt naar muffe gym sokken
+item.RecyclingScrapBox.standard.name=Doos met stukjes
+item.RecyclingScrapBox.standard.desc=Ziet er niet te erg uit
+item.RecyclingScrapBox.superior.name=Doos met superieure stukjes
+item.RecyclingScrapBox.superior.desc=Zeker een wonderdoos...
+item.ProcessingCore.decomposition.name=Core: Decompositie (Basis)
+item.ProcessingCore.decomposition_1.name=Kern: Decompositie (Verhard)
+item.ProcessingCore.decomposition_2.name=§eKern: Decompositie (Verstevigd)
+item.ProcessingCore.decomposition_3.name=§3Kern: Decompositie (Trillend)
+item.ProcessingCore.decomposition_4.name=§5Kern: Decompositie (Etherisch)
+item.ProcessingCore.extraction.name=Kern: Extractie
+ 
+item.PaperLogMaker.paperlogmaker.name=Papieren blok maker
+item.Material.paperlog.name=Papieren blok
+item.Material.worms.name=Handvol wormen
+item.Material.litterBag.name=Afvalzakje
+item.Material.gardenShears.name=Tuinschaar
+ 
+item.soylentGreen.name=§2Soya groen
+item.soylentYellow.name=§eSoya geel
+item.soylentRed.name=§4Soya rood
+msg.itLooksEdible=Het lijkt eetbaar...
+ 
+tile.PileOfRubble.name=Hoopje puin
+tile.FertileLand.name=Vruchtbare bodem
+tile.MachineThermalRecycler.name=Thermische recyclagemachine
+tile.MachineScrapAssessor.name=Stukjes bijzetter
+tile.MachineComposter.name=Compostmaker
+tile.MachineVending.name=Verkoopsautomaat
+tile.ScrapBlock.scrap.name=Blok van stukjes
+tile.Lawn.name=Getrimd gras
+ 
+msg.MachineVending.adminName=Server winkel
+msg.MachineVending.free=GRATIS
+ 
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=Vernietigen
+msg.ScrapPreview.keep=Houden
+msg.ScrapPreview.dust=Stof (indien mogelijk)
+ 
+# Machine Status
+msg.MachineStatus.idle=Ruststatus
+msg.MachineStatus.active=%d%%
+msg.MachineStatus.jammed=Geblokkeerd!
+msg.MachineStatus.needMoreResources=Meer grondstoffen nodig!
+msg.MachineStatus.outOfPower=Zonder stroom
+msg.MachineStatus.needMoreWater=Water nodig
+msg.MachineStatus.cantSeeSky=Moet open lucht zien
+ 
+# Village Vend-O strings
+msg.VendoFormat=Verkoop-O-%s
+msg.VendoFormat.Priest=Priester
+msg.VendoFormat.Librarian=Bibliothecaris
+msg.VendoFormat.Butcher=Slager
+msg.VendoFormat.Farmer=Boer
+msg.VendoFormat.Blacksmith=Smid
+ 
+# Achievements
+achievement.feelingScrappy=Ik voel me als stukjes!
+achievement.feelingScrappy.desc=Maak een Thermische recyclagemachine
+achievement.doingMyPart=Mijn deel doen
+achievement.doingMyPart.desc=Gebruik een doos met stukjes
+achievement.lottoWinner=Lotto Winnaar!
+achievement.lottoWinner.desc=Krijg een Nether Ster van een doos met stukjes
+achievement.doinTheTrash=Het afval doen!
+achievement.doinTheTrash.desc=verwijder afval uit je inventaris met een afvalzakje
+achievement.shearBeauty=Schaar schoonheid
+achievement.shearBeauty.desc=Gebruik de tuinschaar om getrimd gras te creëren to create Manicured Lawn
+achievement.dystopianFuture=Dystopische toekomst
+achievement.dystopianFuture.desc=Verbruik §2Soya groen
+ 
+# ScrapValue for item lore
+msg.ItemScrapValue.none=§eStukjes waarde: §7Niets
+msg.ItemScrapValue.poor=§eStukjes waarde: §fArm
+msg.ItemScrapValue.standard=§eStukjes waarde: §9Standaard
+msg.ItemScrapValue.superior=§eStukjes waarde: §6Superieur
+ 
+# Compost Ingredient Value for lore
+msg.ItemCompostIngredientValue.brown=§eCompost: §6Bruin
+msg.ItemCompostIngredientValue.green=§eCompost: §2Groen
+ 
+# Random titles for Enchanted Books that drop from Scrap Boxes
+msg.BookTitle0.name=Populaire Recyclage
+msg.BookTitle0.desc=Verklein! Herbruik! Recycleer!
+msg.BookTitle1.name=TPS Verslag
+msg.BookTitle1.desc=PC LAAD BRIEF
+msg.BookTitle2.name=Zwaard & Schop
+msg.BookTitle2.desc=Minecraft Verslag Kwartaal
+msg.BookTitle3.name=Maandelijkse Creeper
+msg.BookTitle3.desc=Fsst! Fsst!
+msg.BookTitle4.name=Mooie Zombie
+msg.BookTitle4.desc=101 Schoonheids Tips
+msg.BookTitle5.name=Luchtvaart
+msg.BookTitle5.desc=Bevlieg de varkenslucht!
+msg.BookTitle6.name=Aan het opnemen
+msg.BookTitle6.desc=Voor Erkende Verzamelaars
+msg.BookTitle7.name=Steve's Reizen
+msg.BookTitle7.desc=De End: Is het echt?
+msg.BookTitle8.name=Wekelijkse Parodie
+msg.BookTitle8.desc=Vrees de Creeper niet
+msg.BookTitle9.name=Beter blokken en mijnen
+msg.BookTitle9.desc=Rochel je buur met schedels!
+ 
+# Version checking strings
+msg.NewVersionAvailable=["§6Update Available: §9[",{"text":"§2Thermic Recycling §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/229666-thermal-recycling"}},"§9]"]
