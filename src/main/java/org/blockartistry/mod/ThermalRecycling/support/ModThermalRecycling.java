@@ -219,7 +219,9 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
 
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 2, 6);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 1, 1);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentYellow), 1, 1, 2);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentRed), 1, 1, 2);
 
 		return true;
 	}
