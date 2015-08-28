@@ -33,6 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
@@ -46,48 +47,33 @@ import forestry.api.storage.StorageManager;
 
 public final class ModForestry extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "log1:*", "log2:*",
-			"log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
-			"fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*",
-			"fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
-			"fireproofLog7:*", "fireproofLog8:*", "planks:*", "planks2:*",
-			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*",
-			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
-			"stamps:*", "letters", "crate", "waxCast", "apiculture:*",
-			"arboriculture:*", "lepidopterology:*", "soil:*", "honeyedSlice",
-			"beeCombs:*", "apatite", "fertilizerCompound", "fertilizerBio",
-			"carton", "pipette", "scoop", "catalogue", "soil:*", "core:1",
-			"mulch", };
+	static final String[] recipeIgnoreList = new String[] { "log1:*", "log2:*", "log3:*", "log4:*", "log5:*", "log6:*",
+			"log7:*", "log8:*", "fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*", "fireproofLog4:*",
+			"fireproofLog5:*", "fireproofLog6:*", "fireproofLog7:*", "fireproofLog8:*", "planks:*", "planks2:*",
+			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*", "slabs3:*", "slabs4:*", "fences:*",
+			"fences2:*", "stairs:*", "stamps:*", "letters", "crate", "waxCast", "apiculture:*", "arboriculture:*",
+			"lepidopterology:*", "soil:*", "honeyedSlice", "beeCombs:*", "apatite", "fertilizerCompound",
+			"fertilizerBio", "carton", "pipette", "scoop", "catalogue", "soil:*", "core:1", "mulch", };
 
-	static final String[] scrapValuesNone = new String[] { "log1:*", "log2:*",
-			"log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
-			"fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*",
-			"fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
-			"fireproofLog7:*", "fireproofLog8:*", "waxCapsule",
-			"refractoryEmpty", "beeDroneGE:*", "propolis:*", "sapling:*",
-			"phosphor", "beeswax", "refractoryWax", "fruits:*", "honeyDrop:*",
-			"honeydew", "royalJelly", "waxCast", "beeCombs:*", "woodPulp",
-			"oakStick", "carton", "planks:*", "planks2:*",
-			"fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*",
-			"slabs3:*", "slabs4:*", "fences:*", "fences2:*", "stairs:*",
-			"stamps:*", "letters", "crate", "leaves:*", "stained:*",
-			"fertilizerCompound", "fertilizerBio", "pipette", "scoop",
-			"catalogue", "honeyedSlice", "soil:*", "stump:*", "mushroom:*",
-			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat",
-			"brokenBronzeShovel", "brokenBronzePickaxe",
-			"item.PipeItemsPropolis:0"
+	static final String[] scrapValuesNone = new String[] { "log1:*", "log2:*", "log3:*", "log4:*", "log5:*", "log6:*",
+			"log7:*", "log8:*", "fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*", "fireproofLog4:*",
+			"fireproofLog5:*", "fireproofLog6:*", "fireproofLog7:*", "fireproofLog8:*", "waxCapsule", "refractoryEmpty",
+			"beeDroneGE:*", "propolis:*", "sapling:*", "phosphor", "beeswax", "refractoryWax", "fruits:*",
+			"honeyDrop:*", "honeydew", "royalJelly", "waxCast", "beeCombs:*", "woodPulp", "oakStick", "carton",
+			"planks:*", "planks2:*", "fireproofPlanks1:*", "fireproofPlanks2:*", "slabs1:*", "slabs2:*", "slabs3:*",
+			"slabs4:*", "fences:*", "fences2:*", "stairs:*", "stamps:*", "letters", "crate", "leaves:*", "stained:*",
+			"fertilizerCompound", "fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*",
+			"mushroom:*", "saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
+			"brokenBronzePickaxe", "item.PipeItemsPropolis:0"
 
 	};
 
-	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*",
-			"pollen:*", "apatite", };
+	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", };
 
-	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*",
-			"beePrincessGE:*", "beeQueenGE:*", };
+	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*", "beePrincessGE:*", "beeQueenGE:*", };
 
-	static final String[] scrapValuesSuperior = new String[] { "core:0",
-			"hardenedMachine", "treealyzer", "beealyzer", "flutterlyzer",
-			"frameProven" };
+	static final String[] scrapValuesSuperior = new String[] { "core:0", "hardenedMachine", "treealyzer", "beealyzer",
+			"flutterlyzer", "frameProven" };
 
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);
@@ -95,14 +81,10 @@ public final class ModForestry extends ModPlugin {
 
 	protected void registerForestryRecipes(final Map<Object[], Object[]> entry) {
 		for (final Entry<Object[], Object[]> e : entry.entrySet()) {
-			if (e.getValue().length == 1
-					&& e.getValue()[0] instanceof ItemStack) {
+			if (e.getValue().length == 1 && e.getValue()[0] instanceof ItemStack) {
 				final ItemStack stack = (ItemStack) e.getValue()[0];
 				if (!ItemData.isRecipeIgnored(stack))
-					recycler.input(stack)
-							.useRecipe(
-									RecipeDecomposition.decomposeForestry(
-											stack, e.getKey())).save();
+					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
 		}
 	}
@@ -110,22 +92,19 @@ public final class ModForestry extends ModPlugin {
 	@Override
 	public boolean preInit(final Configuration config) {
 
-		StorageManager.crateRegistry.registerCrate(ScrappingTables.debris,
-				"cratedDebris");
-		StorageManager.crateRegistry.registerCrate(ScrappingTables.poorScrap,
-				"cratedPoorScrap");
-		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.poorScrapBox, "cratedPoorScrapBox");
-		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.standardScrap, "cratedStandardScrap");
-		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.standardScrapBox,
-				"cratedStandardScrapBox");
-		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.superiorScrap, "cratedSuperiorScrap");
-		StorageManager.crateRegistry.registerCrate(
-				ScrappingTables.superiorScrapBox,
-				"cratedSuperiorScrapBox");
+		try {
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.debris, "cratedDebris");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.poorScrap, "cratedPoorScrap");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.poorScrapBox, "cratedPoorScrapBox");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.standardScrap, "cratedStandardScrap");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.standardScrapBox, "cratedStandardScrapBox");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.superiorScrap, "cratedSuperiorScrap");
+			StorageManager.crateRegistry.registerCrate(ScrappingTables.superiorScrapBox, "cratedSuperiorScrapBox");
+		} catch (Throwable t) {
+			ModLog.warn("Unable to register crates with Forestry, skipping...");
+			ModLog.warn("(Is Forestry up to date?)");
+		}
+
 		return true;
 	}
 
@@ -138,34 +117,30 @@ public final class ModForestry extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		registerRecycleToWoodDust(1, "log1:*", "log2:*", "log3:*", "log4:*",
-				"log5:*", "log6:*", "log7:*", "log8:*", "fireproofLog2:*",
-				"fireproofLog3:*", "fireproofLog4:*", "fireproofLog5:*",
-				"fireproofLog6:*", "fireproofLog7:*", "fireproofLog8:*");
-		registerRecycleToWoodDust(2, "planks:*", "planks2:*",
-				"fireproofPlanks1:*", "fireproofPlanks2:*");
+		registerRecycleToWoodDust(1, "log1:*", "log2:*", "log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
+				"fireproofLog2:*", "fireproofLog3:*", "fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
+				"fireproofLog7:*", "fireproofLog8:*");
+		registerRecycleToWoodDust(2, "planks:*", "planks2:*", "fireproofPlanks1:*", "fireproofPlanks2:*");
 		registerRecycleToWoodDust(8, "sapling", "saplingGE");
 		registerRecycleToWoodDust(16, "fruits:*");
 		registerRecycleToWoodDust(32, "propolis:*");
 
-		registerCompostIngredient(CompostIngredient.BROWN, "sapling",
-				"saplingGE", "leaves:*", "soil:*", "ash", "mulch");
+		registerCompostIngredient(CompostIngredient.BROWN, "sapling", "saplingGE", "leaves:*", "soil:*", "ash",
+				"mulch");
 		registerCompostIngredient(CompostIngredient.GREEN, "fruits:*");
 
 		registerPulverizeToDirt("sapling", 0, 0);
 
 		// Hook for farm blocks
 		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
 		// get something for the effort of making these crates.
 		for (final Object o : Item.itemRegistry.getKeys()) {
 			final String itemName = (String) o;
-			if (itemName.startsWith("Forestry:crated")
-					|| itemName.startsWith("recycling:crated")) {
+			if (itemName.startsWith("Forestry:crated") || itemName.startsWith("recycling:crated")) {
 				final ItemStack stack = ItemStackHelper.getItemStack(itemName);
 				final ItemData data = ItemData.get(stack);
 				data.setIgnoreRecipe(true);
@@ -175,47 +150,35 @@ public final class ModForestry extends ModPlugin {
 			}
 		}
 
-		pulverizer.setEnergy(1200).append("Forestry:saplingGE", 8)
-				.output(Blocks.dirt).save();
+		pulverizer.setEnergy(1200).append("Forestry:saplingGE", 8).output(Blocks.dirt).save();
 
-		pulverizer.setEnergy(1200).append("Forestry:sapling", 8)
-				.output(Blocks.dirt).save();
+		pulverizer.setEnergy(1200).append("Forestry:sapling", 8).output(Blocks.dirt).save();
 
 		// Machine casings
-		sawmill.append("Forestry:impregnatedCasing").output(Blocks.planks, 32)
-				.save();
-		pulverizer.append("Forestry:sturdyMachine").output("ingotBronze", 8)
-				.save();
-		pulverizer.append("Forestry:hardenedMachine").output("ingotBronze", 8)
-				.secondaryOutput(Items.diamond, 4).save();
+		sawmill.append("Forestry:impregnatedCasing").output(Blocks.planks, 32).save();
+		pulverizer.append("Forestry:sturdyMachine").output("ingotBronze", 8).save();
+		pulverizer.append("Forestry:hardenedMachine").output("ingotBronze", 8).secondaryOutput(Items.diamond, 4).save();
 
 		// Survivalist tools
-		pulverizer.append("Forestry:bronzePickaxe", "Forestry:kitPickaxe")
-				.output("dustBronze", 3).save();
-		pulverizer.append("Forestry:bronzeShovel", "Forestry:kitShovel")
-				.output("dustBronze").save();
+		pulverizer.append("Forestry:bronzePickaxe", "Forestry:kitPickaxe").output("dustBronze", 3).save();
+		pulverizer.append("Forestry:bronzeShovel", "Forestry:kitShovel").output("dustBronze").save();
 
 		// Misc
-		pulverizer.setEnergy(200).append("Forestry:canEmpty")
-				.output("nuggetTin", 2).secondaryOutput("nuggetTin").chance(10)
-				.save();
+		pulverizer.setEnergy(200).append("Forestry:canEmpty").output("nuggetTin", 2).secondaryOutput("nuggetTin")
+				.chance(10).save();
 
 		// Glass
-		pulverizer.setEnergy(3200)
-				.appendSubtypeRange("Forestry:stained", 0, 15)
-				.output(Blocks.sand).save();
+		pulverizer.setEnergy(3200).appendSubtypeRange("Forestry:stained", 0, 15).output(Blocks.sand).save();
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean postInit() {
 
 		// Dig into the Forestry crafting data and extract additional recipes
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager
-				.getRecipes());
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager
-				.getRecipes());
+		registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager.getRecipes());
+		registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager.getRecipes());
 
 		// Pile of Rubble - add apatite, empty can, and scoop
 		registerPileOfRubbleDrop(1, 3, 5, "apatite");
