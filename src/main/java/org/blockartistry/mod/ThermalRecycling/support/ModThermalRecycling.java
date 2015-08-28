@@ -165,31 +165,33 @@ public final class ModThermalRecycling extends ModPlugin {
 			final IRecipe recipe = (IRecipe) o;
 			final ItemStack stack = recipe.getRecipeOutput();
 
-			// Check to see if this item should have a recipe in
-			// the list. This does not mean that something later
-			// on can't add one - just means by default it will
-			// not be included.
-			if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
-				if (!ItemData.isRecipeIgnored(stack)) {
+			try {
 
-					// If the name is prefixed with any of the mods
-					// we know about then we can create the recipe.
-					final String name = Item.itemRegistry.getNameForObject(stack.getItem());
+				// Check to see if this item should have a recipe in
+				// the list. This does not mean that something later
+				// on can't add one - just means by default it will
+				// not be included.
+				if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
+					if (!ItemData.isRecipeIgnored(stack)) {
 
-					if (SupportedMod.isModWhitelisted(name)) {
-						try {
+						// If the name is prefixed with any of the mods
+						// we know about then we can create the recipe.
+						final String name = Item.itemRegistry.getNameForObject(stack.getItem());
+
+						if (SupportedMod.isModWhitelisted(name)) {
 							final List<ItemStack> output = RecipeDecomposition.decompose(recipe);
-							if (vanillaOnly && !ItemStackHelper.isVanilla(output))
-								continue;
-							recycler.useRecipe(recipe).save();
-						} catch (Throwable t) {
-							ModLog.catching(t);
+							if (output != null && !output.isEmpty()) {
+								if (vanillaOnly && !ItemStackHelper.isVanilla(output))
+									continue;
+								recycler.useRecipe(recipe).save();
+							}
 						}
 					}
 				}
+			} catch (Throwable t) {
+				ModLog.warn("processRecipeList: Unable to register recipe for [%s]", ItemStackHelper.resolveName(stack));
 			}
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")

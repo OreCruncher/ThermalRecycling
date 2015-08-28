@@ -68,7 +68,7 @@ public final class ModForestry extends ModPlugin {
 
 	};
 
-	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", };
+	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty" };
 
 	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*", "beePrincessGE:*", "beeQueenGE:*", };
 
