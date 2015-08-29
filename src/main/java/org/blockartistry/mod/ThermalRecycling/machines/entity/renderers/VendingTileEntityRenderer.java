@@ -24,9 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.entity.renderers;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.ENTITY;
-import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D;
-
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineBase;
@@ -38,7 +35,6 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -49,13 +45,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.MinecraftForgeClient;
 
 @SideOnly(Side.CLIENT)
 public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
@@ -124,15 +118,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		itemRenderer.setRenderManager(RenderManager.instance);
 	}
 
-	private static boolean is3D(final ItemStack stack) {
-		final IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(
-				stack, ENTITY);
-		return renderer != null ? renderer.shouldUseRenderHelper(ENTITY, stack,
-				BLOCK_3D) : false;
-	}
-
 	protected void setColor(final int color, final float alpha) {
-
 		final float red = (float) (color >> 16 & 255) / 255.0F;
 		final float blue = (float) (color >> 8 & 255) / 255.0F;
 		final float green = (float) (color & 255) / 255.0F;
@@ -161,15 +147,12 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 		GL11.glScalef(BLOCK_SCALE * 1.1F, BLOCK_SCALE * 1.1F,
 				BLOCK_SCALE * 1.1F);
 
-		final Block block = Block.getBlockFromItem(stack.getItem());
-		if (block != Blocks.air) {
-			GL11.glTranslatef(0.0F, 0.22F, 0.0F);
-		}
-
-		if (block != Blocks.air || is3D(stack))
-			GL11.glRotatef(90, 0, 1F, 0);
-
+		final boolean save = RenderItem.renderInFrame;
+		RenderItem.renderInFrame = true;
+		GL11.glTranslatef(0.0F, 0.11F, 0.0F);
+		GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 		itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+		RenderItem.renderInFrame = save;
 		GL11.glPopMatrix();
 
 		if (includeQuantity) {
