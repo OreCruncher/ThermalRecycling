@@ -9,6 +9,7 @@ Further information can be found on the [Wiki](https://github.com/OreCruncher/Th
 * HanatakeYurii - French translations
 * LorenzoDCC - Portuguese translations
 * 3TUSK - Chinese translations
+* Joscrama - Dutch-Belgian translations
 
 ###Use in Modpacks
 Thermal Recycling can be used freely in modpacks.  No credit is required, but it would be nice to have an 'at a boy. :)
