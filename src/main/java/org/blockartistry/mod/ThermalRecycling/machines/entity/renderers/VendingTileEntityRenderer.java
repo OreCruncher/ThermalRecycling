@@ -160,7 +160,7 @@ public final class VendingTileEntityRenderer extends TileEntitySpecialRenderer
 			final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 
 			// Move the number slightly in front of the item
-			GL11.glTranslatef(0F, 0F, -0.11F);
+			GL11.glTranslatef(0.02F, 0.02F, -0.11F);
 			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 			GL11.glScalef(-f1, -f1, f1);
 
