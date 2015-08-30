@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
-import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -42,42 +41,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 
 public final class VendingSetup {
 
-	private static Random random = XorShiftRandom.shared;
-
-	private enum Profession {
-
-		FARMER("msg.VendoFormat.Farmer", DyeHelper.COLOR_GREEN, DyeHelper.COLOR_WHITE),
-		LIBRARIAN("msg.VendoFormat.Librarian", DyeHelper.COLOR_YELLOW, DyeHelper.COLOR_BLUE),
-		PRIEST("msg.VendoFormat.Priest", DyeHelper.COLOR_LIGHTGRAY, DyeHelper.COLOR_GRAY),
-		BLACKSMITH("msg.VendoFormat.Blacksmith", DyeHelper.COLOR_BLACK, DyeHelper.COLOR_YELLOW),
-		BUTCHER("msg.VendoFormat.Butcher", DyeHelper.COLOR_YELLOW, DyeHelper.COLOR_RED),
-
-		HERDER("msg.VendoFormat.Herder", DyeHelper.COLOR_BROWN, DyeHelper.COLOR_GREEN),
-		ARBORIST("msg.VendoFormat.Arborist", DyeHelper.COLOR_GREEN, DyeHelper.COLOR_BROWN);
-
-		public final String name;
-		public final int foreColor;
-		public final int backColor;
-
-		private Profession(final String name, final int fColor, final int bColor) {
-			this.name = StatCollector.translateToLocal(name);
-			this.foreColor = fColor;
-			this.backColor = bColor;
-		}
-
-		public static Profession randomProfession() {
-			final int len = values().length;
-			return values()[random.nextInt(len)];
-		}
-	}
-
-	private static final String VENDO_FORMAT = StatCollector.translateToLocal("msg.VendoFormat");
+	private static final Random random = XorShiftRandom.shared;
 
 	private static final Item[] AITEM = new Item[] { Items.iron_sword, Items.diamond_sword, Items.iron_chestplate,
 			Items.diamond_chestplate, Items.iron_axe, Items.diamond_axe, Items.iron_pickaxe, Items.diamond_pickaxe };
@@ -94,16 +63,16 @@ public final class VendingSetup {
 	public static void configure(final VendingTileEntity vte) {
 
 		final ItemStack[] inv = vte.getRawInventory();
-		final Profession profession = Profession.randomProfession();
+		final VillagerProfession profession = VillagerProfession.randomProfession();
 		final int count = 2 + random.nextInt(5);
 
 		// Use this method because if the spawn point is created before
 		// the world is launched it is not possible to have a FakePlayer
 		// "log in".
 		vte.setOwnerId(FakePlayerHelper.getFakePlayerID());
-		vte.setName(String.format(VENDO_FORMAT, profession.name));
-		vte.setNameBackgroundColor(profession.backColor);
-		vte.setNameColor(profession.foreColor);
+		vte.setName(profession.getVendingTitle());
+		vte.setNameBackgroundColor(profession.getBackgroundColor());
+		vte.setNameColor(profession.getForegroundColor());
 
 		int index = 0;
 		for (final MerchantRecipe rm : VendingSetup.getRecipeList(profession, count)) {
@@ -147,7 +116,7 @@ public final class VendingSetup {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<MerchantRecipe> getRecipeList(final Profession profession, final int count) {
+	private static List<MerchantRecipe> getRecipeList(final VillagerProfession profession, final int count) {
 
 		final MerchantRecipeList merchantrecipelist = new MerchantRecipeList();
 		final float factor = MathHelper.sqrt_float((float) count) * 0.2F;
@@ -319,6 +288,28 @@ public final class VendingSetup {
 			addSaleItem(merchantrecipelist, new ItemStack(Blocks.sapling, 4, 5), random,
 					adjustProbability(0.5F, factor), 1, 2);
 			break;
+		case HUNTER:
+			addSaleItem(merchantrecipelist, new ItemStack(Items.bone, 4, 0), random,
+					adjustProbability(0.5F, factor), 1, 2);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.rotten_flesh, 4, 0), random,
+					adjustProbability(0.5F, factor), 1, 2);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.spider_eye, 4, 0), random,
+					adjustProbability(0.5F, factor), 1, 2);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.feather, 16, 0), random,
+					adjustProbability(0.5F, factor), 1, 2);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.blaze_rod, 2, 0), random,
+					adjustProbability(0.2F, factor), 3, 5);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.ghast_tear, 1, 0), random,
+					adjustProbability(0.2F, factor), 5, 8);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.skull, 1, 0), random,
+					adjustProbability(0.15F, factor), 5, 8);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.skull, 1, 1), random,
+					adjustProbability(0.1F, factor), 24, 30);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.skull, 1, 2), random,
+					adjustProbability(0.15F, factor), 5, 8);
+			addSaleItem(merchantrecipelist, new ItemStack(Items.skull, 1, 4), random,
+					adjustProbability(0.15F, factor), 5, 8);
+			break;
 		case BUTCHER:
 		default:
 			EntityVillager.func_146091_a(merchantrecipelist, Items.coal, random, adjustProbability(0.7F, factor));
@@ -348,7 +339,7 @@ public final class VendingSetup {
 		final MerchantRecipeList result = new MerchantRecipeList();
 
 		for (int l = 0; l < count && l < merchantrecipelist.size(); ++l) {
-			if (profession == Profession.HERDER) {
+			if (profession == VillagerProfession.HERDER) {
 				result.add(merchantrecipelist.get(l));
 			} else {
 				result.addToListWithCheck((MerchantRecipe) merchantrecipelist.get(l));

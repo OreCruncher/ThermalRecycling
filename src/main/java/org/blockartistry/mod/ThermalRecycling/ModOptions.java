@@ -50,6 +50,7 @@ public final class ModOptions {
 	protected static final String CONFIG_XP_BOTTLE_VALUE = "Bottled Experience Value";
 	protected static final String CONFIG_TRASH_LIST = "Inventory Trash List";
 	protected static final String CONFIG_ENABLE_VILLAGE_GEN = "Enable Village Worldgen";
+	protected static final String CONFIG_ENABLE_EXTRA_VILLAGE_VENDING_TYPES = "Enable Extra Village Vending Types";
 
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -132,6 +133,7 @@ public final class ModOptions {
 	};
 
 	protected static boolean enableVillageWorldgen = true;
+	protected static boolean enableExtraVillageVendingTypes = true;
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
@@ -251,6 +253,10 @@ public final class ModOptions {
 		comment = "Controls whether mod specific village generation will occur";
 		enableVillageWorldgen = config.getBoolean(CONFIG_ENABLE_VILLAGE_GEN,
 				CATEGORY_GENERAL, enableVillageWorldgen, comment);
+		
+		comment = "Enables extra Village Gen vending types for Vending Machine";
+		enableExtraVillageVendingTypes = config.getBoolean(CONFIG_ENABLE_EXTRA_VILLAGE_VENDING_TYPES, CATEGORY_GENERAL,
+				enableExtraVillageVendingTypes, comment);
 
 		comment = "The bonus amount of scrap a scrapbox will get when processed with Core: Extraction";
 		scrapBoxBonus = config.getInt(CONFIG_SCRAPBOX_BONUS,
@@ -551,6 +557,10 @@ public final class ModOptions {
 
 	public static boolean getEnableVillageGen() {
 		return enableVillageWorldgen;
+	}
+	
+	public static boolean getEnableExtraVillageVendingTypes() {
+		return enableExtraVillageVendingTypes;
 	}
 	
 	public static String[] getRecipeComponentBlacklist() {
