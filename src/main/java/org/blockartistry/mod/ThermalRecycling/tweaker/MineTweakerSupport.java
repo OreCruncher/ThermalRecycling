@@ -43,6 +43,7 @@ public final class MineTweakerSupport {
 			MineTweakerAPI.registerClass(ItemDataRegistry.class);
 			MineTweakerAPI.registerClass(RecipeDataRegistry.class);
 			MineTweakerAPI.registerClass(ExtractionDataRegistry.class);
+			MineTweakerAPI.registerClass(VendingProfessionRegistry.class);
 
 			// Register the constants
 			Constants.register();

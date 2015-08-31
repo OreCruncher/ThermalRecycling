@@ -97,4 +97,8 @@ public final class DyeHelper {
 		return color < 0 || color > 15 ? ItemDye.field_150922_c[DEFAULT_COLOR]
 				: ItemDye.field_150922_c[color];
 	}
+	
+	public static boolean isValidColor(final int color) {
+		return color >= 0 && color < dyeEntries.size();
+	}
 }
