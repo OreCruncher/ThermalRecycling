@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.world;
 import java.util.List;
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 
 import net.minecraft.world.gen.structure.MapGenStructureIO;
@@ -46,7 +47,13 @@ public class VendingVillageStructureHandler implements VillagerRegistry.IVillage
 
 	@Override
 	public PieceWeight getVillagePieceWeight(Random random, int i) {
-		return new PieceWeight(getComponentClass(), 10, 1);
+		final int weight = ModOptions.getVillageStructureWeight();
+		int count = ModOptions.getVillageStructureCount();
+		if(count > 1) {
+			count = random.nextInt(count) + 1;
+		}
+		
+		return new PieceWeight(getComponentClass(), weight, count);
 	}
 
 	@Override

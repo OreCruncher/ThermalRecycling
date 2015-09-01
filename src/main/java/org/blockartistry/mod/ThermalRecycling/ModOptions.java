@@ -51,6 +51,8 @@ public final class ModOptions {
 	protected static final String CONFIG_TRASH_LIST = "Inventory Trash List";
 	protected static final String CONFIG_ENABLE_VILLAGE_GEN = "Enable Village Worldgen";
 	protected static final String CONFIG_ENABLE_EXTRA_VILLAGE_VENDING_TYPES = "Enable Extra Village Vending Types";
+	protected static final String CONFIG_VILLAGE_STRUCTURE_WEIGHT = "Village Structure Weight";
+	protected static final String CONFIG_VILLAGE_STRUCTURE_COUNT = "Village Structure Count";
 
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -134,6 +136,8 @@ public final class ModOptions {
 
 	protected static boolean enableVillageWorldgen = true;
 	protected static boolean enableExtraVillageVendingTypes = true;
+	protected static int villageStructureWeight = 10;
+	protected static int villageStructureCount = 1;
 	protected static int rubblePileDensity = 80;
 	protected static int rubblePileDropCount = 3;
 	protected static boolean rubblePileDisable = false;
@@ -258,6 +262,14 @@ public final class ModOptions {
 		enableExtraVillageVendingTypes = config.getBoolean(CONFIG_ENABLE_EXTRA_VILLAGE_VENDING_TYPES, CATEGORY_GENERAL,
 				enableExtraVillageVendingTypes, comment);
 
+		comment = "Relative weight for structure during village generation (higher = more common)";
+		villageStructureWeight = config.getInt(CONFIG_VILLAGE_STRUCTURE_WEIGHT, CATEGORY_GENERAL,
+				villageStructureWeight, 1, 1000, comment);
+
+		comment = "Max number of vending machines to generate in a village";
+		villageStructureCount = config.getInt(CONFIG_VILLAGE_STRUCTURE_COUNT, CATEGORY_GENERAL,
+				villageStructureCount, 1, 5, comment);
+		
 		comment = "The bonus amount of scrap a scrapbox will get when processed with Core: Extraction";
 		scrapBoxBonus = config.getInt(CONFIG_SCRAPBOX_BONUS,
 				CATEGORY_MACHINES_RECYCLER, scrapBoxBonus, 0, 4, comment);
@@ -561,6 +573,14 @@ public final class ModOptions {
 	
 	public static boolean getEnableExtraVillageVendingTypes() {
 		return enableExtraVillageVendingTypes;
+	}
+	
+	public static int getVillageStructureWeight() {
+		return villageStructureWeight;
+	}
+	
+	public static int getVillageStructureCount() {
+		return villageStructureCount;
 	}
 	
 	public static String[] getRecipeComponentBlacklist() {
