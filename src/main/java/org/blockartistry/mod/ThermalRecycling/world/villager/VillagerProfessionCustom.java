@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.mod.ThermalRecycling.world.villager.VillagerProfessionWeightTable.VillagerProfessionItem;
 
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
@@ -45,27 +45,21 @@ public class VillagerProfessionCustom extends VillagerProfession {
 		super(-1, name, fColor, bColor);
 	}
 	
-	public static int createProfesssion(final String name, final int fColor, final int bColor) {
-		// Find an existing entry
-		VillagerProfessionCustom vpc = null;
-		for(int i = 0; i < professions.size(); i++) {
-			final VillagerProfession prof = professions.get(i);
-			if(StringUtils.equalsIgnoreCase(name, prof.getName())) {
-				if(prof instanceof VillagerProfessionCustom) {
-					return i;
-				} else {
-					
-					// Not a custom type.  Return -1 for error.
-					return -1;
-				}
-			}
+	public static int createProfesssion(final String name, final int fColor, final int bColor, final int weight) {
+		final int index = professions.find(name);
+		if(index != -1) {
+			VillagerProfession prof = professions.get(index);
+			if(prof instanceof VillagerProfessionCustom)
+				return index;
+			
+			// Not a custom type
+			return -1;
 		}
-		
+
 		// If we didn't find one add it
-		final int idx = professions.size();
-		vpc = new VillagerProfessionCustom(name, fColor, bColor);
-		professions.add(vpc);
-		return idx;
+		VillagerProfessionCustom vpc = new VillagerProfessionCustom(name, fColor, bColor);
+		professions.add(new VillagerProfessionItem(vpc, weight));
+		return professions.find(name);
 	}
 	
 	public static void addTrade(final int id, final VillagerTrade trade) {

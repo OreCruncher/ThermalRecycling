@@ -41,7 +41,7 @@ public final class VendingProfessionRegistry {
 	}
 
 	@ZenMethod
-	public static int createProfession(final String name, final int fColor, final int bColor) {
+	public static int createProfession(final String name, final int fColor, final int bColor, final int weight) {
 
 		if (!MineTweakerUtil.checkNotNull(name, "name cannot be null"))
 			return -1;
@@ -57,8 +57,11 @@ public final class VendingProfessionRegistry {
 
 		if (!MineTweakerUtil.checkArgument(fColor != bColor, "foreground and background colors must be different"))
 			return -1;
+		
+		if(!MineTweakerUtil.checkArgument(weight > 0, "weight must be greater than 0"))
+			return -1;
 
-		return VillagerProfessionCustom.createProfesssion(name, fColor, bColor);
+		return VillagerProfessionCustom.createProfesssion(name, fColor, bColor, weight);
 	}
 
 	@ZenMethod

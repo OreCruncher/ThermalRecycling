@@ -25,8 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.world.villager;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -34,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 import org.blockartistry.mod.ThermalRecycling.world.FantasyIsland;
+import org.blockartistry.mod.ThermalRecycling.world.villager.VillagerProfessionWeightTable.VillagerProfessionItem;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.passive.EntityVillager;
@@ -46,7 +45,7 @@ public class VillagerProfession {
 
 	protected static final Random random = XorShiftRandom.shared;
 	private static final String VENDO_FORMAT = StatCollector.translateToLocal("msg.VendoFormat");
-	protected static final List<VillagerProfession> professions = new ArrayList<VillagerProfession>();
+	protected static final VillagerProfessionWeightTable professions = new VillagerProfessionWeightTable();
 	
 	public static final VillagerProfession farmer = new VillagerProfession(0, "msg.VendoFormat.Farmer", DyeHelper.COLOR_GREEN, DyeHelper.COLOR_WHITE);
 	public static final VillagerProfession librarian = new VillagerProfession(1, "msg.VendoFormat.Librarian", DyeHelper.COLOR_YELLOW, DyeHelper.COLOR_BLUE);
@@ -69,11 +68,11 @@ public class VillagerProfession {
 			ModLog.warn("Unable to hook EntityVillager.addDefaultEquimentAndRecipes");
 		}
 		
-		professions.add(farmer);
-		professions.add(librarian);
-		professions.add(priest);
-		professions.add(blacksmith);
-		professions.add(butcher);
+		professions.add(new VillagerProfessionItem(farmer, 100));
+		professions.add(new VillagerProfessionItem(blacksmith, 100));
+		professions.add(new VillagerProfessionItem(butcher, 100));
+		professions.add(new VillagerProfessionItem(librarian, 50));
+		professions.add(new VillagerProfessionItem(priest, 75));
 
 		if(ModOptions.getEnableExtraVillageVendingTypes()) {
 			
@@ -85,7 +84,7 @@ public class VillagerProfession {
 			herder.addTrade(new VillagerTrade().setWant(2, 4).setOffer(Items.spawn_egg, 94, 1, 1).setProbability(0.2F));
 			herder.addTrade(new VillagerTrade().setWant(2, 4).setOffer(Items.spawn_egg, 95, 1, 1).setProbability(0.2F));
 			herder.addTrade(new VillagerTrade().setWant(4, 7).setOffer(Items.spawn_egg, 100, 1, 1).setProbability(0.1F));
-			professions.add(herder);
+			professions.add(new VillagerProfessionItem(herder, 80));
 			
 			arborist = new VillagerProfessionCustom("msg.VendoFormat.Arborist", DyeHelper.COLOR_GREEN, DyeHelper.COLOR_BROWN);
 			arborist.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.log, 0, 32, 32).setProbability(0.5F));
@@ -100,7 +99,7 @@ public class VillagerProfession {
 			arborist.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.sapling, 3, 4, 4).setProbability(0.5F));
 			arborist.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.sapling, 4, 4, 4).setProbability(0.5F));
 			arborist.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.sapling, 5, 4, 4).setProbability(0.5F));
-			professions.add(arborist);
+			professions.add(new VillagerProfessionItem(arborist, 100));
 
 			hunter = new VillagerProfessionCustom("msg.VendoFormat.Hunter", DyeHelper.COLOR_RED, DyeHelper.COLOR_YELLOW);
 			hunter.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Items.bone, 0, 4, 4).setProbability(0.5F));
@@ -113,7 +112,7 @@ public class VillagerProfession {
 			hunter.addTrade(new VillagerTrade().setWant(24, 30).setOffer(Items.skull, 1, 1, 1).setProbability(0.1F));
 			hunter.addTrade(new VillagerTrade().setWant(5, 8).setOffer(Items.skull, 2, 1, 1).setProbability(0.15F));
 			hunter.addTrade(new VillagerTrade().setWant(5, 8).setOffer(Items.skull, 4, 1, 1).setProbability(0.15F));
-			professions.add(hunter);
+			professions.add(new VillagerProfessionItem(hunter, 50));
 			
 		} else {
 			
@@ -137,7 +136,7 @@ public class VillagerProfession {
 	}
 
 	public static VillagerProfession randomProfession() {
-		return professions.get(random.nextInt(professions.size()));
+		return professions.nextProfession();
 	}
 	
 	public String getName() {
