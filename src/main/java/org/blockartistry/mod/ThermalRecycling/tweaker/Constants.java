@@ -27,6 +27,7 @@ import minetweaker.MineTweakerAPI;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 
 public final class Constants {
 
@@ -44,6 +45,24 @@ public final class Constants {
 	public static int getCompostValueBrown() { return CompostIngredient.BROWN.ordinal(); }
 	public static int getCompostValueGreen() { return CompostIngredient.GREEN.ordinal(); }
 	
+	// Colors
+	public static int getColorBlack() { return DyeHelper.COLOR_BLACK; }
+	public static int getColorRed() { return DyeHelper.COLOR_RED; }
+	public static int getColorGreen() { return DyeHelper.COLOR_GREEN; }
+	public static int getColorBrown() { return DyeHelper.COLOR_BROWN; }
+	public static int getColorBlue() { return DyeHelper.COLOR_BLUE; }
+	public static int getColorPurple() { return DyeHelper.COLOR_PURPLE; }
+	public static int getColorCyan() { return DyeHelper.COLOR_CYAN; }
+	public static int getColorLightGray() { return DyeHelper.COLOR_LIGHTGRAY; }
+	public static int getColorGray() { return DyeHelper.COLOR_GRAY; }
+	public static int getColorPink() { return DyeHelper.COLOR_PINK; }
+	public static int getColorLime() { return DyeHelper.COLOR_LIME; }
+	public static int getColorYellow() { return DyeHelper.COLOR_YELLOW; }
+	public static int getColorLightBlue() { return DyeHelper.COLOR_LIGHTBLUE; }
+	public static int getColorMagenta() { return DyeHelper.COLOR_MAGENTA; }
+	public static int getColorOrange() { return DyeHelper.COLOR_ORANGE; }
+	public static int getColorWhite() { return DyeHelper.COLOR_WHITE; }
+	
 	private static void registerConstant(final String name, final String getter) {
 		MineTweakerAPI.registerGlobalSymbol(name, MineTweakerAPI.getJavaStaticGetterSymbol
 				(Constants.class, getter));
@@ -59,5 +78,22 @@ public final class Constants {
 		registerConstant("COMPOSTVALUE_NONE", "getCompostValueNone");
 		registerConstant("COMPOSTVALUE_BROWN", "getCompostValueBrown");
 		registerConstant("COMPOSTVALUE_GREEN", "getCompostValueGreen");
+		
+		registerConstant("COLOR_BLACK", "getColorBlack");
+		registerConstant("COLOR_RED", "getColorRed");
+		registerConstant("COLOR_GREEN", "getColorGreen");
+		registerConstant("COLOR_BROWN", "getColorBrown");
+		registerConstant("COLOR_BLUE", "getColorBlue");
+		registerConstant("COLOR_PURPLE", "getColorPurple");
+		registerConstant("COLOR_CYAN", "getColorCyan");
+		registerConstant("COLOR_LIGHTGRAY", "getColorLightGray");
+		registerConstant("COLOR_GRAY", "getColorGray");
+		registerConstant("COLOR_PINK", "getColorPink");
+		registerConstant("COLOR_LIME", "getColorLime");
+		registerConstant("COLOR_YELLOW", "getColorYellow");
+		registerConstant("COLOR_LIGHTBLUE", "getColorLightBlue");
+		registerConstant("COLOR_MAGENTA", "getColorMagenta");
+		registerConstant("COLOR_ORANGE", "getColorOrange");
+		registerConstant("COLOR_WHITE", "getColorWhite");
 	}
 }
