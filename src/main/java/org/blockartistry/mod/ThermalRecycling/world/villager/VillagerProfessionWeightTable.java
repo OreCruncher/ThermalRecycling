@@ -65,7 +65,7 @@ public class VillagerProfessionWeightTable extends WeightTable<VillagerProfessio
 	public int find(final String name) {
 		for(int i = 0; i < items.size(); i++) {
 			final VillagerProfession prof = items.get(i).getProfession();
-			if(StringUtils.equalsIgnoreCase(name, prof.getName())) {
+			if(StringUtils.equalsIgnoreCase(name, prof.getKey())) {
 				return i;
 			}
 		}

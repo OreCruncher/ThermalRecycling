@@ -46,20 +46,25 @@ public class VillagerProfessionCustom extends VillagerProfession {
 	}
 	
 	public static int createProfesssion(final String name, final int fColor, final int bColor, final int weight) {
+		final int index = findProfession(name);
+		if(index != -1)
+			return index;
+
+		// If we didn't find one add it
+		VillagerProfessionCustom vpc = new VillagerProfessionCustom(name, fColor, bColor);
+		professions.add(new VillagerProfessionItem(vpc, weight));
+		return findProfession(name);
+	}
+	
+	public static int findProfession(final String name) {
 		final int index = professions.find(name);
 		if(index != -1) {
 			VillagerProfession prof = professions.get(index);
 			if(prof instanceof VillagerProfessionCustom)
 				return index;
-			
-			// Not a custom type
-			return -1;
 		}
-
-		// If we didn't find one add it
-		VillagerProfessionCustom vpc = new VillagerProfessionCustom(name, fColor, bColor);
-		professions.add(new VillagerProfessionItem(vpc, weight));
-		return professions.find(name);
+		
+		return -1;
 	}
 	
 	public static void addTrade(final int id, final VillagerTrade trade) {

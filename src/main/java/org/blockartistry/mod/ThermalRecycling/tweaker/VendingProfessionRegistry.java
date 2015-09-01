@@ -63,6 +63,17 @@ public final class VendingProfessionRegistry {
 
 		return VillagerProfessionCustom.createProfesssion(name, fColor, bColor, weight);
 	}
+	
+	@ZenMethod
+	public static int findProfession(final String name) {
+		if (!MineTweakerUtil.checkNotNull(name, "name cannot be null"))
+			return -1;
+
+		if (!MineTweakerUtil.checkArgument(name.length() > 0, "invalid name length"))
+			return -1;
+
+		return VillagerProfessionCustom.findProfession(name);
+	}
 
 	@ZenMethod
 	public static void addTrade(final int id, final IItemStack give1, final int min1, final int max1,

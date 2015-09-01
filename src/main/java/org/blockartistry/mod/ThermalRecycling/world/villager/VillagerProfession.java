@@ -123,12 +123,14 @@ public class VillagerProfession {
 		}
 	}
 
+	private final String key;
 	private final int id;
 	private final String name;
 	private final int foreColor;
 	private final int backColor;
 
 	protected VillagerProfession(final int id, final String name, final int fColor, final int bColor) {
+		this.key = name;
 		this.id = id;
 		this.name = StatCollector.translateToLocal(name);
 		this.foreColor = fColor;
@@ -137,6 +139,10 @@ public class VillagerProfession {
 
 	public static VillagerProfession randomProfession() {
 		return professions.nextProfession();
+	}
+	
+	public String getKey() {
+		return key;
 	}
 	
 	public String getName() {
