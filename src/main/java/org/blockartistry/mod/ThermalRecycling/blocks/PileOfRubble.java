@@ -58,6 +58,10 @@ public final class PileOfRubble extends Block {
 		rubbleContent.addItem(new WeightedRandomChestContent(stack, min, max, weight));
 	}
 	
+	public static void removeRubbleDrop(final ItemStack stack) {
+		rubbleContent.removeItem(stack);
+	}
+	
 	public static void addRubbleDrop(final Item item, final int min, final int max, final int weight) {
 		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(item, 0, min, max, weight));

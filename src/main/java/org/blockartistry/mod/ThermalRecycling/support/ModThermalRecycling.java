@@ -154,6 +154,18 @@ public final class ModThermalRecycling extends ModPlugin {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
 
+		// Register scrap items for Pile of Rubble
+		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
+		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);
+		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
+		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
+
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
+
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 1, 1);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentYellow), 1, 1, 2);
+		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentRed), 1, 1, 2);
+
 		return true;
 	}
 
@@ -212,18 +224,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		RecipeData.freeze();
 		ScrapHandler.freeze();
 		ExtractionData.freeze();
-
-		// Register scrap items for Pile of Rubble
-		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
-		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);
-		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
-		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
-
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
-
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 1, 1);
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentYellow), 1, 1, 2);
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentRed), 1, 1, 2);
 
 		return true;
 	}

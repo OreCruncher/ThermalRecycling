@@ -44,6 +44,7 @@ public final class MineTweakerSupport {
 			MineTweakerAPI.registerClass(RecipeDataRegistry.class);
 			MineTweakerAPI.registerClass(ExtractionDataRegistry.class);
 			MineTweakerAPI.registerClass(VendingProfessionRegistry.class);
+			MineTweakerAPI.registerClass(RubblePileDataRegistry.class);
 
 			// Register the constants
 			Constants.register();

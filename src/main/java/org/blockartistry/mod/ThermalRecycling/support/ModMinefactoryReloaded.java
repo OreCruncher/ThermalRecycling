@@ -86,15 +86,10 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 				.appendSubtypeRange("MineFactoryReloaded:stainedglass.block",
 						0, 15).output(Blocks.sand).save();
 
-		return true;
-	}
-	
-	@Override
-	public boolean postInit() {
 		// Register some stuff
 		registerPileOfRubbleDrop(1, 2, 4, "meat.ingot.cooked", "rubber.bar");
 		registerPileOfRubbleDrop(1, 1, 2, "plastic.boots");
-		
+
 		return true;
 	}
 }

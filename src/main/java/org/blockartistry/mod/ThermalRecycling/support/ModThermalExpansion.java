@@ -69,14 +69,9 @@ public final class ModThermalExpansion extends ModPlugin {
 		
 		registerCompostIngredient(CompostIngredient.BROWN, "^dustWood");
 		
-		return true;
-	}
-	
-	@Override
-	public boolean postInit() {
 		// Register some stuff for the Pile of Rubble
 		registerPileOfRubbleDrop(1, 1, 3, "satchel:1");
-		
+
 		return true;
 	}
 }

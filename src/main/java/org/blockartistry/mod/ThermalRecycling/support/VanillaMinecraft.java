@@ -273,12 +273,6 @@ public final class VanillaMinecraft extends ModPlugin {
 				.save();
 		pulverizer.setEnergy(3200).append(Items.glass_bottle).output(Blocks.sand).save();
 
-		return true;
-	}
-
-	@Override
-	public boolean postInit() {
-
 		PileOfRubble.addRubbleDrop(Blocks.cobblestone, 1, 4, 12);
 		PileOfRubble.addRubbleDrop(Blocks.stone, 1, 2, 9);
 		PileOfRubble.addRubbleDrop(Items.coal, 1, 3, 8);
