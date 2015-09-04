@@ -1,6 +1,8 @@
 # Simplified Chinese Translations
 itemGroup.ThermalRecycling=热力回收
-item.Debris.debris.name=残渣
+itemGroup.TagLine=粉碎!再利用!绿色循环!
+
+item.Debris.debris.name=回收残余
 item.RecyclingScrap.poor.name=次等废料
 item.RecyclingScrap.standard.name=普通废料
 item.RecyclingScrap.superior.name=上等废料
@@ -10,29 +12,74 @@ item.RecyclingScrapBox.standard.name=普通废料盒
 item.RecyclingScrapBox.standard.desc=看起来也不是那么坏
 item.RecyclingScrapBox.superior.name=上等废料盒
 item.RecyclingScrapBox.superior.desc=绝对是一盒奇迹...
-item.ProcessingCore.decomposition.name=处理核心:拆解
+item.ProcessingCore.decomposition.name=处理核心:拆解(基础)
+item.ProcessingCore.decomposition_1.name=处理核心:拆解(硬化)
+item.ProcessingCore.decomposition_2.name=§e处理核心:拆解(强化)
+item.ProcessingCore.decomposition_3.name=§3处理核心:拆解(谐振)
+item.ProcessingCore.decomposition_4.name=§5处理核心:拆解(永恒)
 item.ProcessingCore.extraction.name=处理核心:提取
 
-tile.Test.item1.name=测试方块-请勿使用(WIP)
+item.PaperLogMaker.paperlogmaker.name=Paper Log Maker
+item.Material.paperlog.name=Paper Log
+item.Material.worms.name=Handful of Worms
+item.Material.litterBag.name=Litter Bag
+item.Material.gardenShears.name=园艺剪
+
+item.soylentGreen.name=§2绿色高能蔬果提取物
+item.soylentYellow.name=§e黄色高能蔬果提取物
+item.soylentRed.name=§4红色高能蔬果提取物
+msg.itLooksEdible=看上去可以吃...
+
+tile.PileOfRubble.name=碎屑堆
+tile.FertileLand.name=沃土
 tile.MachineThermalRecycler.name=热力回收机
 tile.MachineScrapAssessor.name=回收评估仪
 tile.MachineComposter.name=堆肥加工器
+tile.MachineVending.name=售货机
 tile.ScrapBlock.scrap.name=废料块
+tile.Lawn.name=修剪的草皮
+
+msg.MachineVending.adminName=服务器商店
+msg.MachineVending.free=空闲
+
+# Additional text for Scrap Assessor lore
+msg.ScrapPreview.destroy=销毁
+msg.ScrapPreview.keep=保留
+msg.ScrapPreview.dust=粉末(在可以产出时)
 
 # Machine Status
 msg.MachineStatus.idle=闲置
 msg.MachineStatus.active=%d%%
-msg.MachineStatus.jammed=堵塞啦!
+msg.MachineStatus.jammed=堵塞!
 msg.MachineStatus.needMoreResources=需要更多资源!
 msg.MachineStatus.outOfPower=能源已耗尽
 msg.MachineStatus.needMoreWater=需要加水
 msg.MachineStatus.cantSeeSky=需要看到天空
+
+# Village Vend-O strings
+msg.VendoFormat=Vend-O-%s
+msg.VendoFormat.Priest=牧师
+msg.VendoFormat.Librarian=图书管理员
+msg.VendoFormat.Butcher=屠夫
+msg.VendoFormat.Farmer=农民
+msg.VendoFormat.Blacksmith=铁匠
+msg.VendoFormat.Herder=牧民
+msg.VendoFormat.Arborist=林业员
+msg.VendoFormat.Hunter=猎人
 
 # Achievements
 achievement.feelingScrappy=感觉像散架一样!
 achievement.feelingScrappy.desc=合成一台热力回收机
 achievement.doingMyPart=来制造我自己的零件
 achievement.doingMyPart.desc=使用一个废料盒
+achievement.lottoWinner=大奖得主!
+achievement.lottoWinner.desc=从废料盒中开出下界之星
+achievement.doinTheTrash=清-垃-圾-了!
+achievement.doinTheTrash.desc=用垃圾袋清理你物品栏里的垃圾
+achievement.shearBeauty=剪刀之美
+achievement.shearBeauty.desc=用园艺剪开出一片草皮
+achievement.dystopianFuture=反乌托邦式的未来
+achievement.dystopianFuture.desc=吃了§2绿色高能蔬果提取物
 
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§e废料价值:§7无
@@ -43,3 +90,28 @@ msg.ItemScrapValue.superior=§e废料价值:§6上等
 # Compost Ingredient Value for lore
 msg.ItemCompostIngredientValue.brown=§e堆肥原料格:§6棕
 msg.ItemCompostIngredientValue.green=§e堆肥原料格:§2绿
+
+# Random titles for Enchanted Books that drop from Scrap Boxes
+msg.BookTitle0.name=热门回收
+msg.BookTitle0.desc=粉碎!再利用!绿色循环!
+msg.BookTitle1.name=TPS报告
+msg.BookTitle1.desc=PC LOAD LETTER
+msg.BookTitle2.name=剑与铲
+msg.BookTitle2.desc=季度Minecraft报告
+msg.BookTitle3.name=每月苦力怕
+msg.BookTitle3.desc=Phsst! Phsst!
+msg.BookTitle4.name=美丽的僵尸
+msg.BookTitle4.desc=美容贴士指南
+msg.BookTitle5.name=飞翔
+msg.BookTitle5.desc=飞向猪的天空!
+msg.BookTitle6.name=录制完毕
+msg.BookTitle6.desc=For Discerning Collectors
+msg.BookTitle7.name=史蒂夫的旅行
+msg.BookTitle7.desc=终界:是真的吗?
+msg.BookTitle8.name=每周恶搞
+msg.BookTitle8.desc=别怕爬行者
+msg.BookTitle9.name=更好的方块更好的挖矿
+msg.BookTitle9.desc=Rattle your neighbor with skulls!
+
+# Version checking strings
+msg.NewVersionAvailable=["§6有更新可用: §9[",{"text":"§2Thermal Recycling §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"点击进入CurseForge上的项目页面","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/229666-thermal-recycling"}},"§9]"]
