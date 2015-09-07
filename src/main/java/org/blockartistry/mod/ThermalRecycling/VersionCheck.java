@@ -52,13 +52,11 @@ public final class VersionCheck implements Runnable {
 		UNKNOWN, CURRENT, OUTDATED, COMM_ERROR
 	}
 
-	public static final SoftwareVersion modVersion = new SoftwareVersion(
-			ThermalRecycling.VERSION);
+	public static final SoftwareVersion modVersion = new SoftwareVersion(ThermalRecycling.VERSION);
 	public static SoftwareVersion currentVersion = new SoftwareVersion();
 	public static UpdateStatus status = UpdateStatus.UNKNOWN;
 
-	private static final String mcVersion = Loader.instance()
-			.getMinecraftModContainer().getVersion();
+	private static final String mcVersion = Loader.instance().getMinecraftModContainer().getVersion();
 
 	public static class SoftwareVersion implements Comparable<SoftwareVersion> {
 
@@ -113,8 +111,7 @@ public final class VersionCheck implements Runnable {
 		@Override
 		public String toString() {
 			final StringBuilder builder = new StringBuilder();
-			builder.append(this.major).append('.').append(this.minor)
-					.append('.').append(this.revision);
+			builder.append(this.major).append('.').append(this.minor).append('.').append(this.revision);
 			if (this.patch != 0)
 				builder.append('.').append(this.patch);
 			if (this.isAlpha)
@@ -150,8 +147,7 @@ public final class VersionCheck implements Runnable {
 			final NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("curseProjectName", CURSE_PROJECT_NAME);
 			nbt.setString("curseFilenameParser", MOD_NAME_TEMPLATE);
-			FMLInterModComms.sendRuntimeMessage(ThermalRecycling.MOD_ID,
-					"VersionChecker", "addVersionCheck", nbt);
+			FMLInterModComms.sendRuntimeMessage(ThermalRecycling.MOD_ID, "VersionChecker", "addVersionCheck", nbt);
 		}
 
 		if (ModOptions.getOnlineVersionChecking()) {
@@ -166,10 +162,9 @@ public final class VersionCheck implements Runnable {
 
 		if (event.player instanceof EntityPlayer) {
 			if (status == UpdateStatus.OUTDATED) {
-				final String msg = StatCollector.translateToLocalFormatted(
-						"msg.NewVersionAvailable", currentVersion);
-				IChatComponent component = IChatComponent.Serializer
-						.func_150699_a(msg);
+				final String msg = StatCollector.translateToLocalFormatted("msg.NewVersionAvailable.recycling",
+						ThermalRecycling.MOD_NAME, currentVersion, CURSE_PROJECT_NAME);
+				IChatComponent component = IChatComponent.Serializer.func_150699_a(msg);
 				event.player.addChatMessage(component);
 			}
 		}
@@ -188,8 +183,7 @@ public final class VersionCheck implements Runnable {
 				}
 
 				conn = (HttpURLConnection) url.openConnection();
-				conn.setRequestProperty(
-						"User-Agent",
+				conn.setRequestProperty("User-Agent",
 						"Mozilla/5.0 (Windows; U; Windows NT 6.0; ru; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11 (.NET CLR 3.5.30729)");
 				conn.connect();
 				location = conn.getHeaderField("Location");
@@ -199,8 +193,7 @@ public final class VersionCheck implements Runnable {
 				throw new NullPointerException();
 			}
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -240,8 +233,7 @@ public final class VersionCheck implements Runnable {
 				}
 				versionCheck();
 				count++;
-			} while (count < VERSION_CHECK_RETRIES
-					&& status == UpdateStatus.COMM_ERROR);
+			} while (count < VERSION_CHECK_RETRIES && status == UpdateStatus.COMM_ERROR);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -252,13 +244,11 @@ public final class VersionCheck implements Runnable {
 			ModLog.warn("Version check failed");
 			break;
 		case CURRENT:
-			ModLog.info(
-					"Thermal Recycling version [%s] is the same or newer than the current version [%s]",
-					modVersion, currentVersion);
+			ModLog.info("Thermal Recycling version [%s] is the same or newer than the current version [%s]", modVersion,
+					currentVersion);
 			break;
 		case OUTDATED:
-			ModLog.warn("Using outdated version [" + modVersion
-					+ "] for Minecraft " + mcVersion
+			ModLog.warn("Using outdated version [" + modVersion + "] for Minecraft " + mcVersion
 					+ ". Consider updating to " + currentVersion + ".");
 			break;
 		case UNKNOWN:

@@ -1,64 +1,67 @@
 #Russian translation by Grom PE [15 Jun 2015]
 itemGroup.ThermalRecycling=Thermal Recycling
-itemGroup.TagLine=Разделяй и перерабатывай!
+itemGroup.TagLine=Ð Ð°Ð·Ð´ÐµÐ»Ñ�Ð¹ Ð¸ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ð¹!
 
-item.Debris.debris.name=Переработанный мусор
-item.RecyclingScrap.poor.name=Хлам
-item.RecyclingScrap.standard.name=Лом
-item.RecyclingScrap.superior.name=Ценный лом
-item.RecyclingScrapBox.poor.name=Коробка хлама
-item.RecyclingScrapBox.poor.desc=Кажется, чем-то пахнет
-item.RecyclingScrapBox.standard.name=Коробка лома
-item.RecyclingScrapBox.standard.desc=Неплохие детали
-item.RecyclingScrapBox.superior.name=Коробка ценного лома
-item.RecyclingScrapBox.superior.desc=Мечта каждого механика
-item.ProcessingCore.decomposition.name=Ядро расщепления (Основн.)
-item.ProcessingCore.decomposition_1.name=Ядро расщепления (Усилен.)
-item.ProcessingCore.decomposition_2.name=§eЯдро расщепления (Укреплён.)
-item.ProcessingCore.decomposition_3.name=§3Ядро расщепления (Резонирующ.)
-item.ProcessingCore.decomposition_4.name=§5Ядро расщепления (Эфирн.)
-item.ProcessingCore.extraction.name=Ядро извлечения
+item.Debris.debris.name=ÐŸÐµÑ€ÐµÑ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ð¹ Ð¼ÑƒÑ�Ð¾Ñ€
+item.RecyclingScrap.poor.name=Ð¥Ð»Ð°Ð¼
+item.RecyclingScrap.standard.name=Ð›Ð¾Ð¼
+item.RecyclingScrap.superior.name=Ð¦ÐµÐ½Ð½Ñ‹Ð¹ Ð»Ð¾Ð¼
+item.RecyclingScrapBox.poor.name=ÐšÐ¾Ñ€Ð¾Ð±ÐºÐ° Ñ…Ð»Ð°Ð¼Ð°
+item.RecyclingScrapBox.poor.desc=ÐšÐ°Ð¶ÐµÑ‚Ñ�Ñ�, Ñ‡ÐµÐ¼-Ñ‚Ð¾ Ð¿Ð°Ñ…Ð½ÐµÑ‚
+item.RecyclingScrapBox.standard.name=ÐšÐ¾Ñ€Ð¾Ð±ÐºÐ° Ð»Ð¾Ð¼Ð°
+item.RecyclingScrapBox.standard.desc=Ð�ÐµÐ¿Ð»Ð¾Ñ…Ð¸Ðµ Ð´ÐµÑ‚Ð°Ð»Ð¸
+item.RecyclingScrapBox.superior.name=ÐšÐ¾Ñ€Ð¾Ð±ÐºÐ° Ñ†ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð»Ð¾Ð¼Ð°
+item.RecyclingScrapBox.superior.desc=ÐœÐµÑ‡Ñ‚Ð° ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð¼ÐµÑ…Ð°Ð½Ð¸ÐºÐ°
+item.ProcessingCore.decomposition.name=Ð¯Ð´Ñ€Ð¾ Ñ€Ð°Ñ�Ñ‰ÐµÐ¿Ð»ÐµÐ½Ð¸Ñ� (ÐžÑ�Ð½Ð¾Ð²Ð½.)
+item.ProcessingCore.decomposition_1.name=Ð¯Ð´Ñ€Ð¾ Ñ€Ð°Ñ�Ñ‰ÐµÐ¿Ð»ÐµÐ½Ð¸Ñ� (Ð£Ñ�Ð¸Ð»ÐµÐ½.)
+item.ProcessingCore.decomposition_2.name=Â§eÐ¯Ð´Ñ€Ð¾ Ñ€Ð°Ñ�Ñ‰ÐµÐ¿Ð»ÐµÐ½Ð¸Ñ� (Ð£ÐºÑ€ÐµÐ¿Ð»Ñ‘Ð½.)
+item.ProcessingCore.decomposition_3.name=Â§3Ð¯Ð´Ñ€Ð¾ Ñ€Ð°Ñ�Ñ‰ÐµÐ¿Ð»ÐµÐ½Ð¸Ñ� (Ð ÐµÐ·Ð¾Ð½Ð¸Ñ€ÑƒÑŽÑ‰.)
+item.ProcessingCore.decomposition_4.name=Â§5Ð¯Ð´Ñ€Ð¾ Ñ€Ð°Ñ�Ñ‰ÐµÐ¿Ð»ÐµÐ½Ð¸Ñ� (Ð­Ñ„Ð¸Ñ€Ð½.)
+item.ProcessingCore.extraction.name=Ð¯Ð´Ñ€Ð¾ Ð¸Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ�
 
-item.PaperLogMaker.paperlogmaker.name=Макулатуратор
-item.Material.paperlog.name=Макулатура
-item.Material.worms.name=Горсть червей
+item.PaperLogMaker.paperlogmaker.name=ÐœÐ°ÐºÑƒÐ»Ð°Ñ‚ÑƒÑ€Ð°Ñ‚Ð¾Ñ€
+item.Material.paperlog.name=ÐœÐ°ÐºÑƒÐ»Ð°Ñ‚ÑƒÑ€Ð°
+item.Material.worms.name=Ð“Ð¾Ñ€Ñ�Ñ‚ÑŒ Ñ‡ÐµÑ€Ð²ÐµÐ¹
 
-tile.PileOfRubble.name=Кучка щебня
-tile.FertileLand.name=Удобренная земля
-tile.MachineThermalRecycler.name=Термический перерабатыватель
-tile.MachineScrapAssessor.name=Оценщик лома
-tile.MachineComposter.name=Компостер
-tile.MachineVending.name=Торговый автомат
-tile.ScrapBlock.scrap.name=Блок мусора
+tile.PileOfRubble.name=ÐšÑƒÑ‡ÐºÐ° Ñ‰ÐµÐ±Ð½Ñ�
+tile.FertileLand.name=Ð£Ð´Ð¾Ð±Ñ€ÐµÐ½Ð½Ð°Ñ� Ð·ÐµÐ¼Ð»Ñ�
+tile.MachineThermalRecycler.name=Ð¢ÐµÑ€Ð¼Ð¸Ñ‡ÐµÑ�ÐºÐ¸Ð¹ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÐµÐ»ÑŒ
+tile.MachineScrapAssessor.name=ÐžÑ†ÐµÐ½Ñ‰Ð¸Ðº Ð»Ð¾Ð¼Ð°
+tile.MachineComposter.name=ÐšÐ¾Ð¼Ð¿Ð¾Ñ�Ñ‚ÐµÑ€
+tile.MachineVending.name=Ð¢Ð¾Ñ€Ð³Ð¾Ð²Ñ‹Ð¹ Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚
+tile.ScrapBlock.scrap.name=Ð‘Ð»Ð¾Ðº Ð¼ÑƒÑ�Ð¾Ñ€Ð°
 
-msg.MachineVending.adminName=Серверный магазин
+msg.MachineVending.adminName=Ð¡ÐµÑ€Ð²ÐµÑ€Ð½Ñ‹Ð¹ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½
 
 # Additional text for Scrap Assessor lore
-msg.ScrapPreview.destroy=Уничтожится
-msg.ScrapPreview.keep=Останется
-msg.ScrapPreview.dust=Раздробится (по возможности)
+msg.ScrapPreview.destroy=Ð£Ð½Ð¸Ñ‡Ñ‚Ð¾Ð¶Ð¸Ñ‚Ñ�Ñ�
+msg.ScrapPreview.keep=ÐžÑ�Ñ‚Ð°Ð½ÐµÑ‚Ñ�Ñ�
+msg.ScrapPreview.dust=Ð Ð°Ð·Ð´Ñ€Ð¾Ð±Ð¸Ñ‚Ñ�Ñ� (Ð¿Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾Ñ�Ñ‚Ð¸)
 
 # Machine Status
-msg.MachineStatus.idle=Бездействие
+msg.MachineStatus.idle=Ð‘ÐµÐ·Ð´ÐµÐ¹Ñ�Ñ‚Ð²Ð¸Ðµ
 msg.MachineStatus.active=%d%%
-msg.MachineStatus.jammed=Застрял!
-msg.MachineStatus.needMoreResources=Нужно больше ресурсов!
-msg.MachineStatus.outOfPower=Обесточен
-msg.MachineStatus.needMoreWater=Нужна вода
-msg.MachineStatus.cantSeeSky=Нужно открытое небо
+msg.MachineStatus.jammed=Ð—Ð°Ñ�Ñ‚Ñ€Ñ�Ð»!
+msg.MachineStatus.needMoreResources=Ð�ÑƒÐ¶Ð½Ð¾ Ð±Ð¾Ð»ÑŒÑˆÐµ Ñ€ÐµÑ�ÑƒÑ€Ñ�Ð¾Ð²!
+msg.MachineStatus.outOfPower=ÐžÐ±ÐµÑ�Ñ‚Ð¾Ñ‡ÐµÐ½
+msg.MachineStatus.needMoreWater=Ð�ÑƒÐ¶Ð½Ð° Ð²Ð¾Ð´Ð°
+msg.MachineStatus.cantSeeSky=Ð�ÑƒÐ¶Ð½Ð¾ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¾Ðµ Ð½ÐµÐ±Ð¾
 
 # Achievements
-achievement.feelingScrappy=Пора навести порядок!
-achievement.feelingScrappy.desc=Сделайте термический перерабатыватель
-achievement.doingMyPart=Делаю, что могу
-achievement.doingMyPart.desc=Используйте коробку лома
+achievement.feelingScrappy=ÐŸÐ¾Ñ€Ð° Ð½Ð°Ð²ÐµÑ�Ñ‚Ð¸ Ð¿Ð¾Ñ€Ñ�Ð´Ð¾Ðº!
+achievement.feelingScrappy.desc=Ð¡Ð´ÐµÐ»Ð°Ð¹Ñ‚Ðµ Ñ‚ÐµÑ€Ð¼Ð¸Ñ‡ÐµÑ�ÐºÐ¸Ð¹ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÐµÐ»ÑŒ
+achievement.doingMyPart=Ð”ÐµÐ»Ð°ÑŽ, Ñ‡Ñ‚Ð¾ Ð¼Ð¾Ð³Ñƒ
+achievement.doingMyPart.desc=Ð˜Ñ�Ð¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ ÐºÐ¾Ñ€Ð¾Ð±ÐºÑƒ Ð»Ð¾Ð¼Ð°
 
 # ScrapValue for item lore
-msg.ItemScrapValue.none=§eЦенность лома: §7Нет
-msg.ItemScrapValue.poor=§eЦенность лома: §fХлам
-msg.ItemScrapValue.standard=§eЦенность лома: §9Обычный
-msg.ItemScrapValue.superior=§eЦенность лома: §6Ценный
+msg.ItemScrapValue.none=Â§eÐ¦ÐµÐ½Ð½Ð¾Ñ�Ñ‚ÑŒ Ð»Ð¾Ð¼Ð°: Â§7Ð�ÐµÑ‚
+msg.ItemScrapValue.poor=Â§eÐ¦ÐµÐ½Ð½Ð¾Ñ�Ñ‚ÑŒ Ð»Ð¾Ð¼Ð°: Â§fÐ¥Ð»Ð°Ð¼
+msg.ItemScrapValue.standard=Â§eÐ¦ÐµÐ½Ð½Ð¾Ñ�Ñ‚ÑŒ Ð»Ð¾Ð¼Ð°: Â§9ÐžÐ±Ñ‹Ñ‡Ð½Ñ‹Ð¹
+msg.ItemScrapValue.superior=Â§eÐ¦ÐµÐ½Ð½Ð¾Ñ�Ñ‚ÑŒ Ð»Ð¾Ð¼Ð°: Â§6Ð¦ÐµÐ½Ð½Ñ‹Ð¹
 
 # Compost Ingredient Value for lore
-msg.ItemCompostIngredientValue.brown=§eКомпост: §6Коричневый
-msg.ItemCompostIngredientValue.green=§eКомпост: §2Зелёный
+msg.ItemCompostIngredientValue.brown=Â§eÐšÐ¾Ð¼Ð¿Ð¾Ñ�Ñ‚: Â§6ÐšÐ¾Ñ€Ð¸Ñ‡Ð½ÐµÐ²Ñ‹Ð¹
+msg.ItemCompostIngredientValue.green=Â§eÐšÐ¾Ð¼Ð¿Ð¾Ñ�Ñ‚: Â§2Ð—ÐµÐ»Ñ‘Ð½Ñ‹Ð¹
+
+# Version checking strings
+msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]

@@ -114,4 +114,4 @@ msg.BookTitle9.name=更好的方块更好的挖矿
 msg.BookTitle9.desc=Rattle your neighbor with skulls!
 
 # Version checking strings
-msg.NewVersionAvailable=["§6有更新可用: §9[",{"text":"§2Thermal Recycling §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"点击进入CurseForge上的项目页面","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/229666-thermal-recycling"}},"§9]"]
+msg.NewVersionAvailable.recycling=["§6有更新可用: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"点击进入CurseForge上的项目页面","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]

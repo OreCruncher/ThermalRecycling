@@ -65,3 +65,6 @@ msg.ItemScrapValue.superior=Â§eScrap Value: Â§6Hochwertig
 # Compost Ingredient Value for lore
 msg.ItemCompostIngredientValue.brown=Â§eCompost: Â§6Braun
 msg.ItemCompostIngredientValue.green=Â§eCompost: Â§2GrÃ¼n
+
+# Version checking strings
+msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
