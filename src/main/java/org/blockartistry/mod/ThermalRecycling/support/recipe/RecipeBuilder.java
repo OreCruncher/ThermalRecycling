@@ -67,42 +67,42 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 	}
 
 	public This append(final String... items) {
-		ItemStackHelper.append(input, items);
+		AppendHelper.append(input, items);
 		return THIS;
 	}
 
 	public This append(final String item, final int quantity) {
-		ItemStackHelper.append(input, item, quantity);
+		AppendHelper.append(input, item, quantity);
 		return THIS;
 	}
 
 	public This append(final Block... blocks) {
-		ItemStackHelper.append(input, blocks);
+		AppendHelper.append(input, blocks);
 		return THIS;
 	}
 
 	public This append(final Block block, final int quantity) {
-		ItemStackHelper.append(input, block, quantity);
+		AppendHelper.append(input, block, quantity);
 		return THIS;
 	}
 
 	public This append(final Item... items) {
-		ItemStackHelper.append(input, items);
+		AppendHelper.append(input, items);
 		return THIS;
 	}
 
 	public This append(final Item item, final int quantity) {
-		ItemStackHelper.append(input, item, quantity);
+		AppendHelper.append(input, item, quantity);
 		return THIS;
 	}
 
 	public This append(final List<ItemStack> stacks) {
-		ItemStackHelper.append(input, stacks);
+		AppendHelper.append(input, stacks);
 		return THIS;
 	}
 
 	public This append(final ItemStack... stacks) {
-		ItemStackHelper.append(input, stacks);
+		AppendHelper.append(input, stacks);
 		return THIS;
 	}
 
@@ -112,65 +112,65 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		final ItemStack item = stack.copy();
 		item.stackSize = quantity;
-		ItemStackHelper.append(input, item);
+		AppendHelper.append(input, item);
 		return THIS;
 	}
 
 	public This appendSubtype(final ItemStack stack, final int subtype) {
-		ItemStackHelper.appendSubtype(input, stack, subtype);
+		AppendHelper.appendSubtype(input, stack, subtype);
 		return THIS;
 	}
 
 	public This appendSubtype(final Item item, final int subtype) {
-		ItemStackHelper.appendSubtype(input, item, subtype);
+		AppendHelper.appendSubtype(input, item, subtype);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final String item, final int start,
 			final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
+		AppendHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final String item, final int start,
 			final int end) {
-		ItemStackHelper.appendSubtypeRange(input, item, start, end);
+		AppendHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final Item item, final int start,
 			final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(input, item, start, end, quantity);
+		AppendHelper.appendSubtypeRange(input, item, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final Item item, final int start,
 			final int end) {
-		ItemStackHelper.appendSubtypeRange(input, item, start, end);
+		AppendHelper.appendSubtypeRange(input, item, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final Block block, final int start,
 			final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(input, block, start, end, quantity);
+		AppendHelper.appendSubtypeRange(input, block, start, end, quantity);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final Block block, final int start,
 			final int end) {
-		ItemStackHelper.appendSubtypeRange(input, block, start, end);
+		AppendHelper.appendSubtypeRange(input, block, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final ItemStack stack, final int start,
 			final int end) {
-		ItemStackHelper.appendSubtypeRange(input, stack, start, end);
+		AppendHelper.appendSubtypeRange(input, stack, start, end);
 		return THIS;
 	}
 
 	public This appendSubtypeRange(final ItemStack stack, final int start,
 			final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(input, stack, start, end, quantity);
+		AppendHelper.appendSubtypeRange(input, stack, start, end, quantity);
 		return THIS;
 	}
 

@@ -53,42 +53,42 @@ public final class ThermalRecyclerRecipeBuilder {
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final String... items) {
-		ItemStackHelper.append(output, items);
+		AppendHelper.append(output, items);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final String item, final int quantity) {
-		ItemStackHelper.append(output, item, quantity);
+		AppendHelper.append(output, item, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final Block... blocks) {
-		ItemStackHelper.append(output, blocks);
+		AppendHelper.append(output, blocks);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final Block block, final int quantity) {
-		ItemStackHelper.append(output, block, quantity);
+		AppendHelper.append(output, block, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final Item... items) {
-		ItemStackHelper.append(output, items);
+		AppendHelper.append(output, items);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final Item item, final int quantity) {
-		ItemStackHelper.append(output, item, quantity);
+		AppendHelper.append(output, item, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final List<ItemStack> stacks) {
-		ItemStackHelper.append(output, stacks);
+		AppendHelper.append(output, stacks);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder append(final ItemStack... stacks) {
-		ItemStackHelper.append(output, stacks);
+		AppendHelper.append(output, stacks);
 		return this;
 	}
 
@@ -101,54 +101,54 @@ public final class ThermalRecyclerRecipeBuilder {
 
 	public ThermalRecyclerRecipeBuilder appendSubtype(final ItemStack stack,
 			final int subtype) {
-		ItemStackHelper.appendSubtype(output, stack, subtype);
+		AppendHelper.appendSubtype(output, stack, subtype);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtype(final Item item, final int subtype) {
-		ItemStackHelper.appendSubtype(output, item, subtype);
+		AppendHelper.appendSubtype(output, item, subtype);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final String item,
 			final int start, final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(output, item, start, end, quantity);
+		AppendHelper.appendSubtypeRange(output, item, start, end, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final String item,
 			final int start, final int end) {
-		ItemStackHelper.appendSubtypeRange(output, item, start, end);
+		AppendHelper.appendSubtypeRange(output, item, start, end);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Item item,
 			final int start, final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(output, item, start, end, quantity);
+		AppendHelper.appendSubtypeRange(output, item, start, end, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Item item,
 			final int start, final int end) {
-		ItemStackHelper.appendSubtypeRange(output, item, start, end);
+		AppendHelper.appendSubtypeRange(output, item, start, end);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Block block,
 			final int start, final int end, final int quantity) {
-		ItemStackHelper.appendSubtypeRange(output, block, start, end, quantity);
+		AppendHelper.appendSubtypeRange(output, block, start, end, quantity);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final Block block,
 			final int start, final int end) {
-		ItemStackHelper.appendSubtypeRange(output, block, start, end);
+		AppendHelper.appendSubtypeRange(output, block, start, end);
 		return this;
 	}
 
 	public ThermalRecyclerRecipeBuilder appendSubtypeRange(final ItemStack stack,
 			final int start, final int end) {
-		ItemStackHelper.appendSubtypeRange(output, stack, start, end);
+		AppendHelper.appendSubtypeRange(output, stack, start, end);
 		return this;
 	}
 
