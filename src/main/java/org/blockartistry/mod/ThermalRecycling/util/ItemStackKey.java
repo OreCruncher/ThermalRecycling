@@ -70,12 +70,11 @@ public final class ItemStackKey {
 	// Modified Bernstein
 	// http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
 	private static int calculateHash(int id, int meta) {
+		int working = meta << 24 | id;
 		int hash = 0;
 		for (int i = 0; i < 4; i++) {
-			hash = (33 * hash) ^ (id & 0xFF);
-			hash = (33 * hash) ^ (meta & 0xFF);
-			id >>>= 8;
-			meta >>>= 8;
+			hash = (33 * hash) ^ (working & 0xFF);
+			working >>>= 8;
 		}
 		return hash;
 	}
