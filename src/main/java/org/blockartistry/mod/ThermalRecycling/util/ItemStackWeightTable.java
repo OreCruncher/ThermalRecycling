@@ -25,6 +25,7 @@ package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public final class ItemStackWeightTable extends
 
 	public final static class ItemStackItem extends WeightTable.Item {
 
-		final ItemStack stack;
+		protected final ItemStack stack;
 
 		public ItemStackItem(final ItemStack stack, final int weight) {
 			super(weight);
@@ -56,7 +57,6 @@ public final class ItemStackWeightTable extends
 					name = "Dust Item";
 				else
 					name = ItemStackHelper.resolveName(stack);
-
 			}
 
 			return name;
@@ -72,6 +72,12 @@ public final class ItemStackWeightTable extends
 	}
 
 	public ItemStack nextStack() {
-		return next().getStack();
+		try {
+			return next().getStack();
+		} catch (Exception e) {
+			ModLog.warn(e.getMessage());
+		}
+		
+		return null;
 	}
 }

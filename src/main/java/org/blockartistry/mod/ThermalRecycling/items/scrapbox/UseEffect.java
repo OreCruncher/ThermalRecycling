@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -172,12 +173,15 @@ public final class UseEffect {
 			scrap1 = scrap.copy();
 		}
 
-		theTable.next().apply(scrap1, world, player);
-
-		// Subtract the real stack. Note that if this is a recursed call this
-		// stack will eventually be tossed. Upshot is that the root
-		// triggerEffect() will update the real ItemStack.
-		scrap.stackSize--;
+		try {
+			theTable.next().apply(scrap1, world, player);
+			// Subtract the real stack. Note that if this is a recursed call this
+			// stack will eventually be tossed. Upshot is that the root
+			// triggerEffect() will update the real ItemStack.
+			scrap.stackSize--;
+		} catch (Exception e) {
+			ModLog.warn(e.getMessage());
+		}
 	}
 
 	public static void diagnostic(final Writer writer) throws IOException {

@@ -143,6 +143,7 @@ public class ScrapHandler {
 		 * the ScrappingContext state.
 		 * 
 		 * @return List of 0 or more ItemStacks that result from scrapping
+		 * @throws Exception 
 		 */
 		public List<ItemStack> scrap() {
 			return handler.scrapItems(this);
@@ -341,6 +342,7 @@ public class ScrapHandler {
 	 * 
 	 * @param ctx Context of the operation
 	 * @return Result of the scrap operation.
+	 * @throws Exception 
 	 */
 	public List<ItemStack> scrapItems(final ScrappingContext ctx) {
 		

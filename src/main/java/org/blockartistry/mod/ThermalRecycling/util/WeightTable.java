@@ -32,7 +32,7 @@ import java.util.Random;
 
 public class WeightTable<T extends WeightTable.Item> {
 
-	static final Random random = XorShiftRandom.shared;
+	protected static final Random random = XorShiftRandom.shared;
 
 	protected final List<T> items = new ArrayList<T>();
 	protected final Random rand;
@@ -79,9 +79,13 @@ public class WeightTable<T extends WeightTable.Item> {
 			totalWeight -= entry.itemWeight;
 	}
 
-	public T next() {
+	public T next() throws Exception {
 
 		assert totalWeight > 0;
+		assert items != null && !items.isEmpty();
+		
+		if(totalWeight < 1 || items == null || items.isEmpty())
+			throw new Exception("WeightTable not properly initialized");
 		
 		int targetWeight = rand.nextInt(totalWeight);
 

@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.world.villager;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
 
 public class VillagerProfessionWeightTable extends WeightTable<VillagerProfessionWeightTable.VillagerProfessionItem> {
@@ -59,7 +60,14 @@ public class VillagerProfessionWeightTable extends WeightTable<VillagerProfessio
 	}
 
 	public VillagerProfession nextProfession() {
-		return next().getProfession();
+		try {
+			return next().getProfession();
+		} catch (Exception e) {
+			ModLog.warn(e.getMessage());
+		}
+		
+		// If we get here something bad happened.  Default to Farmer.
+		return VillagerProfession.farmer;
 	}
 	
 	public int find(final String name) {
