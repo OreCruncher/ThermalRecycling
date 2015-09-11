@@ -28,6 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -60,7 +61,7 @@ public final class FuelHandler implements IFuelHandler {
 		if (item == ItemManager.recyclingScrap
 				|| item == ItemManager.recyclingScrapBox) {
 
-			switch (fuel.getItemDamage()) {
+			switch (ItemStackHelper.getItemDamage(fuel)) {
 			case RecyclingScrap.POOR:
 				burn = ModOptions.getPoorScrapFuelSetting();
 				break;
@@ -79,7 +80,7 @@ public final class FuelHandler implements IFuelHandler {
 			burn = ModOptions.getDebrisFuelSetting();
 		} else if(item == Item.getItemFromBlock(BlockManager.scrapBlock)) {
 			burn = ModOptions.getScrapBlockFuelSetting();
-		} else if(item == ItemManager.material && fuel.getItemDamage() == 0) {
+		} else if (item == ItemManager.material && ItemStackHelper.getItemDamage(fuel) == 0) {
 			burn = ModOptions.getPaperLogFuelSetting();
 		}
 

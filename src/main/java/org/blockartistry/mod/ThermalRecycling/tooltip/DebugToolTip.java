@@ -32,6 +32,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class DebugToolTip extends CachingToolTip {
 	
@@ -55,7 +56,7 @@ public final class DebugToolTip extends CachingToolTip {
 
 		if (stack.getHasSubtypes()) {
 			builder.append(':');
-			builder.append(stack.getItemDamage());
+			builder.append(ItemStackHelper.getItemDamage(stack));
 		}
 
 		output.add(builder.toString());

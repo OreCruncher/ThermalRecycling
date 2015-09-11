@@ -34,9 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * An instance of this class is used to track recipes for the Thermal Recycler.
@@ -80,7 +78,7 @@ public final class RecipeData {
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
-		this.isGeneric = input.getItemDamage() == OreDictionary.WILDCARD_VALUE;
+		this.isGeneric = ItemStackHelper.isWildcard(input);
 		this.outputStacks = (output instanceof ImmutableList) ? output : ImmutableList.copyOf(output);
 	}
 
@@ -119,7 +117,7 @@ public final class RecipeData {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
 
-		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+		if (match == null && !ItemStackHelper.isWildcard(input)) {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 
@@ -148,7 +146,7 @@ public final class RecipeData {
 		// * Existing entry is wildcard and the new one isn't
 		// * The new entry has a quantity greater than the existing one
 		if (result == ephemeral
-			|| (result.isGeneric() && input.getItemDamage() != OreDictionary.WILDCARD_VALUE)
+			|| (result.isGeneric() && !ItemStackHelper.isWildcard(input))
 			|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
 
 			final ItemStack stack = input.copy();
@@ -163,8 +161,8 @@ public final class RecipeData {
 	
 					ItemStack working = output.get(i);
 	
-					if (working.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-						final String oreName = ItemHelper.getOreName(working);
+					if (ItemStackHelper.isWildcard(working)) {
+						final String oreName = ItemStackHelper.getOreName(working);
 	
 						if (oreName != null) {
 							working = ItemStackHelper.getItemStack(oreName,

@@ -95,7 +95,7 @@ public final class ForestryFarmScrapHandler extends ScrapHandler {
 		final List<ItemStack> result = super.getRecipeOutput(ctx);
 		final ItemStack stack = ctx.toProcess;
 		
-		if(stack.hasTagCompound() && stack.getItemDamage() > 0) {
+		if(stack.hasTagCompound() && ItemStackHelper.getItemDamage(stack) > 0) {
 			final NBTTagCompound nbt = stack.getTagCompound();
 			final EnumFarmBlock blockStyle = EnumFarmBlock.getFromCompound(nbt);
 			if(blockStyle != null) {

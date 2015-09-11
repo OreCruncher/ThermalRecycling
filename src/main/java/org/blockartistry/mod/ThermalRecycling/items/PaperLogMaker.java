@@ -33,6 +33,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -57,13 +58,13 @@ public final class PaperLogMaker extends ItemBase {
 	@Override
 	public ItemStack getContainerItem(final ItemStack itemStack) {
 		final ItemStack stack = itemStack.copy();
-		stack.setItemDamage(stack.getItemDamage() + 1);
+		stack.setItemDamage(ItemStackHelper.getItemDamage(stack) + 1);
 		return stack;
 	}
 
 	@Override
 	public boolean hasContainerItem(final ItemStack stack) {
-		return stack.getItemDamage() < MAX_DAMAGE - 1;
+		return ItemStackHelper.getItemDamage(stack) < MAX_DAMAGE - 1;
 	}
 
 	@Override

@@ -36,7 +36,6 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStac
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ExtractionData {
 	
@@ -62,7 +61,7 @@ public class ExtractionData {
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
-		this.isGeneric = input.getItemDamage() == OreDictionary.WILDCARD_VALUE;
+		this.isGeneric = ItemStackHelper.isWildcard(input);
 		this.extraction = table;
 		this.isDefault = false;
 	}
@@ -96,7 +95,7 @@ public class ExtractionData {
 	public static ExtractionData get(final ItemStack input) {
 		ExtractionData match = recipes.get(ItemStackKey.getCachedKey(input));
 
-		if (match == null && input.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+		if (match == null && !ItemStackHelper.isWildcard(input)) {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 

@@ -75,7 +75,7 @@ public final class Material extends ItemBase {
 	public boolean itemInteractionForEntity(ItemStack stack,
 			EntityPlayer player, EntityLivingBase target) {
 
-		if (target.worldObj.isRemote || stack.getItemDamage() != WORMS)
+		if (target.worldObj.isRemote || ItemStackHelper.getItemDamage(stack) != WORMS)
 			return false;
 
 		if (target instanceof EntityChicken) {
@@ -104,7 +104,7 @@ public final class Material extends ItemBase {
 			float p_77648_9_, float p_77648_10_) {
 
 		if (!world.isRemote) {
-			switch (stack.getItemDamage()) {
+			switch (ItemStackHelper.getItemDamage(stack)) {
 			case LITTER_BAG:
 				if (!trash.isEmpty() && player instanceof EntityPlayerMP
 						&& player.isSneaking()) {

@@ -310,7 +310,7 @@ public class ScrapHandler {
 			} else if (ctx.coreType == CoreType.EXTRACTION) {
 				if(ctx.toProcess.getItem() == ItemManager.recyclingScrapBox) {
 					ctx.recipeOutput = Collections.singletonList(new ItemStack(ItemManager.recyclingScrap,
-							8 + ModOptions.getScrapBoxBonus(), ctx.toProcess.getItemDamage()));
+							8 + ModOptions.getScrapBoxBonus(), ItemStackHelper.getItemDamage(ctx.toProcess)));
 				}
 				else {
 					final ItemStack stack = ctx.toProcess.copy();

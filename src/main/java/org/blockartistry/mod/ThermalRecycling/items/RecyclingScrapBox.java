@@ -37,6 +37,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.scrapbox.UseEffect;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -65,7 +66,7 @@ public final class RecyclingScrapBox extends ItemBase {
 			final EntityPlayer player,
 			@SuppressWarnings("rawtypes") final List info,
 			final boolean p_77624_4_) {
-		final int i = MathHelper.clamp_int(stack.getItemDamage(), 0,
+		final int i = MathHelper.clamp_int(ItemStackHelper.getItemDamage(stack), 0,
 				types.length - 1);
 		info.add(StatCollector.translateToLocal(String.format("%s.%s.desc",
 				getUnlocalizedName(), types[i])));

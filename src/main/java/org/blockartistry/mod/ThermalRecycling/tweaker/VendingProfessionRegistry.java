@@ -24,6 +24,7 @@
 package org.blockartistry.mod.ThermalRecycling.tweaker;
 
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.world.villager.VillagerProfessionCustom;
 import org.blockartistry.mod.ThermalRecycling.world.villager.VillagerTrade;
 
@@ -106,11 +107,11 @@ public final class VendingProfessionRegistry {
 		}
 
 		final Item i1 = g1.getItem();
-		final int m1 = g1.getItemDamage();
+		final int m1 = ItemStackHelper.getItemDamage(g1);
 		final Item i2 = g2 != null ? g2.getItem() : null;
-		final int m2 = g2 != null ? g2.getItemDamage() : 0;
+		final int m2 = g2 != null ? ItemStackHelper.getItemDamage(g2) : 0;
 		final Item io = o.getItem();
-		final int mo = o.getItemDamage();
+		final int mo = ItemStackHelper.getItemDamage(o);
 
 		final VillagerTrade trade = new VillagerTrade().setWant(i1, m1, min1, max1, i2, m2, min2, max2)
 				.setOffer(io, mo, offerMin, offerMax).setProbability(prob);

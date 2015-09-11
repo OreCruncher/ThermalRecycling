@@ -120,7 +120,7 @@ public abstract class ItemBase extends Item {
 	@Override
 	public String getUnlocalizedName(final ItemStack stack) {
 		final int i = MathHelper
-				.clamp_int(stack.getItemDamage(), 0, names.length - 1);
+				.clamp_int(ItemStackHelper.getItemDamage(stack), 0, names.length - 1);
 		return getUnlocalizedName() + "." + names[i];
 	}
 

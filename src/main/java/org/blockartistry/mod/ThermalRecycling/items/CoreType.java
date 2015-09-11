@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public enum CoreType {
 	
@@ -67,7 +68,7 @@ public enum CoreType {
 			return false;
 		}
 
-		return canCoreProcess(core == null ? NONE : values()[core.getItemDamage()],
+		return canCoreProcess(core == null ? NONE : values()[ItemStackHelper.getItemDamage(core)],
 				stack);
 	}
 
@@ -85,6 +86,6 @@ public enum CoreType {
 		if(core == null || core.getItem() != ItemManager.processingCore) {
 			return NONE;
 		}
-		return core.getItemDamage() == 0 ? DECOMPOSITION : EXTRACTION;
+		return ItemStackHelper.getItemDamage(core) == 0 ? DECOMPOSITION : EXTRACTION;
 	}
 }

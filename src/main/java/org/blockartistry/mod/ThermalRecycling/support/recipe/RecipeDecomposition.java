@@ -43,7 +43,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -160,7 +159,7 @@ public final class RecipeDecomposition {
 				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack)
 						|| ItemData.isScrubbedFromOutput(stack) || notConsumed(stack))
 					projection.set(i, null);
-				else if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+				else if (ItemStackHelper.isWildcard(stack))
 					stack.setItemDamage(0);
 		}
 

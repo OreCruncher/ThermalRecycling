@@ -37,14 +37,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public final class AnvilHandler {
 
 	private static final int RENAME_COST = ModOptions.getRepairRenameCost();
-	private static final int[] EXPERIENCE_COST = {
-			ModOptions.getPoorRepairXPCost(),
-			ModOptions.getStandardRepairXPCost(),
-			ModOptions.getSuperiorRepairXPCost() };
-	private static final int[] REPAIR_AMOUNT_SCRAP = {
-			ModOptions.getPoorScrapRepairValue(),
-			ModOptions.getStandardScrapRepairValue(),
-			ModOptions.getSuperiorScrapRepairValue() };
+	private static final int[] EXPERIENCE_COST = { ModOptions.getPoorRepairXPCost(),
+			ModOptions.getStandardRepairXPCost(), ModOptions.getSuperiorRepairXPCost() };
+	private static final int[] REPAIR_AMOUNT_SCRAP = { ModOptions.getPoorScrapRepairValue(),
+			ModOptions.getStandardScrapRepairValue(), ModOptions.getSuperiorScrapRepairValue() };
 	private static final int[] REPAIR_AMOUNT_SCRAPBOX = {
 			REPAIR_AMOUNT_SCRAP[0] * ModOptions.getScrapboxRepairMultiplier(),
 			REPAIR_AMOUNT_SCRAP[1] * ModOptions.getScrapboxRepairMultiplier(),
@@ -53,8 +49,7 @@ public final class AnvilHandler {
 	private boolean isValidRepairItem(final ItemStack stack) {
 
 		if (stack != null) {
-			return stack.getItem() == ItemManager.recyclingScrap
-					|| stack.getItem() == ItemManager.recyclingScrapBox;
+			return stack.getItem() == ItemManager.recyclingScrap || stack.getItem() == ItemManager.recyclingScrapBox;
 		}
 
 		return false;
@@ -66,8 +61,7 @@ public final class AnvilHandler {
 		final ItemStack itemToRepair = event.left;
 		final ItemStack repairMaterial = event.right;
 
-		if (itemToRepair == null || repairMaterial == null
-				|| !isValidRepairItem(repairMaterial))
+		if (itemToRepair == null || repairMaterial == null || !isValidRepairItem(repairMaterial))
 			return;
 
 		// Make a copy of the item and figure out any rename
@@ -86,33 +80,29 @@ public final class AnvilHandler {
 			int repairAmount = 0;
 
 			if (repairMaterial.getItem() == ItemManager.recyclingScrap)
-				repairAmount = REPAIR_AMOUNT_SCRAP[repairMaterial
-						.getItemDamage()];
+				repairAmount = REPAIR_AMOUNT_SCRAP[ItemStackHelper.getItemDamage(repairMaterial)];
 			else
-				repairAmount = REPAIR_AMOUNT_SCRAPBOX[repairMaterial
-						.getItemDamage()];
+				repairAmount = REPAIR_AMOUNT_SCRAPBOX[ItemStackHelper.getItemDamage(repairMaterial)];
 
 			// Figure out the quantity needed to fully repair the item
-			final int itemDamage = itemToRepair.getItemDamage();
+			final int itemDamage = ItemStackHelper.getItemDamage(itemToRepair);
 			int howManyUnits = itemDamage / repairAmount;
 			if (itemDamage % repairAmount != 0)
 				howManyUnits++;
 
 			// Cap it
 			howManyUnits = Math.min(howManyUnits, repairMaterial.stackSize);
-			final int damageRepaired = Math.min(itemDamage, howManyUnits
-					* repairAmount);
+			final int damageRepaired = Math.min(itemDamage, howManyUnits * repairAmount);
 
-			event.cost += EXPERIENCE_COST[repairMaterial.getItemDamage()];
+			event.cost += EXPERIENCE_COST[ItemStackHelper.getItemDamage(repairMaterial)];
 			event.materialCost += howManyUnits;
-			event.output.setItemDamage(event.output.getItemDamage()
-					- damageRepaired);
+			event.output.setItemDamage(ItemStackHelper.getItemDamage(event.output) - damageRepaired);
 		}
 	}
 
 	private AnvilHandler() {
 	}
-	
+
 	public static void register() {
 		MinecraftForge.EVENT_BUS.register(new AnvilHandler());
 	}

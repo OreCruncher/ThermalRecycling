@@ -37,13 +37,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class MachineContainer<T extends TileEntityBase> extends
-		Container {
+public abstract class MachineContainer<T extends TileEntityBase> extends Container {
 
 	protected static final int PLAYER_HOTBAR_SIZE = 9;
 	protected static final int PLAYER_CHEST_SIZE = 27;
-	protected static final int PLAYER_INVENTORY_SIZE = PLAYER_HOTBAR_SIZE
-			+ PLAYER_CHEST_SIZE;
+	protected static final int PLAYER_INVENTORY_SIZE = PLAYER_HOTBAR_SIZE + PLAYER_CHEST_SIZE;
 	protected static final int GUI_INVENTORY_CELL_SIZE = 18;
 
 	private static final int UPDATE_TICK_INTERVAL = 3;
@@ -56,8 +54,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		this.spamCycle = 0;
 	}
 
-	protected void addPlayerInventory(final InventoryPlayer inv,
-			final int guiHeight) {
+	protected void addPlayerInventory(final InventoryPlayer inv, final int guiHeight) {
 
 		int yOffset = guiHeight - 82;
 
@@ -66,10 +63,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 
 			// The constants are offsets from the left and top edge
 			// of the GUI
-			final int h = (i % PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE
-					+ 8;
-			final int v = (i / PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE
-					+ yOffset;
+			final int h = (i % PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE + 8;
+			final int v = (i / PLAYER_HOTBAR_SIZE) * GUI_INVENTORY_CELL_SIZE + yOffset;
 
 			// We offset by 9 to skip the hotbar slots - they
 			// come next
@@ -79,8 +74,7 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		yOffset = guiHeight - 24;
 		// Add the hotbar
 		for (int i = 0; i < PLAYER_HOTBAR_SIZE; ++i) {
-			addSlotToContainer(new Slot(inv, i,
-					8 + i * GUI_INVENTORY_CELL_SIZE, yOffset));
+			addSlotToContainer(new Slot(inv, i, 8 + i * GUI_INVENTORY_CELL_SIZE, yOffset));
 		}
 	}
 
@@ -144,9 +138,9 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 					areDifferent = true;
 				}
 
-				if (cacheItemStack.getItemDamage() != slotItemStack
-						.getItemDamage()) {
-					cacheItemStack.setItemDamage(slotItemStack.getItemDamage());
+				if (ItemStackHelper.getItemDamage(cacheItemStack) != ItemStackHelper.getItemDamage(slotItemStack)
+						) {
+					cacheItemStack.setItemDamage(ItemStackHelper.getItemDamage(slotItemStack));
 					areDifferent = true;
 				}
 
@@ -188,19 +182,16 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 
 	public boolean mergeToPlayerInventory(final ItemStack stack) {
 		final int sizeInventory = entity.getSizeInventory();
-		return mergeItemStack(stack, sizeInventory, sizeInventory
-				+ PLAYER_INVENTORY_SIZE, false);
+		return mergeItemStack(stack, sizeInventory, sizeInventory + PLAYER_INVENTORY_SIZE, false);
 	}
 
 	@Override
-	public ItemStack slotClick(final int slotIndex, final int button, final int modifier,
-			final EntityPlayer player) {
+	public ItemStack slotClick(final int slotIndex, final int button, final int modifier, final EntityPlayer player) {
 		if (player == null) {
 			return null;
 		}
 
-		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots
-				.get(slotIndex);
+		final Slot slot = slotIndex < 0 ? null : (Slot) this.inventorySlots.get(slotIndex);
 		if (slot instanceof TradeSlot) {
 			if (((TradeSlot) slot).isPhantom()) {
 				return slotClickMultiSlot(slot, button, modifier, player);
@@ -209,8 +200,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		return super.slotClick(slotIndex, button, modifier, player);
 	}
 
-	private ItemStack slotClickMultiSlot(final Slot slot, final int mouseButton,
-			final int modifier, final EntityPlayer player) {
+	private ItemStack slotClickMultiSlot(final Slot slot, final int mouseButton, final int modifier,
+			final EntityPlayer player) {
 		ItemStack stack = null;
 
 		final ItemStack stackSlot = slot.getStack();
@@ -255,11 +246,9 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		ItemStack stackSlot = slot.getStack();
 		int stackSize;
 		if (modifier == 1) {
-			stackSize = mouseButton == 0 ? (stackSlot.stackSize + 1) / 2
-					: stackSlot.stackSize * 2;
+			stackSize = mouseButton == 0 ? (stackSlot.stackSize + 1) / 2 : stackSlot.stackSize * 2;
 		} else {
-			stackSize = mouseButton == 0 ? stackSlot.stackSize - 1
-					: stackSlot.stackSize + 1;
+			stackSize = mouseButton == 0 ? stackSlot.stackSize - 1 : stackSlot.stackSize + 1;
 		}
 
 		if (stackSize > slot.getSlotStackLimit()) {
@@ -275,8 +264,8 @@ public abstract class MachineContainer<T extends TileEntityBase> extends
 		slot.putStack(stackSlot);
 	}
 
-	protected void fillPhantomSlot(final Slot slot, final ItemStack stackHeld,
-			final int mouseButton, final int modifier) {
+	protected void fillPhantomSlot(final Slot slot, final ItemStack stackHeld, final int mouseButton,
+			final int modifier) {
 		if (!((TradeSlot) slot).canAdjustPhantom()) {
 			return;
 		}

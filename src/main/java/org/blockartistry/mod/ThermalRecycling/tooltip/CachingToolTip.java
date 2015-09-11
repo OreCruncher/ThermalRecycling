@@ -31,6 +31,7 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
 public abstract class CachingToolTip implements MultiFunction<List<String>, ItemStack, Void> {
@@ -45,7 +46,7 @@ public abstract class CachingToolTip implements MultiFunction<List<String>, Item
 	public final Void apply(final List<String> output, final ItemStack stack) {
 		
 		final Item item = stack.getItem();
-		final int meta = stack.getItemDamage();
+		final int meta = ItemStackHelper.getItemDamage(stack);
 		if(lastItem == item && lastMeta == meta) {
 			output.addAll(cachedLore);
 			return null;

@@ -164,9 +164,10 @@ public final class UseEffect {
 		// If null it means cascaded effects.
 		ItemStack scrap1 = null;
 		if (scrap != null) {
-			if (scrap.getItemDamage() == RecyclingScrapBox.STANDARD)
+			final int itemDamage = ItemStackHelper.getItemDamage(scrap);
+			if (itemDamage == RecyclingScrapBox.STANDARD)
 				theTable = standardEffects;
-			else if (scrap.getItemDamage() == RecyclingScrapBox.SUPERIOR)
+			else if (itemDamage == RecyclingScrapBox.SUPERIOR)
 				theTable = superiorEffects;
 			scrap1 = scrap.copy();
 		}
