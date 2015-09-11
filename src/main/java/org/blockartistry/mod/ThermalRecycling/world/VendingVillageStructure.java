@@ -30,17 +30,22 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
+import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
+import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
+import org.blockartistry.mod.ThermalRecycling.world.villager.VillagerProfession;
+
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureVillagePieces;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class VendingVillageStructure extends StructureVillagePieces.Village {
+public final class VendingVillageStructure extends StructureVillagePieces.Village {
 
-	private int averageGroundLevel = -1;
-
+	private static final Random random = XorShiftRandom.shared;
 	private static final int HEIGHT = 4;
 	private static final int WIDTH = 5;
 	private static final int LENGTH = 3;
@@ -48,6 +53,8 @@ public class VendingVillageStructure extends StructureVillagePieces.Village {
 	private static final int[] orientations = new int[] {
 			ForgeDirection.NORTH.ordinal(), ForgeDirection.EAST.ordinal(),
 			ForgeDirection.SOUTH.ordinal(), ForgeDirection.WEST.ordinal() };
+	
+	private int averageGroundLevel = -1;
 
 	public VendingVillageStructure() {
 		super();
@@ -59,6 +66,51 @@ public class VendingVillageStructure extends StructureVillagePieces.Village {
 		super(startPiece, type);
 		coordBaseMode = direction;
 		boundingBox = _boundingBox;
+	}
+	
+	/**
+	 * Configures a Vending Machine for village operation.
+	 *
+	 * @param vte
+	 *            Vending TileEntity to configure
+	 */
+	private static void configure(final VendingTileEntity vte) {
+
+		final ItemStack[] inv = vte.getRawInventory();
+		final VillagerProfession profession = VillagerProfession.randomProfession();
+		final int count = 2 + random.nextInt(5);
+
+		// Use this method because if the spawn point is created before
+		// the world is launched it is not possible to have a FakePlayer
+		// "log in".
+		vte.setOwnerId(FakePlayerHelper.getFakePlayerID());
+		vte.setName(profession.getVendingTitle());
+		vte.setNameBackgroundColor(profession.getBackgroundColor());
+		vte.setNameColor(profession.getForegroundColor());
+
+		int index = 0;
+		for (final Object rm : profession.getTradeList(count)) {
+			if (rm instanceof MerchantRecipe) {
+				final MerchantRecipe mr = (MerchantRecipe)rm;
+				final int base = index + VendingTileEntity.CONFIG_SLOT_START;
+				inv[base] = mr.getItemToBuy().copy();
+				if (mr.hasSecondItemToBuy())
+					inv[base + 6] = mr.getSecondItemToBuy().copy();
+				final ItemStack stack = inv[base + 12] = mr.getItemToSell().copy();
+
+				// Put items in inventory to give to the player
+				int stacks = 0;
+				if (stack.isStackable())
+					stacks = random.nextInt(6) + random.nextInt(6) + 2;
+				else
+					stacks = random.nextInt(3) + 1;
+
+				for (int i = 0; i < stacks; i++)
+					vte.addStackToOutput(stack.copy());
+
+				index++;
+			}
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -93,7 +145,7 @@ public class VendingVillageStructure extends StructureVillagePieces.Village {
 
 			if (te != null) {
 				ModLog.debug("Village Vending: %d, %d, %d", i1, j1, k1);
-				VendingSetup.configure(te);
+				configure(te);
 			}
 
 			return true;

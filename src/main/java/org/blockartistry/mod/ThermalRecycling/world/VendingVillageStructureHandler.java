@@ -35,7 +35,7 @@ import net.minecraft.world.gen.structure.StructureVillagePieces.PieceWeight;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Start;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 
-public class VendingVillageStructureHandler implements VillagerRegistry.IVillageCreationHandler {
+public final class VendingVillageStructureHandler implements VillagerRegistry.IVillageCreationHandler {
 
 	static {
 		MapGenStructureIO.func_143031_a(VendingVillageStructure.class, ThermalRecycling.MOD_ID + "Vend");

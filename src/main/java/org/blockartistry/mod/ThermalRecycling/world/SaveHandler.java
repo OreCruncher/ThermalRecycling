@@ -37,7 +37,7 @@ import java.io.File;
 /**
  * A do-nothing save handler in order to instantiate a fake world.
  */
-public class SaveHandler implements ISaveHandler {
+public final class SaveHandler implements ISaveHandler {
 	@Override
 	public WorldInfo loadWorldInfo() {
 		return null;

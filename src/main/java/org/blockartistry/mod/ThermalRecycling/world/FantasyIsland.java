@@ -36,7 +36,7 @@ import net.minecraft.world.chunk.IChunkProvider;
  * there is a world object. Because at the time of schematic load there isn't a
  * world one has to be artificially provided.
  */
-public class FantasyIsland extends World {
+public final class FantasyIsland extends World {
 
 	// Ordering is important...
 	private static final WorldSettings WORLD_SETTINGS = new WorldSettings(0,
