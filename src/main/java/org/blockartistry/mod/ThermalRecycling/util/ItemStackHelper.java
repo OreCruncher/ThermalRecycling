@@ -307,7 +307,7 @@ public final class ItemStackHelper {
 				;
 			}
 
-			if (result == null) {
+			if (result == null || result.isEmpty()) {
 				try {
 					result = stack.getUnlocalizedName();
 				} catch (Throwable e) {
@@ -366,21 +366,8 @@ public final class ItemStackHelper {
 	 * @param name
 	 */
 	public static void setItemName(final ItemStack stack, final String name) {
-
-		if (stack == null)
-			return;
-
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null)
-			nbt = new NBTTagCompound();
-
-		NBTTagCompound display = nbt.getCompoundTag("display");
-		if (display == null)
-			display = new NBTTagCompound();
-		display.setString("Name", name);
-
-		nbt.setTag("display", display);
-		stack.setTagCompound(nbt);
+		if (stack != null)
+			stack.setStackDisplayName(name);
 	}
 
 	/**
@@ -416,11 +403,12 @@ public final class ItemStackHelper {
 	 * @param stack
 	 * @return
 	 */
-	public static ItemStack makeGlow(final ItemStack stack) {
-		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		nbt.setTag("ench", new NBTTagList());
-		stack.setTagCompound(nbt);
-		return stack;
+	public static void makeGlow(final ItemStack stack) {
+		if(stack != null) {
+			final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+			nbt.setTag("ench", new NBTTagList());
+			stack.setTagCompound(nbt);
+		}
 	}
 
 	/**
