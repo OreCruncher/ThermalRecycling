@@ -89,8 +89,6 @@ public final class ItemData {
 
 		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
 			final String name = Item.itemRegistry.getNameForObject(o);
-			// if (name != null) {
-
 			final Boolean isMinecraft = ItemStackHelper.isVanilla(o);
 
 			final ItemStack stack = getGenericIfPossible(o);
@@ -106,7 +104,6 @@ public final class ItemData {
 			data.setScrubFromOutput(food);
 
 			cache.put(new ItemStackKey(stack), data);
-			// }
 		}
 
 		// Scan the OreDictionary looking for blocks/items that we want

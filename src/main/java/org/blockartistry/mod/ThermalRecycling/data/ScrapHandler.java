@@ -60,16 +60,16 @@ import net.minecraft.util.StatCollector;
 public class ScrapHandler {
 
 	// Cache strings for performance
-	static final StringBuilder builder = new StringBuilder(32);
-	static final String loreDestroy = StatCollector.translateToLocal("msg.ScrapPreview.destroy");
-	static final String loreKeep = StatCollector.translateToLocal("msg.ScrapPreview.keep");
-	static final String loreDust = StatCollector.translateToLocal("msg.ScrapPreview.dust");
-	static final String loreDebris = StatCollector.translateToLocal("item.Debris.debris.name");
-	static final String lorePoorScrap = StatCollector.translateToLocal("item.RecyclingScrap.poor.name");
-	static final String loreStandardScrap = StatCollector.translateToLocal("item.RecyclingScrap.standard.name");
-	static final String loreSuperiorScrap = StatCollector.translateToLocal("item.RecyclingScrap.superior.name");
+	protected static final StringBuilder builder = new StringBuilder(32);
+	protected static final String loreDestroy = StatCollector.translateToLocal("msg.ScrapPreview.destroy");
+	protected static final String loreKeep = StatCollector.translateToLocal("msg.ScrapPreview.keep");
+	protected static final String loreDust = StatCollector.translateToLocal("msg.ScrapPreview.dust");
+	protected static final String loreDebris = StatCollector.translateToLocal("item.Debris.debris.name");
+	protected static final String lorePoorScrap = StatCollector.translateToLocal("item.RecyclingScrap.poor.name");
+	protected static final String loreStandardScrap = StatCollector.translateToLocal("item.RecyclingScrap.standard.name");
+	protected static final String loreSuperiorScrap = StatCollector.translateToLocal("item.RecyclingScrap.superior.name");
 	
-	static final DecimalFormat doubleFormatter = new DecimalFormat("0.0% ");
+	protected static final DecimalFormat doubleFormatter = new DecimalFormat("0.0% ");
 	
 	protected static final int EXPERIENCE_PER_BOTTLE = ModOptions.getXpBottleValue();
 	

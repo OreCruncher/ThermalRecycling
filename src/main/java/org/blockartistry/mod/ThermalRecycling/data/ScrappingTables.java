@@ -54,8 +54,8 @@ public final class ScrappingTables {
 	private static final String[] UPGRADE_NAMES = new String[] { "Basic",
 			"Hardened", "Reinforced", "Resonant", "Ethereal", };
 
-	static final ItemStack keep = new ItemStack(Blocks.bedrock);
-	static final ItemStack dust = new ItemStack(Blocks.air);
+	private static final ItemStack keep = new ItemStack(Blocks.bedrock);
+	private static final ItemStack dust = new ItemStack(Blocks.air);
 
 	public static boolean destroyIt(final ItemStack stack) {
 		return stack == null;
@@ -81,11 +81,10 @@ public final class ScrappingTables {
 	public static final ItemStack standardScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD);
 	public static final ItemStack superiorScrapBox = new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.SUPERIOR);
 
-	static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
-	
-	static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
+	private static final List<ItemStackWeightTable> mustScrap = new ArrayList<ItemStackWeightTable>();
+	private static final Matrix2D<ItemStackWeightTable> dcompScrap = new Matrix2D<ItemStackWeightTable>(ScrapValue.values().length, UPGRADE_NAMES.length);
 
-	static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
+	private static ItemStackItem getItemStackItem(final ItemStackWeightTable table, final Entry<String, Property> e) {
 		ItemStackItem item = null;
 		final int weight = e.getValue().getInt();
 		final String key = e.getKey();
@@ -113,7 +112,7 @@ public final class ScrappingTables {
 		return item;
 	}
 	
-	static void processTables(final String prefix, final Matrix2D<ItemStackWeightTable> weightTables, final JarConfiguration config) {
+	private static void processTables(final String prefix, final Matrix2D<ItemStackWeightTable> weightTables, final JarConfiguration config) {
 		for (final ScrapValue sv : ScrapValue.values())
 			for (int i = 0; i < UPGRADE_NAMES.length; i++) {
 				
