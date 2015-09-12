@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.VendingTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.TradeSlot.IResourceAvailableCheck;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
-
 import cofh.lib.gui.slot.SlotLocked;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -142,14 +140,14 @@ public final class VendingContainer extends MachineContainer<VendingTileEntity>
 			if (!entity.isAdminMode()) {
 				entity.addStackToOutput(input1.copy());
 			}
-			MyUtils.removeItemStackFromInventory(playerInventory,
+			InventoryHelper.removeItemStackFromInventory(playerInventory,
 					input1.copy(), 0, playerInventory.length - 1);
 		}
 		if (input2 != null) {
 			if (!entity.isAdminMode()) {
 				entity.addStackToOutput(input2.copy());
 			}
-			MyUtils.removeItemStackFromInventory(playerInventory,
+			InventoryHelper.removeItemStackFromInventory(playerInventory,
 					input2.copy(), 0, playerInventory.length - 1);
 		}
 

@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
@@ -165,7 +166,7 @@ public final class RecipeDecomposition {
 		}
 
 		// Do final scrub on the list
-		return ImmutableList.copyOf(MyUtils.coelece(projection));
+		return ImmutableList.copyOf(InventoryHelper.coelece(projection));
 	}
 
 	private static List<ItemStack> project(final ShapedRecipes recipe) {

@@ -41,9 +41,9 @@ import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import com.google.common.collect.ImmutableList;
@@ -108,7 +108,7 @@ public final class Material extends ItemBase {
 					boolean isDirty = false;
 
 					for (final ItemStack item : trash)
-						if (MyUtils.clearInventory(player.inventory.mainInventory, item))
+						if (InventoryHelper.clearInventory(player.inventory.mainInventory, item))
 							isDirty = true;
 
 					stack.stackSize--;

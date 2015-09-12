@@ -29,10 +29,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -173,7 +172,7 @@ public final class RecipeData {
 					}
 				}
 
-				output = ImmutableList.copyOf(MyUtils.coelece(output));
+				output = ImmutableList.copyOf(InventoryHelper.coelece(output));
 			}
 
 			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));

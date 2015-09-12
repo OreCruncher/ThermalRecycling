@@ -28,9 +28,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -253,20 +252,20 @@ public final class SidedInventoryComponent implements IMachineInventory {
 	@Override
 	public boolean addStackToOutput(final ItemStack stack) {
 		isDirty = true;
-		return MyUtils.addItemStackToInventory(inventory, stack,
+		return InventoryHelper.addItemStackToInventory(inventory, stack,
 				outputStart, outputEnd - outputStart + 1);
 	}
 	
 	@Override
 	public boolean removeStackFromOutput(final ItemStack stack) {
 		isDirty = true;
-		return MyUtils.removeItemStackFromInventory(inventory, stack, outputStart, outputEnd - outputStart + 1);
+		return InventoryHelper.removeItemStackFromInventory(inventory, stack, outputStart, outputEnd - outputStart + 1);
 	}
 
 	@Override
 	public void coeleceOutput() {
 		isDirty = true;
-		MyUtils.coelece(inventory, outputStart, outputEnd);
+		InventoryHelper.coelece(inventory, outputStart, outputEnd);
 	}
 
 	@Override
