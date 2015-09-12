@@ -34,6 +34,7 @@ import net.minecraftforge.common.util.Constants;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -41,19 +42,19 @@ import buildcraft.api.transport.pluggable.IPipePluggableItem;
 
 public final class BuildCraftGateScrapHandler extends ScrapHandler {
 
-	static final ItemStack pulsatingChipset = ItemStackHelper
+	private static final ItemStack pulsatingChipset = ItemStackHelper
 			.getItemStack("BuildCraft|Silicon:redstoneChipset:4");
-	static final ItemStack quartzChipset = ItemStackHelper
+	private static final ItemStack quartzChipset = ItemStackHelper
 			.getItemStack("BuildCraft|Silicon:redstoneChipset:5");
-	static final ItemStack redstoneCompChipset = ItemStackHelper
+	private static final ItemStack redstoneCompChipset = ItemStackHelper
 			.getItemStack("BuildCraft|Silicon:redstoneChipset:6");
 
-	static final List<ItemStack> basicGate;
-	static final List<ItemStack> ironGate;
-	static final List<ItemStack> goldGate;
-	static final List<ItemStack> diamondGate;
-	static final List<ItemStack> quartzGate;
-	static final List<ItemStack> emeraldGate;
+	private static final List<ItemStack> basicGate;
+	private static final List<ItemStack> ironGate;
+	private static final List<ItemStack> goldGate;
+	private static final List<ItemStack> diamondGate;
+	private static final List<ItemStack> quartzGate;
+	private static final List<ItemStack> emeraldGate;
 
 	static {
 
@@ -110,14 +111,14 @@ public final class BuildCraftGateScrapHandler extends ScrapHandler {
 			.add(yellowPipeWire).build();
 	}
 
-	static final int MATERIAL_REDSTONE = 0;
-	static final int MATERIAL_IRON = 1;
-	static final int MATERIAL_GOLD = 2;
-	static final int MATERIAL_DIAMOND = 3;
-	static final int MATERIAL_EMERALD = 4;
-	static final int MATERIAL_QUARTZ = 5;
+	private static final int MATERIAL_REDSTONE = 0;
+	private static final int MATERIAL_IRON = 1;
+	private static final int MATERIAL_GOLD = 2;
+	private static final int MATERIAL_DIAMOND = 3;
+	private static final int MATERIAL_EMERALD = 4;
+	private static final int MATERIAL_QUARTZ = 5;
 	
-	static int getMaterial(final ItemStack stack) {
+	private static int getMaterial(final ItemStack stack) {
 		
 		int result = MATERIAL_REDSTONE;
 		
@@ -129,7 +130,7 @@ public final class BuildCraftGateScrapHandler extends ScrapHandler {
 		return result;
 	}
 	
-	static List<String> getExpansions(final ItemStack stack) {
+	private static List<String> getExpansions(final ItemStack stack) {
 		final List<String> result = new ArrayList<String>();
 
 		if(stack.hasTagCompound()) {
@@ -186,7 +187,7 @@ public final class BuildCraftGateScrapHandler extends ScrapHandler {
 					output.add(redstoneCompChipset);
 			}
 
-			return ItemStackHelper.clone(output);
+			return MyUtils.clone(output);
 		}
 
 		return super.getRecipeOutput(ctx);

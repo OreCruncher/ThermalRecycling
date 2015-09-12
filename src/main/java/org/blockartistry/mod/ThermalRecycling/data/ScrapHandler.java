@@ -39,6 +39,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
@@ -395,7 +396,7 @@ public class ScrapHandler {
 	 * @return The reverse recipe for the ItemStack that is being scrapped
 	 */
 	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {
-		return ItemStackHelper.clone(ctx.recipeData.getOutput());
+		return MyUtils.clone(ctx.recipeData.getOutput());
 	}
 
 	protected void decorateStacks(final ScrappingContext ctx, final List<ItemStack> stack) {

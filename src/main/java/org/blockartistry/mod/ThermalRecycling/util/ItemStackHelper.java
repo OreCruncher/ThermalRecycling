@@ -25,23 +25,16 @@
 package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Logger;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-
-import cofh.lib.util.helpers.ItemHelper;
 
 import com.google.common.collect.ImmutableMap;
 
 import cpw.mods.fml.common.registry.GameData;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -51,8 +44,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class ItemStackHelper {
@@ -60,9 +51,9 @@ public final class ItemStackHelper {
 	protected static final Random rand = XorShiftRandom.shared;
 	protected static Map<String, ItemStack> preferred = new HashMap<String, ItemStack>();
 
-	static final Item materialBase = GameData.getItemRegistry().getObject("ThermalFoundation:material");
-	static final Item storageBase = GameData.getItemRegistry().getObject("ThermalFoundation:Storage");
-	static final Item materialBaseTE = GameData.getItemRegistry().getObject("ThermalExpansion:material");
+	private static final Item materialBase = GameData.getItemRegistry().getObject("ThermalFoundation:material");
+	private static final Item storageBase = GameData.getItemRegistry().getObject("ThermalFoundation:Storage");
+	private static final Item materialBaseTE = GameData.getItemRegistry().getObject("ThermalExpansion:material");
 
 	public static final ItemStack dustIron = new ItemStack(materialBase, 1, 0);
 	public static final ItemStack dustGold = new ItemStack(materialBase, 1, 1);
@@ -299,36 +290,12 @@ public final class ItemStackHelper {
 		return result;
 	}
 
-	public static List<ItemStack> getItemStackRange(final String name, final int startSubtype, final int endSubtype,
-			final int quantity) {
-
-		return getItemStackRange(getItemStack(name).getItem(), startSubtype, endSubtype, quantity);
-	}
-
-	public static List<ItemStack> getItemStackRange(final Item item, final int start, final int end,
-			final int quantity) {
-
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-
-		for (int i = start; i <= end; i++) {
-			result.add(new ItemStack(item, quantity, i));
-		}
-
-		return result;
-	}
-
-	public static List<ItemStack> getItemStackRange(final Block block, final int start, final int end,
-			final int quantity) {
-
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-
-		for (int i = start; i <= end; i++) {
-			result.add(new ItemStack(block, quantity, i));
-		}
-
-		return result;
-	}
-
+	/**
+	 * Attempts to get the name of an ItemStack if possible.
+	 * 
+	 * @param stack
+	 * @return
+	 */
 	public static String resolveName(final ItemStack stack) {
 		String result = null;
 
@@ -352,67 +319,16 @@ public final class ItemStackHelper {
 		return result == null || result.isEmpty() ? "UNKNOWN" : result;
 	}
 
-	public void dumpSubItems(final Logger log, final String itemId) {
-		final ItemStack stack = getItemStack(itemId, 1);
-		if (stack != null) {
-
-			try {
-				for (int i = 0; i < 1024; i++) {
-					stack.setItemDamage(i);
-					final String name = resolveName(stack);
-					if (name != null && !name.isEmpty() && !name.contains("(Destroy)"))
-						log.info(String.format("%s:%d = %s", itemId, i, name));
-				}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				;
-			}
-		}
-	}
-
-	public void dumpItemStack(final Logger log, final String title, final ItemStack... items) {
-
-		log.info("");
-		log.info(title);
-		log.info(StringUtils.repeat('-', 32));
-
-		if (items == null || items.length == 0) {
-			log.info("No items in list");
-			return;
-		}
-
-		for (final ItemStack stack : items) {
-			log.info(String.format("%s (%s)", resolveName(stack), stack.toString()));
-		}
-		log.info(StringUtils.repeat('-', 32));
-		log.info(String.format("Total: %d item stacks", items.length));
-	}
-
-	public static void dumpFluidRegistry(final Logger log) {
-
-		log.info("Fluid Registry:");
-
-		for (final Entry<String, Fluid> e : FluidRegistry.getRegisteredFluids().entrySet()) {
-			log.info(String.format("%s: %s", e.getKey(), e.getValue().getName()));
-		}
-	}
-
-	public static List<ItemStack> clone(final ItemStack... stacks) {
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.length);
-		for (final ItemStack stack : stacks)
-			if (stack != null)
-				result.add(stack.copy());
-		return result;
-	}
-
-	public static List<ItemStack> clone(final List<ItemStack> stacks) {
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.size());
-		for (final ItemStack stack : stacks)
-			if (stack != null)
-				result.add(stack.copy());
-		return result;
-	}
-
-
+	/**
+	 * Spawns the ItemStack into the world.  If it is a large stack it is broken down
+	 * into smaller stacks and spun out at different velocities.
+	 * 
+	 * @param world
+	 * @param stack
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public static void spawnIntoWorld(final World world, final ItemStack stack, final double x, final double y,
 			final double z) {
 
@@ -444,151 +360,11 @@ public final class ItemStackHelper {
 	}
 
 	/**
-	 * Compresses the inventory list by consolidating stacks toward the
-	 * beginning of the array. This operation occurs in place meaning the return
-	 * array is the original one passed in.
+	 * Sets the display name of the ItemStack.
 	 * 
-	 * @param inv
-	 * @return
+	 * @param stack
+	 * @param name
 	 */
-	public static void coelece(final ItemStack[] inv, final int startSlot, final int endSlot) {
-
-		assert inv != null;
-		assert startSlot >= 0 && endSlot >= startSlot;
-		assert startSlot < inv.length;
-
-		for (int i = startSlot + 1; i <= endSlot; i++) {
-
-			final ItemStack stack = inv[i];
-			if (stack != null) {
-
-				for (int j = startSlot; j < i; j++) {
-
-					final ItemStack target = inv[j];
-					if (target == null) {
-						inv[j] = stack;
-						inv[i] = null;
-						break;
-					} else if (ItemHelper.itemsIdentical(stack, target)) {
-
-						final int hold = target.getMaxStackSize() - target.stackSize;
-
-						if (hold >= stack.stackSize) {
-							target.stackSize += stack.stackSize;
-							inv[i] = null;
-							break;
-						} else if (hold != 0) {
-							stack.stackSize -= hold;
-							target.stackSize += hold;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Compresses the inventory list by consolidating stacks toward the
-	 * beginning of the array. This operation occurs in place meaning the return
-	 * array is the original one passed in.
-	 * 
-	 * @param inv
-	 * @return
-	 */
-	public static List<ItemStack> coelece(final List<ItemStack> inv) {
-
-		if (inv == null) {
-			return inv;
-		}
-
-		for (int i = 1; i < inv.size(); i++) {
-
-			final ItemStack stack = inv.get(i);
-			if (stack != null) {
-
-				for (int j = 0; j < i; j++) {
-
-					final ItemStack target = inv.get(j);
-					if (target == null) {
-						inv.set(j, stack);
-						inv.set(i, null);
-						break;
-					} else if (ItemHelper.itemsIdentical(stack, target)) {
-
-						final int hold = target.getMaxStackSize() - target.stackSize;
-
-						if (hold >= stack.stackSize) {
-							target.stackSize += stack.stackSize;
-							inv.set(i, null);
-							break;
-						} else if (hold != 0) {
-							stack.stackSize -= hold;
-							target.stackSize += hold;
-						}
-					}
-				}
-			}
-		}
-
-		// Purge all null entries
-		inv.removeAll(Collections.singleton(null));
-
-		return inv;
-	}
-
-	public static boolean addItemStackToInventory(final ItemStack inv[], final ItemStack stack, final int startSlot,
-			final int endSlot) {
-
-		if (stack == null || stack.stackSize == 0)
-			return true;
-
-		for (int slot = startSlot; slot <= endSlot; slot++) {
-			ItemStack invStack = inv[slot];
-
-			// Quick and easy - if the slot is empty its the target
-			if (invStack == null) {
-				inv[slot] = stack;
-				return true;
-			}
-
-			// If the stack can fit into this slot do the merge
-			final int remainingSpace = invStack.getMaxStackSize() - invStack.stackSize;
-			if (remainingSpace > 0 && ItemHelper.itemsIdentical(stack, invStack)) {
-
-				if (remainingSpace >= stack.stackSize) {
-					invStack.stackSize += stack.stackSize;
-					return true;
-				}
-
-				stack.stackSize -= remainingSpace;
-				invStack.stackSize += remainingSpace;
-			}
-		}
-
-		return false;
-	}
-
-	public static boolean removeItemStackFromInventory(final ItemStack inv[], final ItemStack stack,
-			final int startSlot, final int endSlot) {
-		if (stack == null || stack.stackSize == 0)
-			return true;
-
-		for (int slot = startSlot; slot <= endSlot && stack.stackSize > 0; slot++) {
-			final ItemStack invStack = inv[slot];
-			if (invStack != null && ItemStackHelper.areEqual(invStack, stack)) {
-				if (invStack.stackSize > stack.stackSize) {
-					invStack.stackSize -= stack.stackSize;
-					stack.stackSize = 0;
-				} else {
-					stack.stackSize -= invStack.stackSize;
-					inv[slot] = null;
-				}
-			}
-		}
-
-		return stack.stackSize == 0;
-	}
-
 	public static void setItemName(final ItemStack stack, final String name) {
 
 		if (stack == null)
@@ -607,6 +383,12 @@ public final class ItemStackHelper {
 		stack.setTagCompound(nbt);
 	}
 
+	/**
+	 * Sets the lore of the ItemStack.
+	 * 
+	 * @param stack
+	 * @param lore
+	 */
 	public static void setItemLore(final ItemStack stack, final List<String> lore) {
 
 		if (stack == null)
@@ -628,6 +410,12 @@ public final class ItemStackHelper {
 		stack.setTagCompound(nbt);
 	}
 
+	/**
+	 * Sets the enchantment tag in the ItemStack NBT to make it glow.
+	 * 
+	 * @param stack
+	 * @return
+	 */
 	public static ItemStack makeGlow(final ItemStack stack) {
 		final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		nbt.setTag("ench", new NBTTagList());
@@ -667,42 +455,6 @@ public final class ItemStackHelper {
 			return false;
 
 		return stack1.isItemEqual(stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound);
-	}
-
-	/**
-	 * Clears the target inventory of ItemStacks matching the provided Item and
-	 * metadata values. Passing in WILDCARD_VALUE for metadata will match all
-	 * subtypes for the provided Item.
-	 * 
-	 * @param inv
-	 * @param item
-	 * @param meta
-	 * @return
-	 */
-	public static boolean clearInventory(final ItemStack[] inv, final Item item, final int meta) {
-
-		assert inv != null;
-
-		int cleared = 0;
-
-		for (int i = 0; i < inv.length; i++) {
-
-			final ItemStack stack = inv[i];
-
-			if (stack != null && (item == null || stack.getItem() == item)
-					&& (meta == OreDictionary.WILDCARD_VALUE || getItemDamage(stack) == meta)) {
-				cleared += stack.stackSize;
-				inv[i] = null;
-			}
-		}
-
-		return cleared != 0;
-	}
-
-	public static boolean clearInventory(final ItemStack[] inv, final ItemStack stack) {
-		assert inv != null;
-		assert stack != null;
-		return clearInventory(inv, stack.getItem(), getItemDamage(stack));
 	}
 
 	/**

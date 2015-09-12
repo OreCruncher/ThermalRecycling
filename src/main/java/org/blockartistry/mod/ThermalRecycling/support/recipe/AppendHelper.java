@@ -23,6 +23,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -32,10 +33,40 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public final class AppendHelper {
-	
+
 	private AppendHelper() {
 	}
-	
+
+	private static List<ItemStack> getItemStackRange(final String name, final int startSubtype, final int endSubtype,
+			final int quantity) {
+
+		return getItemStackRange(ItemStackHelper.getItemStack(name).getItem(), startSubtype, endSubtype, quantity);
+	}
+
+	private static List<ItemStack> getItemStackRange(final Item item, final int start, final int end,
+			final int quantity) {
+
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+
+		for (int i = start; i <= end; i++) {
+			result.add(new ItemStack(item, quantity, i));
+		}
+
+		return result;
+	}
+
+	private static List<ItemStack> getItemStackRange(final Block block, final int start, final int end,
+			final int quantity) {
+
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+
+		for (int i = start; i <= end; i++) {
+			result.add(new ItemStack(block, quantity, i));
+		}
+
+		return result;
+	}
+
 	public static void append(final List<ItemStack> list, final ItemStack stack) {
 
 		assert list != null;
@@ -144,7 +175,7 @@ public final class AppendHelper {
 		assert start >= 0 && end >= start;
 		assert quantity > 0;
 
-		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, quantity));
+		list.addAll(getItemStackRange(item, start, end, quantity));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final String item, final int start,
@@ -154,7 +185,7 @@ public final class AppendHelper {
 		assert item != null;
 		assert start >= 0 && end >= start;
 
-		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, 1));
+		list.addAll(getItemStackRange(item, start, end, 1));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final Item item, final int start, final int end,
@@ -165,7 +196,7 @@ public final class AppendHelper {
 		assert start >= 0 && end >= start;
 		assert quantity > 0;
 
-		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, quantity));
+		list.addAll(getItemStackRange(item, start, end, quantity));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final Item item, final int start, final int end) {
@@ -174,7 +205,7 @@ public final class AppendHelper {
 		assert item != null;
 		assert start >= 0 && end >= start;
 
-		list.addAll(ItemStackHelper.getItemStackRange(item, start, end, 1));
+		list.addAll(getItemStackRange(item, start, end, 1));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final Block block, final int start, final int end,
@@ -185,7 +216,7 @@ public final class AppendHelper {
 		assert start >= 0 && end >= start;
 		assert quantity > 0;
 
-		list.addAll(ItemStackHelper.getItemStackRange(block, start, end, quantity));
+		list.addAll(getItemStackRange(block, start, end, quantity));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final Block block, final int start,
@@ -195,7 +226,7 @@ public final class AppendHelper {
 		assert block != null;
 		assert start >= 0 && end >= start;
 
-		list.addAll(ItemStackHelper.getItemStackRange(block, start, end, 1));
+		list.addAll(getItemStackRange(block, start, end, 1));
 	}
 
 	public static void appendSubtypeRange(final List<ItemStack> list, final ItemStack stack, final int start,

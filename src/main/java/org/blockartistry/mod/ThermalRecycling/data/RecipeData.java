@@ -31,6 +31,8 @@ import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
+import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -49,7 +51,7 @@ public final class RecipeData {
 	// Used as a generic "blank" for items that do not have
 	// recipes registered.
 	private static final RecipeData ephemeral = new RecipeData();
-	
+
 	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
 
 	public static void freeze() {
@@ -71,7 +73,7 @@ public final class RecipeData {
 		this.isGeneric = true;
 		this.outputStacks = ImmutableList.of();
 	}
-	
+
 	public RecipeData(final ItemStack input, final List<ItemStack> output) {
 		assert input != null;
 		assert output != null;
@@ -85,7 +87,7 @@ public final class RecipeData {
 	public boolean isGeneric() {
 		return isGeneric;
 	}
-	
+
 	public boolean hasOutput() {
 		return !this.outputStacks.isEmpty();
 	}
@@ -97,22 +99,22 @@ public final class RecipeData {
 	public List<ItemStack> getOutput() {
 		return this.outputStacks;
 	}
-	
+
 	public boolean isVanillaOutput() {
-		
-		if(hasOutput())  {
-			
-			for(final ItemStack stack: getOutput()) {
-				if(!ItemStackHelper.isVanilla(stack))
+
+		if (hasOutput()) {
+
+			for (final ItemStack stack : getOutput()) {
+				if (!ItemStackHelper.isVanilla(stack))
 					return false;
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static RecipeData get(final ItemStack input) {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
@@ -123,7 +125,7 @@ public final class RecipeData {
 
 		return match == null ? ephemeral : match;
 	}
-	
+
 	public static void remove(final ItemStack stack) {
 		recipes.remove(ItemStackKey.getCachedKey(stack));
 	}
@@ -145,37 +147,35 @@ public final class RecipeData {
 		// * It doesn't exist
 		// * Existing entry is wildcard and the new one isn't
 		// * The new entry has a quantity greater than the existing one
-		if (result == ephemeral
-			|| (result.isGeneric() && !ItemStackHelper.isWildcard(input))
-			|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
+		if (result == ephemeral || (result.isGeneric() && !ItemStackHelper.isWildcard(input))
+				|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
 
 			final ItemStack stack = input.copy();
 
 			// An immutable list has already been processed by
 			// something like RecipeDecomposition
-			if(!(output instanceof ImmutableList)) {
+			if (!(output instanceof ImmutableList)) {
 				// Traverse the list replacing WILDCARD stacks with concrete
 				// ones. The logic prefers Thermal Foundation equivalents
 				// if found.
 				for (int i = 0; i < output.size(); i++) {
-	
+
 					ItemStack working = output.get(i);
-	
+
 					if (ItemStackHelper.isWildcard(working)) {
 						final String oreName = ItemStackHelper.getOreName(working);
-	
+
 						if (oreName != null) {
-							working = ItemStackHelper.getItemStack(oreName,
-									working.stackSize);
+							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
 							if (working != null)
 								output.set(i, working);
 						}
 					}
 				}
-	
-				output = ImmutableList.copyOf(ItemStackHelper.coelece(output));
+
+				output = ImmutableList.copyOf(MyUtils.coelece(output));
 			}
-			
+
 			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));
 
 			retCode = SUCCESS;
@@ -183,7 +183,7 @@ public final class RecipeData {
 
 		return retCode;
 	}
-	
+
 	@Override
 	public String toString() {
 
@@ -200,8 +200,7 @@ public final class RecipeData {
 					builder.append(", ");
 				else
 					sawOne = true;
-				builder.append(String.format("%dx %s", stack.stackSize,
-						ItemStackHelper.resolveName(stack)));
+				builder.append(String.format("%dx %s", stack.stackSize, ItemStackHelper.resolveName(stack)));
 			}
 		}
 		builder.append(']');
