@@ -81,6 +81,11 @@ public final class DebugToolTip extends CachingToolTip {
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Scrubbed");
 		if (data.getIgnoreRecipe())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Recipe Ignored");
+		if(data.isBlockedFromExtraction())
+			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Extraction");
+		if(data.isBlockedFromScrapping())
+			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Scrapping");
+			
 		if (stack.hasTagCompound())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Compound Data");
 	}
