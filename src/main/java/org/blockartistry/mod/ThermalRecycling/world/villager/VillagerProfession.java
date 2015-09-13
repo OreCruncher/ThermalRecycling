@@ -56,6 +56,7 @@ public class VillagerProfession {
 	public static final VillagerProfessionCustom herder;
 	public static final VillagerProfessionCustom arborist;
 	public static final VillagerProfessionCustom hunter;
+	public static final VillagerProfessionCustom tinker;
 	
 	private static Method tradeList;
 	
@@ -114,11 +115,26 @@ public class VillagerProfession {
 			hunter.addTrade(new VillagerTrade().setWant(5, 8).setOffer(Items.skull, 4, 1, 1).setProbability(0.15F));
 			professions.add(new VillagerProfessionItem(hunter, 50));
 			
+			tinker = new VillagerProfessionCustom("msg.VendoFormat.Tinker", DyeHelper.COLOR_BLUE, DyeHelper.COLOR_YELLOW);
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.golden_rail, 0, 1, 2).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.detector_rail, 0, 2, 4).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.rail, 0, 16, 24).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.activator_rail, 0, 2, 4).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Items.repeater, 0, 2, 4).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Items.comparator, 0, 1, 2).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(2, 4).setOffer(Blocks.daylight_detector, 0, 1, 1).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(2, 4).setOffer(Blocks.redstone_lamp, 0, 1, 1).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.piston, 0, 2, 4).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.sticky_piston, 0, 1, 2).setProbability(0.5F));
+			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.tnt, 0, 3, 4).setProbability(0.5F));
+			professions.add(new VillagerProfessionItem(tinker, 50));
+
 		} else {
 			
 			herder = null;
 			arborist = null;
 			hunter = null;
+			tinker = null;
 			
 		}
 	}
@@ -138,7 +154,8 @@ public class VillagerProfession {
 	}
 
 	public static VillagerProfession randomProfession() {
-		return professions.nextProfession();
+		return tinker;
+		//return professions.nextProfession();
 	}
 	
 	public String getKey() {

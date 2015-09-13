@@ -66,6 +66,7 @@ msg.VendoFormat.Blacksmith=Blacksmith
 msg.VendoFormat.Herder=Herder
 msg.VendoFormat.Arborist=Arborist
 msg.VendoFormat.Hunter=Hunter
+msg.VendoFormat.Tinker=Tinker
 
 # Achievements
 achievement.feelingScrappy=Feeling Scrappy!
