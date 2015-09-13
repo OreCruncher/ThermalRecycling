@@ -154,8 +154,7 @@ public class VillagerProfession {
 	}
 
 	public static VillagerProfession randomProfession() {
-		return tinker;
-		//return professions.nextProfession();
+		return professions.nextProfession();
 	}
 	
 	public String getKey() {
