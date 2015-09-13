@@ -85,7 +85,6 @@ public final class ModThaumcraft extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		registerRecycleToWoodDust(1, "blockMagicalLog:0", "blockMagicalLog:1");
 		registerRecycleToWoodDust(2, "blockWoodenDevice:6",
 				"blockWoodenDevice:7");
 		registerRecycleToWoodDust(8, "blockCustomPlant:0", "blockCustomPlant:1");

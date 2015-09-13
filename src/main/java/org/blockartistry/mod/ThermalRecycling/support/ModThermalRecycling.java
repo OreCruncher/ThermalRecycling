@@ -117,6 +117,12 @@ public final class ModThermalRecycling extends ModPlugin {
 			registerScrapValuesForge(ScrapValue.STANDARD, "nuggetDiamond", "nuggetEmerald");
 		}
 
+		registerRecycleToWoodDustForge(1, "logWood");
+		registerRecycleToWoodDustForge(2, "plankWood");
+		registerRecycleToWoodDustForge(8, "treeSapling");
+		
+		registerRecipesToIgnoreForge("logWood", "plankWood", "treeSapling");
+
 		// Configure extraction recipes
 		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),

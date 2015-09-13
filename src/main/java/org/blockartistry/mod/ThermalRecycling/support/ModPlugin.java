@@ -138,6 +138,14 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerRecipesToIgnoreForge(final String... oreList) {
+		for(final String ore: oreList) {
+			for(final ItemStack stack: OreDictionary.getOres(ore)) {
+				ItemData.setRecipeIgnored(stack, true);
+			}
+		}
+	}
+	
 	protected void registerRecipesToReveal(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 
@@ -200,6 +208,14 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerRecycleToWoodDustForge(final int inputQuantity, final String... oreList) {
+		for(final String ore: oreList) {
+			for(final ItemStack stack: OreDictionary.getOres(ore)) {
+				recycler.input(stack, inputQuantity).append(ItemStackHelper.dustWood).save();
+			}
+		}
+	}
+	
 	protected void registerCompostIngredient(
 			final CompostIngredient ingredient, final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
@@ -237,6 +253,13 @@ public abstract class ModPlugin {
 			}
 
 		});
+	}
+	
+	protected void registerPulverizerToDirtForge(final String... oreList) {
+		for(final String ore: oreList) {
+			for(final ItemStack stack: OreDictionary.getOres(ore))
+				pulverizer.append(stack, 8).output(Blocks.dirt).save();
+		}
 	}
 	
 	protected void registerPileOfRubbleDrop(final int min, final int max, final int weight, final String... list) {

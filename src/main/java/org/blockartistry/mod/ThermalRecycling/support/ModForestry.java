@@ -117,11 +117,6 @@ public final class ModForestry extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		registerRecycleToWoodDust(1, "log1:*", "log2:*", "log3:*", "log4:*", "log5:*", "log6:*", "log7:*", "log8:*",
-				"fireproofLog2:*", "fireproofLog3:*", "fireproofLog4:*", "fireproofLog5:*", "fireproofLog6:*",
-				"fireproofLog7:*", "fireproofLog8:*");
-		registerRecycleToWoodDust(2, "planks:*", "planks2:*", "fireproofPlanks1:*", "fireproofPlanks2:*");
-		registerRecycleToWoodDust(8, "sapling", "saplingGE");
 		registerRecycleToWoodDust(16, "fruits:*");
 		registerRecycleToWoodDust(32, "propolis:*");
 

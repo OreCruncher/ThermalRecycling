@@ -72,8 +72,6 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		registerRecycleToWoodDust(1, "rubberwood.log");
-		registerRecycleToWoodDust(8, "rubberwood.sapling:*");
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
 
 		// Glass

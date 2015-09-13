@@ -97,15 +97,6 @@ public final class ModExtrabiomesXL extends ModPlugin {
 		registerPulverizeToDirt("saplings_1", 0, 7);
 		registerPulverizeToDirt("saplings_2", 0, 4);
 
-		registerRecycleToWoodDust(1, "log1:*", "log2:*", "mini_log_1",
-				"cornerlog_baldcypress", "cornerlog_rainboweucalyptus",
-				"cornerlog_oak", "cornerlog_fir", "cornerlog_redwood",
-				"log_elbow_baldcypress", "log_elbow_rainbow_eucalyptus");
-
-		registerRecycleToWoodDust(2, "planks:*", "double_woodslab2:*");
-
-		registerRecycleToWoodDust(8, "saplings_1:*", "saplings_2:*");
-
 		registerCompostIngredient(CompostIngredient.BROWN, "leaves_1:*",
 				"leaves_2:*", "leaves_3:*", "leaves_4:*", "leaf_pile",
 				"saplings_1:*", "saplings_2:*", "vines");

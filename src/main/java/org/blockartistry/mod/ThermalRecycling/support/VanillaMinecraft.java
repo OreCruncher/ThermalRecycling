@@ -138,9 +138,7 @@ public final class VanillaMinecraft extends ModPlugin {
 		registerItemBlockedFromScrapping(false, "wool:*");
 		registerItemBlockedFromScrapping(true, blockFromScrapping);
 
-		registerRecycleToWoodDust(1, "log:*", "log2:*");
-		registerRecycleToWoodDust(2, "planks:*");
-		registerRecycleToWoodDust(8, "sapling:*", "dye:*");
+		registerRecycleToWoodDust(8, "dye:*");
 		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat", "reeds", "cactus", "brown_mushroom",
 				"red_mushroom", "pumpkin", "nether_wart");
 		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds", "melon_seeds", "melon");
