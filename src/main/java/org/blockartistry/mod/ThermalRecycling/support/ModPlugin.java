@@ -51,19 +51,20 @@ import com.google.common.base.Predicate;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class ModPlugin {
 
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
 
-	final SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
-	final PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
-	final FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
-	final ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
-	final SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
-	final FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
-	final BlastRecipeBuilder blast = new BlastRecipeBuilder();
+	protected final SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
+	protected final PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
+	protected final FurnaceRecipeBuilder furnace = new FurnaceRecipeBuilder();
+	protected final ThermalRecyclerRecipeBuilder recycler = new ThermalRecyclerRecipeBuilder();
+	protected final SmelterRecipeBuilder smelter = new SmelterRecipeBuilder();
+	protected final FluidTransposerRecipeBuilder fluid = new FluidTransposerRecipeBuilder();
+	protected final BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
 	public ModPlugin(final SupportedMod m) {
 		mod = m;
@@ -257,6 +258,16 @@ public abstract class ModPlugin {
 		
 		ItemData.setBlockedFromExtraction(input, false);
 		ExtractionData.put(input, table);
+	}
+	
+	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
+		for(final String s: oreList) {
+			for(final ItemStack stack: OreDictionary.getOres(s)) {
+				final ItemData data = ItemData.get(stack);
+				if(data.getScrapValue() == ScrapValue.NONE)
+					ItemData.setValue(stack, value);
+			}
+		}
 	}
 	
 	public static void preInitPlugins(final Configuration config) {

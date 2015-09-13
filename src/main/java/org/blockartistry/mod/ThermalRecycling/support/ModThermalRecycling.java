@@ -89,6 +89,33 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
 				ScrapValue.SUPERIOR);
 
+		if(ModOptions.getEnableForgeOreDictionaryScan()) {
+			// Use the Forge dictionary to find equivalent ore to set the appropriate
+			// scrap value.
+			registerScrapValuesForge(ScrapValue.STANDARD, "ingotIron", "ingotGold", "ingotCopper", "ingotTin",
+					"ingotSilver", "ingotLead", "ingotNickle", "ingotPlatinum", "ingotManaInfused", "ingotElectrum",
+					"ingotInvar", "ingotBronze", "ingotSignalum", "ingotEnderium");
+	
+			registerScrapValuesForge(ScrapValue.STANDARD, "dustIron", "dustGold", "dustCopper", "dustTin",
+					"dustSilver", "dustLead", "dustNickle", "dustPlatinum", "dustManaInfused", "dustElectrum",
+					"dustInvar", "dustBronze", "dustSignalum", "dustEnderium");
+	
+			registerScrapValuesForge(ScrapValue.STANDARD, "blockIron", "blockGold", "blockCopper", "blockTin",
+					"blockSilver", "blockLead", "blockNickle", "blockPlatinum", "blockManaInfused", "blockElectrum",
+					"blockInvar", "blockBronze", "blockSignalum", "blockEnderium");
+	
+			registerScrapValuesForge(ScrapValue.STANDARD, "oreIron", "oreGold", "oreCopper", "oreTin",
+					"oreSilver", "oreLead", "oreNickle", "orePlatinum", "oreManaInfused", "oreElectrum",
+					"oreInvar", "oreBronze", "oreSignalum", "oreEnderium");
+	
+			registerScrapValuesForge(ScrapValue.POOR, "nuggetIron", "nuggetGold", "nuggetCopper", "nuggetTin",
+					"nuggetSilver", "nuggetLead", "nuggetNickle", "nuggetPlatinum", "nuggetManaInfused", "nuggetElectrum",
+					"nuggetInvar", "nuggetBronze", "nuggetSignalum", "nuggetEnderium");
+	
+			registerScrapValuesForge(ScrapValue.SUPERIOR, "gemDiamond", "gemEmerald", "oreDiamond", "oreEmerald");
+			registerScrapValuesForge(ScrapValue.STANDARD, "nuggetDiamond", "nuggetEmerald");
+		}
+		
 		// Configure extraction recipes
 		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),
@@ -201,7 +228,8 @@ public final class ModThermalRecycling extends ModPlugin {
 					}
 				}
 			} catch (Throwable t) {
-				ModLog.warn("processRecipeList: Unable to register recipe for [%s]", ItemStackHelper.resolveName(stack));
+				ModLog.warn("processRecipeList: Unable to register recipe for [%s]",
+						ItemStackHelper.resolveName(stack));
 			}
 		}
 	}

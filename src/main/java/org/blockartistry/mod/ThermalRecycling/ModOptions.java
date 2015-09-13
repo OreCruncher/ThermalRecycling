@@ -53,6 +53,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENABLE_EXTRA_VILLAGE_VENDING_TYPES = "Enable Extra Village Vending Types";
 	protected static final String CONFIG_VILLAGE_STRUCTURE_WEIGHT = "Village Structure Weight";
 	protected static final String CONFIG_VILLAGE_STRUCTURE_COUNT = "Village Structure Count";
+	protected static final String CONFIG_ENABLE_ORE_DICTIONARY_SCAN = "Enable Forge OreDictionary Scan";
 
 	protected static final String CATEGORY_RUBBLE = "recycle.rubble";
 	protected static final String CONFIG_RUBBLE_PILE_DISABLE = "Disable";
@@ -119,6 +120,7 @@ public final class ModOptions {
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
 	protected static boolean enableScrapboxSpawn = true;
+	protected static boolean enableForgeOreDictionaryScan = true;
 	protected static int wormDropChance = 20;
 	protected static int wormDropChanceRain = 8;
 	protected static boolean disableAnvilRepair = false;
@@ -278,6 +280,11 @@ public final class ModOptions {
 		enableScrapboxSpawn = config.getBoolean(
 				CONFIG_ENABLE_SCRAPBOX_SPAWNING, CATEGORY_GENERAL,
 				enableScrapboxSpawn, comment);
+
+		comment = "Enable/Disable Forge dictionary scan for setting scrap values";
+		enableForgeOreDictionaryScan = config.getBoolean(
+				CONFIG_ENABLE_ORE_DICTIONARY_SCAN, CATEGORY_GENERAL,
+				enableForgeOreDictionaryScan, comment);
 
 		comment = "Number of ticks a Paper Log will burn in a furnace";
 		paperLogFuelSetting = config.getInt(CONFIG_PAPER_LOG_FUEL_SETTING,
@@ -477,6 +484,10 @@ public final class ModOptions {
 
 	public static boolean getEnableScrapboxSpawn() {
 		return enableScrapboxSpawn;
+	}
+	
+	public static boolean getEnableForgeOreDictionaryScan() {
+		return enableForgeOreDictionaryScan;
 	}
 
 	public static int getWormDropChance() {
