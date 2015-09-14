@@ -131,7 +131,10 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			progress = param;
 			break;
 		case UPDATE_WATER_LEVEL:
-			fluidTank.getFluid().amount = param;
+			if(fluidTank.getFluid() == null)
+				fluidTank.setFluid(new FluidStack(FluidStackHelper.FLUID_WATER, Math.min(param, WATER_MAX_STORAGE)));
+			else
+				fluidTank.getFluid().amount = Math.min(param, WATER_MAX_STORAGE);
 			break;
 		default:
 			return super.receiveClientEvent(action, param);
