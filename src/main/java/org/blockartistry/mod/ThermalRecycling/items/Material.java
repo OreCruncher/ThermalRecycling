@@ -34,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
@@ -44,6 +43,7 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import com.google.common.collect.ImmutableList;
@@ -157,7 +157,7 @@ public final class Material extends ItemBase {
 
 		ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1, PAPER_LOG), "ppp", "plp",
 				"ppp", 'p', new ItemStack(Items.paper), 'l',
-				new ItemStack(ItemManager.paperLogMaker, 1, OreDictionary.WILDCARD_VALUE));
+				new ItemStack(ItemManager.paperLogMaker, 1, OreDictionaryHelper.WILDCARD_VALUE));
 
 		GameRegistry.addRecipe(recipe);
 
@@ -167,7 +167,7 @@ public final class Material extends ItemBase {
 		GameRegistry.addRecipe(recipe);
 
 		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1, GARDEN_SHEARS), "i i", " i ", "s s", 'i',
-				"ingotIron", 's', new ItemStack(Items.stick, 1, OreDictionary.WILDCARD_VALUE));
+				"ingotIron", 's', new ItemStack(Items.stick, 1, OreDictionaryHelper.WILDCARD_VALUE));
 
 		GameRegistry.addRecipe(recipe);
 	}

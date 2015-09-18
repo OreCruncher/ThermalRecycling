@@ -28,6 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.InfinityRaider.AgriCraft.api.API;
 import com.InfinityRaider.AgriCraft.api.APIBase;
@@ -35,7 +36,6 @@ import com.InfinityRaider.AgriCraft.api.v1.APIv1;
 import com.InfinityRaider.AgriCraft.api.v1.BlockWithMeta;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModAgriCraft extends ModPlugin {
 
@@ -88,7 +88,7 @@ public class ModAgriCraft extends ModPlugin {
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 		
 		// Process the seed list
-		for(ItemStack item: OreDictionary.getOres("listAllseed")) {
+		for(ItemStack item: OreDictionaryHelper.getOres("listAllseed")) {
 			ItemData.setValue(item, ScrapValue.NONE);
 		}
 		

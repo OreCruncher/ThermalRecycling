@@ -29,10 +29,10 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 public final class DebugToolTip extends CachingToolTip {
 	
@@ -61,10 +61,10 @@ public final class DebugToolTip extends CachingToolTip {
 
 		output.add(builder.toString());
 		
-		final int[] oreIds = OreDictionary.getOreIDs(stack);
+		final int[] oreIds = OreDictionaryHelper.getOreIDs(stack);
 		if(oreIds != null)
 			for(int i = 0; i < oreIds.length; i++) {
-				final String oreName = OreDictionary.getOreName(oreIds[i]);
+				final String oreName = OreDictionaryHelper.getOreName(oreIds[i]);
 				if(oreName != null && !oreName.isEmpty())
 					output.add(EnumChatFormatting.WHITE + oreName);
 			}

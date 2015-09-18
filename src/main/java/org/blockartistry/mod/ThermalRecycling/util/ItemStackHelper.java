@@ -44,7 +44,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public final class ItemStackHelper {
 
@@ -178,7 +177,7 @@ public final class ItemStackHelper {
 
 	public static ItemStack convertToDustIfPossible(final ItemStack stack) {
 
-		String oreName = getOreName(stack);
+		String oreName = OreDictionaryHelper.getOreName(stack);
 
 		if (oreName == null)
 			return stack;
@@ -194,7 +193,7 @@ public final class ItemStackHelper {
 	}
 
 	public static ItemStack getPreferredStack(final ItemStack stack) {
-		final String oreName = getOreName(stack);
+		final String oreName = OreDictionaryHelper.getOreName(stack);
 		if (oreName == null || oreName.isEmpty() || "Unknown".compareToIgnoreCase(oreName) == 0)
 			return stack;
 
@@ -249,7 +248,7 @@ public final class ItemStackHelper {
 				if (num != null && !num.isEmpty()) {
 
 					if ("*".compareTo(num) == 0)
-						subType = OreDictionary.WILDCARD_VALUE;
+						subType = OreDictionaryHelper.WILDCARD_VALUE;
 					else {
 						try {
 							subType = Integer.parseInt(num);
@@ -265,7 +264,7 @@ public final class ItemStackHelper {
 
 			// Check the OreDictionary first for any alias matches. Otherwise
 			// go to the game registry to find a match.
-			final ArrayList<ItemStack> ores = OreDictionary.getOres(workingName);
+			final List<ItemStack> ores = OreDictionaryHelper.getOres(workingName);
 			if (!ores.isEmpty()) {
 				result = ores.get(0).copy();
 				result.stackSize = quantity;
@@ -279,7 +278,7 @@ public final class ItemStackHelper {
 			// If we did have a hit on a base item, set the sub-type
 			// as needed.
 			if (result != null && subType != -1) {
-				if (subType == OreDictionary.WILDCARD_VALUE && !result.getHasSubtypes()) {
+				if (subType == OreDictionaryHelper.WILDCARD_VALUE && !result.getHasSubtypes()) {
 					ModLog.warn("[%s] GENERIC requested but Item does not support sub-types", name);
 				} else {
 					result.setItemDamage(subType);
@@ -435,14 +434,40 @@ public final class ItemStackHelper {
 	 * @return true if they are equal; false otherwise
 	 */
 	public static boolean areEqual(final ItemStack stack1, final ItemStack stack2) {
-
+		return areEqualNoNBT(stack1, stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound); 
+	}
+	
+	public static boolean areEqualNoNBT(final ItemStack stack1, final ItemStack stack2) {
 		if (stack1 == stack2)
 			return true;
 
 		if (stack1 == null || stack2 == null)
 			return false;
+		
+		return stack1.isItemEqual(stack2);
+	}
+	
+	public static boolean areEqual(final Item item, final Item item1) {
+		
+		if(item == item1)
+			return true;
+		
+		if (item == null || item1 == null)
+			return false;
 
-		return stack1.isItemEqual(stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound);
+		return item.equals(item1);
+	}
+	
+	public static boolean areEqualNoMeta(final ItemStack stack1, final ItemStack stack2) {
+		if (stack1 == null || stack2 == null)
+			return false;
+		return areEqual(stack1.getItem(), stack2.getItem());
+	}
+
+	public static boolean itemsEqualForCrafting(final ItemStack stack1, final ItemStack stack2) {
+		return areEqualNoMeta(stack1, stack2)
+				&& (!stack1.getHasSubtypes() || OreDictionaryHelper.isGeneric(stack1)
+						|| OreDictionaryHelper.isGeneric(stack2) || getItemDamage(stack2) == getItemDamage(stack1));
 	}
 
 	/**
@@ -481,26 +506,5 @@ public final class ItemStackHelper {
 	public static int getItemDamage(final ItemStack stack) {
 		assert stack != null;
 		return Items.diamond.getDamage(stack);
-	}
-	
-	/**
-	 * Determines if the ItemStack in question is a generic stack
-	 * 
-	 * @param stack
-	 * @return
-	 */
-	public static boolean isWildcard(final ItemStack stack) {
-		return getItemDamage(stack) == OreDictionary.WILDCARD_VALUE;
-	}
-	
-	/**
-	 * Gets the Forge Ore Dictionary name for the ItemStack.
-	 * 
-	 * @param itemstack
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	public static String getOreName(ItemStack itemstack) {
-		return OreDictionary.getOreName(OreDictionary.getOreID(itemstack));
 	}
 }

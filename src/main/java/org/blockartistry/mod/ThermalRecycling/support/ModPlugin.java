@@ -44,6 +44,7 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerReci
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
 import com.google.common.base.Predicate;
@@ -51,7 +52,6 @@ import com.google.common.base.Predicate;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class ModPlugin {
 
@@ -140,7 +140,7 @@ public abstract class ModPlugin {
 
 	protected void registerRecipesToIgnoreForge(final String... oreList) {
 		for(final String ore: oreList) {
-			for(final ItemStack stack: OreDictionary.getOres(ore)) {
+			for(final ItemStack stack: OreDictionaryHelper.getOres(ore)) {
 				ItemData.setRecipeIgnored(stack, true);
 			}
 		}
@@ -210,7 +210,7 @@ public abstract class ModPlugin {
 
 	protected void registerRecycleToWoodDustForge(final int inputQuantity, final String... oreList) {
 		for(final String ore: oreList) {
-			for(final ItemStack stack: OreDictionary.getOres(ore)) {
+			for(final ItemStack stack: OreDictionaryHelper.getOres(ore)) {
 				recycler.input(stack, inputQuantity).append(ItemStackHelper.dustWood).save();
 			}
 		}
@@ -257,7 +257,7 @@ public abstract class ModPlugin {
 	
 	protected void registerPulverizerToDirtForge(final String... oreList) {
 		for(final String ore: oreList) {
-			for(final ItemStack stack: OreDictionary.getOres(ore))
+			for(final ItemStack stack: OreDictionaryHelper.getOres(ore))
 				pulverizer.append(stack, 8).output(Blocks.dirt).save();
 		}
 	}
@@ -285,7 +285,7 @@ public abstract class ModPlugin {
 	
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
 		for(final String s: oreList) {
-			for(final ItemStack stack: OreDictionary.getOres(s)) {
+			for(final ItemStack stack: OreDictionaryHelper.getOres(s)) {
 				final ItemData data = ItemData.get(stack);
 				if(data.getScrapValue() == ScrapValue.NONE)
 					ItemData.setValue(stack, value);

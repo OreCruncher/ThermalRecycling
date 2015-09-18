@@ -43,6 +43,7 @@ import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingS
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -50,7 +51,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.oredict.OreDictionary;
 
 public final class ModThermalRecycling extends ModPlugin {
 
@@ -64,7 +64,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
 		// Need to be able to see any special frames in real time.
-		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionary.WILDCARD_VALUE),
+		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				handler);
 
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
@@ -145,7 +145,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				new ItemStackItem(ItemStackHelper.dustSignalum, 10), new ItemStackItem(ItemStackHelper.dustLumium, 10),
 				new ItemStackItem(ItemStackHelper.dustEnderium, 10));
 
-		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionary.WILDCARD_VALUE),
+		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				new ItemStackItem(null, 1));
 
 		// Soylent Red and Yellow

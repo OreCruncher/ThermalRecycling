@@ -33,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.google.common.collect.ImmutableMap;
 import cpw.mods.fml.common.registry.GameData;
@@ -41,7 +42,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Information point about items and their potential value. Used by the
@@ -82,7 +82,7 @@ public final class ItemData {
 	}
 
 	private static ItemStack getGenericIfPossible(final Item item) {
-		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
+		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0);
 	}
 
 	static {
@@ -109,10 +109,10 @@ public final class ItemData {
 		// Scan the OreDictionary looking for blocks/items that we want
 		// to prevent from being scrapped. Collect them in the TreeSet
 		// so that there are no duplicates and it is sorted.
-		for (final String oreName : OreDictionary.getOreNames()) {
+		for (final String oreName : OreDictionaryHelper.getOreNames()) {
 			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
-				for (final ItemStack stack : OreDictionary.getOres(oreName)) {
+				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
 					setBlockedFromScrapping(stack, true);
 				}
 			}
@@ -150,7 +150,7 @@ public final class ItemData {
 		this.ignoreRecipe = ignoreRecipe;
 		this.scrubFromOutput = scrubFromOutput;
 		this.isFood = stack.getItem() instanceof ItemFood;
-		this.isGeneric = ItemStackHelper.isWildcard(stack);
+		this.isGeneric = OreDictionaryHelper.isGeneric(stack);
 		this.isBlockedFromScrapping = isBlockedFromScrapping;
 		this.isBlockedFromExtraction = isBlockedFromExtraction;
 	}
@@ -258,7 +258,7 @@ public final class ItemData {
 		// "inherits" from the generic. Note that generic
 		// entries are only possible for items that have
 		// sub-types.
-		if (stack.getHasSubtypes() && !ItemStackHelper.isWildcard(stack)) {
+		if (stack.getHasSubtypes() && !OreDictionaryHelper.isGeneric(stack)) {
 			data = cache.get(ItemStackKey.getCachedKey(stack.getItem()));
 			if (data != null)
 				return new ItemData(stack, data);

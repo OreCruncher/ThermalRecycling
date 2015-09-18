@@ -26,13 +26,14 @@ package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
-import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public final class InventoryHelper {
+	
+	private final static Set<Object> NULL_SET = Collections.singleton(null);
 	
 	private InventoryHelper() { }
 
@@ -164,7 +165,7 @@ public final class InventoryHelper {
 						inv[j] = stack;
 						inv[i] = null;
 						break;
-					} else if (ItemHelper.itemsIdentical(stack, target)) {
+					} else if (ItemStackHelper.areEqual(stack, target)) {
 
 						final int hold = target.getMaxStackSize() - target.stackSize;
 
@@ -208,7 +209,7 @@ public final class InventoryHelper {
 						inv.set(j, stack);
 						inv.set(i, null);
 						break;
-					} else if (ItemHelper.itemsIdentical(stack, target)) {
+					} else if (ItemStackHelper.areEqual(stack, target)) {
 
 						final int hold = target.getMaxStackSize() - target.stackSize;
 
@@ -226,7 +227,7 @@ public final class InventoryHelper {
 		}
 
 		// Purge all null entries
-		inv.removeAll(Collections.singleton(null));
+		inv.removeAll(NULL_SET);
 
 		return inv;
 	}
@@ -248,7 +249,7 @@ public final class InventoryHelper {
 
 			// If the stack can fit into this slot do the merge
 			final int remainingSpace = invStack.getMaxStackSize() - invStack.stackSize;
-			if (remainingSpace > 0 && ItemHelper.itemsIdentical(stack, invStack)) {
+			if (remainingSpace > 0 && ItemStackHelper.areEqual(stack, invStack)) {
 
 				if (remainingSpace >= stack.stackSize) {
 					invStack.stackSize += stack.stackSize;
@@ -305,7 +306,7 @@ public final class InventoryHelper {
 			final ItemStack stack = inv[i];
 
 			if (stack != null && (item == null || stack.getItem() == item)
-					&& (meta == OreDictionary.WILDCARD_VALUE || ItemStackHelper.getItemDamage(stack) == meta)) {
+					&& (meta == OreDictionaryHelper.WILDCARD_VALUE || ItemStackHelper.getItemDamage(stack) == meta)) {
 				cleared += stack.stackSize;
 				inv[i] = null;
 			}

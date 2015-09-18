@@ -32,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -61,7 +62,7 @@ public class ExtractionData {
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
-		this.isGeneric = ItemStackHelper.isWildcard(input);
+		this.isGeneric = OreDictionaryHelper.isGeneric(input);
 		this.extraction = table;
 		this.isDefault = false;
 	}
@@ -95,7 +96,7 @@ public class ExtractionData {
 	public static ExtractionData get(final ItemStack input) {
 		ExtractionData match = recipes.get(ItemStackKey.getCachedKey(input));
 
-		if (match == null && !ItemStackHelper.isWildcard(input)) {
+		if (match == null && !OreDictionaryHelper.isGeneric(input)) {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 

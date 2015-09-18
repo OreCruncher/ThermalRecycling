@@ -27,7 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Special key object for using ItemStacks as keys in various collection key
@@ -58,7 +57,7 @@ public final class ItemStackKey {
 	public static ItemStackKey getCachedKey(final Item item) {
 		final ItemStackKey key = cachedKey.get();
 		key.item = item;
-		key.meta = item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0;
+		key.meta = item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0;
 		key.hash = calculateHash(item.hashCode(), key.meta);
 		return key;
 	}
@@ -92,11 +91,11 @@ public final class ItemStackKey {
 	}
 
 	public ItemStackKey(final Item item) {
-		this(item, item.getHasSubtypes() ? OreDictionary.WILDCARD_VALUE : 0);
+		this(item, item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0);
 	}
 
 	public ItemStackKey(final Block block) {
-		this(Item.getItemFromBlock(block), OreDictionary.WILDCARD_VALUE);
+		this(Item.getItemFromBlock(block), OreDictionaryHelper.WILDCARD_VALUE);
 	}
 
 	public ItemStackKey(final ItemStack stack) {

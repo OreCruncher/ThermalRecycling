@@ -26,10 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import cpw.mods.fml.common.Loader;
 
@@ -123,7 +123,7 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	protected void recycleGearTE(final String type) {
 		
-		pulverizer.append(OreDictionary.getOres("gear" + type))
+		pulverizer.append(OreDictionaryHelper.getOres("gear" + type))
 				.output("dust" + type, 4).save();
 	}
 

@@ -27,9 +27,6 @@ import java.util.List;
 
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-import cofh.lib.util.helpers.ItemHelper;
-
 import com.google.common.collect.ImmutableList;
 
 public final class DyeHelper {
@@ -65,22 +62,13 @@ public final class DyeHelper {
 	}
 
 	public static boolean isDye(final ItemStack stack) {
-		final List<ItemStack> possibles = OreDictionary
-				.getOres(GENERAL_DYE_ENTRY);
-		if (possibles == null || possibles.isEmpty())
-			return false;
-		for (final ItemStack item : possibles) {
-			if (ItemHelper.itemsEqualForCrafting(stack, item))
-				return true;
-		}
-
-		return false;
+		return OreDictionaryHelper.isOneOfThese(stack, GENERAL_DYE_ENTRY);
 	}
 
 	public static int getDyeColor(final ItemStack stack) {
 
 		for (int i = 0; i < dyeEntries.size(); i++) {
-			final List<ItemStack> possibles = OreDictionary.getOres(dyeEntries
+			final List<ItemStack> possibles = OreDictionaryHelper.getOres(dyeEntries
 					.get(i));
 			if (possibles == null || possibles.isEmpty())
 				continue;

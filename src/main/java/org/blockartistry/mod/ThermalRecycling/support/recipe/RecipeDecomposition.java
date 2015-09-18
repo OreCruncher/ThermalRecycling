@@ -36,10 +36,10 @@ import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.google.common.collect.ImmutableList;
 
-import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -158,10 +158,10 @@ public final class RecipeDecomposition {
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemHelper.itemsEqualWithMetadata(stack, inputStack)
+				if (ItemStackHelper.areEqualNoNBT(stack, inputStack)
 						|| ItemData.isScrubbedFromOutput(stack) || notConsumed(stack))
 					projection.set(i, null);
-				else if (ItemStackHelper.isWildcard(stack))
+				else if (OreDictionaryHelper.isGeneric(stack))
 					stack.setItemDamage(0);
 		}
 

@@ -28,12 +28,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -78,9 +78,9 @@ public final class PaperLogMaker extends ItemBase {
 
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 				ItemManager.paperLogMaker), "s  ", "sss", "w w", 's',
-				new ItemStack(Items.stick, 1, OreDictionary.WILDCARD_VALUE),
+				new ItemStack(Items.stick, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				'w', new ItemStack(Blocks.wooden_slab, 1,
-						OreDictionary.WILDCARD_VALUE));
+						OreDictionaryHelper.WILDCARD_VALUE));
 
 		GameRegistry.addRecipe(recipe);
 	}

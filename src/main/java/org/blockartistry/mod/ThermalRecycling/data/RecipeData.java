@@ -32,6 +32,8 @@ import java.util.Map;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -79,7 +81,7 @@ public final class RecipeData {
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
-		this.isGeneric = ItemStackHelper.isWildcard(input);
+		this.isGeneric = OreDictionaryHelper.isGeneric(input);
 		this.outputStacks = (output instanceof ImmutableList) ? output : ImmutableList.copyOf(output);
 	}
 
@@ -118,7 +120,7 @@ public final class RecipeData {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
 
-		if (match == null && !ItemStackHelper.isWildcard(input)) {
+		if (match == null && !OreDictionaryHelper.isGeneric(input)) {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 
@@ -146,7 +148,7 @@ public final class RecipeData {
 		// * It doesn't exist
 		// * Existing entry is wildcard and the new one isn't
 		// * The new entry has a quantity greater than the existing one
-		if (result == ephemeral || (result.isGeneric() && !ItemStackHelper.isWildcard(input))
+		if (result == ephemeral || (result.isGeneric() && !OreDictionaryHelper.isGeneric(input))
 				|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
 
 			final ItemStack stack = input.copy();
@@ -161,8 +163,8 @@ public final class RecipeData {
 
 					ItemStack working = output.get(i);
 
-					if (ItemStackHelper.isWildcard(working)) {
-						final String oreName = ItemStackHelper.getOreName(working);
+					if (OreDictionaryHelper.isGeneric(working)) {
+						final String oreName = OreDictionaryHelper.getOreName(working);
 
 						if (oreName != null) {
 							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
