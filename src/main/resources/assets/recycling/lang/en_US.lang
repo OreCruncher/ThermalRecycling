@@ -67,6 +67,7 @@ msg.VendoFormat.Herder=Herder
 msg.VendoFormat.Arborist=Arborist
 msg.VendoFormat.Hunter=Hunter
 msg.VendoFormat.Tinker=Tinker
+msg.VendoFormat.Dyer=Dyer
 
 # Achievements
 achievement.feelingScrappy=Feeling Scrappy!

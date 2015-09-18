@@ -57,6 +57,7 @@ public class VillagerProfession {
 	public static final VillagerProfessionCustom arborist;
 	public static final VillagerProfessionCustom hunter;
 	public static final VillagerProfessionCustom tinker;
+	public static final VillagerProfessionCustom dyer;
 	
 	private static Method tradeList;
 	
@@ -128,6 +129,11 @@ public class VillagerProfession {
 			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.sticky_piston, 0, 1, 2).setProbability(0.5F));
 			tinker.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Blocks.tnt, 0, 3, 4).setProbability(0.5F));
 			professions.add(new VillagerProfessionItem(tinker, 50));
+			
+			dyer = new VillagerProfessionCustom("msg.VendoFormat.Dyer", DyeHelper.COLOR_WHITE, DyeHelper.COLOR_MAGENTA);
+			for(int i = 0; i < 16; i++)
+				dyer.addTrade(new VillagerTrade().setWant(1, 2).setOffer(Items.dye, i, 4, 8).setProbability(0.7F));
+			professions.add(new VillagerProfessionItem(dyer, 80));
 
 		} else {
 			
@@ -135,6 +141,7 @@ public class VillagerProfession {
 			arborist = null;
 			hunter = null;
 			tinker = null;
+			dyer = null;
 			
 		}
 	}
