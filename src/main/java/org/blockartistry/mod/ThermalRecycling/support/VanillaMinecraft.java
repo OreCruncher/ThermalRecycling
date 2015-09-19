@@ -28,6 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
 import net.minecraft.init.Blocks;
@@ -153,7 +154,7 @@ public final class VanillaMinecraft extends ModPlugin {
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:gravel"), 40),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:glowstone_dust"), 4),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:redstone"), 4),
-				new ItemStackItem(ItemStackHelper.dustElectrum, 2));
+				new ItemStackItem(PreferredItemStacks.instance.dustElectrum, 2));
 
 		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:end_stone"),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:stone"), 3),

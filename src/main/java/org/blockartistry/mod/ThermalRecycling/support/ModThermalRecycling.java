@@ -44,6 +44,7 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
+import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -127,23 +128,23 @@ public final class ModThermalRecycling extends ModPlugin {
 		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15"), 10),
-				new ItemStackItem(ItemStackHelper.dustCoal, 10), new ItemStackItem(ItemStackHelper.dustCharcoal, 10),
-				new ItemStackItem(ItemStackHelper.sulfer, 10), new ItemStackItem(ItemStackHelper.dustIron, 20),
-				new ItemStackItem(ItemStackHelper.dustTin, 20), new ItemStackItem(ItemStackHelper.dustCopper, 20),
-				new ItemStackItem(ItemStackHelper.dustNickel, 20));
+				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10), new ItemStackItem(PreferredItemStacks.instance.dustCharcoal, 10),
+				new ItemStackItem(PreferredItemStacks.instance.sulfer, 10), new ItemStackItem(PreferredItemStacks.instance.dustIron, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustTin, 20), new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustNickel, 20));
 
 		registerExtractionRecipe(ScrappingTables.standardScrap, new ItemStackItem(null, 78),
-				new ItemStackItem(ScrappingTables.superiorScrap, 52), new ItemStackItem(ItemStackHelper.dustCoal, 10),
+				new ItemStackItem(ScrappingTables.superiorScrap, 52), new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
 				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
-				new ItemStackItem(ItemStackHelper.dustIron, 20), new ItemStackItem(ItemStackHelper.dustTin, 20),
-				new ItemStackItem(ItemStackHelper.dustCopper, 20), new ItemStackItem(ItemStackHelper.dustSilver, 20),
-				new ItemStackItem(ItemStackHelper.dustLead, 20), new ItemStackItem(ItemStackHelper.dustGold, 10));
+				new ItemStackItem(PreferredItemStacks.instance.dustIron, 20), new ItemStackItem(PreferredItemStacks.instance.dustTin, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20), new ItemStackItem(PreferredItemStacks.instance.dustSilver, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustLead, 20), new ItemStackItem(PreferredItemStacks.instance.dustGold, 10));
 
-		registerExtractionRecipe(ScrappingTables.superiorScrap, new ItemStackItem(ItemStackHelper.dustGold, 20),
-				new ItemStackItem(ItemStackHelper.dustPlatinum, 20),
-				new ItemStackItem(ItemStackHelper.dustElectrum, 20),
-				new ItemStackItem(ItemStackHelper.dustSignalum, 10), new ItemStackItem(ItemStackHelper.dustLumium, 10),
-				new ItemStackItem(ItemStackHelper.dustEnderium, 10));
+		registerExtractionRecipe(ScrappingTables.superiorScrap, new ItemStackItem(PreferredItemStacks.instance.dustGold, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustPlatinum, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustElectrum, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustSignalum, 10), new ItemStackItem(PreferredItemStacks.instance.dustLumium, 10),
+				new ItemStackItem(PreferredItemStacks.instance.dustEnderium, 10));
 
 		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				new ItemStackItem(null, 1));

@@ -45,6 +45,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
+import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
 import com.google.common.base.Predicate;
@@ -201,7 +202,7 @@ public abstract class ModPlugin {
 			@Override
 			public boolean apply(final ItemStack elem) {
 				recycler.input(elem, inputQuantity)
-						.append(ItemStackHelper.dustWood).save();
+						.append(PreferredItemStacks.instance.dustWood).save();
 				return true;
 			}
 
@@ -211,7 +212,7 @@ public abstract class ModPlugin {
 	protected void registerRecycleToWoodDustForge(final int inputQuantity, final String... oreList) {
 		for(final String ore: oreList) {
 			for(final ItemStack stack: OreDictionaryHelper.getOres(ore)) {
-				recycler.input(stack, inputQuantity).append(ItemStackHelper.dustWood).save();
+				recycler.input(stack, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
 			}
 		}
 	}

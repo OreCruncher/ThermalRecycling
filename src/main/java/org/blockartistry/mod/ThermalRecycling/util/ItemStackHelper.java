@@ -25,18 +25,13 @@
 package org.blockartistry.mod.ThermalRecycling.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 
-import com.google.common.collect.ImmutableMap;
-
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,132 +43,6 @@ import net.minecraft.world.World;
 public final class ItemStackHelper {
 
 	protected static final Random rand = XorShiftRandom.shared;
-	protected static Map<String, ItemStack> preferred = new HashMap<String, ItemStack>();
-
-	private static final Item materialBase = GameData.getItemRegistry().getObject("ThermalFoundation:material");
-	private static final Item storageBase = GameData.getItemRegistry().getObject("ThermalFoundation:Storage");
-	private static final Item materialBaseTE = GameData.getItemRegistry().getObject("ThermalExpansion:material");
-
-	public static final ItemStack dustIron = new ItemStack(materialBase, 1, 0);
-	public static final ItemStack dustGold = new ItemStack(materialBase, 1, 1);
-	public static final ItemStack dustCopper = new ItemStack(materialBase, 1, 32);
-	public static final ItemStack dustTin = new ItemStack(materialBase, 1, 33);
-	public static final ItemStack dustSilver = new ItemStack(materialBase, 1, 34);
-	public static final ItemStack dustLead = new ItemStack(materialBase, 1, 35);
-	public static final ItemStack dustNickel = new ItemStack(materialBase, 1, 36);
-	public static final ItemStack dustPlatinum = new ItemStack(materialBase, 1, 37);
-	public static final ItemStack dustManaInfused = new ItemStack(materialBase, 1, 38);
-	public static final ItemStack dustElectrum = new ItemStack(materialBase, 1, 39);
-	public static final ItemStack dustInvar = new ItemStack(materialBase, 1, 40);
-	public static final ItemStack dustBronze = new ItemStack(materialBase, 1, 41);
-	public static final ItemStack dustSignalum = new ItemStack(materialBase, 1, 42);
-	public static final ItemStack dustLumium = new ItemStack(materialBase, 1, 43);
-	public static final ItemStack dustEnderium = new ItemStack(materialBase, 1, 44);
-
-	public static final ItemStack dustWood = new ItemStack(materialBaseTE, 1, 512);
-	public static final ItemStack boneMeal = new ItemStack(Items.dye, 1, 15);
-
-	public static final ItemStack dustCoal = new ItemStack(materialBase, 1, 2);
-	public static final ItemStack dustCharcoal = new ItemStack(materialBase, 1, 3);
-	public static final ItemStack sulfer = new ItemStack(materialBase, 1, 16);
-	public static final ItemStack niter = new ItemStack(materialBase, 1, 17);
-
-	public static final ItemStack dustObsidian = new ItemStack(materialBase, 1, 4);
-
-	static {
-
-		// Cache builtins
-		preferred.put("ingotIron", new ItemStack(Items.iron_ingot));
-		preferred.put("ingotGold", new ItemStack(Items.gold_ingot));
-		preferred.put("nuggetGold", new ItemStack(Items.gold_nugget));
-		preferred.put("blockGold", new ItemStack(Blocks.gold_block));
-		preferred.put("blockIron", new ItemStack(Blocks.iron_block));
-		preferred.put("gemDiamond", new ItemStack(Items.diamond));
-		preferred.put("gemEmerald", new ItemStack(Items.emerald));
-
-		preferred.put("ingotCopper", new ItemStack(materialBase, 1, 64));
-		preferred.put("ingotTin", new ItemStack(materialBase, 1, 65));
-		preferred.put("ingotSilver", new ItemStack(materialBase, 1, 66));
-		preferred.put("ingotLead", new ItemStack(materialBase, 1, 67));
-		preferred.put("ingotNickel", new ItemStack(materialBase, 1, 68));
-		preferred.put("ingotPlatinum", new ItemStack(materialBase, 1, 69));
-		preferred.put("ingotManaInfused", new ItemStack(materialBase, 1, 70));
-		preferred.put("ingotElectrum", new ItemStack(materialBase, 1, 71));
-		preferred.put("ingotInvar", new ItemStack(materialBase, 1, 72));
-		preferred.put("ingotBronze", new ItemStack(materialBase, 1, 73));
-		preferred.put("ingotSignalum", new ItemStack(materialBase, 1, 74));
-		preferred.put("ingotLumium", new ItemStack(materialBase, 1, 75));
-		preferred.put("ingotEnderium", new ItemStack(materialBase, 1, 76));
-
-		preferred.put("nuggetIron", new ItemStack(materialBase, 1, 8));
-		preferred.put("nuggetCopper", new ItemStack(materialBase, 1, 96));
-		preferred.put("nuggetTin", new ItemStack(materialBase, 1, 97));
-		preferred.put("nuggetSilver", new ItemStack(materialBase, 1, 98));
-		preferred.put("nuggetLead", new ItemStack(materialBase, 1, 99));
-		preferred.put("nuggetNickel", new ItemStack(materialBase, 1, 100));
-		preferred.put("nuggetPlatinum", new ItemStack(materialBase, 1, 101));
-		preferred.put("nuggetManaInfused", new ItemStack(materialBase, 1, 102));
-		preferred.put("nuggetElectrum", new ItemStack(materialBase, 1, 103));
-		preferred.put("nuggetInvar", new ItemStack(materialBase, 1, 104));
-		preferred.put("nuggetBronze", new ItemStack(materialBase, 1, 105));
-		preferred.put("nuggetSignalum", new ItemStack(materialBase, 1, 106));
-		preferred.put("nuggetLumium", new ItemStack(materialBase, 1, 107));
-		preferred.put("nuggetEnderium", new ItemStack(materialBase, 1, 108));
-
-		preferred.put("dustIron", dustIron);
-		preferred.put("dustGold", dustGold);
-		preferred.put("dustCopper", dustCopper);
-		preferred.put("dustTin", dustTin);
-		preferred.put("dustSilver", dustSilver);
-		preferred.put("dustLead", dustLead);
-		preferred.put("dustNickel", dustNickel);
-		preferred.put("dustPlatinum", dustPlatinum);
-		preferred.put("dustManaInfused", dustManaInfused);
-		preferred.put("dustElectrum", dustElectrum);
-		preferred.put("dustInvar", dustInvar);
-		preferred.put("dustBronze", dustBronze);
-		preferred.put("dustSignalum", dustSignalum);
-		preferred.put("dustLumium", dustLumium);
-		preferred.put("dustEnderium", dustEnderium);
-
-		preferred.put("dustCoal", dustCoal);
-		preferred.put("dustCharcoal", dustCharcoal);
-		preferred.put("dustSulfer", sulfer);
-		preferred.put("dustObsidian", dustObsidian);
-
-		preferred.put("blockCopper", new ItemStack(storageBase, 1, 0));
-		preferred.put("blockTin", new ItemStack(storageBase, 1, 1));
-		preferred.put("blockSilver", new ItemStack(storageBase, 1, 2));
-		preferred.put("blockLead", new ItemStack(storageBase, 1, 3));
-		preferred.put("blockFerrous", new ItemStack(storageBase, 1, 4));
-		preferred.put("blockPlatinum", new ItemStack(storageBase, 1, 5));
-		preferred.put("blockManaInfused", new ItemStack(storageBase, 1, 6));
-		preferred.put("blockElectrum", new ItemStack(storageBase, 1, 7));
-		preferred.put("blockInvar", new ItemStack(storageBase, 1, 8));
-		preferred.put("blockBronze", new ItemStack(storageBase, 1, 9));
-		preferred.put("blockSignalum", new ItemStack(storageBase, 1, 10));
-		preferred.put("blockLumium", new ItemStack(storageBase, 1, 11));
-		preferred.put("blockEnderium", new ItemStack(storageBase, 1, 12));
-
-		preferred.put("gearIron", new ItemStack(materialBase, 1, 12));
-		preferred.put("gearGold", new ItemStack(materialBase, 1, 13));
-		preferred.put("gearCopper", new ItemStack(materialBase, 1, 128));
-		preferred.put("gearTin", new ItemStack(materialBase, 1, 129));
-		preferred.put("gearSilver", new ItemStack(materialBase, 1, 130));
-		preferred.put("gearLead", new ItemStack(materialBase, 1, 131));
-		preferred.put("gearNickel", new ItemStack(materialBase, 1, 132));
-		preferred.put("gearPlatinum", new ItemStack(materialBase, 1, 133));
-		preferred.put("gearManaInfused", new ItemStack(materialBase, 1, 134));
-		preferred.put("gearElectrum", new ItemStack(materialBase, 1, 135));
-		preferred.put("gearInvar", new ItemStack(materialBase, 1, 136));
-		preferred.put("gearBronze", new ItemStack(materialBase, 1, 137));
-		preferred.put("gearSignalum", new ItemStack(materialBase, 1, 138));
-		preferred.put("gearLumium", new ItemStack(materialBase, 1, 139));
-		preferred.put("gearEnderium", new ItemStack(materialBase, 1, 140));
-
-		preferred = ImmutableMap.copyOf(preferred);
-
-	}
 
 	public static ItemStack convertToDustIfPossible(final ItemStack stack) {
 
@@ -228,7 +97,7 @@ public final class ItemStackHelper {
 			return null;
 
 		// Check our preferred list first. If we have a hit, use it.
-		ItemStack result = preferred.get(name);
+		ItemStack result = PreferredItemStacks.instance.get(name);
 
 		if (result != null) {
 
