@@ -376,4 +376,15 @@ public final class ItemStackHelper {
 		assert stack != null;
 		return Items.diamond.getDamage(stack);
 	}
+	
+	/**
+	 * Determines if the ItemStack is repairable.
+	 * 
+	 * @param stack
+	 * @return
+	 */
+	public static boolean isRepairable(final ItemStack stack) {
+		final Item item = stack.getItem();
+		return item != null ? item.isRepairable() : false;
+	}
 }

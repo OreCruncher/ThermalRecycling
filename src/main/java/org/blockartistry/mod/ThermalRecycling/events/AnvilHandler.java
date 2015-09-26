@@ -54,6 +54,10 @@ public final class AnvilHandler {
 
 		return false;
 	}
+	
+	private boolean canBeRepaired(final ItemStack stack) {
+		return ItemStackHelper.isRepairable(stack) && stack.isItemDamaged();
+	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = false)
 	public void onAnvilChange(final AnvilUpdateEvent event) {
@@ -75,7 +79,7 @@ public final class AnvilHandler {
 		}
 
 		// Figure out a repair cost if the item is damaged
-		if (event.output.isItemDamaged()) {
+		if (canBeRepaired(itemToRepair)) {
 
 			int repairAmount = 0;
 
