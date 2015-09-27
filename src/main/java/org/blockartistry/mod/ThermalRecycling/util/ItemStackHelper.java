@@ -303,6 +303,12 @@ public final class ItemStackHelper {
 	 * @return true if they are equal; false otherwise
 	 */
 	public static boolean areEqual(final ItemStack stack1, final ItemStack stack2) {
+		if (stack1 == stack2)
+			return true;
+
+		if (stack1 == null || stack2 == null)
+			return false;
+
 		return areEqualNoNBT(stack1, stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound); 
 	}
 	
