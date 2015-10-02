@@ -50,7 +50,7 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 	private static final String TEXT_DEPLETED = StatCollector.translateToLocal("msg.RTGEnergyCell.Depleted");
 	private static final String TEXT_SEND = StatCollector.translateToLocal("msg.RTGEnergyCell.Send");
 	private static final String TEXT_CHARGE = StatCollector.translateToLocal("msg.RTGEnergyCell.Charge");
-	
+
 	private static final String PROP_MAX_ENERGY = "maxEnergy";
 	private static final String PROP_ENERGY = "energy";
 	private static final String PROP_RATE = "rate";
@@ -58,7 +58,7 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 	public static final int POWER_LEVEL_BASE = ModOptions.getRTGBasePowerPerTick();
 	public static final int POWER_LEVEL_CREATIVE = POWER_LEVEL_BASE * 8;
 	public static final int ENERGY_LEVEL_BASE = ModOptions.getRTGBaseEnergy();
-	public static final int ENERGY_LEVEL_CREATIVE = ENERGY_LEVEL_BASE * 8;
+	public static final int ENERGY_LEVEL_CREATIVE = -1;
 
 	public static final int CREATIVE = 0;
 	public static final int RTG = 1;
@@ -116,7 +116,8 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 	public int extractEnergy(final ItemStack stack, final int maxExtract, final boolean simulate) {
 
 		final int rate = getProperty(stack, PROP_RATE);
-		int energy = getProperty(stack, PROP_ENERGY);
+		int energy = (ItemStackHelper.getItemDamage(stack) == CREATIVE) ? POWER_LEVEL_CREATIVE
+				: getProperty(stack, PROP_ENERGY);
 		final int energyExtracted = Math.min(energy, Math.min(rate, maxExtract));
 
 		if (!simulate && ItemStackHelper.getItemDamage(stack) != CREATIVE) {

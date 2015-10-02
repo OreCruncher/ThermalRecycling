@@ -24,8 +24,39 @@
 
 package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
-public enum GuiIdentifier {
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
-	THERMAL_RECYCLER, SCRAP_ASSESSOR, COMPOSTER, VENDING, VENDING_OWNER, BATTERY_RACK;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.machines.entity.BatteryRackTileEntity;
 
+import cofh.lib.gui.GuiBase;
+import cofh.lib.gui.element.ElementEnergyStored;
+
+public final class BatteryRackGui extends GuiBase {
+	
+	private final BatteryRackTileEntity tileEntity;
+
+	public BatteryRackGui(final InventoryPlayer playerInventory, final IInventory entity) {
+		super(new BatteryRackContainer(playerInventory, entity),
+				new ResourceLocation(ThermalRecycling.MOD_ID,
+						"textures/batteryrack_gui.png"));
+
+		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
+
+		name = StatCollector.translateToLocal("tile.MachineBatteryRack.name");
+		tileEntity = (BatteryRackTileEntity)entity;
+	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
+		// GUI dimension is width 427, height 240
+		final ElementEnergyStored e = new ElementEnergyStored(this, 12, 18,
+				new EnergyStorageAdapter(tileEntity));
+		addElement(e);
+	}
 }

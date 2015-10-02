@@ -106,7 +106,7 @@ public abstract class MachineBase extends BlockContainer {
 		final ItemStack item = player.getCurrentEquippedItem();
 		return item != null && DyeHelper.isDye(item);
 	}
-
+	
 	/*
 	 * Forward the block activated request to the corresponding TileEntity
 	 */

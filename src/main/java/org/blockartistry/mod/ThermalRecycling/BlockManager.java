@@ -29,6 +29,7 @@ import org.blockartistry.mod.ThermalRecycling.blocks.FertileLand;
 import org.blockartistry.mod.ThermalRecycling.blocks.Lawn;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.blocks.ScrapBlock;
+import org.blockartistry.mod.ThermalRecycling.machines.MachineBatteryRack;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineComposter;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineScrapAssessor;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineThermalRecycler;
@@ -51,6 +52,7 @@ public final class BlockManager {
 	public static final MachineComposter composter = new MachineComposter();
 	public static final MachineVending vending = new MachineVending();
 	public static final MachineVendingTop vendingTop = new MachineVendingTop();
+	public static final MachineBatteryRack batteryRack = new MachineBatteryRack();
 	public static final FertileLand fertileLand = new FertileLand();
 	public static final PileOfRubble pileOfRubble = new PileOfRubble();
 	public static final Lawn lawn = new Lawn();
@@ -69,5 +71,6 @@ public final class BlockManager {
 		composter.register();
 		vending.register();
 		vendingTop.register();
+		batteryRack.register();
 	}
 }

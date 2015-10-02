@@ -47,6 +47,7 @@ tile.MachineComposter.name=Composter
 tile.MachineVending.name=Vending Machine
 tile.ScrapBlock.scrap.name=Block of Scrap
 tile.Lawn.name=Manicured Grass
+tile.MachineBatteryRack.name=Battery Rack
 
 item.EnergeticRedstoneDust.energeticRedstoneDust.name=Energetic Redstone Dust
 tile.EnergeticRedstoneOre.name=Energetic Redstone Ore
