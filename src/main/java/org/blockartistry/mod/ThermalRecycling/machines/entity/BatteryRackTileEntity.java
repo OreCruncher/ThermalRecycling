@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.machines.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.BatteryRackContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.BatteryRackGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
@@ -35,11 +36,12 @@ import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList(value = {
@@ -51,15 +53,13 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 	public static final int INPUT = 0;
 
 	// Update actions
-	// public static final int UPDATE_ACTION_ENERGY = 10;
-	// public static final int UPDATE_ACTION_PROGRESS = 11;
 	public static final int UPDATE_ACTION_ENERGY_RATE = 12;
 
 	private class NBT {
 		public static final String ENERGY_RATE = "energyRate";
 	}
 
-	private static final int ENERGY_MAX_TRANSFER = 40;
+	private static final int ENERGY_MAX_TRANSFER = ModOptions.getBatteryRackTransfer();
 
 	// Persistent state
 	protected int energyRate;
@@ -67,6 +67,7 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 	// Transient state
 	protected ItemStack input;
 	protected IEnergyContainerItem energyContainer;
+	protected List<EnergyConnection> connections;
 
 	public BatteryRackTileEntity() {
 		super(GuiIdentifier.BATTERY_RACK);
@@ -137,36 +138,21 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 
 	@Override
 	public int extractEnergy(final ForgeDirection from, final int maxExtract, final boolean simulate) {
-		final int realExtract = Math.min(maxExtract, ENERGY_MAX_TRANSFER);
-		final ItemStack stack = inventory.getStackInSlot(INPUT);
-		if (stack != null) {
-			final Item item = stack.getItem();
-			if (item instanceof IEnergyContainerItem)
-				return ((IEnergyContainerItem) item).extractEnergy(stack, realExtract, simulate);
-		}
-		return 0;
+		detectInputStack();
+		return energyContainer == null ? 0
+				: energyContainer.extractEnergy(input, Math.min(maxExtract, ENERGY_MAX_TRANSFER), simulate);
 	}
 
 	@Override
 	public int getEnergyStored(final ForgeDirection from) {
-		final ItemStack stack = inventory.getStackInSlot(INPUT);
-		if (stack != null) {
-			final Item item = stack.getItem();
-			if (item instanceof IEnergyContainerItem)
-				return ((IEnergyContainerItem) item).getEnergyStored(stack);
-		}
-		return 0;
+		detectInputStack();
+		return energyContainer == null ? 0 : energyContainer.getEnergyStored(input);
 	}
 
 	@Override
 	public int getMaxEnergyStored(final ForgeDirection from) {
-		final ItemStack stack = inventory.getStackInSlot(INPUT);
-		if (stack != null) {
-			final Item item = stack.getItem();
-			if (item instanceof IEnergyContainerItem)
-				return ((IEnergyContainerItem) item).getMaxEnergyStored(stack);
-		}
-		return 0;
+		detectInputStack();
+		return energyContainer == null ? 0 : energyContainer.getMaxEnergyStored(input);
 	}
 
 	// /////////////////////////////////////
@@ -216,14 +202,20 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 		return new BatteryRackContainer(inventory, this);
 	}
 
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		// If a neighbor changed clear the list so that it is
+		// regenerated during the update.
+		connections = null;
+	}
+
 	@Override
 	public void updateEntity() {
 
 		if (worldObj.isRemote)
 			return;
 
-		detectInputSlot();
-		
+		detectInputStack();
+
 		final MachineStatus previousStatus = status;
 
 		if (input != null) {
@@ -235,24 +227,29 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 			if (sendAmount == 0) {
 				status = MachineStatus.IDLE;
 			} else {
+
+				if (connections == null)
+					connections = getTargetList();
+
 				status = MachineStatus.ACTIVE;
 
-				// Get a list of all potential receivers. The list is in preferred
+				// Get a list of all potential receivers. The list is in
+				// preferred
 				// order
 				// of handling.
-				final List<EnergyConnection> targets = getTargetList();
-				if (!targets.isEmpty()) {
-					// We have power, and we have targets. Loop through parceling the
+				if (!connections.isEmpty()) {
+					// We have power, and we have targets. Loop through
+					// parceling the
 					// energy.
 					energyRate = 0;
-					for (final EnergyConnection receiver : targets) {
+					for (final EnergyConnection receiver : connections) {
 						final int receiveAmount = receiver.receiveEnergy(sendAmount, true);
 						if (receiveAmount != 0) {
 							energyContainer.extractEnergy(input, receiveAmount, false);
 							receiver.receiveEnergy(receiveAmount, false);
 							sendAmount -= receiveAmount;
 							energyRate += receiveAmount;
-		
+
 							// If we run out of power there isn't much to do.
 							if (sendAmount == 0) {
 								break;
@@ -264,14 +261,17 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 		} else {
 			status = MachineStatus.IDLE;
 		}
-		
+
 		// IDLE means no energy available
 		// ACTIVE means energy available, not necessarily providing it
-		if(status != previousStatus) {
+		if (status != previousStatus) {
 			setActiveStatus();
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			markDirty();
 		}
+		
+		flush();
+
 	}
 
 	@Override
@@ -280,7 +280,7 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 	}
 
 	// Miscellaneous
-	protected void detectInputSlot() {
+	protected void detectInputStack() {
 		final ItemStack stack = inventory.getStackInSlot(INPUT);
 		if (stack == input)
 			return;

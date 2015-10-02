@@ -32,6 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -53,7 +54,14 @@ public final class MachineBatteryRack extends MachineBase {
 			final int p_149915_2_) {
 		return new BatteryRackTileEntity();
 	}
-	
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		final TileEntity te = world.getTileEntity(x, y, z);
+		if(te instanceof BatteryRackTileEntity)
+			((BatteryRackTileEntity)te).onNeighborBlockChange(world, x, y, z, block);
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {

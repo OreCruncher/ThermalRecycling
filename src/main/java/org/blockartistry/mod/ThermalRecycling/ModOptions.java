@@ -66,7 +66,7 @@ public final class ModOptions {
 	protected static final String CONFIG_ENERGETIC_REDSTONE_CHANCE = "Energetic Redstone Ore Chance";
 	protected static int energeticRedstoneChance = 10;
 	protected static final String CONFIG_RTG_BASE_POWER = "Base Energy per Tick";
-	protected static int rtgBasePowerPerTick = 1;
+	protected static int rtgBasePowerPerTick = 2;
 	protected static final String CONFIG_RTG_BASE_ENERGY = "Base Energy per Cell";
 	protected static int rtgBaseEnergy = 1000000;
 
@@ -74,6 +74,7 @@ public final class ModOptions {
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
 	protected static final String CATEGORY_MACHINES_ASSESSOR = "machines.assessor";
 	protected static final String CATEGORY_MACHINES_VENDING = "machines.vending";
+	protected static final String CATEGORY_MACHINES_BATTERY_RACK = "machines.batteryrack";
 	protected static final String CONFIG_ENABLE_FX = "Enable FX";
 	protected static final String CONFIG_SCRAPBOX_BONUS = "Scrapbox Bonus";
 	protected static final String CONFIG_ENABLE_ENHANCED_LORE = "Enhanced Lore";
@@ -83,6 +84,7 @@ public final class ModOptions {
 	protected static final String CONFIG_VENDING_NAME_RENDER_RANGE = "Name Render Range";
 	protected static final String CONFIG_VENDING_QUANTITY_RENDER_RANGE = "Quantity Render Range";
 	protected static final String CONFIG_VENDING_BLOCK_PIPE_CONNECTION = "Disallow Pipe Connection";
+	protected static final String CONFIG_BATTERY_RACK_TRANSFER = "RF Transfer per Tick";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -163,6 +165,8 @@ public final class ModOptions {
 	protected static int standardXPCost = 4;
 	protected static int superiorXPCost = 5;
 
+	protected static int batteryRackTransfer = 80;
+	
 	public static void load(final Configuration config) {
 
 		String comment = "Enables/disables debug logging of the mod";
@@ -373,7 +377,11 @@ public final class ModOptions {
 		comment = "RF Energy per Fuel Cell used to create";
 		rtgBaseEnergy = config.getInt(CONFIG_RTG_BASE_ENERGY, CATEGORY_ENERGETIC_REDSTONE,
 				rtgBaseEnergy, 0, Integer.MAX_VALUE, comment);
-	}
+
+		comment = "Maximum RF per tick to transfer from the installed energy container";
+		batteryRackTransfer = config.getInt(CONFIG_BATTERY_RACK_TRANSFER, CATEGORY_MACHINES_BATTERY_RACK,
+				batteryRackTransfer, 0, Integer.MAX_VALUE, comment);
+}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -586,5 +594,9 @@ public final class ModOptions {
 	
 	public static int getRTGBaseEnergy() {
 		return rtgBaseEnergy;
+	}
+	
+	public static int getBatteryRackTransfer() {
+		return batteryRackTransfer;
 	}
 }
