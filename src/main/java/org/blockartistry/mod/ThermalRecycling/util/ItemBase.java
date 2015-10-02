@@ -80,6 +80,7 @@ public abstract class ItemBase extends Item {
 
 		setHasSubtypes(names.length > 1);
 		setCreativeTab(CreativeTabManager.tab);
+		setNoRepair();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -121,7 +122,8 @@ public abstract class ItemBase extends Item {
 	public String getUnlocalizedName(final ItemStack stack) {
 		final int i = MathHelper
 				.clamp_int(ItemStackHelper.getItemDamage(stack), 0, names.length - 1);
-		return getUnlocalizedName() + "." + names[i];
+		final String theName = getUnlocalizedName() + "." + names[i]; 
+		return theName;
 	}
 
 	/**

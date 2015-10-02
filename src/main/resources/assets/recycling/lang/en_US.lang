@@ -24,6 +24,15 @@ item.Material.paperlog.name=Paper Log
 item.Material.worms.name=Handful of Worms
 item.Material.litterBag.name=Litter Bag
 item.Material.gardenShears.name=Garden Shears
+item.Material.fuelCell.name=Fuel Cell
+item.Material.rtgHousing.name=RTG Housing
+
+item.RTGEnergyCell.creative.name=Creative RTG Energy Cell
+item.RTGEnergyCell.rtg.name=RTG Energy Cell
+msg.RTGEnergyCell.Infinite=Infinite
+msg.RTGEnergyCell.Depleted=Depleted
+msg.RTGEnergyCell.Send=Send
+msg.RTGEnergyCell.Charge=Charge
 
 item.soylentGreen.name=§2Soylent Green
 item.soylentYellow.name=§eSoylent Yellow
@@ -38,6 +47,9 @@ tile.MachineComposter.name=Composter
 tile.MachineVending.name=Vending Machine
 tile.ScrapBlock.scrap.name=Block of Scrap
 tile.Lawn.name=Manicured Grass
+
+item.EnergeticRedstoneDust.energeticRedstoneDust.name=Energetic Redstone Dust
+tile.EnergeticRedstoneOre.name=Energetic Redstone Ore
 
 msg.MachineVending.adminName=Server Shop
 msg.MachineVending.free=FREE

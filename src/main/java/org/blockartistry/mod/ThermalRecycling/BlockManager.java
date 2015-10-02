@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
+import org.blockartistry.mod.ThermalRecycling.blocks.EnergeticRedstoneOre;
 import org.blockartistry.mod.ThermalRecycling.blocks.FertileLand;
 import org.blockartistry.mod.ThermalRecycling.blocks.Lawn;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
@@ -53,6 +54,7 @@ public final class BlockManager {
 	public static final FertileLand fertileLand = new FertileLand();
 	public static final PileOfRubble pileOfRubble = new PileOfRubble();
 	public static final Lawn lawn = new Lawn();
+	public static final EnergeticRedstoneOre energeticRedstone = new EnergeticRedstoneOre();
 
 	public static void register() {
 
@@ -60,6 +62,7 @@ public final class BlockManager {
 		fertileLand.register();
 		pileOfRubble.register();
 		lawn.register();
+		energeticRedstone.register();
 
 		thermalRecycler.register();
 		scrapAssessor.register();

@@ -31,6 +31,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import org.blockartistry.mod.ThermalRecycling.items.Debris;
+import org.blockartistry.mod.ThermalRecycling.items.EnergeticRedstoneDust;
+import org.blockartistry.mod.ThermalRecycling.items.RTGEnergyCell;
 import org.blockartistry.mod.ThermalRecycling.items.FoodItem;
 import org.blockartistry.mod.ThermalRecycling.items.FoodItem.OnEat;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
@@ -72,6 +74,9 @@ public final class ItemManager {
 	public static final FoodItem soylentRed = (FoodItem) new FoodItem("soylentRed", 2, 0.3F, false)
 			.setLore(StatCollector.translateToLocal("msg.itLooksEdible"))
 			.setPotionEffect(Potion.regeneration.id, 10, 0, 1F).setAlwaysEdible();
+	
+	public static final EnergeticRedstoneDust energeticRedstoneDust = new EnergeticRedstoneDust();
+	public static final RTGEnergyCell energyCell = new RTGEnergyCell();
 
 	public static void register() {
 
@@ -86,5 +91,8 @@ public final class ItemManager {
 		soylentGreen.register();
 		soylentYellow.register();
 		soylentRed.register();
+		
+		energeticRedstoneDust.register();
+		energyCell.register();
 	}
 }

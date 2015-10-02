@@ -68,6 +68,13 @@ public final class ModThermalRecycling extends ModPlugin {
 		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				handler);
 
+		// RTG Support - scrub fuel cells from output
+		ItemData.setScrubbedFromOutput(new ItemStack(ItemManager.material, 1, Material.FUEL_CELL), true);
+
+		// RTG Energy Cells have superior value - even if depleted
+		ItemData.setValue(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
+				ScrapValue.SUPERIOR);
+
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
 		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
@@ -148,7 +155,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				new ItemStackItem(null, 1));
-
+		
 		// Soylent Red and Yellow
 		registerExtractionRecipe(new ItemStack(Blocks.pumpkin, 6),
 				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
@@ -174,6 +181,10 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
+		
+		// RTG - Extract an RTG Energy Cell to a Housing - loses anything energy, etc.
+		registerExtractionRecipe(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
+				new ItemStackItem(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), 1));
 
 		// ////////////////////
 		//

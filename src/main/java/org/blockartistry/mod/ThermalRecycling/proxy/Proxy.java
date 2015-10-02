@@ -44,6 +44,7 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
+import org.blockartistry.mod.ThermalRecycling.events.EnergeticRedstoneOreHandler;
 import org.blockartistry.mod.ThermalRecycling.events.EntityEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.EntityItemMergeHandler;
 import org.blockartistry.mod.ThermalRecycling.events.VendingMachineBreakHandler;
@@ -107,6 +108,9 @@ public class Proxy {
 
 		if (!ModOptions.getRubblePileDisable())
 			BiomeDecorationHandler.register();
+		
+		if(ModOptions.getEnergeticRedstoneChance() > 0)
+			EnergeticRedstoneOreHandler.register();
 
 		if (!ModOptions.getDisableAnvilRepair())
 			AnvilHandler.register();

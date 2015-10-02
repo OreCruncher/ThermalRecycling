@@ -31,6 +31,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -59,12 +60,14 @@ public final class Material extends ItemBase {
 	public static final int WORMS = 1;
 	public static final int LITTER_BAG = 2;
 	public static final int GARDEN_SHEARS = 3;
+	public static final int RTG_HOUSING = 4;
+	public static final int FUEL_CELL = 5;
 
 	private static final List<ItemStack> trash = ImmutableList
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions.getInventoryTrashList()));
 
 	public Material() {
-		super("paperlog", "worms", "litterBag", "gardenShears");
+		super("paperlog", "worms", "litterBag", "gardenShears", "rtgHousing", "fuelCell");
 
 		setUnlocalizedName("Material");
 		setHasSubtypes(true);
@@ -169,6 +172,15 @@ public final class Material extends ItemBase {
 		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1, GARDEN_SHEARS), "i i", " i ", "s s", 'i',
 				"ingotIron", 's', new ItemStack(Items.stick, 1, OreDictionaryHelper.WILDCARD_VALUE));
 
+		GameRegistry.addRecipe(recipe);
+
+		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1, RTG_HOUSING), "bcb", "i i", "bcb", 'i',
+				"ingotIron", 'c', "ingotCopper", 'b', new ItemStack(Blocks.iron_bars));
+		GameRegistry.addRecipe(recipe);
+
+		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.material, 1, FUEL_CELL), "rCr", "cri", "cCi", 'C',
+				new ItemStack(Items.clay_ball), 'c', "nuggetCopper", 'i', "nuggetIron", 'r',
+				new ItemStack(ItemManager.energeticRedstoneDust));
 		GameRegistry.addRecipe(recipe);
 	}
 }
