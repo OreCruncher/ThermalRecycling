@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.BatteryRackTileEntity;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -34,16 +35,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public final class MachineBatteryRack extends MachineBase {
 
 	@SideOnly(Side.CLIENT)
-	private IIcon backPort;
+	protected IIcon connectionPort;
+	
+	@SideOnly(Side.CLIENT)
+	protected IIcon connectionBlank;
+
+	@SideOnly(Side.CLIENT)
+	protected int renderPass;
 	
 	public MachineBatteryRack() {
 		super("MachineBatteryRack");
@@ -71,6 +80,45 @@ public final class MachineBatteryRack extends MachineBase {
 				+ ":BatteryRack_Front");
 		icons[BLOCK_ACTIVE] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
 				+ ":BatteryRack_Front");
+
+		connectionPort = iconRegister.registerIcon("thermalexpansion:config/Config_Open");
+		connectionBlank = iconRegister.registerIcon("thermalexpansion:config/Config_None");
+}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean canRenderInPass(final int pass) {
+		renderPass = pass;
+		return pass < 2;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public int getRenderBlockPass() {
+		return 1;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+			
+	@SideOnly(Side.CLIENT)
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
+		
+		if(renderPass == 0)
+			return super.getIcon(world, x, y, z, side);
+
+		if(side == 0 || side == 1)
+			return connectionPort;
+		
+		final BatteryRackTileEntity te = (BatteryRackTileEntity)world.getTileEntity(x, y, z);
+		if(te != null && ForgeDirection.OPPOSITES[te.getFacing()] == side)
+			return connectionPort;
+		
+		return connectionBlank;
 	}
 
 	@Override
@@ -79,20 +127,23 @@ public final class MachineBatteryRack extends MachineBase {
 		GameRegistry.registerTileEntity(BatteryRackTileEntity.class,
 				"batteryRackTileEntity");
 
-		final ShapedOreRecipe recipe = new ShapedOreRecipe(
-				BlockManager.batteryRack,
-				" T ",
-				"bcb",
-				"iri",
-				'T',
-				ItemStackHelper.getItemStack("ThermalExpansion:material:2"),
-				'b',
-				Blocks.iron_bars,
-				'c',
-				"ingotCopper",
-				'i', "ingotIron",
-				'r', "dustRedstone");
-
-		GameRegistry.addRecipe(recipe);
+		for(int i = ItemLevel.BASIC.ordinal(); i <= ItemLevel.BASIC.ordinal(); i++) {
+			final ItemStack stack = new ItemStack(BlockManager.batteryRack);
+			ItemLevel.setLevel(stack, ItemLevel.values()[i]);
+			final ShapedOreRecipe recipe = new ShapedOreRecipe(
+					stack,
+					" T ",
+					"iMi",
+					"rcr",
+					'T',
+					ItemStackHelper.getItemStack("ThermalExpansion:material:2"),
+					'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:" + i),
+					'c',
+					"ingotCopper",
+					'i', "ingotIron",
+					'r', "dustRedstone");
+	
+			GameRegistry.addRecipe(recipe);
+		}
 	}
 }

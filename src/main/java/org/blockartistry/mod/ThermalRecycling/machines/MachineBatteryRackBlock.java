@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.machines;
 
 import net.minecraft.block.Block;
-
 import org.blockartistry.mod.ThermalRecycling.util.MultiItemBlock;
 
 public final class MachineBatteryRackBlock extends MultiItemBlock {

@@ -39,8 +39,6 @@ public final class TextureManager {
 	
 	public static IIcon slotResourceNotAvailable;
 	public static IIcon slotResourceAvailable;
-	public static IIcon connectionPort;
-	public static IIcon connectionBlank;
 
 	private TextureManager() {
 	}
@@ -54,9 +52,6 @@ public final class TextureManager {
 			
 			slotResourceNotAvailable = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":slot_resource_not_available");
 			slotResourceAvailable = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":slot_resource_available");
-			connectionPort = iconRegister.registerIcon("thermalexpansion:config/Config_Open");
-			connectionBlank = iconRegister.registerIcon("thermalexpansion:config/Config_None");
-			
 		}
 	}
 	
