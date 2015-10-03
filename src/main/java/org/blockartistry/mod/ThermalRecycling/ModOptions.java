@@ -69,6 +69,8 @@ public final class ModOptions {
 	protected static int rtgBasePowerPerTick = 2;
 	protected static final String CONFIG_RTG_BASE_ENERGY = "Base Energy per Cell";
 	protected static int rtgBaseEnergy = 1000000;
+	protected static final String CONFIG_ENABLE_URANIUM_RECIPE = "Enable Crafting Using Uranium Dust";
+	protected static boolean energeticRedstoneUraniumCrafting = true;
 
 	protected static final String CATEGORY_MACHINES_RECYCLER = "machines.recycler";
 	protected static final String CATEGORY_MACHINES_COMPOSTER = "machines.composter";
@@ -381,7 +383,11 @@ public final class ModOptions {
 		comment = "Maximum RF per tick to transfer from the installed energy container";
 		batteryRackTransfer = config.getInt(CONFIG_BATTERY_RACK_TRANSFER, CATEGORY_MACHINES_BATTERY_RACK,
 				batteryRackTransfer, 0, Integer.MAX_VALUE, comment);
-}
+		
+		comment = "Enable crafting of Energetic Redstone Dust using Uranium dust";
+		energeticRedstoneUraniumCrafting = config.getBoolean(CONFIG_ENABLE_URANIUM_RECIPE,
+				CATEGORY_ENERGETIC_REDSTONE, energeticRedstoneUraniumCrafting, comment);
+	}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -598,5 +604,9 @@ public final class ModOptions {
 	
 	public static int getBatteryRackTransfer() {
 		return batteryRackTransfer;
+	}
+	
+	public static boolean getEnergeticRedstoneUraniumCrafting() {
+		return energeticRedstoneUraniumCrafting;
 	}
 }

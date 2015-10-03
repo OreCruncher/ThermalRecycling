@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
@@ -43,6 +44,9 @@ import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingS
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 
@@ -52,9 +56,45 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public final class ModThermalRecycling extends ModPlugin {
 
+	private static class EnergeticRedstoneRecipes {
+		
+		protected final String ore;
+		protected final int input;
+		protected final int output;
+		
+		public EnergeticRedstoneRecipes(final String ore, final int input, final int output) {
+			this.ore = ore;
+			this.input = input;
+			this.output = output;
+		}
+		
+		public boolean areOresAvailable() {
+			return !OreDictionary.getOres(this.ore).isEmpty();
+		}
+		
+		public void register() {
+			final List<Object> ingredients = new ArrayList<Object>();
+			ingredients.add(this.ore);
+			for(int i = 0; i < input; i++)
+				ingredients.add(Items.redstone);
+			final ShapelessOreRecipe recipe = new ShapelessOreRecipe(
+					new ItemStack(ItemManager.energeticRedstoneDust, output),
+					ingredients.toArray());
+			GameRegistry.addRecipe(recipe);
+		}
+	}
+	
+	private static final EnergeticRedstoneRecipes[] energeticRecipes = new EnergeticRedstoneRecipes[] {
+			new EnergeticRedstoneRecipes("dustUranium", 2, 3),
+			new EnergeticRedstoneRecipes("crushedUranium", 2, 3),
+			new EnergeticRedstoneRecipes("crushedPurifiedUranium", 2, 6)
+	};
+	
 	public ModThermalRecycling() {
 		super(SupportedMod.THERMAL_RECYCLING);
 	}
@@ -80,6 +120,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
 		ItemData.setRecipeIgnored(ItemManager.material, true);
 		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
+		ItemData.setRecipeIgnored(ItemManager.energeticRedstoneDust, true);
 
 		ItemData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
 		ItemData.setValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
@@ -128,34 +169,43 @@ public final class ModThermalRecycling extends ModPlugin {
 		registerRecycleToWoodDustForge(1, "logWood");
 		registerRecycleToWoodDustForge(2, "plankWood");
 		registerRecycleToWoodDustForge(8, "treeSapling");
-		
+
 		registerRecipesToIgnoreForge("logWood", "plankWood", "treeSapling");
 
 		// Configure extraction recipes
 		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15"), 10),
-				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10), new ItemStackItem(PreferredItemStacks.instance.dustCharcoal, 10),
-				new ItemStackItem(PreferredItemStacks.instance.sulfer, 10), new ItemStackItem(PreferredItemStacks.instance.dustIron, 20),
-				new ItemStackItem(PreferredItemStacks.instance.dustTin, 20), new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
+				new ItemStackItem(PreferredItemStacks.instance.dustCharcoal, 10),
+				new ItemStackItem(PreferredItemStacks.instance.sulfer, 10),
+				new ItemStackItem(PreferredItemStacks.instance.dustIron, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustTin, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20),
 				new ItemStackItem(PreferredItemStacks.instance.dustNickel, 20));
 
 		registerExtractionRecipe(ScrappingTables.standardScrap, new ItemStackItem(null, 78),
-				new ItemStackItem(ScrappingTables.superiorScrap, 52), new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
+				new ItemStackItem(ScrappingTables.superiorScrap, 52),
+				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
 				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
-				new ItemStackItem(PreferredItemStacks.instance.dustIron, 20), new ItemStackItem(PreferredItemStacks.instance.dustTin, 20),
-				new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20), new ItemStackItem(PreferredItemStacks.instance.dustSilver, 20),
-				new ItemStackItem(PreferredItemStacks.instance.dustLead, 20), new ItemStackItem(PreferredItemStacks.instance.dustGold, 10));
+				new ItemStackItem(PreferredItemStacks.instance.dustIron, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustTin, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustSilver, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustLead, 20),
+				new ItemStackItem(PreferredItemStacks.instance.dustGold, 10));
 
-		registerExtractionRecipe(ScrappingTables.superiorScrap, new ItemStackItem(PreferredItemStacks.instance.dustGold, 20),
+		registerExtractionRecipe(ScrappingTables.superiorScrap,
+				new ItemStackItem(PreferredItemStacks.instance.dustGold, 20),
 				new ItemStackItem(PreferredItemStacks.instance.dustPlatinum, 20),
 				new ItemStackItem(PreferredItemStacks.instance.dustElectrum, 20),
-				new ItemStackItem(PreferredItemStacks.instance.dustSignalum, 10), new ItemStackItem(PreferredItemStacks.instance.dustLumium, 10),
+				new ItemStackItem(PreferredItemStacks.instance.dustSignalum, 10),
+				new ItemStackItem(PreferredItemStacks.instance.dustLumium, 10),
 				new ItemStackItem(PreferredItemStacks.instance.dustEnderium, 10));
 
 		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				new ItemStackItem(null, 1));
-		
+
 		// Soylent Red and Yellow
 		registerExtractionRecipe(new ItemStack(Blocks.pumpkin, 6),
 				new ItemStackItem(new ItemStack(ItemManager.soylentYellow), 1));
@@ -181,8 +231,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
 		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
-		
-		// RTG - Extract an RTG Energy Cell to a Housing - loses anything energy, etc.
+
+		// RTG - Extract an RTG Energy Cell to a Housing - loses anything
+		// energy, etc.
 		registerExtractionRecipe(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				new ItemStackItem(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), 1));
 
@@ -211,6 +262,14 @@ public final class ModThermalRecycling extends ModPlugin {
 		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 1, 1);
 		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentYellow), 1, 1, 2);
 		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentRed), 1, 1, 2);
+
+		// If there is uranium dust in the ore dictionary create a crafting
+		// recipe for Energetic Redstone Dust.
+		if (ModOptions.getEnergeticRedstoneUraniumCrafting()) {
+			for(final EnergeticRedstoneRecipes r : energeticRecipes)
+				if(r.areOresAvailable())
+					r.register();
+		}
 
 		return true;
 	}
