@@ -78,6 +78,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		}
 		
 		public void register() {
+			if(!areOresAvailable())
+				return;
+			
 			final List<Object> ingredients = new ArrayList<Object>();
 			ingredients.add(this.ore);
 			for(int i = 0; i < input; i++)
@@ -89,10 +92,10 @@ public final class ModThermalRecycling extends ModPlugin {
 		}
 	}
 	
-	private static final EnergeticRedstoneRecipes[] energeticRecipes = new EnergeticRedstoneRecipes[] {
+	private static final EnergeticRedstoneRecipes[] energeticUraniumRecipes = new EnergeticRedstoneRecipes[] {
 			new EnergeticRedstoneRecipes("dustUranium", 2, 3),
 			new EnergeticRedstoneRecipes("crushedUranium", 2, 3),
-			new EnergeticRedstoneRecipes("crushedPurifiedUranium", 2, 6)
+			new EnergeticRedstoneRecipes("crushedPurifiedUranium", 4, 6)
 	};
 	
 	public ModThermalRecycling() {
@@ -266,9 +269,8 @@ public final class ModThermalRecycling extends ModPlugin {
 		// If there is uranium dust in the ore dictionary create a crafting
 		// recipe for Energetic Redstone Dust.
 		if (ModOptions.getEnergeticRedstoneUraniumCrafting()) {
-			for(final EnergeticRedstoneRecipes r : energeticRecipes)
-				if(r.areOresAvailable())
-					r.register();
+			for(final EnergeticRedstoneRecipes r : energeticUraniumRecipes)
+				r.register();
 		}
 
 		return true;
