@@ -308,6 +308,12 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 			return receiver.receiveEnergy(direction, amount, simulate);
 		}
 	}
+	
+	@Override
+	public boolean rotateBlock() {
+		connections = null;
+		return super.rotateBlock();
+	}
 
 	protected IEnergyReceiver getTargetReceiver(final ForgeDirection direction) {
 		final TileEntity te = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY,

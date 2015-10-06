@@ -62,42 +62,39 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public final class ModThermalRecycling extends ModPlugin {
 
 	private static class EnergeticRedstoneRecipes {
-		
+
 		protected final String ore;
 		protected final int input;
 		protected final int output;
-		
+
 		public EnergeticRedstoneRecipes(final String ore, final int input, final int output) {
 			this.ore = ore;
 			this.input = input;
 			this.output = output;
 		}
-		
+
 		public boolean areOresAvailable() {
 			return !OreDictionary.getOres(this.ore).isEmpty();
 		}
-		
+
 		public void register() {
-			if(!areOresAvailable())
+			if (!areOresAvailable())
 				return;
-			
+
 			final List<Object> ingredients = new ArrayList<Object>();
 			ingredients.add(this.ore);
-			for(int i = 0; i < input; i++)
+			for (int i = 0; i < input; i++)
 				ingredients.add(Items.redstone);
 			final ShapelessOreRecipe recipe = new ShapelessOreRecipe(
-					new ItemStack(ItemManager.energeticRedstoneDust, output),
-					ingredients.toArray());
+					new ItemStack(ItemManager.energeticRedstoneDust, output), ingredients.toArray());
 			GameRegistry.addRecipe(recipe);
 		}
 	}
-	
+
 	private static final EnergeticRedstoneRecipes[] energeticUraniumRecipes = new EnergeticRedstoneRecipes[] {
-			new EnergeticRedstoneRecipes("dustUranium", 2, 3),
-			new EnergeticRedstoneRecipes("crushedUranium", 2, 3),
-			new EnergeticRedstoneRecipes("crushedPurifiedUranium", 4, 6)
-	};
-	
+			new EnergeticRedstoneRecipes("dustUranium", 2, 3), new EnergeticRedstoneRecipes("crushedUranium", 2, 3),
+			new EnergeticRedstoneRecipes("crushedPurifiedUranium", 4, 6) };
+
 	public ModThermalRecycling() {
 		super(SupportedMod.THERMAL_RECYCLING);
 	}
@@ -122,6 +119,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
 		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
 		ItemData.setRecipeIgnored(ItemManager.material, true);
+		ItemData.setRecipeIgnored(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), false);
 		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
 		ItemData.setRecipeIgnored(ItemManager.energeticRedstoneDust, true);
 
@@ -269,7 +267,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		// If there is uranium dust in the ore dictionary create a crafting
 		// recipe for Energetic Redstone Dust.
 		if (ModOptions.getEnergeticRedstoneUraniumCrafting()) {
-			for(final EnergeticRedstoneRecipes r : energeticUraniumRecipes)
+			for (final EnergeticRedstoneRecipes r : energeticUraniumRecipes)
 				r.register();
 		}
 
