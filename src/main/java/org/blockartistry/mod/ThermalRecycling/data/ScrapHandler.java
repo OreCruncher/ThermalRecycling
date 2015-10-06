@@ -43,6 +43,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.enchantment.Enchantment;
@@ -360,22 +361,22 @@ public class ScrapHandler {
 			
 			for (int count = 0; count < target.stackSize; count++) {
 
-				ItemStack cupieDoll = t.nextStack();
+				Optional<ItemStack> cupieDoll = t.nextStack();
 
-				if (cupieDoll != null) {
+				if (cupieDoll.isPresent()) {
 
-					if (ScrappingTables.keepIt(cupieDoll)) {
-						cupieDoll = target.copy();
-						cupieDoll.stackSize = 1;
-					} else if (ScrappingTables.dustIt(cupieDoll)) {
-						cupieDoll = target.copy();
-						cupieDoll.stackSize = 1;
-						cupieDoll = ItemStackHelper.convertToDustIfPossible(cupieDoll);
+					if (ScrappingTables.keepIt(cupieDoll.get())) {
+						cupieDoll = Optional.of(target.copy());
+						cupieDoll.get().stackSize = 1;
+					} else if (ScrappingTables.dustIt(cupieDoll.get())) {
+						cupieDoll = Optional.of(target.copy());
+						cupieDoll.get().stackSize = 1;
+						cupieDoll = ItemStackHelper.convertToDustIfPossible(cupieDoll.get());
 					}
 					
 					// Maybe be null in the destroy case
-					if(cupieDoll != null) {
-						result.add(cupieDoll);
+					if(cupieDoll.isPresent()) {
+						result.add(cupieDoll.get());
 					}
 				}
 			}

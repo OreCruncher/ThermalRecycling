@@ -28,6 +28,8 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.base.Optional;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -36,13 +38,14 @@ public final class Diagnostics {
 	private Diagnostics() { }
 	
 	public void dumpSubItems(final Logger log, final String itemId) {
-		final ItemStack stack = ItemStackHelper.getItemStack(itemId, 1);
-		if (stack != null) {
+		final Optional<ItemStack> stack = ItemStackHelper.getItemStack(itemId, 1);
+		if (stack.isPresent()) {
 
 			try {
+				final ItemStack s = stack.get();
 				for (int i = 0; i < 1024; i++) {
-					stack.setItemDamage(i);
-					final String name = ItemStackHelper.resolveName(stack);
+					s.setItemDamage(i);
+					final String name = ItemStackHelper.resolveName(s);
 					if (name != null && !name.isEmpty() && !name.contains("(Destroy)"))
 						log.info(String.format("%s:%d = %s", itemId, i, name));
 				}

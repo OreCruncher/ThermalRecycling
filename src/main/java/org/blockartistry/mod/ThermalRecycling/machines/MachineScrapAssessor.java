@@ -69,10 +69,10 @@ public final class MachineScrapAssessor extends MachineBase {
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(
 				BlockManager.scrapAssessor, 1, 0), " m ", "cMc", "tst", 'c',
 				new ItemStack(Blocks.crafting_table), 'm',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter"), 'M',
-				ItemStackHelper.getItemStack("ThermalExpansion:Frame"), 't',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(), 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(), 't',
 				"gearTin", 's',
-				ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 
 		GameRegistry.addRecipe(recipe);
 	}

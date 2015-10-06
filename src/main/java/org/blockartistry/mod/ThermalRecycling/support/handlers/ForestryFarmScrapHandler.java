@@ -78,7 +78,7 @@ public final class ForestryFarmScrapHandler extends ScrapHandler {
 	
 	static {
 		
-		sample = ItemStackHelper.getItemStack("Forestry:ffarm:0");
+		sample = ItemStackHelper.getItemStack("Forestry:ffarm:0").get();
 		farmBlocks = new ItemStack[EnumFarmBlock.values().length];
 		for(final EnumFarmBlock fb: EnumFarmBlock.values()) {
 			final ItemStack block = sample.copy();

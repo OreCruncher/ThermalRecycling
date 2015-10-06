@@ -35,11 +35,11 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 public final class ThermalExpansionScrapHandler extends ScrapHandler {
 
 	protected static final ItemStack frame = ItemStackHelper
-			.getItemStack("ThermalExpansion:Frame");
+			.getItemStack("ThermalExpansion:Frame").get();
 	protected static final ItemStack secure = ItemStackHelper
-			.getItemStack("ThermalExpansion:material:16");
+			.getItemStack("ThermalExpansion:material:16").get();
 	protected static final ItemStack signalumNuggets = ItemStackHelper
-			.getItemStack("nuggetSignalum", 3);
+			.getItemStack("nuggetSignalum", 3).get();
 
 	@Override
 	protected List<ItemStack> getRecipeOutput(final ScrappingContext ctx) {

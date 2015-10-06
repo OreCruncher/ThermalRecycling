@@ -37,7 +37,7 @@ public final class BlastRecipeBuilder extends SmelterRecipeBuilder {
 
 		if (PYROTHEUM_DUST == null)
 			PYROTHEUM_DUST = ItemStackHelper.getItemStack(
-					"ThermalFoundation:material:512", 1);
+					"ThermalFoundation:material:512", 1).get();
 	}
 
 	@Override

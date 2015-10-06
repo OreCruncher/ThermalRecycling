@@ -118,7 +118,7 @@ public class MachineVending extends MachineBase {
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(
 				BlockManager.vending, "PPP", "P P", "GSG", 'P', "plankWood",
 				'G', "gearCopper", 'S',
-				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:2"));
+				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:2").get());
 
 		GameRegistry.addRecipe(recipe);
 	}

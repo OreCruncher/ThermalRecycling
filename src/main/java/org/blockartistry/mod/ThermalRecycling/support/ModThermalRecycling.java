@@ -178,7 +178,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		// Configure extraction recipes
 		registerExtractionRecipe(ScrappingTables.poorScrap, new ItemStackItem(null, 120),
 				new ItemStackItem(ScrappingTables.standardScrap, 60),
-				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15"), 10),
+				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:dye:15").get(), 10),
 				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
 				new ItemStackItem(PreferredItemStacks.instance.dustCharcoal, 10),
 				new ItemStackItem(PreferredItemStacks.instance.sulfer, 10),
@@ -190,7 +190,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		registerExtractionRecipe(ScrappingTables.standardScrap, new ItemStackItem(null, 78),
 				new ItemStackItem(ScrappingTables.superiorScrap, 52),
 				new ItemStackItem(PreferredItemStacks.instance.dustCoal, 10),
-				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17"), 10),
+				new ItemStackItem(ItemStackHelper.getItemStack("ThermalFoundation:material:17").get(), 10),
 				new ItemStackItem(PreferredItemStacks.instance.dustIron, 20),
 				new ItemStackItem(PreferredItemStacks.instance.dustTin, 20),
 				new ItemStackItem(PreferredItemStacks.instance.dustCopper, 20),

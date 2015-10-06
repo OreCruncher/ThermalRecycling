@@ -216,7 +216,7 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 		assert item != null;
 		assert quantity > 0;
 
-		return output(ItemStackHelper.getItemStack(item, quantity));
+		return output(ItemStackHelper.getItemStack(item, quantity).get());
 	}
 
 	public This output(final ItemStack out, final int quantity) {

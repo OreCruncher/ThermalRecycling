@@ -35,6 +35,7 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 public final class ThermalRecyclerRecipeBuilder {
@@ -170,13 +171,13 @@ public final class ThermalRecyclerRecipeBuilder {
 
 		Preconditions.checkNotNull(item, "Input ItemStack cannot be null");
 
-		return input(ItemStackHelper.getItemStack(item));
+		return input(ItemStackHelper.getItemStack(item).get());
 	}
 
 	public ThermalRecyclerRecipeBuilder input(final String name, final int quantity) {
 		Preconditions.checkNotNull(name, "Input ItemStack cannot be null");
 
-		return input(ItemStackHelper.getItemStack(name, quantity));
+		return input(ItemStackHelper.getItemStack(name, quantity).get());
 	}
 
 	public ThermalRecyclerRecipeBuilder input(final ItemStack stack, final int quantity) {
@@ -216,11 +217,11 @@ public final class ThermalRecyclerRecipeBuilder {
 	}
 
 	public ThermalRecyclerRecipeBuilder useRecipe(final String item) {
-		return useRecipe(ItemStackHelper.getItemStack(item));
+		return useRecipe(ItemStackHelper.getItemStack(item).get());
 	}
 
 	public ThermalRecyclerRecipeBuilder useRecipe(final String item, final int quantity) {
-		return useRecipe(ItemStackHelper.getItemStack(item, quantity));
+		return useRecipe(ItemStackHelper.getItemStack(item, quantity).get());
 	}
 
 	public ThermalRecyclerRecipeBuilder useRecipe(final ItemStack stack) {
@@ -247,12 +248,12 @@ public final class ThermalRecyclerRecipeBuilder {
 	
 	public ThermalRecyclerRecipeBuilder scrubOutput(final String item) {
 		
-		final ItemStack stack = ItemStackHelper.getItemStack(item);
+		final Optional<ItemStack> stack = ItemStackHelper.getItemStack(item);
 		
-		if(stack != null) {
+		if(stack.isPresent()) {
 			final List<ItemStack> newOutput = new ArrayList<ItemStack>();
-			for(ItemStack i: output) {
-				if(stack.isItemEqual(i)) {
+			for(final ItemStack i: output) {
+				if(stack.get().isItemEqual(i)) {
 					i.stackSize--;
 					if(i.stackSize > 0)
 						newOutput.add(i);

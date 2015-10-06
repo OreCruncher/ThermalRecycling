@@ -48,6 +48,7 @@ import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import net.minecraft.init.Blocks;
@@ -113,9 +114,9 @@ public abstract class ModPlugin {
 			
 			public boolean apply(final String s) {
 				final String name = makeName(s);
-				final ItemStack stack = ItemStackHelper.getItemStack(name);
-				if (stack != null)
-					op.apply(stack);
+				final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
+				if (stack.isPresent())
+					op.apply(stack.get());
 				else
 					ModLog.warn("[%s] unknown item '%s'", mod.getName(), name);
 				return true;

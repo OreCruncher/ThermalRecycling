@@ -30,6 +30,8 @@ import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 
+import com.google.common.base.Optional;
+
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
@@ -46,33 +48,35 @@ public final class ItemStackHelper {
 	
 	protected static final Random rand = XorShiftRandom.shared;
 
-	public static ItemStack convertToDustIfPossible(final ItemStack stack) {
+	public static Optional<ItemStack> convertToDustIfPossible(final ItemStack stack) {
 
 		String oreName = OreDictionaryHelper.getOreName(stack);
 
 		if (oreName == null)
-			return stack;
+			return Optional.of(stack);
 
 		if (oreName.startsWith("ingot"))
 			oreName = StringUtils.replaceOnce(oreName, "ingot", "dust");
 		else if (oreName.startsWith("plank"))
 			oreName = StringUtils.replaceOnce(oreName, "plank", "dust");
 		else
-			return stack;
+			return Optional.of(stack);
 
 		return getItemStack(oreName);
 	}
 
-	public static ItemStack getPreferredStack(final ItemStack stack) {
+	public static Optional<ItemStack> getPreferredStack(final ItemStack stack) {
 		final String oreName = OreDictionaryHelper.getOreName(stack);
 		if (oreName == null || oreName.isEmpty() || "Unknown".compareToIgnoreCase(oreName) == 0)
-			return stack;
+			return Optional.of(stack);
 
-		final ItemStack newStack = getItemStack(oreName);
-		if (newStack == null)
-			return stack;
+		Optional<ItemStack> newStack = getItemStack(oreName);
+		if (newStack.isPresent()) {
+			final ItemStack result = newStack.get();
+			result.stackSize = stack.stackSize;
+			newStack = Optional.of(result);
+		}
 
-		newStack.stackSize = stack.stackSize;
 		return newStack;
 	}
 
@@ -81,22 +85,22 @@ public final class ItemStackHelper {
 		final List<ItemStack> result = new ArrayList<ItemStack>();
 
 		for (final String s : items) {
-			final ItemStack stack = getItemStack(s);
-			if (stack != null)
-				result.add(stack);
+			final Optional<ItemStack> stack = getItemStack(s);
+			if (stack.isPresent())
+				result.add(stack.get());
 		}
 
 		return result;
 	}
 
-	public static ItemStack getItemStack(final String name) {
+	public static Optional<ItemStack> getItemStack(final String name) {
 		return getItemStack(name, 1);
 	}
 
-	public static ItemStack getItemStack(final String name, final int quantity) {
+	public static Optional<ItemStack> getItemStack(final String name, final int quantity) {
 
 		if (name == null || name.isEmpty())
-			return null;
+			return Optional.absent();
 
 		// Check our preferred list first. If we have a hit, use it.
 		ItemStack result = PreferredItemStacks.instance.get(name);
@@ -157,7 +161,7 @@ public final class ItemStackHelper {
 			}
 		}
 
-		return result;
+		return Optional.fromNullable(result);
 	}
 
 	/**

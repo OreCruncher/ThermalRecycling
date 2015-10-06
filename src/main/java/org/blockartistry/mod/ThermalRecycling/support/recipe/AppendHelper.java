@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import com.google.common.base.Optional;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,7 +42,7 @@ public final class AppendHelper {
 	private static List<ItemStack> getItemStackRange(final String name, final int startSubtype, final int endSubtype,
 			final int quantity) {
 
-		return getItemStackRange(ItemStackHelper.getItemStack(name).getItem(), startSubtype, endSubtype, quantity);
+		return getItemStackRange(ItemStackHelper.getItemStack(name).get().getItem(), startSubtype, endSubtype, quantity);
 	}
 
 	private static List<ItemStack> getItemStackRange(final Item item, final int start, final int end,
@@ -80,8 +82,11 @@ public final class AppendHelper {
 		assert list != null;
 		assert items != null && items.length > 0;
 
-		for (final String s : items)
-			list.add(ItemStackHelper.getItemStack(s));
+		for (final String s : items) {
+			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(s);
+			if(stack.isPresent())
+				list.add(stack.get());
+		}
 	}
 
 	public static void append(final List<ItemStack> list, final String item, final int quantity) {
@@ -90,7 +95,9 @@ public final class AppendHelper {
 		assert item != null;
 		assert quantity > 0;
 
-		list.add(ItemStackHelper.getItemStack(item, quantity));
+		final Optional<ItemStack> stack = ItemStackHelper.getItemStack(item, quantity);
+		if(stack.isPresent())
+			list.add(stack.get());
 	}
 
 	public static void append(final List<ItemStack> list, final Block... blocks) {

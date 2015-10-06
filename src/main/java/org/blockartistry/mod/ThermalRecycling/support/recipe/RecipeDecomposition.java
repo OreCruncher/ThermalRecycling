@@ -217,7 +217,7 @@ public final class RecipeDecomposition {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
 				if (!t.isEmpty())
-					result.add(ItemStackHelper.getPreferredStack(t.get(0).copy()));
+					result.add(ItemStackHelper.getPreferredStack(t.get(0).copy()).get());
 			}
 		}
 
@@ -400,7 +400,7 @@ public final class RecipeDecomposition {
 								}
 							}
 
-							stack = ItemStackHelper.getItemStack(theItem);
+							stack = ItemStackHelper.getItemStack(theItem).get();
 						}
 					}
 

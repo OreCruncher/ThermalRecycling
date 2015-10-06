@@ -54,7 +54,7 @@ import net.minecraft.world.World;
 public abstract class MachineBase extends BlockContainer {
 
 	private static ItemStack lockTool = ItemStackHelper
-			.getItemStack("ThermalExpansion:material:16");
+			.getItemStack("ThermalExpansion:material:16").get();
 
 	public static int BLOCK_BOTTOM = 0;
 	public static int BLOCK_TOP = 1;

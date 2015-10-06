@@ -80,10 +80,10 @@ public final class MachineThermalRecycler extends MachineBase {
 				Blocks.chest,
 				'B',
 				ItemStackHelper
-						.getItemStack("ThermalExpansion:wrench"),
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+						.getItemStack("ThermalExpansion:wrench").get(),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(),
 				'G', "gearCopper", 'R', ItemStackHelper
-						.getItemStack("ThermalExpansion:material:1"));
+						.getItemStack("ThermalExpansion:material:1").get());
 
 		GameRegistry.addRecipe(recipe);
 	}

@@ -79,11 +79,11 @@ public final class ProcessingCore extends ItemBase {
 		ShapedOreRecipe recipe = new ShapedOreRecipe(
 				decompCore,
 				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
 				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(),
 				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 		
 		GameRegistry.addRecipe(recipe);
 
@@ -93,11 +93,11 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore1,
 				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
 				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:1"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:1").get(),
 				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 		
 		GameRegistry.addRecipe(recipe);
 
@@ -117,11 +117,11 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore2,
 				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
 				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:2"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:2").get(),
 				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 		
 		GameRegistry.addRecipe(recipe);
 
@@ -141,11 +141,11 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				decompCore3,
 				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter"),
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
 				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:3"),
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:3").get(),
 				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 		
 		GameRegistry.addRecipe(recipe);
 
@@ -176,11 +176,11 @@ public final class ProcessingCore extends ItemBase {
 		recipe = new ShapedOreRecipe(
 				new ItemStack(ItemManager.processingCore, 1, CoreType.EXTRACTION.ordinal()),
 				"cfc", "gMg", "csc",
-				'c', ItemStackHelper.getItemStack("ThermalExpansion:material:3"),
-				'f', ItemStackHelper.getItemStack("ThermalExpansion:igniter"),
+				'c', ItemStackHelper.getItemStack("ThermalExpansion:material:3").get(),
+				'f', ItemStackHelper.getItemStack("ThermalExpansion:igniter").get(),
 				'g', "gearInvar",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame"),
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(),
+				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 
 		GameRegistry.addRecipe(recipe);
 	}

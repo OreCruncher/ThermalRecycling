@@ -79,10 +79,10 @@ public final class MachineBatteryRack extends MachineBase {
 		icons[BLOCK_FRONT] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
 				+ ":BatteryRack_Front");
 		icons[BLOCK_ACTIVE] = iconRegister.registerIcon(ThermalRecycling.MOD_ID
-				+ ":BatteryRack_Front");
+				+ ":BatteryRack_Front_Working");
 
-		connectionPort = iconRegister.registerIcon("thermalexpansion:config/Config_Open");
-		connectionBlank = iconRegister.registerIcon("thermalexpansion:config/Config_None");
+		connectionPort = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":ConnectionOpen");
+		connectionBlank = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":ConnectionNone");
 }
 
 	@SideOnly(Side.CLIENT)
@@ -136,8 +136,8 @@ public final class MachineBatteryRack extends MachineBase {
 					"iMi",
 					"rcr",
 					'T',
-					ItemStackHelper.getItemStack("ThermalExpansion:material:2"),
-					'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:" + i),
+					ItemStackHelper.getItemStack("ThermalExpansion:material:2").get(),
+					'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:" + i).get(),
 					'c',
 					"ingotCopper",
 					'i', "ingotIron",

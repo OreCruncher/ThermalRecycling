@@ -90,7 +90,7 @@ public abstract class SecondaryOutputRecipeBuilder<This extends SecondaryOutputR
 		assert item != null;
 		assert quantity > 0;
 
-		return secondaryOutput(ItemStackHelper.getItemStack(item, quantity));
+		return secondaryOutput(ItemStackHelper.getItemStack(item, quantity).get());
 	}
 
 	public This secondaryOutput(final ItemStack sec) {

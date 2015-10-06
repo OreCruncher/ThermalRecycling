@@ -28,6 +28,8 @@ import java.util.Random;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 
+import com.google.common.base.Optional;
+
 import net.minecraft.item.ItemStack;
 
 public final class ItemStackWeightTable extends
@@ -71,13 +73,13 @@ public final class ItemStackWeightTable extends
 		super(rand);
 	}
 
-	public ItemStack nextStack() {
+	public Optional<ItemStack> nextStack() {
 		try {
-			return next().getStack();
+			return Optional.fromNullable(next().getStack());
 		} catch (Exception e) {
 			ModLog.warn(e.getMessage());
 		}
 		
-		return null;
+		return Optional.absent();
 	}
 }

@@ -43,11 +43,11 @@ import buildcraft.api.transport.pluggable.IPipePluggableItem;
 public final class BuildCraftGateScrapHandler extends ScrapHandler {
 
 	private static final ItemStack pulsatingChipset = ItemStackHelper
-			.getItemStack("BuildCraft|Silicon:redstoneChipset:4");
+			.getItemStack("BuildCraft|Silicon:redstoneChipset:4").get();
 	private static final ItemStack quartzChipset = ItemStackHelper
-			.getItemStack("BuildCraft|Silicon:redstoneChipset:5");
+			.getItemStack("BuildCraft|Silicon:redstoneChipset:5").get();
 	private static final ItemStack redstoneCompChipset = ItemStackHelper
-			.getItemStack("BuildCraft|Silicon:redstoneChipset:6");
+			.getItemStack("BuildCraft|Silicon:redstoneChipset:6").get();
 
 	private static final List<ItemStack> basicGate;
 	private static final List<ItemStack> ironGate;
@@ -59,24 +59,24 @@ public final class BuildCraftGateScrapHandler extends ScrapHandler {
 	static {
 
 		final ItemStack redstoneChipset = ItemStackHelper
-				.getItemStack("BuildCraft|Silicon:redstoneChipset");
+				.getItemStack("BuildCraft|Silicon:redstoneChipset").get();
 		final ItemStack ironChipset = ItemStackHelper
-				.getItemStack("BuildCraft|Silicon:redstoneChipset:1");
+				.getItemStack("BuildCraft|Silicon:redstoneChipset:1").get();
 		final ItemStack goldenChipset = ItemStackHelper
-				.getItemStack("BuildCraft|Silicon:redstoneChipset:2");
+				.getItemStack("BuildCraft|Silicon:redstoneChipset:2").get();
 		final ItemStack diamondChipset = ItemStackHelper
-				.getItemStack("BuildCraft|Silicon:redstoneChipset:3");
+				.getItemStack("BuildCraft|Silicon:redstoneChipset:3").get();
 		final ItemStack emeraldChipset = ItemStackHelper
-				.getItemStack("BuildCraft|Silicon:redstoneChipset:7");
+				.getItemStack("BuildCraft|Silicon:redstoneChipset:7").get();
 
 		final ItemStack redPipeWire = ItemStackHelper
-				.getItemStack("BuildCraft|Transport:pipeWire");
+				.getItemStack("BuildCraft|Transport:pipeWire").get();
 		final ItemStack bluePipeWire = ItemStackHelper
-				.getItemStack("BuildCraft|Transport:pipeWire:1");
+				.getItemStack("BuildCraft|Transport:pipeWire:1").get();
 		final ItemStack greenPipeWire = ItemStackHelper
-				.getItemStack("BuildCraft|Transport:pipeWire:2");
+				.getItemStack("BuildCraft|Transport:pipeWire:2").get();
 		final ItemStack yellowPipeWire = ItemStackHelper
-				.getItemStack("BuildCraft|Transport:pipeWire:3");
+				.getItemStack("BuildCraft|Transport:pipeWire:3").get();
 
 		basicGate = new ImmutableList.Builder<ItemStack>()
 			.add(redstoneChipset).build();

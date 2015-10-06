@@ -34,6 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -167,9 +168,9 @@ public final class RecipeData {
 						final String oreName = OreDictionaryHelper.getOreName(working);
 
 						if (oreName != null) {
-							working = ItemStackHelper.getItemStack(oreName, working.stackSize);
-							if (working != null)
-								output.set(i, working);
+							final Optional<ItemStack> t = ItemStackHelper.getItemStack(oreName, working.stackSize);
+							if (t.isPresent())
+								output.set(i, t.get());
 						}
 					}
 				}

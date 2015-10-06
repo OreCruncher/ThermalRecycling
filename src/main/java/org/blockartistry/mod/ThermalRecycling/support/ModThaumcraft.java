@@ -93,24 +93,24 @@ public final class ModThaumcraft extends ModPlugin {
 		registerCompostIngredient(CompostIngredient.BROWN, "blockCustomPlant:0", "blockCustomPlant:1", "blockMagicalLeaves:*");
 
 		// Extraction recipes
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:0"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemResource:3", 2), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:0").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemResource:3", 2).get(), 1));
 
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:1"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:0", 3), 1));
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:2"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:1", 3), 1));
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:3"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:2", 3), 1));
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:4"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:3", 3), 1));
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:5"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:4", 3), 1));
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:6"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:5", 3), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:1").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:0", 3).get(), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:2").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:1", 3).get(), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:3").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:2", 3).get(), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:4").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:3", 3).get(), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:5").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:4", 3).get(), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:6").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemShard:5", 3).get(), 1));
 
-		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:7"),
-				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemResource:6", 3), 1));
+		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:7").get(),
+				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemResource:6", 3).get(), 1));
 
 		// Basic Thaumcraft tools and stuff
 		pulverizer.append("Thaumcraft:ItemThaumometer").output("dustGold", 2)

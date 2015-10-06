@@ -44,22 +44,22 @@ public final class ModThermalExpansion extends ModPlugin {
 		// Need to be able to see any special frames and security items
 		// in realtime.
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Machine:*"),
+				ItemStackHelper.getItemStack("ThermalExpansion:Machine:*").get(),
 				handler);
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*"),
+				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*").get(),
 				handler);
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Device:*"),
+				ItemStackHelper.getItemStack("ThermalExpansion:Device:*").get(),
 				handler);
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Cell:*"),
+				ItemStackHelper.getItemStack("ThermalExpansion:Cell:*").get(),
 				handler);
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Tesseract"),
+				ItemStackHelper.getItemStack("ThermalExpansion:Tesseract").get(),
 				handler);
 		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:satchel:*"),
+				ItemStackHelper.getItemStack("ThermalExpansion:satchel:*").get(),
 				handler);
 
 		// Sawdust and whatnot

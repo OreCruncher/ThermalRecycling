@@ -104,9 +104,9 @@ public final class ScrappingTables {
 		else if("superiorScrap".equalsIgnoreCase(key))
 			item = new ItemStackItem(superiorScrap, weight);
 		else {
-			final ItemStack stack = ItemStackHelper.getItemStack(key);
-			if(stack != null)
-				item = new ItemStackItem(stack, weight);
+			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(key);
+			if(stack.isPresent())
+				item = new ItemStackItem(stack.get(), weight);
 		}
 
 		return item;

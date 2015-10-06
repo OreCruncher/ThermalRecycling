@@ -85,7 +85,7 @@ public final class ModThermalFoundation extends ModPlugin {
 
 		if (pyrotheumDust == null) {
 			pyrotheumDust = ItemStackHelper.getItemStack(
-					"ThermalFoundation:material:512", 1);
+					"ThermalFoundation:material:512", 1).get();
 		}
 
 		final ItemStack result = pyrotheumDust.copy();

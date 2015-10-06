@@ -87,7 +87,7 @@ public abstract class SecondaryInputRecipeBuilder<This extends SecondaryInputRec
 		assert item != null;
 		assert quantity > 0;
 
-		return secondaryInput(ItemStackHelper.getItemStack(item, quantity));
+		return secondaryInput(ItemStackHelper.getItemStack(item, quantity).get());
 	}
 
 	public This secondaryInput(final ItemStack sec) {

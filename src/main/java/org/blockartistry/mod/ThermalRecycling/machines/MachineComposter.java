@@ -69,11 +69,11 @@ public final class MachineComposter extends MachineBase {
 
 		final ShapedOreRecipe recipe = new ShapedOreRecipe(
 				BlockManager.composter, " T ", "HMP", "GSG", 'T',
-				ItemStackHelper.getItemStack("ThermalExpansion:Tank:1"), 'H',
+				ItemStackHelper.getItemStack("ThermalExpansion:Tank:1").get(), 'H',
 				Blocks.hopper, 'M',
-				ItemStackHelper.getItemStack("ThermalExpansion:Frame"), 'P',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(), 'P',
 				Blocks.piston, 'G', "gearTin", 'S',
-				ItemStackHelper.getItemStack("ThermalExpansion:material"));
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 
 		GameRegistry.addRecipe(recipe);
 

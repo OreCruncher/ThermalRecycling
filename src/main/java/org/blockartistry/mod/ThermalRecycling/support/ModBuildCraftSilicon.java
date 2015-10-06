@@ -31,6 +31,8 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import com.google.common.base.Optional;
+
 public final class ModBuildCraftSilicon extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "redstone_board", };
@@ -64,9 +66,9 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 
 		// Not sure how pipeGate can be null - maybe someone disabled the module?
 		final BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
-		ItemStack pipeGate = ItemStackHelper.getItemStack("BuildCraft|Transport:pipeGate");
-		if(pipeGate != null)
-			ScrapHandler.registerHandler(pipeGate, handler);
+		final Optional<ItemStack> pipeGate = ItemStackHelper.getItemStack("BuildCraft|Transport:pipeGate");
+		if(pipeGate.isPresent())
+			ScrapHandler.registerHandler(pipeGate.get(), handler);
 		
 		return true;
 	}

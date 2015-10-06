@@ -43,6 +43,8 @@ import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrap
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import com.google.common.base.Optional;
+
 import forestry.api.storage.StorageManager;
 
 public final class ModForestry extends ModPlugin {
@@ -128,7 +130,7 @@ public final class ModForestry extends ModPlugin {
 
 		// Hook for farm blocks
 		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*"), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*").get(), handler);
 
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
@@ -136,12 +138,12 @@ public final class ModForestry extends ModPlugin {
 		for (final Object o : Item.itemRegistry.getKeys()) {
 			final String itemName = (String) o;
 			if (itemName.startsWith("Forestry:crated") || itemName.startsWith("recycling:crated")) {
-				final ItemStack stack = ItemStackHelper.getItemStack(itemName);
-				final ItemData data = ItemData.get(stack);
+				final Optional<ItemStack> stack = ItemStackHelper.getItemStack(itemName);
+				final ItemData data = ItemData.get(stack.get());
 				data.setIgnoreRecipe(true);
 				data.setScrubFromOutput(true);
 				data.setValue(ScrapValue.POOR);
-				ItemData.put(stack, data);
+				ItemData.put(stack.get(), data);
 			}
 		}
 
