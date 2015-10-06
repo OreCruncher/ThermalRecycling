@@ -42,6 +42,8 @@ import net.minecraft.world.World;
 
 public final class ItemStackHelper {
 
+	private ItemStackHelper() { }
+	
 	protected static final Random rand = XorShiftRandom.shared;
 
 	public static ItemStack convertToDustIfPossible(final ItemStack stack) {
@@ -322,7 +324,7 @@ public final class ItemStackHelper {
 		return stack1.isItemEqual(stack2);
 	}
 	
-	public static boolean areEqual(final Item item, final Item item1) {
+	public static boolean equals(final Item item, final Item item1) {
 		
 		if(item == item1)
 			return true;
@@ -336,7 +338,7 @@ public final class ItemStackHelper {
 	public static boolean areEqualNoMeta(final ItemStack stack1, final ItemStack stack2) {
 		if (stack1 == null || stack2 == null)
 			return false;
-		return areEqual(stack1.getItem(), stack2.getItem());
+		return equals(stack1.getItem(), stack2.getItem());
 	}
 
 	public static boolean itemsEqualForCrafting(final ItemStack stack1, final ItemStack stack2) {

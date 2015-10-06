@@ -54,7 +54,7 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 		result.stackSize = rnd.nextInt(maxQuantity) + 1; 
 		UseEffect.spawnIntoWorld(result, world, player);
 
-		if (result.getItem() == Items.nether_star)
+		if (ItemStackHelper.equals(result.getItem(), Items.nether_star))
 			player.addStat(AchievementManager.lottoWinner, 1);
 	}
 

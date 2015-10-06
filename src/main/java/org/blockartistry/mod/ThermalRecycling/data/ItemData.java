@@ -70,7 +70,7 @@ public final class ItemData {
 	}
 
 	private static boolean exceptionalFood(final Item item) {
-		return item == Items.golden_apple || item == Items.golden_carrot;
+		return ItemStackHelper.equals(item, Items.golden_apple) || ItemStackHelper.equals(item, Items.golden_carrot);
 	}
 
 	public static void setBlockedFromScrapping(final ItemStack stack, final boolean flag) {
