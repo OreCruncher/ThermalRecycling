@@ -76,7 +76,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	public static final int[] OUTPUT_HOLD = { MEAL };
 	public static final int[] ALL_SLOTS = { BROWN, GREEN1, GREEN2, MEAL };
 
-	private static final int WATER_MAX_STORAGE = 4000;
+	private static final int WATER_MAX_STORAGE = 8000;
 	private static final int COMPLETION_THRESHOLD = 1020;
 	private static final int PROGRESS_DAYLIGHT_TICK = 30;
 	private static final int PROGRESS_NIGHTTIME_TICK = 15;
@@ -84,6 +84,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	private static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
 	private static final int RAIN_GATHER_TICK = 3;
 	private static final int MEAL_PRODUCED = ModOptions.getBonemealProduced();
+	private static final FluidStack RAIN_GATHER_FLUID = FluidStackHelper.getWaterStack(RAIN_GATHER_TICK);
 
 	private static final int PLOT_SCAN_TICK_INTERVAL = 2;
 	private static final int PLOT_SIZE = 9;
@@ -104,9 +105,6 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	// Non-persisted state
 	private BiomeGenBase myBiome = null;
 
-	private static final FluidStack RAIN_FLUID = new FluidStack(FluidStackHelper.FLUID_WATER,
-			RAIN_GATHER_TICK);
-
 	public ComposterTileEntity() {
 		super(GuiIdentifier.COMPOSTER);
 		final SidedInventoryComponent inv = new SidedInventoryComponent(this,
@@ -114,8 +112,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		inv.setInputRange(0, ALL_SLOTS.length - 1);
 		setMachineInventory(inv);
 
-		fluidTank = new FluidTankComponent(new FluidStack(
-				FluidStackHelper.FLUID_WATER, 0), WATER_MAX_STORAGE);
+		fluidTank = new FluidTankComponent(FluidStackHelper.getWaterStack(0), WATER_MAX_STORAGE);
 	}
 
 	// /////////////////////////////////////
@@ -136,7 +133,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			break;
 		case UPDATE_WATER_LEVEL:
 			if(fluidTank.getFluid() == null)
-				fluidTank.setFluid(new FluidStack(FluidStackHelper.FLUID_WATER, Math.min(param, WATER_MAX_STORAGE)));
+				fluidTank.setFluid(FluidStackHelper.getWaterStack(Math.min(param, WATER_MAX_STORAGE)));
 			else
 				fluidTank.getFluid().amount = Math.min(param, WATER_MAX_STORAGE);
 			break;
@@ -343,7 +340,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			}
 			
 			if (isRaining() && biomeHasRain())
-				fluidTank.fill(RAIN_FLUID, true);
+				fluidTank.fill(RAIN_GATHER_FLUID, true);
 
 			// If sky isn't blocked do the scan
 			if(status != MachineStatus.NEED_MORE_RESOURCES)
