@@ -87,6 +87,7 @@ public final class ModOptions {
 	protected static final String CONFIG_VENDING_QUANTITY_RENDER_RANGE = "Quantity Render Range";
 	protected static final String CONFIG_VENDING_BLOCK_PIPE_CONNECTION = "Disallow Pipe Connection";
 	protected static final String CONFIG_BATTERY_RACK_TRANSFER = "RF Transfer per Tick";
+	protected static final String CONFIG_BONEMEAL_PRODUCED = "Bone Meal Produced";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -168,7 +169,8 @@ public final class ModOptions {
 	protected static int superiorXPCost = 5;
 
 	protected static int batteryRackTransfer = 80;
-	
+	protected static int bonemealProduced = 2;
+
 	public static void load(final Configuration config) {
 
 		String comment = "Enables/disables debug logging of the mod";
@@ -231,7 +233,12 @@ public final class ModOptions {
 		comment = "Control whether client displays visual effects";
 		enableRecyclerFX = config.getBoolean(CONFIG_ENABLE_FX, CATEGORY_MACHINES_RECYCLER, enableRecyclerFX, comment);
 
+		comment = "Control whether client displays visual effects";
 		enableComposterFX = config.getBoolean(CONFIG_ENABLE_FX, CATEGORY_MACHINES_COMPOSTER, enableComposterFX,
+				comment);
+
+		comment = "Amount of bone meal produced in a single recipe";
+		bonemealProduced = config.getInt(CONFIG_BONEMEAL_PRODUCED, CATEGORY_MACHINES_COMPOSTER, bonemealProduced, 1, 16,
 				comment);
 
 		comment = "Control whether enhanced lore is provided in the Scrap Assessor View";
@@ -373,20 +380,20 @@ public final class ModOptions {
 				energeticRedstoneChance, 0, Integer.MAX_VALUE, comment);
 
 		comment = "RF/t based on the number of Fuel Cells used to create";
-		rtgBasePowerPerTick = config.getInt(CONFIG_RTG_BASE_POWER, CATEGORY_ENERGETIC_REDSTONE,
-				rtgBasePowerPerTick, 0, Integer.MAX_VALUE, comment);
-		
+		rtgBasePowerPerTick = config.getInt(CONFIG_RTG_BASE_POWER, CATEGORY_ENERGETIC_REDSTONE, rtgBasePowerPerTick, 0,
+				Integer.MAX_VALUE, comment);
+
 		comment = "RF Energy per Fuel Cell used to create";
-		rtgBaseEnergy = config.getInt(CONFIG_RTG_BASE_ENERGY, CATEGORY_ENERGETIC_REDSTONE,
-				rtgBaseEnergy, 0, Integer.MAX_VALUE, comment);
+		rtgBaseEnergy = config.getInt(CONFIG_RTG_BASE_ENERGY, CATEGORY_ENERGETIC_REDSTONE, rtgBaseEnergy, 0,
+				Integer.MAX_VALUE, comment);
 
 		comment = "Maximum RF per tick to transfer from the installed energy container";
 		batteryRackTransfer = config.getInt(CONFIG_BATTERY_RACK_TRANSFER, CATEGORY_MACHINES_BATTERY_RACK,
 				batteryRackTransfer, 0, Integer.MAX_VALUE, comment);
-		
+
 		comment = "Enable crafting of Energetic Redstone Dust using Uranium dust";
-		energeticRedstoneUraniumCrafting = config.getBoolean(CONFIG_ENABLE_URANIUM_RECIPE,
-				CATEGORY_ENERGETIC_REDSTONE, energeticRedstoneUraniumCrafting, comment);
+		energeticRedstoneUraniumCrafting = config.getBoolean(CONFIG_ENABLE_URANIUM_RECIPE, CATEGORY_ENERGETIC_REDSTONE,
+				energeticRedstoneUraniumCrafting, comment);
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -589,24 +596,28 @@ public final class ModOptions {
 	public static String[] getRecipeComponentBlacklist() {
 		return recipeComponentBlacklist;
 	}
-	
+
 	public static int getEnergeticRedstoneChance() {
 		return energeticRedstoneChance;
 	}
-	
+
 	public static int getRTGBasePowerPerTick() {
 		return rtgBasePowerPerTick;
 	}
-	
+
 	public static int getRTGBaseEnergy() {
 		return rtgBaseEnergy;
 	}
-	
+
 	public static int getBatteryRackTransfer() {
 		return batteryRackTransfer;
 	}
-	
+
 	public static boolean getEnergeticRedstoneUraniumCrafting() {
 		return energeticRedstoneUraniumCrafting;
+	}
+	
+	public static int getBonemealProduced() {
+		return bonemealProduced;
 	}
 }

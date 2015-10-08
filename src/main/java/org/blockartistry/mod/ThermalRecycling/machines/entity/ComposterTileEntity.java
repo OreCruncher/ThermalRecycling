@@ -83,6 +83,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	private static final int WATER_CONSUMPTION_DAYLIGHT_TICK = 2;
 	private static final int WATER_CONSUMPTION_NIGHTTIME_TICK = 1;
 	private static final int RAIN_GATHER_TICK = 3;
+	private static final int MEAL_PRODUCED = ModOptions.getBonemealProduced();
 
 	private static final int PLOT_SCAN_TICK_INTERVAL = 2;
 	private static final int PLOT_SIZE = 9;
@@ -102,6 +103,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 	
 	// Non-persisted state
 	private BiomeGenBase myBiome = null;
+
+	private static final FluidStack RAIN_FLUID = new FluidStack(FluidStackHelper.FLUID_WATER,
+			RAIN_GATHER_TICK);
 
 	public ComposterTileEntity() {
 		super(GuiIdentifier.COMPOSTER);
@@ -244,7 +248,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 	boolean hasOutputRoom() {
 		final ItemStack output = inventory.getStackInSlot(MEAL);
-		return output == null || output.stackSize < output.getMaxStackSize();
+		return output == null || output.stackSize <= (output.getMaxStackSize() - MEAL_PRODUCED);
 	}
 
 	boolean canSeeSky() {
@@ -339,8 +343,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			}
 			
 			if (isRaining() && biomeHasRain())
-				fluidTank.fill(new FluidStack(FluidStackHelper.FLUID_WATER,
-						RAIN_GATHER_TICK), true);
+				fluidTank.fill(RAIN_FLUID, true);
 
 			// If sky isn't blocked do the scan
 			if(status != MachineStatus.NEED_MORE_RESOURCES)
@@ -362,9 +365,9 @@ public final class ComposterTileEntity extends TileEntityBase implements
 
 		final ItemStack output = inventory.getStackInSlot(MEAL);
 		if (output == null) {
-			inventory.setInventorySlotContents(MEAL, new ItemStack(Items.dye, 1, 15));
+			inventory.setInventorySlotContents(MEAL, new ItemStack(Items.dye, MEAL_PRODUCED, 15));
 		} else {
-			output.stackSize++;
+			output.stackSize += MEAL_PRODUCED;
 			inventory.setInventorySlotContents(MEAL, output);
 		}
 
