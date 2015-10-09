@@ -32,8 +32,6 @@ import net.minecraft.util.StatCollector;
 
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
-import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
-
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementFluidTank;
 
@@ -62,8 +60,6 @@ public final class ComposterGui extends GuiBase {
 		addElement(e);
 
 		final ElementProgress ep = new ElementProgress(this, 105, 32, tileEntity);
-		ep.machineStatusMessages[MachineStatus.OUT_OF_POWER.ordinal()] = "msg.MachineStatus.needMoreWater";
-		ep.machineStatusMessages[MachineStatus.NEED_MORE_RESOURCES.ordinal()] = "msg.MachineStatus.cantSeeSky";
 		addElement(ep);
 	}
 }

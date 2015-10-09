@@ -287,16 +287,19 @@ public final class ComposterTileEntity extends TileEntityBase implements
 			case IDLE:
 				progress = 0;
 				if (!canSeeSky())
-					status = MachineStatus.NEED_MORE_RESOURCES;
+					status = MachineStatus.SKY_BLOCKED;
 				else if (hasOutputRoom() && hasGreenBrown())
-					status = MachineStatus.ACTIVE;
+					if(hasWater())
+						status = MachineStatus.ACTIVE;
+					else
+						status = MachineStatus.NEEDS_WATER;
 				break;
 
 			case ACTIVE:
 				if (!hasWater()) {
-					status = MachineStatus.OUT_OF_POWER;
+					status = MachineStatus.NEEDS_WATER;
 				} else if (!canSeeSky()) {
-					status = MachineStatus.NEED_MORE_RESOURCES;
+					status = MachineStatus.SKY_BLOCKED;
 				} else if (!hasOutputRoom() || !hasGreenBrown()) {
 					status = MachineStatus.IDLE;
 				} else {
@@ -312,21 +315,31 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				}
 				break;
 
+			// Change the state to SKY_BLOCKED for remap.
+			// Then fall through to handle.
 			case NEED_MORE_RESOURCES:
+				status = MachineStatus.SKY_BLOCKED;
+				
+			case SKY_BLOCKED:
 				if (canSeeSky())
-					if (hasOutputRoom() && hasGreenBrown())
+					if (hasOutputRoom() && hasGreenBrown() && hasWater())
 						status = MachineStatus.ACTIVE;
 					else
 						status = MachineStatus.IDLE;
 				break;
 
+			// Change the state to NEEDS_WATER for remap.
+			// Then fall through to handle.
 			case OUT_OF_POWER:
+				status = MachineStatus.NEEDS_WATER;
+				
+			case NEEDS_WATER:
 				if (!hasGreenBrown() || !hasOutputRoom())
 					status = MachineStatus.IDLE;
-				else if (hasWater())
-					status = MachineStatus.ACTIVE;
 				else if (!canSeeSky())
-					status = MachineStatus.NEED_MORE_RESOURCES;
+					status = MachineStatus.SKY_BLOCKED;
+				else if (hasWater())
+					status = MachineStatus.IDLE;
 				break;
 
 			default:
@@ -343,7 +356,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				fluidTank.fill(RAIN_GATHER_FLUID, true);
 
 			// If sky isn't blocked do the scan
-			if(status != MachineStatus.NEED_MORE_RESOURCES)
+			if(status != MachineStatus.SKY_BLOCKED)
 				doPlotScan();
 			
 			inventory.flush();
@@ -422,7 +435,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		if (!ModOptions.getEnableComposterFX())
 			return;
 
-		if (status != MachineStatus.OUT_OF_POWER || rand.nextInt(9) != 0)
+		if (status != MachineStatus.NEEDS_WATER || rand.nextInt(9) != 0)
 			return;
 
 		ParticleEffects.spawnParticlesAroundBlock("splash", world, x, y, z,

@@ -26,13 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.machines.gui;
 
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IJobProgress;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import cofh.lib.gui.GuiBase;
 import cofh.lib.gui.element.ElementBase;
 import cofh.lib.render.RenderHelper;
@@ -40,26 +37,13 @@ import cofh.lib.render.RenderHelper;
 public final class ElementProgress extends ElementBase {
 
 	public static final int DEFAULT_SCALE = 42;
-	private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(
-			ThermalRecycling.MOD_ID, "textures/progress_indicator.png");
-	private static final ResourceLocation JAMMED_TEXTURE = new ResourceLocation(
-			ThermalRecycling.MOD_ID, "textures/jammed_indicator.png");
-	private static final ResourceLocation POWER_TEXTURE = new ResourceLocation(
-			ThermalRecycling.MOD_ID, "textures/out_of_power_indicator.png");
-	private static final ResourceLocation NO_RESOURCES_TEXTURE = new ResourceLocation(
-			ThermalRecycling.MOD_ID, "textures/no_resources_indicator.png");
-
-	public final String[] machineStatusMessages = new String[] {
-			"msg.MachineStatus.idle", "msg.MachineStatus.active",
-			"msg.MachineStatus.jammed", "msg.MachineStatus.needMoreResources",
-			"msg.MachineStatus.outOfPower" };
 
 	private final IJobProgress progress;
 
 	public ElementProgress(final GuiBase base, final int x, final int y, final IJobProgress progress) {
 		super(base, x, y);
 
-		this.texture = DEFAULT_TEXTURE;
+		this.texture = MachineStatus.IDLE.getIndicatorTexture();
 		this.progress = progress;
 		this.sizeX = 24;
 		this.sizeY = 17;
@@ -78,7 +62,7 @@ public final class ElementProgress extends ElementBase {
 
 		// Need to scale our X size based on progress
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderHelper.bindTexture(DEFAULT_TEXTURE);
+		RenderHelper.bindTexture(MachineStatus.IDLE.getIndicatorTexture());
 		drawTexturedModalRect(posX, posY, 0, 0, scaledX, sizeY);
 	}
 
@@ -90,14 +74,7 @@ public final class ElementProgress extends ElementBase {
 			return;
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		if (status == MachineStatus.JAMMED)
-			RenderHelper.bindTexture(JAMMED_TEXTURE);
-		else if (status == MachineStatus.OUT_OF_POWER)
-			RenderHelper.bindTexture(POWER_TEXTURE);
-		else
-			RenderHelper.bindTexture(NO_RESOURCES_TEXTURE);
-
+		RenderHelper.bindTexture(status.getIndicatorTexture());
 		gui.drawSizedTexturedModalRect(posX + 5, posY + 2, 0, 0, 12, 12, 12, 12);
 	}
 
@@ -105,14 +82,12 @@ public final class ElementProgress extends ElementBase {
 	public void addTooltip(final List<String> list) {
 
 		final MachineStatus status = progress.getStatus();
-		final String messageId = machineStatusMessages[status.ordinal()];
 
 		String statusString = "???";
 		if (status == MachineStatus.ACTIVE)
-			statusString = StatCollector.translateToLocalFormatted(messageId,
-					progress.getPercentComplete());
+			statusString = status.getTooltipTextFormatted(progress.getPercentComplete());
 		else
-			statusString = StatCollector.translateToLocal(messageId);
+			statusString = status.getTooltipText();
 
 		list.add(statusString);
 	}
