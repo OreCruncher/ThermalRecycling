@@ -30,4 +30,9 @@ import net.minecraftforge.fluids.IFluidTank;
 
 public interface IMachineFluidTank extends INBTSerializer, IFluidTank {
 
+	/**
+	 * Indicates if the tank has space available
+	 * @return
+	 */
+	boolean hasSpace();
 }

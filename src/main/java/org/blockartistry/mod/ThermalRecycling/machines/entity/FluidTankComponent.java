@@ -84,10 +84,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
 
 	@Override
 	public int getFluidAmount() {
-		if (fluid == null) {
-			return 0;
-		}
-		return fluid.amount;
+		return fluid == null ? 0 : fluid.amount;
 	}
 
 	@Override
@@ -95,6 +92,11 @@ public final class FluidTankComponent implements IMachineFluidTank {
 		return capacity;
 	}
 
+	@Override
+	public boolean hasSpace() {
+		return getFluidAmount() < getCapacity();
+	}
+	
 	@Override
 	public FluidTankInfo getInfo() {
 		return new FluidTankInfo(this);
@@ -156,12 +158,9 @@ public final class FluidTankComponent implements IMachineFluidTank {
 			return null;
 		}
 
-		int drained = maxDrain;
-		if (fluid.amount < drained) {
-			drained = fluid.amount;
-		}
-
-		final FluidStack stack = new FluidStack(fluid, drained);
+		final int drained = Math.min(maxDrain, fluid.amount);
+		final FluidStack f = new FluidStack(fluid, drained);
+		
 		if (doDrain) {
 			fluid.amount -= drained;
 			if (fluid.amount <= 0) {
@@ -174,6 +173,7 @@ public final class FluidTankComponent implements IMachineFluidTank {
 						tile.zCoord, this, drained));
 			}
 		}
-		return stack;
+		
+		return f;
 	}
 }

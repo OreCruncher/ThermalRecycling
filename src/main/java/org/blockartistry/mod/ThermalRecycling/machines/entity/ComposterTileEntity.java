@@ -339,7 +339,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 			
-			if (isRaining() && biomeHasRain())
+			if (fluidTank.hasSpace() && isRaining() && biomeHasRain())
 				fluidTank.fill(RAIN_GATHER_FLUID, true);
 
 			// If sky isn't blocked do the scan

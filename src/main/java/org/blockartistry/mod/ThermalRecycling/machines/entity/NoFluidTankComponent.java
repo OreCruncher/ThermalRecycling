@@ -52,6 +52,11 @@ public final class NoFluidTankComponent implements IMachineFluidTank {
 	public int getCapacity() {
 		return 0;
 	}
+	
+	@Override
+	public boolean hasSpace() {
+		return false;
+	}
 
 	@Override
 	public FluidTankInfo getInfo() {
