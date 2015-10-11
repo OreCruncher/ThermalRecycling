@@ -58,7 +58,7 @@ public final class ProcessingCore extends ItemBase {
 		final StringBuilder builder = new StringBuilder(32);
 		builder.append(super.getUnlocalizedName(stack));
 		
-		if(stack.getItem() == ItemManager.processingCore) {
+		if(ItemStackHelper.equals(stack.getItem(), ItemManager.processingCore)) {
 			final int level = ItemLevel.getLevel(stack).ordinal();
 			if(level > 0) {
 				builder.append('_');

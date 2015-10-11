@@ -30,6 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import net.minecraft.block.Block;
@@ -54,7 +55,7 @@ public class WormDropHandler implements Predicate<HarvestDropsEvent> {
 	}
 
 	private static boolean acceptableBlock(final Block block) {
-		return block == Blocks.grass || block == BlockManager.lawn;
+		return ItemStackHelper.equals(block, Blocks.grass) || ItemStackHelper.equals(block, BlockManager.lawn);
 	}
 
 	// Chance of dropping worms IIF not silk touching, it is a player

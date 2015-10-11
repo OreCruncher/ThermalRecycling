@@ -58,8 +58,8 @@ public final class FuelHandler implements IFuelHandler {
 		final Item item = fuel.getItem();
 		int burn = 0;
 
-		if (item == ItemManager.recyclingScrap
-				|| item == ItemManager.recyclingScrapBox) {
+		if (ItemStackHelper.equals(item, ItemManager.recyclingScrap)
+				|| ItemStackHelper.equals(item, ItemManager.recyclingScrapBox)) {
 
 			switch (ItemStackHelper.getItemDamage(fuel)) {
 			case RecyclingScrap.POOR:
@@ -73,14 +73,14 @@ public final class FuelHandler implements IFuelHandler {
 				break;
 			}
 
-			if (item == ItemManager.recyclingScrapBox)
+			if (ItemStackHelper.equals(item, ItemManager.recyclingScrapBox))
 				burn *= ModOptions.getScrapBoxMultiplier();
 			
-		} else if(item == ItemManager.debris) {
+		} else if(ItemStackHelper.equals(item, ItemManager.debris)) {
 			burn = ModOptions.getDebrisFuelSetting();
-		} else if(item == Item.getItemFromBlock(BlockManager.scrapBlock)) {
+		} else if(ItemStackHelper.equals(item, Item.getItemFromBlock(BlockManager.scrapBlock))) {
 			burn = ModOptions.getScrapBlockFuelSetting();
-		} else if (item == ItemManager.material && ItemStackHelper.getItemDamage(fuel) == 0) {
+		} else if (ItemStackHelper.equals(item, ItemManager.material) && ItemStackHelper.getItemDamage(fuel) == 0) {
 			burn = ModOptions.getPaperLogFuelSetting();
 		}
 

@@ -116,10 +116,12 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 	public void getSubItems(final Item par1, final CreativeTabs par2CreativeTabs,
 			@SuppressWarnings("rawtypes") final List par3List) {
 
-		par3List.add(new ItemStack(this, 1, CREATIVE));
+		ItemStack stack = new ItemStack(this, 1, CREATIVE);
+		ItemStackHelper.makeGlow(stack);
+		par3List.add(stack);
 
 		for (int i = 1; i < 9; i++) {
-			final ItemStack stack = new ItemStack(this, 1, RTG);
+			stack = new ItemStack(this, 1, RTG);
 			initialize(stack, i);
 			par3List.add(stack);
 		}

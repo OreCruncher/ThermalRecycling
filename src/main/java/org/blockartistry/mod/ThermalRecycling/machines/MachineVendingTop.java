@@ -27,6 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.machines;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -62,7 +64,7 @@ public class MachineVendingTop extends Block {
 		// Reflect to the vending machine base block
 		final int baseY = y - 1;
 		final Block vending = world.getBlock(x, baseY, z);
-		if (vending == BlockManager.vending) {
+		if (ItemStackHelper.equals(vending, BlockManager.vending)) {
 			vending.dropBlockAsItem(world, x, baseY, z, world.getBlockMetadata(x, baseY, z), 0);
 			world.setBlockToAir(x, baseY, z);
 		}

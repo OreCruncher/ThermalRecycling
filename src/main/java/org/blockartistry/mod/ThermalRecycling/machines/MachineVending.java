@@ -71,7 +71,7 @@ public class MachineVending extends MachineBase {
 		
 		// Clear out the top gag block
 		final int gagY = y + 1;
-		if(!world.isRemote && world.getBlock(x, gagY, z) == BlockManager.vendingTop)
+		if(!world.isRemote && ItemStackHelper.equals(world.getBlock(x, gagY, z), BlockManager.vendingTop))
 			world.setBlockToAir(x, gagY, z);
 	}
 

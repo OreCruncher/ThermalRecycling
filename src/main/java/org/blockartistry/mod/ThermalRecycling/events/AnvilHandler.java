@@ -28,6 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -49,12 +50,14 @@ public final class AnvilHandler {
 	private boolean isValidRepairItem(final ItemStack stack) {
 
 		if (stack != null) {
-			return stack.getItem() == ItemManager.recyclingScrap || stack.getItem() == ItemManager.recyclingScrapBox;
+			final Item stackItem = stack.getItem();
+			return ItemStackHelper.equals(stackItem, ItemManager.recyclingScrap)
+					|| ItemStackHelper.equals(stackItem, ItemManager.recyclingScrapBox);
 		}
 
 		return false;
 	}
-	
+
 	private boolean canBeRepaired(final ItemStack stack) {
 		return ItemStackHelper.isRepairable(stack) && stack.isItemDamaged();
 	}
@@ -83,7 +86,7 @@ public final class AnvilHandler {
 
 			int repairAmount = 0;
 
-			if (repairMaterial.getItem() == ItemManager.recyclingScrap)
+			if (ItemStackHelper.equals(repairMaterial.getItem(), ItemManager.recyclingScrap))
 				repairAmount = REPAIR_AMOUNT_SCRAP[ItemStackHelper.getItemDamage(repairMaterial)];
 			else
 				repairAmount = REPAIR_AMOUNT_SCRAPBOX[ItemStackHelper.getItemDamage(repairMaterial)];

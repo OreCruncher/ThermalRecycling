@@ -79,7 +79,7 @@ public enum CoreType {
 	 * @return
 	 */
 	public static boolean isProcessingCore(final ItemStack core) {
-		return core != null && core.getItem() == ItemManager.processingCore;
+		return core != null && ItemStackHelper.equals(core.getItem(), ItemManager.processingCore);
 	}
 
 	public static CoreType getType(final ItemStack core) {
