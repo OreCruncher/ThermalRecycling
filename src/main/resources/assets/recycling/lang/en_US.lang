@@ -26,11 +26,11 @@ item.Material.litterBag.name=Litter Bag
 item.Material.gardenShears.name=Garden Shears
 item.Material.fuelCell.name=Fuel Cell
 item.Material.rtgHousing.name=RTG Housing
+item.Material.rtgDepleted.name=Depleted RTG Energy Cell
 
 item.RTGEnergyCell.creative.name=Creative RTG Energy Cell
 item.RTGEnergyCell.rtg.name=RTG Energy Cell
 msg.RTGEnergyCell.Infinite=Infinite
-msg.RTGEnergyCell.Depleted=Depleted
 msg.RTGEnergyCell.Send=Send
 msg.RTGEnergyCell.Charge=Charge
 

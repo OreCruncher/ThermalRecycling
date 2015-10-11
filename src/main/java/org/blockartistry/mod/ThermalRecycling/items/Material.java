@@ -62,12 +62,13 @@ public final class Material extends ItemBase {
 	public static final int GARDEN_SHEARS = 3;
 	public static final int RTG_HOUSING = 4;
 	public static final int FUEL_CELL = 5;
+	public static final int RTG_DEPLETED = 6;
 
 	private static final List<ItemStack> trash = ImmutableList
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions.getInventoryTrashList()));
 
 	public Material() {
-		super("paperlog", "worms", "litterBag", "gardenShears", "rtgHousing", "fuelCell");
+		super("paperlog", "worms", "litterBag", "gardenShears", "rtgHousing", "fuelCell", "rtgDepleted");
 
 		setUnlocalizedName("Material");
 		setHasSubtypes(true);

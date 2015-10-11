@@ -114,6 +114,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		// RTG Energy Cells have superior value - even if depleted
 		ItemData.setValue(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				ScrapValue.SUPERIOR);
+		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED), ScrapValue.SUPERIOR);
 
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
@@ -236,6 +237,10 @@ public final class ModThermalRecycling extends ModPlugin {
 		// RTG - Extract an RTG Energy Cell to a Housing - loses anything
 		// energy, etc.
 		registerExtractionRecipe(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
+				new ItemStackItem(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), 1));
+
+		// RTG - Extract a Depleted RTG Energy Cell to a Housing
+		registerExtractionRecipe(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED),
 				new ItemStackItem(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), 1));
 
 		// ////////////////////

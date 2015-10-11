@@ -73,6 +73,7 @@ public final class BatteryRackTileEntity extends TileEntityBase implements IEner
 		super(GuiIdentifier.BATTERY_RACK);
 		final SidedInventoryComponent inv = new SidedInventoryComponent(this, 11);
 		inv.setInputRange(0, 1);
+		inv.setOutputRange(0, 1);
 		setMachineInventory(inv);
 	}
 

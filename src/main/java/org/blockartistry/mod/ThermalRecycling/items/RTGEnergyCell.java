@@ -37,7 +37,9 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
@@ -47,7 +49,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public final class RTGEnergyCell extends ItemBase implements IEnergyContainerItem {
 
 	private static final String TEXT_INFINITE = StatCollector.translateToLocal("msg.RTGEnergyCell.Infinite");
-	private static final String TEXT_DEPLETED = StatCollector.translateToLocal("msg.RTGEnergyCell.Depleted");
 	private static final String TEXT_SEND = StatCollector.translateToLocal("msg.RTGEnergyCell.Send");
 	private static final String TEXT_CHARGE = StatCollector.translateToLocal("msg.RTGEnergyCell.Charge");
 
@@ -84,8 +85,7 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 		return nbt == null ? 0 : nbt.getInteger(prop);
 	}
 
-	public static void initialize(final ItemStack stack, final int powerLevel, final int energyLevel) {
-
+	private static void initialize(final ItemStack stack, final int powerLevel, final int energyLevel) {
 		if (stack.getItemDamage() == CREATIVE) {
 			setProperty(stack, PROP_ENERGY, ENERGY_LEVEL_CREATIVE);
 			setProperty(stack, PROP_MAX_ENERGY, ENERGY_LEVEL_CREATIVE);
@@ -98,12 +98,31 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 		}
 	}
 
+	private static void initialize(final ItemStack stack, final int level) {
+		initialize(stack, POWER_LEVEL_BASE * level, ENERGY_LEVEL_BASE * level);
+	}
+
 	public RTGEnergyCell() {
 		super("creative", "rtg");
 
 		setUnlocalizedName("RTGEnergyCell");
 		setHasSubtypes(true);
 		setMaxStackSize(1);
+	}
+
+	@SuppressWarnings("unchecked")
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubItems(final Item par1, final CreativeTabs par2CreativeTabs,
+			@SuppressWarnings("rawtypes") final List par3List) {
+
+		par3List.add(new ItemStack(this, 1, CREATIVE));
+
+		for (int i = 1; i < 9; i++) {
+			final ItemStack stack = new ItemStack(this, 1, RTG);
+			initialize(stack, i);
+			par3List.add(stack);
+		}
 	}
 
 	@Override
@@ -122,7 +141,13 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 
 		if (!simulate && ItemStackHelper.getItemDamage(stack) != CREATIVE) {
 			energy -= energyExtracted;
-			setProperty(stack, PROP_ENERGY, energy);
+			if (energy < 1) {
+				stack.func_150996_a(ItemManager.material);
+				stack.setItemDamage(Material.RTG_DEPLETED);
+				stack.setTagCompound(null);
+			} else {
+				setProperty(stack, PROP_ENERGY, energy);
+			}
 		}
 
 		return energyExtracted;
@@ -162,19 +187,9 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 		final int rate = getProperty(stack, PROP_RATE);
 		final int energyRemaining = getProperty(stack, PROP_ENERGY);
 
-		String nrgy;
-		String r8;
-		if (stack.getItemDamage() == CREATIVE)
-			nrgy = TEXT_INFINITE;
-		else if (energyRemaining == 0)
-			nrgy = TEXT_DEPLETED;
-		else
-			nrgy = String.format("%s RF", energyRemaining);
-
-		if (energyRemaining == 0)
-			r8 = TEXT_DEPLETED;
-		else
-			r8 = String.format("%s RF/t", rate);
+		final String nrgy = ItemStackHelper.getItemDamage(stack) == CREATIVE ? TEXT_INFINITE
+				: String.format("%s RF", energyRemaining);
+		final String r8 = String.format("%s RF/t", rate);
 
 		info.add(String.format("%s: %s", TEXT_SEND, r8));
 		info.add(String.format("%s: %s", TEXT_CHARGE, nrgy));
@@ -190,13 +205,10 @@ public final class RTGEnergyCell extends ItemBase implements IEnergyContainerIte
 		final ItemStack cell = new ItemStack(ItemManager.material, 1, Material.FUEL_CELL);
 
 		for (int i = 1; i < 9; i++) {
-			final int energy = ENERGY_LEVEL_BASE * i;
-			final int power = POWER_LEVEL_BASE * i;
-
 			input.add(cell);
 
 			final ItemStack rtg = new ItemStack(ItemManager.energyCell, 1, RTGEnergyCell.RTG);
-			RTGEnergyCell.initialize(rtg, power, energy);
+			RTGEnergyCell.initialize(rtg, i);
 
 			final ShapelessOreRecipe shapeless = new ShapelessOreRecipe(rtg, input.toArray());
 			GameRegistry.addRecipe(shapeless);
