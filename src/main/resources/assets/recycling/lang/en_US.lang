@@ -45,6 +45,7 @@ tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Scrap Assessor
 tile.MachineComposter.name=Composter
 tile.MachineVending.name=Vending Machine
+tile.MachineVendingTop.name=Vending Machine
 tile.ScrapBlock.scrap.name=Block of Scrap
 tile.Lawn.name=Manicured Grass
 tile.MachineBatteryRack.name=Battery Rack

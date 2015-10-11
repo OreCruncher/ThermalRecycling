@@ -14,9 +14,9 @@ item.RecyclingScrapBox.superior.name=Doos met superieure stukjes
 item.RecyclingScrapBox.superior.desc=Zeker een wonderdoos...
 item.ProcessingCore.decomposition.name=Core: Decompositie (Basis)
 item.ProcessingCore.decomposition_1.name=Kern: Decompositie (Verhard)
-item.ProcessingCore.decomposition_2.name=§eKern: Decompositie (Verstevigd)
-item.ProcessingCore.decomposition_3.name=§3Kern: Decompositie (Trillend)
-item.ProcessingCore.decomposition_4.name=§5Kern: Decompositie (Etherisch)
+item.ProcessingCore.decomposition_2.name=ï¿½eKern: Decompositie (Verstevigd)
+item.ProcessingCore.decomposition_3.name=ï¿½3Kern: Decompositie (Trillend)
+item.ProcessingCore.decomposition_4.name=ï¿½5Kern: Decompositie (Etherisch)
 item.ProcessingCore.extraction.name=Kern: Extractie
  
 item.PaperLogMaker.paperlogmaker.name=Papieren blok maker
@@ -25,9 +25,9 @@ item.Material.worms.name=Handvol wormen
 item.Material.litterBag.name=Afvalzakje
 item.Material.gardenShears.name=Tuinschaar
  
-item.soylentGreen.name=§2Soya groen
-item.soylentYellow.name=§eSoya geel
-item.soylentRed.name=§4Soya rood
+item.soylentGreen.name=ï¿½2Soya groen
+item.soylentYellow.name=ï¿½eSoya geel
+item.soylentRed.name=ï¿½4Soya rood
 msg.itLooksEdible=Het lijkt eetbaar...
  
 tile.PileOfRubble.name=Hoopje puin
@@ -36,6 +36,7 @@ tile.MachineThermalRecycler.name=Thermische recyclagemachine
 tile.MachineScrapAssessor.name=Stukjes bijzetter
 tile.MachineComposter.name=Compostmaker
 tile.MachineVending.name=Verkoopsautomaat
+tile.MachineVendingTop.name=Verkoopsautomaat
 tile.ScrapBlock.scrap.name=Blok van stukjes
 tile.Lawn.name=Getrimd gras
  
@@ -74,19 +75,19 @@ achievement.lottoWinner.desc=Krijg een Nether Ster van een doos met stukjes
 achievement.doinTheTrash=Het afval doen!
 achievement.doinTheTrash.desc=verwijder afval uit je inventaris met een afvalzakje
 achievement.shearBeauty=Schaar schoonheid
-achievement.shearBeauty.desc=Gebruik de tuinschaar om getrimd gras te creëren to create Manicured Lawn
+achievement.shearBeauty.desc=Gebruik de tuinschaar om getrimd gras te creï¿½ren to create Manicured Lawn
 achievement.dystopianFuture=Dystopische toekomst
-achievement.dystopianFuture.desc=Verbruik §2Soya groen
+achievement.dystopianFuture.desc=Verbruik ï¿½2Soya groen
  
 # ScrapValue for item lore
-msg.ItemScrapValue.none=§eStukjes waarde: §7Niets
-msg.ItemScrapValue.poor=§eStukjes waarde: §fArm
-msg.ItemScrapValue.standard=§eStukjes waarde: §9Standaard
-msg.ItemScrapValue.superior=§eStukjes waarde: §6Superieur
+msg.ItemScrapValue.none=ï¿½eStukjes waarde: ï¿½7Niets
+msg.ItemScrapValue.poor=ï¿½eStukjes waarde: ï¿½fArm
+msg.ItemScrapValue.standard=ï¿½eStukjes waarde: ï¿½9Standaard
+msg.ItemScrapValue.superior=ï¿½eStukjes waarde: ï¿½6Superieur
  
 # Compost Ingredient Value for lore
-msg.ItemCompostIngredientValue.brown=§eCompost: §6Bruin
-msg.ItemCompostIngredientValue.green=§eCompost: §2Groen
+msg.ItemCompostIngredientValue.brown=ï¿½eCompost: ï¿½6Bruin
+msg.ItemCompostIngredientValue.green=ï¿½eCompost: ï¿½2Groen
  
 # Random titles for Enchanted Books that drop from Scrap Boxes
 msg.BookTitle0.name=Populaire Recyclage
@@ -111,4 +112,4 @@ msg.BookTitle9.name=Beter blokken en mijnen
 msg.BookTitle9.desc=Rochel je buur met schedels!
  
 # Version checking strings
-msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
+msg.NewVersionAvailable.recycling=["ï¿½6Update Available: ï¿½9[",{"text":"ï¿½2%s ï¿½ev%sï¿½f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"ï¿½9]"]

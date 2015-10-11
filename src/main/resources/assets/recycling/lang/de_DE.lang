@@ -29,6 +29,7 @@ tile.MachineThermalRecycler.name=Thermal Recycler
 tile.MachineScrapAssessor.name=Schrott Gutachter
 tile.MachineComposter.name=Komposter
 tile.MachineVending.name=Verkaufsautomat
+tile.MachineVendingTop.name=Verkaufsautomat
 tile.ScrapBlock.scrap.name=Block aus Schrott
 
 msg.MachineVending.adminName=Server Shop
@@ -67,4 +68,4 @@ msg.ItemCompostIngredientValue.brown=Â§eCompost: Â§6Braun
 msg.ItemCompostIngredientValue.green=Â§eCompost: Â§2GrÃ¼n
 
 # Version checking strings
-msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
+msg.NewVersionAvailable.recycling=["ï¿½6Update Available: ï¿½9[",{"text":"ï¿½2%s ï¿½ev%sï¿½f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"ï¿½9]"]

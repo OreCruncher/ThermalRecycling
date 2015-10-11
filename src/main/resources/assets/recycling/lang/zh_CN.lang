@@ -36,6 +36,7 @@ tile.MachineThermalRecycler.name=热力回收机
 tile.MachineScrapAssessor.name=回收评估仪
 tile.MachineComposter.name=堆肥加工器
 tile.MachineVending.name=售货机
+tile.MachineVendingTop.name=售货机
 tile.ScrapBlock.scrap.name=废料块
 tile.Lawn.name=修剪的草皮
 
