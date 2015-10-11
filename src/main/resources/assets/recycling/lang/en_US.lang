@@ -2,6 +2,8 @@
 itemGroup.ThermalRecycling=Thermal Recycling
 itemGroup.TagLine=Reduce! Reuse! Recycle!
 
+option.recycling.sneakingonly=Show only when sneaking
+
 item.Debris.debris.name=Recycling Debris
 item.RecyclingScrap.poor.name=Inferior Scrap
 item.RecyclingScrap.standard.name=Scrap

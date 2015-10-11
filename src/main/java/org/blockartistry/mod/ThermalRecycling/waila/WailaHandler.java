@@ -38,6 +38,7 @@ import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.machines.MachineVendingTop;
 import org.blockartistry.mod.ThermalRecycling.tooltip.DebugToolTip;
 import org.blockartistry.mod.ThermalRecycling.tooltip.ScrapToolTip;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -56,6 +57,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 public final class WailaHandler implements IWailaDataProvider {
 	
 	private static final String OPTION_REVEAL_ON_SNEAKING = ThermalRecycling.MOD_ID + ".sneakingonly";
+	private static final ItemStack VENDING_TOP_REPLACE = new ItemStack(BlockManager.vending);
 	
 	private static boolean revealOnSneak(final IWailaConfigHandler config) {
 		return config.getConfig(OPTION_REVEAL_ON_SNEAKING, false);
@@ -144,12 +146,12 @@ public final class WailaHandler implements IWailaDataProvider {
 	@Override
 	public ItemStack getWailaStack(final IWailaDataAccessor accessor,
 			final IWailaConfigHandler config) {
-		
+
 		// Want our vending machine tops to have the bottom tooltip
-		if(accessor.getBlock() == BlockManager.vendingTop) {
-			return new ItemStack(BlockManager.vending);
+		if(ItemStackHelper.equals(accessor.getBlock(), BlockManager.vendingTop)) {
+			return VENDING_TOP_REPLACE;
 		}
-		
+
 		return null;
 	}
 

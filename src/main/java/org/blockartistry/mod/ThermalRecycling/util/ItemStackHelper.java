@@ -328,15 +328,15 @@ public final class ItemStackHelper {
 		return stack1.isItemEqual(stack2);
 	}
 	
-	public static boolean equals(final Item item, final Item item1) {
-		
-		if(item == item1)
+	public static <T> boolean equals(final T i1, final T i2) {
+		if(i1 == i2)
 			return true;
 		
-		if (item == null || item1 == null)
+		if (i1 == null || i2 == null)
 			return false;
 
-		return item.equals(item1);
+		return i1.equals(i2);
+		
 	}
 	
 	public static boolean areEqualNoMeta(final ItemStack stack1, final ItemStack stack2) {
