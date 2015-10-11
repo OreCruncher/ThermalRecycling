@@ -42,6 +42,7 @@ public final class ModOptions {
 	protected static final String CATEGORY_MODS = "mods";
 
 	protected static final String CATEGORY_GENERAL = "recycle.general";
+	protected static final String CONFIG_ENABLE_BREEDING_CHANGES = "Enable Breeding Changes";
 	protected static final String CONFIG_ENABLE_SCRAPBOX_SPAWNING = "Enable Scrapbox Spawning";
 	protected static final String CONFIG_WORM_DROP_CHANCE = "Worm Drop Chance";
 	protected static final String CONFIG_WORM_DROP_CHANCE_RAIN = "Worm Drop Chance (Rain)";
@@ -129,6 +130,7 @@ public final class ModOptions {
 	protected static int paperLogFuelSetting = 800;
 	protected static boolean enableRecyclerFX = true;
 	protected static boolean enableComposterFX = true;
+	protected static boolean enableBreedingChanges = true;
 	protected static boolean enableTooltips = true;
 	protected static int scrapBoxBonus = 1;
 	protected static boolean enableAssessorEnhancedLore = true;
@@ -394,7 +396,11 @@ public final class ModOptions {
 		comment = "Enable crafting of Energetic Redstone Dust using Uranium dust";
 		energeticRedstoneUraniumCrafting = config.getBoolean(CONFIG_ENABLE_URANIUM_RECIPE, CATEGORY_ENERGETIC_REDSTONE,
 				energeticRedstoneUraniumCrafting, comment);
-	}
+
+		comment = "Enable additional food items for animal breeding";
+		enableBreedingChanges = config.getBoolean(CONFIG_ENABLE_BREEDING_CHANGES, CATEGORY_GENERAL,
+				enableBreedingChanges, comment);
+}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -619,5 +625,9 @@ public final class ModOptions {
 	
 	public static int getBonemealProduced() {
 		return bonemealProduced;
+	}
+	
+	public static boolean getEnableBreedingChanges() {
+		return enableBreedingChanges;
 	}
 }

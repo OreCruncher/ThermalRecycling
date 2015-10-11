@@ -25,12 +25,14 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
+import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -295,6 +297,11 @@ public final class VanillaMinecraft extends ModPlugin {
 		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_pickaxe, 1, ITEM_DAMAGE), 1, 1, 4);
 		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
 		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
+
+		// Add additional breeding items
+		BreedingItemManager.add(EntityPig.class, new ItemStack(Items.potato));
+		BreedingItemManager.add(EntityPig.class, new ItemStack(Blocks.pumpkin));
+		BreedingItemManager.add(EntityPig.class, new ItemStack(Blocks.melon_block));
 
 		return true;
 	}

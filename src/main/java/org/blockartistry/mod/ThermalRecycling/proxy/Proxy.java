@@ -37,6 +37,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
@@ -101,6 +102,10 @@ public class Proxy {
 		
 		// Hook various entity events
 		EntityEventHandler.register();
+		
+		// Breeding Manager hook
+		if(ModOptions.getEnableBreedingChanges())
+			BreedingItemManager.register();
 		
 		// Village generation
 		if(ModOptions.getEnableVillageGen())
