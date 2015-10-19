@@ -25,7 +25,10 @@
 package org.blockartistry.mod.ThermalRecycling.proxy;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -62,6 +65,7 @@ import org.blockartistry.mod.ThermalRecycling.waila.WailaHandler;
 import org.blockartistry.mod.ThermalRecycling.world.BiomeDecorationHandler;
 import org.blockartistry.mod.ThermalRecycling.world.VendingVillageStructureHandler;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -71,17 +75,16 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 public class Proxy {
 
 	private static boolean started = false;
-	
+
 	public void preInit(final FMLPreInitializationEvent event, final Configuration config) {
 		FakePlayerHelper.initialize("ThermalRecycling");
-		
+
 		ModPlugin.preInitPlugins(config);
 	}
 
 	public void init(final FMLInitializationEvent event) {
 
-		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe",
-				UpgradeRecipe.class, Category.SHAPED, "");
+		RecipeSorter.register(ThermalRecycling.MOD_ID + ".UpgradeRecipe", UpgradeRecipe.class, Category.SHAPED, "");
 
 		ItemManager.register();
 		BlockManager.register();
@@ -93,28 +96,28 @@ public class Proxy {
 		BlockHarvestEventHandler.register();
 
 		// Hook for worm drop
-		if(ModOptions.getWormDropChance() != Integer.MAX_VALUE && ModOptions.getWormDropChance() != 0)
+		if (ModOptions.getWormDropChance() != Integer.MAX_VALUE && ModOptions.getWormDropChance() != 0)
 			BlockHarvestEventHandler.addHook(new WormDropHandler());
 
 		// Hook to prevent vending machines from being broken
 		BlockBreakEventHandler.register();
 		BlockBreakEventHandler.addHook(new VendingMachineBreakHandler());
-		
+
 		// Hook various entity events
 		EntityEventHandler.register();
-		
+
 		// Breeding Manager hook
-		if(ModOptions.getEnableBreedingChanges())
+		if (ModOptions.getEnableBreedingChanges())
 			BreedingItemManager.register();
-		
+
 		// Village generation
-		if(ModOptions.getEnableVillageGen())
+		if (ModOptions.getEnableVillageGen())
 			VendingVillageStructureHandler.register();
 
 		if (!ModOptions.getRubblePileDisable())
 			BiomeDecorationHandler.register();
-		
-		if(ModOptions.getEnergeticRedstoneChance() > 0)
+
+		if (ModOptions.getEnergeticRedstoneChance() > 0)
 			EnergeticRedstoneOreHandler.register();
 
 		if (!ModOptions.getDisableAnvilRepair())
@@ -123,37 +126,42 @@ public class Proxy {
 		EntityItemMergeHandler.register();
 
 		WailaHandler.register();
-		
+
 		MineTweakerSupport.initialize();
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {
 
 		ModPlugin.initializePlugins();
-		
-		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper
-				.getProfile().toString());
-		
+
+		ModLog.info("ThermalRecycling's fake player: %s", FakePlayerHelper.getProfile().toString());
+
 		// Do our NEI thing
 		NEIManager.initialize();
 	}
-	
+
+	protected static Writer getLogFile() throws IOException {
+		return new BufferedWriter(
+				new FileWriter(new File(Loader.instance().getConfigDir(), "../logs/" + ThermalRecycling.OUTPUT_FILE)));
+	}
+
 	public void serverStarting(final FMLServerStartingEvent event) {
-		
-		if(!started) {
+
+		if (!started) {
 			started = true;
 
 			// Do this here since this does the heavy lifting on decomposing
-			// the recipe list.  MineTweaker may have changes applied and
+			// the recipe list. MineTweaker may have changes applied and
 			// we need to be sensitive to them.
 			ModPlugin.postInitPlugins();
-			
+
 			if (ModOptions.getEnableRecipeLogging()) {
 
-				BufferedWriter writer = null;
+				Writer writer = null;
 
 				try {
-					writer = new BufferedWriter(new FileWriter(ThermalRecycling.OUTPUT_FILE));
+
+					writer = getLogFile();
 
 					if (ModOptions.getEnableDebugLogging())
 						ItemData.writeDiagnostic(writer);
@@ -173,14 +181,13 @@ public class Proxy {
 					}
 				}
 
-				ModLog.info("Recipe load complete - check the file %s for details",
-						ThermalRecycling.OUTPUT_FILE);
+				ModLog.info("Recipe load complete - check the file %s for details", ThermalRecycling.OUTPUT_FILE);
 			}
 
 		}
 	}
-	
+
 	public void serverStopping(final FMLServerStoppingEvent event) {
-		
+
 	}
 }
