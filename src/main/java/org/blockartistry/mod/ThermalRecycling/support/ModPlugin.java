@@ -51,6 +51,8 @@ import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
+import cpw.mods.fml.common.versioning.InvalidVersionSpecificationException;
+import cpw.mods.fml.common.versioning.VersionRange;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -79,6 +81,20 @@ public abstract class ModPlugin {
 
 	public String getName() {
 		return mod.getName();
+	}
+	
+	public String getVersion() {
+		return mod.getArtifactVersion().getVersionString();
+	}
+	
+	public boolean isAcceptibleVersion(final String version) {
+		try {
+			final VersionRange range = VersionRange.createFromVersionSpec(version);
+			return range.containsVersion(mod.getArtifactVersion());
+		} catch (InvalidVersionSpecificationException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean preInit(final Configuration config) {
@@ -315,11 +331,13 @@ public abstract class ModPlugin {
 
 		for (final ModPlugin plugin : plugins) {
 
+			final String modName = String.format("[%s %s]", plugin.getName(), plugin.getVersion());
+			
 			try {
-				ModLog.info("Loading recipes for [%s]", plugin.getName());
+				ModLog.info("Loading recipes for %s", modName);
 				plugin.initialize();
 			} catch (Exception e) {
-				ModLog.warn("Error initializing plugin [%s]", plugin.getName());
+				ModLog.warn("Error initializing plugin %s", modName);
 				e.printStackTrace();
 			}
 		}
@@ -329,11 +347,11 @@ public abstract class ModPlugin {
 		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
 
 		for (final ModPlugin plugin : plugins) {
-
 			try {
 				plugin.postInit();
 			} catch (Exception e) {
-				ModLog.warn("Error post-initializing plugin [%s]", plugin.getName());
+				final String modName = String.format("[%s %s]", plugin.getName(), plugin.getVersion());
+				ModLog.warn("Error post-initializing plugin %s", modName);
 				e.printStackTrace();
 			}
 		}

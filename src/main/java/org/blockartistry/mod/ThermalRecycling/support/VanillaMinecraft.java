@@ -113,6 +113,11 @@ public final class VanillaMinecraft extends ModPlugin {
 	}
 
 	@Override
+	public String getVersion() {
+		return "1.7.10";
+	}
+
+	@Override
 	public boolean preInit(final Configuration config) {
 
 		enableDiamondRecycle = config.getBoolean(CONFIG_ENABLE_DIAMOND_RECIPIES, MOD_CONFIG_SECTION,

@@ -31,6 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.versioning.ArtifactVersion;
 
 public enum SupportedMod {
 
@@ -100,16 +102,15 @@ public enum SupportedMod {
 	private final String name;
 	private final String modId;
 	private final Class<? extends ModPlugin> pluginFactory;
+	private ArtifactVersion version;
 
 	private static final String SEPARATOR = ":";
 	private static String modIdString = null;
 
 	private SupportedMod(final String name, final String modId, final Class<? extends ModPlugin> clazz) {
-
 		this.name = name;
 		this.modId = modId;
-		pluginFactory = clazz;
-
+		this.pluginFactory = clazz;
 	}
 
 	public ModPlugin getPlugin() {
@@ -134,6 +135,21 @@ public enum SupportedMod {
 
 	public boolean isLoaded() {
 		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
+	}
+	
+	public ArtifactVersion getArtifactVersion() {
+		if(version == null) {
+			if(isLoaded()) {
+				for(final ModContainer mod: Loader.instance().getModList()) {
+					if(mod.getMetadata().modId.equals(modId)) {
+						version = mod.getProcessedVersion();
+						break;
+					}
+				}
+			}
+		}
+		
+		return version;
 	}
 
 	public static List<ModPlugin> getPluginsForLoadedMods() {
