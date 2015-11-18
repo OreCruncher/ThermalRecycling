@@ -2,34 +2,61 @@
 itemGroup.ThermalRecycling=Thermal Recycling
 itemGroup.TagLine=Reduza! Reutilize! Recicle!
 
+option.recycling.sneakingonly=Mostrar apenas apertando Shift
+
 item.Debris.debris.name=Detritos de Reciclagem
 item.RecyclingScrap.poor.name=Sucata Inferior
 item.RecyclingScrap.standard.name=Sucata
 item.RecyclingScrap.superior.name=Sucata Superior
 item.RecyclingScrapBox.poor.name=Caixa de Sucata Inferior
-item.RecyclingScrapBox.poor.desc=Tem cheiro de meia velha de academia...
+item.RecyclingScrapBox.poor.desc=Tem cheiro de meia velha de academia
 item.RecyclingScrapBox.standard.name=Caixa de Sucata
-item.RecyclingScrapBox.standard.desc=Não parece tão mal
+item.RecyclingScrapBox.standard.desc=Não parece tão ruim
 item.RecyclingScrapBox.superior.name=Caixa de Sucata Superior
-item.RecyclingScrapBox.superior.desc=Com certeza uma caixa de maravilhas...
-item.ProcessingCore.decomposition.name=Núcleo: Decomposição 
-item.ProcessingCore.decomposition_1.name=Núcleo: Decomposição (Básico)
+item.RecyclingScrapBox.superior.desc=De fato uma caixa de maravilhas...
+item.ProcessingCore.decomposition.name=Núcleo: Decomposição (Básico)
+item.ProcessingCore.decomposition_1.name=Núcleo: Decomposição (Endurecido)
 item.ProcessingCore.decomposition_2.name=§eNúcleo: Decomposição (Reforçado)
-item.ProcessingCore.decomposition_3.name=§3Núcleo: Decomposição (Ressoante)
+item.ProcessingCore.decomposition_3.name=§3Núcleo: Decomposição (Ressonante)
 item.ProcessingCore.decomposition_4.name=§5Núcleo: Decomposição (Etéreo)
-item.ProcessingCore.decomposition.name=Núcleo: Extração
+item.ProcessingCore.extraction.name=Núcleo: Extração
 
-item.PaperLogMaker.paperlogmaker.name=Fazedor de Madeira de Papel
-item.Material.paperlog.name=Madeira de Papel
+item.PaperLogMaker.paperlogmaker.name=Fazedor de Lenha de Papel
+item.Material.paperlog.name=Lenha de Papel
 item.Material.worms.name=Punhado de Minhocas
+item.Material.litterBag.name=Saco de Lixo
+item.Material.gardenShears.name=Tesouras de Jardinagem
+item.Material.fuelCell.name=Célula de Combustível
+item.Material.rtgHousing.name=Invólucro GTR
+item.Material.rtgDepleted.name=Célula de Energia GTR Esgotada
+
+item.RTGEnergyCell.creative.name=Célula de Energia GTR Criativa
+item.RTGEnergyCell.rtg.name=Célula de Energia GTR
+msg.RTGEnergyCell.Infinite=Infinito
+msg.RTGEnergyCell.Send=Enviar
+msg.RTGEnergyCell.Charge=Carga
+
+item.soylentGreen.name=§2Soylent Green
+item.soylentYellow.name=§eSoylent Yellow
+item.soylentRed.name=§4Soylent Red
+msg.itLooksEdible=Parece comestível...
 
 tile.PileOfRubble.name=Pilha de Entulho
 tile.FertileLand.name=Terra Fértil
-tile.Test.item1.name=Bloco de Teste (WIP)
 tile.MachineThermalRecycler.name=Reciclador Termal
 tile.MachineScrapAssessor.name=Assessor de Sucata
-tile.MachineComposter.name=Composteira
+tile.MachineComposter.name=Compostor
+tile.MachineVending.name=Máquina de Venda
+tile.MachineVendingTop.name=Máquina de Venda
 tile.ScrapBlock.scrap.name=Bloco de Sucata
+tile.Lawn.name=Grama Aparada
+tile.MachineBatteryRack.name=Raque de Baterias
+
+item.EnergeticRedstoneDust.energeticRedstoneDust.name=Pó de Redstone Energética
+tile.EnergeticRedstoneOre.name=Minério de Redstone Energética
+
+msg.MachineVending.adminName=Loja do Servidor
+msg.MachineVending.free=GRÁTIS
 
 # Additional text for Scrap Assessor lore
 msg.ScrapPreview.destroy=Destruir
@@ -45,21 +72,64 @@ msg.MachineStatus.outOfPower=Sem energia
 msg.MachineStatus.needMoreWater=Precisa de água
 msg.MachineStatus.cantSeeSky=Precisa ver o céu
 
+# Village Vend-O strings
+msg.VendoFormat=Vend-O-%s
+msg.VendoFormat.Priest=Padre
+msg.VendoFormat.Librarian=Bibliotecário
+msg.VendoFormat.Butcher=Açougueiro
+msg.VendoFormat.Farmer=Fazendeiro
+msg.VendoFormat.Blacksmith=Ferreiro
+msg.VendoFormat.Herder=Pastor
+msg.VendoFormat.Arborist=Arborista
+msg.VendoFormat.Hunter=Caçador
+msg.VendoFormat.Tinker=Funileiro
+msg.VendoFormat.Dyer=Tintureiro
+
 # Achievements
 achievement.feelingScrappy=Se sentindo um lixo!
 achievement.feelingScrappy.desc=Faça um Reciclador Termal
 achievement.doingMyPart=Fazendo minha parte
 achievement.doingMyPart.desc=Usar uma caixa de sucata
+achievement.lottoWinner=Ganhador da Loteria!
+achievement.lottoWinner.desc=Consiga uma Estrela do Nether de uma caixa de sucata
+achievement.doinTheTrash=Levando o Lixo pra Fora!
+achievement.doinTheTrash.desc=Limpe o lixo de seu inventário usando um Saco de Lixo
+achievement.shearBeauty=Beleza Intesourável
+achievement.shearBeauty.desc=Use Tesouras de Jardim para criar Grama Aparada
+achievement.dystopianFuture=Futuro Distópico
+achievement.dystopianFuture.desc=Consuma §2Soylent Green
 
 # ScrapValue for item lore
-msg.ItemScrapValue.none=§eValor como Sucata: §7Nenhum
-msg.ItemScrapValue.poor=§eValor como Sucata: §fInferior
-msg.ItemScrapValue.standard=§eValor como Sucata: §9Padrão
-msg.ItemScrapValue.superior=§eValor como Sucata: §6Superior
+msg.ItemScrapValue.none=§eValor de Sucata: §7Nenhum
+msg.ItemScrapValue.poor=§eValor de Sucata: §fPobre
+msg.ItemScrapValue.standard=§eValor de Sucata: §9Padrão
+msg.ItemScrapValue.superior=§eValor de Sucata: §6Superior
 
 # Compost Ingredient Value for lore
 msg.ItemCompostIngredientValue.brown=§eComposto: §6Marrom
 msg.ItemCompostIngredientValue.green=§eComposto: §2Verde
 
+# Random titles for Enchanted Books that drop from Scrap Boxes
+msg.BookTitle0.name=Reciclagem Popular
+msg.BookTitle0.desc=Reduza! Reutilize! Recicle!
+msg.BookTitle1.name=Relatório TPS
+msg.BookTitle1.desc=System32 não encontrado
+msg.BookTitle2.name=Espada & Pá
+msg.BookTitle2.desc=Relatório Trimestral do Minecraft
+msg.BookTitle3.name=Jornal do Creeper
+msg.BookTitle3.desc=Fsst! Fsst!
+msg.BookTitle4.name=Lindo Zumbi
+msg.BookTitle4.desc=101 Dicas de Beleza
+msg.BookTitle5.name=Aviação
+msg.BookTitle5.desc=Voe pelos Céus Suínos!
+msg.BookTitle6.name=Sobre Discos de Música
+msg.BookTitle6.desc=Para Coletores Interessados
+msg.BookTitle7.name=Viagens de Steve
+msg.BookTitle7.desc=O Fim: Realmente É?
+msg.BookTitle8.name=Paródia Semanal
+msg.BookTitle8.desc=Não Tema o Creeper
+msg.BookTitle9.name=Melhores Blocos e Minas
+msg.BookTitle9.desc=Sacuda seu vizinho com caveiras!
+
 # Version checking strings
-msg.NewVersionAvailable.recycling=["�6Update Available: �9[",{"text":"�2%s �ev%s�f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"�9]"]
+msg.NewVersionAvailable.recycling=["§6Atualização Disponível: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Clique para a Página do Projeto no CurseForge","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
