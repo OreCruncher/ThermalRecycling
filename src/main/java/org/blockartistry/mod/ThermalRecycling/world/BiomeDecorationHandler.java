@@ -41,8 +41,8 @@ public final class BiomeDecorationHandler {
 	private static final int[] dimensionList = ModOptions.getRubbleDimensionList();
 	private static final boolean dimensionListBlack = ModOptions.getRubbleDimensionListAsBlack();
 
-	private final int MIN_Y = 5;
-	private final int PLACE_ATTEMPTS = 2;
+	private static final int MIN_Y = 5;
+	private static final int PLACE_ATTEMPTS = 2;
 
 	private static boolean isGenAllowedInDimension(int dimension) {
 		final boolean inList = MyUtils.contains(dimensionList, dimension);

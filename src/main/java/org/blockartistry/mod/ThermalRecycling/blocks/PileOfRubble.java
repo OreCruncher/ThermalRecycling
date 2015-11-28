@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.blocks;
 import java.io.Writer;
 import java.util.Random;
 
+import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
@@ -163,8 +164,9 @@ public final class PileOfRubble extends Block {
 	}
 
 	public boolean canBlockStay(final World world, final int x, final int y, final int z) {
-		// Make sure the block underneath is solid
-		return world.getBlock(x, y - 1, z).getMaterial().isSolid();
+		// Make sure the block underneath is solid and not another pile of rubble
+		final Block block = world.getBlock(x, y - 1, z);
+		return block != BlockManager.pileOfRubble && block.getMaterial().isSolid();
 	}
 
 	public void register() {
