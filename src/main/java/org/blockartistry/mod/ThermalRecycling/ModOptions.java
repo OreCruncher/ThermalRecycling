@@ -187,7 +187,7 @@ public final class ModOptions {
 		enableVersionChecking = config.getBoolean(CONFIG_ENABLE_ONLINE_VERSION_CHECK, CATEGORY_LOGGING_CONTROL,
 				enableVersionChecking, comment);
 
-		comment = "Enables/disables display of scrap information via Waila";
+		comment = "Enables/disables display Waila integration";
 		enableWailaDisplay = config.getBoolean(CONFIG_ENABLE_WAILA, CATEGORY_MODS, enableWailaDisplay, comment);
 
 		comment = "Display data in Waila 0: header, 1: body, 2: tail";
@@ -205,7 +205,7 @@ public final class ModOptions {
 		comment = "ModIds to add to the internal whitelist";
 		modWhitelist = config.getStringList("Whitelist", CATEGORY_MODS, modWhitelist, comment);
 
-		comment = "Controls the display of tooltips in the client";
+		comment = "Controls the display of Scrap Value information in the client (Waila and NEI)";
 		enableTooltips = config.getBoolean("Enable Tooltips", CATEGORY_MODS, enableTooltips, comment);
 
 		comment = "Number of ticks Poor Scrap will burn in a furnace";

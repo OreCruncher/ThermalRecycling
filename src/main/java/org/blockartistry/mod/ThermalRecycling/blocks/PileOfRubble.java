@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.blocks;
 
+import java.io.Writer;
 import java.util.Random;
 
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
@@ -48,20 +49,19 @@ public final class PileOfRubble extends Block {
 
 	private static final Random random = XorShiftRandom.shared;
 	private static final String CHEST_PILE_OF_RUBBLE = "pileOfRubble";
-	private static final ChestGenHooks rubbleContent = ChestGenHooks
-			.getInfo(CHEST_PILE_OF_RUBBLE);
-	
+	private static final ChestGenHooks rubbleContent = ChestGenHooks.getInfo(CHEST_PILE_OF_RUBBLE);
+
 	private static boolean hasContent = false;
-	
+
 	public static void addRubbleDrop(final ItemStack stack, final int min, final int max, final int weight) {
 		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(stack, min, max, weight));
 	}
-	
+
 	public static void removeRubbleDrop(final ItemStack stack) {
 		rubbleContent.removeItem(stack);
 	}
-	
+
 	public static void addRubbleDrop(final Item item, final int min, final int max, final int weight) {
 		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(item, 0, min, max, weight));
@@ -71,7 +71,23 @@ public final class PileOfRubble extends Block {
 		hasContent = true;
 		rubbleContent.addItem(new WeightedRandomChestContent(Item.getItemFromBlock(block), 0, min, max, weight));
 	}
-	
+
+	public static void dumpRubbleDrops(final Writer writer) throws Exception {
+		final WeightedRandomChestContent[] contents = rubbleContent.getItems(null);
+		int totalWeight = 0;
+		for (int i = 0; i < contents.length; i++)
+			totalWeight += contents[i].itemWeight;
+		
+		writer.write(String.format("Weight Table: Pile of Rubble (total weight: %d)\n", totalWeight));
+		writer.write("==========================================================\n");
+		for (int i = 0; i < contents.length; i++) {
+			WeightedRandomChestContent c = contents[i];
+			writer.write(String.format("%5.2f%% (%4d) %s (%d-%d)\n", (double) c.itemWeight * 100F / totalWeight, c.itemWeight,
+					ItemStackHelper.resolveName(c.theItemId), c.theMinimumChanceToGenerateItem, c.theMaximumChanceToGenerateItem));
+		}
+		writer.write("==========================================================\n");
+	}
+
 	@SideOnly(Side.CLIENT)
 	protected IIcon icon;
 
@@ -135,8 +151,7 @@ public final class PileOfRubble extends Block {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(final IIconRegister iconRegister) {
-		icon = iconRegister.registerIcon(ThermalRecycling.MOD_ID
-				+ ":pileOfRubble");
+		icon = iconRegister.registerIcon(ThermalRecycling.MOD_ID + ":pileOfRubble");
 	}
 
 	// http://www.minecraftforge.net/forum/index.php/topic,13626.0.html

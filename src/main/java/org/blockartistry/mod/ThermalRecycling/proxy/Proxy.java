@@ -40,6 +40,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
@@ -125,7 +126,8 @@ public class Proxy {
 
 		EntityItemMergeHandler.register();
 
-		WailaHandler.register();
+		if(ModOptions.getEnableWaila())
+			WailaHandler.register();
 
 		MineTweakerSupport.initialize();
 	}
@@ -170,6 +172,7 @@ public class Proxy {
 					UseEffect.diagnostic(writer);
 					RecipeData.writeDiagnostic(writer);
 					ExtractionData.writeDiagnostic(writer);
+					PileOfRubble.dumpRubbleDrops(writer);
 
 				} catch (Exception e) {
 					e.printStackTrace();
