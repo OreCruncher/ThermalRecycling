@@ -89,6 +89,11 @@ public final class ModOptions {
 	protected static final String CONFIG_VENDING_BLOCK_PIPE_CONNECTION = "Disallow Pipe Connection";
 	protected static final String CONFIG_BATTERY_RACK_TRANSFER = "RF Transfer per Tick";
 	protected static final String CONFIG_BONEMEAL_PRODUCED = "Bone Meal Produced";
+	
+	protected static final String CONFIG_ENERGY_PER_TICK = "RF per tick";
+	protected static final String CONFIG_SCRAP_TICKS = "Ticks to scrap";
+	protected static final String CONFIG_DECOMP_TICKS = "Ticks to decompose";
+	protected static final String CONFIG_EXTRACT_TICKS = "Ticks to extract";
 
 	protected static final String CONFIG_ENABLE_RECIPE_LOGGING = "Enable Recipe Logging";
 	protected static final String CONFIG_ENABLE_DEBUG_LOGGING = "Enable Debug Logging";
@@ -173,6 +178,11 @@ public final class ModOptions {
 	protected static int batteryRackTransfer = 80;
 	protected static int bonemealProduced = 2;
 
+	protected static int energyPerTick = 40;
+	protected static int scrapTicks = 20;
+	protected static int decompTicks = 40;
+	protected static int extractTicks = 80;
+	
 	public static void load(final Configuration config) {
 
 		String comment = "Enables/disables debug logging of the mod";
@@ -400,7 +410,23 @@ public final class ModOptions {
 		comment = "Enable additional food items for animal breeding";
 		enableBreedingChanges = config.getBoolean(CONFIG_ENABLE_BREEDING_CHANGES, CATEGORY_GENERAL,
 				enableBreedingChanges, comment);
-}
+		
+		comment = "RF/t to operate";
+		energyPerTick = config.getInt(CONFIG_ENERGY_PER_TICK, CATEGORY_MACHINES_RECYCLER, energyPerTick, 0,
+				Integer.MAX_VALUE, comment);
+
+		comment = "Number of ticks required to scrap an item without a decomposition core";
+		scrapTicks = config.getInt(CONFIG_SCRAP_TICKS, CATEGORY_MACHINES_RECYCLER, scrapTicks, 0,
+				Integer.MAX_VALUE, comment);
+		
+		comment = "Number of ticks required when using a decomposition core";
+		decompTicks = config.getInt(CONFIG_DECOMP_TICKS, CATEGORY_MACHINES_RECYCLER, decompTicks, 0,
+				Integer.MAX_VALUE, comment);
+		
+		comment = "Number of ticks required when using an extraction core";
+		extractTicks = config.getInt(CONFIG_EXTRACT_TICKS, CATEGORY_MACHINES_RECYCLER, extractTicks, 0,
+				Integer.MAX_VALUE, comment);
+	}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -629,5 +655,21 @@ public final class ModOptions {
 	
 	public static boolean getEnableBreedingChanges() {
 		return enableBreedingChanges;
+	}
+
+	public static int getEnergyPerTick() {
+		return energyPerTick;
+	}
+	
+	public static int getScrapTicks() {
+		return scrapTicks;
+	}
+	
+	public static int getDecompTicks() {
+		return decompTicks;
+	}
+	
+	public static int getExtractTicks() {
+		return extractTicks;
 	}
 }

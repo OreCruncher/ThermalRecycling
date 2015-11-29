@@ -67,11 +67,11 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 	public static final int[] ALL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 	private static final int ENERGY_MAX_STORAGE = 60000;
-	private static final int ENERGY_PER_TICK = 40;
+	private static final int ENERGY_PER_TICK = ModOptions.getEnergyPerTick();
 	private static final int ENERGY_MAX_RECEIVE = ENERGY_PER_TICK * 3;
-	private static final int ENERGY_PER_OPERATION_SCRAP = 800;
-	private static final int ENERGY_PER_OPERATION_DECOMP = 1600;
-	private static final int ENERGY_PER_OPERATION_EXTRACT = 3200;
+	private static final int ENERGY_PER_OPERATION_SCRAP = ENERGY_PER_TICK * ModOptions.getScrapTicks();
+	private static final int ENERGY_PER_OPERATION_DECOMP = ENERGY_PER_TICK * ModOptions.getDecompTicks();
+	private static final int ENERGY_PER_OPERATION_EXTRACT = ENERGY_PER_TICK * ModOptions.getExtractTicks();
 
 	private static final int LRU_CACHE_SIZE = 6;
 
