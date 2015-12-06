@@ -348,6 +348,9 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 
 			final MachineStatus previousStatus = status;
 			final ItemStack inputSlotStack = detectInputStack();
+			
+			final int energyForOperation = operationEnergyForCore(activeCore);
+			final int energyToComplete = energyForOperation - progress;
 
 			switch (status) {
 
@@ -363,7 +366,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 				break;
 
 			case ACTIVE:
-				if (energy < ENERGY_PER_TICK) {
+				if (energy < energyToComplete) {
 					status = MachineStatus.OUT_OF_POWER;
 				} else if (inputSlotStack == null) {
 					status = MachineStatus.IDLE;
@@ -372,7 +375,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 					status = MachineStatus.NEED_MORE_RESOURCES;
 				} else {
 
-					if (progress >= operationEnergyForCore(activeCore)) {
+					if (progress >= energyForOperation) {
 						progress = 0;
 
 						if (!recycleItem()) {
@@ -407,7 +410,7 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			case OUT_OF_POWER:
 				if (inputSlotStack == null)
 					status = MachineStatus.IDLE;
-				else if (energy >= ENERGY_PER_TICK)
+				else if (energy >= energyToComplete)
 					status = MachineStatus.ACTIVE;
 				break;
 
