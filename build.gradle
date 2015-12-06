@@ -69,8 +69,8 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.118:dev"
     
     compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
-    compile 'net.sengir.forestry:forestry_1.7.10:4.0.10.39:dev'
-    compile name: "buildcraft", version: "7.1.11", classifier: "dev"
+    compile 'net.sengir.forestry:forestry_1.7.10:4.2.1.48:dev'
+    compile name: "buildcraft", version: "7.1.14", classifier: "dev"
     compile name: 'MineTweaker3', version: "Dev-1.7.10-3.0.10", ext: 'jar'
     
     // you may put jars on which you depend on in ./libs
