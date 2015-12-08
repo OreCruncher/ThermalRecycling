@@ -33,21 +33,21 @@ public final class Matrix2D<T> {
 
 	protected final int rows;
 	protected final int cols;
-	protected final Object[] cells; 
+	protected final T[] cells; 
 	
+	@SuppressWarnings("unchecked")
 	public Matrix2D(final int rows, final int cols) {
 		this.rows = rows;
 		this.cols = cols;
-		this.cells = new Object[rows * cols];
+		this.cells = (T[])new Object[rows * cols];
 	}
 	
 	public boolean isPresent(final int row, final int col) {
 		return cells[row * cols + col] != null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Optional<T> get(final int row, final int col) {
-		return Optional.of((T)cells[row * cols + col]);
+		return Optional.of(cells[row * cols + col]);
 	}
 	
 	public void set(final int row, final int col, final T obj) {

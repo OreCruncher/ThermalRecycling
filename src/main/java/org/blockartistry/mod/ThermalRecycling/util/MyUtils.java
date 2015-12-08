@@ -34,22 +34,25 @@ public final class MyUtils {
 	}
 
 	public static boolean contains(final int[] list, final int entity) {
-		for (final int e : list)
-			if (e == entity)
+		if (list == null)
+			return false;
+		final int len = list.length;
+		for (int i = 0; i < len; i++)
+			if (list[i] == entity)
 				return true;
 		return false;
 	}
 
-	public static int[] split(String split, String list) throws Exception {
+	public static int[] split(final String split, final String list) throws Exception {
 
-		String[] tokens = list.split(split);
+		final String[] tokens = list.split(split);
 		if (tokens == null || tokens.length == 0)
 			return new int[] {};
 
-		int[] result = new int[tokens.length];
-		for (int i = 0; i < tokens.length; i++) {
-			Integer v = Integer.parseInt(tokens[i]);
-			result[i] = v;
+		final int len = tokens.length;
+		final int[] result = new int[len];
+		for (int i = 0; i < len; i++) {
+			result[i] = Integer.parseInt(tokens[i]);
 		}
 
 		return result;
@@ -57,9 +60,12 @@ public final class MyUtils {
 
 	public static List<ItemStack> clone(final ItemStack... stacks) {
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.length);
-		for (final ItemStack stack : stacks)
-			if (stack != null)
-				result.add(stack.copy());
+		if (stacks != null) {
+			final int len = stacks.length;
+			for (int i = 0; i < len; i++)
+				if(stacks[i] != null)
+					result.add(stacks[i].copy());
+		}
 		return result;
 	}
 

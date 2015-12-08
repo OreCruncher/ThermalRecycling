@@ -53,18 +53,18 @@ import net.minecraft.world.World;
 
 public abstract class MachineBase extends BlockContainer {
 
-	private static ItemStack lockTool = ItemStackHelper
+	private static final ItemStack lockTool = ItemStackHelper
 			.getItemStack("ThermalExpansion:material:16").get();
 
-	public static int BLOCK_BOTTOM = 0;
-	public static int BLOCK_TOP = 1;
-	public static int BLOCK_SIDE = 2;
-	public static int BLOCK_FRONT = 3;
-	public static int BLOCK_ACTIVE = 4;
-	public static int BLOCK_JAMMED = 5;
+	public static final int BLOCK_BOTTOM = 0;
+	public static final int BLOCK_TOP = 1;
+	public static final int BLOCK_SIDE = 2;
+	public static final int BLOCK_FRONT = 3;
+	public static final int BLOCK_ACTIVE = 4;
+	public static final int BLOCK_JAMMED = 5;
 
-	public static int META_SIDE_MASK = 0x7;
-	public static int META_ACTIVE_LIGHT_BIT = 0x8;
+	public static final int META_SIDE_MASK = 0x7;
+	public static final int META_ACTIVE_LIGHT_BIT = 0x8;
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] icons;
