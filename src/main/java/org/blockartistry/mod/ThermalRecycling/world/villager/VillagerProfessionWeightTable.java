@@ -67,7 +67,7 @@ public class VillagerProfessionWeightTable extends WeightTable<VillagerProfessio
 		}
 		
 		// If we get here something bad happened.  Default to Farmer.
-		return VillagerProfession.farmer;
+		return VillagerProfession.FARMER;
 	}
 	
 	public int find(final String name) {

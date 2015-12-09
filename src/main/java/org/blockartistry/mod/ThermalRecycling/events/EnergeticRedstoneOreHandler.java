@@ -45,8 +45,8 @@ public class EnergeticRedstoneOreHandler {
 	public void onEvent(final PopulateChunkEvent.Pre event) {
 
 		final Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
-		final Block fromBlock = Blocks.redstone_ore; // change this to suit your need
-		final Block toBlock = BlockManager.energeticRedstone; // change this to suit your need
+		final Block fromBlock = Blocks.redstone_ore;
+		final Block toBlock = BlockManager.energeticRedstone;
 
 		for (final ExtendedBlockStorage storage : chunk.getBlockStorageArray()) {
 			if (storage != null) {
@@ -66,7 +66,7 @@ public class EnergeticRedstoneOreHandler {
 			}
 		}
 		
-		chunk.setChunkModified();// this is important as it marks it to be saved
+		chunk.setChunkModified();
 	}
 	
 	public static void register() {
