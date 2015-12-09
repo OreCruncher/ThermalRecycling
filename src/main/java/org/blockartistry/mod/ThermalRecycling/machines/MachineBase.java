@@ -30,6 +30,7 @@ import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.IMachineFluidHandler;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.TileEntityBase;
+import org.blockartistry.mod.ThermalRecycling.util.BlockHelper;
 import org.blockartistry.mod.ThermalRecycling.util.DyeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -107,7 +108,7 @@ public abstract class MachineBase extends BlockContainer {
 		return item != null && DyeHelper.isDye(item);
 	}
 	
-	/*
+	/**
 	 * Forward the block activated request to the corresponding TileEntity
 	 */
 	@Override
@@ -131,6 +132,9 @@ public abstract class MachineBase extends BlockContainer {
 
 			// If the player is holding a tool rotate
 			if (holdingRotateTool(player)) {
+				if(player.isSneaking()) {
+					return BlockHelper.breakBlock(world, x, y, z, this, player);
+				}
 				return entity.rotateBlock();
 			} else if (entity.isLockable(player) && holdingLockTool(player)) {
 				return entity.toggleLock();
