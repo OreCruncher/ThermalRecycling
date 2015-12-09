@@ -317,6 +317,14 @@ public abstract class TileEntityBase extends TileEntity implements
 	
 	public void setNameBackgroundColor(final int color) { }
 
+	public boolean canRotate(final EntityPlayer player) {
+		return true;
+	}
+	
+	public boolean canApplyDye(final EntityPlayer player) {
+		return true;
+	}
+
 	// /////////////////////////////////////
 	//
 	// IReconfigurableFacing

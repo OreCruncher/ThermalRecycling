@@ -307,6 +307,16 @@ public class VendingTileEntity extends TileEntityBase {
 	public boolean allowPipeConnection() {
 		return !(BLOCK_PIPE_CONNECTION || isAdminMode() || isOwnedByMod());
 	}
+	
+	@Override
+	public boolean canRotate(final EntityPlayer player) {
+		return isOwner(player);
+	}
+	
+	@Override
+	public boolean canApplyDye(final EntityPlayer player) {
+		return isOwner(player);
+	}
 
 	@Override
 	public void flush() {

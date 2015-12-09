@@ -132,6 +132,8 @@ public abstract class MachineBase extends BlockContainer {
 
 			// If the player is holding a tool rotate
 			if (holdingRotateTool(player)) {
+				if(!entity.canRotate(player))
+					return false;
 				if(player.isSneaking()) {
 					return BlockHelper.breakBlock(world, x, y, z, this, player);
 				}
@@ -139,6 +141,8 @@ public abstract class MachineBase extends BlockContainer {
 			} else if (entity.isLockable(player) && holdingLockTool(player)) {
 				return entity.toggleLock();
 			} else if (entity.isNameColorable(player) && holdingDyeTool(player)) {
+				if(!entity.canApplyDye(player))
+					return false;
 				final int color = DyeHelper.getDyeColor(player
 						.getCurrentEquippedItem());
 				if (entity.getNameColor() == color)
