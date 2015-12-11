@@ -1,5 +1,5 @@
 /*
-CONFIG_RUBBLE_PILE_DISABLE * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+ * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -32,6 +32,8 @@ import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
+	
+	private static Configuration config;
 
 	private ModOptions() {
 	}
@@ -118,6 +120,12 @@ public final class ModOptions {
 	protected static final String CONFIG_POOR_XP_COST = "Poor Scrap Level Cost";
 	protected static final String CONFIG_STANDARD_XP_COST = "Standard Scrap Level Cost";
 	protected static final String CONFIG_SUPERIOR_XP_COST = "Superior Scrap Level Cost";
+	
+	protected static final String CATEGORY_ENCHANTMENTS = "Enchantments";
+	protected static final String CONFIG_ENABLE_PICKUP = "Vacuum Enable";
+	protected static boolean vacuumEnable = true;
+	protected static final String CONFIG_VACUUM_ID = "Vacuum ID";
+	protected static int vacuumId = 0;
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -183,8 +191,11 @@ public final class ModOptions {
 	protected static int decompTicks = 40;
 	protected static int extractTicks = 80;
 	
-	public static void load(final Configuration config) {
+	public static void load(final Configuration cfg) {
 
+		// Save a reference
+		config = cfg;
+		
 		String comment = "Enables/disables debug logging of the mod";
 		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING, CATEGORY_LOGGING_CONTROL,
 				enableDebugLogging, comment);
@@ -426,6 +437,15 @@ public final class ModOptions {
 		comment = "Number of ticks required when using an extraction core";
 		extractTicks = config.getInt(CONFIG_EXTRACT_TICKS, CATEGORY_MACHINES_RECYCLER, extractTicks, 0,
 				Integer.MAX_VALUE, comment);
+
+		// Enchantment
+		comment = "Enable the Vacuum enchantment";
+		vacuumEnable = config.getBoolean(CONFIG_ENABLE_PICKUP, CATEGORY_ENCHANTMENTS,
+				vacuumEnable, comment);
+		
+		comment = "ID of the Vacuum enchantment";
+		vacuumId = config.getInt(CONFIG_VACUUM_ID, CATEGORY_ENCHANTMENTS, vacuumId, 0,
+				255, comment);
 	}
 
 	public static boolean getEnableRecipeLogging() {
@@ -671,5 +691,19 @@ public final class ModOptions {
 	
 	public static int getExtractTicks() {
 		return extractTicks;
+	}
+
+	// Enchantment
+	public static boolean getVacuumEnable() {
+		return vacuumEnable;
+	}
+	
+	public static int getVacuumId() {
+		return vacuumId;
+	}
+	
+	public static void setVacuumId(final int id) {
+		vacuumId = id;
+		config.getCategory(CATEGORY_ENCHANTMENTS.toLowerCase()).get(CONFIG_VACUUM_ID).set(id);
 	}
 }

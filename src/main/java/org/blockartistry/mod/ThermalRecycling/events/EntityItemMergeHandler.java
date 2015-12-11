@@ -60,7 +60,7 @@ public final class EntityItemMergeHandler {
 		return stack.isStackable() && stack.stackSize < stack.getMaxStackSize();
 	}
 
-	// Entities that are not dead and have expired delay pickup timers
+	// Entities that are not dead and have expired delay vacuum timers
 	// are possible candidates.
 	private boolean isPossibleEntity(final EntityItem entity) {
 		return !entity.isDead && entity.delayBeforeCanPickup == 0;

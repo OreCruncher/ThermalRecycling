@@ -99,6 +99,9 @@ achievement.shearBeauty.desc=Use Garden Shears to create Manicured Lawn
 achievement.dystopianFuture=Dystopian Future
 achievement.dystopianFuture.desc=Consume §2Soylent Green
 
+# Enchantments
+enchantment.Vacuum=Vacuum
+
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§eScrap Value: §7None
 msg.ItemScrapValue.poor=§eScrap Value: §fPoor

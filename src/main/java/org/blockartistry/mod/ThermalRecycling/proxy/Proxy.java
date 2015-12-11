@@ -36,6 +36,7 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
+import org.blockartistry.mod.ThermalRecycling.EnchantManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
@@ -79,7 +80,6 @@ public class Proxy {
 
 	public void preInit(final FMLPreInitializationEvent event, final Configuration config) {
 		FakePlayerHelper.initialize("ThermalRecycling");
-
 		ModPlugin.preInitPlugins(config);
 	}
 
@@ -90,7 +90,7 @@ public class Proxy {
 		ItemManager.register();
 		BlockManager.register();
 		AchievementManager.registerAchievements();
-
+		EnchantManager.register();
 		GuiHandler.register();
 		FuelHandler.register();
 

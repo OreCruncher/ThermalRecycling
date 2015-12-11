@@ -49,6 +49,8 @@ public final class ThermalRecycling {
 
 	@Instance(MOD_ID)
 	protected static ThermalRecycling instance;
+	
+	protected static Configuration config;
 
 	public static ThermalRecycling instance() {
 		return instance;
@@ -69,12 +71,11 @@ public final class ThermalRecycling {
 	public void preInit(final FMLPreInitializationEvent event) {
 
 		// Load up our configuration
-		final Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.load();
 		ModOptions.load(config);
 		proxy.preInit(event, config);
-		config.save();
 	}
 
 	@EventHandler
@@ -85,6 +86,7 @@ public final class ThermalRecycling {
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+		config.save();
 	}
 
 	@EventHandler
