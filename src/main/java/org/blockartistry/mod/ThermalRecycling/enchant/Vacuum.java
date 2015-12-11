@@ -40,7 +40,6 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
@@ -75,6 +74,9 @@ public class Vacuum extends EnchantmentBase {
 	 */
 	@Override
 	public boolean canApply(final ItemStack stack) {
+		if(stack == null)
+			return false;
+		
 		final Item item = stack.getItem();
 		if (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemBow)
 			return true;
@@ -91,30 +93,33 @@ public class Vacuum extends EnchantmentBase {
 	public void LivingEvent(final LivingUpdateEvent event) {
 		if (event.entity instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			applyEffect(player.worldObj, player);
+			if(player.worldObj.isRemote)
+				return;
+			applyEffect(player);
 		}
 	}
 
-	public void applyEffect(final World world, final EntityPlayer player) {
-
-		// Only runs server side
-		if (world.isRemote)
-			return;
-
-		// Have to have an item equipped
+	public void applyEffect(final EntityPlayer player) {
+		// Have to have an item equipped, and it has to be
+		// able to have the enchantment.
 		final ItemStack heldItem = player.getCurrentEquippedItem();
-		if (heldItem == null)
+		if (!canApply(heldItem))
 			return;
 
-		// Held item must have the enchant
+		// Get the enchantment level on the item.  If it is 0
+		// it means it is not present.
 		final int level = EnchantmentHelper.getEnchantmentLevel(this.effectId, heldItem);
 		if (level == 0)
 			return;
 
+		// Calculate the range based on the enchantment level.
 		final double range = 2D * level;
 
+		// Get all of the EntityItems within the bounding box around
+		// the player.  Note this is a cube in shape.  Though an item
+		// shows in this list doesn't mean it will be vacuumed.
 		@SuppressWarnings("unchecked")
-		final List<EntityItem> nearbyItems = world.getEntitiesWithinAABB(EntityItem.class,
+		final List<EntityItem> nearbyItems = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
 				player.boundingBox.expand(range, range, range));
 
 		for (final EntityItem item : nearbyItems) {
@@ -123,9 +128,15 @@ public class Vacuum extends EnchantmentBase {
 			final double z = player.posZ + 0.5D - item.posZ;
 			final double distance = Math.sqrt(x * x + y * y + z * z);
 
+			// The actual effect is in a radius (circle) so it is
+			// possible that some items will not be affected because
+			// the list query operated on cubic space.
 			if (distance > range)
 				continue;
 
+			// If the item distance is close just have the player
+			// suck it up.  Otherwise, put the item in motion
+			// toward the player.
 			if (distance < 1.25D) {
 				item.onCollideWithPlayer(player);
 			} else {
