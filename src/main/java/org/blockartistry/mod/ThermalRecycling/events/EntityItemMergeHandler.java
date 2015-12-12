@@ -71,7 +71,7 @@ public final class EntityItemMergeHandler {
 	// stack for merging.
 	private List<EntityItem> getEntityItems(final World world) {
 		final List<EntityItem> result = new ArrayList<EntityItem>();
-		for (final Object o : world.getLoadedEntityList()) {
+		for (final Object o : world.loadedEntityList) {
 			if (o instanceof EntityItem) {
 				final EntityItem entity = (EntityItem) o;
 				if (isPossibleEntity(entity)
