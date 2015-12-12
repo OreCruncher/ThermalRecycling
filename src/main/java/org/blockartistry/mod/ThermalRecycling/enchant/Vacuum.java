@@ -26,10 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.enchant;
 
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.ModLog;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -43,7 +40,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 public class Vacuum extends EnchantmentBase {
@@ -84,12 +80,6 @@ public class Vacuum extends EnchantmentBase {
 		if (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemBow)
 			return true;
 		return item == Items.shears || item == Items.diamond_hoe || item == Items.golden_hoe || item == Items.iron_hoe;
-	}
-
-	public void register() {
-		ModLog.info("Vacuum Enchant registered with ID " + this.effectId);
-		Enchantment.addToBookList(this);
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@SubscribeEvent

@@ -24,8 +24,12 @@
 
 package org.blockartistry.mod.ThermalRecycling.enchant;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraftforge.common.MinecraftForge;
 
 public abstract class EnchantmentBase extends Enchantment {
 
@@ -33,5 +37,24 @@ public abstract class EnchantmentBase extends Enchantment {
 		super(id, weight, type);
 	}
 
-	public abstract void register();
+	@Override
+	public String getName() {
+		return new StringBuilder().append(ThermalRecycling.MOD_ID).append('.').append(super.getName()).toString();
+	}
+
+	public void register() {
+		ModLog.info(String.format("Enchant %s registered with ID %d", this.getName(), this.effectId));
+		if (addToBookEnchants())
+			Enchantment.addToBookList(this);
+		if (registerEvents())
+			MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	public boolean addToBookEnchants() {
+		return true;
+	}
+
+	public boolean registerEvents() {
+		return true;
+	}
 }

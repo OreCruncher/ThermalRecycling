@@ -26,7 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.enchant;
 
 import java.util.Random;
 
-import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -41,7 +40,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
@@ -55,13 +53,10 @@ public class Recycle extends EnchantmentBase {
 		super(id, WEIGHT, EnumEnchantmentType.weapon);
 		this.setName("Recycle");
 	}
-
+	
 	@Override
-	public void register() {
-		ModLog.info("Recycle Enchant registered with ID " + this.effectId);
-		Enchantment.addToBookList(this);
-		if(ModOptions.getRecycleChance() > 0)
-			MinecraftForge.EVENT_BUS.register(this);
+	public boolean registerEvents() {
+		return ModOptions.getRecycleChance() > 0;
 	}
 
 	@Override
