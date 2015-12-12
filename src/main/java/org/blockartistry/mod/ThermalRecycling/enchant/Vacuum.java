@@ -32,7 +32,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -40,6 +42,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
@@ -74,9 +77,9 @@ public class Vacuum extends EnchantmentBase {
 	 */
 	@Override
 	public boolean canApply(final ItemStack stack) {
-		if(stack == null)
+		if (stack == null)
 			return false;
-		
+
 		final Item item = stack.getItem();
 		if (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemBow)
 			return true;
@@ -93,7 +96,7 @@ public class Vacuum extends EnchantmentBase {
 	public void LivingEvent(final LivingUpdateEvent event) {
 		if (event.entity instanceof EntityPlayer) {
 			final EntityPlayer player = (EntityPlayer) event.entity;
-			if(player.worldObj.isRemote)
+			if (player.worldObj.isRemote)
 				return;
 			applyEffect(player);
 		}
@@ -106,7 +109,7 @@ public class Vacuum extends EnchantmentBase {
 		if (!canApply(heldItem))
 			return;
 
-		// Get the enchantment level on the item.  If it is 0
+		// Get the enchantment level on the item. If it is 0
 		// it means it is not present.
 		final int level = EnchantmentHelper.getEnchantmentLevel(this.effectId, heldItem);
 		if (level == 0)
@@ -115,14 +118,20 @@ public class Vacuum extends EnchantmentBase {
 		// Calculate the range based on the enchantment level.
 		final double range = 2D * level;
 
-		// Get all of the EntityItems within the bounding box around
-		// the player.  Note this is a cube in shape.  Though an item
-		// shows in this list doesn't mean it will be vacuumed.
-		@SuppressWarnings("unchecked")
-		final List<EntityItem> nearbyItems = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
-				player.boundingBox.expand(range, range, range));
+		// The bounding box for the search area
+		final AxisAlignedBB box = player.boundingBox.expand(range, range, range);
 
-		for (final EntityItem item : nearbyItems) {
+		// Get all of the EntityItems and XP orbs within the
+		// bounding box around the player. Note this is a cube
+		// in shape. Though an item shows in this list doesn't
+		// mean it will be vacuumed.
+		@SuppressWarnings("unchecked")
+		final List<Entity> nearbyItems = player.worldObj.getEntitiesWithinAABB(EntityItem.class, box);
+		@SuppressWarnings("unchecked")
+		final List<Entity> xpOrbs = player.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, box);
+		nearbyItems.addAll(xpOrbs);
+
+		for (final Entity item : nearbyItems) {
 			final double x = player.posX + 0.5D - item.posX;
 			final double y = player.posY + 1.0D - item.posY;
 			final double z = player.posZ + 0.5D - item.posZ;
@@ -135,7 +144,7 @@ public class Vacuum extends EnchantmentBase {
 				continue;
 
 			// If the item distance is close just have the player
-			// suck it up.  Otherwise, put the item in motion
+			// suck it up. Otherwise, put the item in motion
 			// toward the player.
 			if (distance < 1.25D) {
 				item.onCollideWithPlayer(player);

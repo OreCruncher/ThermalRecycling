@@ -101,6 +101,7 @@ achievement.dystopianFuture.desc=Consume §2Soylent Green
 
 # Enchantments
 enchantment.Vacuum=Vacuum
+enchantment.Recycle=Recycle
 
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§eScrap Value: §7None

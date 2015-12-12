@@ -122,10 +122,16 @@ public final class ModOptions {
 	protected static final String CONFIG_SUPERIOR_XP_COST = "Superior Scrap Level Cost";
 	
 	protected static final String CATEGORY_ENCHANTMENTS = "Enchantments";
-	protected static final String CONFIG_ENABLE_PICKUP = "Vacuum Enable";
+	protected static final String CONFIG_ENABLE_VACUUM = "Vacuum Enable";
 	protected static boolean vacuumEnable = true;
 	protected static final String CONFIG_VACUUM_ID = "Vacuum ID";
 	protected static int vacuumId = 0;
+	protected static final String CONFIG_ENABLE_RECYCLE = "Recycle Enable";
+	protected static boolean recycleEnable = true;
+	protected static final String CONFIG_RECYCLE_ID = "Recycle ID";
+	protected static int recycleId = 0;
+	protected static final String CONFIG_RECYCLE_CHANCE = "Recycle Chance";
+	protected static int recycleChance = 10;
 
 	protected static HashMap<SupportedMod, Boolean> enableModProcessing = new HashMap<SupportedMod, Boolean>();
 	protected static boolean enableRecipeLogging = true;
@@ -440,13 +446,25 @@ public final class ModOptions {
 
 		// Enchantment
 		comment = "Enable the Vacuum enchantment";
-		vacuumEnable = config.getBoolean(CONFIG_ENABLE_PICKUP, CATEGORY_ENCHANTMENTS,
+		vacuumEnable = config.getBoolean(CONFIG_ENABLE_VACUUM, CATEGORY_ENCHANTMENTS,
 				vacuumEnable, comment);
 		
 		comment = "ID of the Vacuum enchantment";
 		vacuumId = config.getInt(CONFIG_VACUUM_ID, CATEGORY_ENCHANTMENTS, vacuumId, 0,
 				255, comment);
-	}
+
+		comment = "Enable the Recycle enchantment";
+		recycleEnable = config.getBoolean(CONFIG_ENABLE_RECYCLE, CATEGORY_ENCHANTMENTS,
+				recycleEnable, comment);
+		
+		comment = "ID of the Recycle enchantment";
+		recycleId = config.getInt(CONFIG_RECYCLE_ID, CATEGORY_ENCHANTMENTS, recycleId, 0,
+				255, comment);
+
+		comment = "Chance Recycle enchant will trigger (1 in N)";
+		recycleChance = config.getInt(CONFIG_RECYCLE_CHANCE, CATEGORY_ENCHANTMENTS, recycleChance, 0,
+				Integer.MAX_VALUE, comment);
+}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -705,5 +723,22 @@ public final class ModOptions {
 	public static void setVacuumId(final int id) {
 		vacuumId = id;
 		config.getCategory(CATEGORY_ENCHANTMENTS.toLowerCase()).get(CONFIG_VACUUM_ID).set(id);
+	}
+
+	public static boolean getRecycleEnable() {
+		return recycleEnable;
+	}
+	
+	public static int getRecycleId() {
+		return recycleId;
+	}
+	
+	public static void setRecycleId(final int id) {
+		recycleId = id;
+		config.getCategory(CATEGORY_ENCHANTMENTS.toLowerCase()).get(CONFIG_RECYCLE_ID).set(id);
+	}
+	
+	public static int getRecycleChance() {
+		return recycleChance;
 	}
 }

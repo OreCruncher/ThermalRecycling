@@ -28,6 +28,7 @@ import org.blockartistry.mod.ThermalRecycling.enchant.Vacuum;
 
 import net.minecraft.enchantment.Enchantment;
 import org.blockartistry.mod.ThermalRecycling.enchant.EnchantmentBase;
+import org.blockartistry.mod.ThermalRecycling.enchant.Recycle;
 
 public final class EnchantManager {
 
@@ -35,6 +36,7 @@ public final class EnchantManager {
 	}
 
 	public static EnchantmentBase vacuum;
+	public static EnchantmentBase recycle;
 
 	private static int resolveId(final int id) {
 		if (id > 0)
@@ -68,6 +70,11 @@ public final class EnchantManager {
 		if (ModOptions.getVacuumEnable()) {
 			vacuum = add(Vacuum.class, ModOptions.getVacuumId());
 			ModOptions.setVacuumId(vacuum.effectId);
+		}
+		
+		if(ModOptions.getRecycleEnable()) {
+			recycle = add(Recycle.class, ModOptions.getRecycleId());
+			ModOptions.setRecycleId(recycle.effectId);
 		}
 	}
 }
