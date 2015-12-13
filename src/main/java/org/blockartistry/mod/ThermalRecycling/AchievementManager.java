@@ -24,17 +24,14 @@
 
 package org.blockartistry.mod.ThermalRecycling;
 
-import org.blockartistry.mod.ThermalRecycling.achievement.DoinTheTrash;
-import org.blockartistry.mod.ThermalRecycling.achievement.DoingMyPart;
-import org.blockartistry.mod.ThermalRecycling.achievement.DystopianFuture;
-import org.blockartistry.mod.ThermalRecycling.achievement.FeelingScrappy;
-import org.blockartistry.mod.ThermalRecycling.achievement.LottoWinner;
-import org.blockartistry.mod.ThermalRecycling.achievement.ShearBeauty;
+import org.blockartistry.mod.ThermalRecycling.items.Material;
+import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.StatCollector;
@@ -51,13 +48,24 @@ public final class AchievementManager extends AchievementPage {
 	// Don't forget to update the AchievementManager CTOR so that
 	// the achievement will show on the proper page!
 
-	public static final Achievement lottoWinner = new LottoWinner();
-	public static final Achievement doinTheTrash = new DoinTheTrash();
-	public static final Achievement shearBeauty = new ShearBeauty();
-	public static final Achievement dystopianFuture = new DystopianFuture();
+	public static final Achievement lottoWinner = new Achievement("lottoWinner", "lottoWinner", -3/* x */, -2 /* y */,
+			new ItemStack(Items.nether_star), null);
 
-	public static final Achievement feelingScrappy = new FeelingScrappy();
-	public static final Achievement doingMyPart = new DoingMyPart();
+	public static final Achievement doinTheTrash = new Achievement("doinTheTrash", "doinTheTrash", -3 /* x */,
+			-1 /* y */, new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), AchievementManager.feelingScrappy);
+
+	public static final Achievement shearBeauty = new Achievement("shearBeauty", "shearBeauty", -3 /* x */, 0 /* y */,
+			new ItemStack(ItemManager.material, 1, Material.GARDEN_SHEARS), null);
+
+	public static final Achievement dystopianFuture = new Achievement("dystopianFuture", "dystopianFuture", -3 /* x */,
+			1 /* y */, new ItemStack(ItemManager.soylentGreen), null);
+
+	public static final Achievement feelingScrappy = new Achievement("feelingScrappy", "feelingScrappy", 0 /* x */,
+			0 /* y */, new ItemStack(BlockManager.thermalRecycler), null);
+
+	public static final Achievement doingMyPart = new Achievement("doingMyPart", "doingMyPart", 1 /* x */, 1 /* y */,
+			new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrapBox.STANDARD),
+			AchievementManager.feelingScrappy);
 
 	protected static AchievementManager page;
 
@@ -80,16 +88,14 @@ public final class AchievementManager extends AchievementPage {
 	}
 
 	public AchievementManager() {
-		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"),
-				lottoWinner, doinTheTrash, feelingScrappy, doingMyPart,
-				shearBeauty, dystopianFuture);
+		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, doinTheTrash, feelingScrappy,
+				doingMyPart, shearBeauty, dystopianFuture);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onItemCrafted(final ItemCraftedEvent event) {
 
-		if (event.crafting.isItemEqual(new ItemStack(
-				BlockManager.thermalRecycler))) {
+		if (event.crafting.isItemEqual(new ItemStack(BlockManager.thermalRecycler))) {
 			event.player.addStat(feelingScrappy, 1);
 		}
 	}
