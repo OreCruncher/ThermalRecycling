@@ -46,12 +46,13 @@ public class Recycle extends EnchantmentBase {
 	private static final Random random = new XorShiftRandom();
 	private static final int EGG_DROP_CHANCE = ModOptions.getRecycleChance();
 	private static final int WEIGHT = 1; // Same as Silk Touch
+	private static final int MAX_DROP_ATTEMPTS = 4;
 
 	public Recycle(final int id) {
 		super(id, WEIGHT, EnumEnchantmentType.weapon);
 		this.setName("Recycle");
 	}
-	
+
 	@Override
 	public boolean registerEvents() {
 		return ModOptions.getRecycleChance() > 0;
@@ -79,7 +80,7 @@ public class Recycle extends EnchantmentBase {
 		if (source == null)
 			return false;
 
-		// If the source isn't a player it's not proper.  Note that this
+		// If the source isn't a player it's not proper. Note that this
 		// could include a fake player.
 		if (!(source.getEntity() instanceof EntityPlayerMP))
 			return false;
@@ -89,18 +90,39 @@ public class Recycle extends EnchantmentBase {
 		return heldItem != null && EnchantmentHelper.getEnchantmentLevel(this.effectId, heldItem) > 0;
 	}
 
+	private int entityEggId(final LivingDropsEvent event) {
+		final int entityId = EntityList.getEntityID(event.entity);
+		if (entityId != 0 && EntityList.entityEggs.containsKey(entityId))
+			return entityId;
+		return -1;
+	}
+
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onLivingDrops(final LivingDropsEvent event) {
-		// If the entity died the right way and the random chance its...
-		if (isProperDeath(event) && random.nextInt(EGG_DROP_CHANCE) == 0) {
-			// Get the type ID of the entity that died
-			final int entityId = EntityList.getEntityID(event.entity);
-			if (entityId != 0 && EntityList.entityEggs.containsKey(entityId)) {
-				final EntityItem item = new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY,
-						event.entity.posZ);
-				item.setEntityItemStack(new ItemStack(Items.spawn_egg, 1, entityId));
-				event.drops.add(item);
-			}
+		// If the mob died properly...
+		if (isProperDeath(event)) {
+			// ...and the mob has a spawn egg...
+			final int eggId = entityEggId(event);
+			if (eggId == -1)
+				return;
+
+			// Figure out how many attempts at getting a drop.
+			// Modify the attempts by the looting level of the
+			// held item. Note that only 1 egg will drop; looting
+			// only determines the number times it will check
+			// for a given mob death. Cap because sometimes
+			// the looting level could be higher than normal because
+			// of modded items or servers that hand out special
+			// enchanted items.
+			final int attempts = Math.min(event.lootingLevel + 1, MAX_DROP_ATTEMPTS);
+			for (int i = 0; i < attempts; i++)
+				if (random.nextInt(EGG_DROP_CHANCE) == 0) {
+					final EntityItem item = new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY,
+							event.entity.posZ);
+					item.setEntityItemStack(new ItemStack(Items.spawn_egg, 1, eggId));
+					event.drops.add(item);
+					return;
+				}
 		}
 	}
 }
