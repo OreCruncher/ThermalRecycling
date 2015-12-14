@@ -60,6 +60,9 @@ public final class AchievementManager extends AchievementPage {
 	public static final Achievement dystopianFuture = new Achievement("dystopianFuture", "dystopianFuture", -3 /* x */,
 			1 /* y */, new ItemStack(ItemManager.soylentGreen), null);
 
+	public static final Achievement powerUp = new Achievement("powerUp", "powerUp", -3 /* x */,
+			2 /* y */, new ItemStack(ItemManager.energyCell), null);
+
 	public static final Achievement feelingScrappy = new Achievement("feelingScrappy", "feelingScrappy", 0 /* x */,
 			0 /* y */, new ItemStack(BlockManager.thermalRecycler), null);
 
@@ -75,6 +78,7 @@ public final class AchievementManager extends AchievementPage {
 		doinTheTrash.registerStat();
 		shearBeauty.registerStat();
 		dystopianFuture.registerStat();
+		powerUp.registerStat();
 
 		feelingScrappy.registerStat();
 		doingMyPart.registerStat();
@@ -89,7 +93,7 @@ public final class AchievementManager extends AchievementPage {
 
 	public AchievementManager() {
 		super(StatCollector.translateToLocal("itemGroup.ThermalRecycling"), lottoWinner, doinTheTrash, feelingScrappy,
-				doingMyPart, shearBeauty, dystopianFuture);
+				doingMyPart, shearBeauty, dystopianFuture, powerUp);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -97,6 +101,8 @@ public final class AchievementManager extends AchievementPage {
 
 		if (event.crafting.isItemEqual(new ItemStack(BlockManager.thermalRecycler))) {
 			event.player.addStat(feelingScrappy, 1);
+		} else if(event.crafting.isItemEqual(new ItemStack(ItemManager.energyCell))) {
+			event.player.addStat(powerUp, 1);
 		}
 	}
 }
