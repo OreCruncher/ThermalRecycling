@@ -31,7 +31,6 @@ import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityList;
@@ -40,7 +39,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 public class Recycle extends EnchantmentBase {
@@ -74,12 +72,6 @@ public class Recycle extends EnchantmentBase {
 		return 1;
 	}
 
-	// Cannot combine with looting or fortune
-	@Override
-	public boolean canApplyTogether(final Enchantment ench) {
-		return super.canApplyTogether(ench) && ench.effectId != fortune.effectId && ench.effectId != looting.effectId;
-	}
-
 	private boolean isProperDeath(final LivingDropsEvent event) {
 		final DamageSource source = event.source;
 
@@ -87,9 +79,9 @@ public class Recycle extends EnchantmentBase {
 		if (source == null)
 			return false;
 
-		// If the source isn't a player or is a FakePlayer, it's not proper.
-		// A player has to do the killing.
-		if (!(source.getEntity() instanceof EntityPlayerMP) || source.getEntity() instanceof FakePlayer)
+		// If the source isn't a player it's not proper.  Note that this
+		// could include a fake player.
+		if (!(source.getEntity() instanceof EntityPlayerMP))
 			return false;
 
 		final EntityPlayerMP player = (EntityPlayerMP) source.getEntity();
