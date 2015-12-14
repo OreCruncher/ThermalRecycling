@@ -31,7 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.util.LRUCache;
 
 public final class ScrappingContextCache {
 	
-	private class LRUCacheKey {
+	private static class LRUCacheKey {
 		
 		public final ItemStack core;
 		public final ItemStack stack;

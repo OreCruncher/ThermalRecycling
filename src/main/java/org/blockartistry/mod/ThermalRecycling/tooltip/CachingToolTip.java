@@ -27,14 +27,12 @@ package org.blockartistry.mod.ThermalRecycling.tooltip;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiConsumer;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public abstract class CachingToolTip implements BiConsumer<List<String>, ItemStack> {
+public abstract class CachingToolTip {
 
 	private Item lastItem;
 	private int lastMeta;
@@ -42,7 +40,6 @@ public abstract class CachingToolTip implements BiConsumer<List<String>, ItemSta
 
 	public abstract void addToToolTip(final List<String> output, final ItemStack stack);
 	
-	@Override
 	public final void accept(final List<String> output, final ItemStack stack) {
 		
 		final Item item = stack.getItem();
