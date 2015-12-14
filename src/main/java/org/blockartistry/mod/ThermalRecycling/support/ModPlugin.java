@@ -46,10 +46,10 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
-import org.blockartistry.mod.ThermalRecycling.util.function.Apply;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 import cpw.mods.fml.common.versioning.InvalidVersionSpecificationException;
 import cpw.mods.fml.common.versioning.VersionRange;
@@ -126,7 +126,7 @@ public abstract class ModPlugin {
 
 	protected void forEachSubject(final List<String> subjects, final Predicate<ItemStack> op) {
 		
-		Apply.forEach(subjects, new Predicate<String>() {
+		Iterables.all(subjects, new Predicate<String>() {
 			
 			public boolean apply(final String s) {
 				final String name = makeName(s);

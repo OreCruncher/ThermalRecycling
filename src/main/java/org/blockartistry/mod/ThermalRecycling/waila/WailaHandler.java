@@ -70,10 +70,10 @@ public final class WailaHandler implements IWailaDataProvider {
 			return text;
 		
 		if (scrapToolTip != null)
-			scrapToolTip.apply(text, stack);
+			scrapToolTip.accept(text, stack);
 
 		if (debugToolTip != null)
-			debugToolTip.apply(text, stack);
+			debugToolTip.accept(text, stack);
 
 		return text;
 	}

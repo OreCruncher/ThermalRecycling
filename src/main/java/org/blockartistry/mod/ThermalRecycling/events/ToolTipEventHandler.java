@@ -26,8 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.events;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
+import java.util.function.BiConsumer;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -37,7 +36,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ToolTipEventHandler {
 
-	private static final List<MultiFunction<List<String>, ItemStack, Void>> hooks = new ArrayList<MultiFunction<List<String>, ItemStack, Void>>();
+	private static final List<BiConsumer<List<String>, ItemStack>> hooks = new ArrayList<BiConsumer<List<String>, ItemStack>>();
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void onToolTipEvent(final ItemTooltipEvent event) {
@@ -45,18 +44,18 @@ public final class ToolTipEventHandler {
 		if (event == null || event.itemStack == null || event.toolTip == null)
 			return;
 
-		for (final MultiFunction<List<String>, ItemStack, Void> f : hooks)
-			f.apply(event.toolTip, event.itemStack);
+		for (final BiConsumer<List<String>, ItemStack> f : hooks)
+			f.accept(event.toolTip, event.itemStack);
 	}
 
 	private ToolTipEventHandler() {
 	}
-	
+
 	public static void register() {
 		MinecraftForge.EVENT_BUS.register(new ToolTipEventHandler());
 	}
-	
-	public static void addHook(final MultiFunction<List<String>, ItemStack, Void> hook) {
+
+	public static void addHook(final BiConsumer<List<String>, ItemStack> hook) {
 		hooks.add(hook);
 	}
 }

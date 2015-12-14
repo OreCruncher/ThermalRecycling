@@ -27,14 +27,14 @@ package org.blockartistry.mod.ThermalRecycling.tooltip;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.function.MultiFunction;
 
-public abstract class CachingToolTip implements MultiFunction<List<String>, ItemStack, Void> {
+public abstract class CachingToolTip implements BiConsumer<List<String>, ItemStack> {
 
 	private Item lastItem;
 	private int lastMeta;
@@ -43,23 +43,19 @@ public abstract class CachingToolTip implements MultiFunction<List<String>, Item
 	public abstract void addToToolTip(final List<String> output, final ItemStack stack);
 	
 	@Override
-	public final Void apply(final List<String> output, final ItemStack stack) {
+	public final void accept(final List<String> output, final ItemStack stack) {
 		
 		final Item item = stack.getItem();
 		final int meta = ItemStackHelper.getItemDamage(stack);
 		if(lastItem == item && lastMeta == meta) {
 			output.addAll(cachedLore);
-			return null;
+		} else {
+			lastItem = item;
+			lastMeta = meta;
+			cachedLore = new ArrayList<String>();
+			
+			addToToolTip(cachedLore, stack);
+			output.addAll(cachedLore);
 		}
-		
-		lastItem = item;
-		lastMeta = meta;
-		cachedLore = new ArrayList<String>();
-		
-		addToToolTip(cachedLore, stack);
-		output.addAll(cachedLore);
-		
-		return null;
 	}
-
 }
