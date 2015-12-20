@@ -24,10 +24,14 @@
 
 package org.blockartistry.mod.ThermalRecycling.items;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemBase;
@@ -35,11 +39,12 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.UpgradeRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class ProcessingCore extends ItemBase {
-	
-	private static final String[] types = new String[] { "decomposition",
-			"extraction" };
+
+	private static final String[] types = new String[] { "decomposition", "extraction" };
 
 	public ProcessingCore() {
 		super(types);
@@ -57,105 +62,93 @@ public final class ProcessingCore extends ItemBase {
 	public String getUnlocalizedName(final ItemStack stack) {
 		final StringBuilder builder = new StringBuilder(32);
 		builder.append(super.getUnlocalizedName(stack));
-		
-		if(ItemStackHelper.equals(stack.getItem(), ItemManager.processingCore)) {
+
+		if (ItemStackHelper.equals(stack.getItem(), ItemManager.processingCore)) {
 			final int level = ItemLevel.getLevel(stack).ordinal();
-			if(level > 0) {
+			if (level > 0) {
 				builder.append('_');
 				builder.append(level);
 			}
 		}
-		
+
 		return builder.toString();
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubItems(final Item par1, final CreativeTabs par2CreativeTabs,
+			@SuppressWarnings("rawtypes") final List par3List) {
+
+		par3List.add(new ItemStack(this, 1, CoreType.EXTRACTION.ordinal()));
+		par3List.add(ItemLevel.setLevel(new ItemStack(this, 1, CoreType.DECOMPOSITION.ordinal()), ItemLevel.BASIC));
+		par3List.add(ItemLevel.setLevel(new ItemStack(this, 1, CoreType.DECOMPOSITION.ordinal()), ItemLevel.HARDENED));
+		par3List.add(
+				ItemLevel.setLevel(new ItemStack(this, 1, CoreType.DECOMPOSITION.ordinal()), ItemLevel.REINFORCED));
+		par3List.add(ItemLevel.setLevel(new ItemStack(this, 1, CoreType.DECOMPOSITION.ordinal()), ItemLevel.RESONANT));
+
+		final ItemStack stack = new ItemStack(this, 1, CoreType.DECOMPOSITION.ordinal());
+		ItemLevel.setLevel(stack, ItemLevel.ETHEREAL);
+		ItemStackHelper.makeGlow(stack);
+		par3List.add(stack);
+	}
+
 	@Override
 	public void register() {
 		super.register();
-		
+
 		// Basic
 		final ItemStack decompCore = new ItemStack(ItemManager.processingCore, 1, CoreType.DECOMPOSITION.ordinal());
 		ItemLevel.setLevel(decompCore, ItemLevel.BASIC);
-		ShapedOreRecipe recipe = new ShapedOreRecipe(
-				decompCore,
-				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
-				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(),
-				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
-		
+		ShapedOreRecipe recipe = new ShapedOreRecipe(decompCore, " h ", "mMm", "tst", 'h',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(), 'm', "ingotIron", 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(), 't', "gearTin", 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
+
 		GameRegistry.addRecipe(recipe);
 
 		// Hardened
 		final ItemStack decompCore1 = new ItemStack(ItemManager.processingCore, 1, CoreType.DECOMPOSITION.ordinal());
 		ItemLevel.setLevel(decompCore1, ItemLevel.HARDENED);
-		recipe = new ShapedOreRecipe(
-				decompCore1,
-				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
-				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:1").get(),
-				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
-		
+		recipe = new ShapedOreRecipe(decompCore1, " h ", "mMm", "tst", 'h',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(), 'm', "ingotIron", 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame:1").get(), 't', "gearTin", 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
+
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new UpgradeRecipe(
-				ItemLevel.HARDENED,
-				decompCore1,
-				"igi", " c ", "i i",
-				'i', "ingotInvar",
-				'g', "gearElectrum",
-				'c', decompCore);
-		
+		recipe = new UpgradeRecipe(ItemLevel.HARDENED, decompCore1, "igi", " c ", "i i", 'i', "ingotInvar", 'g',
+				"gearElectrum", 'c', decompCore);
+
 		GameRegistry.addRecipe(recipe);
 
 		// Reinforced
 		final ItemStack decompCore2 = new ItemStack(ItemManager.processingCore, 1, CoreType.DECOMPOSITION.ordinal());
 		ItemLevel.setLevel(decompCore2, ItemLevel.REINFORCED);
-		recipe = new ShapedOreRecipe(
-				decompCore2,
-				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
-				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:2").get(),
-				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
-		
+		recipe = new ShapedOreRecipe(decompCore2, " h ", "mMm", "tst", 'h',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(), 'm', "ingotIron", 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame:2").get(), 't', "gearTin", 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
+
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new UpgradeRecipe(
-				ItemLevel.REINFORCED,
-				decompCore2,
-				"igi", " c ", "i i",
-				'i', "blockGlassHardened",
-				'g', "gearSignalum",
-				'c', decompCore1);
-		
+		recipe = new UpgradeRecipe(ItemLevel.REINFORCED, decompCore2, "igi", " c ", "i i", 'i', "blockGlassHardened",
+				'g', "gearSignalum", 'c', decompCore1);
+
 		GameRegistry.addRecipe(recipe);
 
 		// Resonant
 		final ItemStack decompCore3 = new ItemStack(ItemManager.processingCore, 1, CoreType.DECOMPOSITION.ordinal());
 		ItemLevel.setLevel(decompCore3, ItemLevel.RESONANT);
-		recipe = new ShapedOreRecipe(
-				decompCore3,
-				" h ", "mMm", "tst", 'h',
-				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(),
-				'm', "ingotIron",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame:3").get(),
-				't', "gearTin",
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
-		
+		recipe = new ShapedOreRecipe(decompCore3, " h ", "mMm", "tst", 'h',
+				ItemStackHelper.getItemStack("ThermalExpansion:meter").get(), 'm', "ingotIron", 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame:3").get(), 't', "gearTin", 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
+
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new UpgradeRecipe(
-				ItemLevel.RESONANT,
-				decompCore3,
-				"igi", " c ", "i i",
-				'i', "ingotSilver",
-				'g', "gearEnderium",
-				'c', decompCore2);
+		recipe = new UpgradeRecipe(ItemLevel.RESONANT, decompCore3, "igi", " c ", "i i", 'i', "ingotSilver", 'g',
+				"gearEnderium", 'c', decompCore2);
 
 		GameRegistry.addRecipe(recipe);
 
@@ -163,24 +156,16 @@ public final class ProcessingCore extends ItemBase {
 		final ItemStack decompCore4 = new ItemStack(ItemManager.processingCore, 1, CoreType.DECOMPOSITION.ordinal());
 		ItemLevel.setLevel(decompCore4, ItemLevel.ETHEREAL);
 		ItemStackHelper.makeGlow(decompCore4);
-		recipe = new UpgradeRecipe(
-				ItemLevel.ETHEREAL,
-				decompCore4,
-				"igi", " c ", "i i",
-				'i', "ingotPlatinum",
-				'g', Items.nether_star,
-				'c', decompCore3);
+		recipe = new UpgradeRecipe(ItemLevel.ETHEREAL, decompCore4, "igi", " c ", "i i", 'i', "ingotPlatinum", 'g',
+				Items.nether_star, 'c', decompCore3);
 
 		GameRegistry.addRecipe(recipe);
 
-		recipe = new ShapedOreRecipe(
-				new ItemStack(ItemManager.processingCore, 1, CoreType.EXTRACTION.ordinal()),
-				"cfc", "gMg", "csc",
-				'c', ItemStackHelper.getItemStack("ThermalExpansion:material:3").get(),
-				'f', ItemStackHelper.getItemStack("ThermalExpansion:igniter").get(),
-				'g', "gearInvar",
-				'M', ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(),
-				's', ItemStackHelper.getItemStack("ThermalExpansion:material").get());
+		recipe = new ShapedOreRecipe(new ItemStack(ItemManager.processingCore, 1, CoreType.EXTRACTION.ordinal()), "cfc",
+				"gMg", "csc", 'c', ItemStackHelper.getItemStack("ThermalExpansion:material:3").get(), 'f',
+				ItemStackHelper.getItemStack("ThermalExpansion:igniter").get(), 'g', "gearInvar", 'M',
+				ItemStackHelper.getItemStack("ThermalExpansion:Frame").get(), 's',
+				ItemStackHelper.getItemStack("ThermalExpansion:material").get());
 
 		GameRegistry.addRecipe(recipe);
 	}

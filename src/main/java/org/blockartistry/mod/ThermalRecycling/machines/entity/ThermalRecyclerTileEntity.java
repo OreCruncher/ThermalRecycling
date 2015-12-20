@@ -351,25 +351,28 @@ public final class ThermalRecyclerTileEntity extends TileEntityBase implements
 			
 			final int energyForOperation = operationEnergyForCore(activeCore);
 			final int energyToComplete = energyForOperation - progress;
+			
+			// Jam the machine right away if the item
+			// in the input slot cannot be processed.
+			if(context != null && context.shouldJam) {
+				progress = 0;
+				status = MachineStatus.JAMMED;
+			}
 
 			switch (status) {
 
 			case IDLE:
 				progress = 0;
 				if (inputSlotStack != null) {
-					if(context.shouldJam) {
-						status = MachineStatus.JAMMED;
-					} else {
-						status = MachineStatus.ACTIVE;
-					}
+					status = MachineStatus.ACTIVE;
 				}
 				break;
 
 			case ACTIVE:
-				if (energy < energyToComplete) {
-					status = MachineStatus.OUT_OF_POWER;
-				} else if (inputSlotStack == null) {
+				if (inputSlotStack == null) {
 					status = MachineStatus.IDLE;
+				} else if (energy < energyToComplete) {
+					status = MachineStatus.OUT_OF_POWER;
 				} else if (!hasItemToRecycle()) {
 					progress = 0;
 					status = MachineStatus.NEED_MORE_RESOURCES;
