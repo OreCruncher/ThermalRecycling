@@ -35,6 +35,8 @@ import net.minecraft.item.ItemStack;
  */
 public final class ItemStackKey {
 	
+	private final static int TERM = 3079;
+	
 	// The cached key is used by the various framework routines where a temporary
 	// key is generated just to index an internal table.  It's thread local so
 	// there should be no collision.  They key should not be cached or used in
@@ -69,6 +71,8 @@ public final class ItemStackKey {
 	// Modified Bernstein
 	// http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
 	private static int calculateHash(int id, int meta) {
+		return id ^ (meta * TERM);
+		/*
 		int working = meta << 24 | id;
 		int hash = 0;
 		for (int i = 0; i < 4; i++) {
@@ -76,6 +80,7 @@ public final class ItemStackKey {
 			working >>>= 8;
 		}
 		return hash;
+		*/
 	}
 
 	private ItemStackKey() {
