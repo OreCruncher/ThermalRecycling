@@ -28,6 +28,8 @@ import java.util.Collection;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.BEFlexibleRecipeAccessor;
+
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.IFlexibleRecipe;
 import buildcraft.api.recipes.IFlexibleRecipeViewable;
@@ -88,6 +90,8 @@ public final class ModBuildCraftTransport extends ModPlugin {
 
 	public ModBuildCraftTransport() {
 		super(SupportedMod.BUILDCRAFT_TRANSPORT);
+		
+		RecipeDecomposition.registerAccessor(IFlexibleRecipeViewable.class, new BEFlexibleRecipeAccessor());
 	}
 
 	protected void registerBuildcraftRecipe(final IFlexibleRecipe<ItemStack> recipe) {
@@ -107,7 +111,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 			return;
 
 		recycler.input(output)
-			.useRecipe(RecipeDecomposition.decomposeBuildCraft(output, view.getInputs()))
+			.useRecipe(RecipeDecomposition.decompose(view))
 			.save();
 	}
 

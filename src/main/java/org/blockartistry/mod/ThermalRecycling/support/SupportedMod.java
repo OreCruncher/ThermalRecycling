@@ -95,6 +95,8 @@ public enum SupportedMod {
 	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", ModImmersiveEngineering.class),
 	
 	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
+	
+	//INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries

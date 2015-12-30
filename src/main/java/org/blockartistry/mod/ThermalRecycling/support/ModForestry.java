@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -41,6 +42,9 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryCarpenterRecipeAccessor;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryFabricatorRecipeAccessor;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryRecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Optional;
@@ -90,17 +94,30 @@ public final class ModForestry extends ModPlugin {
 
 	static final String[] scrapValuesSuperior = new String[] { "core:0", "hardenedMachine", "treealyzer", "beealyzer",
 			"flutterlyzer", "frameProven", "craftingMaterial:3", "minerBagT2", "diggerBagT2", "adventurerBagT2",
-			"builderBagT2", "hunterBagT2", "foresterBagT2", "apiaristHelmet", "apiaristLegs", "apiaristBoots", "apiaristChest",
-			"sturdyMachine" };
+			"builderBagT2", "hunterBagT2", "foresterBagT2", "apiaristHelmet", "apiaristLegs", "apiaristBoots",
+			"apiaristChest", "sturdyMachine" };
 
 	protected final boolean isForestry4x;
+	protected final boolean isForestry41x;
 
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);
 
 		this.isForestry4x = isAcceptibleVersion("[4,)");
+		this.isForestry41x = isAcceptibleVersion("[4.1,)");
+
+		if (this.isForestry41x) {
+			RecipeDecomposition.registerAccessor("forestry.api.recipes.ICarpenterRecipe",
+					new ForestryCarpenterRecipeAccessor());
+			RecipeDecomposition.registerAccessor("forestry.api.recipes.IFabricatorRecipe",
+					new ForestryFabricatorRecipeAccessor());
+		} else {
+			RecipeDecomposition.registerAccessor("forestry.core.utils.ShapedRecipeCustom",
+					new ForestryRecipeAccessor());
+		}
 	}
 
+	@Deprecated
 	protected void registerForestryRecipes(final Map<Object[], Object[]> entry) {
 		for (final Entry<Object[], Object[]> e : entry.entrySet()) {
 			if (e.getValue().length == 1 && e.getValue()[0] instanceof ItemStack) {
@@ -108,6 +125,16 @@ public final class ModForestry extends ModPlugin {
 				if (!ItemData.isRecipeIgnored(stack))
 					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
+		}
+	}
+
+	protected <T> void register(final Collection<T> recipes) {
+		for (final T r : recipes) {
+			final ItemStack input = RecipeDecomposition.getInput(r);
+			if (input == null || ItemData.isRecipeIgnored(input))
+				continue;
+			ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
+			recycler.input(input).useRecipe(RecipeDecomposition.decompose(r)).save();
 		}
 	}
 
@@ -200,9 +227,13 @@ public final class ModForestry extends ModPlugin {
 	public boolean postInit() {
 
 		// Dig into the Forestry crafting data and extract additional recipes
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager.getRecipes());
-		registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager.getRecipes());
-
+		if (!this.isForestry41x) {
+			registerForestryRecipes(forestry.api.recipes.RecipeManagers.carpenterManager.getRecipes());
+			registerForestryRecipes(forestry.api.recipes.RecipeManagers.fabricatorManager.getRecipes());
+		} else {
+			register(forestry.api.recipes.RecipeManagers.carpenterManager.recipes());
+			register(forestry.api.recipes.RecipeManagers.fabricatorManager.recipes());
+		}
 		return true;
 	}
 }

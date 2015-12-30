@@ -400,7 +400,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ExtractionData.freeze();
 
 		// AutoDetect scrap values
-		autoDetect();
+		//autoDetect();
 
 		return true;
 	}

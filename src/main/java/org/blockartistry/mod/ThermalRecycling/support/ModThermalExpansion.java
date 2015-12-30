@@ -28,6 +28,8 @@ import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.TERecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class ModThermalExpansion extends ModPlugin {
@@ -41,6 +43,8 @@ public final class ModThermalExpansion extends ModPlugin {
 
 	public ModThermalExpansion() {
 		super(SupportedMod.THERMAL_EXPANSION);
+		
+		RecipeDecomposition.registerAccessor("cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper", new TERecipeAccessor());
 	}
 
 	@Override

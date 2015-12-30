@@ -25,6 +25,9 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.AEShapedRecipeAccessor;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.AEShapelessRecipeAccessor;
 
 public final class ModAppliedEnergistics2 extends ModPlugin {
 
@@ -58,6 +61,11 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 
 	public ModAppliedEnergistics2() {
 		super(SupportedMod.APPLIED_ENERGISTICS);
+
+		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapedRecipe",
+				new AEShapedRecipeAccessor());
+		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapelessRecipe",
+				new AEShapelessRecipeAccessor());
 	}
 
 	@Override
