@@ -32,6 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -286,6 +287,11 @@ public final class ThermalRecyclerRecipeBuilder {
 				"Input ItemStack needs to be specified");
 
 		try {
+
+			// Make sure we have a concrete entry for the input
+			// stack.
+			final ItemData data = ItemData.get(input);
+			ItemData.put(input, data);
 
 			final int result = RecipeData.put(input, output);
 			if (result == RecipeData.FAILURE)

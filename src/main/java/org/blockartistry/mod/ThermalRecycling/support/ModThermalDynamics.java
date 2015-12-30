@@ -28,11 +28,14 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModThermalDynamics extends ModPlugin {
 
-	private static final String[] scrapValuesPoor = new String[] { "ThermalDynamics_0:0", "ThermalDynamics_0:1" };
+	private static final String[] scrapValuesPoor = new String[] { "ThermalDynamics_0:0", "ThermalDynamics_0:1",
+			"ThermalDynamics_16:2", "ThermalDynamics_32:1", "ThermalDynamics_16:3", "ThermalDynamics_0:3",
+			"ThermalDynamics_32:0", "ThermalDynamics_0:5", "ThermalDynamics_32:5", "ThermalDynamics_16:1",
+			"ThermalDynamics_16:0", "ThermalDynamics_48:0", "ThermalDynamics_32:4" };
 
 	private static final String[] scrapValuesStandard = new String[] {};
 
-	private static final String[] scrapValuesSuperior = new String[] {};
+	private static final String[] scrapValuesSuperior = new String[] { "ThermalDynamics_0:7", };
 
 	public ModThermalDynamics() {
 		super(SupportedMod.THERMAL_DYNAMICS);

@@ -38,7 +38,8 @@ public final class ModRFWindmills extends ModPlugin {
 
 	static final String[] scrapValuesStandard = new String[] { "rotorSignalum", "rotorEnderium" };
 
-	static final String[] scrapValuesSuperior = new String[] { "windmillBlock:2", "windmillBlock:3",
+	static final String[] scrapValuesSuperior = new String[] { "windmillBlock:0", "windmillBlock:1", "windmillBlock:2",
+			"windmillBlock:3",
 
 	};
 

@@ -54,13 +54,15 @@ public final class ModThaumcraft extends ModPlugin {
 	static final String[] scrapValuesPoor = new String[] { "ItemResource:6", "blockCrystal:*", "ItemResource:18",
 			"ItemWispEssence:*", "ItemShard:*", "TripleMeatTreat", "ItemNugget:0", "ItemNugget:1", "ItemNugget:2",
 			"ItemNugget:3", "ItemNugget:4", "ItemNugget:5", "ItemNugget:6", "ItemNugget:7", "ItemLootBag:0",
-			"ItemEssence:1", "ItemZombieBrain" };
+			"ItemEssence:1", "ItemZombieBrain", "blockMetalDevice:5", "WandCap:0", "WandCasting:0",
+			"blockCosmeticOpaque:0", "blockCosmeticOpaque:1", "blockCosmeticSlabStone:0" };
 
 	static final String[] scrapValuesStandard = new String[] { "ItemLootBag:1", };
 
 	static final String[] scrapValuesSuperior = new String[] { "ItemLootBag:2", "ItemSwordElemental",
 			"ItemHoeElemental", "ItemShovelElemental", "ItemAxeElemental", "ItemPickaxeElemental", "BootsTraveller",
-			"HoverHarness", "ItemGirdleHover:0", "ItemEldritchObject:*", "ItemChestplateThaumium", "ItemChestplateVoid" };
+			"HoverHarness", "ItemGirdleHover:0", "ItemEldritchObject:*", "ItemChestplateThaumium", "ItemChestplateVoid",
+			"ItemResearchNotes:42", "blockCosmeticSolid:4" };
 
 	public ModThaumcraft() {
 		super(SupportedMod.THAUMCRAFT);

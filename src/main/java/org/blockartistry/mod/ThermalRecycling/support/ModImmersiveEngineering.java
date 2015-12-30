@@ -28,32 +28,26 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public class ModImmersiveEngineering extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { };
+	static final String[] recipeIgnoreList = new String[] {};
 
-	static final String[] scrapValuesNone = new String[] {
-			"woodenDecoration:*", "hemp", "material:0", "material:1",
-			"material:2", "material:3", "material:4", "material:5",
-			"seed:*", "woodenStairs", "woodenDevice:0", "woodenDevice:5", "tool:3",
-			"metalDecoration:0", "metalDecoration:1", "metalDecoration:9",
-			"metalDecoration:8"
-	};
+	static final String[] scrapValuesNone = new String[] { "woodenDecoration:*", "hemp", "material:0", "material:1",
+			"material:2", "material:3", "material:4", "material:5", "material:7", "material:10", "seed:*",
+			"woodenStairs", "woodenDevice:*", "tool:3", "metalDecoration:0", "metalDecoration:1", "metalDecoration:3",
+			"metalDecoration:9", "metalDecoration:8", "coil:3", "coil:4", "drillhead:0" };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"metalDevice:0", "metalDevice:2", "metalDevice:5", "metalDevice:6",
-			"metalDevice:11", "material:13",
-			"fluidContainers:0", "fluidContainers:2", "fluidContainers:6",
-			"material:6",
-			
-			
+	static final String[] scrapValuesPoor = new String[] { "metalDevice:0", "metalDevice:2", "metalDevice:5",
+			"metalDevice:6", "metalDevice:11", "material:13", "fluidContainers:0", "fluidContainers:2",
+			"fluidContainers:6", "material:6", "storageSlab:*", "metalDecoration:2", "coil:2", "bullet:1",
+
 			// Nuggets
-			"metal:21", "metal:22", "metal:23", "metal:24", "metal:25", "metal:26",
-			"metal:27", "metal:28", "metal:29"
-	};
+			"metal:21", "metal:22", "metal:23", "metal:24", "metal:25", "metal:26", "metal:27", "metal:28",
+			"metal:29" };
 
-	static final String[] scrapValuesStandard = new String[] {};
+	static final String[] scrapValuesStandard = new String[] { "woodenDevice:2" };
 
-	static final String[] scrapValuesSuperior = new String[] { "skyhook"
-			};
+	static final String[] scrapValuesSuperior = new String[] { "skyhook", "toolupgrade:0", "toolupgrade:1",
+			"toolupgrade:3", "toolupgrade:5", "metalDevice:8", "metalDevice:12", "metalDevice:13", "metalDevice:14",
+			"revolver:0", "drill:0" };
 
 	public ModImmersiveEngineering() {
 		super(SupportedMod.IMMERSIVE_ENGINEERING);
@@ -67,7 +61,7 @@ public class ModImmersiveEngineering extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		return true;
 	}
 }

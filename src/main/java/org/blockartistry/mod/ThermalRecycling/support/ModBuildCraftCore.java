@@ -30,9 +30,8 @@ import cpw.mods.fml.common.Loader;
 
 public final class ModBuildCraftCore extends ModPlugin {
 
-	static final String[] scrapValuesNone = new String[] { "pathMarkerBlock",
-			"paintbrush", "markerBlock",
-			"woodenGearItem", "stoneGearItem", "mapLocation", "list" };
+	static final String[] scrapValuesNone = new String[] { "pathMarkerBlock", "paintbrush", "markerBlock",
+			"woodenGearItem", "stoneGearItem", "mapLocation", "list:*" };
 
 	static final String[] scrapValuesPoor = new String[] {};
 

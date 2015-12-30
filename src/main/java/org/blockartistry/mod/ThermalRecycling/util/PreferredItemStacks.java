@@ -85,6 +85,7 @@ public abstract class PreferredItemStacks {
 	public ItemStack dustSignalum;
 	public ItemStack dustLumium;
 	public ItemStack dustEnderium;
+	public ItemStack dustRedstone = new ItemStack(Items.redstone);
 
 	public ItemStack nuggetIron;
 	public ItemStack nuggetGold = new ItemStack(Items.gold_nugget);
@@ -202,6 +203,7 @@ public abstract class PreferredItemStacks {
 		registerStack("dustCharcoal", dustCharcoal);
 		registerStack("dustSulfer", sulfer);
 		registerStack("dustObsidian", dustObsidian);
+		registerStack("dustRedstone", dustRedstone);
 
 		registerStack("blockCopper", blockCopper);
 		registerStack("blockTin", blockTin);

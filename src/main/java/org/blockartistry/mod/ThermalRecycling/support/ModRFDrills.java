@@ -39,8 +39,9 @@ public final class ModRFDrills extends ModPlugin {
 	static final String[] scrapValuesStandard = new String[] { "motor_te:0", "motor_te:1" };
 
 	static final String[] scrapValuesSuperior = new String[] { "motor_te:2", "motor_te:4", "motor_te:5", "motor_te:6",
-			"redstone_chainsaw", "redstone_drill", "resonant_drill", "flux_infused_crusher", "leadstone_chainsaw",
-			"hardened_chainsaw", "leadstone_drill", "hardened_drill", "resonant_chainsaw", "motor_te:3", };
+			"motor_te:7", "redstone_chainsaw", "redstone_drill", "resonant_drill", "flux_infused_crusher",
+			"leadstone_chainsaw", "hardened_chainsaw", "leadstone_drill", "hardened_drill", "resonant_chainsaw",
+			"motor_te:3", };
 
 	public ModRFDrills() {
 		super(SupportedMod.RFDRILLS);

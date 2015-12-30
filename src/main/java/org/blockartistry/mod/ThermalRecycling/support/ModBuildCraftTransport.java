@@ -37,60 +37,42 @@ import net.minecraft.item.ItemStack;
 
 public final class ModBuildCraftTransport extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "pipeFacade:*",
-			"pipePlug", "pipeGate", "pipeWaterproof", };
+	static final String[] recipeIgnoreList = new String[] { "pipeFacade:*", "pipePlug", "pipeGate", "pipeWaterproof", };
 
-	static final String[] scrapValuesNone = new String[] { "pipeFacade:*",
-			"pipePlug", "pipeWaterproof", "pipeWire:*",
-			"item.buildcraftPipe.pipeitemswood",
-			"item.buildcraftPipe.pipeitemscobblestone",
-			"item.buildcraftPipe.pipeitemsstone",
-			"item.buildcraftPipe.pipeitemslapis",
-			"item.buildcraftPipe.pipeitemssandstone",
-			"item.buildcraftPipe.pipeitemsvoid",
-			"item.buildcraftPipe.pipeitemsclay",
-			"item.buildcraftPipe.pipefluidswood",
-			"item.buildcraftPipe.pipefluidscobblestone",
-			"item.buildcraftPipe.pipefluidsstone",
-			"item.buildcraftPipe.pipefluidssandstone",
-			"item.buildcraftPipe.pipefluidsvoid",
-			"item.buildcraftPipe.pipepowerwood",
-			"item.buildcraftPipe.pipepowercobblestone",
-			"item.buildcraftPipe.pipepowerstone",
-			"item.buildcraftPipe.pipepowersandstone",
-			"item.buildcraftPipe.pipestructurecobblestone", };
+	static final String[] scrapValuesNone = new String[] { "pipeFacade:*", "pipePlug", "pipeWaterproof", "pipeLens:*",
+			"item.buildcraftPipe.pipeitemswood:*", "item.buildcraftPipe.pipeitemscobblestone:*",
+			"item.buildcraftPipe.pipeitemsstone:*", "item.buildcraftPipe.pipeitemslapis:*",
+			"item.buildcraftPipe.pipeitemssandstone:*", "item.buildcraftPipe.pipeitemsvoid:*",
+			"item.buildcraftPipe.pipeitemsclay:*", "item.buildcraftPipe.pipefluidswood:*",
+			"item.buildcraftPipe.pipefluidscobblestone:*", "item.buildcraftPipe.pipefluidsstone:*",
+			"item.buildcraftPipe.pipefluidssandstone:*", "item.buildcraftPipe.pipefluidsvoid:*",
+			"item.buildcraftPipe.pipefluidsclay:*", "item.buildcraftPipe.pipepowerwood:*",
+			"item.buildcraftPipe.pipepowercobblestone:*", "item.buildcraftPipe.pipepowerstone:*",
+			"item.buildcraftPipe.pipepowersandstone:*", "item.buildcraftPipe.pipestructurecobblestone:*", };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"pipePowerAdapter",
-			"item.buildcraftPipe.pipeitemsobsidian:0",
-			"item.buildcraftPipe.pipeitemsgold:0",
-			"item.buildcraftPipe.pipepowergold:0",
-			"item.buildcraftPipe.pipeitemsstripes:0",
-			"item.buildcraftPipe.pipeitemsquartz:0",
-			"item.buildcraftPipe.pipepowerquartz:0",
-			"item.buildcraftPipe.pipefluidsquartz:0",
-			"item.buildcraftPipe.pipeitemsiron:0",
-			"item.buildcraftPipe.pipefluidsiron:0",
-			"item.buildcraftPipe.pipepoweriron:0",
-			"item.buildcraftPipe.pipefluidsgold",
-	};
+	static final String[] scrapValuesPoor = new String[] { "pipePowerAdapter", "pipeWire:*",
+			"item.buildcraftPipe.pipeitemsobsidian:*", "item.buildcraftPipe.pipeitemsgold:*",
+			"item.buildcraftPipe.pipepowergold:*", "item.buildcraftPipe.pipeitemsstripes:*",
+			"item.buildcraftPipe.pipeitemsquartz:*", "item.buildcraftPipe.pipepowerquartz:*",
+			"item.buildcraftPipe.pipefluidsquartz:*", "item.buildcraftPipe.pipeitemsiron:*",
+			"item.buildcraftPipe.pipefluidsiron:*", "item.buildcraftPipe.pipepoweriron:*",
+			"item.buildcraftPipe.pipefluidsgold:*",
 
-	static final String[] scrapValuesStandard = new String[] {
-			"item.buildcraftPipe.pipeitemsdiamond:0",
-			"item.buildcraftPipe.pipeitemsemerald:0",
-			"item.buildcraftPipe.pipepoweremerald:0",
-			"item.buildcraftPipe.pipeitemsdaizuli:0",
-			"item.buildcraftPipe.pipefluidsdiamond:0",
-			"item.buildcraftPipe.pipepowerdiamond:0",
-			"item.buildcraftPipe.pipefluidsemerald:0",
-			"item.buildcraftPipe.pipeitemsemzuli:0",
-	};
+			"pipeLens:16", "pipeLens:17", "pipeLens:18", "pipeLens:19", "pipeLens:20", "pipeLens:21", "pipeLens:22",
+			"pipeLens:23", "pipeLens:24", "pipeLens:25", "pipeLens:26", "pipeLens:27", "pipeLens:28", "pipeLens:29",
+			"pipeLens:30", "pipeLens:31", "pipeLens:33" };
+
+	static final String[] scrapValuesStandard = new String[] { "item.buildcraftPipe.pipeitemsdiamond:*",
+			"item.buildcraftPipe.pipeitemsemerald:*", "item.buildcraftPipe.pipepoweremerald:*",
+			"item.buildcraftPipe.pipeitemsdaizuli:*", "item.buildcraftPipe.pipefluidsdiamond:*",
+			"item.buildcraftPipe.pipepowerdiamond:*", "item.buildcraftPipe.pipefluidsemerald:*",
+			"item.buildcraftPipe.pipeitemsemzuli:*", };
 
 	static final String[] scrapValuesSuperior = new String[] { "pipeGate" };
 
 	public ModBuildCraftTransport() {
 		super(SupportedMod.BUILDCRAFT_TRANSPORT);
-		
+
 		RecipeDecomposition.registerAccessor(IFlexibleRecipeViewable.class, new BEFlexibleRecipeAccessor());
 	}
 
@@ -110,9 +92,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		if (ItemData.isRecipeIgnored(output))
 			return;
 
-		recycler.input(output)
-			.useRecipe(RecipeDecomposition.decompose(view))
-			.save();
+		recycler.input(output).useRecipe(RecipeDecomposition.decompose(view)).save();
 	}
 
 	@Override
@@ -126,13 +106,12 @@ public final class ModBuildCraftTransport extends ModPlugin {
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean postInit() {
 
 		// Scan the recipes
-		final Collection<IFlexibleRecipe<ItemStack>> recipes = BuildcraftRecipeRegistry.assemblyTable
-				.getRecipes();
+		final Collection<IFlexibleRecipe<ItemStack>> recipes = BuildcraftRecipeRegistry.assemblyTable.getRecipes();
 
 		for (final IFlexibleRecipe<ItemStack> r : recipes)
 			registerBuildcraftRecipe(r);
@@ -140,12 +119,11 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		// BuildCraft 7.x busted the API - so much for backward compatibility
 		// and interface contracts...
 		/*
-		final List<? extends IIntegrationRecipe> recipes1 = BuildcraftRecipeRegistry.integrationTable
-				.getRecipes();
-		for (final IIntegrationRecipe r : recipes1)
-			registerBuildcraftRecipe(r);
-			*/
-		
+		 * final List<? extends IIntegrationRecipe> recipes1 =
+		 * BuildcraftRecipeRegistry.integrationTable .getRecipes(); for (final
+		 * IIntegrationRecipe r : recipes1) registerBuildcraftRecipe(r);
+		 */
+
 		return true;
 	}
 }

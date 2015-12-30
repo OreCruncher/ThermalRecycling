@@ -38,7 +38,24 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 			"item.ItemFacade:*" };
 
 	static final String[] scrapValuesPoor = new String[] { "tile.BlockSkyStone:*", "tile.SkyStoneBrickStairBlock",
-			"tile.SkyStoneStairBlock", "tile.SkyStoneSmallBrickStairBlock", "tile.SkyStoneBlockStairBlock" };
+			"tile.SkyStoneStairBlock", "tile.SkyStoneSmallBrickStairBlock", "tile.SkyStoneBlockStairBlock",
+			"item.ItemMultiPart:0", "item.ItemMultiPart:1", "item.ItemMultiPart:2", "item.ItemMultiPart:3",
+			"item.ItemMultiPart:4", "item.ItemMultiPart:5", "item.ItemMultiPart:6", "item.ItemMultiPart:7",
+			"item.ItemMultiPart:8", "item.ItemMultiPart:9", "item.ItemMultiPart:10", "item.ItemMultiPart:11",
+			"item.ItemMultiPart:12", "item.ItemMultiPart:13", "item.ItemMultiPart:14", "item.ItemMultiPart:15",
+			"item.ItemMultiPart:20", "item.ItemMultiPart:21", "item.ItemMultiPart:22", "item.ItemMultiPart:23",
+			"item.ItemMultiPart:24", "item.ItemMultiPart:25", "item.ItemMultiPart:26", "item.ItemMultiPart:27",
+			"item.ItemMultiPart:28", "item.ItemMultiPart:29", "item.ItemMultiPart:30", "item.ItemMultiPart:31",
+			"item.ItemMultiPart:32", "item.ItemMultiPart:33", "item.ItemMultiPart:34", "item.ItemMultiPart:35",
+			"item.ItemMultiPart:40", "item.ItemMultiPart:41", "item.ItemMultiPart:42", "item.ItemMultiPart:43",
+			"item.ItemMultiPart:44", "item.ItemMultiPart:45", "item.ItemMultiPart:46", "item.ItemMultiPart:47",
+			"item.ItemMultiPart:48", "item.ItemMultiPart:49", "item.ItemMultiPart:50", "item.ItemMultiPart:51",
+			"item.ItemMultiPart:52", "item.ItemMultiPart:53", "item.ItemMultiPart:54", "item.ItemMultiPart:55",
+			"item.ItemMultiPart:60", "item.ItemMultiPart:61", "item.ItemMultiPart:62", "item.ItemMultiPart:63",
+			"item.ItemMultiPart:64", "item.ItemMultiPart:65", "item.ItemMultiPart:66", "item.ItemMultiPart:67",
+			"item.ItemMultiPart:68", "item.ItemMultiPart:69", "item.ItemMultiPart:70", "item.ItemMultiPart:71",
+			"item.ItemMultiPart:72", "item.ItemMultiPart:73", "item.ItemMultiPart:74", "item.ItemMultiPart:75",
+			"item.ItemCrystalSeed:600", "item.ItemCrystalSeed:1200", "item.ItemCrystalSeed:0" };
 
 	static final String[] scrapValuesStandard = new String[] { "tile.BlockWireless", "tile.BlockQuartz", };
 
@@ -57,15 +74,15 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 			"item.ItemMultiMaterial:33", "item.ItemMultiMaterial:34", "item.ItemMultiMaterial:37",
 			"item.ItemMultiMaterial:32", "item.ItemMultiMaterial:38", "item.ItemMultiMaterial:24",
 			"item.ItemMultiMaterial:17", "item.ToolMassCannon", "item.ToolEntropyManipulator",
-			"item.ToolWirelessTerminal", };
+			"item.ToolWirelessTerminal", "tile.BlockCraftingStorage:1", "tile.BlockCraftingStorage:0",
+			"tile.BlockCraftingMonitor:0", "item.ItemMultiPart:220", "item.ItemMultiPart:420",
+			"item.ItemMultiPart:460", };
 
 	public ModAppliedEnergistics2() {
 		super(SupportedMod.APPLIED_ENERGISTICS);
 
-		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapedRecipe",
-				new AEShapedRecipeAccessor());
-		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapelessRecipe",
-				new AEShapelessRecipeAccessor());
+		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapedRecipe", new AEShapedRecipeAccessor());
+		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapelessRecipe", new AEShapelessRecipeAccessor());
 	}
 
 	@Override

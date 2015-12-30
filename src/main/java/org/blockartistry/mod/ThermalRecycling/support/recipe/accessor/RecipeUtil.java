@@ -37,7 +37,7 @@ import net.minecraft.item.ItemStack;
 public final class RecipeUtil {
 
 	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>()
-			.add("forestry.lepidopterology.MatingRecipe", "cofh.thermaldynamics.util.crafting.RecipeCover",
+			.add("forestry.lepidopterology.recipes.MatingRecipe", "cofh.thermaldynamics.util.crafting.RecipeCover",
 					"mods.railcraft.common.carts.LocomotivePaintingRecipe",
 					"mods.railcraft.common.emblems.EmblemPostColorRecipe",
 					"codechicken.enderstorage.common.EnderStorageRecipe")

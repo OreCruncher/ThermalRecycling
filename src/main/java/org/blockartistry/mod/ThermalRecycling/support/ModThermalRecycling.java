@@ -61,7 +61,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public final class ModThermalRecycling extends ModPlugin {
 
 	private static final String[] scrapValuesSuperior = new String[] { "MachineThermalRecycler", "MachineComposter",
-			"MachineScrapAssessor", "MachineBatteryRack", "MachineVending" };
+			"MachineScrapAssessor", "MachineBatteryRack", "MachineVending", "ProcessingCore:*" };
 
 	private static class EnergeticRedstoneRecipes {
 
@@ -323,6 +323,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	private float detect(final ItemData data) {
 		if (data.getAutoScrapValue() == null) {
+			//ModLog.debug("detect: %s (%s)", data.getName(), data.getInternalName());
 			final RecipeData recipe = RecipeData.get(data.getStack());
 			if (recipe == null || !recipe.hasOutput()) {
 				data.setAutoScrapValue(data.getScrapValue());
@@ -375,9 +376,14 @@ public final class ModThermalRecycling extends ModPlugin {
 		return data.getChildScores();
 	}
 
+	@SuppressWarnings("unused")
 	private void autoDetect() {
 		for (final ItemData data : ItemData.getDataList())
-			detect(data);
+			try {
+				detect(data);
+			} catch (final Exception ex) {
+				ModLog.warn("autoDetect() blew a gasket: %s (%s)", data.getName(), data.getInternalName());
+			}
 	}
 
 	@SuppressWarnings("unchecked")

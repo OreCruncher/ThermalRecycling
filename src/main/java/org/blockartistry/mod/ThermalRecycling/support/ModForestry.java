@@ -86,16 +86,21 @@ public final class ModForestry extends ModPlugin {
 			"fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*", "mushroom:*",
 			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel", "brokenBronzePickaxe",
 			"hunterBag", "diggerBag", "builderBag", "adventurerBag", "apiaristBag", "foresterBag", "frameUntreated",
-			"bituminousPeat", "apicultureChest:0" };
+			"bituminousPeat", "apicultureChest:0", "candle:0", "thermionicTubes:8", "thermionicTubes:11",
+			"craftingMaterial:1", "factory2:2" };
 
-	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty" };
+	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty",
+			"craftingMaterial:6", "thermionicTubes:6", "thermionicTubes:10" };
 
 	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*", "beePrincessGE:*", "beeQueenGE:*", };
 
 	static final String[] scrapValuesSuperior = new String[] { "core:0", "hardenedMachine", "treealyzer", "beealyzer",
 			"flutterlyzer", "frameProven", "craftingMaterial:3", "minerBagT2", "diggerBagT2", "adventurerBagT2",
 			"builderBagT2", "hunterBagT2", "foresterBagT2", "apiaristHelmet", "apiaristLegs", "apiaristBoots",
-			"apiaristChest", "sturdyMachine" };
+			"apiaristChest", "sturdyMachine", "thermionicTubes:5", "thermionicTubes:9", "factory:0", "factory:1",
+			"factory:2", "factory:3", "factory:4", "factory:5", "factory:6", "factory:7", "factory2:0", "factory2:1",
+			"ffarm:2", "ffarm:3", "ffarm:5", "alveary:2", "alveary:3", "alveary:6", "alveary:7", "engine:3", "engine:4",
+			"mail:0", "mail:1" };
 
 	protected final boolean isForestry4x;
 	protected final boolean isForestry41x;

@@ -34,22 +34,29 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class ModThermalExpansion extends ModPlugin {
 
-	private static final String[] scrapValuesPoor = new String[] { "material:512", "material:513", "florb:*" };
+	private static final String[] scrapValuesNone = new String[] { "Sponge:1", "diagram:0", "diagram:1", };
+
+	private static final String[] scrapValuesPoor = new String[] { "material:512", "material:513", "florb:*",
+			"capacitor:1", "augment:32", };
 
 	private static final String[] scrapValuesStandard = new String[] {};
 
 	private static final String[] scrapValuesSuperior = new String[] { "Cell:1", "Cell:2", "Cell:4", "capacitor:4",
-			"capacitor:5", "Frame:1", "Frame:2", "Frame:3", "tool.battleWrenchInvar", "Strongbox:2" };
+			"capacitor:5", "Frame:1", "Frame:2", "Frame:3", "Frame:5", "Frame:6", "Frame:8", "Frame:10",
+			"tool.battleWrenchInvar", "Strongbox:2", "Strongbox:3", "Strongbox:4", "Cache:2", "Cache:3", "Cache:4",
+			"Plate:0", "satchel:3", "satchel:4", "Machine:*", "Tank:3", "Tank:4", "Tesseract:0", "Device:3", };
 
 	public ModThermalExpansion() {
 		super(SupportedMod.THERMAL_EXPANSION);
-		
-		RecipeDecomposition.registerAccessor("cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper", new TERecipeAccessor());
+
+		RecipeDecomposition.registerAccessor("cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper",
+				new TERecipeAccessor());
 	}
 
 	@Override
 	public boolean initialize() {
 
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);

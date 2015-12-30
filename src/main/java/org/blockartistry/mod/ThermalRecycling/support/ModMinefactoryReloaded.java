@@ -33,7 +33,7 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 	static final String[] recipeIgnoreList = new String[] { "sugarcharcoal", "fertilizer", "ceramicdye:*",
 			"stainedglass.block:*", "stainedglass.pane:*", "rubberwood.log", "rubberwood.leaves:*",
 			"rubberwood.sapling:*", "milkbottle", "meat.ingot.raw", "meat.ingot.cooked", "meat.nugget.raw",
-			"meat.nugget.cooked", "road:*", "brick:*", "stone:*", "tank", "machineblock:0", };
+			"meat.nugget.cooked", "road:*", "brick:*", "stone:*", "tank", "machineblock:0", "conveyor:0" };
 
 	static final String[] scrapValuesNone = new String[] { "sugarcharcoal", "fertilizer", "ceramicdye:*",
 			"stainedglass.block:*", "stainedglass.pane:*", "plastic.cup:*", "plastic.raw", "plastic.sheet",
@@ -41,15 +41,22 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 			"rubber.bar", "vinescaffold", "milkbottle", "meat.ingot.raw", "meat.ingot.cooked", "meat.nugget.raw",
 			"meat.nugget.cooked", "ruler", "record.blank", "plastic.bag", "safarinet.singleuse", "hammer", "road:*",
 			"brick:*", "stone:*", "tank", "machineblock:0", "cable.plastic", "farmland", "potatolauncher",
-			"xpextractor" };
+			"xpextractor", "cable.redstone:0", "rednet.panel:0" };
 
 	static final String[] scrapValuesPoor = new String[] { "rednet.memorycard", "detcord", "needlegun.ammo.empty",
-			"safarinet.jailer", "rail.passenger.dropoff", "rail.passenger.pickup", "rednet.meter:0" };
+			"safarinet.jailer", "rail.passenger.dropoff", "rail.passenger.pickup", "rednet.meter:0", "machine.0:6",
+			"machine.1:0", "cable.redstone:2", "upgrade.radius:0", "upgrade.radius:11", "pinkslime:0" };
 
-	static final String[] scrapValuesStandard = new String[] { "rubberwood.sapling:1" };
+	static final String[] scrapValuesStandard = new String[] { "rubberwood.sapling:1", "conveyor:*", };
 
 	static final String[] scrapValuesSuperior = new String[] { "rubberwood.sapling:2", "portaspawner",
-			"upgrade.logic:2", "rednet.logic", "syringe.cure", "needlegun", "rocketlauncher", "needlegun.ammo.anvil" };
+			"upgrade.logic:2", "rednet.logic", "syringe.cure", "needlegun", "rocketlauncher", "needlegun.ammo.anvil",
+			"machine.0:0", "machine.0:4", "machine.0:5", "machine.0:7", "machine.0:8", "machine.0:9", "machine.0:1",
+			"machine.0:2", "machine.0:3", "machine.0:11", "machine.0:12", "machine.0:13", "machine.0:14",
+			"machine.0:15", "machine.1:3", "machine.1:4", "machine.1:5", "machine.1:6", "machine.1:7", "machine.1:8",
+			"machine.1:9", "machine.1:11", "machine.1:12", "machine.1:13", "machine.1:14", "machine.2:0", "machine.2:1",
+			"machine.2:2", "machine.2:3", "machine.2:5", "machine.2:6", "machine.2:8", "machine.2:9", "machine.2:10",
+			"machine.2:11", "machine.2:12", "laserfocus:*", "upgrade.radius:8", "upgrade.radius:10", };
 
 	public ModMinefactoryReloaded() {
 		super(SupportedMod.MINEFACTORY_RELOADED);
@@ -65,6 +72,9 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		// Some patching
+		registerScrapValues(ScrapValue.POOR, "conveyor:16");
 
 		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
 
