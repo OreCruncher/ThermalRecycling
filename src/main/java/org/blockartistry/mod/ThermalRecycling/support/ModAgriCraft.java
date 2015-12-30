@@ -41,44 +41,38 @@ import net.minecraft.item.ItemStack;
 public class ModAgriCraft extends ModPlugin {
 
 	private static final int AGRICRAFT_API_VERSION = 1;
-	
-	static final String[] recipeIgnoreList = new String[] { };
 
-	static final String[] scrapValuesNone = new String[] {
-			"waterTank:0", "waterChannel:0", "waterChannelFull:0", "cropsItem",
-			"magnifyingGlass", "handRake:0", "seedAnalyzer", "grate:0",
-			"fenceGate:0", "fence:0"
-	};
+	static final String[] recipeIgnoreList = new String[] { "journal" };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"nuggetQuartz"
-	};
+	static final String[] scrapValuesNone = new String[] { "waterTank:0", "waterChannel:0", "waterChannelFull:0",
+			"cropsItem", "magnifyingGlass", "handRake:0", "seedAnalyzer", "grate:0", "fenceGate:0", "fence:0",
+			"journal" };
 
-	static final String[] scrapValuesStandard = new String[] {
-	};
+	static final String[] scrapValuesPoor = new String[] { "nuggetQuartz" };
 
-	static final String[] scrapValuesSuperior = new String[] {
-			};
+	static final String[] scrapValuesStandard = new String[] {};
+
+	static final String[] scrapValuesSuperior = new String[] {};
 
 	public ModAgriCraft() {
 		super(SupportedMod.AGRICRAFT);
 	}
-	
+
 	private static APIBase getApi() {
-		
+
 		try {
-			
+
 			APIBase api = API.getAPI(AGRICRAFT_API_VERSION);
-			if(api.getVersion() >= AGRICRAFT_API_VERSION)
+			if (api.getVersion() >= AGRICRAFT_API_VERSION)
 				return api;
-			
-		} catch(Throwable t) {
-			
+
+		} catch (Throwable t) {
+
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public boolean initialize() {
 
@@ -87,27 +81,27 @@ public class ModAgriCraft extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		// Process the seed list
-		for(ItemStack item: OreDictionaryHelper.getOres("listAllseed")) {
+		for (ItemStack item : OreDictionaryHelper.getOres("listAllseed")) {
 			ItemData.setValue(item, ScrapValue.NONE);
 			ItemData.setCompostIngredientValue(item, CompostIngredient.BROWN);
 		}
-		
+
 		// Register our soil block for use by agricraft
 		boolean success = false;
 		try {
-			
+
 			final APIBase api = getApi();
-			if(api instanceof APIv1) {
-				final APIv1 v1 = (APIv1)api;
+			if (api instanceof APIv1) {
+				final APIv1 v1 = (APIv1) api;
 				success = v1.registerDefaultSoil(new BlockWithMeta(BlockManager.fertileLand, 0));
 			}
-			
-		} catch(Throwable t) {
+
+		} catch (Throwable t) {
 		}
-		
-		if(!success)
+
+		if (!success)
 			ModLog.warn("Unable to register soil block with AgriCraft API");
 
 		return true;

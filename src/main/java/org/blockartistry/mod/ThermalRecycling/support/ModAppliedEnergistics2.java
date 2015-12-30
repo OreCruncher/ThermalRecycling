@@ -28,38 +28,33 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModAppliedEnergistics2 extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "tile.BlockCrank",
-			"item.ItemMultiPart:120", "item.ItemFacade:*" };
+	static final String[] recipeIgnoreList = new String[] { "tile.BlockSkyStone:*", "tile.BlockCrank",
+			"item.ItemMultiPart:120", "item.ItemFacade:*", "tile.BlockQuartz" };
 
-	static final String[] scrapValuesNone = new String[] { "tile.BlockCrank",
-			"item.ItemMultiPart:120", "item.ItemFacade:*" };
+	static final String[] scrapValuesNone = new String[] { "tile.BlockCrank", "item.ItemMultiPart:120",
+			"item.ItemFacade:*" };
 
-	static final String[] scrapValuesPoor = new String[] {};
+	static final String[] scrapValuesPoor = new String[] { "tile.BlockSkyStone:*", "tile.SkyStoneBrickStairBlock",
+			"tile.SkyStoneStairBlock", "tile.SkyStoneSmallBrickStairBlock", "tile.SkyStoneBlockStairBlock" };
 
-	static final String[] scrapValuesStandard = new String[] {
+	static final String[] scrapValuesStandard = new String[] { "tile.BlockWireless", "tile.BlockQuartz", };
 
-	};
-
-	static final String[] scrapValuesSuperior = new String[] {
-			"tile.BlockCraftingStorage:2", "tile.BlockCraftingStorage:3",
-			"tile.BlockQuantumRing", "tile.BlockDrive",
-			"tile.BlockDenseEnergyCell", "tile.BlockWireless",
-			"tile.BlockIOPort", "tile.BlockQuantumLinkChamber",
-			"tile.BlockController", "tile.BlockCraftingUnit:*",
-			"tile.BlockSpacialIOPort", "tile.BlockSecurity",
-			"item.ItemBasicStorageCell.64K", "item.ToolPortableCell",
-			"item.ItemSpacialStorageCell.16Cubed",
-			"item.ItemSpacialStorageCell.128Cubed",
-			"item.ItemBasicStorageCell.16K", "item.ItemMultiPart:480",
-			"item.ItemMultiPart:340", "item.ToolBiometricCard",
-			"item.ItemMultiMatrial:28", "item.ItemMultiMaterial:29",
-			"item.ItemMultiMaterial:31", "item.ItemMultiMaterial:30",
-			"item.ItemMultiMaterial:33", "item.ItemMultiMaterial:34",
-			"item.ItemMultiMaterial:37", "item.ItemMultiMaterial:32",
-			"item.ItemMultiMaterial:38", "item.ItemMultiMaterial:24",
-			"item.ItemMultiMaterial:17", "item.ToolMassCannon",
-			"item.ItemSpacialStorageCell.2Cubed",
-			"item.ToolEntropyManipulator", "item.ToolWirelessTerminal", };
+	static final String[] scrapValuesSuperior = new String[] { "tile.BlockEnergyCell", "item.ItemBasicStorageCell.64k",
+			"item.ItemBasicStorageCell.16k", "tile.BlockFluix", "tile.BlockInscriber",
+			"item.ItemSpatialStorageCell.16Cubed", "item.ItemSpatialStorageCell.128Cubed",
+			"item.ItemBasicStorageCell.1k", "item.ItemMultiPart:360", "item.ItemSpatialStorageCell.2Cubed",
+			"item.ItemViewCell", "item.ToolColorApplicator", "tile.FluixStairBlock", "tile.BlockMolecularAssembler",
+			"tile.BlockSpatialPylon", "tile.BlockEnergyAcceptor", "tile.BlockChest", "item.ToolNetworkTool",
+			"tile.BlockSpatialIOPort", "tile.BlockQuartzGrowthAccelerator", "tile.BlockCraftingStorage:2",
+			"item.ItemBasicStorageCell.4k", "tile.BlockVibrationChamber", "tile.BlockCraftingStorage:3",
+			"tile.BlockQuantumRing", "tile.BlockDrive", "tile.BlockDenseEnergyCell", "tile.BlockIOPort",
+			"tile.BlockQuantumLinkChamber", "tile.BlockController", "tile.BlockCraftingUnit:*", "tile.BlockSecurity",
+			"item.ToolPortableCell", "item.ItemMultiPart:480", "item.ItemMultiPart:340", "item.ToolBiometricCard",
+			"item.ItemMultiMaterial:29", "item.ItemMultiMaterial:31", "item.ItemMultiMaterial:30",
+			"item.ItemMultiMaterial:33", "item.ItemMultiMaterial:34", "item.ItemMultiMaterial:37",
+			"item.ItemMultiMaterial:32", "item.ItemMultiMaterial:38", "item.ItemMultiMaterial:24",
+			"item.ItemMultiMaterial:17", "item.ToolMassCannon", "item.ToolEntropyManipulator",
+			"item.ToolWirelessTerminal", };
 
 	public ModAppliedEnergistics2() {
 		super(SupportedMod.APPLIED_ENERGISTICS);

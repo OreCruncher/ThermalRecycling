@@ -32,43 +32,40 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public final class ModThermalExpansion extends ModPlugin {
 
+	private static final String[] scrapValuesPoor = new String[] { "material:512", "material:513", "florb:*" };
+
+	private static final String[] scrapValuesStandard = new String[] {};
+
+	private static final String[] scrapValuesSuperior = new String[] { "Cell:1", "Cell:2", "Cell:4", "capacitor:4",
+			"capacitor:5", "Frame:1", "Frame:2", "Frame:3", "tool.battleWrenchInvar", "Strongbox:2" };
+
 	public ModThermalExpansion() {
 		super(SupportedMod.THERMAL_EXPANSION);
 	}
-	
+
 	@Override
 	public boolean initialize() {
+
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		final ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
 
 		// Need to be able to see any special frames and security items
 		// in realtime.
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Machine:*").get(),
-				handler);
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*").get(),
-				handler);
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Device:*").get(),
-				handler);
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Cell:*").get(),
-				handler);
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:Tesseract").get(),
-				handler);
-		ScrapHandler.registerHandler(
-				ItemStackHelper.getItemStack("ThermalExpansion:satchel:*").get(),
-				handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Machine:*").get(), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Strongbox:*").get(), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Device:*").get(), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*").get(), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract").get(), handler);
+		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:satchel:*").get(), handler);
 
 		// Sawdust and whatnot
-		registerScrapValues(ScrapValue.NONE, "material:512", "material:513",
-				"florb:*");
 		registerScrubFromOutput("material:512", "material:513", "florb:*");
-		
+
 		registerCompostIngredient(CompostIngredient.BROWN, "^dustWood");
-		
+
 		// Register some stuff for the Pile of Rubble
 		registerPileOfRubbleDrop(1, 1, 3, "satchel:1");
 

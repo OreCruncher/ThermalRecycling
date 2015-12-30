@@ -30,6 +30,17 @@ import net.minecraft.init.Blocks;
 
 public final class ModBuildCraftFactory extends ModPlugin {
 
+	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
+
+	static final String[] scrapValuesPoor = new String[] {};
+
+	static final String[] scrapValuesStandard = new String[] {
+
+	};
+
+	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
+			"miningWellBlock" };
+
 	public ModBuildCraftFactory() {
 		super(SupportedMod.BUILDCRAFT_FACTORY);
 	}
@@ -37,12 +48,12 @@ public final class ModBuildCraftFactory extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.NONE, "tankBlock", "autoWorkbenchBlock");
-		registerScrapValues(ScrapValue.SUPERIOR, "machineBlock",
-				"refineryBlock");
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock")
-				.output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
+		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
 				.save();
 
 		return true;

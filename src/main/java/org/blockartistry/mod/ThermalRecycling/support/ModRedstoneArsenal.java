@@ -46,8 +46,9 @@ public class ModRedstoneArsenal extends ModPlugin {
 	static final String[] scrapValuesSuperior = new String[] {
 		"Storage:*", "armor.plateFlux", "armor.helmetFlux",
 		"armor.legsFlux", "armor.bootsFlux", "material:96",
-		"material:193", "material:128"
-		
+		"material:193", "material:128", "tool.wrenchFlux","tool.pickaxeFlux",
+		"tool.swordFlux", "tool.shovelFlux", "tool.axeFlux", "tool.sickleFlux",
+		"tool.battleWrenchFlux",
 	};
 
 	public ModRedstoneArsenal() {
@@ -56,13 +57,11 @@ public class ModRedstoneArsenal extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
 		registerRecipesToIgnore(recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
 		return true;
 	}
 }

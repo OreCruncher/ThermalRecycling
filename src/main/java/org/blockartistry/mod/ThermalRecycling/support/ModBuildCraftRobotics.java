@@ -26,27 +26,35 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
-public final class ModAdvancedGenerators extends ModPlugin {
+public class ModBuildCraftRobotics extends ModPlugin {
 
-	private static final String[] scrapValuesPoor = new String[] { "IronWiring", "IronTubing", };
+	private static final String[] recipeIgnoreList = new String[] { "redstone_board", };
 
-	private static final String[] scrapValuesStandard = new String[] { "IronFrame", "TurbineBlade", "FuelTank",
-			"PowerCapacitor", "HeatExchanger", };
+	private static final String[] scrapValuesNone = new String[] {};
 
-	private static final String[] scrapValuesSuperior = new String[] { "ItemInput", "TurbineRotor", "Turbine",
-			"HeatingChamber", "TurbineController", "PowerIO", "RFOutput", "FluidInput", "SteamTurbineController",
-			"EuOutputMV", "MixingChamber", "EuOutputHV", "HeatExchangerController", "EuOutputLV", "SyngasController",
-			"Sensor", "ItemOutput" };
+	private static final String[] scrapValuesPoor = new String[] {};
 
-	public ModAdvancedGenerators() {
-		super(SupportedMod.ADVANCED_GENERATORS);
+	private static final String[] scrapValuesStandard = new String[] {
+
+	};
+
+	private static final String[] scrapValuesSuperior = new String[] { "redstone_board", "requester", "robot",
+			"zonePlan", };
+
+	public ModBuildCraftRobotics() {
+		super(SupportedMod.BUILDCRAFT_ROBOTICS);
 	}
 
 	@Override
 	public boolean initialize() {
+
+		registerRecipesToIgnore(recipeIgnoreList);
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+
 		return true;
 	}
+
 }

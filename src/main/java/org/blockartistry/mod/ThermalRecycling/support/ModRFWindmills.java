@@ -36,14 +36,10 @@ public final class ModRFWindmills extends ModPlugin {
 
 	static final String[] scrapValuesPoor = new String[] {};
 
-	static final String[] scrapValuesStandard = new String[] { 
-		
-	};
+	static final String[] scrapValuesStandard = new String[] { "rotorSignalum", "rotorEnderium" };
 
-	static final String[] scrapValuesSuperior = new String[] {
-		"windmillBlock:2",
-		"windmillBlock:3", "rotorSignalum", "rotorEnderium"
-		
+	static final String[] scrapValuesSuperior = new String[] { "windmillBlock:2", "windmillBlock:3",
+
 	};
 
 	public ModRFWindmills() {
@@ -58,7 +54,7 @@ public final class ModRFWindmills extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		return true;
 	}
 }

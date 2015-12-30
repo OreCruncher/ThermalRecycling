@@ -26,7 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.tooltip;
 
 import java.util.List;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -45,20 +44,7 @@ public final class DebugToolTip extends CachingToolTip {
 
 		builder.setLength(0);
 		builder.append(EnumChatFormatting.LIGHT_PURPLE);
-
-		// Generate a new we can display to make things real easy
-		final String name = Item.itemRegistry.getNameForObject(stack.getItem());
-
-		if (name == null)
-			builder.append("UNKNOWN");
-		else
-			builder.append(name);
-
-		if (stack.getHasSubtypes()) {
-			builder.append(':');
-			builder.append(ItemStackHelper.getItemDamage(stack));
-		}
-
+		builder.append(ItemStackHelper.resolveInternalName(stack));
 		output.add(builder.toString());
 		
 		final int[] oreIds = OreDictionaryHelper.getOreIDs(stack);

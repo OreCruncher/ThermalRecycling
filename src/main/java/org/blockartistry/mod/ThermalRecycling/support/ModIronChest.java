@@ -30,16 +30,15 @@ public final class ModIronChest extends ModPlugin {
 
 	static final String[] recipeIgnoreList = new String[] { "BlockIronChest:*" };
 
-	static final String[] scrapValuesNone = new String[] { "BlockIronChest:7",
-			"diamondCrystalUpgrade", "diamondObsidianUpgrade" };
+	static final String[] scrapValuesNone = new String[] { "BlockIronChest:7", };
 
-	static final String[] scrapValuesPoor = new String[] {};
+	static final String[] scrapValuesPoor = new String[] { "diamondCrystalUpgrade", };
 
-	static final String[] scrapValuesStandard = new String[] {};
+	static final String[] scrapValuesStandard = new String[] { "diamondObsidianUpgrade" };
 
-	static final String[] scrapValuesSuperior = new String[] {
-			"BlockIronChest:2", "BlockIronChest:5", "goldDiamondUpgrade",
-			"BlockIronChest:6" };
+	static final String[] scrapValuesSuperior = new String[] { "BlockIronChest:2", "BlockIronChest:5",
+			"goldDiamondUpgrade", "BlockIronChest:6", "woodIronUpgrade", "woodCopperUpgrade", "ironGoldUpgrade",
+			"copperSilverUpgrade" };
 
 	public ModIronChest() {
 		super(SupportedMod.IRONCHEST);
@@ -53,7 +52,7 @@ public final class ModIronChest extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		return true;
 	}
 }

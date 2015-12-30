@@ -59,6 +59,8 @@ public enum SupportedMod {
 	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
 
 	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
+	
+	BUILDCRAFT_ROBOTICS("BuildCraft|Robotics", "BuildCraft|Robotics", ModBuildCraftRobotics.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
 

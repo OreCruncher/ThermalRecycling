@@ -44,8 +44,9 @@ import net.minecraft.world.World;
 
 public final class ItemStackHelper {
 
-	private ItemStackHelper() { }
-	
+	private ItemStackHelper() {
+	}
+
 	protected static final Random rand = XorShiftRandom.shared;
 
 	public static Optional<ItemStack> convertToDustIfPossible(final ItemStack stack) {
@@ -193,9 +194,28 @@ public final class ItemStackHelper {
 		return result == null || result.isEmpty() ? "UNKNOWN" : result;
 	}
 
+	public static String resolveInternalName(final ItemStack stack) {
+		final StringBuilder builder = new StringBuilder();
+
+		// Generate a new we can display to make things real easy
+		final String name = Item.itemRegistry.getNameForObject(stack.getItem());
+
+		if (name == null)
+			builder.append("UNKNOWN");
+		else
+			builder.append(name);
+
+		if (stack.getHasSubtypes()) {
+			builder.append(':');
+			builder.append(getItemDamage(stack));
+		}
+
+		return builder.toString();
+	}
+
 	/**
-	 * Spawns the ItemStack into the world.  If it is a large stack it is broken down
-	 * into smaller stacks and spun out at different velocities.
+	 * Spawns the ItemStack into the world. If it is a large stack it is broken
+	 * down into smaller stacks and spun out at different velocities.
 	 * 
 	 * @param world
 	 * @param stack
@@ -278,7 +298,7 @@ public final class ItemStackHelper {
 	 * @return
 	 */
 	public static void makeGlow(final ItemStack stack) {
-		if(stack != null) {
+		if (stack != null) {
 			final NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 			nbt.setTag("ench", new NBTTagList());
 			stack.setTagCompound(nbt);
@@ -315,30 +335,30 @@ public final class ItemStackHelper {
 		if (stack1 == null || stack2 == null)
 			return false;
 
-		return areEqualNoNBT(stack1, stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound); 
+		return areEqualNoNBT(stack1, stack2) && areTagsEqual(stack1.stackTagCompound, stack2.stackTagCompound);
 	}
-	
+
 	public static boolean areEqualNoNBT(final ItemStack stack1, final ItemStack stack2) {
 		if (stack1 == stack2)
 			return true;
 
 		if (stack1 == null || stack2 == null)
 			return false;
-		
+
 		return stack1.isItemEqual(stack2);
 	}
-	
+
 	public static <T> boolean equals(final T i1, final T i2) {
-		if(i1 == i2)
+		if (i1 == i2)
 			return true;
-		
+
 		if (i1 == null || i2 == null)
 			return false;
 
 		return i1.equals(i2);
-		
+
 	}
-	
+
 	public static boolean areEqualNoMeta(final ItemStack stack1, final ItemStack stack2) {
 		if (stack1 == null || stack2 == null)
 			return false;
@@ -346,9 +366,8 @@ public final class ItemStackHelper {
 	}
 
 	public static boolean itemsEqualForCrafting(final ItemStack stack1, final ItemStack stack2) {
-		return areEqualNoMeta(stack1, stack2)
-				&& (!stack1.getHasSubtypes() || OreDictionaryHelper.isGeneric(stack1)
-						|| OreDictionaryHelper.isGeneric(stack2) || getItemDamage(stack2) == getItemDamage(stack1));
+		return areEqualNoMeta(stack1, stack2) && (!stack1.getHasSubtypes() || OreDictionaryHelper.isGeneric(stack1)
+				|| OreDictionaryHelper.isGeneric(stack2) || getItemDamage(stack2) == getItemDamage(stack1));
 	}
 
 	/**
@@ -388,7 +407,7 @@ public final class ItemStackHelper {
 		assert stack != null;
 		return Items.diamond.getDamage(stack);
 	}
-	
+
 	/**
 	 * Determines if the ItemStack is repairable.
 	 * 

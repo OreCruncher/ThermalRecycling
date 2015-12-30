@@ -26,7 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -60,6 +59,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public final class ModThermalRecycling extends ModPlugin {
+
+	private static final String[] scrapValuesSuperior = new String[] { "MachineThermalRecycler", "MachineComposter",
+			"MachineScrapAssessor", "MachineBatteryRack", "MachineVending" };
 
 	private static class EnergeticRedstoneRecipes {
 
@@ -101,6 +103,8 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
+
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
@@ -317,6 +321,65 @@ public final class ModThermalRecycling extends ModPlugin {
 		}
 	}
 
+	private float detect(final ItemData data) {
+		if (data.getAutoScrapValue() == null) {
+			final RecipeData recipe = RecipeData.get(data.getStack());
+			if (recipe == null || !recipe.hasOutput()) {
+				data.setAutoScrapValue(data.getScrapValue());
+			} else {
+				float score = 0;
+				final List<ItemStack> output = recipe.getOutput();
+				for (final ItemStack stack : output) {
+					final ItemData child = ItemData.get(stack);
+					score += detect(child);
+					switch (child.getAutoScrapValue()) {
+					case NONE:
+						break;
+					case POOR:
+						score += stack.stackSize;
+						break;
+					case STANDARD:
+						score += 9 * stack.stackSize;
+						break;
+					case SUPERIOR:
+						score += 81 * stack.stackSize;
+						break;
+					}
+				}
+
+				score /= recipe.getMinimumInputQuantityRequired();
+
+				ScrapValue value = null;
+				if (score == 0)
+					value = ScrapValue.NONE;
+				else if (score < 8)
+					value = ScrapValue.POOR;
+				else if (score < 64)
+					value = ScrapValue.STANDARD;
+				else
+					value = ScrapValue.SUPERIOR;
+
+				data.setAutoScrapValue(value);
+
+				if (data.getScrapValue() != data.getAutoScrapValue()) {
+					final StringBuilder builder = new StringBuilder();
+					builder.append("MISMATCH: ").append(data.getInternalName());
+					builder.append(" value: ").append(data.getScrapValue().name());
+					builder.append(" auto: ").append(data.getAutoScrapValue().name());
+					ModLog.info(builder.toString());
+				}
+				data.setChildScores(score);
+			}
+		}
+
+		return data.getChildScores();
+	}
+
+	private void autoDetect() {
+		for (final ItemData data : ItemData.getDataList())
+			detect(data);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean postInit() {
@@ -335,6 +398,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		RecipeData.freeze();
 		ScrapHandler.freeze();
 		ExtractionData.freeze();
+
+		// AutoDetect scrap values
+		autoDetect();
 
 		return true;
 	}

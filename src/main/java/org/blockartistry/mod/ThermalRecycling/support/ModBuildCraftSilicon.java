@@ -35,21 +35,17 @@ import com.google.common.base.Optional;
 
 public final class ModBuildCraftSilicon extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "redstone_board", };
+	static final String[] recipeIgnoreList = new String[] { };
 
-	static final String[] scrapValuesNone = new String[] { "redstoneChipset",
-			"redstone_board" };
+	static final String[] scrapValuesNone = new String[] { "redstoneChipset", "redstone_board", "redstoneCrystal" };
 
-	static final String[] scrapValuesPoor = new String[] { "redstoneChipset:5",
-			"redstoneChipset:6" };
+	static final String[] scrapValuesPoor = new String[] { "redstoneChipset:4", };
 
-	static final String[] scrapValuesStandard = new String[] {
-			"redstoneChipset:1", "redstoneChipset:2", "redstoneChipset:4" };
+	static final String[] scrapValuesStandard = new String[] { "redstoneChipset:1", "redstoneChipset:2",
+			"redstoneChipset:5", "redstoneChipset:6" };
 
-	static final String[] scrapValuesSuperior = new String[] {
-			"redstoneChipset:3", "redstoneChipset:7", "laserBlock",
-			"laserTableBlock:0", "laserTableBlock:1", "laserTableBlock:2",
-			"laserTableBlock:4", "zonePlan", "robot" };
+	static final String[] scrapValuesSuperior = new String[] { "redstoneChipset:3", "redstoneChipset:7", "laserBlock",
+			"laserTableBlock:0", "laserTableBlock:1", "laserTableBlock:2", "laserTableBlock:4", "zonePlan", "robot" };
 
 	public ModBuildCraftSilicon() {
 		super(SupportedMod.BUILDCRAFT_SILICON);
@@ -64,12 +60,13 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
-		// Not sure how pipeGate can be null - maybe someone disabled the module?
+		// Not sure how pipeGate can be null - maybe someone disabled the
+		// module?
 		final BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();
 		final Optional<ItemStack> pipeGate = ItemStackHelper.getItemStack("BuildCraft|Transport:pipeGate");
-		if(pipeGate.isPresent())
+		if (pipeGate.isPresent())
 			ScrapHandler.registerHandler(pipeGate.get(), handler);
-		
+
 		return true;
 	}
 }

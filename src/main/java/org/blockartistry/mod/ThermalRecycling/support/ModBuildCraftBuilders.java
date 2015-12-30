@@ -31,6 +31,17 @@ import net.minecraft.init.Items;
 
 public final class ModBuildCraftBuilders extends ModPlugin {
 
+	static final String[] scrapValuesNone = new String[] { "blueprintItem", "templateItem", "markerBlock",
+			"pathMarkerBlock", };
+
+	static final String[] scrapValuesPoor = new String[] { };
+
+	static final String[] scrapValuesStandard = new String[] {
+			"libraryBlock"
+	};
+
+	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "builderBlock", "architectBlock" };
+
 	public ModBuildCraftBuilders() {
 		super(SupportedMod.BUILDCRAFT_BUILDERS);
 	}
@@ -38,23 +49,21 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.NONE, "markerBlock", "pathMarkerBlock",
-				"libraryBlock");
-		registerScrapValues(ScrapValue.SUPERIOR, "builderBlock",
-				"architectBlock");
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Misc block machines
-		sawmill.append("BuildCraft|Builders:libraryBlock")
-				.output(Blocks.planks, 6).secondaryOutput(Items.book, 3).save();
-
-		sawmill.append("BuildCraft|Builders:builderBlock")
-				.output(Blocks.planks, 12).secondaryOutput(Items.diamond, 8)
+		sawmill.append("BuildCraft|Builders:libraryBlock").output(Blocks.planks, 6).secondaryOutput(Items.book, 3)
 				.save();
 
-		sawmill.append("BuildCraft|Builders:architectBlock")
-				.output(Blocks.planks, 4).secondaryOutput(Items.diamond, 8)
+		sawmill.append("BuildCraft|Builders:builderBlock").output(Blocks.planks, 12).secondaryOutput(Items.diamond, 8)
 				.save();
-		
+
+		sawmill.append("BuildCraft|Builders:architectBlock").output(Blocks.planks, 4).secondaryOutput(Items.diamond, 8)
+				.save();
+
 		return true;
 	}
 }

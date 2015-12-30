@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,12 +59,14 @@ public final class RecipeData {
 
 	public static void freeze() {
 		recipes = ImmutableMap.copyOf(recipes);
+		for(final RecipeData data: recipes.values())
+			data.scrubOutput();
 	}
 
 	private final String name;
 	private final int quantityRequired;
 	private final boolean isGeneric;
-	private final List<ItemStack> outputStacks;
+	private List<ItemStack> outputStacks;
 
 	/**
 	 * Special CTOR for creating recipes for items that do not have any recipes
@@ -115,6 +118,14 @@ public final class RecipeData {
 		}
 
 		return false;
+	}
+	
+	public void scrubOutput() {
+		final List<ItemStack> newList = new ArrayList<ItemStack>();
+		for(final ItemStack stack: this.outputStacks)
+			if(!ItemData.isScrubbedFromOutput(stack))
+				newList.add(stack);
+		this.outputStacks = ImmutableList.copyOf(newList);
 	}
 
 	public static RecipeData get(final ItemStack input) {

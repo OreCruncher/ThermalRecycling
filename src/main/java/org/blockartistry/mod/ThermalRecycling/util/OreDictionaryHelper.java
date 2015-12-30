@@ -120,4 +120,10 @@ public final class OreDictionaryHelper {
 	public static String getOreName(final int id) {
 		return OreDictionary.getOreName(id);
 	}
+	
+	public static ItemStack asGeneric(final ItemStack stack) {
+		if (stack.getHasSubtypes() && !OreDictionaryHelper.isGeneric(stack))
+			return new ItemStack(stack.getItem(), stack.stackSize, OreDictionary.WILDCARD_VALUE);
+		return stack;
+	}
 }

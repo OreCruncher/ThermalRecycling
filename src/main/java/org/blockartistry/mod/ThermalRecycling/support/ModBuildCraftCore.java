@@ -30,6 +30,18 @@ import cpw.mods.fml.common.Loader;
 
 public final class ModBuildCraftCore extends ModPlugin {
 
+	static final String[] scrapValuesNone = new String[] { "pathMarkerBlock",
+			"paintbrush", "markerBlock",
+			"woodenGearItem", "stoneGearItem", "mapLocation", "list" };
+
+	static final String[] scrapValuesPoor = new String[] {};
+
+	static final String[] scrapValuesStandard = new String[] {
+
+	};
+
+	static final String[] scrapValuesSuperior = new String[] { "diamondGearItem" };
+
 	public ModBuildCraftCore() {
 		super(SupportedMod.BUILDCRAFT_CORE);
 	}
@@ -37,22 +49,22 @@ public final class ModBuildCraftCore extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.NONE, "woodenGearItem", "stoneGearItem",
-				"mapLocation", "list");
-		registerScrapValues(ScrapValue.SUPERIOR, "diamondGearItem");
+		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
+		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
+		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
+		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Gears - metalic gears handled via Thermal Expansion
-		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4)
-				.save();
-		
-		if(Loader.isModLoaded("ExtraTiC")) {
+		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4).save();
+
+		if (Loader.isModLoaded("ExtraTiC")) {
 			// Gold gears can be made with 4 gold ingots using ExtraTiC
 			// So we remove the iron gear part of the decomp recipe to
 			// avoid infinite material if the player can somehow
 			// manage to get BC related Gold Gears.
 			recycler.useRecipe("BuildCraft|Core:goldGearItem").scrubOutput("gearIron").save();
 		}
-		
+
 		return true;
 	}
 }

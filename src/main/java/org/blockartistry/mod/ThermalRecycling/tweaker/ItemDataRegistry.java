@@ -53,7 +53,7 @@ public final class ItemDataRegistry {
 		final ScrapValue sv = ScrapValue.values()[scrapValue];
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
 		final ItemData data = ItemData.get(item);
-		data.setValue(sv);
+		data.setScrapValue(sv);
 		data.setCompostIngredientValue(cv);
 		data.setIgnoreRecipe(ignoreRecipe);
 		data.setScrubFromOutput(scrubFromOutput);

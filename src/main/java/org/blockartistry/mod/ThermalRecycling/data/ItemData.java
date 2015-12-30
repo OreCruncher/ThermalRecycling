@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.data;
 
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
@@ -35,6 +36,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
@@ -65,8 +67,15 @@ public final class ItemData {
 	private boolean isBlockedFromScrapping;
 	private boolean isBlockedFromExtraction;
 
+	private ScrapValue auto;
+	private float childScores;
+
 	public static void freeze() {
 		cache = ImmutableMap.copyOf(cache);
+	}
+	
+	public static List<ItemData> getDataList() {
+		return ImmutableList.copyOf(cache.values());
 	}
 
 	private static boolean exceptionalFood(final Item item) {
@@ -95,9 +104,9 @@ public final class ItemData {
 			final ItemData data = new ItemData(stack);
 
 			if (isMinecraft)
-				data.setValue(ScrapValue.NONE);
+				data.setScrapValue(ScrapValue.NONE);
 			else
-				data.setValue(SupportedMod.isModWhitelisted(name) ? DEFAULT_SCRAP_VALUE : ScrapValue.NONE);
+				data.setScrapValue(SupportedMod.isModWhitelisted(name) ? DEFAULT_SCRAP_VALUE : ScrapValue.NONE);
 
 			final boolean food = o instanceof ItemFood && !exceptionalFood((Item) o);
 			data.setIgnoreRecipe(food);
@@ -113,7 +122,7 @@ public final class ItemData {
 			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
 				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
-					setBlockedFromScrapping(stack, true);
+					setBlockedFromScrapping(OreDictionaryHelper.asGeneric(stack), true);
 				}
 			}
 		}
@@ -155,20 +164,45 @@ public final class ItemData {
 		this.isBlockedFromExtraction = isBlockedFromExtraction;
 	}
 
+	public ItemStack getStack() {
+		return this.stack.copy();
+	}
+	
 	public String getName() {
 		String name = ItemStackHelper.resolveName(stack);
 		if (name.contains("UNKNOWN") || name.contains("Invalid Item") || name.contains("???"))
 			name = stack.getItem().toString() + ":" + ItemStackHelper.getItemDamage(stack);
 		return name;
 	}
+	
+	public String getInternalName() {
+		return ItemStackHelper.resolveInternalName(this.stack);
+	}
 
-	public ItemData setValue(final ScrapValue value) {
+	public ItemData setScrapValue(final ScrapValue value) {
 		this.value = value;
 		return this;
 	}
 
 	public ScrapValue getScrapValue() {
 		return value;
+	}
+	
+	public ItemData setAutoScrapValue(final ScrapValue value) {
+		this.auto = value;
+		return this;
+	}
+	
+	public ScrapValue getAutoScrapValue() {
+		return this.auto;
+	}
+	
+	public float getChildScores() {
+		return this.childScores;
+	}
+	
+	public void setChildScores(final float scores) {
+		this.childScores = scores;
 	}
 
 	public CompostIngredient getCompostIngredientValue() {
@@ -228,7 +262,7 @@ public final class ItemData {
 	public String toString() {
 
 		return String.format(
-				"%s%s [sv: %s; ignoreRecipe: %s; scrub: %s; isFood: %s; block scrap: %s; block extract: %s]", getName(),
+				"%s%s [sv: %s; ignoreRecipe: %s; scrub: %s; isFood: %s; block scrap: %s; block extract: %s]", getInternalName(),
 				(isGeneric() ? " (GENERIC)" : ""), value.name(), Boolean.toString(ignoreRecipe),
 				Boolean.toString(scrubFromOutput), Boolean.toString(isFood), Boolean.toString(isBlockedFromScrapping),
 				Boolean.toString(isBlockedFromExtraction));
@@ -236,7 +270,7 @@ public final class ItemData {
 
 	public static void setValue(final ItemStack stack, final ScrapValue value) {
 		assert stack != null;
-		put(stack, get(stack).setValue(value));
+		put(stack, get(stack).setScrapValue(value));
 	}
 
 	public static void setCompostIngredientValue(final ItemStack stack, final CompostIngredient value) {
@@ -271,7 +305,8 @@ public final class ItemData {
 	public static void put(final ItemStack stack, final ItemData data) {
 		assert data != null;
 		assert stack != null;
-		cache.put(new ItemStackKey(stack), data);
+		@SuppressWarnings("unused")
+		final ItemData old = cache.put(new ItemStackKey(stack), data);
 	}
 
 	public static boolean canBeScrapped(final ItemStack stack) {

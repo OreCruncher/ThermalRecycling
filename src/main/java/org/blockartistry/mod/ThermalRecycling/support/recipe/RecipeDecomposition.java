@@ -32,7 +32,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
@@ -154,12 +153,13 @@ public final class RecipeDecomposition {
 
 		// Scan for the list looking for wildcards as well
 		// as those items that match the input. Sometimes
-		// an author will make a cyclic recipe.
+		// an author will make a cyclic recipe.  Scrubbing
+		// items that are marked scrubbed is handled
+		// during freeze.
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemStackHelper.areEqualNoNBT(stack, inputStack)
-						|| ItemData.isScrubbedFromOutput(stack) || notConsumed(stack))
+				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || notConsumed(stack))
 					projection.set(i, null);
 				else if (OreDictionaryHelper.isGeneric(stack))
 					stack.setItemDamage(0);

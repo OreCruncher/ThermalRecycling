@@ -57,12 +57,11 @@ public final class ModForestry extends ModPlugin {
 			"lepidopterology:*", "soil:*", "honeyedSlice", "beeCombs:*", "apatite", "fertilizerCompound",
 			"fertilizerBio", "carton", "pipette", "scoop", "catalogue", "soil:*", "core:1", "mulch", };
 
-	static final String[] recipeIgnoreList4x = new String[] { "logs:*", "logsFireproof:*", "planks:*", "planksFireproof:*",
-			"slabs:*", "slabsFireproof:*", "fences:*", "fencesFireproof:*", "stairs:*", "stairsFireproof:*",
-			"stamps:*", "letters", "crate", "waxCast", "apiculture:*", "arboriculture:*",
+	static final String[] recipeIgnoreList4x = new String[] { "logs:*", "logsFireproof:*", "planks:*",
+			"planksFireproof:*", "slabs:*", "slabsFireproof:*", "fences:*", "fencesFireproof:*", "stairs:*",
+			"stairsFireproof:*", "stamps:*", "letters", "crate", "waxCast", "apiculture:*", "arboriculture:*",
 			"lepidopterology:*", "soil:*", "honeyedSlice", "beeCombs:*", "apatite", "fertilizerCompound",
 			"fertilizerBio", "carton", "pipette", "scoop", "catalogue", "soil:*", "core:1", "mulch", };
-
 
 	static final String[] scrapValuesNone = new String[] { "log1:*", "log2:*", "log3:*", "log4:*", "log5:*", "log6:*",
 			"log7:*", "log8:*", "fireproofLog1:*", "fireproofLog2:*", "fireproofLog3:*", "fireproofLog4:*",
@@ -73,31 +72,32 @@ public final class ModForestry extends ModPlugin {
 			"slabs4:*", "fences:*", "fences2:*", "stairs:*", "stamps:*", "letters", "crate", "leaves:*", "stained:*",
 			"fertilizerCompound", "fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*",
 			"mushroom:*", "saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
-			"brokenBronzePickaxe", "item.PipeItemsPropolis:0"
-	};
+			"brokenBronzePickaxe", "item.PipeItemsPropolis:0" };
 
-	static final String[] scrapValuesNone4x = new String[] { "logs:*", "logsFireproof:*", "waxCapsule", "refractoryEmpty",
-			"beeDroneGE:*", "propolis:*", "sapling:*", "phosphor", "beeswax", "refractoryWax", "fruits:*",
-			"honeyDrop:*", "honeydew", "royalJelly", "waxCast", "beeCombs:*", "woodPulp", "oakStick", "carton",
-			"planks:*", "planksFireproof:*", "slabs:*", "slabsFireproof:*", "fences:*", "fencesFireproof:*", "stairs:*",
-			"stairsFireproof:*", "stamps:*", "letters", "crate", "leaves:*",
-			"fertilizerCompound", "fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*",
-			"mushroom:*", "saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
-			"brokenBronzePickaxe"
-	};
+	static final String[] scrapValuesNone4x = new String[] { "logs:*", "logsFireproof:*", "waxCapsule",
+			"refractoryEmpty", "beeDroneGE:*", "propolis:*", "sapling:*", "phosphor", "beeswax", "refractoryWax",
+			"fruits:*", "honeyDrop:*", "honeydew", "royalJelly", "waxCast", "beeCombs:*", "woodPulp", "oakStick",
+			"carton", "planks:*", "planksFireproof:*", "slabs:*", "slabsFireproof:*", "fences:*", "fencesFireproof:*",
+			"stairs:*", "stairsFireproof:*", "stamps:*", "letters", "crate", "leaves:*", "fertilizerCompound",
+			"fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*", "mushroom:*",
+			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel", "brokenBronzePickaxe",
+			"hunterBag", "diggerBag", "builderBag", "adventurerBag", "apiaristBag", "foresterBag", "frameUntreated",
+			"bituminousPeat", "apicultureChest:0" };
 
 	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty" };
 
 	static final String[] scrapValuesStandard = new String[] { "butterflyGE:*", "beePrincessGE:*", "beeQueenGE:*", };
 
 	static final String[] scrapValuesSuperior = new String[] { "core:0", "hardenedMachine", "treealyzer", "beealyzer",
-			"flutterlyzer", "frameProven" };
+			"flutterlyzer", "frameProven", "craftingMaterial:3", "minerBagT2", "diggerBagT2", "adventurerBagT2",
+			"builderBagT2", "hunterBagT2", "foresterBagT2", "apiaristHelmet", "apiaristLegs", "apiaristBoots", "apiaristChest",
+			"sturdyMachine" };
 
 	protected final boolean isForestry4x;
-	
+
 	public ModForestry() {
 		super(SupportedMod.FORESTRY);
-		
+
 		this.isForestry4x = isAcceptibleVersion("[4,)");
 	}
 
@@ -132,8 +132,8 @@ public final class ModForestry extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-		
-		registerRecipesToIgnore(isForestry4x ? recipeIgnoreList4x: recipeIgnoreList);
+
+		registerRecipesToIgnore(isForestry4x ? recipeIgnoreList4x : recipeIgnoreList);
 		registerScrapValues(ScrapValue.NONE, isForestry4x ? scrapValuesNone4x : scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
@@ -162,7 +162,7 @@ public final class ModForestry extends ModPlugin {
 				final ItemData data = ItemData.get(stack.get());
 				data.setIgnoreRecipe(true);
 				data.setScrubFromOutput(true);
-				data.setValue(ScrapValue.POOR);
+				data.setScrapValue(ScrapValue.POOR);
 				ItemData.put(stack.get(), data);
 			}
 		}
@@ -184,8 +184,8 @@ public final class ModForestry extends ModPlugin {
 		pulverizer.setEnergy(200).append("Forestry:canEmpty").output("nuggetTin", 2).secondaryOutput("nuggetTin")
 				.chance(10).save();
 
-		// Glass.  Does not apply to Forestry 4x since it was removed.
-		if(!isForestry4x)
+		// Glass. Does not apply to Forestry 4x since it was removed.
+		if (!isForestry4x)
 			pulverizer.setEnergy(3200).appendSubtypeRange("Forestry:stained", 0, 15).output(Blocks.sand).save();
 
 		// Pile of Rubble - add apatite, empty can, and scoop

@@ -28,27 +28,22 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModSolarFlux extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-			 };
+	static final String[] recipeIgnoreList = new String[] {};
 
 	static final String[] scrapValuesNone = new String[] {
-			
+
 	};
 
-	static final String[] scrapValuesPoor = new String[] {
-		"mirror", "upgradeBlank", "solarCell1", "solarCell2",
-		"upgradeLowLight", "upgradeFurnace", "solar1",
-		
+	static final String[] scrapValuesPoor = new String[] { "mirror", "upgradeBlank", "solarCell1", "solarCell2",
+			"upgradeLowLight", "upgradeFurnace", "solar1",
+
 	};
 
-	static final String[] scrapValuesStandard = new String[] {
-		"upgradeCapacity", "upgradeEfficiency", "upgradeTransferRate",
-		"solarCell3", "upgradeTraversal", "solar2", "solar3",
-	};
+	static final String[] scrapValuesStandard = new String[] { "upgradeEfficiency", "upgradeTransferRate", "solarCell3",
+			"upgradeTraversal", "solar2", };
 
-	static final String[] scrapValuesSuperior = new String[] {
-		"solarCell4", "solar4", "solar5", "solar6"
-	};
+	static final String[] scrapValuesSuperior = new String[] { "solar3", "solarCell4", "solar4", "solar5", "solar6",
+			"upgradeCapacity" };
 
 	public ModSolarFlux() {
 		super(SupportedMod.SOLARFLUX);
@@ -62,7 +57,7 @@ public final class ModSolarFlux extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		return true;
 	}
 }

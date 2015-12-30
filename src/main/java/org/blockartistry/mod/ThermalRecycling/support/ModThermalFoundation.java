@@ -35,15 +35,10 @@ import cpw.mods.fml.common.Loader;
 
 public final class ModThermalFoundation extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { "material:2",
-			"material:3",
-			"material:4",
-			"material:16",
+	static final String[] recipeIgnoreList = new String[] { "material:2", "material:3", "material:4", "material:16",
 			// Nuggets
-			"material:96", "material:97", "material:98", "material:99",
-			"material:100", "material:101", "material:102", "material:103",
-			"material:104", "material:105", "material:106", "material:107",
-			"material:108",
+			"material:96", "material:97", "material:98", "material:99", "material:100", "material:101", "material:102",
+			"material:103", "material:104", "material:105", "material:106", "material:107", "material:108",
 
 			"material:512", "material:513", "material:517",
 
@@ -51,17 +46,13 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	static final String[] recipeRevealList = new String[] {};
 
-	static final String[] scrapValuesNone = new String[] { "material:2",
-			"material:3", "material:4", "material:16", };
+	static final String[] scrapValuesNone = new String[] { "material:2", "material:3", "material:4", "material:16", };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"material:8",
+	static final String[] scrapValuesPoor = new String[] { "material:8",
 
 			// Nuggets
-			"material:96", "material:97", "material:98", "material:99",
-			"material:100", "material:101", "material:102", "material:103",
-			"material:104", "material:105", "material:106", "material:107",
-			"material:108",
+			"material:96", "material:97", "material:98", "material:99", "material:100", "material:101", "material:102",
+			"material:103", "material:104", "material:105", "material:106", "material:107", "material:108",
 
 			"material:512", "material:513", "material:517",
 
@@ -71,7 +62,9 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	};
 
-	static final String[] scrapValuesSuperior = new String[] {
+	static final String[] scrapValuesSuperior = new String[] { "armor.plateBronze", "armor.plateCopper",
+			"armor.platePlatinum", "armor.plateInvar", "armor.plateLead", "armor.plateTin", "armor.plateElectrum",
+			"armor.plateNickel", "armor.plateSilver",
 
 	};
 
@@ -84,8 +77,7 @@ public final class ModThermalFoundation extends ModPlugin {
 	public static ItemStack getPyrotheumDust(final int quantity) {
 
 		if (pyrotheumDust == null) {
-			pyrotheumDust = ItemStackHelper.getItemStack(
-					"ThermalFoundation:material:512", 1).get();
+			pyrotheumDust = ItemStackHelper.getItemStack("ThermalFoundation:material:512", 1).get();
 		}
 
 		final ItemStack result = pyrotheumDust.copy();
@@ -97,34 +89,24 @@ public final class ModThermalFoundation extends ModPlugin {
 
 		final String ingot = "dust" + oreName;
 
-		pulverizer.append("ThermalFoundation:armor.helmet" + oreName)
-				.output(ingot, 5).save();
-		pulverizer.append("ThermalFoundation:armor.plate" + oreName)
-				.output(ingot, 8).save();
-		pulverizer.append("ThermalFoundation:armor.legs" + oreName)
-				.output(ingot, 7).save();
-		pulverizer.append("ThermalFoundation:armor.boots" + oreName)
-				.output(ingot, 4).save();
+		pulverizer.append("ThermalFoundation:armor.helmet" + oreName).output(ingot, 5).save();
+		pulverizer.append("ThermalFoundation:armor.plate" + oreName).output(ingot, 8).save();
+		pulverizer.append("ThermalFoundation:armor.legs" + oreName).output(ingot, 7).save();
+		pulverizer.append("ThermalFoundation:armor.boots" + oreName).output(ingot, 4).save();
 
-		pulverizer.append("ThermalFoundation:tool.sword" + oreName,
-				"ThermalFoundation:tool.hoe" + oreName,
-				"ThermalFoundation:tool.shears" + oreName,
-				"ThermalFoundation:tool.fishingRod" + oreName,
+		pulverizer.append("ThermalFoundation:tool.sword" + oreName, "ThermalFoundation:tool.hoe" + oreName,
+				"ThermalFoundation:tool.shears" + oreName, "ThermalFoundation:tool.fishingRod" + oreName,
 				"ThermalFoundation:tool.bow" + oreName).output(ingot, 2).save();
 
-		pulverizer.append("ThermalFoundation:tool.shovel" + oreName).output(ingot)
-				.save();
+		pulverizer.append("ThermalFoundation:tool.shovel" + oreName).output(ingot).save();
 
-		pulverizer.append("ThermalFoundation:tool.pickaxe" + oreName,
-				"ThermalFoundation:tool.axe" + oreName,
-				"ThermalFoundation:tool.sickle" + oreName).output(ingot, 3)
-				.save();
+		pulverizer.append("ThermalFoundation:tool.pickaxe" + oreName, "ThermalFoundation:tool.axe" + oreName,
+				"ThermalFoundation:tool.sickle" + oreName).output(ingot, 3).save();
 	}
 
 	protected void recycleGearTE(final String type) {
-		
-		pulverizer.append(OreDictionaryHelper.getOres("gear" + type))
-				.output("dust" + type, 4).save();
+
+		pulverizer.append(OreDictionaryHelper.getOres("gear" + type)).output("dust" + type, 4).save();
 	}
 
 	void registerExtraTiCGearRecipe(final String gear) {
@@ -135,27 +117,20 @@ public final class ModThermalFoundation extends ModPlugin {
 	public boolean initialize() {
 
 		registerRecipesToIgnore(recipeIgnoreList);
-		//registerRecipesToReveal(recipeRevealList);
+		// registerRecipesToReveal(recipeRevealList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Big daddy golden apple
-		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1)
-				.secondaryInput(getPyrotheumDust(8)).output("blockGold", 8)
-				.save();
+		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1).secondaryInput(getPyrotheumDust(8))
+				.output("blockGold", 8).save();
 
 		// Smelt some blocks!
-		smelter.setEnergy(21600).append("blockTin")
-				.secondaryInput("blockCopper", 3).output("blockBronze", 4)
-				.save();
-		smelter.setEnergy(21600).append("blockGold")
-				.secondaryInput("blockSilver", 3).output("blockElectrum", 4)
-				.save();
-		smelter.setEnergy(21600).append("blockIron")
-				.secondaryInput("blockNickel", 3).output("blockInvar", 4)
-				.save();
+		smelter.setEnergy(21600).append("blockTin").secondaryInput("blockCopper", 3).output("blockBronze", 4).save();
+		smelter.setEnergy(21600).append("blockGold").secondaryInput("blockSilver", 3).output("blockElectrum", 4).save();
+		smelter.setEnergy(21600).append("blockIron").secondaryInput("blockNickel", 3).output("blockInvar", 4).save();
 
 		furnaceRecycleHelperTE("Copper");
 		furnaceRecycleHelperTE("Tin");
@@ -181,11 +156,11 @@ public final class ModThermalFoundation extends ModPlugin {
 		recycleGearTE("Signalum");
 		recycleGearTE("Lumium");
 		recycleGearTE("Enderium");
-		
-		// Have to handle gears if ExtraTiC is installed.  It provides Tinker's
-		// recipes that do not require an iron ingot.  Register recipes that
+
+		// Have to handle gears if ExtraTiC is installed. It provides Tinker's
+		// recipes that do not require an iron ingot. Register recipes that
 		// remove the iron ingot from the result.
-		if(Loader.isModLoaded("ExtraTiC")) {
+		if (Loader.isModLoaded("ExtraTiC")) {
 			registerExtraTiCGearRecipe("ThermalFoundation:material:12");
 			registerExtraTiCGearRecipe("ThermalFoundation:material:13");
 			registerExtraTiCGearRecipe("ThermalFoundation:material:128");
@@ -202,9 +177,9 @@ public final class ModThermalFoundation extends ModPlugin {
 			registerExtraTiCGearRecipe("ThermalFoundation:material:139");
 			registerExtraTiCGearRecipe("ThermalFoundation:material:140");
 		}
-		
+
 		// Pile of Rubble - add Copper and Tin ores
-		registerPileOfRubbleDrop(1, 3, 5, "Ore:0", "Ore:1" );
+		registerPileOfRubbleDrop(1, 3, 5, "Ore:0", "Ore:1");
 
 		return true;
 	}
