@@ -138,7 +138,7 @@ public final class ModForestry extends ModPlugin {
 			final ItemStack input = RecipeDecomposition.getInput(r);
 			if (input == null || ItemData.isRecipeIgnored(input))
 				continue;
-			ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
+			//ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
 			recycler.input(input).useRecipe(RecipeDecomposition.decompose(r)).save();
 		}
 	}
