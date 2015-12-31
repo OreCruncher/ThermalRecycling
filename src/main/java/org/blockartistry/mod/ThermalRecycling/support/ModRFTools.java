@@ -28,35 +28,30 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModRFTools extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-			"dimensionalBlankBlock", "dimensionalSmallBlocks",
-			"dimensionalCross2Block", "dimensionalPattern1Block",
-			"dimensionalCrossBlock", "dimensionalBlock",
-			"dimensionalPattern2Block", "shieldTemplateBlock",
-			"rfToolsManualItem", "rfToolsManualDimensionItem",
+	static final String[] recipeIgnoreList = new String[] { "dimensionalBlankBlock", "dimensionalSmallBlocks",
+			"dimensionalCross2Block", "dimensionalPattern1Block", "dimensionalCrossBlock", "dimensionalBlock",
+			"dimensionalPattern2Block", "shieldTemplateBlock", "rfToolsManualItem", "rfToolsManualDimensionItem",
 			"dimletTemplate", "emptyDimensionTab", "dimensionalShardItem", };
 
-	static final String[] scrapValuesNone = new String[] {
-			"dimensionalBlankBlock", "dimensionalSmallBlocks",
-			"dimensionalCross2Block", "dimensionalShardBlock",
-			"dimensionalCrossBlock", "dimensionalBlock",
-			"dimensionalPattern1Block", "shieldTemplateBlock",
-			"rfToolsManualItem", "dimensionalPattern2Block",
-			"rfToolsManualDimensionItem", "dimletTemplate",
-			"emptyDimensionTab", "dimensionalShardItem",
+	static final String[] scrapValuesNone = new String[] { "dimensionalBlankBlock", "dimensionalSmallBlocks",
+			"dimensionalCross2Block", "dimensionalShardBlock", "dimensionalCrossBlock", "dimensionalBlock",
+			"dimensionalPattern1Block", "shieldTemplateBlock", "rfToolsManualItem", "dimensionalPattern2Block",
+			"rfToolsManualDimensionItem", "dimletTemplate", "emptyDimensionTab", "dimensionalShardItem",
+			"knownDimlet:14", "knownDimlet:24", "knownDimlet:123", "knownDimlet:154", "knownDimlet:157",
+			"shieldTemplateBlock:1", "knownDimlet:211", "knownDimlet:218", "knownDimlet:219", "knownDimlet:204",
+			"knownDimlet:236", "knownDimlet:153", "knownDimlet:253", "shieldTemplateBlock:2", "shieldTemplateBlock:3" };
 
-	};
-
-	static final String[] scrapValuesPoor = new String[] { "machineBase" };
+	static final String[] scrapValuesPoor = new String[] { "machineBase", "simpleDialerBlock", "sequencerBlock" };
 
 	static final String[] scrapValuesStandard = new String[] {};
 
-	static final String[] scrapValuesSuperior = new String[] {
-			"dimensionBuilderBlock", "dimensionEditorBlock", "endergenicBlock",
-			"environmentalControllerBlock", "machineInfuserBlock",
-			"hastePlusEModuleItem", "hasteEModuleItem", "peaceEssenceItem",
-			"efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
-
+	static final String[] scrapValuesSuperior = new String[] { "dimensionBuilderBlock", "dimensionEditorBlock",
+			"endergenicBlock", "environmentalControllerBlock", "machineInfuserBlock", "hastePlusEModuleItem",
+			"hasteEModuleItem", "peaceEssenceItem", "efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
+			"dimletResearcherBlock", "shapeCardItem:2", "shapeCardItem:3", "shapeCardItem:4", "shapeCardItem:5",
+			"shapeCardItem:6", "shapeCardItem:7", "storageModuleTabletItem", "infusedDiamondItem",
+			"advancedChargedPorterItem", "liquidAbsorberBlock", "shieldBlock4", "timeAbsorberBlock",
+			"remoteStorageBlock",
 	};
 
 	public ModRFTools() {
@@ -71,7 +66,7 @@ public final class ModRFTools extends ModPlugin {
 		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
 		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-		
+
 		return true;
 	}
 
