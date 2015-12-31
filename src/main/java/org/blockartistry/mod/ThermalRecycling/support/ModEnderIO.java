@@ -28,27 +28,27 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModEnderIO extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemConduitFacade",
-			"itemPowderIngot:7" };
+	static final String[] recipeIgnoreList = new String[] { "blockFusedQuartz:*", "itemFusedQuartzFrame",
+			"itemConduitFacade", "itemPowderIngot:7" };
 
-	static final String[] scrapValuesNone = new String[] {
-			"blockFusedQuartz:*", "itemFusedQuartzFrame", "itemMaterial:3",
-			"itemMaterial:4", "itemConduitFacade", "itemPowderIngot:7",
-			"itemMachinePart:1", "itemMaterial", "itemMaterial:1",
-			"itemMaterial:2"
-			};
+	static final String[] scrapValuesNone = new String[] { "itemFusedQuartzFrame", "itemMaterial:4",
+			"itemConduitFacade:*", "itemPowderIngot:7", "itemMachinePart:1", "itemMaterial", "itemMaterial:1",
+			"itemMaterial:2" };
 
-	static final String[] scrapValuesPoor = new String[] {
-			"itemLiquidConduit:0", "itemLiquidConduit:1" };
+	static final String[] scrapValuesPoor = new String[] { "itemRedstoneConduit:*", "itemPowerConduit:*",
+			"itemLiquidConduit:*", "blockDarkIronBars", "blockDarkSteelLadder", "itemMaterial:3", "itemItemConduit:0" };
 
-	static final String[] scrapValuesStandard = new String[] {};
+	static final String[] scrapValuesStandard = new String[] { "blockFusedQuartz:*", "itemConduitFacade:1" };
 
-	static final String[] scrapValuesSuperior = new String[] {
-			"itemMaterial:5", "itemMaterial:6", "itemMaterial:8",
-			"itemMaterial:9", "blockEnchanter", "blockAttractor",
-			"blockPoweredSpawner", "blockTravelAnchor", "blockTransceiver",
-			"blockVacuumChest", "blockFarmStation", "blockSolarPanel:1" };
+	static final String[] scrapValuesSuperior = new String[] { "itemMaterial:5", "itemMaterial:6", "itemMaterial:8",
+			"itemMaterial:9", "itemMachinePart:0", "blockEnchanter", "blockAttractor", "blockPoweredSpawner",
+			"blockTravelAnchor", "blockTransceiver", "blockVacuumChest", "blockFarmStation", "blockSolarPanel:1",
+			"blockZombieGenerator", "blockVat", "blockCombustionGenerator", "blockBuffer:1", "blockKillerJoe",
+			"itemBasicCapacitor:2", "blockCapBank:3", "blockWirelessCharger", "blockSagMill", "blockSliceAndSplice",
+			"blockPainter", "blockCapBank:1", "blockBuffer:0", "itemMagnet:16", "blockSpawnGuard", "itemCoordSelector",
+			"blockWeatherObelisk", "blockSoulBinder", "blockTelePad", "blockSolarPanel:0", "itemExtractSpeedUpgrade:0",
+			"blockBuffer:2", "blockEnderIo", "blockCapBank:2", "blockPowerMonitor", "item.darkSteel_chestplate",
+			"blockCrafter", "blockInventoryPanel", "blockAlloySmelter", "blockExperienceObelisk" };
 
 	public ModEnderIO() {
 		super(SupportedMod.ENDERIO);
@@ -64,71 +64,51 @@ public final class ModEnderIO extends ModPlugin {
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Armor and tools
-		smelter.append("EnderIO:item.darkSteel_helmet")
-				.secondaryInput("dustCoal", 5).output("EnderIO:itemAlloy:6", 5)
+		smelter.append("EnderIO:item.darkSteel_helmet").secondaryInput("dustCoal", 5).output("EnderIO:itemAlloy:6", 5)
 				.save();
-		smelter.append("EnderIO:item.darkSteel_chestplate")
-				.secondaryInput("dustCoal", 8).output("EnderIO:itemAlloy:6", 8)
+		smelter.append("EnderIO:item.darkSteel_chestplate").secondaryInput("dustCoal", 8)
+				.output("EnderIO:itemAlloy:6", 8).save();
+		smelter.append("EnderIO:item.darkSteel_leggings").secondaryInput("dustCoal", 7).output("EnderIO:itemAlloy:6", 7)
 				.save();
-		smelter.append("EnderIO:item.darkSteel_leggings")
-				.secondaryInput("dustCoal", 7).output("EnderIO:itemAlloy:6", 7)
+		smelter.append("EnderIO:item.darkSteel_boots").secondaryInput("dustCoal", 4).output("EnderIO:itemAlloy:6", 4)
 				.save();
-		smelter.append("EnderIO:item.darkSteel_boots")
-				.secondaryInput("dustCoal", 4).output("EnderIO:itemAlloy:6", 4)
-				.save();
-		smelter.append("EnderIO:item.darkSteel_sword",
-				"EnderIO:itemTravelStaff:16").secondaryInput("dustCoal", 2)
+		smelter.append("EnderIO:item.darkSteel_sword", "EnderIO:itemTravelStaff:16").secondaryInput("dustCoal", 2)
 				.output("EnderIO:itemAlloy:6", 2).save();
-		smelter.append("EnderIO:item.darkSteel_axe",
-				"EnderIO:item.darkSteel_pickaxe").secondaryInput("dustCoal", 3)
+		smelter.append("EnderIO:item.darkSteel_axe", "EnderIO:item.darkSteel_pickaxe").secondaryInput("dustCoal", 3)
 				.output("EnderIO:itemAlloy:6", 3).save();
-		smelter.append("EnderIO:itemYetaWrench", "EnderIO:itemModItemFilter")
-				.secondaryInput("dustCoal", 3).output("EnderIO:itemAlloy", 3)
-				.save();
+		smelter.append("EnderIO:itemYetaWrench", "EnderIO:itemModItemFilter").secondaryInput("dustCoal", 3)
+				.output("EnderIO:itemAlloy", 3).save();
 
-		pulverizer.appendSubtypeRange("EnderIO:itemExtractSpeedUpgrade", 0, 1)
-				.output("EnderIO:itemAlloy", 4).secondaryOutput("ingotIron", 4)
-				.save();
+		pulverizer.appendSubtypeRange("EnderIO:itemExtractSpeedUpgrade", 0, 1).output("EnderIO:itemAlloy", 4)
+				.secondaryOutput("ingotIron", 4).save();
 
-		pulverizer.append("EnderIO:itemBasicCapacitor").output("ingotCopper")
-				.secondaryOutput("nuggetGold", 4).save();
-		pulverizer.append("EnderIO:itemBasicCapacitor:1")
-				.output("EnderIO:itemAlloy:1", 2)
+		pulverizer.append("EnderIO:itemBasicCapacitor").output("ingotCopper").secondaryOutput("nuggetGold", 4).save();
+		pulverizer.append("EnderIO:itemBasicCapacitor:1").output("EnderIO:itemAlloy:1", 2)
 				.secondaryOutput("ingotCopper", 2).save();
-		pulverizer.append("EnderIO:itemBasicCapacitor:2")
-				.output("EnderIO:itemAlloy:2", 2)
+		pulverizer.append("EnderIO:itemBasicCapacitor:2").output("EnderIO:itemAlloy:2", 2)
 				.secondaryOutput("EnderIO:itemAlloy:1", 4).save();
 
-		pulverizer.append("EnderIO:itemBasicFilterUpgrade")
-				.output("ingotIron", 5).save();
-		pulverizer.append("EnderIO:itemBasicFilterUpgrade:1")
-				.output("EnderIO:itemAlloy:7", 2)
+		pulverizer.append("EnderIO:itemBasicFilterUpgrade").output("ingotIron", 5).save();
+		pulverizer.append("EnderIO:itemBasicFilterUpgrade:1").output("EnderIO:itemAlloy:7", 2)
 				.secondaryOutput("dustRedstone", 5).save();
-		pulverizer.append("EnderIO:itemExistingItemFilter")
-				.output("EnderIO:itemAlloy:7", 2)
+		pulverizer.append("EnderIO:itemExistingItemFilter").output("EnderIO:itemAlloy:7", 2)
 				.secondaryOutput("dustRedstone", 8).save();
 
-		pulverizer.append("EnderIO:itemXpTransfer")
-				.output("EnderIO:itemAlloy:7", 2)
+		pulverizer.append("EnderIO:itemXpTransfer").output("EnderIO:itemAlloy:7", 2)
 				.secondaryOutput("EnderIO:itemAlloy:1").save();
 
-		pulverizer.append("EnderIO:itemSoulVessel")
-				.output("EnderIO:itemAlloy:7").save();
+		pulverizer.append("EnderIO:itemSoulVessel").output("EnderIO:itemAlloy:7").save();
 
-		pulverizer.append("EnderIO:itemGliderWing")
-				.output("EnderIO:itemAlloy:6", 3).save();
-		pulverizer.append("EnderIO:itemGliderWing:1")
-				.output("EnderIO:itemAlloy:6", 8).save();
+		pulverizer.append("EnderIO:itemGliderWing").output("EnderIO:itemAlloy:6", 3).save();
+		pulverizer.append("EnderIO:itemGliderWing:1").output("EnderIO:itemAlloy:6", 8).save();
 
-		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 0, 1)
-				.output("ingotCopper").secondaryOutput("dustGlowstone").save();
-		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 2, 3)
-				.output("ingotIron", 2).secondaryOutput("dustGlowstone", 4)
-				.save();
-		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 4, 5)
-				.output("EnderIO:itemAlloy:2")
+		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 0, 1).output("ingotCopper")
+				.secondaryOutput("dustGlowstone").save();
+		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 2, 3).output("ingotIron", 2)
+				.secondaryOutput("dustGlowstone", 4).save();
+		pulverizer.appendSubtypeRange("EnderIO:blockElectricLight", 4, 5).output("EnderIO:itemAlloy:2")
 				.secondaryOutput("EnderIO:itemAlloy:7", 2).save();
-		
+
 		return true;
 	}
 }
