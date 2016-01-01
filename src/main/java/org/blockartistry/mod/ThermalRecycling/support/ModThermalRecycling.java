@@ -158,7 +158,7 @@ public final class ModThermalRecycling extends ModPlugin {
 
 		registerScrapValuesForge(ScrapValue.SUPERIOR, "blockIron", "blockGold", "blockCopper", "blockTin",
 				"blockSilver", "blockLead", "blockNickle", "blockPlatinum", "blockManaInfused", "blockElectrum",
-				"blockInvar", "blockBronze", "blockSignalum", "blockEnderium");
+				"blockInvar", "blockBronze", "blockSignalum", "blockEnderium", "blockSteel");
 
 		registerScrapValuesForge(ScrapValue.STANDARD, "oreIron", "oreGold", "oreCopper", "oreTin", "oreSilver",
 				"oreLead", "oreNickle", "orePlatinum", "oreManaInfused", "oreElectrum", "oreInvar", "oreBronze",

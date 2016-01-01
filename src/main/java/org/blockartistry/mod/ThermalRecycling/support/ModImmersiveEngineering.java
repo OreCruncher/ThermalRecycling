@@ -43,11 +43,11 @@ public class ModImmersiveEngineering extends ModPlugin {
 			"metal:29" };
 
 	static final String[] scrapValuesStandard = new String[] { "woodenDevice:2", "woodenDevice:3", "material:7",
-			"metalDecoration:3", "storageSlab:*", "material:10", "storageSlab:0", "storageSlab:3", "drillhead:0",
+			"metalDecoration:3", "storageSlab:*", "material:10", "storageSlab:0", "storageSlab:3",
 			"metalDevice:1", "metalDevice:3", "toolupgrade:4", "stoneDevice:4", };
 
 	static final String[] scrapValuesSuperior = new String[] { "storage:*", "skyhook", "toolupgrade:*", "metalDevice:*",
-			"drillhead:1", "revolver:0", "drill:0", "metalDecoration:5", "metalDecoration:6", "metalDecoration:7",
+			"drillhead:*", "revolver:0", "drill:0", "metalDecoration:5", "metalDecoration:6", "metalDecoration:7",
 			"metalMultiblock:2", "material:8", "metalMultiblock:3", "metalMultiblock:0", };
 
 	public ModImmersiveEngineering() {

@@ -63,8 +63,7 @@ public final class VanillaMinecraft extends ModPlugin {
 			"mossy_cobblestone", "furnace", "lever", "glowstone", "nether_brick", "nether_brick_fence",
 			"cobblestone_wall:*", "stained_hardened_clay:*", "stained_glass_pane:*", "carpet:*", "wool:*", "clay",
 			"dispenser", "dropper", "painting", "cake", "lead", "snow", "glass_bottle", "item_frame", "sugar",
-			"flower_pot",
-
+			"flower_pot", "obsidian"
 	};
 
 	private static final String[] scrapValuesNone = new String[] { "leather_helmet", "leather_chestplate",
@@ -86,13 +85,13 @@ public final class VanillaMinecraft extends ModPlugin {
 			"glowstone", "redstone_lamp", "ender_chest", "enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
 			"lapis_ore", "redstone_ore", "coal_ore", "skull:*", "brewing_stand", "flint_and_steel", "golden_rail",
 			"quartz", "detector_rail", "tnt", "golden_carrot", "comparator", "speckled_melon", "activator_rail",
-			"daylight_detector", "gunpowder", "hopper_minecart" };
+			"daylight_detector", "gunpowder" };
 
 	private static final String[] scrapValuesSuperior = new String[] { "diamond", "emerald", "nether_star", "beacon",
 			"diamond_horse_armor", "emerald_block", "diamond_block", "diamond_helmet", "diamond_chestplate",
 			"diamond_leggings", "diamond_boots", "diamond_sword", "diamond_shovel", "diamond_axe", "diamond_pickaxe",
 			"diamond_hoe", "enchanting_table", "golden_apple:1", "jukebox", "diamond_ore", "emerald_ore",
-			"golden_chestplate", "golden_apple:0", "iron_chestplate", "tnt_minecart", "anvil:0", };
+			"golden_chestplate", "golden_apple:0", "iron_chestplate", "tnt_minecart", "anvil:0", "hopper_minecart" };
 
 	private static final String[] brownCompost = new String[] { "sapling:*", "leaves:*", "leaves2:*", "deadbush",
 			"vine", "wheat", };
