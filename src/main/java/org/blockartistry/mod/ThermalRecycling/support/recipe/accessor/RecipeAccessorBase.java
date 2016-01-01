@@ -41,6 +41,14 @@ public abstract class RecipeAccessorBase {
 	public ItemStack getInput(final Object recipe) {
 		return ((IRecipe)recipe).getRecipeOutput().copy();
 	}
+	
+	/**
+	 * Indicates whether the recipe is hidden and should be
+	 * ignored.
+	 */
+	public boolean isHidden(final Object recipe) {
+		return false;
+	}
 
 	/**
 	 * Obtains the ItemStacks that could be the output of a Thermal Recycler.

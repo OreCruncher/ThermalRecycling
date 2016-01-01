@@ -66,6 +66,10 @@ public final class ItemStackHelper {
 		return getItemStack(oreName);
 	}
 
+	public static Optional<ItemStack> getPreferredStack(final String oreName) {
+		return getItemStack(oreName);
+	}
+	
 	public static Optional<ItemStack> getPreferredStack(final ItemStack stack) {
 		final String oreName = OreDictionaryHelper.getOreName(stack);
 		if (oreName == null || oreName.isEmpty() || "Unknown".compareToIgnoreCase(oreName) == 0)

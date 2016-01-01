@@ -27,6 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -47,14 +49,11 @@ public class TERecipeAccessor extends RecipeAccessorBase {
 			}
 
 			try {
-
 				final ShapedOreRecipe s = (ShapedOreRecipe) teRecipeAccessor.get(recipe);
-
 				if ("cofh.thermalexpansion.util.crafting.RecipeMachine".contains(s.getClass().getName())) {
 					result = RecipeUtil.projectForgeRecipeList(s.getInput());
 					;
 				}
-
 			} catch (Exception e) {
 			}
 

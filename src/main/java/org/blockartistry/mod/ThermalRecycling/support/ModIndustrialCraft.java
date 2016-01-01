@@ -51,7 +51,8 @@ public class ModIndustrialCraft extends ModPlugin {
 			"itemDiamondBlockCuttingBlade", "itemToolChainsaw", "itemArmorQuantumBoots", "itemRTGPellet",
 			"itemDoorAlloy", "itemAdvIronBlockCuttingBlade", "itemwcarbonrotor", "itemArmorCFPack",
 			"itemArmorBronzeChestplate", "itemupgradekit:0", "itemPartCoalChunk", "obscurator", "itemRecipePart:11",
-			"upgradeModule:1", "upgradeModule:4", "itemCable:9", };
+			"itemRecipePart:12", "upgradeModule:1", "upgradeModule:3", "upgradeModule:4", "upgradeModule:6",
+			"itemCable:9", };
 
 	public ModIndustrialCraft() {
 		super(SupportedMod.INDUSTRIAL_CRAFT);

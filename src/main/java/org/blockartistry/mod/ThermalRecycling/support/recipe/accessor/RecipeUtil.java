@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.google.common.collect.ImmutableList;
 
@@ -49,6 +50,36 @@ public final class RecipeUtil {
 	private RecipeUtil() {
 	}
 
+	/**
+	 * Identifies and returns the ItemStack from the list that is considered the
+	 * preferred stack. It is assumed that there is commonality between the
+	 * stacks.
+	 */
+	public static ItemStack getPreferredFromList(final List<ItemStack> stacks) {
+		if (stacks == null || stacks.isEmpty())
+			return null;
+		if (stacks.size() == 1)
+			return stacks.get(0);
+
+		// OK - do this the hard way. Have to scan each of the stacks looking
+		// for the common ore dictionary grouping. If there is a single
+		// name, great. If more than one the common factor has to be identified.
+		final List<String> oreNames = OreDictionaryHelper.getOreNamesForStack(stacks.get(0));
+		if(oreNames.size() > 1) {
+			for (int i = 1; i < stacks.size(); i++) {
+				oreNames.retainAll(OreDictionaryHelper.getOreNamesForStack(stacks.get(i)));
+				if (oreNames.size() < 2)
+					break;
+			}
+		}
+		return ItemStackHelper.getPreferredStack(oreNames.get(0)).get();
+	}
+
+	/**
+	 * Processes the input object list as if it were from a Forge recipe. Each
+	 * entry is cracked and handled, resulting in an ItemStack in the return
+	 * list.
+	 */
 	public static List<ItemStack> projectForgeRecipeList(final Object... list) {
 
 		final List<ItemStack> result = new ArrayList<ItemStack>();
@@ -62,7 +93,7 @@ public final class RecipeUtil {
 				@SuppressWarnings("unchecked")
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
 				if (!t.isEmpty())
-					result.add(ItemStackHelper.getPreferredStack(t.get(0).copy()).get());
+					result.add(getPreferredFromList(t).copy());
 			}
 		}
 

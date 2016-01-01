@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,11 @@ public final class RecipeDecomposition {
 
 		final RecipeAccessorBase accessor = find(recipe);
 		if (accessor != null) {
-			projection = accessor.getOutput(recipe);
+			if(accessor.isHidden(recipe)) {
+				projection = new ArrayList<ItemStack>();
+			} else {
+				projection = accessor.getOutput(recipe);
+			}
 		} else if (!RecipeUtil.isClassIgnored(recipe)) {
 			ModLog.info("Unknown recipe class: %s", recipe.getClass().getName());
 		}

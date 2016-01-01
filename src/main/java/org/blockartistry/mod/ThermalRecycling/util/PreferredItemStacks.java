@@ -234,7 +234,23 @@ public abstract class PreferredItemStacks {
 		registerStack("gearSignalum", gearSignalum);
 		registerStack("gearLumium", gearLumium);
 		registerStack("gearEnderium", gearEnderium);
-		
+
+		registerStack("thermalexpansion:machineIron", gearIron);
+		registerStack("thermalexpansion:machineGold", gearGold);
+		registerStack("thermalexpansion:machineCopper", gearCopper);
+		registerStack("thermalexpansion:machineTin", gearTin);
+		registerStack("thermalexpansion:machineSilver", gearSilver);
+		registerStack("thermalexpansion:machineLead", gearLead);
+		registerStack("thermalexpansion:machineNickel", gearNickel);
+		registerStack("thermalexpansion:machinePlatinum", gearPlatinum);
+		registerStack("thermalexpansion:machineMithril", gearManaInfused);
+		registerStack("thermalexpansion:machineElectrum", gearElectrum);
+		registerStack("thermalexpansion:machineInvar", gearInvar);
+		registerStack("thermalexpansion:machineBronze", gearBronze);
+		registerStack("thermalexpansion:machineSignalum", gearSignalum);
+		registerStack("thermalexpansion:machineLumium", gearLumium);
+		registerStack("thermalexpansion:machineEnderium", gearEnderium);
+
 		preferred = ImmutableMap.copyOf(preferred);
 		return this;
 	}

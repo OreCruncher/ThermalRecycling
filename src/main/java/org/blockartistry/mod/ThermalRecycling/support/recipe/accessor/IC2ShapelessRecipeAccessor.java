@@ -31,8 +31,30 @@ import net.minecraft.item.ItemStack;
 
 public class IC2ShapelessRecipeAccessor extends IC2AccessorBase {
 
+	private static Field hidden = null;
 	private static Field inputAccessor = null;
 	
+	@Override
+	public boolean isHidden(final Object recipe) {
+		try {
+			if (hidden == null) {
+				final Field temp = recipe.getClass().getDeclaredField("hidden");
+				temp.setAccessible(true);
+				hidden = temp;
+			}
+
+			try {
+				return hidden.getBoolean(recipe);
+			} catch (Exception e) {
+			}
+
+		} catch (final Exception e) {
+			;
+		}
+
+		return false;
+	}
+
 	@Override
 	public List<ItemStack> getOutput(final Object recipe) {
 		List<ItemStack> result = null;

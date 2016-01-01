@@ -31,6 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
+import org.blockartistry.mod.ThermalRecycling.data.AutoDetect;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
@@ -339,51 +340,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		}
 	}
 
-	private float detect(final ItemData data) {
-		if (data.getAutoScrapValue() == null) {
-			// ModLog.debug("detect: %s (%s)", data.getName(),
-			// data.getInternalName());
-			final RecipeData recipe = RecipeData.get(data.getStack());
-			if (data.isBlockedFromScrapping() || recipe == null || !recipe.hasOutput()) {
-				data.setAutoScrapValue(data.getScrapValue());
-				data.setScore(data.getAutoScrapValue().getScore());
-			} else {
-				float score = 0;
-				final List<ItemStack> output = recipe.getOutput();
-				for (final ItemStack stack : output) {
-					final ItemData child = ItemData.get(stack);
-					score += detect(child) * stack.stackSize;
-				}
-
-				score = score / (float) recipe.getMinimumInputQuantityRequired();
-				data.setAutoScrapValue(ScrapValue.determineValue(score));
-				data.setScore(score);
-
-				if (data.getScrapValue() != data.getAutoScrapValue()) {
-					final StringBuilder builder = new StringBuilder();
-					builder.append("MISMATCH: ").append(data.getInternalName());
-					builder.append(" value: ").append(data.getScrapValue().name());
-					builder.append(" auto: ").append(data.getAutoScrapValue().name());
-					ModLog.info(builder.toString());
-				}
-			}
-		}
-
-		return data.getScore();
-	}
-
-	@SuppressWarnings("unused")
-	private void autoDetect() {
-		// Score the buggers
-		for (final ItemData data : ItemData.getDataList())
-			try {
-				if (!data.isGeneric())
-					detect(data);
-			} catch (final Exception ex) {
-				ModLog.warn("autoDetect() blew a gasket: %s (%s)", data.getName(), data.getInternalName());
-			}
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean postInit() {
@@ -404,7 +360,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ExtractionData.freeze();
 
 		// AutoDetect scrap values
-		autoDetect();
+		AutoDetect.detect();
 
 		return true;
 	}
