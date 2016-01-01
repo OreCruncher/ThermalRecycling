@@ -25,8 +25,8 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import java.util.Collection;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.BEFlexibleRecipeAccessor;
 
@@ -88,7 +88,7 @@ public final class ModBuildCraftTransport extends ModPlugin {
 		if (output == null || output.getItem() == null)
 			return;
 
-		if (ItemData.isRecipeIgnored(output))
+		if (ItemRegistry.isRecipeIgnored(output))
 			return;
 
 		recycler.input(output).useRecipe(RecipeDecomposition.decompose(view)).save();

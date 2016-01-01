@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.data.registry;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 
@@ -66,5 +67,11 @@ class SingleItemProfile extends ItemProfile {
 	@Override
 	public void writeDiagnostic(final Writer writer) throws IOException {
 		writer.write(this.settings.toString());
+		writer.write("\n");
+	}
+
+	@Override
+	public void collectItemData(final List<ItemData> list) {
+		list.add(this.settings);
 	}
 }

@@ -36,10 +36,11 @@ import net.minecraftforge.common.config.Configuration;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryCarpenterRecipeAccessor;
@@ -126,7 +127,7 @@ public final class ModForestry extends ModPlugin {
 		for (final Entry<Object[], Object[]> e : entry.entrySet()) {
 			if (e.getValue().length == 1 && e.getValue()[0] instanceof ItemStack) {
 				final ItemStack stack = (ItemStack) e.getValue()[0];
-				if (!ItemData.isRecipeIgnored(stack))
+				if (!ItemRegistry.isRecipeIgnored(stack))
 					recycler.input(stack).useRecipe(RecipeDecomposition.decomposeForestry(stack, e.getKey())).save();
 			}
 		}
@@ -135,7 +136,7 @@ public final class ModForestry extends ModPlugin {
 	protected <T> void register(final Collection<T> recipes) {
 		for (final T r : recipes) {
 			final ItemStack input = RecipeDecomposition.getInput(r);
-			if (input == null || ItemData.isRecipeIgnored(input))
+			if (input == null || ItemRegistry.isRecipeIgnored(input))
 				continue;
 			// ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
 			recycler.input(input).useRecipe(RecipeDecomposition.decompose(r)).save();
@@ -190,11 +191,11 @@ public final class ModForestry extends ModPlugin {
 			final String itemName = (String) o;
 			if (itemName.startsWith("Forestry:crated") || itemName.startsWith("recycling:crated")) {
 				final Optional<ItemStack> stack = ItemStackHelper.getItemStack(itemName);
-				final ItemData data = ItemData.get(stack.get());
-				data.setIgnoreRecipe(true);
-				data.setScrubFromOutput(true);
-				data.setScrapValue(ScrapValue.POOR);
-				ItemData.put(stack.get(), data);
+				final ItemData data = ItemRegistry.get(stack.get());
+				data.ignoreRecipe = true;
+				data.scrubFromOutput = true;
+				data.value = ScrapValue.POOR;
+				ItemRegistry.set(data);
 			}
 		}
 

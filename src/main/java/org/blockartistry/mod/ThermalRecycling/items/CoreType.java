@@ -27,7 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.items;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public enum CoreType {
@@ -48,10 +49,10 @@ public enum CoreType {
 	 * @return
 	 */
 	public static boolean canCoreProcess(final CoreType core, final ItemStack stack) {
-		final ItemData data = ItemData.get(stack);
+		final ItemData data = ItemRegistry.get(stack);
 		if(core == EXTRACTION)
-			return !data.isBlockedFromExtraction();
-		return !data.isBlockedFromScrapping();
+			return !data.isBlockedFromExtraction;
+		return !data.isBlockedFromScrapping;
 	}
 
 	/**

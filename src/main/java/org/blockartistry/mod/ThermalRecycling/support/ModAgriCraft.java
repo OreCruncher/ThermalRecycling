@@ -27,8 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.InfinityRaider.AgriCraft.api.API;
@@ -84,8 +84,8 @@ public class ModAgriCraft extends ModPlugin {
 
 		// Process the seed list
 		for (ItemStack item : OreDictionaryHelper.getOres("listAllseed")) {
-			ItemData.setValue(item, ScrapValue.NONE);
-			ItemData.setCompostIngredientValue(item, CompostIngredient.BROWN);
+			ItemRegistry.setScrapValue(item, ScrapValue.NONE);
+			ItemRegistry.setCompostIngredientValue(item, CompostIngredient.BROWN);
 		}
 
 		// Register our soil block for use by agricraft

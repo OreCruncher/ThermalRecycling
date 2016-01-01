@@ -29,7 +29,8 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
@@ -51,26 +52,26 @@ public final class DebugToolTip extends CachingToolTip {
 		for(final String oreName: names)
 			output.add(EnumChatFormatting.WHITE + oreName);
 
-		final ItemData data = ItemData.get(stack);
+		final ItemData data = ItemRegistry.get(stack);
 		if(data == null)
 			return;
 
-		if (data.isGeneric())
-			output.add(EnumChatFormatting.LIGHT_PURPLE + "Generic");
-		if (data.isFood())
+		//if (data.isGeneric())
+		//	output.add(EnumChatFormatting.LIGHT_PURPLE + "Generic");
+		if (data.isFood)
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Food");
-		if (data.isScrubbedFromOutput())
+		if (data.scrubFromOutput)
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Scrubbed");
-		if (data.getIgnoreRecipe())
+		if (data.ignoreRecipe)
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Recipe Ignored");
-		if(data.isBlockedFromExtraction())
+		if(data.isBlockedFromExtraction)
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Extraction");
-		if(data.isBlockedFromScrapping())
+		if(data.isBlockedFromScrapping)
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Scrapping");
 		
-		if(data.getAutoScrapValue() != null) {
-			output.add(EnumChatFormatting.GOLD + "Auto: " + data.getAutoScrapValue().name());
-			output.add(EnumChatFormatting.GOLD + "Score: " + data.getScore());
+		if(data.auto != null) {
+			output.add(EnumChatFormatting.GOLD + "Auto: " + data.auto.name());
+			output.add(EnumChatFormatting.GOLD + "Score: " + data.score);
 		}
 			
 		if (stack.hasTagCompound())

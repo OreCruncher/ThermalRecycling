@@ -25,7 +25,9 @@
 package org.blockartistry.mod.ThermalRecycling.data.registry;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
@@ -138,6 +140,13 @@ public final class ItemRegistry {
 		final ItemData data = get(stack);
 		data.scrubFromOutput = flag;
 		set(data);
+	}
+	
+	public static List<ItemData> getItemDataList() {
+		final List<ItemData> data = new ArrayList<ItemData>();
+		for(final ItemProfile profile: registry.values())
+			profile.collectItemData(data);
+		return data;
 	}
 	
 	public static void writeDiagnostic(final Writer writer) throws Exception {

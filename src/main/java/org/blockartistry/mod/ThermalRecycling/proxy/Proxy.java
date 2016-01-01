@@ -44,9 +44,9 @@ import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockBreakEventHandler;
 import org.blockartistry.mod.ThermalRecycling.events.BlockHarvestEventHandler;
@@ -166,7 +166,7 @@ public class Proxy {
 					writer = getLogFile();
 
 					if (ModOptions.getEnableDebugLogging())
-						ItemData.writeDiagnostic(writer);
+						ItemRegistry.writeDiagnostic(writer);
 
 					ScrappingTables.writeDiagnostic(writer);
 					UseEffect.diagnostic(writer);

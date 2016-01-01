@@ -27,6 +27,8 @@ package org.blockartistry.mod.ThermalRecycling.data;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 
 import net.minecraft.item.ItemStack;
 
@@ -36,44 +38,43 @@ public final class AutoDetect {
 	}
 
 	private static float detect(final ItemData data) {
-		if (data.getAutoScrapValue() == null) {
+		if (data.auto == null) {
 			// ModLog.debug("detect: %s (%s)", data.getName(),
 			// data.getInternalName());
-			final RecipeData recipe = RecipeData.get(data.getStack());
-			if (data.isBlockedFromScrapping() || recipe == null || !recipe.hasOutput()) {
-				data.setAutoScrapValue(data.getScrapValue());
-				data.setScore(data.getAutoScrapValue().getScore());
+			final RecipeData recipe = RecipeData.get(data.stack);
+			if (data.isBlockedFromScrapping || recipe == null || !recipe.hasOutput()) {
+				data.auto = data.value;
+				data.score = data.auto.score;
 			} else {
 				float score = 0;
 				final List<ItemStack> output = recipe.getOutput();
 				for (final ItemStack stack : output) {
-					final ItemData child = ItemData.get(stack);
+					final ItemData child = ItemRegistry.get(stack);
 					score += detect(child) * stack.stackSize;
 				}
 
 				score = score / (float) recipe.getMinimumInputQuantityRequired();
-				data.setAutoScrapValue(ScrapValue.determineValue(score));
-				data.setScore(score);
+				data.auto = ScrapValue.determineValue(score);
+				data.score = score;
 
-				if (data.getScrapValue() != data.getAutoScrapValue()) {
+				if (data.value != data.auto) {
 					final StringBuilder builder = new StringBuilder();
 					builder.append("MISMATCH: ").append(data.getInternalName());
-					builder.append(" value: ").append(data.getScrapValue().name());
-					builder.append(" auto: ").append(data.getAutoScrapValue().name());
+					builder.append(" value: ").append(data.value.name());
+					builder.append(" auto: ").append(data.auto.name());
 					ModLog.info(builder.toString());
 				}
 			}
 		}
 
-		return data.getScore();
+		return data.score;
 	}
 
 	public static void detect() {
 		// Score the buggers
-		for (final ItemData data : ItemData.getDataList())
+		for (final ItemData data : ItemRegistry.getItemDataList())
 			try {
-				if (!data.isGeneric())
-					detect(data);
+				detect(data);
 			} catch (final Exception ex) {
 				ModLog.warn("autoDetect() blew a gasket: %s (%s)", data.getName(), data.getInternalName());
 			}

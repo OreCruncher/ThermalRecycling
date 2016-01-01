@@ -26,8 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.tooltip;
 
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+
 import net.minecraft.item.ItemStack;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import com.google.common.base.Optional;
 
 public final class ScrapToolTip extends CachingToolTip {
@@ -35,18 +37,18 @@ public final class ScrapToolTip extends CachingToolTip {
 	@Override
 	public void addToToolTip(final List<String> output, final ItemStack stack) {
 		
-		final ItemData data = ItemData.get(stack);
+		final ItemData data = ItemRegistry.get(stack);
 
 		if (data == null)
 			return;
 
-		Optional<String> lore = data.getScrapValue().getTranslated();
+		Optional<String> lore = data.value.getTranslated();
 
 		if (lore.isPresent()) {
 			output.add(lore.get());
 		}
 
-		lore = data.getCompostIngredientValue().getTranslated();
+		lore = data.compostValue.getTranslated();
 
 		if (lore.isPresent())
 			output.add(lore.get());

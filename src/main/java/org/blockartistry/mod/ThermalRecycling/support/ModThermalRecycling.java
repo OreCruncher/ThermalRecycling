@@ -33,11 +33,11 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.AutoDetect;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
@@ -114,47 +114,47 @@ public final class ModThermalRecycling extends ModPlugin {
 				handler);
 
 		// RTG Support - scrub fuel cells from output
-		ItemData.setScrubbedFromOutput(new ItemStack(ItemManager.material, 1, Material.FUEL_CELL), true);
+		ItemRegistry.setScrubbedFromOutput(new ItemStack(ItemManager.material, 1, Material.FUEL_CELL), true);
 
 		// RTG Energy Cells have superior value - even if depleted
-		ItemData.setValue(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				ScrapValue.SUPERIOR);
-		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED), ScrapValue.SUPERIOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED), ScrapValue.SUPERIOR);
 
 		// Add our scrap and boxes
-		ItemData.setBlockedFromScrapping(ScrappingTables.debris, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.poorScrap, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.standardScrap, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
-		ItemData.setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.debris, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.poorScrap, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.standardScrap, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
+		ItemRegistry.setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
 
 		// Litter Bags
-		ItemData.setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
+		ItemRegistry.setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
 
-		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
-		ItemData.setRecipeIgnored(ItemManager.debris, true);
-		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);
-		ItemData.setRecipeIgnored(ItemManager.material, true);
-		ItemData.setRecipeIgnored(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), false);
-		ItemData.setRecipeIgnored(ItemManager.paperLogMaker, true);
-		ItemData.setRecipeIgnored(ItemManager.energeticRedstoneDust, true);
+		ItemRegistry.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
+		ItemRegistry.setRecipeIgnored(ItemManager.debris, true);
+		ItemRegistry.setRecipeIgnored(BlockManager.scrapBlock, true);
+		ItemRegistry.setRecipeIgnored(ItemManager.material, true);
+		ItemRegistry.setRecipeIgnored(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), false);
+		ItemRegistry.setRecipeIgnored(ItemManager.paperLogMaker, true);
+		ItemRegistry.setRecipeIgnored(ItemManager.energeticRedstoneDust, true);
 
-		ItemData.setValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
-		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), ScrapValue.NONE);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
+		ItemRegistry.setScrapValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), ScrapValue.NONE);
 
-		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
 
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD),
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD),
 				ScrapValue.STANDARD);
-		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
 				ScrapValue.SUPERIOR);
 
 		// Use the Forge dictionary to find equivalent ore to set the
@@ -198,7 +198,7 @@ public final class ModThermalRecycling extends ModPlugin {
 			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
 				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
-					ItemData.setBlockedFromScrapping(stack, true);
+					ItemRegistry.setBlockedFromScrapping(stack, true);
 				}
 			}
 		}
@@ -265,9 +265,9 @@ public final class ModThermalRecycling extends ModPlugin {
 		registerExtractionRecipe(new ItemStack(Items.rotten_flesh, 16),
 				new ItemStackItem(new ItemStack(ItemManager.soylentGreen), 1));
 
-		ItemData.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
-		ItemData.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
-		ItemData.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
+		ItemRegistry.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
+		ItemRegistry.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
+		ItemRegistry.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
 
 		// RTG - Extract an RTG Energy Cell to a Housing - loses anything
 		// energy, etc.
@@ -329,7 +329,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				// on can't add one - just means by default it will
 				// not be included.
 				if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
-					if (!ItemData.isRecipeIgnored(stack)) {
+					if (!ItemRegistry.isRecipeIgnored(stack)) {
 
 						// If the name is prefixed with any of the mods
 						// we know about then we can create the recipe.
@@ -366,7 +366,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		processRecipeList(recipes, false);
 
 		// Lock our tables
-		ItemData.freeze();
 		RecipeData.freeze();
 		ScrapHandler.freeze();
 		ExtractionData.freeze();

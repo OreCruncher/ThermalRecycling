@@ -24,7 +24,7 @@
 package org.blockartistry.mod.ThermalRecycling.tweaker;
 
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
@@ -53,7 +53,7 @@ public class ExtractionDataRegistry {
 		if(data.isDefault()) {
 			final ItemStackWeightTable table = new ItemStackWeightTable();
 			table.add(new ItemStackItem(theOutput, weight));
-			ItemData.setBlockedFromExtraction(theInput, false);
+			ItemRegistry.setBlockedFromExtraction(theInput, false);
 			ExtractionData.put(theInput, table);
 		} else {
 			data.getOutput().add(new ItemStackItem(theOutput, weight));

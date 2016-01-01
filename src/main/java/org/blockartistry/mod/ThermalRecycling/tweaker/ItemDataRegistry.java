@@ -26,8 +26,9 @@ package org.blockartistry.mod.ThermalRecycling.tweaker;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -52,13 +53,13 @@ public final class ItemDataRegistry {
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
 		final ScrapValue sv = ScrapValue.values()[scrapValue];
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		final ItemData data = ItemData.get(item);
-		data.setScrapValue(sv);
-		data.setCompostIngredientValue(cv);
-		data.setIgnoreRecipe(ignoreRecipe);
-		data.setScrubFromOutput(scrubFromOutput);
-		data.setBlockedFromScrapping(blockFromScrapping);
-		ItemData.put(item, data);
+		final ItemData data = ItemRegistry.get(item);
+		data.value = sv;
+		data.compostValue = cv;
+		data.ignoreRecipe = ignoreRecipe;
+		data.scrubFromOutput = scrubFromOutput;
+		data.isBlockedFromScrapping = blockFromScrapping;
+		ItemRegistry.set(data);
 	}
 	
 	@ZenMethod
@@ -72,7 +73,7 @@ public final class ItemDataRegistry {
 
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		ItemData.setCompostIngredientValue(item, cv);
+		ItemRegistry.setCompostIngredientValue(item, cv);
 	}
 	
 	@ZenMethod
@@ -86,7 +87,7 @@ public final class ItemDataRegistry {
 
 		final ScrapValue sv = ScrapValue.values()[scrapValue];
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		ItemData.setValue(item, sv);
+		ItemRegistry.setScrapValue(item, sv);
 	}
 	
 	@ZenMethod
@@ -96,7 +97,7 @@ public final class ItemDataRegistry {
 			return;
 		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		ItemData.setRecipeIgnored(item, ignoreRecipe);
+		ItemRegistry.setRecipeIgnored(item, ignoreRecipe);
 	}
 	
 	@ZenMethod
@@ -106,7 +107,7 @@ public final class ItemDataRegistry {
 			return;
 		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		ItemData.setScrubbedFromOutput(item, scrubFromOutput);
+		ItemRegistry.setScrubbedFromOutput(item, scrubFromOutput);
 	}
 	
 	@ZenMethod
@@ -116,6 +117,6 @@ public final class ItemDataRegistry {
 			return;
 		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		ItemData.setBlockedFromScrapping(item, blockedFromScrapping);
+		ItemRegistry.setBlockedFromScrapping(item, blockedFromScrapping);
 	}
 }

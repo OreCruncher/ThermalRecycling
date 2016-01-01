@@ -48,12 +48,13 @@ import net.minecraftforge.fluids.IFluidTank;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.client.ParticleEffects;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterContainer;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.ComposterGui;
 import org.blockartistry.mod.ThermalRecycling.machines.gui.GuiIdentifier;
 import org.blockartistry.mod.ThermalRecycling.util.FakePlayerHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+
 import com.google.common.collect.ImmutableSet;
 
 public final class ComposterTileEntity extends TileEntityBase implements
@@ -197,7 +198,7 @@ public final class ComposterTileEntity extends TileEntityBase implements
 		if(slot == MEAL)
 			return false;
 
-		final CompostIngredient ci = ItemData.get(stack).getCompostIngredientValue();
+		final CompostIngredient ci = ItemRegistry.get(stack).compostValue;
 
 		return ci == CompostIngredient.BROWN && slot == BROWN
 				|| ci == CompostIngredient.GREEN && (slot == GREEN1 || slot == GREEN2);

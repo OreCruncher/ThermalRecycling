@@ -42,6 +42,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStac
 import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import org.blockartistry.mod.ThermalRecycling.items.CoreType;
 import org.blockartistry.mod.ThermalRecycling.items.ItemLevel;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -331,7 +332,7 @@ public class ScrapHandler {
 			if(ctx.tables == null) {
 				ctx.tables = new ItemStackWeightTable[ctx.recipeOutput.size()];
 				for(int i = 0; i < ctx.tables.length; i++) {
-					final ScrapValue sv = ItemData.get(ctx.recipeOutput.get(i)).getScrapValue();
+					final ScrapValue sv = ItemRegistry.get(ctx.recipeOutput.get(i)).value;
 					ctx.tables[i] = ScrappingTables.getTable(ctx.coreType, ctx.coreLevel, sv).get();;
 				}
 			}

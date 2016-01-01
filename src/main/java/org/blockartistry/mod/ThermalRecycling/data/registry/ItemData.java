@@ -55,6 +55,10 @@ public final class ItemData {
 	public ScrapValue auto;
 	public float score;
 
+	ItemData(final Item item) {
+		this(OreDictionaryHelper.asGeneric(item));
+	}
+	
 	ItemData(final ItemStack stack) {
 		this.stack = stack.copy();
 		final Item item = stack.getItem();
@@ -89,17 +93,26 @@ public final class ItemData {
 	
 	@Override
 	public String toString() {
+		final boolean isGeneric = OreDictionaryHelper.isGeneric(this.stack);
 		final StringBuilder builder = new StringBuilder();
+		
+		if(isGeneric)
+			builder.append("GENERIC: ");
 		builder.append(getInternalName());
+		if(!isGeneric) {
+			builder.append(" (");
+			builder.append(this.getName());
+			builder.append(")");
+		}
+		
 		builder.append(' ');
-		if(OreDictionaryHelper.isGeneric(this.stack))
-			builder.append("(GENERIC) ");
 		builder.append("[sv: ").append(this.value.name());
 		builder.append("; ignoreRecipe: ").append(Boolean.toString(this.ignoreRecipe));
 		builder.append("; scrub: ").append(Boolean.toString(this.scrubFromOutput));
 		builder.append("; isFood: ").append(Boolean.toString(this.isFood));
 		builder.append("; block scrap: ").append(Boolean.toString(this.isBlockedFromScrapping));
 		builder.append("; block extract: ").append(Boolean.toString(this.isBlockedFromExtraction));
+		builder.append(']');
 		return builder.toString();
 	}
 }

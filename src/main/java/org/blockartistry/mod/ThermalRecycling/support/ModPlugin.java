@@ -32,8 +32,8 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
@@ -140,7 +140,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setRecipeIgnored(elem, true);
+				ItemRegistry.setRecipeIgnored(elem, true);
 				return true;
 			}
 		});
@@ -149,7 +149,7 @@ public abstract class ModPlugin {
 	protected void registerRecipesToIgnoreForge(final String... oreList) {
 		for (final String ore : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(ore)) {
-				ItemData.setRecipeIgnored(stack, true);
+				ItemRegistry.setRecipeIgnored(stack, true);
 			}
 		}
 	}
@@ -158,7 +158,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setRecipeIgnored(elem, false);
+				ItemRegistry.setRecipeIgnored(elem, false);
 				return true;
 			}
 		});
@@ -168,7 +168,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setValue(elem, value);
+				ItemRegistry.setScrapValue(elem, value);
 				return true;
 			}
 		});
@@ -178,7 +178,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setScrubbedFromOutput(elem, true);
+				ItemRegistry.setScrubbedFromOutput(elem, true);
 				return true;
 			}
 		});
@@ -188,7 +188,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setScrubbedFromOutput(elem, false);
+				ItemRegistry.setScrubbedFromOutput(elem, false);
 				return true;
 			}
 		});
@@ -216,7 +216,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				ItemData.setCompostIngredientValue(elem, ingredient);
+				ItemRegistry.setCompostIngredientValue(elem, ingredient);
 				return true;
 			}
 		});
@@ -226,7 +226,7 @@ public abstract class ModPlugin {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack input) {
-				ItemData.setBlockedFromScrapping(input, status);
+				ItemRegistry.setBlockedFromScrapping(input, status);
 				return false;
 			}
 		});
@@ -263,14 +263,14 @@ public abstract class ModPlugin {
 		final ItemStackWeightTable table = new ItemStackWeightTable();
 		for (final ItemStackItem e : entries)
 			table.add(e);
-		ItemData.setBlockedFromExtraction(input, false);
+		ItemRegistry.setBlockedFromExtraction(input, false);
 		ExtractionData.put(input, table);
 	}
 
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
 		for (final String s : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(s)) {
-				ItemData.setValue(stack, value);
+				ItemRegistry.setScrapValue(stack, value);
 			}
 		}
 	}

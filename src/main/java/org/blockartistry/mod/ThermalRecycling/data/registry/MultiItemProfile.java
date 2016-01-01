@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.data.registry;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
@@ -79,7 +80,15 @@ public class MultiItemProfile extends ItemProfile {
 	@Override
 	public void writeDiagnostic(final Writer writer) throws IOException {
 		writer.write(this.settings.toString());
-		for(final ItemData data: itemData.valueCollection())
+		writer.write("\n");
+		for(final ItemData data: itemData.valueCollection()) {
 			writer.write(data.toString());
+			writer.write("\n");
+		}
+	}
+
+	@Override
+	public void collectItemData(final List<ItemData> list) {
+		list.addAll(itemData.valueCollection());
 	}
 }

@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeAccessorBase;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeUtil;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ShapedOreRecipeAccessor;
@@ -89,7 +89,7 @@ public final class RecipeDecomposition {
 
 		return null;
 	}
-	
+
 	public static ItemStack getInput(final Object recipe) {
 		final RecipeAccessorBase accessor = find(recipe);
 		if (accessor != null)
@@ -103,7 +103,7 @@ public final class RecipeDecomposition {
 
 		final RecipeAccessorBase accessor = find(recipe);
 		if (accessor != null) {
-			if(accessor.isHidden(recipe)) {
+			if (accessor.isHidden(recipe)) {
 				projection = new ArrayList<ItemStack>();
 			} else {
 				projection = accessor.getOutput(recipe);
@@ -117,7 +117,7 @@ public final class RecipeDecomposition {
 
 		return projection;
 	}
-	
+
 	@Deprecated
 	public static List<ItemStack> decomposeForestry(final ItemStack input, final Object... output) {
 		List<ItemStack> projection = RecipeUtil.projectForgeRecipeList(output);
@@ -139,7 +139,8 @@ public final class RecipeDecomposition {
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || RecipeUtil.notConsumed(stack) || ItemData.isScrubbedFromOutput(stack))
+				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || RecipeUtil.notConsumed(stack)
+						|| ItemRegistry.isScrubbedFromOutput(stack))
 					projection.set(i, null);
 				else if (OreDictionaryHelper.isGeneric(stack))
 					stack.setItemDamage(0);

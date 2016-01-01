@@ -26,6 +26,7 @@ package org.blockartistry.mod.ThermalRecycling.data.registry;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
@@ -41,7 +42,7 @@ abstract class ItemProfile {
 
 	public ItemProfile(final Item item) {
 		this.item = item;
-		this.settings = new ItemData(new ItemStack(item));
+		this.settings = new ItemData(item);
 		
 		// If the item is from Vanilla, or from a mod that is not
 		// whitelisted set the scrap value to NONE.
@@ -76,4 +77,10 @@ abstract class ItemProfile {
 	 * Writes diagnostic information to the provider writer.
 	 */
 	public abstract void writeDiagnostic(final Writer writer) throws IOException;
+	
+	/**
+	 * Collects the ItemData entries associated with the profile into
+	 * the provided list.
+	 */
+	public abstract void collectItemData(final List<ItemData> list);
 }

@@ -32,7 +32,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.ComposterTileEntity;
 import org.blockartistry.mod.ThermalRecycling.machines.entity.MachineStatus;
 
@@ -119,15 +120,15 @@ public final class ComposterContainer extends MachineContainer<ComposterTileEnti
 
 				// Attempt to move stuff into machine inventory. If it is
 				// not a compost ingredient return null.
-				final ItemData data = ItemData.get(stackInSlot);
+				final ItemData data = ItemRegistry.get(stackInSlot);
 				if (data == null
-						|| data.getCompostIngredientValue() == CompostIngredient.NONE)
+						|| data.compostValue == CompostIngredient.NONE)
 					return null;
 
 				// Based on the type of ingredient determines which slot we
 				// try to move it into
 				boolean mergeResult = false;
-				if (data.getCompostIngredientValue() == CompostIngredient.BROWN) {
+				if (data.compostValue == CompostIngredient.BROWN) {
 					mergeResult = mergeItemStack(stackInSlot,
 							ComposterTileEntity.BROWN, 1, false);
 				} else {
