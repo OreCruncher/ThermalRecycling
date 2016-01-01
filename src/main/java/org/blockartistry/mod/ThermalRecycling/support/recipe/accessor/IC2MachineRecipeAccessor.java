@@ -45,9 +45,13 @@ public class IC2MachineRecipeAccessor extends IC2AccessorBase {
 	public List<ItemStack> getOutput(final Object recipe) {
 		final List<ItemStack> result = new ArrayList<ItemStack>();
 		final IC2MachineRecipeAdaptor adaptor = (IC2MachineRecipeAdaptor)recipe;
-		final Optional<ItemStack> stack = ItemStackHelper.getPreferredStack(adaptor.output.getInputs().get(0));
-		if(stack.isPresent())
-			result.add(stack.get());
+		final ItemStack candidate = adaptor.output.getInputs().get(0);
+		final Optional<ItemStack> stack = ItemStackHelper.getPreferredStack(candidate);
+		if(stack.isPresent()) {
+			final ItemStack prize = stack.get();
+			prize.stackSize = adaptor.output.getAmount();
+			result.add(prize);
+		}
 		return result;
 	}
 }

@@ -69,7 +69,7 @@ public final class ItemStackHelper {
 	public static Optional<ItemStack> getPreferredStack(final String oreName) {
 		return getItemStack(oreName);
 	}
-	
+
 	public static Optional<ItemStack> getPreferredStack(final ItemStack stack) {
 		final String oreName = OreDictionaryHelper.getOreName(stack);
 		if (oreName == null || oreName.isEmpty() || "Unknown".compareToIgnoreCase(oreName) == 0)
@@ -158,7 +158,8 @@ public final class ItemStackHelper {
 			// If we did have a hit on a base item, set the sub-type
 			// as needed.
 			if (result != null && subType != -1) {
-				if (subType == OreDictionaryHelper.WILDCARD_VALUE && !result.getHasSubtypes()) {
+				if (subType == OreDictionaryHelper.WILDCARD_VALUE && !ItemStackHelper.canBeGeneric(result)
+						&& !ItemStackHelper.canBeDamaged(result)) {
 					ModLog.warn("[%s] GENERIC requested but Item does not support sub-types", name);
 				} else {
 					result.setItemDamage(subType);
@@ -198,6 +199,21 @@ public final class ItemStackHelper {
 		return result == null || result.isEmpty() ? "UNKNOWN" : result;
 	}
 
+	/**
+	 * Determines if the ItemStack can be matched using a generic.
+	 */
+	public static boolean canBeGeneric(final ItemStack stack) {
+		return stack.getHasSubtypes() && !OreDictionaryHelper.isGeneric(stack);
+	}
+
+	public static boolean canBeDamaged(final ItemStack stack) {
+		return stack.isItemStackDamageable();
+	}
+
+	public static boolean hasDamage(final ItemStack stack) {
+		return stack.isItemDamaged();
+	}
+
 	public static String resolveInternalName(final ItemStack stack) {
 		final StringBuilder builder = new StringBuilder();
 
@@ -209,7 +225,7 @@ public final class ItemStackHelper {
 		else
 			builder.append(name);
 
-		if (stack.getHasSubtypes()) {
+		if (canBeGeneric(stack)) {
 			builder.append(':');
 			builder.append(getItemDamage(stack));
 		}

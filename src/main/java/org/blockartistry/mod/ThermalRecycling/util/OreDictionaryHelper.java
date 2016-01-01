@@ -145,8 +145,9 @@ public final class OreDictionaryHelper {
 	}
 	
 	public static ItemStack asGeneric(final ItemStack stack) {
-		if (stack.getHasSubtypes() && !isGeneric(stack))
+		if (ItemStackHelper.canBeGeneric(stack)) {
 			return new ItemStack(stack.getItem(), stack.stackSize, OreDictionary.WILDCARD_VALUE);
+		}
 		return stack;
 	}
 }

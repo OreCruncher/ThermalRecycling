@@ -276,7 +276,7 @@ public final class ItemData {
 		// "inherits" from the generic. Note that generic
 		// entries are only possible for items that have
 		// sub-types.
-		if (stack.getHasSubtypes() && !OreDictionaryHelper.isGeneric(stack)) {
+		if (ItemStackHelper.canBeGeneric(stack)) {
 			data = cache.get(ItemStackKey.getCachedKey(stack.getItem()));
 			if (data != null)
 				return new ItemData(stack, data);

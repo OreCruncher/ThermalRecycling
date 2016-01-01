@@ -121,7 +121,7 @@ public final class RecipeData {
 
 		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
 
-		if (match == null && !OreDictionaryHelper.isGeneric(input)) {
+		if (match == null && ItemStackHelper.canBeGeneric(input)) {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 
@@ -177,7 +177,7 @@ public final class RecipeData {
 
 				output = ImmutableList.copyOf(InventoryHelper.coelece(output));
 			}
-
+			
 			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));
 
 			retCode = SUCCESS;

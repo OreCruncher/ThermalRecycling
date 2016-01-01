@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -51,7 +50,7 @@ public final class ItemStackKey {
 	public static ItemStackKey getCachedKey(final ItemStack stack) {
 		final ItemStackKey key = cachedKey.get();
 		key.item = stack.getItem();
-		key.meta = stack.getHasSubtypes() ? ItemStackHelper.getItemDamage(stack) : 0;
+		key.meta = ItemStackHelper.getItemDamage(stack);//stack.getHasSubtypes() ? ItemStackHelper.getItemDamage(stack) : 0;
 		key.hash = calculateHash(key.item.hashCode(), key.meta);
 		return key;
 	}
@@ -93,14 +92,6 @@ public final class ItemStackKey {
 		this.item = item;
 		this.meta = meta;
 		this.hash = calculateHash(item.hashCode(), meta);
-	}
-
-	public ItemStackKey(final Item item) {
-		this(item, item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0);
-	}
-
-	public ItemStackKey(final Block block) {
-		this(Item.getItemFromBlock(block), OreDictionaryHelper.WILDCARD_VALUE);
 	}
 
 	public ItemStackKey(final ItemStack stack) {

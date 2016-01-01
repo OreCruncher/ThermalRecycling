@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
