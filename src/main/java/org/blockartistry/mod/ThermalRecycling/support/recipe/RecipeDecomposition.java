@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.data.ItemData;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeAccessorBase;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeUtil;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ShapedOreRecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ShapedRecipeAccessor;
@@ -54,7 +56,7 @@ public final class RecipeDecomposition {
 	private RecipeDecomposition() {
 	}
 
-	private static Map<Class<?>, IRecipeAccessor> accessors = new IdentityHashMap<Class<?>, IRecipeAccessor>();
+	private static Map<Class<?>, RecipeAccessorBase> accessors = new IdentityHashMap<Class<?>, RecipeAccessorBase>();
 
 	static {
 		// Register Vanilla and Forge recipe handlers
@@ -64,12 +66,12 @@ public final class RecipeDecomposition {
 		accessors.put(ShapelessOreRecipe.class, new ShapelessOreRecipeAccessor());
 	}
 
-	public static void registerAccessor(final Class<?> clazz, final IRecipeAccessor accessor) {
+	public static void registerAccessor(final Class<?> clazz, final RecipeAccessorBase accessor) {
 		accessors.put(clazz, accessor);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void registerAccessor(final String className, final IRecipeAccessor accessor) {
+	public static void registerAccessor(final String className, final RecipeAccessorBase accessor) {
 		try {
 			final Class<?> clazz = Class.forName(className);
 			registerAccessor((Class<? extends IRecipe>) clazz, accessor);
@@ -78,8 +80,8 @@ public final class RecipeDecomposition {
 		}
 	}
 
-	private static IRecipeAccessor find(final Object recipe) {
-		for (final Entry<Class<?>, IRecipeAccessor> entry : accessors.entrySet()) {
+	private static RecipeAccessorBase find(final Object recipe) {
+		for (final Entry<Class<?>, RecipeAccessorBase> entry : accessors.entrySet()) {
 			if (entry.getKey().isAssignableFrom(recipe.getClass()))
 				return entry.getValue();
 		}
@@ -88,7 +90,7 @@ public final class RecipeDecomposition {
 	}
 	
 	public static ItemStack getInput(final Object recipe) {
-		final IRecipeAccessor accessor = find(recipe);
+		final RecipeAccessorBase accessor = find(recipe);
 		if (accessor != null)
 			return accessor.getInput(recipe);
 		return null;
@@ -98,7 +100,7 @@ public final class RecipeDecomposition {
 
 		List<ItemStack> projection = null;
 
-		final IRecipeAccessor accessor = find(recipe);
+		final RecipeAccessorBase accessor = find(recipe);
 		if (accessor != null) {
 			projection = accessor.getOutput(recipe);
 		} else if (!RecipeUtil.isClassIgnored(recipe)) {
@@ -132,7 +134,7 @@ public final class RecipeDecomposition {
 		for (int i = 0; i < projection.size(); i++) {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
-				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || RecipeUtil.notConsumed(stack))
+				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || RecipeUtil.notConsumed(stack) || ItemData.isScrubbedFromOutput(stack))
 					projection.set(i, null);
 				else if (OreDictionaryHelper.isGeneric(stack))
 					stack.setItemDamage(0);

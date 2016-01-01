@@ -29,49 +29,33 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public final class ModExtrabiomesXL extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-			"terrain_blocks1:*", "log1:*", "log2:*", "mini_log_1",
-			"cornerlog_baldcypress", "cornerlog_rainboweucalyptus",
-			"cornerlog_oak", "cornerlog_fir", "cornerlog_redwood",
-			"log_elbow_baldcypress", "log_elbow_rainbow_eucalyptus", "vines",
-			"waterplant1:*", "quicksand", "planks:*", "woodslab2:*",
-			"double_woodslab2:*", "woodslab:*", "double_woodslab:*",
-			"slabRedRock:*", "double_slabRedRock:*", "stairsRedCobble",
-			"stairs.redwood", "stairs.fir", "stairs.acacia",
-			"stairs.rainboweucalyptus", "stairs.cypress", "stairs.baldcypress",
-			"stairs.japanesemaple", "stairs.autumn", "stairs.sakurablossom",
-			"redrockbrick", "wall:*", "fence:*", "door_acacia", "door_autumn",
-			"door_baldcypress", "door_cypress", "door_fir",
-			"door_japanesemaple", "door_rainboweucalyptus", "door_redwood",
-			"door_sakura", "fencegate_acacia", "fencegate_autumn",
-			"fencegate_cypress", "fencegate_baldcypress", "fencegate_fir",
-			"fencegate_japanesemaple", "fencegate_rainboweucalyptus",
-			"fencegate_redwood", "fencegate_sakura", "extrabiomes.logturner",
-			"extrabiomes.dye:*", "extrabiomes.food:*", "extrabiomes.crop:*",
-			"extrabiomes.seed:*", "extrabiomes.scarecrow", "extrabiomes.paste", };
+	static final String[] recipeIgnoreList = new String[] { "terrain_blocks1:*", "log1:*", "log2:*", "mini_log_1",
+			"cornerlog_baldcypress", "cornerlog_rainboweucalyptus", "cornerlog_oak", "cornerlog_fir",
+			"cornerlog_redwood", "log_elbow_baldcypress", "log_elbow_rainbow_eucalyptus", "vines", "waterplant1:*",
+			"quicksand", "planks:*", "woodslab2:*", "double_woodslab2:*", "woodslab:*", "double_woodslab:*",
+			"slabRedRock:*", "double_slabRedRock:*", "stairsRedCobble", "stairs.redwood", "stairs.fir", "stairs.acacia",
+			"stairs.rainboweucalyptus", "stairs.cypress", "stairs.baldcypress", "stairs.japanesemaple", "stairs.autumn",
+			"stairs.sakurablossom", "redrockbrick", "wall:*", "fence:*", "door_acacia", "door_autumn",
+			"door_baldcypress", "door_cypress", "door_fir", "door_japanesemaple", "door_rainboweucalyptus",
+			"door_redwood", "door_sakura", "fencegate_acacia", "fencegate_autumn", "fencegate_cypress",
+			"fencegate_baldcypress", "fencegate_fir", "fencegate_japanesemaple", "fencegate_rainboweucalyptus",
+			"fencegate_redwood", "fencegate_sakura", "extrabiomes.logturner", "extrabiomes.dye:*", "extrabiomes.food:*",
+			"extrabiomes.crop:*", "extrabiomes.seed:*", "extrabiomes.scarecrow", "extrabiomes.paste", };
 
-	static final String[] scrapValuesNone = new String[] { "leaves_1:*",
-			"leaves_2:*", "leaves_3:*", "leaves_4:*", "plants4",
-			"terrain_blocks1:*", "terrain_blocks2", "flower1:*", "flower2:*",
-			"flower3:*", "grass:*", "leaf_pile", "saplings_1:*",
-			"saplings_2:*", "mini_log_1", "cornerlog_baldcypress",
-			"cornerlog_rainboweucalyptus", "cornerlog_oak", "cornerlog_fir",
-			"cornerlog_redwood", "log_elbow_baldcypress",
-			"log_elbow_rainbow_eucalyptus", "waterplant1:*", "quicksand",
-			"planks:*", "woodslab2:*", "double_woodslab2:*", "woodslab:*",
-			"double_woodslab:*", "slabRedRock:*", "double_slabRedRock:*",
-			"stairsRedCobble", "stairs.redwood", "stairs.fir", "stairs.acacia",
-			"stairs.rainboweucalyptus", "stairs.cypress", "stairs.baldcypress",
-			"stairs.japanesemaple", "stairs.autumn", "stairs.sakurablossom",
-			"redrockbrick", "wall:*", "fence:*", "door_acacia", "door_autumn",
-			"door_baldcypress", "door_cypress", "door_fir",
-			"door_japanesemaple", "door_rainboweucalyptus", "door_redwood",
-			"door_sakura", "fencegate_acacia", "fencegate_autumn",
-			"fencegate_cypress", "fencegate_baldcypress", "fencegate_fir",
-			"fencegate_japanesemaple", "fencegate_rainboweucalyptus",
-			"fencegate_redwood", "fencegate_sakura", "extrabiomes.logturner",
-			"extrabiomes.dye:*", "extrabiomes.food:*", "extrabiomes.crop:*",
-			"extrabiomes.seed:*", "extrabiomes.scarecrow", "extrabiomes.paste", };
+	static final String[] scrapValuesNone = new String[] { "leaves_1:*", "leaves_2:*", "leaves_3:*", "leaves_4:*",
+			"plants4", "terrain_blocks1:*", "terrain_blocks2", "flower1:*", "flower2:*", "flower3:*", "grass:*",
+			"leaf_pile", "saplings_1:*", "saplings_2:*", "mini_log_1", "cornerlog_baldcypress",
+			"cornerlog_rainboweucalyptus", "cornerlog_oak", "cornerlog_fir", "cornerlog_redwood",
+			"log_elbow_baldcypress", "log_elbow_rainbow_eucalyptus", "waterplant1:*", "quicksand", "planks:*",
+			"woodslab2:*", "double_woodslab2:*", "woodslab:*", "double_woodslab:*", "slabRedRock:*",
+			"double_slabRedRock:*", "stairsRedCobble", "stairs.redwood", "stairs.fir", "stairs.acacia",
+			"stairs.rainboweucalyptus", "stairs.cypress", "stairs.baldcypress", "stairs.japanesemaple", "stairs.autumn",
+			"stairs.sakurablossom", "redrockbrick", "wall:*", "fence:*", "door_acacia", "door_autumn",
+			"door_baldcypress", "door_cypress", "door_fir", "door_japanesemaple", "door_rainboweucalyptus",
+			"door_redwood", "door_sakura", "fencegate_acacia", "fencegate_autumn", "fencegate_cypress",
+			"fencegate_baldcypress", "fencegate_fir", "fencegate_japanesemaple", "fencegate_rainboweucalyptus",
+			"fencegate_redwood", "fencegate_sakura", "extrabiomes.logturner", "extrabiomes.dye:*", "extrabiomes.food:*",
+			"extrabiomes.crop:*", "extrabiomes.seed:*", "extrabiomes.scarecrow", "extrabiomes.paste", };
 
 	static final String[] scrapValuesPoor = new String[] {};
 
@@ -97,13 +81,11 @@ public final class ModExtrabiomesXL extends ModPlugin {
 		registerPulverizeToDirt("saplings_1", 0, 7);
 		registerPulverizeToDirt("saplings_2", 0, 4);
 
-		registerCompostIngredient(CompostIngredient.BROWN, "leaves_1:*",
-				"leaves_2:*", "leaves_3:*", "leaves_4:*", "leaf_pile",
-				"saplings_1:*", "saplings_2:*", "vines");
+		registerCompostIngredient(CompostIngredient.BROWN, "leaves_1:*", "leaves_2:*", "leaves_3:*", "leaves_4:*",
+				"leaf_pile", "saplings_1:*", "saplings_2:*", "vines");
 
-		registerCompostIngredient(CompostIngredient.GREEN, "plants4",
-				"flower1:*", "flower2:*", "flower3:*", "grass:*");
-		
+		registerCompostIngredient(CompostIngredient.GREEN, "plants4", "flower1:*", "flower2:*", "flower3:*", "grass:*");
+
 		return true;
 	}
 }

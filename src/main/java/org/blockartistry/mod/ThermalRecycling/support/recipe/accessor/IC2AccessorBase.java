@@ -27,17 +27,44 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
+import com.google.common.base.Optional;
+
+import ic2.api.recipe.RecipeInputFluidContainer;
+import ic2.api.recipe.RecipeInputItemStack;
+import ic2.api.recipe.RecipeInputOreDict;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ShapelessRecipes;
 
-public class ShapelessRecipeAccessor extends RecipeAccessorBase {
+public abstract class IC2AccessorBase extends RecipeAccessorBase {
+	
+	private static final ItemStack emptyCell = ItemStackHelper.getItemStack("IC2:itemCellEmpty:0").get();
 
-	@Override
-	public List<ItemStack> getOutput(final Object recipe) {
-		final ShapelessRecipes shaped = (ShapelessRecipes) recipe;
+	protected static List<ItemStack> project(final Object[] ingredients) {
 		final List<ItemStack> result = new ArrayList<ItemStack>();
-		for (final Object stack : shaped.recipeItems)
-			result.add(((ItemStack) (stack)).copy());
+		for(int i = 0; i < ingredients.length; i++) {
+			ItemStack scratch = null;
+			final Object o = ingredients[i];
+			if(o instanceof RecipeInputItemStack) {
+				final RecipeInputItemStack r = (RecipeInputItemStack) o;
+				scratch = r.input.copy();
+				scratch.stackSize = r.amount;
+			} else if(o instanceof RecipeInputOreDict) {
+				final RecipeInputOreDict r = (RecipeInputOreDict) o;
+				final Optional<ItemStack> opt = ItemStackHelper.getItemStack(r.input, r.amount);
+				if(opt.isPresent())
+					scratch = opt.get();
+			} else if(o instanceof RecipeInputFluidContainer) {
+				final RecipeInputFluidContainer c = (RecipeInputFluidContainer)o;
+				final int quantity = c.amount / 1000;
+				if(quantity > 0) {
+					scratch = emptyCell.copy();
+					scratch.stackSize = quantity;
+				}
+			}
+			if(scratch != null)
+				result.add(scratch);
+		}
 		return result;
 	}
 }

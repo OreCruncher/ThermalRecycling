@@ -34,7 +34,7 @@ import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
 
-public abstract class AEAccessorBase {
+public abstract class AEAccessorBase extends RecipeAccessorBase {
 
 	private static Field ae2ItemNameAccessor = null;
 	private static Field ae2NameSpaceAccessor = null;

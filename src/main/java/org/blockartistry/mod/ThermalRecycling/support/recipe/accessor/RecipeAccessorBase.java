@@ -22,40 +22,31 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.util.List;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 
-public final class ModBuildCraftFactory extends ModPlugin {
+public abstract class RecipeAccessorBase {
 
-	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
-			"miningWellBlock", "floodGateBlock" };
-
-	public ModBuildCraftFactory() {
-		super(SupportedMod.BUILDCRAFT_FACTORY);
+	/**
+	 * Obtains the ItemStack that will be used as input for the Thermal
+	 * Recycler. This usually maps to the output stack of a normal crafting
+	 * recipe.
+	 * 
+	 * @return
+	 */
+	public ItemStack getInput(final Object recipe) {
+		return ((IRecipe)recipe).getRecipeOutput().copy();
 	}
 
-	@Override
-	public boolean initialize() {
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
-		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
-				.save();
-
-		return true;
-	}
+	/**
+	 * Obtains the ItemStacks that could be the output of a Thermal Recycler.
+	 * This usually maps to the input crafting grid of a normal recipe.
+	 * 
+	 * @return
+	 */
+	public abstract List<ItemStack> getOutput(final Object recipe);
 }

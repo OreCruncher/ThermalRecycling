@@ -47,13 +47,9 @@ public final class DebugToolTip extends CachingToolTip {
 		builder.append(ItemStackHelper.resolveInternalName(stack));
 		output.add(builder.toString());
 		
-		final int[] oreIds = OreDictionaryHelper.getOreIDs(stack);
-		if(oreIds != null)
-			for(int i = 0; i < oreIds.length; i++) {
-				final String oreName = OreDictionaryHelper.getOreName(oreIds[i]);
-				if(oreName != null && !oreName.isEmpty())
-					output.add(EnumChatFormatting.WHITE + oreName);
-			}
+		final List<String> names = OreDictionaryHelper.getOreNamesForStack(stack);
+		for(final String oreName: names)
+			output.add(EnumChatFormatting.WHITE + oreName);
 
 		final ItemData data = ItemData.get(stack);
 		if(data == null)
@@ -71,6 +67,11 @@ public final class DebugToolTip extends CachingToolTip {
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Extraction");
 		if(data.isBlockedFromScrapping())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Blocked: Scrapping");
+		
+		if(data.getAutoScrapValue() != null) {
+			output.add(EnumChatFormatting.GOLD + "Auto: " + data.getAutoScrapValue().name());
+			output.add(EnumChatFormatting.GOLD + "Score: " + data.getScore());
+		}
 			
 		if (stack.hasTagCompound())
 			output.add(EnumChatFormatting.LIGHT_PURPLE + "Compound Data");

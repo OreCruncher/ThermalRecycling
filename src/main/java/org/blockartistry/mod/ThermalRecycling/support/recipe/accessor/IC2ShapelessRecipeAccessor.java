@@ -22,40 +22,39 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.lang.reflect.Field;
+import java.util.List;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 
-public final class ModBuildCraftFactory extends ModPlugin {
+public class IC2ShapelessRecipeAccessor extends IC2AccessorBase {
 
-	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
-			"miningWellBlock", "floodGateBlock" };
-
-	public ModBuildCraftFactory() {
-		super(SupportedMod.BUILDCRAFT_FACTORY);
-	}
-
+	private static Field inputAccessor = null;
+	
 	@Override
-	public boolean initialize() {
+	public List<ItemStack> getOutput(final Object recipe) {
+		List<ItemStack> result = null;
 
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		try {
 
-		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
-				.save();
+			if (inputAccessor == null) {
+				final Field temp = recipe.getClass().getDeclaredField("input");
+				temp.setAccessible(true);
+				inputAccessor = temp;
+			}
 
-		return true;
+			try {
+				final Object[] shaped = (Object[]) inputAccessor.get(recipe);
+				result = project(shaped);
+			} catch (Exception e) {
+			}
+
+		} catch (final Exception e) {
+			;
+		}
+
+		return result;
 	}
 }

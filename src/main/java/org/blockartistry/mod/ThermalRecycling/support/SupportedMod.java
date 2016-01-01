@@ -59,7 +59,7 @@ public enum SupportedMod {
 	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
 
 	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
-	
+
 	BUILDCRAFT_ROBOTICS("BuildCraft|Robotics", "BuildCraft|Robotics", ModBuildCraftRobotics.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
@@ -91,12 +91,12 @@ public enum SupportedMod {
 	REDSTONE_ARMORY("Redstone Armory", "RArm", ModRedstoneArmory.class),
 
 	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
-	
+
 	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", ModImmersiveEngineering.class),
-	
+
 	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
-	
-	//INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
+
+	INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
 
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
@@ -140,19 +140,19 @@ public enum SupportedMod {
 	public boolean isLoaded() {
 		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
 	}
-	
+
 	public ArtifactVersion getArtifactVersion() {
-		if(version == null) {
-			if(isLoaded()) {
-				for(final ModContainer mod: Loader.instance().getModList()) {
-					if(mod.getMetadata().modId.equals(modId)) {
+		if (version == null) {
+			if (isLoaded()) {
+				for (final ModContainer mod : Loader.instance().getModList()) {
+					if (mod.getMetadata().modId.equals(modId)) {
 						version = mod.getProcessedVersion();
 						break;
 					}
 				}
 			}
 		}
-		
+
 		return version;
 	}
 

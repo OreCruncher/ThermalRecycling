@@ -22,27 +22,39 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support.recipe;
+package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-public interface IRecipeAccessor {
+public class IC2RecipeAccessor extends IC2AccessorBase {
 
-	/**
-	 * Obtains the ItemStack that will be used as input
-	 * for the Thermal Recycler.  This usually maps to
-	 * the output stack of a normal crafting recipe.
-	 * @return
-	 */
-	public ItemStack getInput(final Object recipe);
+	private static Field inputAccessor = null;
 	
-	/**
-	 * Obtains the ItemStacks that could be the output
-	 * of a Thermal Recycler.  This usually maps to the
-	 * input crafting grid of a normal recipe.
-	 * @return
-	 */
-	public List<ItemStack> getOutput(final Object recipe);
+	@Override
+	public List<ItemStack> getOutput(final Object recipe) {
+		List<ItemStack> result = null;
+
+		try {
+
+			if (inputAccessor == null) {
+				final Field temp = recipe.getClass().getDeclaredField("input");
+				temp.setAccessible(true);
+				inputAccessor = temp;
+			}
+
+			try {
+				final Object[] shaped = (Object[]) inputAccessor.get(recipe);
+				result = project(shaped);
+			} catch (Exception e) {
+			}
+
+		} catch (final Exception e) {
+			;
+		}
+
+		return result;
+	}
 }

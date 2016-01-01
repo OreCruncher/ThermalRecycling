@@ -144,32 +144,50 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemData.setValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
 				ScrapValue.SUPERIOR);
 
-		if (ModOptions.getEnableForgeOreDictionaryScan()) {
-			// Use the Forge dictionary to find equivalent ore to set the
-			// appropriate scrap value.
-			registerScrapValuesForge(ScrapValue.STANDARD, "ingotIron", "ingotGold", "ingotCopper", "ingotTin",
-					"ingotSilver", "ingotLead", "ingotNickle", "ingotPlatinum", "ingotManaInfused", "ingotElectrum",
-					"ingotInvar", "ingotBronze", "ingotSignalum", "ingotEnderium");
+		// Use the Forge dictionary to find equivalent ore to set the
+		// appropriate scrap value.
+		registerScrapValuesForge(ScrapValue.NONE, "dustSulfur", "dustCoal", "dustWood");
 
-			registerScrapValuesForge(ScrapValue.STANDARD, "dustIron", "dustGold", "dustCopper", "dustTin", "dustSilver",
-					"dustLead", "dustNickle", "dustPlatinum", "dustManaInfused", "dustElectrum", "dustInvar",
-					"dustBronze", "dustSignalum", "dustEnderium");
+		registerScrapValuesForge(ScrapValue.STANDARD, "ingotIron", "ingotGold", "ingotCopper", "ingotTin",
+				"ingotSilver", "ingotLead", "ingotNickle", "ingotPlatinum", "ingotManaInfused", "ingotElectrum",
+				"ingotInvar", "ingotBronze", "ingotSignalum", "ingotEnderium", "ingotSteel");
 
-			registerScrapValuesForge(ScrapValue.STANDARD, "blockIron", "blockGold", "blockCopper", "blockTin",
-					"blockSilver", "blockLead", "blockNickle", "blockPlatinum", "blockManaInfused", "blockElectrum",
-					"blockInvar", "blockBronze", "blockSignalum", "blockEnderium");
+		registerScrapValuesForge(ScrapValue.STANDARD, "dustIron", "dustGold", "dustCopper", "dustTin", "dustSilver",
+				"dustLead", "dustNickle", "dustPlatinum", "dustManaInfused", "dustElectrum", "dustInvar", "dustBronze",
+				"dustSignalum", "dustEnderium", "dustSteel");
 
-			registerScrapValuesForge(ScrapValue.STANDARD, "oreIron", "oreGold", "oreCopper", "oreTin", "oreSilver",
-					"oreLead", "oreNickle", "orePlatinum", "oreManaInfused", "oreElectrum", "oreInvar", "oreBronze",
-					"oreSignalum", "oreEnderium");
+		registerScrapValuesForge(ScrapValue.SUPERIOR, "blockIron", "blockGold", "blockCopper", "blockTin",
+				"blockSilver", "blockLead", "blockNickle", "blockPlatinum", "blockManaInfused", "blockElectrum",
+				"blockInvar", "blockBronze", "blockSignalum", "blockEnderium");
 
-			registerScrapValuesForge(ScrapValue.POOR, "nuggetIron", "nuggetGold", "nuggetCopper", "nuggetTin",
-					"nuggetSilver", "nuggetLead", "nuggetNickle", "nuggetPlatinum", "nuggetManaInfused",
-					"nuggetElectrum", "nuggetInvar", "nuggetBronze", "nuggetSignalum", "nuggetEnderium");
+		registerScrapValuesForge(ScrapValue.STANDARD, "oreIron", "oreGold", "oreCopper", "oreTin", "oreSilver",
+				"oreLead", "oreNickle", "orePlatinum", "oreManaInfused", "oreElectrum", "oreInvar", "oreBronze",
+				"oreSignalum", "oreEnderium");
 
-			registerScrapValuesForge(ScrapValue.SUPERIOR, "gemDiamond", "gemEmerald", "oreDiamond", "oreEmerald",
-					"blockDiamond", "blockEmerald");
-			registerScrapValuesForge(ScrapValue.STANDARD, "nuggetDiamond", "nuggetEmerald");
+		registerScrapValuesForge(ScrapValue.POOR, "nuggetIron", "nuggetGold", "nuggetCopper", "nuggetTin",
+				"nuggetSilver", "nuggetLead", "nuggetNickle", "nuggetPlatinum", "nuggetManaInfused", "nuggetElectrum",
+				"nuggetInvar", "nuggetBronze", "nuggetSignalum", "nuggetEnderium", "nuggetSteel", "dustObsidian");
+
+		registerScrapValuesForge(ScrapValue.SUPERIOR, "gemDiamond", "gemEmerald", "oreDiamond", "oreEmerald",
+				"blockDiamond", "blockEmerald");
+		registerScrapValuesForge(ScrapValue.STANDARD, "nuggetDiamond", "nuggetEmerald");
+
+		// Tiny Piles from IC2
+		if (SupportedMod.INDUSTRIAL_CRAFT.isLoaded()) {
+			registerScrapValuesForge(ScrapValue.NONE, "dustTinySulfur", "dustTinyLapis", "dustTinyObsidian");
+			registerScrapValuesForge(ScrapValue.POOR, "dustTinyIron", "dustTinyCopper", "dustTinyGold", "dustTinyTin",
+					"dustTinySilver", "dustTinyLead", "dustTinyBronze", "dustTinyLithium");
+		}
+
+		// Scan the OreDictionary looking for blocks/items that we want
+		// to prevent from being scrapped.
+		for (final String oreName : OreDictionaryHelper.getOreNames()) {
+			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
+					|| oreName.startsWith("nugget")) {
+				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
+					ItemData.setBlockedFromScrapping(stack, true);
+				}
+			}
 		}
 
 		registerRecycleToWoodDustForge(1, "logWood");
@@ -323,44 +341,23 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	private float detect(final ItemData data) {
 		if (data.getAutoScrapValue() == null) {
-			//ModLog.debug("detect: %s (%s)", data.getName(), data.getInternalName());
+			// ModLog.debug("detect: %s (%s)", data.getName(),
+			// data.getInternalName());
 			final RecipeData recipe = RecipeData.get(data.getStack());
-			if (recipe == null || !recipe.hasOutput()) {
+			if (data.isBlockedFromScrapping() || recipe == null || !recipe.hasOutput()) {
 				data.setAutoScrapValue(data.getScrapValue());
+				data.setScore(data.getAutoScrapValue().getScore());
 			} else {
 				float score = 0;
 				final List<ItemStack> output = recipe.getOutput();
 				for (final ItemStack stack : output) {
 					final ItemData child = ItemData.get(stack);
-					score += detect(child);
-					switch (child.getAutoScrapValue()) {
-					case NONE:
-						break;
-					case POOR:
-						score += stack.stackSize;
-						break;
-					case STANDARD:
-						score += 9 * stack.stackSize;
-						break;
-					case SUPERIOR:
-						score += 81 * stack.stackSize;
-						break;
-					}
+					score += detect(child) * stack.stackSize;
 				}
 
-				score /= recipe.getMinimumInputQuantityRequired();
-
-				ScrapValue value = null;
-				if (score == 0)
-					value = ScrapValue.NONE;
-				else if (score < 8)
-					value = ScrapValue.POOR;
-				else if (score < 64)
-					value = ScrapValue.STANDARD;
-				else
-					value = ScrapValue.SUPERIOR;
-
-				data.setAutoScrapValue(value);
+				score = score / (float) recipe.getMinimumInputQuantityRequired();
+				data.setAutoScrapValue(ScrapValue.determineValue(score));
+				data.setScore(score);
 
 				if (data.getScrapValue() != data.getAutoScrapValue()) {
 					final StringBuilder builder = new StringBuilder();
@@ -369,18 +366,19 @@ public final class ModThermalRecycling extends ModPlugin {
 					builder.append(" auto: ").append(data.getAutoScrapValue().name());
 					ModLog.info(builder.toString());
 				}
-				data.setChildScores(score);
 			}
 		}
 
-		return data.getChildScores();
+		return data.getScore();
 	}
 
 	@SuppressWarnings("unused")
 	private void autoDetect() {
+		// Score the buggers
 		for (final ItemData data : ItemData.getDataList())
 			try {
-				detect(data);
+				if (!data.isGeneric())
+					detect(data);
 			} catch (final Exception ex) {
 				ModLog.warn("autoDetect() blew a gasket: %s (%s)", data.getName(), data.getInternalName());
 			}
@@ -406,7 +404,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ExtractionData.freeze();
 
 		// AutoDetect scrap values
-		//autoDetect();
+		autoDetect();
 
 		return true;
 	}

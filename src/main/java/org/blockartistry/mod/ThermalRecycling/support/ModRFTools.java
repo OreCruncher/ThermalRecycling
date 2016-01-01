@@ -48,11 +48,9 @@ public final class ModRFTools extends ModPlugin {
 	static final String[] scrapValuesSuperior = new String[] { "dimensionBuilderBlock", "dimensionEditorBlock",
 			"endergenicBlock", "environmentalControllerBlock", "machineInfuserBlock", "hastePlusEModuleItem",
 			"hasteEModuleItem", "peaceEssenceItem", "efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
-			"dimletResearcherBlock", "shapeCardItem:2", "shapeCardItem:3", "shapeCardItem:4", "shapeCardItem:5",
-			"shapeCardItem:6", "shapeCardItem:7", "storageModuleTabletItem", "infusedDiamondItem",
-			"advancedChargedPorterItem", "liquidAbsorberBlock", "shieldBlock4", "timeAbsorberBlock",
-			"remoteStorageBlock",
-	};
+			"shapeCardItem:2", "shapeCardItem:3", "shapeCardItem:4", "shapeCardItem:5", "shapeCardItem:6",
+			"shapeCardItem:7", "storageModuleTabletItem", "infusedDiamondItem", "advancedChargedPorterItem",
+			"liquidAbsorberBlock", "shieldBlock4", "timeAbsorberBlock", "remoteStorageBlock", };
 
 	public ModRFTools() {
 		super(SupportedMod.RFTOOLS);

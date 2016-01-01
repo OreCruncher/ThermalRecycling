@@ -270,9 +270,7 @@ public abstract class ModPlugin {
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
 		for (final String s : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(s)) {
-				final ItemData data = ItemData.get(stack);
-				if (data.getScrapValue() == ScrapValue.NONE)
-					ItemData.setValue(stack, value);
+				ItemData.setValue(stack, value);
 			}
 		}
 	}

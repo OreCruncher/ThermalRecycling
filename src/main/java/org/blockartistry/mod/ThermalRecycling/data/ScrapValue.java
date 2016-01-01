@@ -31,25 +31,42 @@ import net.minecraft.util.StatCollector;
 public enum ScrapValue {
 
 	// ORDERING IS IMPORTANT!
-	NONE("msg.ItemScrapValue.none"),
-	POOR("msg.ItemScrapValue.poor"),
-	STANDARD("msg.ItemScrapValue.standard"),
-	SUPERIOR("msg.ItemScrapValue.superior");
+	NONE("msg.ItemScrapValue.none", 0.0F),
+	POOR("msg.ItemScrapValue.poor", 1.0F),
+	STANDARD("msg.ItemScrapValue.standard", 9.0F),
+	SUPERIOR("msg.ItemScrapValue.superior", 81.0F);
 
 	protected final Optional<String> translated;
+	protected final float score;
 	
 	public Optional<String> getTranslated() {
 		return translated;
 	}
 	
-	private ScrapValue(final String xlate) {
+	public float getScore() {
+		return this.score;
+	}
+	
+	private ScrapValue(final String xlate, final float score) {
 		if(xlate != null)
-			translated = Optional.of(StatCollector.translateToLocal(xlate));
+			this.translated = Optional.of(StatCollector.translateToLocal(xlate));
 		else
-			translated = Optional.absent();
+			this.translated = Optional.absent();
+		
+		this.score = score;
 	}
 	
 	public static ScrapValue map(final int value) {
 		return values()[value];
+	}
+	
+	public static ScrapValue determineValue(final float score) {
+		if (score < 0.2F)
+			return NONE;
+		else if (score < 8.0F)
+			return POOR;
+		else if (score < 64.0F)
+			return STANDARD;
+		return SUPERIOR;
 	}
 }

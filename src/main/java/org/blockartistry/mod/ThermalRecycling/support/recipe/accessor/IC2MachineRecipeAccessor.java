@@ -22,40 +22,32 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.minecraft.init.Blocks;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
-public final class ModBuildCraftFactory extends ModPlugin {
+import com.google.common.base.Optional;
 
-	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
+import net.minecraft.item.ItemStack;
 
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
-			"miningWellBlock", "floodGateBlock" };
-
-	public ModBuildCraftFactory() {
-		super(SupportedMod.BUILDCRAFT_FACTORY);
-	}
+public class IC2MachineRecipeAccessor extends IC2AccessorBase {
 
 	@Override
-	public boolean initialize() {
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
-		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
-				.save();
-
-		return true;
+	public ItemStack getInput(final Object recipe) {
+		final IC2MachineRecipeAdaptor adaptor = (IC2MachineRecipeAdaptor)recipe;
+		return adaptor.input.items.get(0).copy();
+	}
+	
+	@Override
+	public List<ItemStack> getOutput(final Object recipe) {
+		final List<ItemStack> result = new ArrayList<ItemStack>();
+		final IC2MachineRecipeAdaptor adaptor = (IC2MachineRecipeAdaptor)recipe;
+		final Optional<ItemStack> stack = ItemStackHelper.getPreferredStack(adaptor.output.getInputs().get(0));
+		if(stack.isPresent())
+			result.add(stack.get());
+		return result;
 	}
 }

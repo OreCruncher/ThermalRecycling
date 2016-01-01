@@ -26,12 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.IRecipeAccessor;
-
 import forestry.api.recipes.ICarpenterRecipe;
 import net.minecraft.item.ItemStack;
 
-public class ForestryCarpenterRecipeAccessor implements IRecipeAccessor {
+public class ForestryCarpenterRecipeAccessor extends RecipeAccessorBase {
 
 	@Override
 	public ItemStack getInput(final Object recipe) {

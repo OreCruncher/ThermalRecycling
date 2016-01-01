@@ -28,28 +28,22 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 
 public class ModRedstoneArsenal extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] {
-		"Storage:*", "material:64", 
-	};
+	private static final String[] recipeIgnoreList = new String[] { "Storage:*", "material:64", "material:96", };
 
-	static final String[] scrapValuesNone = new String[] {
+	private static final String[] scrapValuesNone = new String[] {
 
 	};
 
-	static final String[] scrapValuesPoor = new String[] {
-		"material:192", "material:64"
-	};
+	private static final String[] scrapValuesPoor = new String[] { "material:64" };
 
-	static final String[] scrapValuesStandard = new String[] {
-	};
+	private static final String[] scrapValuesStandard = new String[] {};
 
-	static final String[] scrapValuesSuperior = new String[] {
-		"Storage:*", "armor.plateFlux", "armor.helmetFlux",
-		"armor.legsFlux", "armor.bootsFlux", "material:96",
-		"material:193", "material:128", "tool.wrenchFlux","tool.pickaxeFlux",
-		"tool.swordFlux", "tool.shovelFlux", "tool.axeFlux", "tool.sickleFlux",
-		"tool.battleWrenchFlux",
-	};
+	// Have to expand storage 0 and 1 to override the
+	// ore dictionary block scan during boot.
+	private static final String[] scrapValuesSuperior = new String[] { "Storage:0", "Storage:1", "armor.plateFlux",
+			"armor.helmetFlux", "armor.legsFlux", "armor.bootsFlux", "material:96", "material:193", "material:128",
+			"tool.wrenchFlux", "tool.pickaxeFlux", "tool.swordFlux", "tool.shovelFlux", "tool.axeFlux",
+			"tool.sickleFlux", "tool.battleWrenchFlux", };
 
 	public ModRedstoneArsenal() {
 		super(SupportedMod.REDSTONE_ARSENAL);

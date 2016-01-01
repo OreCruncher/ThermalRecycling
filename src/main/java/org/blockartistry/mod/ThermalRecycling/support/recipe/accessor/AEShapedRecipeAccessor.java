@@ -29,19 +29,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.IRecipeAccessor;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 
-public class AEShapedRecipeAccessor extends AEAccessorBase implements IRecipeAccessor {
+public class AEShapedRecipeAccessor extends AEAccessorBase {
 
 	private static Field ae2ShapedRecipeAccessor = null;
-
-	@Override
-	public ItemStack getInput(final Object recipe) {
-		return ((IRecipe) recipe).getRecipeOutput().copy();
-	}
 
 	@Override
 	public List<ItemStack> getOutput(final Object recipe) {

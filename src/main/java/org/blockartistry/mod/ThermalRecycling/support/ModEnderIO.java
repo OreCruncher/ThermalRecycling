@@ -33,22 +33,24 @@ public final class ModEnderIO extends ModPlugin {
 
 	static final String[] scrapValuesNone = new String[] { "itemFusedQuartzFrame", "itemMaterial:4",
 			"itemConduitFacade:*", "itemPowderIngot:7", "itemMachinePart:1", "itemMaterial", "itemMaterial:1",
-			"itemMaterial:2" };
+			"itemMaterial:2", };
 
 	static final String[] scrapValuesPoor = new String[] { "itemRedstoneConduit:*", "itemPowerConduit:*",
-			"itemLiquidConduit:*", "blockDarkIronBars", "blockDarkSteelLadder", "itemMaterial:3", "itemItemConduit:0" };
+			"itemLiquidConduit:*", "blockDarkIronBars", "blockDarkSteelLadder", "itemMaterial:3",
+			"itemItemConduit:0", };
 
 	static final String[] scrapValuesStandard = new String[] { "blockFusedQuartz:*", "itemConduitFacade:1" };
 
 	static final String[] scrapValuesSuperior = new String[] { "itemMaterial:5", "itemMaterial:6", "itemMaterial:8",
-			"itemMaterial:9", "itemMachinePart:0", "blockEnchanter", "blockAttractor", "blockPoweredSpawner",
-			"blockTravelAnchor", "blockTransceiver", "blockVacuumChest", "blockFarmStation", "blockSolarPanel:1",
-			"blockZombieGenerator", "blockVat", "blockCombustionGenerator", "blockBuffer:1", "blockKillerJoe",
-			"itemBasicCapacitor:2", "blockCapBank:3", "blockWirelessCharger", "blockSagMill", "blockSliceAndSplice",
-			"blockPainter", "blockCapBank:1", "blockBuffer:0", "itemMagnet:16", "blockSpawnGuard", "itemCoordSelector",
+			"itemMaterial:9", "blockEnchanter", "blockAttractor", "blockPoweredSpawner", "blockTravelAnchor",
+			"blockTransceiver", "blockVacuumChest", "blockFarmStation", "blockSolarPanel:1", "blockZombieGenerator",
+			"blockVat", "blockCombustionGenerator", "blockBuffer:1", "blockKillerJoe", "itemBasicCapacitor:2",
+			"blockCapBank:3", "blockWirelessCharger", "blockSagMill", "blockSliceAndSplice", "blockPainter",
+			"blockCapBank:1", "blockBuffer:0", "itemMagnet:16", "blockSpawnGuard", "itemCoordSelector",
 			"blockWeatherObelisk", "blockSoulBinder", "blockTelePad", "blockSolarPanel:0", "itemExtractSpeedUpgrade:0",
 			"blockBuffer:2", "blockEnderIo", "blockCapBank:2", "blockPowerMonitor", "item.darkSteel_chestplate",
-			"blockCrafter", "blockInventoryPanel", "blockAlloySmelter", "blockExperienceObelisk" };
+			"blockCrafter", "blockInventoryPanel", "blockAlloySmelter", "blockExperienceObelisk", "itemMaterial:10",
+			"itemGliderWing:1" };
 
 	public ModEnderIO() {
 		super(SupportedMod.ENDERIO);

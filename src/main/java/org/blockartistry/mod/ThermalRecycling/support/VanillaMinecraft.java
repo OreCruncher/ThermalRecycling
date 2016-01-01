@@ -70,33 +70,29 @@ public final class VanillaMinecraft extends ModPlugin {
 	private static final String[] scrapValuesNone = new String[] { "leather_helmet", "leather_chestplate",
 			"leather_leggings", "leather_boots", "name_tag", };
 
-	private static final String[] scrapValuesPoor = new String[] { "cake", "rotten_flesh",
-			"coal_block", "gold_nugget", "experience_bottle", "iron_bars", "tripwire_hook",
-			 "rail", "trapped_chest", "mycelium",
-			"soul_sand", "obsidian"};
+	private static final String[] scrapValuesPoor = new String[] { "cake", "rotten_flesh", "coal_block", "gold_nugget",
+			"experience_bottle", "iron_bars", "tripwire_hook", "rail", "trapped_chest", "mycelium", "soul_sand",
+			"obsidian", "fire_charge", };
 
 	private static final String[] scrapValuesStandard = new String[] { "blaze_powder", "blaze_rod", "ender_eye",
 			"ender_pearl", "chainmail_boots", "chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",
 			"lava_bucket", "water_bucket", "map", "filled_map", "iron_ingot", "iron_block", "iron_helmet",
-			"iron_leggings", "iron_boots", "iron_sword", "iron_shovel", "iron_axe", "iron_pickaxe",
-			"iron_hoe", "gold_ingot", "gold_block", "golden_helmet", "golden_leggings",
-			"golden_boots", "golden_sword", "golden_shovel", "golden_axe", "golden_pickaxe", "golden_hoe", "iron_door",
-			"minecart", "chest_minecart", "furnace_minecart", "bucket",
-			"lava_bucket", "water_bucket", "milk_bucket", "iron_horse_armor", "golden_horse_armor", "golden_apple",
-			"compass", "clock", "cauldron", "magma_cream", "ghast_tear", "hopper", "light_weighted_pressure_plate",
-			"heavy_weighted_pressure_plate", "shears", "piston", "sticky_piston", "glowstone", "redstone_lamp",
-			"ender_chest", "enchanted_book", "quartz_block:*", "iron_ore", "gold_ore", "lapis_ore", "redstone_ore",
-			"coal_ore", "skull:*", "brewing_stand", "flint_and_steel", "anvil:0", "golden_rail", "quartz",
-			"detector_rail", "tnt", "golden_carrot", "comparator","speckled_melon", "fire_charge", "activator_rail", 
-			"daylight_detector", "gunpowder", 
-	};
+			"iron_leggings", "iron_boots", "iron_sword", "iron_shovel", "iron_axe", "iron_pickaxe", "iron_hoe",
+			"gold_ingot", "gold_block", "golden_helmet", "golden_leggings", "golden_boots", "golden_sword",
+			"golden_shovel", "golden_axe", "golden_pickaxe", "golden_hoe", "iron_door", "minecart", "chest_minecart",
+			"furnace_minecart", "bucket", "lava_bucket", "water_bucket", "milk_bucket", "iron_horse_armor",
+			"golden_horse_armor", "golden_apple", "compass", "clock", "cauldron", "magma_cream", "ghast_tear", "hopper",
+			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate", "shears", "piston", "sticky_piston",
+			"glowstone", "redstone_lamp", "ender_chest", "enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
+			"lapis_ore", "redstone_ore", "coal_ore", "skull:*", "brewing_stand", "flint_and_steel", "golden_rail",
+			"quartz", "detector_rail", "tnt", "golden_carrot", "comparator", "speckled_melon", "activator_rail",
+			"daylight_detector", "gunpowder", "hopper_minecart" };
 
 	private static final String[] scrapValuesSuperior = new String[] { "diamond", "emerald", "nether_star", "beacon",
 			"diamond_horse_armor", "emerald_block", "diamond_block", "diamond_helmet", "diamond_chestplate",
 			"diamond_leggings", "diamond_boots", "diamond_sword", "diamond_shovel", "diamond_axe", "diamond_pickaxe",
-			"diamond_hoe", "enchanting_table", "golden_apple:1", "jukebox", "diamond_ore", "emerald_ore", "golden_chestplate",
-			"hopper_minecart", "golden_apple:0","iron_chestplate", "tnt_minecart", 
-	};
+			"diamond_hoe", "enchanting_table", "golden_apple:1", "jukebox", "diamond_ore", "emerald_ore",
+			"golden_chestplate", "golden_apple:0", "iron_chestplate", "tnt_minecart", "anvil:0", };
 
 	private static final String[] brownCompost = new String[] { "sapling:*", "leaves:*", "leaves2:*", "deadbush",
 			"vine", "wheat", };

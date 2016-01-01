@@ -99,8 +99,7 @@ public final class ModForestry extends ModPlugin {
 			"builderBagT2", "hunterBagT2", "foresterBagT2", "apiaristHelmet", "apiaristLegs", "apiaristBoots",
 			"apiaristChest", "sturdyMachine", "thermionicTubes:5", "thermionicTubes:9", "factory:0", "factory:1",
 			"factory:2", "factory:3", "factory:4", "factory:5", "factory:6", "factory:7", "factory2:0", "factory2:1",
-			"ffarm:2", "ffarm:3", "ffarm:5", "alveary:2", "alveary:3", "alveary:6", "alveary:7", "engine:3", "engine:4",
-			"mail:0", "mail:1" };
+			"ffarm:2", "ffarm:3", "ffarm:4", "alveary:2", "alveary:7", "engine:*", "mail:0", "mail:1" };
 
 	protected final boolean isForestry4x;
 	protected final boolean isForestry41x;
@@ -138,7 +137,7 @@ public final class ModForestry extends ModPlugin {
 			final ItemStack input = RecipeDecomposition.getInput(r);
 			if (input == null || ItemData.isRecipeIgnored(input))
 				continue;
-			//ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
+			// ModLog.info("FORESTRY: %s", ItemStackHelper.resolveName(input));
 			recycler.input(input).useRecipe(RecipeDecomposition.decompose(r)).save();
 		}
 	}

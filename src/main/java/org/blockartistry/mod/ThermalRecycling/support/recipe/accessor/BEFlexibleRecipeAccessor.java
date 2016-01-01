@@ -28,12 +28,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.IRecipeAccessor;
-
 import buildcraft.api.recipes.IFlexibleRecipeViewable;
 import net.minecraft.item.ItemStack;
 
-public class BEFlexibleRecipeAccessor  implements IRecipeAccessor {
+public class BEFlexibleRecipeAccessor extends RecipeAccessorBase {
 
 	private static List<ItemStack> recurseArray(final List<?> list, final int level) {
 

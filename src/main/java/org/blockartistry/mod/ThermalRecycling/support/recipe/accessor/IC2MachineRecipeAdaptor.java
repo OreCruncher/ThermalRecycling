@@ -22,40 +22,25 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.support;
+package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import java.util.Map.Entry;
 
-import net.minecraft.init.Blocks;
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.RecipeOutput;
 
-public final class ModBuildCraftFactory extends ModPlugin {
-
-	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
-			"miningWellBlock", "floodGateBlock" };
-
-	public ModBuildCraftFactory() {
-		super(SupportedMod.BUILDCRAFT_FACTORY);
+public class IC2MachineRecipeAdaptor {
+	
+	public final RecipeOutput input;
+	public final IRecipeInput output;
+	
+	public IC2MachineRecipeAdaptor(final Entry<IRecipeInput, RecipeOutput> entry) {
+		this(entry.getValue(), entry.getKey());
 	}
-
-	@Override
-	public boolean initialize() {
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
-		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
-				.save();
-
-		return true;
+	
+	public IC2MachineRecipeAdaptor(final RecipeOutput input, final IRecipeInput output) {
+		this.input = input;
+		this.output = output;
 	}
 }
+

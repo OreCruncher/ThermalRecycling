@@ -35,7 +35,7 @@ import com.google.common.base.Optional;
 
 public final class ModBuildCraftSilicon extends ModPlugin {
 
-	static final String[] recipeIgnoreList = new String[] { };
+	static final String[] recipeIgnoreList = new String[] {};
 
 	static final String[] scrapValuesNone = new String[] { "redstoneChipset", "redstone_board", "redstoneCrystal" };
 

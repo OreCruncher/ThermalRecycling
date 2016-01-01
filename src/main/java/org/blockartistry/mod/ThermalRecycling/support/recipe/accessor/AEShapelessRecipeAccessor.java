@@ -27,19 +27,11 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.IRecipeAccessor;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 
-public class AEShapelessRecipeAccessor extends AEAccessorBase implements IRecipeAccessor {
+public class AEShapelessRecipeAccessor extends AEAccessorBase {
 
 	private static Field ae2ShapelessRecipeAccessor = null;
-
-	@Override
-	public ItemStack getInput(final Object recipe) {
-		return ((IRecipe) recipe).getRecipeOutput().copy();
-	}
 
 	@Override
 	public List<ItemStack> getOutput(final Object recipe) {

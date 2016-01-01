@@ -52,11 +52,10 @@ public final class ModBuildCraftTransport extends ModPlugin {
 
 	static final String[] scrapValuesPoor = new String[] { "pipePowerAdapter", "pipeWire:*",
 			"item.buildcraftPipe.pipeitemsobsidian:*", "item.buildcraftPipe.pipeitemsgold:*",
-			"item.buildcraftPipe.pipepowergold:*", "item.buildcraftPipe.pipeitemsstripes:*",
-			"item.buildcraftPipe.pipeitemsquartz:*", "item.buildcraftPipe.pipepowerquartz:*",
-			"item.buildcraftPipe.pipefluidsquartz:*", "item.buildcraftPipe.pipeitemsiron:*",
-			"item.buildcraftPipe.pipefluidsiron:*", "item.buildcraftPipe.pipepoweriron:*",
-			"item.buildcraftPipe.pipefluidsgold:*",
+			"item.buildcraftPipe.pipepowergold:*", "item.buildcraftPipe.pipeitemsquartz:*",
+			"item.buildcraftPipe.pipepowerquartz:*", "item.buildcraftPipe.pipefluidsquartz:*",
+			"item.buildcraftPipe.pipeitemsiron:*", "item.buildcraftPipe.pipefluidsiron:*",
+			"item.buildcraftPipe.pipepoweriron:*", "item.buildcraftPipe.pipefluidsgold:*",
 
 			"pipeLens:16", "pipeLens:17", "pipeLens:18", "pipeLens:19", "pipeLens:20", "pipeLens:21", "pipeLens:22",
 			"pipeLens:23", "pipeLens:24", "pipeLens:25", "pipeLens:26", "pipeLens:27", "pipeLens:28", "pipeLens:29",

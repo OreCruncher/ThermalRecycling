@@ -35,15 +35,15 @@ public final class ModSolarFlux extends ModPlugin {
 	};
 
 	static final String[] scrapValuesPoor = new String[] { "mirror", "upgradeBlank", "solarCell1", "solarCell2",
-			"upgradeLowLight", "upgradeFurnace", "solar1",
+			"upgradeLowLight", "upgradeFurnace",
 
 	};
 
 	static final String[] scrapValuesStandard = new String[] { "upgradeEfficiency", "upgradeTransferRate", "solarCell3",
-			"upgradeTraversal", "solar2", };
+			"upgradeTraversal", };
 
 	static final String[] scrapValuesSuperior = new String[] { "solar3", "solarCell4", "solar4", "solar5", "solar6",
-			"upgradeCapacity" };
+			"upgradeCapacity", "solar2", };
 
 	public ModSolarFlux() {
 		super(SupportedMod.SOLARFLUX);

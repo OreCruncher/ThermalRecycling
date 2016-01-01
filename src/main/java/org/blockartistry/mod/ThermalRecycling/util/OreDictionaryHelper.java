@@ -23,8 +23,10 @@
 
 package org.blockartistry.mod.ThermalRecycling.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -67,6 +69,23 @@ public final class OreDictionaryHelper {
 	 */
 	public static int[] getOreIDs(final ItemStack stack) {
 		return OreDictionary.getOreIDs(stack);
+	}
+	
+	/**
+	 * Get's a list of ore dictionary names that the ItemStack is
+	 * associated with it.
+	 */
+	public static List<String> getOreNamesForStack(final ItemStack stack) {
+		final List<String> result = new ArrayList<String>();
+		final int[] oreIds = getOreIDs(stack);
+		if(oreIds != null)
+			for(int i = 0; i < oreIds.length; i++) {
+				final String oreName = OreDictionaryHelper.getOreName(oreIds[i]);
+				if(oreName != null && !oreName.isEmpty())
+					result.add(oreName);
+			}
+		
+		return result;
 	}
 	
 	/**
@@ -121,8 +140,12 @@ public final class OreDictionaryHelper {
 		return OreDictionary.getOreName(id);
 	}
 	
+	public static ItemStack asGeneric(final Item item) {
+		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0);
+	}
+	
 	public static ItemStack asGeneric(final ItemStack stack) {
-		if (stack.getHasSubtypes() && !OreDictionaryHelper.isGeneric(stack))
+		if (stack.getHasSubtypes() && !isGeneric(stack))
 			return new ItemStack(stack.getItem(), stack.stackSize, OreDictionary.WILDCARD_VALUE);
 		return stack;
 	}

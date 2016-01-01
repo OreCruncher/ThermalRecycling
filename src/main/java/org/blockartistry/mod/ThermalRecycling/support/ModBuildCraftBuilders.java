@@ -34,13 +34,12 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 	static final String[] scrapValuesNone = new String[] { "blueprintItem", "templateItem", "markerBlock",
 			"pathMarkerBlock", };
 
-	static final String[] scrapValuesPoor = new String[] { };
+	static final String[] scrapValuesPoor = new String[] {};
 
-	static final String[] scrapValuesStandard = new String[] {
-			"libraryBlock"
-	};
+	static final String[] scrapValuesStandard = new String[] {};
 
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "builderBlock", "architectBlock" };
+	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "builderBlock", "architectBlock",
+			"libraryBlock", "fillerBlock", };
 
 	public ModBuildCraftBuilders() {
 		super(SupportedMod.BUILDCRAFT_BUILDERS);

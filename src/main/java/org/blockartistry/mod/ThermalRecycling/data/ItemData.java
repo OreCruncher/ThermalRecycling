@@ -68,7 +68,7 @@ public final class ItemData {
 	private boolean isBlockedFromExtraction;
 
 	private ScrapValue auto;
-	private float childScores;
+	private float score;
 
 	public static void freeze() {
 		cache = ImmutableMap.copyOf(cache);
@@ -90,17 +90,13 @@ public final class ItemData {
 		put(stack, get(stack).setBlockedFromExtraction(flag));
 	}
 
-	private static ItemStack getGenericIfPossible(final Item item) {
-		return new ItemStack(item, 1, item.getHasSubtypes() ? OreDictionaryHelper.WILDCARD_VALUE : 0);
-	}
-
 	static {
 
 		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
 			final String name = Item.itemRegistry.getNameForObject(o);
 			final Boolean isMinecraft = ItemStackHelper.isVanilla(o);
 
-			final ItemStack stack = getGenericIfPossible(o);
+			final ItemStack stack = OreDictionaryHelper.asGeneric(o);
 			final ItemData data = new ItemData(stack);
 
 			if (isMinecraft)
@@ -113,18 +109,6 @@ public final class ItemData {
 			data.setScrubFromOutput(food);
 
 			cache.put(new ItemStackKey(stack), data);
-		}
-
-		// Scan the OreDictionary looking for blocks/items that we want
-		// to prevent from being scrapped. Collect them in the TreeSet
-		// so that there are no duplicates and it is sorted.
-		for (final String oreName : OreDictionaryHelper.getOreNames()) {
-			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
-					|| oreName.startsWith("nugget")) {
-				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
-					setBlockedFromScrapping(OreDictionaryHelper.asGeneric(stack), true);
-				}
-			}
 		}
 
 		// Add our scrap and boxes
@@ -197,12 +181,12 @@ public final class ItemData {
 		return this.auto;
 	}
 	
-	public float getChildScores() {
-		return this.childScores;
+	public float getScore() {
+		return this.score;
 	}
 	
-	public void setChildScores(final float scores) {
-		this.childScores = scores;
+	public void setScore(final float scores) {
+		this.score = scores;
 	}
 
 	public CompostIngredient getCompostIngredientValue() {
@@ -324,7 +308,7 @@ public final class ItemData {
 
 	public static void setRecipeIgnored(final Item item, final boolean flag) {
 		assert item != null;
-		final ItemStack stack = getGenericIfPossible(item);
+		final ItemStack stack = OreDictionaryHelper.asGeneric(item);
 		put(stack, get(stack).setIgnoreRecipe(flag));
 	}
 

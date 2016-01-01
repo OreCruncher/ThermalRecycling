@@ -39,7 +39,7 @@ public final class ModBuildCraftCore extends ModPlugin {
 
 	};
 
-	static final String[] scrapValuesSuperior = new String[] { "diamondGearItem" };
+	static final String[] scrapValuesSuperior = new String[] { "diamondGearItem", "goldGearItem", "engineBlock:2" };
 
 	public ModBuildCraftCore() {
 		super(SupportedMod.BUILDCRAFT_CORE);

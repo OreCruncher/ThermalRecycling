@@ -26,18 +26,10 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.support.recipe.IRecipeAccessor;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class ShapelessOreRecipeAccessor implements IRecipeAccessor {
-
-	@Override
-	public ItemStack getInput(final Object recipe) {
-		return ((IRecipe) recipe).getRecipeOutput().copy();
-	}
+public class ShapelessOreRecipeAccessor extends RecipeAccessorBase {
 
 	@Override
 	public List<ItemStack> getOutput(final Object recipe) {
