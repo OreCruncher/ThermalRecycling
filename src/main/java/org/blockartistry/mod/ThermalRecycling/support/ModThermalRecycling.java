@@ -121,6 +121,18 @@ public final class ModThermalRecycling extends ModPlugin {
 				ScrapValue.SUPERIOR);
 		ItemData.setValue(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED), ScrapValue.SUPERIOR);
 
+		// Add our scrap and boxes
+		ItemData.setBlockedFromScrapping(ScrappingTables.debris, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.poorScrap, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.standardScrap, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
+		ItemData.setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
+
+		// Litter Bags
+		ItemData.setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
+
 		ItemData.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
 		ItemData.setRecipeIgnored(ItemManager.debris, true);
 		ItemData.setRecipeIgnored(BlockManager.scrapBlock, true);

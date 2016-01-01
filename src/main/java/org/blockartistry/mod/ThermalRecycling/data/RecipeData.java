@@ -52,7 +52,7 @@ public final class RecipeData {
 
 	// Used as a generic "blank" for items that do not have
 	// recipes registered.
-	private static final RecipeData ephemeral = new RecipeData();
+	public static final RecipeData EPHEMERAL = new RecipeData();
 
 	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
 
@@ -125,7 +125,7 @@ public final class RecipeData {
 			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
 		}
 
-		return match == null ? ephemeral : match;
+		return match == null ? EPHEMERAL : match;
 	}
 
 	public static void remove(final ItemStack stack) {
@@ -149,7 +149,7 @@ public final class RecipeData {
 		// * It doesn't exist
 		// * Existing entry is wildcard and the new one isn't
 		// * The new entry has a quantity greater than the existing one
-		if (result == ephemeral || (result.isGeneric() && !OreDictionaryHelper.isGeneric(input))
+		if (result == EPHEMERAL || (result.isGeneric() && !OreDictionaryHelper.isGeneric(input))
 				|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
 
 			final ItemStack stack = input.copy();

@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.blockartistry.mod.ThermalRecycling.ItemManager;
-import org.blockartistry.mod.ThermalRecycling.items.Material;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
@@ -110,18 +108,6 @@ public final class ItemData {
 
 			cache.put(new ItemStackKey(stack), data);
 		}
-
-		// Add our scrap and boxes
-		setBlockedFromScrapping(ScrappingTables.debris, true);
-		setBlockedFromScrapping(ScrappingTables.poorScrap, true);
-		setBlockedFromScrapping(ScrappingTables.standardScrap, true);
-		setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
-		setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
-		setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
-		setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
-
-		// Litter Bags
-		setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
 	}
 
 	private ItemData(final ItemStack stack, final ItemData data) {

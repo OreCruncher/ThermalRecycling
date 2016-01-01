@@ -33,6 +33,7 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
+import net.minecraft.item.Item;
 
 public enum SupportedMod {
 
@@ -184,5 +185,10 @@ public enum SupportedMod {
 			modIdString = SEPARATOR + StringUtils.join(getEffectiveModIdList(), SEPARATOR) + SEPARATOR;
 		final String modId = StringUtils.substringBefore(itemId, SEPARATOR);
 		return modId == null || modId.isEmpty() ? false : modIdString.contains(SEPARATOR + modId + SEPARATOR);
+	}
+	
+	public static boolean isModWhitelisted(final Item item) {
+		final String name = Item.itemRegistry.getNameForObject(item);
+		return (name == null || name.isEmpty()) ? false : isModWhitelisted(name);
 	}
 }
