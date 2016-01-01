@@ -72,6 +72,7 @@ dependencies {
     compile 'net.sengir.forestry:forestry_1.7.10:4.2.1.48:dev'
     compile name: "buildcraft", version: "7.1.14", classifier: "dev"
     compile name: 'MineTweaker3', version: "Dev-1.7.10-3.0.10", ext: 'jar'
+    compile 'net.industrial-craft:industrialcraft-2:2.2.810-experimental:api'
     
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
