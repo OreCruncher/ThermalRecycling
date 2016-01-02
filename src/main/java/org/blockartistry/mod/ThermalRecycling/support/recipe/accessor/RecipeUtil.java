@@ -27,6 +27,7 @@ package org.blockartistry.mod.ThermalRecycling.support.recipe.accessor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
@@ -41,7 +42,8 @@ public final class RecipeUtil {
 			.add("forestry.lepidopterology.recipes.MatingRecipe", "cofh.thermaldynamics.util.crafting.RecipeCover",
 					"mods.railcraft.common.carts.LocomotivePaintingRecipe",
 					"mods.railcraft.common.emblems.EmblemPostColorRecipe",
-					"codechicken.enderstorage.common.EnderStorageRecipe")
+					"codechicken.enderstorage.common.EnderStorageRecipe",
+					"blusunrize.immersiveengineering.common.crafting.RecipePotionBullets")
 			.build();
 
 	private static final List<ItemStack> recipeComponentBlacklist = ImmutableList
@@ -102,7 +104,7 @@ public final class RecipeUtil {
 				if (!t.isEmpty())
 					result.add(getPreferredFromList(t).copy());
 			} else {
-				int x = 0;
+				ModLog.warn("Unknown class in Forge recipe list: " + o.getClass().getName());
 			}
 		}
 
