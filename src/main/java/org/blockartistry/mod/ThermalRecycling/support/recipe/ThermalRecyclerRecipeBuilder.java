@@ -297,8 +297,8 @@ public final class ThermalRecyclerRecipeBuilder {
 			final int result = RecipeHelper.put(input, output);
 			if (result == RecipeHelper.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
-			else if (result == RecipeHelper.DUPLICATE)
-				ModLog.debug("Duplicate recipe [%s]", toString());
+			//else if (result == RecipeHelper.DUPLICATE)
+				//ModLog.debug("Duplicate recipe [%s]", toString());
 
 		} catch (Exception e) {
 			;

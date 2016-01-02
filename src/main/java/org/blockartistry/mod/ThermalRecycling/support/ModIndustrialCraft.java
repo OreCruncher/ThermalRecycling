@@ -65,8 +65,9 @@ public class ModIndustrialCraft extends ModPlugin {
 	private static final String[] scrapValuesSuperior = new String[] { "itemDust2:1", "blockMachine:*",
 			"blockMachine2:*", "blockMachine3:*", "blockGenerator:*", "blockElectric:*", "blockHeatGenerator:*",
 			"blockKineticGenerator:*", "blockChargepad:*", "itemRecipePart:1", "itemRecipePart:2", "itemRecipePart:8",
-			"itemBatLamaCrystal", "itemNightvisionGoggles", "itemArmorNanoHelmet", "itemSolarHelmet", "itemBatChargeRE",
-			"itemBatChargeAdv", "itemBatChargeCrystal", "itemironrotor", "itemBoat:3", "itemScanner", "itemScannerAdv",
+			"itemBatLamaCrystal", "itemNightvisionGoggles", "itemArmorNanoHelmet", "itemArmorNanoBoots",
+			"itemArmorNanoChestplate", "itemArmorNanoLegs", "itemSolarHelmet", "itemBatChargeRE", "itemBatChargeAdv",
+			"itemBatChargeCrystal", "itemironrotor", "itemBoat:3", "itemScanner", "itemScannerAdv",
 			"blockReactorAccessHatch", "itemPartIridium", "itemBatChargeLamaCrystal", "blockPersonal:*",
 			"itemArmorQuantumChestplate", "itemIronBlockCuttingBlade", "blockReactorRedstonePort",
 			"itemToolMiningLaser", "blockReactorChamber", "itemArmorAdvBatpack", "reactorPlatingHeat",
@@ -83,7 +84,7 @@ public class ModIndustrialCraft extends ModPlugin {
 			"itemToolIridiumDrill", "reactorReflectorThick", "reactorHeatSwitchCore", "reactorVentCore",
 			"reactorCondensator", "reactorCondensatorLap", "reactorUraniumQuad", "reactorVentSpread",
 			"reactorVentDiamond", "reactorCoolantSix", "reactorHeatSwitchSpread", "reactorMOXQuad", "reactorVentGold",
-			"reactorVentSpread" };
+			"reactorVentSpread", "itemArmorJetpackElectric", "itemArmorBatpack" };
 
 	public ModIndustrialCraft() {
 		super(SupportedMod.INDUSTRIAL_CRAFT);
@@ -114,9 +115,8 @@ public class ModIndustrialCraft extends ModPlugin {
 		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Fixups
-		registerScrapValues(ScrapValue.POOR, "blockElectric:0");
 		registerScrapValues(ScrapValue.STANDARD, "blockMachine:1", "blockMachine2:12", "blockMachine2:13",
-				"blockChargepad:0", "blockElectric:3");
+				"blockElectric:3");
 
 		processRecipes(Recipes.metalformerRolling);
 		processRecipes(Recipes.metalformerExtruding);

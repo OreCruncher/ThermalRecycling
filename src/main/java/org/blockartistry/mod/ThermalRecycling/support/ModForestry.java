@@ -77,7 +77,7 @@ public final class ModForestry extends ModPlugin {
 			"slabs4:*", "fences:*", "fences2:*", "stairs:*", "stamps:*", "letters", "crate", "leaves:*", "stained:*",
 			"fertilizerCompound", "fertilizerBio", "pipette", "scoop", "catalogue", "honeyedSlice", "soil:*", "stump:*",
 			"mushroom:*", "saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel",
-			"brokenBronzePickaxe", "item.PipeItemsPropolis:0" };
+			"brokenBronzePickaxe", "item.PipeItemsPropolis:0", "honeyPot", "ambrosia" };
 
 	static final String[] scrapValuesNone4x = new String[] { "logs:*", "logsFireproof:*", "waxCapsule",
 			"refractoryEmpty", "beeDroneGE:*", "propolis:*", "sapling:*", "phosphor", "beeswax", "refractoryWax",
@@ -88,7 +88,7 @@ public final class ModForestry extends ModPlugin {
 			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel", "brokenBronzePickaxe",
 			"hunterBag", "diggerBag", "builderBag", "adventurerBag", "apiaristBag", "foresterBag", "frameUntreated",
 			"bituminousPeat", "apicultureChest:0", "candle:0", "thermionicTubes:8", "thermionicTubes:11",
-			"craftingMaterial:1", "factory2:2" };
+			"craftingMaterial:1", "factory2:2", "ambrosia", "honeypot" };
 
 	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty",
 			"craftingMaterial:6", "thermionicTubes:6", "thermionicTubes:10" };

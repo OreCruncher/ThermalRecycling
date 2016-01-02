@@ -328,7 +328,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				// not be included.
 				if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
 					if (!ItemRegistry.isRecipeIgnored(stack)) {
-
+						
 						// If the name is prefixed with any of the mods
 						// we know about then we can create the recipe.
 						final String name = Item.itemRegistry.getNameForObject(stack.getItem());
@@ -367,7 +367,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ScrapHandler.freeze();
 
 		// AutoDetect scrap values
-		AutoDetect.detect();
+		//AutoDetect.detect();
 
 		return true;
 	}

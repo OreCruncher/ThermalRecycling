@@ -30,6 +30,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
@@ -59,8 +60,10 @@ public final class ItemRegistry {
 	private static ItemProfile getProfile(final ItemStack stack) {
 		final Item item = stack.getItem();
 		final ItemProfile profile = registry.get(item);
-		if (profile == null)
+		if (profile == null) {
+			ModLog.warn("Detected request for an item not registered with Forge: " + item.toString());
 			throw new RuntimeException("Missing profile for Item " + item.toString());
+		}
 		return profile;
 	}
 
@@ -156,6 +159,10 @@ public final class ItemRegistry {
 		data.scrubFromOutput = flag;
 		set(data);
 	}
+	
+	public static void ignoreMetaFilter(final ItemStack stack) {
+		getProfile(stack).ignoreMetaFilter();
+	}
 
 	public static List<ItemData> getItemDataList() {
 		final List<ItemData> data = new ArrayList<ItemData>();
@@ -163,7 +170,7 @@ public final class ItemRegistry {
 			profile.collectItemData(data);
 		return data;
 	}
-
+	
 	public static final int DIAG_ITEMDATA = 0;
 	public static final int DIAG_RECIPES = 1;
 	public static final int DIAG_EXTRACT = 2;

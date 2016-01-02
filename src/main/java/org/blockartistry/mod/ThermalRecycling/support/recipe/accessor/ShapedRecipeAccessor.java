@@ -37,7 +37,8 @@ public class ShapedRecipeAccessor extends RecipeAccessorBase {
 		final ShapedRecipes shaped = (ShapedRecipes) recipe;
 		final List<ItemStack> result = new ArrayList<ItemStack>();
 		for (final ItemStack stack : shaped.recipeItems)
-			result.add(stack.copy());
+			if(stack != null)
+				result.add(stack.copy());
 		return result;
 	}
 }

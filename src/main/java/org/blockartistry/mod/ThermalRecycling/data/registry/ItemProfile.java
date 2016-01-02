@@ -108,4 +108,14 @@ abstract class ItemProfile {
 	 * the provided list.
 	 */
 	public abstract void collectItemData(final List<ItemData> list);
+	
+	/**
+	 * Tells the logic to ignore metadata filters when doing
+	 * recipe queries.  Only usable with items that have damage
+	 * but aren't damagable in the sense of the word.  For
+	 * example, powered capacitors and the like.
+	 */
+	public void ignoreMetaFilter() {
+		
+	}
 }

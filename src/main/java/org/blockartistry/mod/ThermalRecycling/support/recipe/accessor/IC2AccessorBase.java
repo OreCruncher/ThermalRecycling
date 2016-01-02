@@ -30,7 +30,6 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Optional;
-
 import ic2.api.recipe.RecipeInputFluidContainer;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
@@ -39,32 +38,53 @@ import net.minecraft.item.ItemStack;
 public abstract class IC2AccessorBase extends RecipeAccessorBase {
 	
 	private static final ItemStack emptyCell = ItemStackHelper.getItemStack("IC2:itemCellEmpty:0").get();
+	
+	private static ItemStack crackRecipeInputItemStack(final Object o) {
+		final RecipeInputItemStack r = (RecipeInputItemStack) o;
+		final ItemStack scratch = r.input.copy();
+		scratch.stackSize = r.amount;
+		return scratch;
+	}
+	
+	private static ItemStack crackRecipeInputOreDict(final Object o) {
+		final RecipeInputOreDict r = (RecipeInputOreDict) o;
+		final Optional<ItemStack> opt = ItemStackHelper.getItemStack(r.input, r.amount);
+		return opt.isPresent() ? opt.get() : null;
+	}
+	
+	private static ItemStack crackRecipeInputFluidContainer(final Object o) {
+		final RecipeInputFluidContainer c = (RecipeInputFluidContainer)o;
+		final int quantity = c.amount / 1000;
+		if(quantity > 0) {
+			final ItemStack scratch = emptyCell.copy();
+			scratch.stackSize = quantity;
+			return scratch;
+		}
+		return null;
+	}
+	
+	private static void crackEntry(final Object o, final List<ItemStack> result) {
+		ItemStack stack = null;
+		if(o instanceof RecipeInputItemStack) {
+			stack = crackRecipeInputItemStack(o);
+		} else if(o instanceof RecipeInputOreDict) {
+			stack = crackRecipeInputOreDict(o);
+		} else if(o instanceof RecipeInputFluidContainer) {
+			stack = crackRecipeInputFluidContainer(o);
+		} else if(o instanceof ArrayList) {
+			@SuppressWarnings("unchecked")
+			final ArrayList<Object> list = (ArrayList<Object>)o;
+			crackEntry(list.get(0), result);
+		}
+		
+		if(stack != null)
+			result.add(stack);
+	}
 
 	protected static List<ItemStack> project(final Object[] ingredients) {
 		final List<ItemStack> result = new ArrayList<ItemStack>();
-		for(int i = 0; i < ingredients.length; i++) {
-			ItemStack scratch = null;
-			final Object o = ingredients[i];
-			if(o instanceof RecipeInputItemStack) {
-				final RecipeInputItemStack r = (RecipeInputItemStack) o;
-				scratch = r.input.copy();
-				scratch.stackSize = r.amount;
-			} else if(o instanceof RecipeInputOreDict) {
-				final RecipeInputOreDict r = (RecipeInputOreDict) o;
-				final Optional<ItemStack> opt = ItemStackHelper.getItemStack(r.input, r.amount);
-				if(opt.isPresent())
-					scratch = opt.get();
-			} else if(o instanceof RecipeInputFluidContainer) {
-				final RecipeInputFluidContainer c = (RecipeInputFluidContainer)o;
-				final int quantity = c.amount / 1000;
-				if(quantity > 0) {
-					scratch = emptyCell.copy();
-					scratch.stackSize = quantity;
-				}
-			}
-			if(scratch != null)
-				result.add(scratch);
-		}
+		for(int i = 0; i < ingredients.length; i++)
+			crackEntry(ingredients[i], result);
 		return result;
 	}
 }

@@ -59,7 +59,7 @@ public final class RecipeUtil {
 		if (stacks == null || stacks.isEmpty())
 			return null;
 		if (stacks.size() == 1)
-			return stacks.get(0);
+			return ItemStackHelper.getPreferredStack(stacks.get(0)).get();
 
 		// OK - do this the hard way. Have to scan each of the stacks looking
 		// for the common ore dictionary grouping. If there is a single
@@ -72,6 +72,10 @@ public final class RecipeUtil {
 					break;
 			}
 		}
+		
+		if(oreNames.size() == 0)
+			return ItemStackHelper.getPreferredStack(stacks.get(0)).get();
+		
 		return ItemStackHelper.getPreferredStack(oreNames.get(0)).get();
 	}
 
@@ -86,6 +90,9 @@ public final class RecipeUtil {
 
 		for (int i = 0; i < list.length; i++) {
 			final Object o = list[i];
+			
+			if(o == null)
+				continue;
 
 			if (o instanceof ItemStack)
 				result.add(((ItemStack) o).copy());
@@ -94,6 +101,8 @@ public final class RecipeUtil {
 				final ArrayList<ItemStack> t = (ArrayList<ItemStack>) o;
 				if (!t.isEmpty())
 					result.add(getPreferredFromList(t).copy());
+			} else {
+				int x = 0;
 			}
 		}
 

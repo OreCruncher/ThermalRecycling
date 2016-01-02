@@ -115,7 +115,7 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
+		
 		registerRecipesToIgnore(recipeIgnoreList);
 		// registerRecipesToReveal(recipeRevealList);
 		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
