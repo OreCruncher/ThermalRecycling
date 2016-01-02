@@ -24,21 +24,26 @@
 
 package org.blockartistry.mod.ThermalRecycling.data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.data.registry.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
 
 public final class AutoDetect {
+	
+	private static boolean SKIP = false;
 
 	private AutoDetect() {
 	}
 
-	private static float detect(final ItemData data) {
+	private static float detect(final ItemData data, final Set<ItemStack> recursionList) {
 		if (data.auto == null) {
 			// ModLog.debug("detect: %s (%s)", data.getName(),
 			// data.getInternalName());
@@ -47,11 +52,18 @@ public final class AutoDetect {
 				data.auto = data.value;
 				data.score = data.auto.score;
 			} else {
+				if(!recursionList.add(data.stack)) {
+					ModLog.info("Recursion detected on item : " + ItemStackHelper.resolveInternalName(data.stack));
+					data.auto = data.value;
+					data.score = data.value.score;
+					return data.score;
+				}
+				
 				float score = 0;
 				final List<ItemStack> output = recipe.getOutput();
 				for (final ItemStack stack : output) {
 					final ItemData child = ItemRegistry.get(stack);
-					score += detect(child) * stack.stackSize;
+					score += detect(child, recursionList) * stack.stackSize;
 				}
 
 				score = score / (float) recipe.getMinimumInputQuantityRequired();
@@ -65,6 +77,8 @@ public final class AutoDetect {
 					builder.append(" auto: ").append(data.auto.name());
 					ModLog.info(builder.toString());
 				}
+				
+				recursionList.remove(data.stack);
 			}
 		}
 
@@ -72,10 +86,14 @@ public final class AutoDetect {
 	}
 
 	public static void detect() {
+		if(SKIP)
+			return;
+		
 		// Score the buggers
 		for (final ItemData data : ItemRegistry.getItemDataList())
 			try {
-				detect(data);
+				final Set<ItemStack> recursion = new HashSet<ItemStack>();
+				detect(data, recursion);
 			} catch (final Exception ex) {
 				ModLog.warn("autoDetect() blew a gasket: %s (%s)", data.getName(), data.getInternalName());
 			}

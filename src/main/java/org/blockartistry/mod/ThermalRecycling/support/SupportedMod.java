@@ -34,6 +34,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public enum SupportedMod {
 
@@ -140,6 +141,15 @@ public enum SupportedMod {
 
 	public boolean isLoaded() {
 		return this == VANILLA || this == THERMAL_RECYCLING || Loader.isModLoaded(modId);
+	}
+	
+	public boolean belongsTo(final ItemStack stack) {
+		return belongsTo(stack.getItem());
+	}
+	
+	public boolean belongsTo(final Item item) {
+		final String name = Item.itemRegistry.getNameForObject(item);
+		return name != null && name.startsWith(this.modId);
 	}
 
 	public ArtifactVersion getArtifactVersion() {

@@ -71,7 +71,7 @@ public final class VanillaMinecraft extends ModPlugin {
 
 	private static final String[] scrapValuesPoor = new String[] { "cake", "rotten_flesh", "coal_block", "gold_nugget",
 			"experience_bottle", "iron_bars", "tripwire_hook", "rail", "trapped_chest", "mycelium", "soul_sand",
-			"obsidian", "fire_charge", };
+			"obsidian", "fire_charge", "stone_slab:7", "quartz_block:1" };
 
 	private static final String[] scrapValuesStandard = new String[] { "blaze_powder", "blaze_rod", "ender_eye",
 			"ender_pearl", "chainmail_boots", "chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",

@@ -30,13 +30,12 @@ public final class ModAdvancedGenerators extends ModPlugin {
 
 	private static final String[] scrapValuesPoor = new String[] { "IronWiring", "IronTubing", };
 
-	private static final String[] scrapValuesStandard = new String[] { "IronFrame", "TurbineBlade", "FuelTank",
-			"PowerCapacitor", "HeatExchanger", "Sensor", };
+	private static final String[] scrapValuesStandard = new String[] { "IronFrame", "TurbineBlade", };
 
 	private static final String[] scrapValuesSuperior = new String[] { "ItemInput", "TurbineRotor", "Turbine",
 			"HeatingChamber", "TurbineController", "PowerIO", "RFOutput", "FluidInput", "SteamTurbineController",
 			"EuOutputMV", "MixingChamber", "EuOutputHV", "HeatExchangerController", "EuOutputLV", "SyngasController",
-			"ItemOutput" };
+			"ItemOutput", "FuelTank", "HeatExchanger", "PowerCapacitor", "Sensor", };
 
 	public ModAdvancedGenerators() {
 		super(SupportedMod.ADVANCED_GENERATORS);

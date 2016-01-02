@@ -44,9 +44,9 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 			"xpextractor", "cable.redstone:0", "rednet.panel:0" };
 
 	private static final String[] scrapValuesPoor = new String[] { "rednet.memorycard", "detcord",
-			"needlegun.ammo.empty", "safarinet.jailer", "rail.passenger.dropoff", "rail.passenger.pickup",
-			"rednet.meter:0", "cable.redstone:2", "upgrade.radius:0", "upgrade.radius:11", "pinkslime:0",
-			"rail.cargo.pickup", "rail.cargo.dropoff" };
+			"needlegun.ammo.empty", "rail.passenger.dropoff", "rail.passenger.pickup", "rednet.meter:0",
+			"cable.redstone:2", "upgrade.radius:0", "upgrade.radius:11", "pinkslime:0", "rail.cargo.pickup",
+			"rail.cargo.dropoff" };
 
 	private static final String[] scrapValuesStandard = new String[] { "rubberwood.sapling:1", "conveyor:*", };
 

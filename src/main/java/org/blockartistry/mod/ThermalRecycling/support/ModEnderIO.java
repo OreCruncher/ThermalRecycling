@@ -50,7 +50,7 @@ public final class ModEnderIO extends ModPlugin {
 			"blockWeatherObelisk", "blockSoulBinder", "blockTelePad", "blockSolarPanel:0", "itemExtractSpeedUpgrade:0",
 			"blockBuffer:2", "blockEnderIo", "blockCapBank:2", "blockPowerMonitor", "item.darkSteel_chestplate",
 			"blockCrafter", "blockInventoryPanel", "blockAlloySmelter", "blockExperienceObelisk", "itemMaterial:10",
-			"itemGliderWing:1" };
+			"itemGliderWing:1", "itemTravelStaff:16" };
 
 	public ModEnderIO() {
 		super(SupportedMod.ENDERIO);

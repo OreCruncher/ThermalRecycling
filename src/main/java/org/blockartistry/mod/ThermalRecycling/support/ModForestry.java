@@ -88,7 +88,7 @@ public final class ModForestry extends ModPlugin {
 			"saplingGE:*", "apiculture:2", "ash", "mulch", "peat", "brokenBronzeShovel", "brokenBronzePickaxe",
 			"hunterBag", "diggerBag", "builderBag", "adventurerBag", "apiaristBag", "foresterBag", "frameUntreated",
 			"bituminousPeat", "apicultureChest:0", "candle:0", "thermionicTubes:8", "thermionicTubes:11",
-			"craftingMaterial:1", "factory2:2", "ambrosia", "honeypot" };
+			"craftingMaterial:1", "factory2:2", "ambrosia", "honeyPot" };
 
 	static final String[] scrapValuesPoor = new String[] { "beeLarvaeGE:*", "pollen:*", "apatite", "canEmpty",
 			"craftingMaterial:6", "thermionicTubes:6", "thermionicTubes:10" };

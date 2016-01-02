@@ -195,6 +195,11 @@ public final class ModThermalRecycling extends ModPlugin {
 		for (final String oreName : OreDictionaryHelper.getOreNames()) {
 			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
+				
+				// EnderIO decided to make an ore group for hoppers.  Bleh.
+				if("blockHopper".equals(oreName))
+					continue;
+				
 				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
 					ItemRegistry.setBlockedFromScrapping(stack, true);
 				}
@@ -367,7 +372,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		ScrapHandler.freeze();
 
 		// AutoDetect scrap values
-		//AutoDetect.detect();
+		AutoDetect.detect();
 
 		return true;
 	}

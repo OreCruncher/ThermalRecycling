@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 
 import com.google.common.base.Optional;
 
@@ -407,12 +408,7 @@ public final class ItemStackHelper {
 
 	public static boolean isVanilla(final ItemStack stack) {
 		assert stack != null;
-		return isVanilla(stack.getItem());
-	}
-
-	public static boolean isVanilla(final Item item) {
-		final String name = Item.itemRegistry.getNameForObject(item);
-		return name != null && name.startsWith("minecraft");
+		return SupportedMod.VANILLA.belongsTo(stack.getItem());
 	}
 
 	/**

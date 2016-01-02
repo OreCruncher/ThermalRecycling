@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeAccessorBase;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.RecipeUtil;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ShapedOreRecipeAccessor;
@@ -44,6 +46,7 @@ import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import com.google.common.collect.ImmutableList;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -57,6 +60,7 @@ public final class RecipeDecomposition {
 	private RecipeDecomposition() {
 	}
 
+	private static Field itemDamage = null;
 	private static Map<Class<?>, RecipeAccessorBase> accessors = new IdentityHashMap<Class<?>, RecipeAccessorBase>();
 
 	static {
@@ -65,6 +69,8 @@ public final class RecipeDecomposition {
 		accessors.put(ShapelessRecipes.class, new ShapelessRecipeAccessor());
 		accessors.put(ShapedOreRecipe.class, new ShapedOreRecipeAccessor());
 		accessors.put(ShapelessOreRecipe.class, new ShapelessOreRecipeAccessor());
+
+		itemDamage = ReflectionHelper.findField(ItemStack.class, "field_77991_e", "itemDamage");
 	}
 
 	public static void registerAccessor(final Class<?> clazz, final RecipeAccessorBase accessor) {
@@ -140,10 +146,22 @@ public final class RecipeDecomposition {
 			final ItemStack stack = projection.get(i);
 			if (stack != null)
 				if (ItemStackHelper.areEqualNoNBT(stack, inputStack) || RecipeUtil.notConsumed(stack)
-						|| ItemRegistry.isScrubbedFromOutput(stack))
+						|| ItemRegistry.isScrubbedFromOutput(stack)) {
 					projection.set(i, null);
-				else if (OreDictionaryHelper.isGeneric(stack))
-					stack.setItemDamage(0);
+				} else if (OreDictionaryHelper.isGeneric(stack)) {
+					try {
+						// Have to hack round IC2 wierdness
+						final boolean isIC2 = SupportedMod.INDUSTRIAL_CRAFT.belongsTo(stack);
+						final int damage = isIC2 && stack.isItemStackDamageable() ? 26 : 0;
+						if (itemDamage != null) {
+							itemDamage.setInt(stack, damage);
+						} else {
+							stack.setItemDamage(damage);
+						}
+					} catch (final Throwable t) {
+						;
+					}
+				}
 		}
 
 		// Do final scrub on the list

@@ -37,11 +37,11 @@ public final class ModRFTools extends ModPlugin {
 			"dimensionalCross2Block", "dimensionalShardBlock", "dimensionalCrossBlock", "dimensionalBlock",
 			"dimensionalPattern1Block", "shieldTemplateBlock", "rfToolsManualItem", "dimensionalPattern2Block",
 			"rfToolsManualDimensionItem", "dimletTemplate", "emptyDimensionTab", "dimensionalShardItem",
-			"knownDimlet:14", "knownDimlet:24", "knownDimlet:123", "knownDimlet:152", "knownDimlet:154",
-			"knownDimlet:156", "knownDimlet:157", "shieldTemplateBlock:1", "knownDimlet:210", "knownDimlet:211",
-			"knownDimlet:218", "knownDimlet:219", "knownDimlet:203", "knownDimlet:204", "knownDimlet:217",
-			"knownDimlet:235", "knownDimlet:236", "knownDimlet:153", "knownDimlet:252", "knownDimlet:253",
-			"shieldTemplateBlock:2", "shieldTemplateBlock:3" };
+			"knownDimlet:24", "knownDimlet:123", "knownDimlet:152", "knownDimlet:154", "knownDimlet:156",
+			"knownDimlet:157", "shieldTemplateBlock:1", "knownDimlet:210", "knownDimlet:211", "knownDimlet:218",
+			"knownDimlet:219", "knownDimlet:203", "knownDimlet:204", "knownDimlet:217", "knownDimlet:235",
+			"knownDimlet:236", "knownDimlet:153", "knownDimlet:252", "knownDimlet:253", "shieldTemplateBlock:2",
+			"shieldTemplateBlock:3" };
 
 	static final String[] scrapValuesPoor = new String[] { "knownDimlet:122", "machineBase", "simpleDialerBlock",
 			"sequencerBlock" };
@@ -53,7 +53,12 @@ public final class ModRFTools extends ModPlugin {
 			"hasteEModuleItem", "peaceEssenceItem", "efficiencyEssenceItem", "mediocreEfficiencyEssenceItem",
 			"shapeCardItem:2", "shapeCardItem:3", "shapeCardItem:4", "shapeCardItem:5", "shapeCardItem:6",
 			"shapeCardItem:7", "storageModuleTabletItem", "infusedDiamondItem", "advancedChargedPorterItem",
-			"liquidAbsorberBlock", "shieldBlock4", "timeAbsorberBlock", "remoteStorageBlock", "spawnerBlock" };
+			"liquidAbsorberBlock", "shieldBlock4", "timeAbsorberBlock", "remoteStorageBlock", "spawnerBlock",
+			"matterReceiverBlock", "destinationAnalyzerBlock", "shieldBlock3", "modularStorageBlock",
+			"fluidPlusModuleItem", "liquidMonitorBlock", "dimensionEnscriberBlock", "pearlInjectorBlock", "relayBlock",
+			"matterBoosterBlock", "storageScannerBlock", "matterBeamerBlock", "storageModuleItem:1",
+			"storageModuleItem:2", "dimletScramblerBlock", "matterTransmitterBlock", "peacefulEModuleItem",
+			"dimletResearcherBlock", };
 
 	public ModRFTools() {
 		super(SupportedMod.RFTOOLS);

@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -47,7 +46,7 @@ abstract class ItemProfile {
 		
 		// If the item is from Vanilla, or from a mod that is not
 		// whitelisted set the scrap value to NONE.
-		if(ItemStackHelper.isVanilla(item) || !SupportedMod.isModWhitelisted(item))
+		if(SupportedMod.VANILLA.belongsTo(item) || !SupportedMod.isModWhitelisted(item))
 			this.settings.value = ScrapValue.NONE;
 	}
 	
