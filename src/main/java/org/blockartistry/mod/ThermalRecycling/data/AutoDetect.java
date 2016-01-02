@@ -29,6 +29,7 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+import org.blockartistry.mod.ThermalRecycling.data.registry.RecipeData;
 
 import net.minecraft.item.ItemStack;
 
@@ -41,7 +42,7 @@ public final class AutoDetect {
 		if (data.auto == null) {
 			// ModLog.debug("detect: %s (%s)", data.getName(),
 			// data.getInternalName());
-			final RecipeData recipe = RecipeData.get(data.stack);
+			final RecipeData recipe = ItemRegistry.getRecipe(data.stack);
 			if (data.isBlockedFromScrapping || recipe == null || !recipe.hasOutput()) {
 				data.auto = data.value;
 				data.score = data.auto.score;

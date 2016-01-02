@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
@@ -42,7 +42,7 @@ public final class SawmillRecipeBuilder extends
 		ThermalExpansionHelper.addSawmillRecipe(energy, stack, output,
 				secondaryOutput, secondaryChance);
 
-		return RecipeData.SUCCESS;
+		return RecipeHelper.SUCCESS;
 	}
 
 	@Override

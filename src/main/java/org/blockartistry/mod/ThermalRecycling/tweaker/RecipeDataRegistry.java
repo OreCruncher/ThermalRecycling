@@ -25,7 +25,8 @@ package org.blockartistry.mod.ThermalRecycling.tweaker;
 
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 
 import net.minecraft.item.ItemStack;
 import minetweaker.api.item.IItemStack;
@@ -52,7 +53,7 @@ public final class RecipeDataRegistry {
 		
 		final ItemStack stack = MineTweakerMC.getItemStack(input);
 		final List<ItemStack> result = MineTweakerUtil.getStackList(output);
-		RecipeData.put(stack, result);
+		RecipeHelper.put(stack, result);
 	}
 	
 	@ZenMethod
@@ -62,6 +63,6 @@ public final class RecipeDataRegistry {
 			return;
 		
 		final ItemStack item = MineTweakerMC.getItemStack(stack);
-		RecipeData.remove(item);
+		ItemRegistry.removeRecipe(item);
 	}
 }

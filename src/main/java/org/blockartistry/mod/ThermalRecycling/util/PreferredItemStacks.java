@@ -69,6 +69,7 @@ public abstract class PreferredItemStacks {
 	public ItemStack blockEnderium;
 	public ItemStack blockLumium;
 	public ItemStack blockManaInfused;
+	public ItemStack blockGlass = new ItemStack(Blocks.glass);
 	
 	public ItemStack dustIron;
 	public ItemStack dustGold;
@@ -218,6 +219,7 @@ public abstract class PreferredItemStacks {
 		registerStack("blockSignalum", blockSignalum);
 		registerStack("blockLumium", blockLumium);
 		registerStack("blockEnderium", blockEnderium);
+		registerStack("blockGlass", blockGlass);
 
 		registerStack("gearIron", gearIron);
 		registerStack("gearGold", gearGold);

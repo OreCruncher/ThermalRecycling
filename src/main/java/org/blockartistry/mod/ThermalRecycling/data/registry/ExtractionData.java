@@ -22,63 +22,41 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.data;
-
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
+package org.blockartistry.mod.ThermalRecycling.data.registry;
 
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
-import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
-
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.item.ItemStack;
 
-public class ExtractionData {
+public final class ExtractionData {
 	
-	private static final ExtractionData ephemeral = new ExtractionData();
-
-	private static Map<ItemStackKey, ExtractionData> recipes = new HashMap<ItemStackKey, ExtractionData>();
-
-	public static void freeze() {
-		recipes = ImmutableMap.copyOf(recipes);
-	}
+	public static final ExtractionData EPHEMERAL = new ExtractionData();
 
 	protected ExtractionData() {
 		this.name = "<Ephemeral>";
 		this.quantityRequired = 1;
-		this.isGeneric = true;
 		this.extraction = new ItemStackWeightTable();
 		this.isDefault = true;
 	}
 	
-	protected ExtractionData(final ItemStack input, final ItemStackWeightTable table) {
+	public ExtractionData(final ItemStack input, final ItemStackWeightTable table) {
 		assert input != null;
 		assert table != null;
 
 		this.name = ItemStackHelper.resolveName(input);
 		this.quantityRequired = input.stackSize;
-		this.isGeneric = OreDictionaryHelper.isGeneric(input);
 		this.extraction = table;
 		this.isDefault = false;
 	}
 
 	private final String name;
 	private final int quantityRequired;
-	private final boolean isGeneric;
-	private ItemStackWeightTable extraction;
+	public ItemStackWeightTable extraction;
 	private final boolean isDefault;
 	
 	public boolean isDefault() {
 		return isDefault;
-	}
-	
-	public boolean isGeneric() {
-		return isGeneric;
 	}
 	
 	public boolean hasOutput() {
@@ -93,30 +71,6 @@ public class ExtractionData {
 		return this.extraction;
 	}
 
-	public static ExtractionData get(final ItemStack input) {
-		ExtractionData match = recipes.get(ItemStackKey.getCachedKey(input));
-
-		if (match == null && !OreDictionaryHelper.isGeneric(input)) {
-			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
-		}
-
-		return match == null ? ephemeral : match;
-	}
-	
-	public static void remove(final ItemStack stack) {
-		recipes.remove(ItemStackKey.getCachedKey(stack));
-	}
-	
-	public static void put(final ItemStack input, final ItemStackWeightTable table) {
-		ExtractionData data = get(input);
-		if(data == ephemeral) {
-			data = new ExtractionData(input, table);
-			recipes.put(new ItemStackKey(input), data);
-		} else {
-			data.extraction = table;
-		}
-	}
-	
 	@Override
 	public String toString() {
 
@@ -140,14 +94,5 @@ public class ExtractionData {
 		builder.append(']');
 
 		return builder.toString();
-	}
-
-	public static void writeDiagnostic(final Writer writer) throws Exception {
-
-		writer.write("\nKnown Thermal Recycler Extraction Recipes:\n");
-		writer.write("=================================================================\n");
-		for (final ExtractionData d : recipes.values())
-			writer.write(String.format("%s\n", d.toString()));
-		writer.write("=================================================================\n");
 	}
 }

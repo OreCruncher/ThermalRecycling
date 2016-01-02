@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.FluidStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
@@ -72,7 +72,7 @@ public final class FluidTransposerRecipeBuilder extends
 		ThermalExpansionHelper.addTransposerExtract(energy, stack, output,
 				fluid, 100, false);
 
-		return RecipeData.SUCCESS;
+		return RecipeHelper.SUCCESS;
 	}
 
 	public FluidTransposerRecipeBuilder fluid(final String fluidId) {

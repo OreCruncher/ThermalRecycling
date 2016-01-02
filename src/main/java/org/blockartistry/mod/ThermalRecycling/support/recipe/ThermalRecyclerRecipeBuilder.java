@@ -32,7 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -294,10 +294,10 @@ public final class ThermalRecyclerRecipeBuilder {
 			final ItemData data = ItemRegistry.get(input);
 			ItemRegistry.set(data);
 
-			final int result = RecipeData.put(input, output);
-			if (result == RecipeData.FAILURE)
+			final int result = RecipeHelper.put(input, output);
+			if (result == RecipeHelper.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
-			else if (result == RecipeData.DUPLICATE)
+			else if (result == RecipeHelper.DUPLICATE)
 				ModLog.debug("Duplicate recipe [%s]", toString());
 
 		} catch (Exception e) {

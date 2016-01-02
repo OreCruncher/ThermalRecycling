@@ -22,22 +22,13 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.data;
+package org.blockartistry.mod.ThermalRecycling.data.registry;
 
-import java.io.Writer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackKey;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.item.ItemStack;
 
 /**
@@ -46,19 +37,9 @@ import net.minecraft.item.ItemStack;
  */
 public final class RecipeData {
 
-	public static final int SUCCESS = 0;
-	public static final int FAILURE = 1;
-	public static final int DUPLICATE = 2;
-
 	// Used as a generic "blank" for items that do not have
 	// recipes registered.
 	public static final RecipeData EPHEMERAL = new RecipeData();
-
-	private static Map<ItemStackKey, RecipeData> recipes = new HashMap<ItemStackKey, RecipeData>(1024);
-
-	public static void freeze() {
-		recipes = ImmutableMap.copyOf(recipes);
-	}
 
 	private final String name;
 	private final int quantityRequired;
@@ -117,75 +98,6 @@ public final class RecipeData {
 		return false;
 	}
 	
-	public static RecipeData get(final ItemStack input) {
-
-		RecipeData match = recipes.get(ItemStackKey.getCachedKey(input));
-
-		if (match == null && ItemStackHelper.canBeGeneric(input)) {
-			match = recipes.get(ItemStackKey.getCachedKey(input.getItem()));
-		}
-
-		return match == null ? EPHEMERAL : match;
-	}
-
-	public static void remove(final ItemStack stack) {
-		recipes.remove(ItemStackKey.getCachedKey(stack));
-	}
-
-	/**
-	 * Adds the given recipe to the tracking tables. It assumes control over
-	 * output.
-	 */
-	public static int put(final ItemStack input, List<ItemStack> output) {
-		assert input != null;
-		assert output != null;
-
-		int retCode = DUPLICATE;
-
-		// See if we have an existing mapping
-		final RecipeData result = get(input);
-
-		// Use the incoming recipe if:
-		// * It doesn't exist
-		// * Existing entry is wildcard and the new one isn't
-		// * The new entry has a quantity greater than the existing one
-		if (result == EPHEMERAL || (result.isGeneric() && !OreDictionaryHelper.isGeneric(input))
-				|| (input.stackSize > result.getMinimumInputQuantityRequired())) {
-
-			final ItemStack stack = input.copy();
-
-			// An immutable list has already been processed by
-			// something like RecipeDecomposition
-			if (!(output instanceof ImmutableList)) {
-				// Traverse the list replacing WILDCARD stacks with concrete
-				// ones. The logic prefers Thermal Foundation equivalents
-				// if found.
-				for (int i = 0; i < output.size(); i++) {
-
-					ItemStack working = output.get(i);
-
-					if (OreDictionaryHelper.isGeneric(working)) {
-						final String oreName = OreDictionaryHelper.getOreName(working);
-
-						if (oreName != null) {
-							final Optional<ItemStack> t = ItemStackHelper.getItemStack(oreName, working.stackSize);
-							if (t.isPresent())
-								output.set(i, t.get());
-						}
-					}
-				}
-
-				output = ImmutableList.copyOf(InventoryHelper.coelece(output));
-			}
-			
-			recipes.put(new ItemStackKey(stack), new RecipeData(stack, output));
-
-			retCode = SUCCESS;
-		}
-
-		return retCode;
-	}
-
 	@Override
 	public String toString() {
 
@@ -208,14 +120,5 @@ public final class RecipeData {
 		builder.append(']');
 
 		return builder.toString();
-	}
-
-	public static void writeDiagnostic(final Writer writer) throws Exception {
-
-		writer.write("\nKnown Thermal Recycler Decomp Recipes:\n");
-		writer.write("=================================================================\n");
-		for (final RecipeData d : recipes.values())
-			writer.write(String.format("%s\n", d.toString()));
-		writer.write("=================================================================\n");
 	}
 }

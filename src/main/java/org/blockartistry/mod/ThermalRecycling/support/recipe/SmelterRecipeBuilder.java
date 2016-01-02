@@ -24,7 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support.recipe;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.item.ItemStack;
@@ -43,7 +43,7 @@ public class SmelterRecipeBuilder extends
 		ThermalExpansionHelper.addSmelterRecipe(energy, stack, secondaryInput,
 				output);
 
-		return RecipeData.SUCCESS;
+		return RecipeHelper.SUCCESS;
 	}
 
 	@Override

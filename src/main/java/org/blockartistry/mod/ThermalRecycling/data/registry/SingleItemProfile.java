@@ -28,15 +28,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 class SingleItemProfile extends ItemProfile {
 	
-	private RecipeData recipe = RecipeData.EPHEMERAL;
-
 	public SingleItemProfile(final Item item) {
 		super(item);
 	}
@@ -52,12 +48,12 @@ class SingleItemProfile extends ItemProfile {
 	}
 	
 	@Override
-	public RecipeData getRecipeData(final ItemStack stack) {
+	public RecipeData getRecipe(final ItemStack stack) {
 		return this.recipe;
 	}
 
 	@Override
-	public void addRecipeData(final ItemStack stack, final RecipeData data) {
+	public void addRecipe(final ItemStack stack, final RecipeData data) {
 		if(data == RecipeData.EPHEMERAL)
 			return;
 		
@@ -65,13 +61,52 @@ class SingleItemProfile extends ItemProfile {
 	}
 
 	@Override
-	public void writeDiagnostic(final Writer writer) throws IOException {
-		writer.write(this.settings.toString());
-		writer.write("\n");
+	public void removeRecipe(final ItemStack stack) {
+		this.recipe = RecipeData.EPHEMERAL;
+	}
+
+	@Override
+	public ExtractionData getExtractionData(final ItemStack stack) {
+		return this.extract;
+	}
+
+	@Override
+	public void addExtractionData(final ItemStack stack, final ExtractionData data) {
+		if(data == ExtractionData.EPHEMERAL)
+			return;
+		this.extract = data;
+	}
+
+	@Override
+	public void removeExtractionData(final ItemStack stack) {
+		this.extract = ExtractionData.EPHEMERAL;
+	}
+
+	@Override
+	public void writeDiagnostic(final Writer writer, final int what) throws IOException {
+		switch(what) {
+		case ItemRegistry.DIAG_EXTRACT:
+			if(this.extract != ExtractionData.EPHEMERAL) {
+				writer.write(this.extract.toString());
+				writer.write("\n");
+			}
+			break;
+		case ItemRegistry.DIAG_ITEMDATA:
+			writer.write(this.settings.toString());
+			writer.write("\n");
+			break;
+		case ItemRegistry.DIAG_RECIPES:
+			if(this.recipe != RecipeData.EPHEMERAL) {
+				writer.write(this.recipe.toString());
+				writer.write("\n");
+			}
+			break;
+		}
 	}
 
 	@Override
 	public void collectItemData(final List<ItemData> list) {
 		list.add(this.settings);
 	}
+
 }

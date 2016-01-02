@@ -23,7 +23,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.tweaker;
 
-import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.data.registry.ExtractionData;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
@@ -39,33 +40,33 @@ public class ExtractionDataRegistry {
 
 	@ZenMethod
 	public static void add(IItemStack input, IItemStack output, int weight) {
-		
-		if(!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
+
+		if (!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
 			return;
-		
-		if(!MineTweakerUtil.checkArgument(weight > 0, "weight must be greater than 0"))
+
+		if (!MineTweakerUtil.checkArgument(weight > 0, "weight must be greater than 0"))
 			return;
 
 		final ItemStack theInput = MineTweakerMC.getItemStack(input);
 		final ItemStack theOutput = MineTweakerMC.getItemStack(output);
-		
-		final ExtractionData data = ExtractionData.get(theInput);
-		if(data.isDefault()) {
+
+		final ExtractionData data = ItemRegistry.getExtractionData(theInput);
+		if (data.isDefault()) {
 			final ItemStackWeightTable table = new ItemStackWeightTable();
 			table.add(new ItemStackItem(theOutput, weight));
 			ItemRegistry.setBlockedFromExtraction(theInput, false);
-			ExtractionData.put(theInput, table);
+			RecipeHelper.put(theInput, table);
 		} else {
 			data.getOutput().add(new ItemStackItem(theOutput, weight));
 		}
 	}
-	
+
 	@ZenMethod
 	public static void remove(IItemStack input) {
-		
-		if(!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
+
+		if (!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
 			return;
-		
-		ExtractionData.remove(MineTweakerMC.getItemStack(input));
+
+		ItemRegistry.removeExtractionData(MineTweakerMC.getItemStack(input));
 	}
 }

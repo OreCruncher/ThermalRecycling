@@ -31,7 +31,7 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
@@ -264,7 +264,7 @@ public abstract class ModPlugin {
 		for (final ItemStackItem e : entries)
 			table.add(e);
 		ItemRegistry.setBlockedFromExtraction(input, false);
-		ExtractionData.put(input, table);
+		RecipeHelper.put(input, table);
 	}
 
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {

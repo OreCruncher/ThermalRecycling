@@ -32,8 +32,6 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.AutoDetect;
-import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
@@ -366,9 +364,7 @@ public final class ModThermalRecycling extends ModPlugin {
 		processRecipeList(recipes, false);
 
 		// Lock our tables
-		RecipeData.freeze();
 		ScrapHandler.freeze();
-		ExtractionData.freeze();
 
 		// AutoDetect scrap values
 		AutoDetect.detect();

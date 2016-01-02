@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
+import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.block.Block;
@@ -243,9 +243,9 @@ public abstract class RecipeBuilder<This extends RecipeBuilder<This>> {
 
 		for (final ItemStack i : input) {
 			final int result = saveImpl(i);
-			if (result == RecipeData.FAILURE)
+			if (result == RecipeHelper.FAILURE)
 				ModLog.warn("Unable to save recipe [%s]", toString());
-			else if (result == RecipeData.DUPLICATE)
+			else if (result == RecipeHelper.DUPLICATE)
 				ModLog.debug("Duplicate recipe [%s]", toString());
 		}
 

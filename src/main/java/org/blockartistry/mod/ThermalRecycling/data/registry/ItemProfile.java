@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -39,6 +38,8 @@ abstract class ItemProfile {
 	
 	final Item item;
 	final ItemData settings;
+	RecipeData recipe = RecipeData.EPHEMERAL;
+	ExtractionData extract = ExtractionData.EPHEMERAL;
 
 	public ItemProfile(final Item item) {
 		this.item = item;
@@ -65,18 +66,42 @@ abstract class ItemProfile {
 	 * Obtains the RecipeData for the specified ItemStack
 	 * from the profile.
 	 */
-	public abstract RecipeData getRecipeData(final ItemStack stack);
+	public abstract RecipeData getRecipe(final ItemStack stack);
 	
 	/**
 	 * Adds the RecipeData for the specified ItemStack
 	 * from the profile.
 	 */
-	public abstract void addRecipeData(final ItemStack stack, final RecipeData data);
+	public abstract void addRecipe(final ItemStack stack, final RecipeData data);
+	
+	/**
+	 * Removes a recipe for the specified ItemStack from the
+	 * profile.
+	 */
+	public abstract void removeRecipe(final ItemStack stack);
+
+	/**
+	 * Get's any extraction data associated with the ItemStack from
+	 * the profile.
+	 */
+	public abstract ExtractionData getExtractionData(final ItemStack stack);
+	
+	/**
+	 * Adds extraction data associated with the ItemStack from the
+	 * profile.
+	 */
+	public abstract void addExtractionData(final ItemStack stack, final ExtractionData data);
+	
+	/**
+	 * Removes extraction data associated with the ItemStack from
+	 * the profile.
+	 */
+	public abstract void removeExtractionData(final ItemStack stack);
 	
 	/**
 	 * Writes diagnostic information to the provider writer.
 	 */
-	public abstract void writeDiagnostic(final Writer writer) throws IOException;
+	public abstract void writeDiagnostic(final Writer writer, final int what) throws IOException;
 	
 	/**
 	 * Collects the ItemData entries associated with the profile into

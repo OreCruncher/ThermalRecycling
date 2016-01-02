@@ -43,8 +43,6 @@ import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.ExtractionData;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.events.AnvilHandler;
@@ -165,13 +163,14 @@ public class Proxy {
 
 					writer = getLogFile();
 
-					if (ModOptions.getEnableDebugLogging())
-						ItemRegistry.writeDiagnostic(writer);
+					if (ModOptions.getEnableDebugLogging()) {
+						ItemRegistry.writeDiagnostic(writer, ItemRegistry.DIAG_ITEMDATA);
+						ItemRegistry.writeDiagnostic(writer, ItemRegistry.DIAG_RECIPES);
+						ItemRegistry.writeDiagnostic(writer, ItemRegistry.DIAG_EXTRACT);
+					}
 
 					ScrappingTables.writeDiagnostic(writer);
 					UseEffect.diagnostic(writer);
-					RecipeData.writeDiagnostic(writer);
-					ExtractionData.writeDiagnostic(writer);
 					PileOfRubble.dumpRubbleDrops(writer);
 
 				} catch (Exception e) {

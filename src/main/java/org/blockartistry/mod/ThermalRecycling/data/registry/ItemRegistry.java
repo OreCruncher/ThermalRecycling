@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.RecipeData;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
@@ -43,44 +42,60 @@ import net.minecraft.item.ItemStack;
 public final class ItemRegistry {
 
 	private static final Map<Item, ItemProfile> registry = new IdentityHashMap<Item, ItemProfile>();
-	
+
 	static {
 		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
 			final ItemProfile profile;
-			if(o.getHasSubtypes())
+			if (o.getHasSubtypes())
 				profile = new MultiItemProfile(o);
-			else if(o.isDamageable())
+			else if (o.isDamageable())
 				profile = new DamagableItemProfile(o);
 			else
 				profile = new SingleItemProfile(o);
 			registry.put(o, profile);
 		}
 	}
-	
+
 	private static ItemProfile getProfile(final ItemStack stack) {
 		final Item item = stack.getItem();
 		final ItemProfile profile = registry.get(item);
-		if(profile == null)
+		if (profile == null)
 			throw new RuntimeException("Missing profile for Item " + item.toString());
 		return profile;
 	}
-	
+
 	public static ItemData get(final ItemStack stack) {
 		return getProfile(stack).getItemData(stack);
 	}
-	
+
 	public static void set(final ItemData data) {
 		getProfile(data.stack).addItemData(data);
 	}
-	
+
 	public static RecipeData getRecipe(final ItemStack stack) {
-		return getProfile(stack).getRecipeData(stack);
+		return getProfile(stack).getRecipe(stack);
 	}
-	
+
 	public static void setRecipe(final ItemStack stack, final RecipeData recipe) {
-		getProfile(stack).addRecipeData(stack, recipe);
+		getProfile(stack).addRecipe(stack, recipe);
 	}
-	
+
+	public static void removeRecipe(final ItemStack stack) {
+		getProfile(stack).removeRecipe(stack);
+	}
+
+	public static ExtractionData getExtractionData(final ItemStack stack) {
+		return getProfile(stack).getExtractionData(stack);
+	}
+
+	public static void setExtractionData(final ItemStack stack, final ExtractionData data) {
+		getProfile(stack).addExtractionData(stack, data);
+	}
+
+	public static void removeExtractionData(final ItemStack stack) {
+		getProfile(stack).removeExtractionData(stack);
+	}
+
 	public static void setBlockedFromScrapping(final ItemStack stack, final boolean flag) {
 		final ItemData data = get(stack);
 		data.isBlockedFromScrapping = flag;
@@ -92,7 +107,7 @@ public final class ItemRegistry {
 		data.isBlockedFromExtraction = flag;
 		set(data);
 	}
-	
+
 	public static void setScrapValue(final ItemStack stack, final ScrapValue value) {
 		final ItemData data = get(stack);
 		data.value = value;
@@ -141,22 +156,36 @@ public final class ItemRegistry {
 		data.scrubFromOutput = flag;
 		set(data);
 	}
-	
+
 	public static List<ItemData> getItemDataList() {
 		final List<ItemData> data = new ArrayList<ItemData>();
-		for(final ItemProfile profile: registry.values())
+		for (final ItemProfile profile : registry.values())
 			profile.collectItemData(data);
 		return data;
 	}
-	
-	public static void writeDiagnostic(final Writer writer) throws Exception {
 
-		writer.write("Item Registry:\n");
+	public static final int DIAG_ITEMDATA = 0;
+	public static final int DIAG_RECIPES = 1;
+	public static final int DIAG_EXTRACT = 2;
+
+	public static void writeDiagnostic(final Writer writer, final int what) throws Exception {
+
+		switch (what) {
+		case ItemRegistry.DIAG_ITEMDATA:
+			writer.write("Item Registry:\n");
+			break;
+		case ItemRegistry.DIAG_RECIPES:
+			writer.write("Recycling Recipes:\n");
+			break;
+		case ItemRegistry.DIAG_EXTRACT:
+			writer.write("Extraction Recipes:\n");
+			break;
+		}
+
 		writer.write("=================================================================\n");
-		for(final ItemProfile profile: registry.values())
-			profile.writeDiagnostic(writer);
-		writer.write("=================================================================\n");
+		for (final ItemProfile profile : registry.values())
+			profile.writeDiagnostic(writer, what);
+		writer.write("=================================================================\n\n\n");
 	}
 
 }
-
