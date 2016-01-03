@@ -99,7 +99,9 @@ public enum SupportedMod {
 	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
 
 	INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
-
+	
+	DEEP_RESONANCE("Deep Resonance", "deepresonance", ModDeepResonance.class),
+	
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
 	// prior to the crafting manager recipe scan.

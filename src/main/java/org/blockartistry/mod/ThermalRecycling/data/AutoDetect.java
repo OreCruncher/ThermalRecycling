@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 
 public final class AutoDetect {
 	
-	private static boolean SKIP = true;
+	private static boolean EXECUTE = true;
 
 	private AutoDetect() {
 	}
@@ -86,7 +86,7 @@ public final class AutoDetect {
 	}
 
 	public static void detect() {
-		if(SKIP)
+		if(!EXECUTE)
 			return;
 		
 		// Score the buggers
