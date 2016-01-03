@@ -41,9 +41,6 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Not sure how pipeGate can be null - maybe someone disabled the
 		// module?
 		final BuildCraftGateScrapHandler handler = new BuildCraftGateScrapHandler();

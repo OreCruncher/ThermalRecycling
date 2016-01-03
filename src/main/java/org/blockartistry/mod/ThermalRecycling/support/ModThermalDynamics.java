@@ -33,9 +33,6 @@ public final class ModThermalDynamics extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Servos, Filters
 		pulverizer.setEnergy(1200).append("ThermalDynamics:servo", "ThermalDynamics:filter").output("nuggetIron")
 				.secondaryOutput("dustIron").save();

@@ -33,9 +33,6 @@ public final class ModEnderIO extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Armor and tools
 		smelter.append("EnderIO:item.darkSteel_helmet").secondaryInput("dustCoal", 5).output("EnderIO:itemAlloy:6", 5)
 				.save();

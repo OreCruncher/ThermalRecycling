@@ -42,9 +42,6 @@ public final class ModThermalExpansion extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		final ThermalExpansionScrapHandler handler = new ThermalExpansionScrapHandler();
 
 		// Need to be able to see any special frames and security items
@@ -55,9 +52,6 @@ public final class ModThermalExpansion extends ModPlugin {
 		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Cell:*").get(), handler);
 		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:Tesseract").get(), handler);
 		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("ThermalExpansion:satchel:*").get(), handler);
-
-		// Register some stuff for the Pile of Rubble
-		registerPileOfRubbleDrop(1, 1, 3, "satchel:1");
 
 		return true;
 	}

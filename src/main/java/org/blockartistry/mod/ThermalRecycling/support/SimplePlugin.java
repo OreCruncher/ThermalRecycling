@@ -24,18 +24,16 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-public final class ModAdvancedGenerators extends ModPlugin {
+/**
+ * The SimplePlugin provides simple mod support for those mods that
+ * can be supported by a Json configuration file.  Those that need
+ * more detailed support, like deep configuration of recipes, need
+ * to create their own separate plugin.
+ */
+public class SimplePlugin extends ModPlugin {
 
-	public ModAdvancedGenerators() {
-		super(SupportedMod.ADVANCED_GENERATORS);
+	public SimplePlugin(final SupportedMod m) {
+		super(m);
 	}
-
-	@Override
-	public boolean initialize() {
-		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		return true;
-	}
+	
 }

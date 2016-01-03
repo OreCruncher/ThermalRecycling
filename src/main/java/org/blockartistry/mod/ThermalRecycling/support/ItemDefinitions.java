@@ -24,6 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -32,31 +33,60 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 public final class ItemDefinitions {
+
+	public static class RubbleDrop {
+		public String item;
+		public int min;
+		public int max;
+		public int weight;
+	}
 	
+	public static class Sawdust {
+		public int count;
+		public List<String> items;
+	}
+
+	// Items to ignore recipes for
 	public List<String> ignore = ImmutableList.of();
+	// Items that have a scrap value of NONE
 	public List<String> none = ImmutableList.of();
+	// Items that have a scrap value of POOR
 	public List<String> poor = ImmutableList.of();
+	// Items that have a scrap value of STANDARD
 	public List<String> standard = ImmutableList.of();
+	// Items that have a scrap value of SUPERIOR
 	public List<String> superior = ImmutableList.of();
+	// Items that are GREEN compost ingredients
 	public List<String> green = ImmutableList.of();
+	// Items that are BROWN compost ingredients
 	public List<String> brown = ImmutableList.of();
+	// Items that are scrubbed from recipe output
 	public List<String> scrub = ImmutableList.of();
+	// Items that are blocked from scrapping
 	public List<String> block = ImmutableList.of();
-	
-	@SuppressWarnings("unused")
+	// Pile of Rubble drop registrations
+	public List<RubbleDrop> rubble = ImmutableList.of();
+	// Items that can be pulverized to dirt
+	public List<String> toDirt = ImmutableList.of();
+	// Items that can be pulverized to saw dust
+	public List<Sawdust> toSawdust = ImmutableList.of();
+
 	public static ItemDefinitions load(final String modId) {
 		final String fileName = modId.replaceAll("[^a-zA-Z0-9.-]", "_");
-		InputStreamReader stream = null;
-		JsonReader reader = null;
+		InputStream stream = null;
+		InputStreamReader reader = null;
+		JsonReader reader2 = null;
 		try {
-			stream = new InputStreamReader(
-					ItemDefinitions.class.getResourceAsStream("/assets/recycling/data/" + fileName + ".json"));
+			stream = ItemDefinitions.class.getResourceAsStream("/assets/recycling/data/" + fileName + ".json");
 			if (stream != null) {
-				reader = new JsonReader(stream);
-				return (ItemDefinitions)new Gson().fromJson(reader, ItemDefinitions.class);
+				reader = new InputStreamReader(stream);
+				reader2 = new JsonReader(reader);
+				return (ItemDefinitions) new Gson().fromJson(reader, ItemDefinitions.class);
 			}
 		} finally {
 			try {
+				if (reader2 != null)
+					reader2.close();
 				if (reader != null)
 					reader.close();
 				if (stream != null)

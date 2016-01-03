@@ -36,9 +36,6 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Misc block machines
 		sawmill.append("BuildCraft|Builders:libraryBlock").output(Blocks.planks, 6).secondaryOutput(Items.book, 3)
 				.save();

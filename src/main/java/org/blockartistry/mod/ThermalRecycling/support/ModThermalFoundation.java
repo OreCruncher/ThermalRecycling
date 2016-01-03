@@ -82,9 +82,6 @@ public final class ModThermalFoundation extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Big daddy golden apple
 		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1).secondaryInput(getPyrotheumDust(8))
 				.output("blockGold", 8).save();

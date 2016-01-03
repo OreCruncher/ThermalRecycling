@@ -30,13 +30,4 @@ public class ModBuildCraftRobotics extends ModPlugin {
 		super(SupportedMod.BUILDCRAFT_ROBOTICS);
 	}
 
-	@Override
-	public boolean initialize() {
-
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		return true;
-	}
-
 }

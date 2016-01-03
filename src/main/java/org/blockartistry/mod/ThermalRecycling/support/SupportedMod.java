@@ -46,7 +46,7 @@ public enum SupportedMod {
 
 	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics", ModThermalDynamics.class),
 
-	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal", ModRedstoneArsenal.class),
+	REDSTONE_ARSENAL("Redstone Arsenal", "RedstoneArsenal", SimplePlugin.class),
 
 	MINEFACTORY_RELOADED("MineFactory Reloaded", "MineFactoryReloaded", ModMinefactoryReloaded.class),
 
@@ -68,39 +68,39 @@ public enum SupportedMod {
 
 	RAILCRAFT("Railcraft", "Railcraft", ModRailcraft.class),
 
-	ADVANCED_GENERATORS("Advanced Generators", "advgenerators", ModAdvancedGenerators.class),
+	ADVANCED_GENERATORS("Advanced Generators", "advgenerators", SimplePlugin.class),
 
 	ENDERIO("EnderIO", "EnderIO", ModEnderIO.class),
 
-	IRONCHEST("Iron Chest", "IronChest", ModIronChest.class),
+	IRONCHEST("Iron Chest", "IronChest", SimplePlugin.class),
 
-	CHICKEN_CHUNKS("Chicken Chunks", "ChickenChunks", ModChickenChunks.class),
+	CHICKEN_CHUNKS("Chicken Chunks", "ChickenChunks", SimplePlugin.class),
 
-	RFTOOLS("RFTools", "rftools", ModRFTools.class),
+	RFTOOLS("RFTools", "rftools", SimplePlugin.class),
 
-	ENDER_STORAGE("Ender Storage", "EnderStorage", ModEnderStorage.class),
+	ENDER_STORAGE("Ender Storage", "EnderStorage", SimplePlugin.class),
 
-	EXTRABIOMESXL("ExtrabiomesXL", "ExtrabiomesXL", ModExtrabiomesXL.class),
+	EXTRABIOMESXL("ExtrabiomesXL", "ExtrabiomesXL", SimplePlugin.class),
 
-	SOLARFLUX("Solar Flux", "SolarFlux", ModSolarFlux.class),
+	SOLARFLUX("Solar Flux", "SolarFlux", SimplePlugin.class),
 
 	RFDRILLS("RFDrills", "rfdrills", ModRFDrills.class),
 
-	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks", ModSimplyJetpacks.class),
+	SIMPLY_JETPACKS("Simply Jetpacks", "simplyjetpacks", SimplePlugin.class),
 
-	RFWINDMILLS("RF Windmills", "rfwindmill", ModRFWindmills.class),
+	RFWINDMILLS("RF Windmills", "rfwindmill", SimplePlugin.class),
 
-	REDSTONE_ARMORY("Redstone Armory", "RArm", ModRedstoneArmory.class),
+	REDSTONE_ARMORY("Redstone Armory", "RArm", SimplePlugin.class),
 
 	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
 
-	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", ModImmersiveEngineering.class),
+	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", SimplePlugin.class),
 
 	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
 
 	INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
 	
-	DEEP_RESONANCE("Deep Resonance", "deepresonance", ModDeepResonance.class),
+	DEEP_RESONANCE("Deep Resonance", "deepresonance", SimplePlugin.class),
 	
 	// This is last. Reason is that the plugins have the first crack
 	// at recipes and setting up the necessary black list entries
@@ -123,6 +123,8 @@ public enum SupportedMod {
 
 	public ModPlugin getPlugin() {
 		try {
+			if(pluginFactory == SimplePlugin.class)
+					return new SimplePlugin(this);
 			return pluginFactory.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();

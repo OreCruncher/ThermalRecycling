@@ -35,9 +35,6 @@ public final class ModBuildCraftFactory extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
 				.save();
 

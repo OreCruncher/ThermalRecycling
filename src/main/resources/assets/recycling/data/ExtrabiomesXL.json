@@ -147,5 +147,20 @@
 		"flower2:*",
 		"flower3:*",
 		"grass:*"
+	],
+	"toDirt":[
+		"saplings_1:0",
+		"saplings_1:1",
+		"saplings_1:2",
+		"saplings_1:3",
+		"saplings_1:4",
+		"saplings_1:5",
+		"saplings_1:6",
+		"saplings_1:7",
+		"saplings_2:0",
+		"saplings_2:1",
+		"saplings_2:2",
+		"saplings_2:3",
+		"saplings_2:4"
 	]
 }

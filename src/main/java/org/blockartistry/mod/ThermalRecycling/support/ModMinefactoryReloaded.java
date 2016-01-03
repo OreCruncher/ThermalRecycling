@@ -35,20 +35,11 @@ public final class ModMinefactoryReloaded extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		registerPulverizeToDirt("rubberwood.sapling", 0, 3);
-
 		// Glass
 		pulverizer.setEnergy(3200).appendSubtypeRange("MineFactoryReloaded:stainedglass.pane", 0, 15, 8)
 				.output(Blocks.sand, 3).save();
 		pulverizer.setEnergy(3200).appendSubtypeRange("MineFactoryReloaded:stainedglass.block", 0, 15)
 				.output(Blocks.sand).save();
-
-		// Register some stuff
-		registerPileOfRubbleDrop(1, 2, 4, "meat.ingot.cooked", "rubber.bar");
-		registerPileOfRubbleDrop(1, 1, 2, "plastic.boots");
 
 		return true;
 	}

@@ -62,15 +62,6 @@ public final class ModBuildCraftTransport extends ModPlugin {
 	}
 
 	@Override
-	public boolean initialize() {
-
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		return true;
-	}
-
-	@Override
 	public boolean postInit() {
 
 		// Scan the recipes

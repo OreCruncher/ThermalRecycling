@@ -133,6 +133,33 @@
 	],
 	"scrub":[
 		"milkbottle"
+	],
+	"rubble":[
+		{
+			"item":"meat.ingot.cooked",
+			"min":1,
+			"max":2,
+			"weight":4
+		},
+		{
+			"item":"rubber.bar",
+			"min":1,
+			"max":2,
+			"weight":4
+		},
+		{
+			"item":"plastic.boots",
+			"min":1,
+			"max":1,
+			"weight":2
+		}
+		
+	],
+	"toDirt":[
+		"rubberwood.sapling:0",
+		"rubberwood.sapling:1",
+		"rubberwood.sapling:2",
+		"rubberwood.sapling:3"
 	]
 	
 }

@@ -19,6 +19,15 @@
 		"energyCollectorBlock",
 		"lensBlock",
 		"pedestalBlock"
+	],
+	"rubble":[
+		{
+			"item":"oreResonating",
+			"min":1,
+			"max":2,
+			"weight":2
+		}
+		
 	]
 	
 }

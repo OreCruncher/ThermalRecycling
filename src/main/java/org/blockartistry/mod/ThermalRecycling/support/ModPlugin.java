@@ -25,7 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -34,6 +33,8 @@ import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.RubbleDrop;
+import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.Sawdust;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
@@ -97,6 +98,11 @@ public abstract class ModPlugin {
 
 	public boolean preInit(final Configuration config) {
 		return true;
+	}
+	
+	public void loadDefinitions() {
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 	}
 
 	public boolean initialize() {
@@ -234,6 +240,21 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerRecycleToWoodDust(final int inputQuantity, final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				recycler.input(elem, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
+				return true;
+			}
+		});
+	}
+
+	protected void registerRecycleToWoodDust(final List<Sawdust> list) {
+		for(final Sawdust dust: list)
+			registerRecycleToWoodDust(dust.count, dust.items);
+	}
+
 	protected void registerRecycleToWoodDustForge(final int inputQuantity, final String... oreList) {
 		for (final String ore : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(ore)) {
@@ -282,21 +303,14 @@ public abstract class ModPlugin {
 		});
 	}
 
-	protected void registerPulverizeToDirt(final String name, final int rangeStart, final int rangeEnd) {
-		forEachSubject(Collections.singletonList(name), new Predicate<ItemStack>() {
+	protected void registerPulverizeToDirt(final List<String> items) {
+		forEachSubject(items, new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
-				pulverizer.appendSubtypeRange(elem, rangeStart, rangeEnd, 8).output(Blocks.dirt).save();
+				pulverizer.append(elem, 8).output(Blocks.dirt).save();
 				return true;
 			}
 		});
-	}
-
-	protected void registerPulverizerToDirtForge(final String... oreList) {
-		for (final String ore : oreList) {
-			for (final ItemStack stack : OreDictionaryHelper.getOres(ore))
-				pulverizer.append(stack, 8).output(Blocks.dirt).save();
-		}
 	}
 
 	protected void registerPileOfRubbleDrop(final int min, final int max, final int weight, final String... list) {
@@ -307,6 +321,17 @@ public abstract class ModPlugin {
 				return false;
 			}
 		});
+	}
+	
+	protected void registerPileOfRubbleDrop(final List<RubbleDrop> drops) {
+		for(final RubbleDrop drop: drops) {
+			final String name = makeName(drop.item);
+			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
+			if (stack.isPresent())
+				PileOfRubble.addRubbleDrop(stack.get(), drop.min, drop.max, drop.weight);
+			else
+				ModLog.warn("RubbleDrop: [%s] unknown item '%s'", mod.getName(), name);
+		}
 	}
 
 	protected void registerExtractionRecipe(final ItemStack input, final ItemStackItem... entries) {
@@ -335,6 +360,9 @@ public abstract class ModPlugin {
 		registerCompostIngredient(CompostIngredient.GREEN, def.green);
 		registerItemBlockedFromScrapping(true, def.block);
 		registerScrubFromOutput(def.scrub);
+		registerPileOfRubbleDrop(def.rubble);
+		registerPulverizeToDirt(def.toDirt);
+		registerRecycleToWoodDust(def.toSawdust);
 	}
 
 	public static void preInitPlugins(final Configuration config) {
@@ -362,6 +390,7 @@ public abstract class ModPlugin {
 
 			try {
 				ModLog.info("Loading recipes for %s", modName);
+				plugin.loadDefinitions();
 				plugin.initialize();
 			} catch (Exception e) {
 				ModLog.warn("Error initializing plugin %s", modName);

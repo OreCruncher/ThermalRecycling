@@ -178,7 +178,8 @@ public final class ModForestry extends ModPlugin {
 				"mulch");
 		registerCompostIngredient(CompostIngredient.GREEN, "fruits:*");
 
-		registerPulverizeToDirt("sapling", 0, 0);
+		// TODO: Fix up!
+		//registerPulverizeToDirt("sapling", 0, 0);
 
 		// Hook for farm blocks
 		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();

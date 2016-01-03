@@ -35,9 +35,6 @@ public final class ModBuildCraftCore extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4).save();
 

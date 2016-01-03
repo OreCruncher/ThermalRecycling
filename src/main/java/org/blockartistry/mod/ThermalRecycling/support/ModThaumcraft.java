@@ -38,13 +38,6 @@ public final class ModThaumcraft extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		registerRecycleToWoodDust(2, "blockWoodenDevice:6", "blockWoodenDevice:7");
-		registerRecycleToWoodDust(8, "blockCustomPlant:0", "blockCustomPlant:1");
-		registerPulverizeToDirt("blockCustomPlant", 0, 1);
-
 		// Extraction recipes
 		registerExtractionRecipe(ItemStackHelper.getItemStack("Thaumcraft:blockCustomOre:0").get(),
 				new ItemStackItem(ItemStackHelper.getItemStack("Thaumcraft:ItemResource:3", 2).get(), 1));

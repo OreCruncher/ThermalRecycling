@@ -33,9 +33,6 @@ public final class ModRFDrills extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-		
 		// Drain the motors
 		fluid.setEnergy(16000).append("rfdrills:motor_te:2").output("rfdrills:motor_te:3").fluid("redstone", 4000)
 				.save();

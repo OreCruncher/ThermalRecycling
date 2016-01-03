@@ -46,7 +46,22 @@
 		"Dynamo:*",
 		"meter:0"
 	],
-	"scrub": ["material:512", "material:513", "florb:*"],
-	"brown": ["^dustWood"]
+	"scrub":[
+		"material:512",
+		"material:513",
+		"florb:*"
+	],
+	"brown":[
+		"^dustWood"
+	],
+	"rubble":[
+		{
+			"item":"satchel:1",
+			"min":1,
+			"max":1,
+			"weight":3
+		}
+		
+	]
 	
 }

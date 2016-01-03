@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
@@ -37,8 +36,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 public final class VanillaMinecraft extends ModPlugin {
-
-	private static final int ITEM_DAMAGE = 20;
 
 	private static final String CONFIG_ENABLE_DIAMOND_RECIPIES = "Enable Diamond Recycling";
 	private static final String CONFIG_ENABLE_NETHER_STAR_RECIPIES = "Enable Nether Star Recycling";
@@ -59,6 +56,8 @@ public final class VanillaMinecraft extends ModPlugin {
 
 	@Override
 	public boolean preInit(final Configuration config) {
+		
+		super.preInit(config);
 
 		enableDiamondRecycle = config.getBoolean(CONFIG_ENABLE_DIAMOND_RECIPIES, MOD_CONFIG_SECTION,
 				enableDiamondRecycle, "Controls whether recycling items for diamonds is enabled");
@@ -76,16 +75,6 @@ public final class VanillaMinecraft extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-
-		registerRecycleToWoodDust(8, "dye:*");
-		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat", "reeds", "cactus", "brown_mushroom",
-				"red_mushroom", "pumpkin", "nether_wart");
-		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds", "melon_seeds", "melon");
-
-		registerPulverizeToDirt("sapling", 0, 5);
-
 		// Extraction recipes
 		registerExtractionRecipe(ItemStackHelper.getItemStack("minecraft:netherrack", 1).get(),
 				new ItemStackItem(ItemStackHelper.getItemStack("minecraft:gravel").get(), 40),
@@ -208,30 +197,6 @@ public final class VanillaMinecraft extends ModPlugin {
 		pulverizer.setEnergy(3200).appendSubtypeRange(Blocks.stained_glass_pane, 0, 15, 8).output(Blocks.sand, 3)
 				.save();
 		pulverizer.setEnergy(3200).append(Items.glass_bottle).output(Blocks.sand).save();
-
-		PileOfRubble.addRubbleDrop(Blocks.cobblestone, 1, 4, 12);
-		PileOfRubble.addRubbleDrop(Blocks.stone, 1, 2, 9);
-		PileOfRubble.addRubbleDrop(Items.coal, 1, 3, 8);
-		PileOfRubble.addRubbleDrop(Blocks.gravel, 1, 2, 9);
-		PileOfRubble.addRubbleDrop(Blocks.sand, 1, 2, 8);
-		PileOfRubble.addRubbleDrop(Blocks.dirt, 1, 3, 10);
-		PileOfRubble.addRubbleDrop(Blocks.clay, 1, 1, 7);
-
-		PileOfRubble.addRubbleDrop(Items.bread, 1, 3, 8);
-		PileOfRubble.addRubbleDrop(Items.cooked_beef, 1, 3, 6);
-		PileOfRubble.addRubbleDrop(Items.rotten_flesh, 1, 2, 5);
-		PileOfRubble.addRubbleDrop(Items.bone, 1, 2, 5);
-		PileOfRubble.addRubbleDrop(Blocks.torch, 1, 8, 8);
-		PileOfRubble.addRubbleDrop(Blocks.iron_ore, 1, 3, 5);
-		PileOfRubble.addRubbleDrop(Blocks.gold_ore, 1, 2, 3);
-		PileOfRubble.addRubbleDrop(Items.redstone, 1, 2, 3);
-		PileOfRubble.addRubbleDrop(Items.diamond, 1, 1, 1);
-		PileOfRubble.addRubbleDrop(Items.emerald, 1, 1, 1);
-		PileOfRubble.addRubbleDrop(Blocks.tnt, 1, 1, 4);
-
-		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_pickaxe, 1, ITEM_DAMAGE), 1, 1, 4);
-		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_helmet, 1, ITEM_DAMAGE), 1, 1, 3);
-		PileOfRubble.addRubbleDrop(new ItemStack(Items.iron_sword, 1, ITEM_DAMAGE), 1, 1, 3);
 
 		// Add additional breeding items
 		BreedingItemManager.add(EntityPig.class, new ItemStack(Items.potato));

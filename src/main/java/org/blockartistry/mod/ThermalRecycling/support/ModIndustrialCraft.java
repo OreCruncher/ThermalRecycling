@@ -63,9 +63,6 @@ public class ModIndustrialCraft extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-		
 		processRecipes(Recipes.metalformerRolling);
 		processRecipes(Recipes.metalformerExtruding);
 		processRecipes(Recipes.metalformerCutting);

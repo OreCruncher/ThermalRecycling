@@ -37,11 +37,4 @@ public final class ModAppliedEnergistics2 extends ModPlugin {
 		RecipeDecomposition.registerAccessor("appeng.recipes.game.ShapelessRecipe", new AEShapelessRecipeAccessor());
 	}
 
-	@Override
-	public boolean initialize() {
-		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-		return true;
-	}
 }

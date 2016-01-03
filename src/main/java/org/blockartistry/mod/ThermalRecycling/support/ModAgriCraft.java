@@ -64,9 +64,6 @@ public class ModAgriCraft extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
-		makeRegistrations(definitions);
-		
 		// Process the seed list
 		for (ItemStack item : OreDictionaryHelper.getOres("listAllseed")) {
 			ItemRegistry.setScrapValue(item, ScrapValue.NONE);

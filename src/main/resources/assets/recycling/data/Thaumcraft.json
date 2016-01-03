@@ -102,6 +102,29 @@
 		"blockCustomPlant:0",
 		"blockCustomPlant:1",
 		"blockMagicalLeaves:*"
+	],
+	"toDirt":[
+		"blockCustomPlant:0",
+		"blockCustomPlant:1"
+	],
+	"toSawdust":[
+		{
+			"count":2,
+			"items":[
+				"blockWoodenDevice:6",
+				"blockWoodenDevice:7"
+			]
+			
+		},
+		{
+			"count":8,
+			"items":[
+				"blockCustomPlant:0",
+				"blockCustomPlant:1"
+			]
+			
+		}
+		
 	]
 	
 }
