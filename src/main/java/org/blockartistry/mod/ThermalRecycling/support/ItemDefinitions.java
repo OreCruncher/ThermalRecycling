@@ -48,6 +48,8 @@ public final class ItemDefinitions {
 
 	// Items to ignore recipes for
 	public List<String> ignore = ImmutableList.of();
+	// Items to reveal recipes for
+	public List<String> reveal = ImmutableList.of();
 	// Items that have a scrap value of NONE
 	public List<String> none = ImmutableList.of();
 	// Items that have a scrap value of POOR

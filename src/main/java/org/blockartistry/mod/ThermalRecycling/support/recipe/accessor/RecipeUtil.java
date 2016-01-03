@@ -38,13 +38,14 @@ import net.minecraft.item.ItemStack;
 
 public final class RecipeUtil {
 
-	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>()
-			.add("forestry.lepidopterology.recipes.MatingRecipe", "cofh.thermaldynamics.util.crafting.RecipeCover",
-					"mods.railcraft.common.carts.LocomotivePaintingRecipe",
-					"mods.railcraft.common.emblems.EmblemPostColorRecipe",
-					"codechicken.enderstorage.common.EnderStorageRecipe",
-					"blusunrize.immersiveengineering.common.crafting.RecipePotionBullets")
-			.build();
+	private static final List<String> classIgnoreList = new ImmutableList.Builder<String>().add(
+			"forestry.lepidopterology.recipes.MatingRecipe", "cofh.thermaldynamics.util.crafting.RecipeCover",
+			"mods.railcraft.common.carts.LocomotivePaintingRecipe",
+			"mods.railcraft.common.emblems.EmblemPostColorRecipe", "codechicken.enderstorage.common.EnderStorageRecipe",
+			"blusunrize.immersiveengineering.common.crafting.RecipePotionBullets",
+			"mods.railcraft.common.util.crafting.RoutingTicketCopyRecipe",
+			"mods.railcraft.common.emblems.LocomotiveEmblemRecipe",
+			"mods.railcraft.common.emblems.EmblemPostEmblemRecipe").build();
 
 	private static final List<ItemStack> recipeComponentBlacklist = ImmutableList
 			.copyOf(ItemStackHelper.getItemStacks(ModOptions.getRecipeComponentBlacklist()));
@@ -67,17 +68,17 @@ public final class RecipeUtil {
 		// for the common ore dictionary grouping. If there is a single
 		// name, great. If more than one the common factor has to be identified.
 		final List<String> oreNames = OreDictionaryHelper.getOreNamesForStack(stacks.get(0));
-		if(oreNames.size() > 1) {
+		if (oreNames.size() > 1) {
 			for (int i = 1; i < stacks.size(); i++) {
 				oreNames.retainAll(OreDictionaryHelper.getOreNamesForStack(stacks.get(i)));
 				if (oreNames.size() < 2)
 					break;
 			}
 		}
-		
-		if(oreNames.size() == 0)
+
+		if (oreNames.size() == 0)
 			return ItemStackHelper.getPreferredStack(stacks.get(0)).get();
-		
+
 		return ItemStackHelper.getPreferredStack(oreNames.get(0)).get();
 	}
 
@@ -92,8 +93,8 @@ public final class RecipeUtil {
 
 		for (int i = 0; i < list.length; i++) {
 			final Object o = list[i];
-			
-			if(o == null)
+
+			if (o == null)
 				continue;
 
 			if (o instanceof ItemStack)

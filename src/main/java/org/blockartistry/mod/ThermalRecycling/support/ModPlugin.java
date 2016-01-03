@@ -170,8 +170,8 @@ public abstract class ModPlugin {
 		}
 	}
 
-	protected void registerRecipesToReveal(final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
+	protected void registerRecipesToReveal(final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
 				ItemRegistry.setRecipeIgnored(elem, false);
@@ -352,6 +352,7 @@ public abstract class ModPlugin {
 
 	protected void makeRegistrations(final ItemDefinitions def) {
 		registerRecipesToIgnore(def.ignore);
+		registerRecipesToReveal(def.reveal);
 		registerScrapValues(ScrapValue.NONE, def.none);
 		registerScrapValues(ScrapValue.POOR, def.poor);
 		registerScrapValues(ScrapValue.STANDARD, def.standard);

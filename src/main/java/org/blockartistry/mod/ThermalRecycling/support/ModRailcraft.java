@@ -24,40 +24,10 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
 public final class ModRailcraft extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] { "fluid.creosote.bottle:*", "stair:*", "slab:*",
-			"wall.alpha:*", "wall.beta:*", "glass:*", "brick.infernal:*", "brick.abyssal:*", "brick.sandy:*",
-			"brick.frostbound:*", "brick.quarried:*", "brick.bleachedbone:*", "brick.bloodstained:*", "brick.nether:*",
-			"post.metal:*", "post.metal.platform:*",
-
-	};
-
-	static final String[] recipeRevealList = new String[] { "stair:6", "stair:43", "stair:40", "stair:41", "stair:42",
-			"slab:6", "slab:43", "slab:40", "slab:41", "slab:42", "machine.alpha", "machine.alpha:2", "anvil",
-			"machine.beta:12", "stair:7", "stair:8", "slab:7", "slab:8", "wall.beta:3", "wall.beta:2", "wall.beta:4", };
-
-	static final String[] scrapValuesNone = new String[] { "fluid.creosote.bottle:*", "stair:*", "slab:*",
-			"wall.alpha:*", "wall.beta:*", "glass:*", "brick.infernal:*", "brick.abyssal:*", "brick.sandy:*",
-			"brick.frostbound:*", "brick.quarried:*", "brick.bleachedbone:*", "brick.bloodstained:*", "brick.nether:*",
-			"fluid.steam.bottle:*", "lantern.stone:*", "part.bleached.clay", "routing.table", "routing.ticket.gold",
-			"routing.ticket", "post:*", "cube:6", "cube:7", "armor.overalls", "dust:1", "dust:2", "dust:3" };
-
-	static final String[] scrapValuesPoor = new String[] { "post.metal:*", "post.metal.platform:*", "track:*",
-			"track.elevator", "nugget:*", "ore:7", "ore:8", "ore:9", "ore:10", "ore:11" };
-
-	static final String[] scrapValuesStandard = new String[] { "stair:6", "stair:43", "stair:40", "stair:41",
-			"stair:42", "slab:6", "slab:43", "slab:40", "slab:41", "slab:42", "wall.beta:2", };
-
-	static final String[] scrapValuesSuperior = new String[] { "firestone.raw", "machine.alpha", "machine.alpha:2",
-			"anvil", "machine.beta:12", "stair:7", "stair:8", "slab:7", "slab:8", "wall.beta:3", "wall.beta:4",
-			"machine.epsilon:3", "ore:2", "ore:3"
-
-	};
 
 	public ModRailcraft() {
 		super(SupportedMod.RAILCRAFT);
@@ -65,13 +35,6 @@ public final class ModRailcraft extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerRecipesToReveal(recipeRevealList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
 
 		// Add back in some common sense recipes that were excluded above
 		recycler.input("Railcraft:machine.beta", 8).append("Railcraft:part.plate", 4).save();
