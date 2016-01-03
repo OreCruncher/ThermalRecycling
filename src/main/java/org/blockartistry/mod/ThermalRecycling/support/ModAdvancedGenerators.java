@@ -24,18 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModAdvancedGenerators extends ModPlugin {
-
-	private static final String[] scrapValuesPoor = new String[] { "IronWiring", "IronTubing", };
-
-	private static final String[] scrapValuesStandard = new String[] { "IronFrame", "TurbineBlade", };
-
-	private static final String[] scrapValuesSuperior = new String[] { "ItemInput", "TurbineRotor", "Turbine",
-			"HeatingChamber", "TurbineController", "PowerIO", "RFOutput", "FluidInput", "SteamTurbineController",
-			"EuOutputMV", "MixingChamber", "EuOutputHV", "HeatExchangerController", "EuOutputLV", "SyngasController",
-			"ItemOutput", "FuelTank", "HeatExchanger", "PowerCapacitor", "Sensor", };
 
 	public ModAdvancedGenerators() {
 		super(SupportedMod.ADVANCED_GENERATORS);
@@ -43,9 +32,10 @@ public final class ModAdvancedGenerators extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
+
 		return true;
 	}
 }

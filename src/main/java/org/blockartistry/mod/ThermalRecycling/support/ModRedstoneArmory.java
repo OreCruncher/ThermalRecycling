@@ -24,31 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public class ModRedstoneArmory extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] { "BlockIngotStorage:*", "BlockRandomThings:*",
-			"ItemTuberousArmor.Boots", "ItemTuberousArmor.Helm", "ItemTuberousArmor.Chestplate",
-			"ItemTuberousArmor.Leggings",
-
-	};
-
-	static final String[] scrapValuesNone = new String[] { "BlockRandomThings:*", "ItemTuberousArmor.Boots",
-			"ItemTuberousArmor.Helm", "ItemTuberousArmor.Chestplate", "ItemTuberousArmor.Leggings", "ItemMaterials:5",
-			"ItemMaterials:6", };
-
-	static final String[] scrapValuesPoor = new String[] { "ItemMaterials:4", "ItemPotahoeFluxed" };
-
-	static final String[] scrapValuesStandard = new String[] {};
-
-	static final String[] scrapValuesSuperior = new String[] { "BlockIngotStorage:*", "ItemAxeGelidEnderium",
-			"ItemBattleWrenchGelidEnderium", "ItemMaterials:2", "ItemMaterials:3", "ItemPickaxeGelidEnderium",
-			"ItemShovelGelidEnderium", "ItemSickleGelidEnderium", "ItemEnderiumArmor.Boots",
-			"ItemEnderiumArmor.Leggings", "ItemEnderiumArmor.Helm", "ItemEnderiumArmor.Chestplate",
-			"ItemSwordGelidEnderium", "ItemArmorPlating:0",
-
-	};
 
 	public ModRedstoneArmory() {
 		super(SupportedMod.REDSTONE_ARMORY);
@@ -56,11 +32,9 @@ public class ModRedstoneArmory extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}

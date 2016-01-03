@@ -25,22 +25,9 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 public class ModDeepResonance extends ModPlugin {
-
-	static final String[] scrapValuesNone = new String[] { "filterMaterialItem" };
-
-	static final String[] scrapValuesPoor = new String[] { "resonatingPlateItem", "spentFilterMaterialItem",
-			"radiationSuit3", "radiationSuit2", "denseObsidian", "radiationSuit0", "denseGlass" };
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "crystalizerBlock", "generatorControllerBlock",
-			"radiationMonitorItem", "laserBlock", "energyCollectorBlock", "lensBlock", "pedestalBlock", };
 
 	public ModDeepResonance() {
 		super(SupportedMod.DEEP_RESONANCE);
@@ -49,10 +36,8 @@ public class ModDeepResonance extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		PileOfRubble.addRubbleDrop(ItemStackHelper.getItemStack("deepresonance:oreResonating").get(), 1, 2, 2);
 

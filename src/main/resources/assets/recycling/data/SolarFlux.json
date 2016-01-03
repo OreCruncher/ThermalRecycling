@@ -1,0 +1,19 @@
+{
+	"poor":[
+		"mirror",
+		"upgradeBlank",
+		"solarCell1",
+		"solarCell2",
+		"upgradeLowLight",
+		"upgradeFurnace"
+	],
+	"superior":[
+		"solar3",
+		"solarCell4",
+		"solar4",
+		"solar5",
+		"solar6",
+		"upgradeCapacity",
+		"solar2"
+	]
+}

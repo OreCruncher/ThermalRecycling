@@ -1,0 +1,24 @@
+{
+	"none":[
+		"redstoneChipset",
+		"redstoneCrystal"
+	],
+	"poor":[
+		"redstoneChipset:4"
+	],
+	"standard":[
+		"redstoneChipset:1",
+		"redstoneChipset:2",
+		"redstoneChipset:5",
+		"redstoneChipset:6"
+	],
+	"superior":[
+		"redstoneChipset:3",
+		"redstoneChipset:7",
+		"laserBlock",
+		"laserTableBlock:0",
+		"laserTableBlock:1",
+		"laserTableBlock:2",
+		"laserTableBlock:4"
+	]
+}

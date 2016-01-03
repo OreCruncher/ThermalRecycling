@@ -1,0 +1,12 @@
+{
+	"none":[
+		"tankBlock",
+		"autoWorkbenchBlock"
+	],
+	"superior":[
+		"refineryBlock",
+		"pumpBlock",
+		"miningWellBlock",
+		"floodGateBlock"
+	]
+}

@@ -1,0 +1,23 @@
+{
+	"ignore":[
+		"journal",
+		"waterChannelFull:0"
+	],
+	"none":[
+		"waterTank:0",
+		"waterChannel:0",
+		"waterChannelFull:0",
+		"cropsItem",
+		"magnifyingGlass",
+		"handRake:0",
+		"seedAnalyzer",
+		"grate:0",
+		"fenceGate:0",
+		"fence:0",
+		"journal"
+	],
+	"poor":[
+		"nuggetQuartz",
+		"handRake:1"
+	]
+}

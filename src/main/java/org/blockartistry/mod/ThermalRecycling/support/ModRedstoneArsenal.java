@@ -24,26 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public class ModRedstoneArsenal extends ModPlugin {
-
-	private static final String[] recipeIgnoreList = new String[] { "Storage:*", "material:64", "material:96", };
-
-	private static final String[] scrapValuesNone = new String[] {
-
-	};
-
-	private static final String[] scrapValuesPoor = new String[] { "material:64" };
-
-	private static final String[] scrapValuesStandard = new String[] {};
-
-	// Have to expand storage 0 and 1 to override the
-	// ore dictionary block scan during boot.
-	private static final String[] scrapValuesSuperior = new String[] { "Storage:0", "Storage:1", "armor.plateFlux",
-			"armor.helmetFlux", "armor.legsFlux", "armor.bootsFlux", "material:96", "material:193", "material:128",
-			"tool.wrenchFlux", "tool.pickaxeFlux", "tool.swordFlux", "tool.shovelFlux", "tool.axeFlux",
-			"tool.sickleFlux", "tool.battleWrenchFlux", };
 
 	public ModRedstoneArsenal() {
 		super(SupportedMod.REDSTONE_ARSENAL);
@@ -51,11 +32,10 @@ public class ModRedstoneArsenal extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
+
 		return true;
 	}
 }

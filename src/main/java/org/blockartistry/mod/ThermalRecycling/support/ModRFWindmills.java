@@ -24,24 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModRFWindmills extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] {};
-
-	static final String[] scrapValuesNone = new String[] {
-
-	};
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] { "rotorSignalum", "rotorEnderium" };
-
-	static final String[] scrapValuesSuperior = new String[] { "windmillBlock:0", "windmillBlock:1", "windmillBlock:2",
-			"windmillBlock:3",
-
-	};
 
 	public ModRFWindmills() {
 		super(SupportedMod.RFWINDMILLS);
@@ -50,11 +33,8 @@ public final class ModRFWindmills extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}

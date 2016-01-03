@@ -24,22 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 import net.minecraft.init.Blocks;
 
 public final class ModBuildCraftFactory extends ModPlugin {
-
-	static final String[] scrapValuesNone = new String[] { "tankBlock", "autoWorkbenchBlock" };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "refineryBlock", "pumpBlock", "miningWellBlock",
-			"floodGateBlock" };
 
 	public ModBuildCraftFactory() {
 		super(SupportedMod.BUILDCRAFT_FACTORY);
@@ -48,10 +35,8 @@ public final class ModBuildCraftFactory extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		sawmill.append("BuildCraft|Factory:autoWorkbenchBlock").output(Blocks.planks, 4).secondaryOutput("dustWood", 16)
 				.save();

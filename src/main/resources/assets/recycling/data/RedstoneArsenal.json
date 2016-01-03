@@ -1,0 +1,28 @@
+{
+	"ignore":[
+		"Storage:*",
+		"material:64",
+		"material:96"
+	],
+	"poor":[
+		"material:64"
+	],
+	"superior":[
+		"Storage:0",
+		"Storage:1",
+		"armor.plateFlux",
+		"armor.helmetFlux",
+		"armor.legsFlux",
+		"armor.bootsFlux",
+		"material:96",
+		"material:193",
+		"material:128",
+		"tool.wrenchFlux",
+		"tool.pickaxeFlux",
+		"tool.swordFlux",
+		"tool.shovelFlux",
+		"tool.axeFlux",
+		"tool.sickleFlux",
+		"tool.battleWrenchFlux"
+	]
+}

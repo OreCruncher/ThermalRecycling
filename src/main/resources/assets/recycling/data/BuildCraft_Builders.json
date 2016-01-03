@@ -1,0 +1,13 @@
+{
+	"none":[
+		"blueprintItem",
+		"templateItem"
+	],
+	"superior":[
+		"machineBlock",
+		"builderBlock",
+		"architectBlock",
+		"libraryBlock",
+		"fillerBlock"
+	]
+}

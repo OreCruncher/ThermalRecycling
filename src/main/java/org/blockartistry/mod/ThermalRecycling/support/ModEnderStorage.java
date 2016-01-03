@@ -29,4 +29,11 @@ public final class ModEnderStorage extends ModPlugin {
 	public ModEnderStorage() {
 		super(SupportedMod.ENDER_STORAGE);
 	}
+
+	@Override
+	public boolean initialize() {
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
+		return true;
+	}
 }

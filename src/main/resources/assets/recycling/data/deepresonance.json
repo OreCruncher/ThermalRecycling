@@ -1,0 +1,24 @@
+{
+	"none":[
+		"filterMaterialItem"
+	],
+	"poor":[
+		"resonatingPlateItem",
+		"spentFilterMaterialItem",
+		"radiationSuit3",
+		"radiationSuit2",
+		"denseObsidian",
+		"radiationSuit0",
+		"denseGlass"
+	],
+	"superior":[
+		"crystalizerBlock",
+		"generatorControllerBlock",
+		"radiationMonitorItem",
+		"laserBlock",
+		"energyCollectorBlock",
+		"lensBlock",
+		"pedestalBlock"
+	]
+	
+}

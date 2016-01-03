@@ -42,18 +42,6 @@ public class ModAgriCraft extends ModPlugin {
 
 	private static final int AGRICRAFT_API_VERSION = 1;
 
-	static final String[] recipeIgnoreList = new String[] { "journal", "waterChannelFull:0" };
-
-	static final String[] scrapValuesNone = new String[] { "waterTank:0", "waterChannel:0", "waterChannelFull:0",
-			"cropsItem", "magnifyingGlass", "handRake:0", "seedAnalyzer", "grate:0", "fenceGate:0", "fence:0",
-			"journal" };
-
-	static final String[] scrapValuesPoor = new String[] { "nuggetQuartz", "handRake:1" };
-
-	static final String[] scrapValuesStandard = new String[] {};
-
-	static final String[] scrapValuesSuperior = new String[] {};
-
 	public ModAgriCraft() {
 		super(SupportedMod.AGRICRAFT);
 	}
@@ -75,13 +63,10 @@ public class ModAgriCraft extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
+		
 		// Process the seed list
 		for (ItemStack item : OreDictionaryHelper.getOres("listAllseed")) {
 			ItemRegistry.setScrapValue(item, ScrapValue.NONE);

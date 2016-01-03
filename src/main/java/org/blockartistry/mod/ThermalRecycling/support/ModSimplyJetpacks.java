@@ -24,24 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModSimplyJetpacks extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] { "particleCustomizers:*", "components:66" };
-
-	static final String[] scrapValuesNone = new String[] { "particleCustomizers:*", "jetpacksCommon:9001" };
-
-	static final String[] scrapValuesPoor = new String[] { "components:66", "jetpacksCommon:0" };
-
-	static final String[] scrapValuesStandard = new String[] {};
-
-	static final String[] scrapValuesSuperior = new String[] { "jetpacks:1", "jetpacks:2", "jetpacks:3", "jetpacks:4",
-			"jetpacks:101", "jetpacks:102", "jetpacks:103", "jetpacks:104", "jetpacks:5", "components:11",
-			"components:12", "components:13", "components:14", "components:15", "components:60", "components:61",
-			"components:62", "components:63", "components:67", "components:68", "components:69", "fluxpacks:1",
-			"fluxpacks:2", "fluxpacks:3", "fluxpacks:103", "fluxpacks:4", "fluxpacks:104", "fluxpacks:102",
-			"armorPlatings:1", "armorPlatings:4" };
 
 	public ModSimplyJetpacks() {
 		super(SupportedMod.SIMPLY_JETPACKS);
@@ -49,12 +32,9 @@ public final class ModSimplyJetpacks extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}

@@ -43,6 +43,8 @@ import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
 
+import com.google.common.collect.ImmutableList;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
@@ -58,6 +60,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public final class ModThermalRecycling extends ModPlugin {
+
+	private final static List<String> oreNamesToIgnore = ImmutableList.<String> builder()
+			.add("blockHopper", "blockCloth", "blockWool").build();
 
 	private static final String[] scrapValuesSuperior = new String[] { "MachineThermalRecycler", "MachineComposter",
 			"MachineScrapAssessor", "MachineBatteryRack", "MachineVending", "ProcessingCore:*" };
@@ -147,9 +152,12 @@ public final class ModThermalRecycling extends ModPlugin {
 		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
 
 		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD), ScrapValue.STANDARD);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR), ScrapValue.SUPERIOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR), ScrapValue.POOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD),
+				ScrapValue.STANDARD);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR),
+				ScrapValue.SUPERIOR);
+		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR),
+				ScrapValue.POOR);
 		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD),
 				ScrapValue.STANDARD);
 		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
@@ -195,11 +203,10 @@ public final class ModThermalRecycling extends ModPlugin {
 		for (final String oreName : OreDictionaryHelper.getOreNames()) {
 			if (oreName.startsWith("block") || oreName.startsWith("dust") || oreName.startsWith("ingot")
 					|| oreName.startsWith("nugget")) {
-				
-				// EnderIO decided to make an ore group for hoppers.  Bleh.
-				if("blockHopper".equals(oreName))
+
+				if(oreNamesToIgnore.contains(oreName))
 					continue;
-				
+
 				for (final ItemStack stack : OreDictionaryHelper.getOres(oreName)) {
 					ItemRegistry.setBlockedFromScrapping(stack, true);
 				}
@@ -333,7 +340,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				// not be included.
 				if (stack != null && (!vanillaOnly || ItemStackHelper.isVanilla(stack))) {
 					if (!ItemRegistry.isRecipeIgnored(stack)) {
-						
+
 						// If the name is prefixed with any of the mods
 						// we know about then we can create the recipe.
 						final String name = Item.itemRegistry.getNameForObject(stack.getItem());

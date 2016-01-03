@@ -27,46 +27,12 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import cpw.mods.fml.common.Loader;
 
 public final class ModThermalFoundation extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] { "material:2", "material:3", "material:4", "material:16",
-			// Nuggets
-			"material:96", "material:97", "material:98", "material:99", "material:100", "material:101", "material:102",
-			"material:103", "material:104", "material:105", "material:106", "material:107", "material:108",
-
-			"material:512", "material:513", "material:517",
-
-	};
-
-	static final String[] recipeRevealList = new String[] {};
-
-	static final String[] scrapValuesNone = new String[] { "material:2", "material:3", "material:4", "material:16", };
-
-	static final String[] scrapValuesPoor = new String[] { "material:8",
-
-			// Nuggets
-			"material:96", "material:97", "material:98", "material:99", "material:100", "material:101", "material:102",
-			"material:103", "material:104", "material:105", "material:106", "material:107", "material:108",
-
-			"material:512", "material:513", "material:517",
-
-	};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "armor.plateBronze", "armor.plateCopper",
-			"armor.platePlatinum", "armor.plateInvar", "armor.plateLead", "armor.plateTin", "armor.plateElectrum",
-			"armor.plateNickel", "armor.plateSilver",
-
-	};
 
 	public ModThermalFoundation() {
 		super(SupportedMod.THERMAL_FOUNDATION);
@@ -116,12 +82,8 @@ public final class ModThermalFoundation extends ModPlugin {
 	@Override
 	public boolean initialize() {
 		
-		registerRecipesToIgnore(recipeIgnoreList);
-		// registerRecipesToReveal(recipeRevealList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		// Big daddy golden apple
 		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1).secondaryInput(getPyrotheumDust(8))

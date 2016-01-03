@@ -24,21 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModIronChest extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] { "BlockIronChest:*" };
-
-	static final String[] scrapValuesNone = new String[] { "BlockIronChest:7", };
-
-	static final String[] scrapValuesPoor = new String[] { "diamondCrystalUpgrade", };
-
-	static final String[] scrapValuesStandard = new String[] { "diamondObsidianUpgrade" };
-
-	static final String[] scrapValuesSuperior = new String[] { "BlockIronChest:2", "BlockIronChest:5",
-			"goldDiamondUpgrade", "BlockIronChest:6", "woodIronUpgrade", "woodCopperUpgrade", "ironGoldUpgrade",
-			"copperSilverUpgrade" };
 
 	public ModIronChest() {
 		super(SupportedMod.IRONCHEST);
@@ -47,11 +33,8 @@ public final class ModIronChest extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}

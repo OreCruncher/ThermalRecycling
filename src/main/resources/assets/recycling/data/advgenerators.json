@@ -1,0 +1,32 @@
+{
+	"poor":[
+		"IronWiring",
+		"IronTubing"
+	],
+	"standard":[
+		"IronFrame",
+		"TurbineBlade"
+	],
+	"superior":[
+		"ItemInput",
+		"TurbineRotor",
+		"Turbine",
+		"HeatingChamber",
+		"TurbineController",
+		"PowerIO",
+		"RFOutput",
+		"FluidInput",
+		"SteamTurbineController",
+		"EuOutputMV",
+		"MixingChamber",
+		"EuOutputHV",
+		"HeatExchangerController",
+		"EuOutputLV",
+		"SyngasController",
+		"ItemOutput",
+		"FuelTank",
+		"HeatExchanger",
+		"PowerCapacitor",
+		"Sensor"
+	]
+}

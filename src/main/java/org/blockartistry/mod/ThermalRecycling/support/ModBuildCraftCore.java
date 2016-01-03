@@ -24,22 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 import cpw.mods.fml.common.Loader;
 
 public final class ModBuildCraftCore extends ModPlugin {
-
-	static final String[] scrapValuesNone = new String[] { "pathMarkerBlock", "paintbrush", "markerBlock",
-			"woodenGearItem", "stoneGearItem", "mapLocation", "list:*" };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {
-
-	};
-
-	static final String[] scrapValuesSuperior = new String[] { "diamondGearItem", "goldGearItem", "engineBlock:2" };
 
 	public ModBuildCraftCore() {
 		super(SupportedMod.BUILDCRAFT_CORE);
@@ -47,11 +34,9 @@ public final class ModBuildCraftCore extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		// Gears - metalic gears handled via Thermal Expansion
 		sawmill.append("BuildCraft|Core:woodenGearItem").output("dustWood", 4).save();

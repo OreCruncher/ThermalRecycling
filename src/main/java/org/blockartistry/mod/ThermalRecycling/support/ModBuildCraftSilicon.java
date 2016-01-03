@@ -27,25 +27,12 @@ package org.blockartistry.mod.ThermalRecycling.support;
 import net.minecraft.item.ItemStack;
 
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Optional;
 
 public final class ModBuildCraftSilicon extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] {};
-
-	static final String[] scrapValuesNone = new String[] { "redstoneChipset", "redstoneCrystal" };
-
-	static final String[] scrapValuesPoor = new String[] { "redstoneChipset:4", };
-
-	static final String[] scrapValuesStandard = new String[] { "redstoneChipset:1", "redstoneChipset:2",
-			"redstoneChipset:5", "redstoneChipset:6" };
-
-	static final String[] scrapValuesSuperior = new String[] { "redstoneChipset:3", "redstoneChipset:7", "laserBlock",
-			"laserTableBlock:0", "laserTableBlock:1", "laserTableBlock:2", "laserTableBlock:4", };
 
 	public ModBuildCraftSilicon() {
 		super(SupportedMod.BUILDCRAFT_SILICON);
@@ -54,11 +41,8 @@ public final class ModBuildCraftSilicon extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		// Not sure how pipeGate can be null - maybe someone disabled the
 		// module?

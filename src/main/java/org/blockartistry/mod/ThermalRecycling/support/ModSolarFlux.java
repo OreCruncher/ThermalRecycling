@@ -24,26 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModSolarFlux extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] {};
-
-	static final String[] scrapValuesNone = new String[] {
-
-	};
-
-	static final String[] scrapValuesPoor = new String[] { "mirror", "upgradeBlank", "solarCell1", "solarCell2",
-			"upgradeLowLight", "upgradeFurnace",
-
-	};
-
-	static final String[] scrapValuesStandard = new String[] { "upgradeEfficiency", "upgradeTransferRate", "solarCell3",
-			"upgradeTraversal", };
-
-	static final String[] scrapValuesSuperior = new String[] { "solar3", "solarCell4", "solar4", "solar5", "solar6",
-			"upgradeCapacity", "solar2", };
 
 	public ModSolarFlux() {
 		super(SupportedMod.SOLARFLUX);
@@ -52,11 +33,8 @@ public final class ModSolarFlux extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}

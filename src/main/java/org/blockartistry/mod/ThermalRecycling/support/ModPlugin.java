@@ -146,6 +146,16 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerRecipesToIgnore(final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				ItemRegistry.setRecipeIgnored(elem, true);
+				return true;
+			}
+		});
+	}
+
 	protected void registerRecipesToIgnoreForge(final String... oreList) {
 		for (final String ore : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(ore)) {
@@ -174,8 +184,28 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerScrapValues(final ScrapValue value, final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				ItemRegistry.setScrapValue(elem, value);
+				return true;
+			}
+		});
+	}
+
 	protected void registerScrubFromOutput(final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				ItemRegistry.setScrubbedFromOutput(elem, true);
+				return true;
+			}
+		});
+	}
+
+	protected void registerScrubFromOutput(final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack elem) {
 				ItemRegistry.setScrubbedFromOutput(elem, true);
@@ -222,8 +252,28 @@ public abstract class ModPlugin {
 		});
 	}
 
+	protected void registerCompostIngredient(final CompostIngredient ingredient, final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				ItemRegistry.setCompostIngredientValue(elem, ingredient);
+				return true;
+			}
+		});
+	}
+
 	protected void registerItemBlockedFromScrapping(final boolean status, final String... list) {
 		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack input) {
+				ItemRegistry.setBlockedFromScrapping(input, status);
+				return false;
+			}
+		});
+	}
+
+	protected void registerItemBlockedFromScrapping(final boolean status, final List<String> list) {
+		forEachSubject(list, new Predicate<ItemStack>() {
 			@Override
 			public boolean apply(final ItemStack input) {
 				ItemRegistry.setBlockedFromScrapping(input, status);
@@ -275,6 +325,18 @@ public abstract class ModPlugin {
 		}
 	}
 
+	protected void makeRegistrations(final ItemDefinitions def) {
+		registerRecipesToIgnore(def.ignore);
+		registerScrapValues(ScrapValue.NONE, def.none);
+		registerScrapValues(ScrapValue.POOR, def.poor);
+		registerScrapValues(ScrapValue.STANDARD, def.standard);
+		registerScrapValues(ScrapValue.SUPERIOR, def.superior);
+		registerCompostIngredient(CompostIngredient.BROWN, def.brown);
+		registerCompostIngredient(CompostIngredient.GREEN, def.green);
+		registerItemBlockedFromScrapping(true, def.block);
+		registerScrubFromOutput(def.scrub);
+	}
+
 	public static void preInitPlugins(final Configuration config) {
 
 		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
@@ -289,6 +351,7 @@ public abstract class ModPlugin {
 			}
 		}
 	}
+	
 
 	public static void initializePlugins() {
 		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();

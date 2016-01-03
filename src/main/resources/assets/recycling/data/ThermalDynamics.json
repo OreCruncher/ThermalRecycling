@@ -1,0 +1,28 @@
+{
+	"ignore":[
+		"cover:*",
+		"ThermalDynamics_32:2",
+		"ThermalDynamics_32:3"
+	],
+	"none":[
+		"cover:*"
+	],
+	"poor":[
+		"ThermalDynamics_0:0",
+		"ThermalDynamics_0:1",
+		"ThermalDynamics_16:2",
+		"ThermalDynamics_32:1",
+		"ThermalDynamics_16:3",
+		"ThermalDynamics_0:3",
+		"ThermalDynamics_32:0",
+		"ThermalDynamics_0:5",
+		"ThermalDynamics_32:5",
+		"ThermalDynamics_16:1",
+		"ThermalDynamics_16:0",
+		"ThermalDynamics_48:0",
+		"ThermalDynamics_32:4"
+	],
+	"superior":[
+		"ThermalDynamics_0:7"
+	]
+}

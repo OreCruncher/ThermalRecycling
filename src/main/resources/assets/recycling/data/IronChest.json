@@ -1,0 +1,25 @@
+{
+	"ignore":[
+		"BlockIronChest:*"
+	],
+	"none":[
+		"BlockIronChest:7"
+	],
+	"poor":[
+		"diamondCrystalUpgrade"
+	],
+	"standard":[
+		"diamondObsidianUpgrade"
+	],
+	"superior":[
+		"BlockIronChest:2",
+		"BlockIronChest:5",
+		"goldDiamondUpgrade",
+		"BlockIronChest:6",
+		"woodIronUpgrade",
+		"woodCopperUpgrade",
+		"ironGoldUpgrade",
+		"copperSilverUpgrade"
+	]
+	
+}

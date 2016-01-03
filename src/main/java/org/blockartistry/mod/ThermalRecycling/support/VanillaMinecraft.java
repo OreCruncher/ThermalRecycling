@@ -26,8 +26,6 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.breeding.BreedingItemManager;
-import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
@@ -49,63 +47,6 @@ public final class VanillaMinecraft extends ModPlugin {
 	private static boolean enableDiamondRecycle = true;
 	private static boolean enableNetherStarRecycle = true;
 	private static int quantityRottenFleshToLeather = 2;
-
-	private static final String[] recipeIgnoreList = new String[] { "chainmail_helmet", "chainmail_leggings",
-			"chainmail_boots", "chainmail_chestplate", "dye:*", "coal", "ender_pearl", "blaze_powder", "diamond",
-			"emerald", "planks:*", "oak_stairs", "stone_stairs", "brick_stairs", "stone_brick_stairs",
-			"nether_brick_stairs", "sandstone_stairs", "spruce_stairs", "birch_stairs", "jungle_stairs",
-			"quartz_stairs", "acacia_stairs", "dark_oak_stairs", "wooden_slab:*", "stone_slab:*", "torch",
-			"lit_pumpkin", "wooden_pressure_plate", "stone_pressure_plate", "wooden_button", "stone_button", "fence",
-			"stick", "crafting_table", "chest", "ladder", "trapdoor", "fence_gate", "glass", "glass_pane",
-			"wooden_shovel", "wooden_sword", "wooden_hoe", "wooden_pickaxe", "wooden_axe", "stone_shovel",
-			"stone_sword", "stone_hoe", "stone_pickaxe", "stone_axe", "bowl", "string", "bow", "sign", "boat",
-			"wooden_door", "fishing_rod", "paper", "hay_block", "slime_ball", "clay_ball", "sandstone:*", "brick_block",
-			"mossy_cobblestone", "furnace", "lever", "glowstone", "nether_brick", "nether_brick_fence",
-			"cobblestone_wall:*", "stained_hardened_clay:*", "stained_glass_pane:*", "carpet:*", "wool:*", "clay",
-			"dispenser", "dropper", "painting", "cake", "lead", "snow", "glass_bottle", "item_frame", "sugar",
-			"flower_pot", "obsidian"
-	};
-
-	private static final String[] scrapValuesNone = new String[] { "leather_helmet", "leather_chestplate",
-			"leather_leggings", "leather_boots", "name_tag", };
-
-	private static final String[] scrapValuesPoor = new String[] { "cake", "rotten_flesh", "coal_block", "gold_nugget",
-			"experience_bottle", "iron_bars", "tripwire_hook", "rail", "trapped_chest", "mycelium", "soul_sand",
-			"obsidian", "fire_charge", "stone_slab:7", "quartz_block:1" };
-
-	private static final String[] scrapValuesStandard = new String[] { "blaze_powder", "blaze_rod", "ender_eye",
-			"ender_pearl", "chainmail_boots", "chainmail_chestplate", "chainmail_leggings", "chainmail_helmet",
-			"lava_bucket", "water_bucket", "map", "filled_map", "iron_ingot", "iron_block", "iron_helmet",
-			"iron_leggings", "iron_boots", "iron_sword", "iron_shovel", "iron_axe", "iron_pickaxe", "iron_hoe",
-			"gold_ingot", "gold_block", "golden_helmet", "golden_leggings", "golden_boots", "golden_sword",
-			"golden_shovel", "golden_axe", "golden_pickaxe", "golden_hoe", "iron_door", "minecart", "chest_minecart",
-			"furnace_minecart", "bucket", "lava_bucket", "water_bucket", "milk_bucket", "iron_horse_armor",
-			"golden_horse_armor", "golden_apple", "compass", "clock", "cauldron", "magma_cream", "ghast_tear", "hopper",
-			"light_weighted_pressure_plate", "heavy_weighted_pressure_plate", "shears", "piston", "sticky_piston",
-			"glowstone", "redstone_lamp", "ender_chest", "enchanted_book", "quartz_block:*", "iron_ore", "gold_ore",
-			"lapis_ore", "redstone_ore", "coal_ore", "skull:*", "brewing_stand", "flint_and_steel", "golden_rail",
-			"quartz", "detector_rail", "tnt", "golden_carrot", "comparator", "speckled_melon", "activator_rail",
-			"daylight_detector", "gunpowder" };
-
-	private static final String[] scrapValuesSuperior = new String[] { "diamond", "emerald", "nether_star", "beacon",
-			"diamond_horse_armor", "emerald_block", "diamond_block", "diamond_helmet", "diamond_chestplate",
-			"diamond_leggings", "diamond_boots", "diamond_sword", "diamond_shovel", "diamond_axe", "diamond_pickaxe",
-			"diamond_hoe", "enchanting_table", "golden_apple:1", "jukebox", "diamond_ore", "emerald_ore",
-			"golden_chestplate", "golden_apple:0", "iron_chestplate", "tnt_minecart", "anvil:0", "hopper_minecart" };
-
-	private static final String[] brownCompost = new String[] { "sapling:*", "leaves:*", "leaves2:*", "deadbush",
-			"vine", "wheat", };
-
-	private static final String[] greenCompost = new String[] { "apple", "potato", "carrot", "yellow_flower:*",
-			"red_flower:*", "tallgrass:*", "waterlily", "double_plant:*", "bread", };
-
-	private static final String[] scrubFromOutput = new String[] { "water_bucket", "lava_bucket", "milk_bucket" };
-
-	private static final String[] blockFromScrapping = new String[] { "cobblestone", "stone", "sand:*", "sandstone:*",
-			"snowball", "cobblestone_wall:*", "dirt:*", "gravel", "stone_slab:*", "grass", "netherrack", "ice", "snow",
-			"vine", "hardened_clay", "stained_hardened_clay:*", "glass_pane", "stained_glass_pane:*", "carpet:*",
-			"flint", "nether_brick", "lever", "end_stone", "nether_brick_fence", "clay", "glass_bottle", "ladder",
-			"sugar", };
 
 	public VanillaMinecraft() {
 		super(SupportedMod.VANILLA);
@@ -134,25 +75,14 @@ public final class VanillaMinecraft extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrubFromOutput(scrubFromOutput);
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
-		registerItemBlockedFromScrapping(false, "wool:*");
-		registerItemBlockedFromScrapping(true, blockFromScrapping);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		registerRecycleToWoodDust(8, "dye:*");
 		registerRecycleToWoodDust(16, "apple", "potato", "carrot", "wheat", "reeds", "cactus", "brown_mushroom",
 				"red_mushroom", "pumpkin", "nether_wart");
 		registerRecycleToWoodDust(32, "wheat_seeds", "pumpkin_seeds", "melon_seeds", "melon");
-
-		registerCompostIngredient(CompostIngredient.BROWN, brownCompost);
-		registerCompostIngredient(CompostIngredient.GREEN, greenCompost);
 
 		registerPulverizeToDirt("sapling", 0, 5);
 

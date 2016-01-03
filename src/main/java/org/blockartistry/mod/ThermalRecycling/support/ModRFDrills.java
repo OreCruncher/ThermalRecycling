@@ -24,24 +24,7 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModRFDrills extends ModPlugin {
-
-	static final String[] recipeIgnoreList = new String[] {};
-
-	static final String[] scrapValuesNone = new String[] {
-
-	};
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {};
-
-	static final String[] scrapValuesSuperior = new String[] { "motor_te:0", "motor_te:1", "motor_te:2", "motor_te:4",
-			"motor_te:5", "motor_te:6", "motor_te:7", "motor_eio:*", "redstone_chainsaw", "redstone_drill",
-			"resonant_drill", "flux_infused_crusher", "leadstone_chainsaw", "hardened_chainsaw", "leadstone_drill",
-			"hardened_drill", "resonant_chainsaw", "motor_te:3", };
 
 	public ModRFDrills() {
 		super(SupportedMod.RFDRILLS);
@@ -50,12 +33,9 @@ public final class ModRFDrills extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerRecipesToIgnore(recipeIgnoreList);
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
+		
 		// Drain the motors
 		fluid.setEnergy(16000).append("rfdrills:motor_te:2").output("rfdrills:motor_te:3").fluid("redstone", 4000)
 				.save();

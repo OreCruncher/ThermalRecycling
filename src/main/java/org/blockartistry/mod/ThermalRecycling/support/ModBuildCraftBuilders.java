@@ -24,21 +24,10 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
 public final class ModBuildCraftBuilders extends ModPlugin {
-
-	static final String[] scrapValuesNone = new String[] { "blueprintItem", "templateItem", };
-
-	static final String[] scrapValuesPoor = new String[] {};
-
-	static final String[] scrapValuesStandard = new String[] {};
-
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "builderBlock", "architectBlock",
-			"libraryBlock", "fillerBlock", };
 
 	public ModBuildCraftBuilders() {
 		super(SupportedMod.BUILDCRAFT_BUILDERS);
@@ -46,11 +35,9 @@ public final class ModBuildCraftBuilders extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		registerScrapValues(ScrapValue.NONE, scrapValuesNone);
-		registerScrapValues(ScrapValue.POOR, scrapValuesPoor);
-		registerScrapValues(ScrapValue.STANDARD, scrapValuesStandard);
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
+		
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		// Misc block machines
 		sawmill.append("BuildCraft|Builders:libraryBlock").output(Blocks.planks, 6).secondaryOutput(Items.book, 3)

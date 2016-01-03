@@ -1,0 +1,12 @@
+{
+	"ignore":[
+		"redstone_board"
+	],
+	"superior":[
+		"redstone_board",
+		"requester",
+		"robot",
+		"zonePlan"
+	]
+	
+}

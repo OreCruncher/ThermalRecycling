@@ -1,0 +1,8 @@
+{
+	"standard":[
+		"chickenChunkLoader:1"
+	],
+	"superior":[
+		"chickenChunkLoader:*"
+	]
+}

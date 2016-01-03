@@ -1,0 +1,16 @@
+{
+	"none":[
+		"pathMarkerBlock",
+		"paintbrush",
+		"markerBlock",
+		"woodenGearItem",
+		"stoneGearItem",
+		"mapLocation",
+		"list:*"
+	],
+	"superior":[
+		"diamondGearItem",
+		"goldGearItem",
+		"engineBlock:2"
+	]
+}

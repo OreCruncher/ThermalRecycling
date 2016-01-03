@@ -24,8 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
-
 public final class ModChickenChunks extends ModPlugin {
 
 	public ModChickenChunks() {
@@ -35,7 +33,8 @@ public final class ModChickenChunks extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.SUPERIOR, "chickenChunkLoader:*");
+		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
+		makeRegistrations(definitions);
 
 		return true;
 	}
