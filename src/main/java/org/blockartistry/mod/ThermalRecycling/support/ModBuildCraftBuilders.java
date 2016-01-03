@@ -31,8 +31,7 @@ import net.minecraft.init.Items;
 
 public final class ModBuildCraftBuilders extends ModPlugin {
 
-	static final String[] scrapValuesNone = new String[] { "blueprintItem", "templateItem", "markerBlock",
-			"pathMarkerBlock", };
+	static final String[] scrapValuesNone = new String[] { "blueprintItem", "templateItem", };
 
 	static final String[] scrapValuesPoor = new String[] {};
 

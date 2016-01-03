@@ -38,8 +38,8 @@ public final class ModBuildCraftFactory extends ModPlugin {
 
 	};
 
-	static final String[] scrapValuesSuperior = new String[] { "machineBlock", "refineryBlock", "pumpBlock",
-			"miningWellBlock", "floodGateBlock" };
+	static final String[] scrapValuesSuperior = new String[] { "refineryBlock", "pumpBlock", "miningWellBlock",
+			"floodGateBlock" };
 
 	public ModBuildCraftFactory() {
 		super(SupportedMod.BUILDCRAFT_FACTORY);
