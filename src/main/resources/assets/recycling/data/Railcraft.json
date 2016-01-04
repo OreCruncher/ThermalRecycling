@@ -1,6 +1,6 @@
 {
 	"ignore":[
-		"fluid.creosote.bottle:*",
+		"fluid.creosote.bottle",
 		"stair:*",
 		"slab:*",
 		"wall.alpha:*",
@@ -40,7 +40,7 @@
 		"wall.beta:4"
 	],
 	"none":[
-		"fluid.creosote.bottle:*",
+		"fluid.creosote.bottle",
 		"stair:*",
 		"slab:*",
 		"wall.alpha:*",
@@ -54,7 +54,7 @@
 		"brick.bleachedbone:*",
 		"brick.bloodstained:*",
 		"brick.nether:*",
-		"fluid.steam.bottle:*",
+		"fluid.steam.bottle",
 		"lantern.stone:*",
 		"part.bleached.clay",
 		"routing.table",

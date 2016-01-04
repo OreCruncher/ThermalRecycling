@@ -200,7 +200,7 @@
 		
 	],
 	"toDirt":[
-		"saplings",
-		"saplingGE"
+		"sapling:*",
+		"saplingGE:*"
 	]
 }
