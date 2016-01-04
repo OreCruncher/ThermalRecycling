@@ -26,18 +26,15 @@ package org.blockartistry.mod.ThermalRecycling.support;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.ItemManager;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
-import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.AutoDetect;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
-import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrap;
 import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
@@ -63,9 +60,6 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	private final static List<String> oreNamesToIgnore = ImmutableList.<String> builder()
 			.add("blockHopper", "blockCloth", "blockWool").build();
-
-	private static final String[] scrapValuesSuperior = new String[] { "MachineThermalRecycler", "MachineComposter",
-			"MachineScrapAssessor", "MachineBatteryRack", "MachineVending", "ProcessingCore:*" };
 
 	private static class EnergeticRedstoneRecipes {
 
@@ -108,60 +102,11 @@ public final class ModThermalRecycling extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		registerScrapValues(ScrapValue.SUPERIOR, scrapValuesSuperior);
-
 		// Register special scrap handlers
 		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
 		// Need to be able to see any special frames in real time.
 		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionaryHelper.WILDCARD_VALUE),
 				handler);
-
-		// RTG Support - scrub fuel cells from output
-		ItemRegistry.setScrubbedFromOutput(new ItemStack(ItemManager.material, 1, Material.FUEL_CELL), true);
-
-		// RTG Energy Cells have superior value - even if depleted
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
-				ScrapValue.SUPERIOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.RTG_DEPLETED), ScrapValue.SUPERIOR);
-
-		// Add our scrap and boxes
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.debris, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.poorScrap, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.standardScrap, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.superiorScrap, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.poorScrapBox, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.standardScrapBox, true);
-		ItemRegistry.setBlockedFromScrapping(ScrappingTables.superiorScrapBox, true);
-
-		// Litter Bags
-		ItemRegistry.setBlockedFromScrapping(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), true);
-
-		ItemRegistry.setRecipeIgnored(ItemManager.recyclingScrapBox, true);
-		ItemRegistry.setRecipeIgnored(ItemManager.debris, true);
-		ItemRegistry.setRecipeIgnored(BlockManager.scrapBlock, true);
-		ItemRegistry.setRecipeIgnored(ItemManager.material, true);
-		ItemRegistry.setRecipeIgnored(new ItemStack(ItemManager.material, 1, Material.RTG_HOUSING), false);
-		ItemRegistry.setRecipeIgnored(ItemManager.paperLogMaker, true);
-		ItemRegistry.setRecipeIgnored(ItemManager.energeticRedstoneDust, true);
-
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.debris), ScrapValue.NONE);
-		ItemRegistry.setScrapValue(new ItemStack(BlockManager.scrapBlock), ScrapValue.NONE);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.paperLogMaker), ScrapValue.NONE);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), ScrapValue.NONE);
-
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.material, 1, Material.PAPER_LOG), ScrapValue.POOR);
-
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.POOR), ScrapValue.POOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.STANDARD),
-				ScrapValue.STANDARD);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrap, 1, RecyclingScrap.SUPERIOR),
-				ScrapValue.SUPERIOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.POOR),
-				ScrapValue.POOR);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.STANDARD),
-				ScrapValue.STANDARD);
-		ItemRegistry.setScrapValue(new ItemStack(ItemManager.recyclingScrapBox, 1, RecyclingScrap.SUPERIOR),
-				ScrapValue.SUPERIOR);
 
 		// Use the Forge dictionary to find equivalent ore to set the
 		// appropriate scrap value.
@@ -275,10 +220,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		registerExtractionRecipe(new ItemStack(Items.rotten_flesh, 16),
 				new ItemStackItem(new ItemStack(ItemManager.soylentGreen), 1));
 
-		ItemRegistry.setBlockedFromExtraction(ScrappingTables.poorScrapBox, false);
-		ItemRegistry.setBlockedFromExtraction(ScrappingTables.standardScrapBox, false);
-		ItemRegistry.setBlockedFromExtraction(ScrappingTables.superiorScrapBox, false);
-
 		// RTG - Extract an RTG Energy Cell to a Housing - loses anything
 		// energy, etc.
 		registerExtractionRecipe(new ItemStack(ItemManager.energyCell, 1, OreDictionaryHelper.WILDCARD_VALUE),
@@ -301,18 +242,6 @@ public final class ModThermalRecycling extends ModPlugin {
 		for (final String s : ModOptions.getRecyclerBlacklist()) {
 			registerItemBlockedFromScrapping(true, "^" + s);
 		}
-
-		// Register scrap items for Pile of Rubble
-		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrap, 1, 2, 5);
-		PileOfRubble.addRubbleDrop(ScrappingTables.poorScrapBox, 1, 1, 2);
-		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrap, 1, 2, 4);
-		PileOfRubble.addRubbleDrop(ScrappingTables.standardScrapBox, 1, 1, 1);
-
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.material, 1, Material.LITTER_BAG), 1, 2, 4);
-
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentGreen), 1, 1, 1);
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentYellow), 1, 1, 2);
-		PileOfRubble.addRubbleDrop(new ItemStack(ItemManager.soylentRed), 1, 1, 2);
 
 		// If there is uranium dust in the ore dictionary create a crafting
 		// recipe for Energetic Redstone Dust.

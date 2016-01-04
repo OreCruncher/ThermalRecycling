@@ -99,7 +99,7 @@ public abstract class ModPlugin {
 	public boolean preInit(final Configuration config) {
 		return true;
 	}
-	
+
 	public void loadDefinitions() {
 		final ItemDefinitions definitions = ItemDefinitions.load(getModId());
 		makeRegistrations(definitions);
@@ -251,7 +251,7 @@ public abstract class ModPlugin {
 	}
 
 	protected void registerRecycleToWoodDust(final List<Sawdust> list) {
-		for(final Sawdust dust: list)
+		for (final Sawdust dust : list)
 			registerRecycleToWoodDust(dust.count, dust.items);
 	}
 
@@ -322,9 +322,9 @@ public abstract class ModPlugin {
 			}
 		});
 	}
-	
+
 	protected void registerPileOfRubbleDrop(final List<RubbleDrop> drops) {
-		for(final RubbleDrop drop: drops) {
+		for (final RubbleDrop drop : drops) {
 			final String name = makeName(drop.item);
 			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
 			if (stack.isPresent())
@@ -340,6 +340,16 @@ public abstract class ModPlugin {
 			table.add(e);
 		ItemRegistry.setBlockedFromExtraction(input, false);
 		RecipeHelper.put(input, table);
+	}
+
+	protected void registerBlockedFromExtraction(final List<String> list, final boolean flag) {
+		forEachSubject(list, new Predicate<ItemStack>() {
+			@Override
+			public boolean apply(final ItemStack elem) {
+				ItemRegistry.setBlockedFromExtraction(elem, flag);
+				return true;
+			}
+		});
 	}
 
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
@@ -364,6 +374,7 @@ public abstract class ModPlugin {
 		registerPileOfRubbleDrop(def.rubble);
 		registerPulverizeToDirt(def.toDirt);
 		registerRecycleToWoodDust(def.toSawdust);
+		registerBlockedFromExtraction(def.extract, false);
 	}
 
 	public static void preInitPlugins(final Configuration config) {
@@ -380,7 +391,6 @@ public abstract class ModPlugin {
 			}
 		}
 	}
-	
 
 	public static void initializePlugins() {
 		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();

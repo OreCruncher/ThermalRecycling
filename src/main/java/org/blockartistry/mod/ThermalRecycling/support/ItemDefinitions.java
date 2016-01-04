@@ -72,6 +72,8 @@ public final class ItemDefinitions {
 	public List<String> toDirt = ImmutableList.of();
 	// Items that can be pulverized to saw dust
 	public List<Sawdust> toSawdust = ImmutableList.of();
+	// Items that can be extracted
+	public List<String> extract = ImmutableList.of();
 
 	public static ItemDefinitions load(final String modId) {
 		final String fileName = modId.replaceAll("[^a-zA-Z0-9.-]", "_");

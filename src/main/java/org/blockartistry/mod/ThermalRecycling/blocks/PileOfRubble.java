@@ -81,7 +81,7 @@ public final class PileOfRubble extends Block {
 		for (int i = 0; i < contents.length; i++)
 			totalWeight += contents[i].itemWeight;
 		
-		writer.write(String.format("Weight Table: Pile of Rubble (total weight: %d)\n", totalWeight));
+		writer.write(String.format("\n\nWeight Table: Pile of Rubble (total weight: %d)\n", totalWeight));
 		writer.write("==========================================================\n");
 		for (int i = 0; i < contents.length; i++) {
 			WeightedRandomChestContent c = contents[i];
