@@ -35,12 +35,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
-import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemData;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryCarpenterRecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.ForestryFabricatorRecipeAccessor;
@@ -125,10 +123,6 @@ public final class ModForestry extends ModPlugin {
 	@Override
 	public boolean initialize() {
 
-		// Hook for farm blocks
-		final ForestryFarmScrapHandler handler = new ForestryFarmScrapHandler();
-		ScrapHandler.registerHandler(ItemStackHelper.getItemStack("Forestry:ffarm:*").get(), handler);
-
 		// Scan the item registry looking for "crated" things - we want
 		// to blacklist recipes and set scrap value to POOR. Should
 		// get something for the effort of making these crates.
@@ -164,6 +158,7 @@ public final class ModForestry extends ModPlugin {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean postInit() {
 

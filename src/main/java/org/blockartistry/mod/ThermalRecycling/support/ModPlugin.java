@@ -31,14 +31,18 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.blocks.PileOfRubble;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
+import org.blockartistry.mod.ThermalRecycling.data.ScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.Handler;
+import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.RecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.RubbleDrop;
 import org.blockartistry.mod.ThermalRecycling.support.ItemDefinitions.Sawdust;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.BlastRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FluidTransposerRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.FurnaceRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.PulverizerRecipeBuilder;
+import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SawmillRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.SmelterRecipeBuilder;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.ThermalRecyclerRecipeBuilder;
@@ -360,6 +364,32 @@ public abstract class ModPlugin {
 		}
 	}
 
+	protected void registerAccessors(final List<RecipeAccessor> list) {
+		for (final RecipeAccessor accessor : list)
+			RecipeDecomposition.registerAccessor(accessor.recipe, accessor.accessor);
+	}
+	
+	protected void registerHandlers(final List<Handler> list) {
+		for(final Handler handler: list) {
+			try {
+				final Class<?> clazz = Class.forName(handler.handlerClass);
+				if(clazz != null) {
+					final ScrapHandler sh = (ScrapHandler)clazz.newInstance();
+					for(final String item: handler.items) {
+						final String name = makeName(item);
+						final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
+						if(stack.isPresent())
+							ScrapHandler.registerHandler(stack.get(), sh);
+						
+					}
+				}
+				
+			} catch(final Throwable t) {
+				t.printStackTrace();
+			}
+		}
+	}
+
 	protected void makeRegistrations(final ItemDefinitions def) {
 		registerRecipesToIgnore(def.ignore);
 		registerRecipesToReveal(def.reveal);
@@ -375,6 +405,8 @@ public abstract class ModPlugin {
 		registerPulverizeToDirt(def.toDirt);
 		registerRecycleToWoodDust(def.toSawdust);
 		registerBlockedFromExtraction(def.extract, false);
+		registerAccessors(def.accessors);
+		registerHandlers(def.handlers);
 	}
 
 	public static void preInitPlugins(final Configuration config) {

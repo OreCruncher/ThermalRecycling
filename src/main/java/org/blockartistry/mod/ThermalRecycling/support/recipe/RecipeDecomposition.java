@@ -77,11 +77,20 @@ public final class RecipeDecomposition {
 		accessors.put(clazz, accessor);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void registerAccessor(final String className, final RecipeAccessorBase accessor) {
 		try {
 			final Class<?> clazz = Class.forName(className);
-			registerAccessor((Class<? extends IRecipe>) clazz, accessor);
+			registerAccessor(clazz, accessor);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void registerAccessor(final String className, final String accessorName) {
+		try {
+			final Class<?> clazz = Class.forName(className);
+			final Class<?> accessor = Class.forName(accessorName);
+			registerAccessor(clazz, (RecipeAccessorBase)accessor.newInstance());
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}

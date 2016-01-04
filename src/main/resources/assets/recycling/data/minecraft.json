@@ -92,7 +92,12 @@
 		"leather_chestplate",
 		"leather_leggings",
 		"leather_boots",
-		"name_tag"
+		"name_tag",
+		"potion:0",
+		"potion:16",
+		"potion:32",
+		"potion:64",
+		"potion:8192"
 	],
 	"poor":[
 		"cake",
@@ -109,7 +114,8 @@
 		"obsidian",
 		"fire_charge",
 		"stone_slab:7",
-		"quartz_block:1"
+		"quartz_block:1",
+		"potion:*"
 	],
 	"standard":[
 		"blaze_powder",
@@ -188,7 +194,9 @@
 		"speckled_melon",
 		"activator_rail",
 		"daylight_detector",
-		"gunpowder"
+		"gunpowder",
+		"spawn_egg:*",
+		"poisonous_potato"
 	],
 	"superior":[
 		"diamond",

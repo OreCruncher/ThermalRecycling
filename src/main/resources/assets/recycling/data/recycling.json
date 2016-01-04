@@ -1,4 +1,14 @@
 {
+	"handlers":[
+		{
+			"handlerClass":"org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler",
+			"items":[
+				"ProcessingCore:*"
+			]
+			
+		}
+		
+	],
 	"ignore":[
 		"RecyclingScrap:*",
 		"RecyclingScrapBox:*",

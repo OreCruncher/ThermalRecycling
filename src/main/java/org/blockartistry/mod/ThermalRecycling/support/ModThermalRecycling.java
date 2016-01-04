@@ -35,7 +35,6 @@ import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.items.Material;
-import org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalRecyclingScrapHandler;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackWeightTable.ItemStackItem;
@@ -101,12 +100,6 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-
-		// Register special scrap handlers
-		final ThermalRecyclingScrapHandler handler = new ThermalRecyclingScrapHandler();
-		// Need to be able to see any special frames in real time.
-		ScrapHandler.registerHandler(new ItemStack(ItemManager.processingCore, 1, OreDictionaryHelper.WILDCARD_VALUE),
-				handler);
 
 		// Use the Forge dictionary to find equivalent ore to set the
 		// appropriate scrap value.

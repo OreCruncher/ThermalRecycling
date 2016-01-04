@@ -1,4 +1,19 @@
 {
+	"accessors":[
+		{
+			"recipe":"ic2.core.AdvRecipe",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2RecipeAccessor"
+		},
+		{
+			"recipe":"ic2.core.AdvShapelessRecipe",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2ShapelessRecipeAccessor"
+		},
+		{
+			"recipe":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2MachineRecipeAdaptor",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2MachineRecipeAccessor"
+		}
+		
+	],
 	"ignore":[
 		"itemPlutonium",
 		"itemUran235",

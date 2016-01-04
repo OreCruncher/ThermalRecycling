@@ -1,4 +1,21 @@
 {
+	"accessors":[
+		{
+			"recipe":"buildcraft.api.recipes.IFlexibleRecipeViewable",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.BEFlexibleRecipeAccessor"
+		}
+		
+	],
+	"handlers":[
+		{
+			"handlerClass":"org.blockartistry.mod.ThermalRecycling.support.handlers.BuildCraftGateScrapHandler",
+			"items":[
+				"pipeGate"
+			]
+			
+		}
+		
+	],
 	"ignore":[
 		"pipeFacade:*",
 		"pipePlug",

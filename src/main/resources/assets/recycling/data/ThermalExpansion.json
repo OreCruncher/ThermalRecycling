@@ -1,4 +1,26 @@
 {
+	"accessors":[
+		{
+			"recipe":"cofh.thermalexpansion.plugins.nei.handlers.NEIRecipeWrapper",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.TERecipeAccessor"
+		}
+		
+	],
+	"handlers":[
+		{
+			"handlerClass":"org.blockartistry.mod.ThermalRecycling.support.handlers.ThermalExpansionScrapHandler",
+			"items":[
+				"Machine:*",
+				"Strongbox:*",
+				"Device:*",
+				"Cell:*",
+				"Tesseract",
+				"satchel:*"
+			]
+			
+		}
+		
+	],
 	"none":[
 		"Sponge:1",
 		"diagram:0",

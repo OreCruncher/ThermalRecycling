@@ -29,10 +29,7 @@ import java.util.Map.Entry;
 
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2MachineRecipeAccessor;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2MachineRecipeAdaptor;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2RecipeAccessor;
-import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2ShapelessRecipeAccessor;
 import ic2.api.recipe.IMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.RecipeOutput;
@@ -43,10 +40,6 @@ public class ModIndustrialCraft extends ModPlugin {
 
 	public ModIndustrialCraft() {
 		super(SupportedMod.INDUSTRIAL_CRAFT);
-
-		RecipeDecomposition.registerAccessor("ic2.core.AdvRecipe", new IC2RecipeAccessor());
-		RecipeDecomposition.registerAccessor("ic2.core.AdvShapelessRecipe", new IC2ShapelessRecipeAccessor());
-		RecipeDecomposition.registerAccessor(IC2MachineRecipeAdaptor.class, new IC2MachineRecipeAccessor());
 	}
 
 	private void processRecipes(final IMachineRecipeManager manager) {

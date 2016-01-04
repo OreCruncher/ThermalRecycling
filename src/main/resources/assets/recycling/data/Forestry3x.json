@@ -1,4 +1,14 @@
 {
+	"handlers":[
+		{
+			"handlerClass":"org.blockartistry.mod.ThermalRecycling.support.handlers.ForestryFarmScrapHandler",
+			"items":[
+				"ffarm:*"
+			]
+			
+		}
+		
+	],
 	"ignore":[
 		"log1:*",
 		"log2:*",

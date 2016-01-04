@@ -42,7 +42,7 @@ public enum SupportedMod {
 
 	THERMAL_FOUNDATION("Thermal Foundation", "ThermalFoundation", ModThermalFoundation.class),
 
-	THERMAL_EXPANSION("Thermal Expansion", "ThermalExpansion", ModThermalExpansion.class),
+	THERMAL_EXPANSION("Thermal Expansion", "ThermalExpansion", SimplePlugin.class),
 
 	THERMAL_DYNAMICS("Thermal Dynamics", "ThermalDynamics", ModThermalDynamics.class),
 
@@ -56,13 +56,13 @@ public enum SupportedMod {
 
 	BUILDCRAFT_TRANSPORT("BuildCraft|Transport", "BuildCraft|Transport", ModBuildCraftTransport.class),
 
-	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon", ModBuildCraftSilicon.class),
+	BUILDCRAFT_SILICON("BuildCraft|Silicon", "BuildCraft|Silicon", SimplePlugin.class),
 
 	BUILDCRAFT_BUILDERS("BuildCraft|Builders", "BuildCraft|Builders", ModBuildCraftBuilders.class),
 
 	BUILDCRAFT_FACTORY("BuildCraft|Factory", "BuildCraft|Factory", ModBuildCraftFactory.class),
 
-	BUILDCRAFT_ROBOTICS("BuildCraft|Robotics", "BuildCraft|Robotics", ModBuildCraftRobotics.class),
+	BUILDCRAFT_ROBOTICS("BuildCraft|Robotics", "BuildCraft|Robotics", SimplePlugin.class),
 
 	FORESTRY("Forestry", "Forestry", ModForestry.class),
 
@@ -92,7 +92,7 @@ public enum SupportedMod {
 
 	REDSTONE_ARMORY("Redstone Armory", "RArm", SimplePlugin.class),
 
-	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", ModAppliedEnergistics2.class),
+	APPLIED_ENERGISTICS("Applied Energistics2", "appliedenergistics2", SimplePlugin.class),
 
 	IMMERSIVE_ENGINEERING("Immersive Engineering", "ImmersiveEngineering", SimplePlugin.class),
 

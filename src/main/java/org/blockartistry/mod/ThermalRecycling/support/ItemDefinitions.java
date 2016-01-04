@@ -45,6 +45,16 @@ public final class ItemDefinitions {
 		public int count;
 		public List<String> items;
 	}
+	
+	public static class RecipeAccessor {
+		public String recipe;
+		public String accessor;
+	}
+	
+	public static class Handler {
+		public String handlerClass;
+		public List<String> items;
+	}
 
 	// Items to ignore recipes for
 	public List<String> ignore = ImmutableList.of();
@@ -74,6 +84,10 @@ public final class ItemDefinitions {
 	public List<Sawdust> toSawdust = ImmutableList.of();
 	// Items that can be extracted
 	public List<String> extract = ImmutableList.of();
+	// List of accessors for cracking recipes
+	public List<RecipeAccessor> accessors = ImmutableList.of();
+	// List of scrap handlers to register
+	public List<Handler> handlers = ImmutableList.of();
 
 	public static ItemDefinitions load(final String modId) {
 		final String fileName = modId.replaceAll("[^a-zA-Z0-9.-]", "_");

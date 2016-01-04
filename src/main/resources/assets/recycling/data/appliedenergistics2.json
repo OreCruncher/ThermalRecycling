@@ -1,4 +1,15 @@
 {
+	"accessors":[
+		{
+			"recipe":"appeng.recipes.game.ShapedRecipe",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.AEShapedRecipeAccessor"
+		},
+		{
+			"recipe":"appeng.recipes.game.ShapelessRecipe",
+			"accessor":"org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.AEShapelessRecipeAccessor"
+		}
+		
+	],
 	"ignore":[
 		"tile.BlockSkyStone:*",
 		"tile.BlockCrank",
