@@ -50,18 +50,23 @@ public final class ItemStackWeightTable extends
 
 		@Override
 		public String toString() {
-
-			String name = "Destroy";
-			if (stack != null) {
-				if (ScrappingTables.keepIt(stack))
-					name = "Keep Item";
-				else if (ScrappingTables.dustIt(stack))
-					name = "Dust Item";
-				else
-					name = ItemStackHelper.resolveName(stack);
+			final StringBuilder builder = new StringBuilder();
+			if(ScrappingTables.destroyIt(stack))
+				builder.append("Destroy");
+			else if(ScrappingTables.keepIt(stack))
+				builder.append("Keep Item");
+			else if(ScrappingTables.dustIt(stack))
+				builder.append("Dust Item");
+			else {
+				builder.append(ItemStackHelper.resolveName(stack));
+				if(stack.stackSize > 1) {
+					builder.append("(x");
+					builder.append(stack.stackSize);
+					builder.append(')');
+				}
 			}
 
-			return name;
+			return builder.toString();
 		}
 	}
 

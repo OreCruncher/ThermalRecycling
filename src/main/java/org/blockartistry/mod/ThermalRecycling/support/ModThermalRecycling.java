@@ -189,7 +189,7 @@ public final class ModThermalRecycling extends ModPlugin {
 				new ItemStackItem(PreferredItemStacks.instance.dustEnderium, 10));
 
 		registerExtractionRecipe(new ItemStack(ItemManager.recyclingScrapBox, 1, OreDictionaryHelper.WILDCARD_VALUE),
-				new ItemStackItem(null, 1));
+				new ItemStackItem(ScrappingTables.KEEP, 1));
 
 		// Soylent Red and Yellow
 		registerExtractionRecipe(new ItemStack(Blocks.pumpkin, 6),

@@ -114,7 +114,12 @@ public final class RecipeData {
 					builder.append(", ");
 				else
 					sawOne = true;
-				builder.append(String.format("%dx %s", stack.stackSize, ItemStackHelper.resolveName(stack)));
+				builder.append(ItemStackHelper.resolveName(stack));
+				if(stack.stackSize > 1) {
+					builder.append("(x");
+					builder.append(stack.stackSize);
+					builder.append(')');
+				}
 			}
 		}
 		builder.append(']');

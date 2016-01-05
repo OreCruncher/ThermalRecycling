@@ -54,19 +54,19 @@ public final class ScrappingTables {
 	private static final String[] UPGRADE_NAMES = new String[] { "Basic",
 			"Hardened", "Reinforced", "Resonant", "Ethereal", };
 
-	private static final ItemStack keep = new ItemStack(Blocks.bedrock);
-	private static final ItemStack dust = new ItemStack(Blocks.air);
+	public static final ItemStack KEEP = new ItemStack(Blocks.bedrock);
+	public static final ItemStack DUST = new ItemStack(Blocks.air);
 
 	public static boolean destroyIt(final ItemStack stack) {
 		return stack == null;
 	}
 
 	public static boolean keepIt(final ItemStack stack) {
-		return stack != null && stack.isItemEqual(ScrappingTables.keep);
+		return stack != null && stack.isItemEqual(ScrappingTables.KEEP);
 	}
 
 	public static boolean dustIt(final ItemStack stack) {
-		return stack != null && stack.isItemEqual(ScrappingTables.dust);
+		return stack != null && stack.isItemEqual(ScrappingTables.DUST);
 	}
 
 	public static final ItemStack debris = new ItemStack(ItemManager.debris);
@@ -93,10 +93,10 @@ public final class ScrappingTables {
 			item = new ItemStackItem(null, weight);
 		else if("debris".equalsIgnoreCase(key))
 			item = new ItemStackItem(debris, weight);
-		else if("keep".equalsIgnoreCase(key))
-			item = new ItemStackItem(keep, weight);
-		else if("dust".equalsIgnoreCase(key))
-			item = new ItemStackItem(dust, weight);
+		else if("KEEP".equalsIgnoreCase(key))
+			item = new ItemStackItem(KEEP, weight);
+		else if("DUST".equalsIgnoreCase(key))
+			item = new ItemStackItem(DUST, weight);
 		else if("poorScrap".equalsIgnoreCase(key))
 			item = new ItemStackItem(poorScrap, weight);
 		else if("standardScrap".equalsIgnoreCase(key))
