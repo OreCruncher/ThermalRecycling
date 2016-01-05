@@ -30,6 +30,7 @@ import java.io.Writer;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +56,7 @@ public final class UseEffect {
 		final ItemStack standardScrap = ScrappingTables.standardScrap;
 		final ItemStack superiorScrap = ScrappingTables.superiorScrap;
 
-		poorEffects.addNoUseEffect(400);
+		poorEffects.addNoUseEffect(330);
 		poorEffects.addDropItemEffect(100, new ItemStack(Blocks.grass), 1);
 		poorEffects.addDropItemEffect(100, new ItemStack(Items.cooked_beef), 4);
 		poorEffects.addDropItemEffect(300, poorScrap, 1);
@@ -69,8 +70,10 @@ public final class UseEffect {
 		poorEffects.addEnchantedBookEffect(50, 10);
 		poorEffects.addChestEffect(300, ChestGenHooks.DUNGEON_CHEST);
 		poorEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_15SECONDS, PlayerPotionEffect.AMPLIFIER_LEVEL_1);
+		poorEffects.addSpawnEntityEffect(50, "Bat", 5, null);
+		poorEffects.addSpawnEntityEffect(15, "Villager", 1, "{Riding:{id:Pig,Saddle:1}}");
 
-		standardEffects.addNoUseEffect(250);
+		standardEffects.addNoUseEffect(200);
 		standardEffects.addDropItemEffect(170, poorScrap, 1);
 		standardEffects.addDropItemEffect(300, standardScrap, 1);
 		standardEffects.addDropItemEffect(170, superiorScrap, 1);
@@ -85,6 +88,7 @@ public final class UseEffect {
 		standardEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_60SECONDS,
 				PlayerPotionEffect.AMPLIFIER_LEVEL_2);
 		standardEffects.addBonusEffect(200, 2);
+		poorEffects.addSpawnEntityEffect(50, "Bat", 5, null);
 
 		superiorEffects.addNoUseEffect(50);
 		superiorEffects.addDropItemEffect(50, poorScrap, 1);
@@ -102,6 +106,8 @@ public final class UseEffect {
 		superiorEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_120SECONDS,
 				PlayerPotionEffect.AMPLIFIER_LEVEL_3);
 		superiorEffects.addBonusEffect(200, 1);
+		// Skeleton horse
+		superiorEffects.addSpawnEntityEffect(5, "EntityHorse", 1, "{Type:4,Tame:1,ChestHorse:1,Saddle:1}");
 	}
 
 	public static void spawnIntoWorld(final ItemStack stack, final World world, final EntityPlayer player) {
@@ -113,7 +119,7 @@ public final class UseEffect {
 		final int y = MathHelper.floor_double(player.boundingBox.minY) - 1;
 		final int z = MathHelper.floor_double(player.posZ);
 
-		ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+		EntityHelper.spawnIntoWorld(world, stack, x, y, z);
 
 	}
 

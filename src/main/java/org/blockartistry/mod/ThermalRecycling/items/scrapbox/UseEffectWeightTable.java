@@ -77,4 +77,8 @@ public final class UseEffectWeightTable extends WeightTable<UseEffectWeightTable
 	public void addBonusEffect(final int weight, final int count) {
 		this.add(new BonusEffect(weight, count));
 	}
+	
+	public void addSpawnEntityEffect(final int weight, final String entityType, final int maxCount, final String tags) {
+		this.add(new SpawnEntityEffect(weight, entityType, maxCount, tags));
+	}
 }

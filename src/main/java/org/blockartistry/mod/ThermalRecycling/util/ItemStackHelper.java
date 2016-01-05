@@ -34,14 +34,12 @@ import org.blockartistry.mod.ThermalRecycling.support.SupportedMod;
 import com.google.common.base.Optional;
 
 import cpw.mods.fml.common.registry.GameData;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.world.World;
 
 public final class ItemStackHelper {
 
@@ -243,46 +241,6 @@ public final class ItemStackHelper {
 		}
 
 		return builder.toString();
-	}
-
-	/**
-	 * Spawns the ItemStack into the world. If it is a large stack it is broken
-	 * down into smaller stacks and spun out at different velocities.
-	 * 
-	 * @param world
-	 * @param stack
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public static void spawnIntoWorld(final World world, final ItemStack stack, final double x, final double y,
-			final double z) {
-
-		if (stack == null)
-			return;
-
-		final float f = rand.nextFloat() * 0.8F + 0.1F;
-		final float f1 = rand.nextFloat() * 0.8F + 0.1F;
-		final float f2 = rand.nextFloat() * 0.8F + 0.1F;
-
-		while (stack.stackSize > 0) {
-			int j = rand.nextInt(21) + 10;
-
-			if (j > stack.stackSize) {
-				j = stack.stackSize;
-			}
-
-			stack.stackSize -= j;
-
-			final EntityItem item = new EntityItem(world, x + f, y + f1, z + f2,
-					new ItemStack(stack.getItem(), j, getItemDamage(stack)));
-
-			if (stack.hasTagCompound()) {
-				item.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
-			}
-
-			world.spawnEntityInWorld(item);
-		}
 	}
 
 	/**

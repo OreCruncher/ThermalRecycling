@@ -28,8 +28,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.InventoryHelper;
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -276,14 +276,14 @@ public final class SidedInventoryComponent implements IMachineInventory {
 		for (final int i : getAccessibleSlots()) {
 			final ItemStack stack = getStackInSlot(i);
 			if (stack != null)
-				ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+				EntityHelper.spawnIntoWorld(world, stack, x, y, z);
 		}
 
 		if (hiddenSlots != null)
 			for (final int i : hiddenSlots) {
 				final ItemStack stack = getStackInSlot(i);
 				if (stack != null)
-					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+					EntityHelper.spawnIntoWorld(world, stack, x, y, z);
 			}
 
 		Arrays.fill(inventory, null);

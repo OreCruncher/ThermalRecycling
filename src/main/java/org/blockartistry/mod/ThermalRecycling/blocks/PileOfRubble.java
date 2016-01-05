@@ -31,6 +31,7 @@ import org.blockartistry.mod.ThermalRecycling.BlockManager;
 import org.blockartistry.mod.ThermalRecycling.CreativeTabManager;
 import org.blockartistry.mod.ThermalRecycling.ModOptions;
 import org.blockartistry.mod.ThermalRecycling.ThermalRecycling;
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
 
@@ -144,7 +145,7 @@ public final class PileOfRubble extends Block {
 			for (int i = 0; i < dropCount; i++) {
 				final ItemStack stack = rubbleContent.getOneItem(random);
 				if (stack != null) {
-					ItemStackHelper.spawnIntoWorld(world, stack, x, y, z);
+					EntityHelper.spawnIntoWorld(world, stack, x, y, z);
 				}
 			}
 		}
