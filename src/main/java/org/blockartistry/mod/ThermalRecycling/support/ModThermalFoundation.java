@@ -25,9 +25,6 @@
 package org.blockartistry.mod.ThermalRecycling.support;
 
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
-import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import cpw.mods.fml.common.Loader;
@@ -36,19 +33,6 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	public ModThermalFoundation() {
 		super(SupportedMod.THERMAL_FOUNDATION);
-	}
-
-	protected static ItemStack pyrotheumDust;
-
-	public static ItemStack getPyrotheumDust(final int quantity) {
-
-		if (pyrotheumDust == null) {
-			pyrotheumDust = ItemStackHelper.getItemStack("ThermalFoundation:material:512", 1).get();
-		}
-
-		final ItemStack result = pyrotheumDust.copy();
-		result.stackSize = quantity;
-		return result;
 	}
 
 	protected void furnaceRecycleHelperTE(final String oreName) {
@@ -71,7 +55,6 @@ public final class ModThermalFoundation extends ModPlugin {
 	}
 
 	protected void recycleGearTE(final String type) {
-
 		pulverizer.append(OreDictionaryHelper.getOres("gear" + type)).output("dust" + type, 4).save();
 	}
 
@@ -81,10 +64,10 @@ public final class ModThermalFoundation extends ModPlugin {
 
 	@Override
 	public boolean initialize() {
-		
+
 		// Big daddy golden apple
-		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1).secondaryInput(getPyrotheumDust(8))
-				.output("blockGold", 8).save();
+		smelter.setEnergy(72000).appendSubtype(Items.golden_apple, 1)
+				.secondaryInput("ThermalFoundation:material:512", 8).output("blockGold", 8).save();
 
 		// Smelt some blocks!
 		smelter.setEnergy(21600).append("blockTin").secondaryInput("blockCopper", 3).output("blockBronze", 4).save();
@@ -136,9 +119,6 @@ public final class ModThermalFoundation extends ModPlugin {
 			registerExtraTiCGearRecipe("ThermalFoundation:material:139");
 			registerExtraTiCGearRecipe("ThermalFoundation:material:140");
 		}
-
-		// Pile of Rubble - add Copper and Tin ores
-		registerPileOfRubbleDrop(1, 3, 5, "Ore:0", "Ore:1");
 
 		return true;
 	}

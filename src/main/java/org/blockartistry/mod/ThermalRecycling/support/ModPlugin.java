@@ -24,7 +24,6 @@
 
 package org.blockartistry.mod.ThermalRecycling.support;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.blockartistry.mod.ThermalRecycling.ModLog;
@@ -53,17 +52,18 @@ import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 import org.blockartistry.mod.ThermalRecycling.util.PreferredItemStacks;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import cpw.mods.fml.common.versioning.InvalidVersionSpecificationException;
 import cpw.mods.fml.common.versioning.VersionRange;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 public abstract class ModPlugin {
 
 	protected final SupportedMod mod;
 	protected final String MOD_CONFIG_SECTION;
+	protected final String name;
 
 	protected final SawmillRecipeBuilder sawmill = new SawmillRecipeBuilder();
 	protected final PulverizerRecipeBuilder pulverizer = new PulverizerRecipeBuilder();
@@ -74,26 +74,30 @@ public abstract class ModPlugin {
 	protected final BlastRecipeBuilder blast = new BlastRecipeBuilder();
 
 	public ModPlugin(final SupportedMod m) {
-		mod = m;
-		MOD_CONFIG_SECTION = "recycle.recipe.control." + mod.getModId();
+		this.mod = m;
+		this.MOD_CONFIG_SECTION = "recycle.recipe.control." + mod.getModId();
+		if(m == SupportedMod.VANILLA)
+			this.name = this.mod.getName() + " " + MinecraftForge.MC_VERSION;
+		else
+			this.name = this.mod.getName() + " " + this.mod.getArtifactVersion().getVersionString();
 	}
 
 	public String getModId() {
-		return mod.getModId();
+		return this.mod.getModId();
 	}
 
 	public String getName() {
-		return mod.getName();
+		return this.name;
 	}
 
 	public String getVersion() {
-		return mod.getArtifactVersion().getVersionString();
+		return this.mod.getArtifactVersion().getVersionString();
 	}
 
 	public boolean isAcceptibleVersion(final String version) {
 		try {
 			final VersionRange range = VersionRange.createFromVersionSpec(version);
-			return range.containsVersion(mod.getArtifactVersion());
+			return range.containsVersion(this.mod.getArtifactVersion());
 		} catch (InvalidVersionSpecificationException e) {
 			e.printStackTrace();
 			return false;
@@ -132,38 +136,24 @@ public abstract class ModPlugin {
 		return result;
 	}
 
-	protected void forEachSubject(final List<String> subjects, final Predicate<ItemStack> op) {
-		for (final String s : subjects) {
-			final String name = makeName(s);
-			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
-			if (stack.isPresent())
-				op.apply(stack.get());
-			else
-				ModLog.warn("[%s] unknown item '%s'", mod.getName(), name);
-		}
+	protected ItemStack resolveItemStack(final String subject) {
+		final String name = makeName(subject);
+		final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
+		if (stack.isPresent())
+			return stack.get();
+		ModLog.warn("[%s] unknown item '%s'", this.mod.getName(), name);
+		return null;
 	}
 
 	// NOTE THAT THESE REGISTER ROUTINES PREFIX THE STRING WITH
 	// THE CURRENT MOD NAME! IF IT NEEDS TO BE ESCAPED PUT A
 	// ^ CHARACTER AT THE FRONT!
-	protected void registerRecipesToIgnore(final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setRecipeIgnored(elem, true);
-				return true;
-			}
-		});
-	}
-
 	protected void registerRecipesToIgnore(final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setRecipeIgnored(elem, true);
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setRecipeIgnored(stack, true);
+		}
 	}
 
 	protected void registerRecipesToIgnoreForge(final String... oreList) {
@@ -175,83 +165,35 @@ public abstract class ModPlugin {
 	}
 
 	protected void registerRecipesToReveal(final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setRecipeIgnored(elem, false);
-				return true;
-			}
-		});
-	}
-
-	protected void registerScrapValues(final ScrapValue value, final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setScrapValue(elem, value);
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setRecipeIgnored(stack, false);
+		}
 	}
 
 	protected void registerScrapValues(final ScrapValue value, final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setScrapValue(elem, value);
-				return true;
-			}
-		});
-	}
-
-	protected void registerScrubFromOutput(final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setScrubbedFromOutput(elem, true);
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setScrapValue(stack, value);
+		}
 	}
 
 	protected void registerScrubFromOutput(final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setScrubbedFromOutput(elem, true);
-				return true;
-			}
-		});
-	}
-
-	protected void registerNotScrubFromOutput(final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setScrubbedFromOutput(elem, false);
-				return true;
-			}
-		});
-	}
-
-	protected void registerRecycleToWoodDust(final int inputQuantity, final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				recycler.input(elem, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setScrubbedFromOutput(stack, true);
+		}
 	}
 
 	protected void registerRecycleToWoodDust(final int inputQuantity, final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				recycler.input(elem, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				this.recycler.input(stack, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
+		}
 	}
 
 	protected void registerRecycleToWoodDust(final List<Sawdust> list) {
@@ -262,79 +204,48 @@ public abstract class ModPlugin {
 	protected void registerRecycleToWoodDustForge(final int inputQuantity, final String... oreList) {
 		for (final String ore : oreList) {
 			for (final ItemStack stack : OreDictionaryHelper.getOres(ore)) {
-				recycler.input(stack, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
+				this.recycler.input(stack, inputQuantity).append(PreferredItemStacks.instance.dustWood).save();
 			}
 		}
 	}
 
-	protected void registerCompostIngredient(final CompostIngredient ingredient, final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setCompostIngredientValue(elem, ingredient);
-				return true;
-			}
-		});
-	}
-
 	protected void registerCompostIngredient(final CompostIngredient ingredient, final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setCompostIngredientValue(elem, ingredient);
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setCompostIngredientValue(stack, ingredient);
+		}
 	}
 
 	protected void registerItemBlockedFromScrapping(final boolean status, final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack input) {
-				ItemRegistry.setBlockedFromScrapping(input, status);
-				return false;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setBlockedFromScrapping(stack, status);
+		}
 	}
 
 	protected void registerItemBlockedFromScrapping(final boolean status, final List<String> list) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack input) {
-				ItemRegistry.setBlockedFromScrapping(input, status);
-				return false;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setBlockedFromScrapping(stack, status);
+		}
 	}
 
-	protected void registerPulverizeToDirt(final List<String> items) {
-		forEachSubject(items, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				pulverizer.append(elem, 8).output(Blocks.dirt).save();
-				return true;
-			}
-		});
-	}
-
-	protected void registerPileOfRubbleDrop(final int min, final int max, final int weight, final String... list) {
-		forEachSubject(Arrays.asList(list), new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack input) {
-				PileOfRubble.addRubbleDrop(input, min, max, weight);
-				return false;
-			}
-		});
+	protected void registerPulverizeToDirt(final List<String> list) {
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				this.pulverizer.append(stack, 8).output(Blocks.dirt).save();
+		}
 	}
 
 	protected void registerPileOfRubbleDrop(final List<RubbleDrop> drops) {
+		ItemStack stack = null;
 		for (final RubbleDrop drop : drops) {
-			final String name = makeName(drop.item);
-			final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
-			if (stack.isPresent())
-				PileOfRubble.addRubbleDrop(stack.get(), drop.min, drop.max, drop.weight);
-			else
-				ModLog.warn("RubbleDrop: [%s] unknown item '%s'", mod.getName(), name);
+			if ((stack = resolveItemStack(drop.item)) != null)
+				PileOfRubble.addRubbleDrop(stack, drop.min, drop.max, drop.weight);
 		}
 	}
 
@@ -347,13 +258,11 @@ public abstract class ModPlugin {
 	}
 
 	protected void registerBlockedFromExtraction(final List<String> list, final boolean flag) {
-		forEachSubject(list, new Predicate<ItemStack>() {
-			@Override
-			public boolean apply(final ItemStack elem) {
-				ItemRegistry.setBlockedFromExtraction(elem, flag);
-				return true;
-			}
-		});
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack(subject)) != null)
+				ItemRegistry.setBlockedFromExtraction(stack, flag);
+		}
 	}
 
 	protected void registerScrapValuesForge(final ScrapValue value, final String... oreList) {
@@ -368,23 +277,21 @@ public abstract class ModPlugin {
 		for (final RecipeAccessor accessor : list)
 			RecipeDecomposition.registerAccessor(accessor.recipe, accessor.accessor);
 	}
-	
+
 	protected void registerHandlers(final List<Handler> list) {
-		for(final Handler handler: list) {
+		for (final Handler handler : list) {
 			try {
 				final Class<?> clazz = Class.forName(handler.handlerClass);
-				if(clazz != null) {
-					final ScrapHandler sh = (ScrapHandler)clazz.newInstance();
-					for(final String item: handler.items) {
-						final String name = makeName(item);
-						final Optional<ItemStack> stack = ItemStackHelper.getItemStack(name);
-						if(stack.isPresent())
-							ScrapHandler.registerHandler(stack.get(), sh);
-						
+				if (clazz != null) {
+					final ScrapHandler sh = (ScrapHandler) clazz.newInstance();
+					ItemStack stack = null;
+					for (final String item : handler.items) {
+						if ((stack = resolveItemStack(item)) != null)
+							ScrapHandler.registerHandler(stack, sh);
 					}
 				}
-				
-			} catch(final Throwable t) {
+
+			} catch (final Throwable t) {
 				t.printStackTrace();
 			}
 		}
@@ -409,9 +316,11 @@ public abstract class ModPlugin {
 		registerHandlers(def.handlers);
 	}
 
+	private static List<ModPlugin> plugins = null;
+
 	public static void preInitPlugins(final Configuration config) {
 
-		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
+		plugins = SupportedMod.getPluginsForLoadedMods();
 
 		for (final ModPlugin plugin : plugins) {
 
@@ -425,34 +334,27 @@ public abstract class ModPlugin {
 	}
 
 	public static void initializePlugins() {
-		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
-
 		for (final ModPlugin plugin : plugins) {
-
-			final String modName = String.format("[%s %s]", plugin.getName(), plugin.getVersion());
-
 			try {
-				ModLog.info("Loading recipes for %s", modName);
+				ModLog.info("Loading recipes for [%s]", plugin.getName());
 				plugin.loadDefinitions();
 				plugin.initialize();
 			} catch (Exception e) {
-				ModLog.warn("Error initializing plugin %s", modName);
+				ModLog.warn("Error initializing plugin [%s]", plugin.getName());
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public static void postInitPlugins() {
-		final List<ModPlugin> plugins = SupportedMod.getPluginsForLoadedMods();
-
 		for (final ModPlugin plugin : plugins) {
 			try {
 				plugin.postInit();
 			} catch (Exception e) {
-				final String modName = String.format("[%s %s]", plugin.getName(), plugin.getVersion());
-				ModLog.warn("Error post-initializing plugin %s", modName);
+				ModLog.warn("Error post-initializing plugin [%s]", plugin.getName());
 				e.printStackTrace();
 			}
 		}
+		plugins = null;
 	}
 }

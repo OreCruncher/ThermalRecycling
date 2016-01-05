@@ -118,10 +118,21 @@ public final class ItemStackHelper {
 
 		} else {
 
-			// Parse out the possible subtype from the end of the string
 			String workingName = name;
 			int subType = -1;
-
+			int q = quantity;
+			
+			// See if there is a quantity token in the
+			// name string.
+			if(workingName.contains("#")) {
+				final String num = StringUtils.substringAfterLast(workingName, "#");
+				if(!num.isEmpty()) {
+					q = Integer.parseInt(num);
+				}
+				workingName = StringUtils.substringBeforeLast(workingName, "#");
+			}
+			
+			// Parse out the possible subtype from the end of the string
 			if (StringUtils.countMatches(name, ":") == 2) {
 				workingName = StringUtils.substringBeforeLast(name, ":");
 				final String num = StringUtils.substringAfterLast(name, ":");
@@ -148,11 +159,11 @@ public final class ItemStackHelper {
 			final List<ItemStack> ores = OreDictionaryHelper.getOres(workingName);
 			if (!ores.isEmpty()) {
 				result = ores.get(0).copy();
-				result.stackSize = quantity;
+				result.stackSize = q;
 			} else {
 				final Item i = GameData.getItemRegistry().getObject(workingName);
 				if (i != null) {
-					result = new ItemStack(i, quantity);
+					result = new ItemStack(i, q);
 				}
 			}
 

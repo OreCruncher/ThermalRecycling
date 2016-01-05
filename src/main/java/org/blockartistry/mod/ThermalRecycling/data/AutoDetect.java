@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 
 public final class AutoDetect {
 	
-	private static boolean EXECUTE = false;
+	private static boolean EXECUTE = true;
 
 	private AutoDetect() {
 	}
