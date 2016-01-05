@@ -30,63 +30,90 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
 public final class ItemDefinitions {
 
 	public static class RubbleDrop {
+		@SerializedName("item")
 		public String item;
+		@SerializedName("min")
 		public int min;
+		@SerializedName("max")
 		public int max;
+		@SerializedName("weight")
 		public int weight;
 	}
-	
+
 	public static class Sawdust {
+		@SerializedName("count")
 		public int count;
+		@SerializedName("items")
 		public List<String> items;
 	}
-	
+
 	public static class RecipeAccessor {
+		@SerializedName("recipe")
 		public String recipe;
+		@SerializedName("accessor")
 		public String accessor;
 	}
-	
+
 	public static class Handler {
+		@SerializedName("handlerClass")
 		public String handlerClass;
+		@SerializedName("items")
 		public List<String> items;
 	}
 
 	// Items to ignore recipes for
+	@SerializedName("ignore")
 	public List<String> ignore = ImmutableList.of();
 	// Items to reveal recipes for
+	@SerializedName("reveal")
 	public List<String> reveal = ImmutableList.of();
 	// Items that have a scrap value of NONE
+	@SerializedName("none")
 	public List<String> none = ImmutableList.of();
 	// Items that have a scrap value of POOR
+	@SerializedName("poor")
 	public List<String> poor = ImmutableList.of();
 	// Items that have a scrap value of STANDARD
+	@SerializedName("standard")
 	public List<String> standard = ImmutableList.of();
 	// Items that have a scrap value of SUPERIOR
+	@SerializedName("superior")
 	public List<String> superior = ImmutableList.of();
 	// Items that are GREEN compost ingredients
+	@SerializedName("green")
 	public List<String> green = ImmutableList.of();
 	// Items that are BROWN compost ingredients
+	@SerializedName("brown")
 	public List<String> brown = ImmutableList.of();
 	// Items that are scrubbed from recipe output
+	@SerializedName("scrub")
 	public List<String> scrub = ImmutableList.of();
 	// Items that are blocked from scrapping
+	@SerializedName("block")
 	public List<String> block = ImmutableList.of();
 	// Pile of Rubble drop registrations
+	@SerializedName("rubble")
 	public List<RubbleDrop> rubble = ImmutableList.of();
 	// Items that can be pulverized to dirt
+	@SerializedName("toDirt")
 	public List<String> toDirt = ImmutableList.of();
 	// Items that can be pulverized to saw dust
+	@SerializedName("toSawdust")
 	public List<Sawdust> toSawdust = ImmutableList.of();
 	// Items that can be extracted
+	@SerializedName("extract")
 	public List<String> extract = ImmutableList.of();
 	// List of accessors for cracking recipes
+	@SerializedName("accessors")
 	public List<RecipeAccessor> accessors = ImmutableList.of();
 	// List of scrap handlers to register
+	@SerializedName("handlers")
 	public List<Handler> handlers = ImmutableList.of();
 
 	public static ItemDefinitions load(final String modId) {
