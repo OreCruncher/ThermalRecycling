@@ -31,8 +31,8 @@ import net.minecraft.world.World;
 
 public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectItem {
 
-	final int start;
-	final int end;
+	private final int start;
+	private final int end;
 
 	public ExperienceOrbEffect(final int weight, final int amount) {
 		this(weight, amount, amount);
@@ -47,9 +47,9 @@ public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectIte
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 
-		int value = start;
-		if (start != end)
-			value = rnd.nextInt(start - end) + start;
+		int value = this.start;
+		if (this.start != this.end)
+			value = this.rnd.nextInt(this.start - this.end) + this.start;
 
 		final EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
 		UseEffect.spawnEntityIntoWorld(orb, world, player);
@@ -57,9 +57,9 @@ public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectIte
 
 	@Override
 	public String toString() {
-		if (start != end)
-			return String.format("Experience Orb [%d - %d]", start, end);
+		if (this.start != this.end)
+			return String.format("Experience Orb [%d - %d]", this.start, this.end);
 
-		return String.format("Experience Orb [%d]", start);
+		return String.format("Experience Orb [%d]", this.start);
 	}
 }

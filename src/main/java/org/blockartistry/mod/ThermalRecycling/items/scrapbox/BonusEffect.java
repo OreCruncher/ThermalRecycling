@@ -35,7 +35,7 @@ import net.minecraft.world.World;
  */
 public final class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
-	final int bonusCount;
+	private final int bonusCount;
 
 	public BonusEffect(final int weight, final int bonusCount) {
 		super(weight);
@@ -44,8 +44,7 @@ public final class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
-
-		final int effectiveCount = bonusCount + 1;
+		final int effectiveCount = this.bonusCount + 1;
 		for (int i = 0; i < effectiveCount; i++) {
 			UseEffect.triggerEffect(scrap, world, player);
 		}
@@ -53,6 +52,6 @@ public final class BonusEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Bonus +%d", bonusCount);
+		return String.format("Bonus +%d", this.bonusCount);
 	}
 }

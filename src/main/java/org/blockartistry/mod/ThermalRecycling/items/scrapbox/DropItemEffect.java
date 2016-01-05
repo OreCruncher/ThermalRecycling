@@ -39,8 +39,8 @@ import net.minecraft.world.World;
  */
 public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
-	final ItemStack stack;
-	final int maxQuantity;
+	private final ItemStack stack;
+	private final int maxQuantity;
 
 	public DropItemEffect(final int weight, final ItemStack stack, final int quantity) {
 		super(weight);
@@ -50,8 +50,8 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
-		final ItemStack result = stack.copy();
-		result.stackSize = rnd.nextInt(maxQuantity) + 1; 
+		final ItemStack result = this.stack.copy();
+		result.stackSize = this.rnd.nextInt(this.maxQuantity) + 1; 
 		UseEffect.spawnIntoWorld(result, world, player);
 
 		if (ItemStackHelper.equals(result.getItem(), Items.nether_star))
@@ -61,7 +61,7 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 	@Override
 	public String toString() {
 		return String.format("Drop Item [%s] (up to %d)",
-				ItemStackHelper.resolveName(stack), maxQuantity);
+				ItemStackHelper.resolveName(this.stack), this.maxQuantity);
 	}
 
 }

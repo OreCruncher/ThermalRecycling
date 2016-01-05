@@ -27,8 +27,6 @@ package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 import java.util.Collections;
 import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import org.blockartistry.mod.ThermalRecycling.util.XorShiftRandom;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
@@ -43,6 +41,7 @@ import net.minecraft.world.World;
 
 public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectItem {
 
+	private static final int BOOK_TITLE_COUNT = 13;
 	private static final List<String> titles;
 	private static final List<List<String>> descriptions;
 	
@@ -51,7 +50,7 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 		final Builder<String> titleBuilder = ImmutableList.builder();
 		final Builder<List<String>> descBuilder = ImmutableList.builder();
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < BOOK_TITLE_COUNT; i++) {
 			final String base = "msg.BookTitle" + i;
 			titleBuilder.add(StatCollector.translateToLocal(base + ".name"));
 			descBuilder.add(Collections.singletonList(StatCollector.translateToLocal(base + ".desc")));
@@ -80,13 +79,13 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 		final ItemStack book = new ItemStack(Items.book);
 		EnchantmentData[] enchants = null;
 
-		if (enchant != null) {
+		if (this.enchant != null) {
 			enchants = new EnchantmentData[1];
-			enchants[0] = new EnchantmentData(enchant, level);
+			enchants[0] = new EnchantmentData(this.enchant, this.level);
 		} else {
 			@SuppressWarnings("rawtypes")
 			final List list = EnchantmentHelper
-					.buildEnchantmentList(rnd, book, level);
+					.buildEnchantmentList(this.rnd, book, this.level);
 			enchants = new EnchantmentData[list.size()];
 			for (int i = 0; i < list.size(); i++)
 				enchants[i] = (EnchantmentData) list.get(i);
@@ -98,14 +97,14 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 		// Drop out one of the enchants if there are multiples. This is from
 		// the enchanting table logic - maybe its to mitigate having too many
 		// enchants floating around.
-		final int j = enchants.length > 1 ? rnd.nextInt(enchants.length) : -1;
+		final int j = enchants.length > 1 ? this.rnd.nextInt(enchants.length) : -1;
 
 		// Attach the enchantments
 		for (int i = 0; i < enchants.length; i++)
 			if (i != j)
 				Items.enchanted_book.addEnchantment(book, enchants[i]);
 		
-		final int index = XorShiftRandom.shared.nextInt(titles.size());
+		final int index = this.rnd.nextInt(titles.size());
 
 		ItemStackHelper.setItemName(book, titles.get(index));
 		ItemStackHelper.setItemLore(book, descriptions.get(index));
@@ -114,6 +113,6 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 
 	@Override
 	public String toString() {
-		return String.format("Enchanted Book [enchant level %d]", level);
+		return String.format("Enchanted Book [enchant level %d]", this.level);
 	}
 }

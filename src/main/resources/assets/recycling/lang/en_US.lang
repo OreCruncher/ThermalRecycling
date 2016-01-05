@@ -136,6 +136,12 @@ msg.BookTitle8.name=Weekly Parody
 msg.BookTitle8.desc=Don't Fear the Creeper
 msg.BookTitle9.name=Better Blocks and Mines
 msg.BookTitle9.desc=Rattle your neighbor with skulls!
+msg.BookTitle10.name=Blockstreet Journal
+msg.BookTitle10.desc=Like a Boss!
+msg.BookTitle11.name=CHILTON: Pistons
+msg.BookTitle11.desc=Unstick those pistons
+msg.BookTitle12.name=Seed Catalog
+msg.BookTitle12.desc=Time to plant those crops
 
 # Version checking strings
 msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]

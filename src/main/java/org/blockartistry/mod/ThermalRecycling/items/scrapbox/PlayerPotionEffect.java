@@ -42,21 +42,21 @@ import net.minecraft.world.World;
 public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem {
 
 	private static Field isBadEffect = null;
-	
+
 	static {
-		
+
 		try {
-			
+
 			isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K");
-			
-		} catch(Throwable t) {
-			
+
+		} catch (Throwable t) {
+
 			ModLog.warn("Unable to hook Potion.isBadEffect");
-			
+
 			;
 		}
 	}
-	
+
 	public static final int AMPLIFIER_LEVEL_1 = 0;
 	public static final int AMPLIFIER_LEVEL_2 = 1;
 	public static final int AMPLIFIER_LEVEL_3 = 2;
@@ -67,10 +67,10 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 	public static final int DURATION_60SECONDS = 60 * 20;
 	public static final int DURATION_120SECONDS = 120 * 20;
 
-	final Potion potion;
-	final int duration;
-	final int amplifier;
-	final boolean noBad;
+	private final Potion potion;
+	private final int duration;
+	private final int amplifier;
+	private final boolean noBad;
 
 	public PlayerPotionEffect(final int weight, final int duration, final int amplifier) {
 		this(weight, null, duration, amplifier, true);
@@ -87,15 +87,15 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
-		Potion p = potion;
-		
+		Potion p = this.potion;
+
 		// If no potion effect is defined, pick one randomly
 		if (p == null) {
 			// Keep looking until we have a non-null entry that
 			// matches the noBad effect criteria.
 			try {
-				for (; p == null || noBad && isBadEffect.getBoolean(p);) {
-					p = Potion.potionTypes[rnd.nextInt(Potion.potionTypes.length)];
+				for (; p == null || this.noBad && isBadEffect.getBoolean(p);) {
+					p = Potion.potionTypes[this.rnd.nextInt(Potion.potionTypes.length)];
 				}
 			} catch (Throwable t) {
 				;
@@ -106,9 +106,8 @@ public final class PlayerPotionEffect extends UseEffectWeightTable.UseEffectItem
 
 	@Override
 	public String toString() {
-		return String
-				.format("Player Potion Effect [%s] (duration: %ds; amplifier: %d; no bad: %s)",
-						potion == null ? "random" : potion.getName(),
-						duration / 20, amplifier, Boolean.toString(noBad));
+		return String.format("Player Potion Effect [%s] (duration: %ds; amplifier: %d; no bad: %s)",
+				this.potion == null ? "random" : this.potion.getName(), this.duration / 20, this.amplifier,
+				Boolean.toString(this.noBad));
 	}
 }

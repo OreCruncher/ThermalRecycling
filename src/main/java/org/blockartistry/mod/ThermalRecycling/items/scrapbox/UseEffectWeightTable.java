@@ -31,17 +31,15 @@ import net.minecraft.world.World;
 
 import org.blockartistry.mod.ThermalRecycling.util.WeightTable;
 
-public final class UseEffectWeightTable extends
-		WeightTable<UseEffectWeightTable.UseEffectItem> {
+public final class UseEffectWeightTable extends WeightTable<UseEffectWeightTable.UseEffectItem> {
 
-	public abstract static class UseEffectItem extends	WeightTable.Item {
+	public abstract static class UseEffectItem extends WeightTable.Item {
 
 		public UseEffectItem(final int weight) {
 			super(weight);
 		}
 
-		public abstract void apply(final ItemStack scrap, final World world,
-				final EntityPlayer player);
+		public abstract void apply(final ItemStack scrap, final World world, final EntityPlayer player);
 	}
 
 	public UseEffectWeightTable() {
@@ -50,5 +48,33 @@ public final class UseEffectWeightTable extends
 
 	public UseEffectWeightTable(final Random rand) {
 		super(rand);
+	}
+
+	public void addNoUseEffect(final int weight) {
+		this.add(new NoUseEffect(weight));
+	}
+
+	public void addDropItemEffect(final int weight, final ItemStack stack, final int maxQuantity) {
+		this.add(new DropItemEffect(weight, stack, maxQuantity));
+	}
+
+	public void addExperienceEffect(final int weight, final int amount) {
+		this.add(new ExperienceOrbEffect(weight, amount));
+	}
+
+	public void addEnchantedBookEffect(final int weight, final int level) {
+		this.add(new EnchantedBookEffect(weight, level));
+	}
+
+	public void addChestEffect(final int weight, final String chest) {
+		this.add(new ChestEffect(weight, chest));
+	}
+
+	public void addPotionEffect(final int weight, final int duration, final int amplifier) {
+		this.add(new PlayerPotionEffect(weight, duration, amplifier));
+	}
+	
+	public void addBonusEffect(final int weight, final int count) {
+		this.add(new BonusEffect(weight, count));
 	}
 }

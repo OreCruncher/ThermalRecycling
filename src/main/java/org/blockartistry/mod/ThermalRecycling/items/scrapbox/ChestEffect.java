@@ -35,18 +35,7 @@ import net.minecraftforge.common.ChestGenHooks;
  */
 public final class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
-	public static final String MINESHAFT_CORRIDOR = ChestGenHooks.MINESHAFT_CORRIDOR;
-	public static final String PYRAMID_DESERT_CHEST = ChestGenHooks.PYRAMID_DESERT_CHEST;
-	public static final String PYRAMID_JUNGLE_CHEST = ChestGenHooks.PYRAMID_JUNGLE_CHEST;
-	public static final String PYRAMID_JUNGLE_DISPENSER = ChestGenHooks.PYRAMID_JUNGLE_DISPENSER;
-	public static final String STRONGHOLD_CORRIDOR = ChestGenHooks.STRONGHOLD_CORRIDOR;
-	public static final String STRONGHOLD_LIBRARY = ChestGenHooks.STRONGHOLD_LIBRARY;
-	public static final String STRONGHOLD_CROSSING = ChestGenHooks.STRONGHOLD_CROSSING;
-	public static final String VILLAGE_BLACKSMITH = ChestGenHooks.VILLAGE_BLACKSMITH;
-	public static final String BONUS_CHEST = ChestGenHooks.BONUS_CHEST;
-	public static final String DUNGEON_CHEST = ChestGenHooks.DUNGEON_CHEST;
-
-	final String category;
+	private final String category;
 
 	public ChestEffect(final int weight, final String category) {
 		super(weight);
@@ -55,15 +44,15 @@ public final class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
-		final ChestGenHooks hooks = ChestGenHooks.getInfo(category);
+		final ChestGenHooks hooks = ChestGenHooks.getInfo(this.category);
 		if (hooks != null) {
-			final ItemStack stack = hooks.getOneItem(rnd);
+			final ItemStack stack = hooks.getOneItem(this.rnd);
 			UseEffect.spawnIntoWorld(stack, world, player);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Chest Loot [%s]", category);
+		return String.format("Chest Loot [%s]", this.category);
 	}
 }

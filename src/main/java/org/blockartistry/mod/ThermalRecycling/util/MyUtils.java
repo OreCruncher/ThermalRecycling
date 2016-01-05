@@ -58,17 +58,6 @@ public final class MyUtils {
 		return result;
 	}
 
-	public static List<ItemStack> clone(final ItemStack... stacks) {
-		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.length);
-		if (stacks != null) {
-			final int len = stacks.length;
-			for (int i = 0; i < len; i++)
-				if(stacks[i] != null)
-					result.add(stacks[i].copy());
-		}
-		return result;
-	}
-
 	public static List<ItemStack> clone(final List<ItemStack> stacks) {
 		final ArrayList<ItemStack> result = new ArrayList<ItemStack>(stacks.size());
 		for (final ItemStack stack : stacks)
