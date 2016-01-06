@@ -28,6 +28,8 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.data.RecipeHelper;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.item.ItemStack;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -45,14 +47,13 @@ public final class RecipeDataRegistry {
 		if(!MineTweakerUtil.checkNotNull(input, "input cannot be null"))
 			return;
 		
-		if(!MineTweakerUtil.checkNotNull(output, "output cannot be null"))
-			return;
-
-		if(!MineTweakerUtil.checkArgument(output.length > 0, "invalid number of output stacks specified"))
-			return;
-		
 		final ItemStack stack = MineTweakerMC.getItemStack(input);
-		final List<ItemStack> result = MineTweakerUtil.getStackList(output);
+		final List<ItemStack> result;
+		if(output == null)
+			result = ImmutableList.of();
+		else
+			result = MineTweakerUtil.getStackList(output);
+		
 		RecipeHelper.put(stack, result);
 	}
 	
