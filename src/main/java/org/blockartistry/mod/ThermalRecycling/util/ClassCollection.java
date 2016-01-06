@@ -1,5 +1,4 @@
-/*
- * This file is part of ThermalRecycling, licensed under the MIT License (MIT).
+/* This file is part of ThermalRecycling, licensed under the MIT License (MIT).
  *
  * Copyright (c) OreCruncher
  *
@@ -22,39 +21,32 @@
  * THE SOFTWARE.
  */
 
-package org.blockartistry.mod.ThermalRecycling.data.registry;
+package org.blockartistry.mod.ThermalRecycling.util;
 
-import org.blockartistry.mod.ThermalRecycling.util.ClassCollection;
+import java.util.HashSet;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import org.blockartistry.mod.ThermalRecycling.ModLog;
 
-class DamagableItemProfile extends SingleItemProfile {
+@SuppressWarnings("serial")
+public class ClassCollection extends HashSet<Class<?>>{
 	
-	private static final ClassCollection generic = new ClassCollection();
-	
-	static {
-		generic.add("cofh.api.energy.IEnergyContainerItem");
-		generic.add("ic2.api.item.IElectricItem");
+	public void add(final String className) {
+		try {
+			final Class<?> clazz = Class.forName(className);
+			this.add(clazz);
+		} catch(final Exception ex) {
+			ModLog.warn("Class not found: " + className);
+		}
 	}
-
-	private final boolean exactMatch;
 	
-	public DamagableItemProfile(final Item item) {
-		super(item);
-		this.exactMatch = !generic.isAssignableFrom(item);
+	public boolean isAssignableFrom(final Class<?> clazz) {
+		for (final Class<?> entry : this)
+			if (entry.isAssignableFrom(clazz))
+				return true;
+		return false;
 	}
-
-	/*
-	 * Intercept the call to check the incoming stack damage
-	 * state vs. the virgin meta.  If they don't match the
-	 * recipe does not apply.
-	 */
-	@Override
-	public RecipeData getRecipe(final ItemStack stack) {
-		if(this.exactMatch && stack.isItemDamaged())
-			return RecipeData.EPHEMERAL;
-		
-		return super.getRecipe(stack);
+	
+	public boolean isAssignableFrom(final Object obj) {
+		return isAssignableFrom(obj.getClass());
 	}
 }
