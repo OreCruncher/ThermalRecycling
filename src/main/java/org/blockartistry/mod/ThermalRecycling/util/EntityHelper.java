@@ -6,18 +6,33 @@ import org.blockartistry.mod.ThermalRecycling.ModLog;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityHelper {
 
 	private static final Random random = XorShiftRandom.shared;
+	
+	private static void setTamed(final Entity entity, final EntityPlayer player) {
+		if(entity instanceof EntityHorse) {
+			((EntityHorse)entity).setTamedBy(player);
+		} else if(entity instanceof EntityTameable) {
+			final EntityTameable tameable = (EntityTameable)entity;
+			tameable.setTamed(true);
+			tameable.func_152115_b(player.getPersistentID().toString());
+		}
+	}
 
 	/**
 	 * Spawns an entity of the specified type at the player location. Parameters
@@ -32,6 +47,7 @@ public class EntityHelper {
 		final World world = player.getEntityWorld();
 
 		NBTTagCompound nbt = new NBTTagCompound();
+		boolean doSpawnWithEgg = true;
 
 		if (json != null && !json.isEmpty()) {
 			try {
@@ -43,6 +59,7 @@ public class EntityHelper {
 				}
 
 				nbt = (NBTTagCompound) nbtbase;
+				doSpawnWithEgg = false;
 			} catch (final NBTException ex) {
 				ex.printStackTrace();
 				return;
@@ -59,6 +76,12 @@ public class EntityHelper {
 
 		theEntity.setLocationAndAngles(d0, d1, d2, theEntity.rotationYaw, theEntity.rotationPitch);
 
+		if (doSpawnWithEgg && theEntity instanceof EntityLiving) {
+			((EntityLiving) theEntity).onSpawnWithEgg((IEntityLivingData) null);
+		}
+
+		setTamed(theEntity, player);
+		
 		world.spawnEntityInWorld(theEntity);
 		Entity entity2 = theEntity;
 
@@ -115,4 +138,32 @@ public class EntityHelper {
 			world.spawnEntityInWorld(item);
 		}
 	}
+	
+	public static void spawnIntoWorld(final ItemStack stack, final World world, final EntityPlayer player) {
+
+		if (stack == null)
+			return;
+
+		final int x = MathHelper.floor_double(player.posX);
+		final int y = MathHelper.floor_double(player.boundingBox.minY) - 1;
+		final int z = MathHelper.floor_double(player.posZ);
+
+		spawnIntoWorld(world, stack, x, y, z);
+
+	}
+
+	public static void spawnIntoWorld(final Entity entity, final World world, final EntityPlayer player) {
+
+		if (entity == null)
+			return;
+
+		final int x = MathHelper.floor_double(entity.posX);
+		final int y = MathHelper.floor_double(entity.boundingBox.minY) - 1;
+		final int z = MathHelper.floor_double(entity.posZ);
+
+		entity.setPosition(x, y, z);
+		world.spawnEntityInWorld(entity);
+	}
+
+
 }

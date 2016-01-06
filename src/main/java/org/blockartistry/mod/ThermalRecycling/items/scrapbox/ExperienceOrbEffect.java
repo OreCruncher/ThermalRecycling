@@ -24,6 +24,8 @@
 
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
+
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -52,14 +54,19 @@ public final class ExperienceOrbEffect extends UseEffectWeightTable.UseEffectIte
 			value = this.rnd.nextInt(this.start - this.end) + this.start;
 
 		final EntityXPOrb orb = new EntityXPOrb(world, 0, 0, 0, value);
-		UseEffect.spawnEntityIntoWorld(orb, world, player);
+		EntityHelper.spawnIntoWorld(orb, world, player);
 	}
 
 	@Override
 	public String toString() {
-		if (this.start != this.end)
-			return String.format("Experience Orb [%d - %d]", this.start, this.end);
-
-		return String.format("Experience Orb [%d]", this.start);
+		final StringBuilder builder = new StringBuilder();
+		builder.append("Experience Orb [");
+		builder.append(this.start);
+		if (this.start != this.end) {
+			builder.append('-');
+			builder.append(this.end);
+		}
+		builder.append(']');
+		return builder.toString();
 	}
 }

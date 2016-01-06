@@ -26,6 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -108,11 +110,11 @@ public final class EnchantedBookEffect extends UseEffectWeightTable.UseEffectIte
 
 		ItemStackHelper.setItemName(book, titles.get(index));
 		ItemStackHelper.setItemLore(book, descriptions.get(index));
-		UseEffect.spawnIntoWorld(book, world, player);
+		EntityHelper.spawnIntoWorld(book, world, player);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Enchanted Book [enchant level %d]", this.level);
+		return String.format("Enchanted Book [lvl %d]", this.level);
 	}
 }

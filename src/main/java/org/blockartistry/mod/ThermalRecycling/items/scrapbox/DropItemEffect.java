@@ -25,6 +25,7 @@
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
 import org.blockartistry.mod.ThermalRecycling.AchievementManager;
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,8 +52,8 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 	@Override
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 		final ItemStack result = this.stack.copy();
-		result.stackSize = this.rnd.nextInt(this.maxQuantity) + 1; 
-		UseEffect.spawnIntoWorld(result, world, player);
+		result.stackSize = this.rnd.nextInt(this.maxQuantity) + 1;
+		EntityHelper.spawnIntoWorld(result, world, player);
 
 		if (ItemStackHelper.equals(result.getItem(), Items.nether_star))
 			player.addStat(AchievementManager.lottoWinner, 1);
@@ -60,8 +61,15 @@ public final class DropItemEffect extends UseEffectWeightTable.UseEffectItem {
 
 	@Override
 	public String toString() {
-		return String.format("Drop Item [%s] (up to %d)",
-				ItemStackHelper.resolveName(this.stack), this.maxQuantity);
+		final StringBuilder builder = new StringBuilder();
+		builder.append("Drop Item [");
+		builder.append(ItemStackHelper.resolveName(this.stack));
+		builder.append(']');
+		if(this.maxQuantity > 1) {
+			builder.append(" 1-");
+			builder.append(this.maxQuantity);
+		}
+		return builder.toString();
 	}
 
 }

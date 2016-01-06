@@ -55,4 +55,24 @@ public class SpawnEntityEffect extends UseEffectWeightTable.UseEffectItem{
 			EntityHelper.summon(player, this.type, this.jsonTags);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("SpawnEntity [");
+		builder.append(this.type);
+		builder.append("]");
+		if(this.maxCount > 1) {
+			builder.append(" 1-");
+			builder.append(this.maxCount);
+		}
+		
+		if(this.jsonTags != null && !this.jsonTags.isEmpty()) {
+			builder.append(" [");
+			builder.append(this.jsonTags);
+			builder.append(']');
+		}
+		
+		return builder.toString();
+	}
 }

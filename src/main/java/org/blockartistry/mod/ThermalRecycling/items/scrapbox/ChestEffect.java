@@ -24,6 +24,9 @@
 
 package org.blockartistry.mod.ThermalRecycling.items.scrapbox;
 
+import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -46,8 +49,9 @@ public final class ChestEffect extends UseEffectWeightTable.UseEffectItem {
 	public void apply(final ItemStack scrap, final World world, final EntityPlayer player) {
 		final ChestGenHooks hooks = ChestGenHooks.getInfo(this.category);
 		if (hooks != null) {
-			final ItemStack stack = hooks.getOneItem(this.rnd);
-			UseEffect.spawnIntoWorld(stack, world, player);
+			final ItemStack stack = ItemStackHelper.getPreferredStack(hooks.getOneItem(this.rnd)).get();
+			if (stack != null)
+				EntityHelper.spawnIntoWorld(stack, world, player);
 		}
 	}
 

@@ -30,14 +30,11 @@ import java.io.Writer;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.ScrappingTables;
 import org.blockartistry.mod.ThermalRecycling.items.RecyclingScrapBox;
-import org.blockartistry.mod.ThermalRecycling.util.EntityHelper;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 
@@ -59,8 +56,8 @@ public final class UseEffect {
 		poorEffects.addNoUseEffect(330);
 		poorEffects.addDropItemEffect(100, new ItemStack(Blocks.grass), 1);
 		poorEffects.addDropItemEffect(100, new ItemStack(Items.cooked_beef), 4);
-		poorEffects.addDropItemEffect(300, poorScrap, 1);
-		poorEffects.addDropItemEffect(150, standardScrap, 1);
+		poorEffects.addDropItemEffect(300, poorScrap, 3);
+		poorEffects.addDropItemEffect(150, standardScrap, 2);
 		poorEffects.addDropItemEffect(50, superiorScrap, 1);
 		poorEffects.addDropItemEffect(5, new ItemStack(Items.diamond), 1);
 		poorEffects.addDropItemEffect(3, new ItemStack(Items.emerald), 1);
@@ -70,15 +67,15 @@ public final class UseEffect {
 		poorEffects.addEnchantedBookEffect(50, 10);
 		poorEffects.addChestEffect(300, ChestGenHooks.DUNGEON_CHEST);
 		poorEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_15SECONDS, PlayerPotionEffect.AMPLIFIER_LEVEL_1);
-		poorEffects.addSpawnEntityEffect(50, "Bat", 5, null);
-		poorEffects.addSpawnEntityEffect(15, "Villager", 1, "{Riding:{id:Pig,Saddle:1}}");
+		poorEffects.addSpawnEntityEffect(50, "Bat", 4, null);
+		poorEffects.addSpawnEntityEffect(15, "Villager", 1, null);
 
 		standardEffects.addNoUseEffect(200);
-		standardEffects.addDropItemEffect(170, poorScrap, 1);
-		standardEffects.addDropItemEffect(300, standardScrap, 1);
-		standardEffects.addDropItemEffect(170, superiorScrap, 1);
-		standardEffects.addDropItemEffect(100, new ItemStack(Items.diamond), 1);
-		standardEffects.addDropItemEffect(60, new ItemStack(Items.emerald), 1);
+		standardEffects.addDropItemEffect(170, poorScrap, 2);
+		standardEffects.addDropItemEffect(300, standardScrap, 3);
+		standardEffects.addDropItemEffect(170, superiorScrap, 2);
+		standardEffects.addDropItemEffect(66, new ItemStack(Items.diamond), 1);
+		standardEffects.addDropItemEffect(40, new ItemStack(Items.emerald), 1);
 		standardEffects.addExperienceEffect(50, 7);
 		standardEffects.addExperienceEffect(200, 15);
 		standardEffects.addExperienceEffect(50, 30);
@@ -88,12 +85,12 @@ public final class UseEffect {
 		standardEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_60SECONDS,
 				PlayerPotionEffect.AMPLIFIER_LEVEL_2);
 		standardEffects.addBonusEffect(200, 2);
-		poorEffects.addSpawnEntityEffect(50, "Bat", 5, null);
+		standardEffects.addSpawnEntityEffect(50, "Bat", 4, null);
 
 		superiorEffects.addNoUseEffect(50);
 		superiorEffects.addDropItemEffect(50, poorScrap, 1);
-		superiorEffects.addDropItemEffect(150, standardScrap, 1);
-		superiorEffects.addDropItemEffect(300, superiorScrap, 1);
+		superiorEffects.addDropItemEffect(150, standardScrap, 2);
+		superiorEffects.addDropItemEffect(300, superiorScrap, 3);
 		superiorEffects.addDropItemEffect(150, new ItemStack(Items.diamond), 1);
 		superiorEffects.addDropItemEffect(90, new ItemStack(Items.emerald), 1);
 		superiorEffects.addDropItemEffect(10, new ItemStack(Items.nether_star), 1);
@@ -105,66 +102,55 @@ public final class UseEffect {
 		superiorEffects.addChestEffect(300, ChestGenHooks.STRONGHOLD_CROSSING);
 		superiorEffects.addPotionEffect(150, PlayerPotionEffect.DURATION_120SECONDS,
 				PlayerPotionEffect.AMPLIFIER_LEVEL_3);
-		superiorEffects.addBonusEffect(200, 1);
-		// Skeleton horse
-		superiorEffects.addSpawnEntityEffect(5, "EntityHorse", 1, "{Type:4,Tame:1,ChestHorse:1,Saddle:1}");
+		superiorEffects.addBonusEffect(200, 2);
+		// Zombie and Skeleton horses
+		superiorEffects.addSpawnEntityEffect(5, "EntityHorse", 1, "{Type:3,Tame:1,Saddle:1}");
+		superiorEffects.addSpawnEntityEffect(5, "EntityHorse", 1, "{Type:4,Tame:1,Saddle:1}");
 	}
 
-	public static void spawnIntoWorld(final ItemStack stack, final World world, final EntityPlayer player) {
-
-		if (stack == null)
-			return;
-
-		final int x = MathHelper.floor_double(player.posX);
-		final int y = MathHelper.floor_double(player.boundingBox.minY) - 1;
-		final int z = MathHelper.floor_double(player.posZ);
-
-		EntityHelper.spawnIntoWorld(world, stack, x, y, z);
-
-	}
-
-	public static void spawnEntityIntoWorld(final Entity entity, final World world, final EntityPlayer player) {
-
-		if (entity == null)
-			return;
-
-		final int x = MathHelper.floor_double(entity.posX);
-		final int y = MathHelper.floor_double(entity.boundingBox.minY) - 1;
-		final int z = MathHelper.floor_double(entity.posZ);
-
-		entity.setPosition(x, y, z);
-		world.spawnEntityInWorld(entity);
-	}
-
+	/**
+	 * Triggers the effect of using the scrap box that is currently held. Stack
+	 * size will decrement accordingly.
+	 */
 	public static void triggerEffect(final ItemStack scrap, final World world, final EntityPlayer player) {
 
-		UseEffectWeightTable theTable = poorEffects;
+		if (scrap == null || scrap.stackSize < 1)
+			return;
 
-		// If null it means cascaded effects.
-		ItemStack scrap1 = null;
-		if (scrap != null) {
-			final int itemDamage = ItemStackHelper.getItemDamage(scrap);
-			if (itemDamage == RecyclingScrapBox.STANDARD)
-				theTable = standardEffects;
-			else if (itemDamage == RecyclingScrapBox.SUPERIOR)
-				theTable = superiorEffects;
-			scrap1 = scrap.copy();
+		if (doEffect(scrap, world, player))
+			scrap.stackSize--;
+	}
+
+	/**
+	 * Applies the effect for the specified scrap box ItemStack. No counts are
+	 * adjusted.
+	 */
+	protected static boolean doEffect(final ItemStack scrapBox, final World world, final EntityPlayer player) {
+
+		final UseEffectWeightTable theTable;
+
+		switch (ItemStackHelper.getItemDamage(scrapBox)) {
+		case RecyclingScrapBox.STANDARD:
+			theTable = standardEffects;
+			break;
+		case RecyclingScrapBox.SUPERIOR:
+			theTable = superiorEffects;
+			break;
+		default:
+			theTable = poorEffects;
+			break;
 		}
 
 		try {
-			theTable.next().apply(scrap1, world, player);
-			// Subtract the real stack. Note that if this is a recursed call
-			// this
-			// stack will eventually be tossed. Upshot is that the root
-			// triggerEffect() will update the real ItemStack.
-			scrap.stackSize--;
-		} catch (Exception e) {
+			theTable.next().apply(scrapBox, world, player);
+			return true;
+		} catch (final Exception e) {
 			ModLog.warn(e.getMessage());
 		}
+		return false;
 	}
 
 	public static void diagnostic(final Writer writer) throws IOException {
-
 		writer.write("\n==========================\nScrapbox Use Effect Tables\n==========================\n");
 		poorEffects.diagnostic("Poor Effects", writer);
 		standardEffects.diagnostic("Standard Effects", writer);
