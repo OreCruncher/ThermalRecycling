@@ -44,10 +44,10 @@ public final class ItemDataRegistry {
 		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
 			return;
 		
-		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
+		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 3, "compostValue must be in range 0-2"))
 			return;
 		
-		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
+		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 4, "scrapValue must be in range 0-3"))
 			return;
 		
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
@@ -68,7 +68,7 @@ public final class ItemDataRegistry {
 		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
 			return;
 		
-		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 4, "compostValue must be in range 0-3"))
+		if(!MineTweakerUtil.checkArgument(compostValue >=0 && compostValue < 2, "compostValue must be in range 0-2"))
 			return;
 
 		final CompostIngredient cv = CompostIngredient.values()[compostValue];
@@ -82,7 +82,7 @@ public final class ItemDataRegistry {
 		if(!MineTweakerUtil.checkNotNull(stack, "stack cannot be null"))
 			return;
 		
-		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 5, "scrapValue must be in range 0-4"))
+		if(!MineTweakerUtil.checkArgument(scrapValue >= 0 && scrapValue < 4, "scrapValue must be in range 0-3"))
 			return;
 
 		final ScrapValue sv = ScrapValue.values()[scrapValue];

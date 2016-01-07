@@ -46,6 +46,7 @@ public final class MineTweakerSupport {
 			MineTweakerAPI.registerClass(VendingProfessionRegistry.class);
 			MineTweakerAPI.registerClass(RubblePileDataRegistry.class);
 			MineTweakerAPI.registerClass(BreedingItemRegistry.class);
+			MineTweakerAPI.registerClass(ScrapBoxEffectRegistry.class);
 
 			// Register the constants
 			Constants.register();

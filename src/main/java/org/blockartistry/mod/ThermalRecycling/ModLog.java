@@ -56,6 +56,13 @@ public final class ModLog {
 		}
 	}
 
+	public static void error(final String msg, final Throwable e) {
+		if (logger != null)
+			logger.error(msg);
+		if(e != null)
+			e.printStackTrace();
+	}
+
 	public static void catching(final Throwable t) {
 		if (logger != null) {
 			logger.catching(t);

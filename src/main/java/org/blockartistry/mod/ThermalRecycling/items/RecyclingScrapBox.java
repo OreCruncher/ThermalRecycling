@@ -58,7 +58,7 @@ public final class RecyclingScrapBox extends ItemBase {
 		setUnlocalizedName("RecyclingScrapBox");
 		setMaxStackSize(64);
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
