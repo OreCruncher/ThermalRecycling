@@ -33,6 +33,7 @@ import java.util.Map;
 import org.blockartistry.mod.ThermalRecycling.ModLog;
 import org.blockartistry.mod.ThermalRecycling.data.CompostIngredient;
 import org.blockartistry.mod.ThermalRecycling.data.ScrapValue;
+import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 import org.blockartistry.mod.ThermalRecycling.util.OreDictionaryHelper;
 
 import cpw.mods.fml.common.registry.GameData;
@@ -45,24 +46,33 @@ public final class ItemRegistry {
 	private static final Map<Item, ItemProfile> registry = new IdentityHashMap<Item, ItemProfile>();
 
 	static {
-		for (final Item o : GameData.getItemRegistry().typeSafeIterable()) {
-			final ItemProfile profile;
-			if (o.getHasSubtypes())
-				profile = new MultiItemProfile(o);
-			else if (o.isDamageable())
-				profile = new DamagableItemProfile(o);
-			else
-				profile = new SingleItemProfile(o);
-			registry.put(o, profile);
-		}
+		for (final Item o : GameData.getItemRegistry().typeSafeIterable())
+			createProfile(o);
 	}
 
+	private static ItemProfile createProfile(final Item item) {
+		final ItemProfile profile;
+		if (item.getHasSubtypes())
+			profile = new MultiItemProfile(item);
+		else if (item.isDamageable())
+			profile = new DamagableItemProfile(item);
+		else
+			profile = new SingleItemProfile(item);
+		registry.put(item, profile);
+		return profile;
+	}
+	
 	private static ItemProfile getProfile(final ItemStack stack) {
 		final Item item = stack.getItem();
-		final ItemProfile profile = registry.get(item);
+		ItemProfile profile = registry.get(item);
 		if (profile == null) {
-			ModLog.warn("Detected request for an item not registered with Forge: " + item.toString());
-			throw new RuntimeException("Missing profile for Item " + item.toString());
+			ModLog.warn("Item registration is missing: " + ItemStackHelper.resolveInternalName(stack));
+			if(GameData.getItemRegistry().getId(item) == -1) {
+				ModLog.warn("Item is not registered with Forge!");
+			} else {
+				ModLog.warn("Looks like a late registration");
+			}
+			profile = createProfile(stack.getItem());
 		}
 		return profile;
 	}
