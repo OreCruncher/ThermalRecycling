@@ -1,7 +1,8 @@
-# FR French Translations
-# Made by HanatekYurii for 0.3.8.2
+# FR French Translations by HanatekYurii - Updated February 10, 2016
 itemGroup.ThermalRecycling=Thermal Recycling
 itemGroup.TagLine=Réduisez! Réutilisez! Recyclez!
+
+option.recycling.sneakingonly=Visible uniquement quand accroupi
 
 item.Debris.debris.name=Déchets de recyclage
 item.RecyclingScrap.poor.name=Débris Pauvres
@@ -17,19 +18,45 @@ item.ProcessingCore.decomposition.name=Coeur: Décomposition (Basique)
 item.ProcessingCore.decomposition_1.name=Coeur: Décomposition (Durci)
 item.ProcessingCore.decomposition_2.name=§eCoeur: Décomposition (Renforcé)
 item.ProcessingCore.decomposition_3.name=§3Coeur: Décomposition (Résonant)
-item.ProcessingCore.decomposition_4.name=§5Coeur: Décomposition (Éthéré)
+item.ProcessingCore.decomposition_4.name=§5Coeur: Décomposition (Ethéré)
 item.ProcessingCore.extraction.name=Coeur: Extraction
 
 item.PaperLogMaker.paperlogmaker.name=Fabricateur de Bûche de Papier
 item.Material.paperlog.name=Bûche de Papier
 item.Material.worms.name=Poignée de Vers
+item.Material.litterBag.name=Sac poubelle
+item.Material.gardenShears.name=Sécateur 
+item.Material.fuelCell.name=Cellule d'Energie
+item.Material.rtgHousing.name=Boîtier RTG
+item.Material.rtgDepleted.name=Cellule d'Energie RTG usée
+
+item.RTGEnergyCell.creative.name=Cellule d'Energie RTG Créative
+item.RTGEnergyCell.rtg.name=Cellule d'énergie RTG
+msg.RTGEnergyCell.Infinite=Infinie
+msg.RTGEnergyCell.Send=Envoi
+msg.RTGEnergyCell.Charge=Charge
+
+item.soylentGreen.name=§2Soylent Vert
+item.soylentYellow.name=§eSoylent Jaune
+item.soylentRed.name=§4Soylent Rouge
+msg.itLooksEdible=Ca semble commestible...
 
 tile.PileOfRubble.name=Pile de Gravats
 tile.FertileLand.name=Terre Fertile
 tile.MachineThermalRecycler.name=Recycleur Thermal
 tile.MachineScrapAssessor.name=Contrôleur de Débris
 tile.MachineComposter.name=Composteur
+tile.MachineVending.name=Distributeur Automatique
+tile.MachineVendingTop.name=Distributeur Automatique
 tile.ScrapBlock.scrap.name=Bloc de Débris
+tile.Lawn.name=Pelouse Soignée
+tile.MachineBatteryRack.name=Support de Batterie
+
+item.EnergeticRedstoneDust.energeticRedstoneDust.name=Poudre de Redstone Energétique
+tile.EnergeticRedstoneOre.name=Minerai de Redstone Energétique
+
+msg.MachineVending.adminName=Magasin Serveur
+msg.MachineVending.free=GRATUIT
 
 # Additional text for Scrap Assessor lore
 msg.ScrapPreview.destroy=Détruire
@@ -45,21 +72,76 @@ msg.MachineStatus.outOfPower=A court d'Energie
 msg.MachineStatus.needMoreWater=Nécéssite de l'eau
 msg.MachineStatus.cantSeeSky=Nécéssite une exposition au ciel
 
+# Village Vend-O strings
+msg.VendoFormat=Vend-O-%s
+msg.VendoFormat.Priest=Prêtre
+msg.VendoFormat.Librarian=Bibliothécaire
+msg.VendoFormat.Butcher=Boucher
+msg.VendoFormat.Farmer=Fermier
+msg.VendoFormat.Blacksmith=Forgeron
+msg.VendoFormat.Herder=Eleveur
+msg.VendoFormat.Arborist=Arboriste
+msg.VendoFormat.Hunter=Chasseur
+msg.VendoFormat.Tinker=Rétameur
+msg.VendoFormat.Dyer=Teinturier
+
 # Achievements
 achievement.feelingScrappy=Une Senstaion de Débris!
 achievement.feelingScrappy.desc=Fabriquez un Recycleur Thermal
 achievement.doingMyPart=Faisant Ma Part
 achievement.doingMyPart.desc=Utilisez une Boîte de Débris
+achievement.lottoWinner=Gagnant du Lotto!
+achievement.lottoWinner.desc=Obtenez une Etoile du Nether dans une Boîte de Débris
+achievement.doinTheTrash=Faire les Poubelles!
+achievement.doinTheTrash.desc=Evacuez les déchets de votre inventaire en utilisant un Sac Poubelle
+achievement.shearBeauty=Coupe Beauté
+achievement.shearBeauty.desc=Utilisez un Sécateur pour faire de la Pelouse Soignée
+achievement.dystopianFuture=Future Dystopique
+achievement.dystopianFuture.desc=Consommer un §2Soylent Vert
+achievement.powerUp=Power Up!
+achievement.powerUp.desc=Fabriquez une Cellude d'Energie RTG
+
+# Enchantments
+recycling.enchantment.Vacuum=Aspirateur
+recycling.enchantment.Recycle=Recyclage
 
 # ScrapValue for item lore
-msg.ItemScrapValue.none=§eScrap Value: §7Aucune
-msg.ItemScrapValue.poor=§eScrap Value: §fPauvre
-msg.ItemScrapValue.standard=§eScrap Value: §9Standard
-msg.ItemScrapValue.superior=§eScrap Value: §6Supérieure
+msg.ItemScrapValue.none=§eValeur de débris: §7Aucune
+msg.ItemScrapValue.poor=§eValeur de débris: §fPauvre
+msg.ItemScrapValue.standard=§eValeur de débris: §9Standard
+msg.ItemScrapValue.superior=§eValeur de débris: §6Supérieure
 
 # Compost Ingredient Value for lore
-msg.ItemCompostIngredientValue.brown=§eComposte: §6Brun
-msg.ItemCompostIngredientValue.green=§eComposte: §2Vert
+msg.ItemCompostIngredientValue.brown=Â§eComposte: Â§6Brun
+msg.ItemCompostIngredientValue.green=Â§eComposte: Â§2Vert
+
+# Random titles for Enchanted Books that drop from Scrap Boxes
+msg.BookTitle0.name=Recyclage Populaire
+msg.BookTitle0.desc=Réduisez! Réutilisez! Recyclez!
+msg.BookTitle1.name=Rapport TPS
+msg.BookTitle1.desc=PC LOAD LETTER
+msg.BookTitle2.name=Epée & Pelle
+msg.BookTitle2.desc=Rapport Minecraft Trimestriel
+msg.BookTitle3.name=Creeper Mensuel
+msg.BookTitle3.desc=Phsst! Phsst!
+msg.BookTitle4.name=Beau Zombie
+msg.BookTitle4.desc=101 Conseils de Beauté
+msg.BookTitle5.name=Aviation
+msg.BookTitle5.desc=Volez Cochons du Ciel!
+msg.BookTitle6.name=Enregistré
+msg.BookTitle6.desc=Pour Collecteurs Perspicaces
+msg.BookTitle7.name=Le Voyage de Steve
+msg.BookTitle7.desc=L'End: Vraiment?
+msg.BookTitle8.name=Parodie Hebdomadaire
+msg.BookTitle8.desc=Ne Craignez pas les Creeper
+msg.BookTitle9.name=Meilleurs Blocs et Mines
+msg.BookTitle9.desc=Entrechoquez votre voisin avec des Squelettes!
+msg.BookTitle10.name=Blockstreet Journal
+msg.BookTitle10.desc=Comme un Boss!
+msg.BookTitle11.name=CHILTON: Pistons
+msg.BookTitle11.desc=Décoller ces pistons
+msg.BookTitle12.name=Catalogue des Graines
+msg.BookTitle12.desc=L'heure de planter ces semences
 
 # Version checking strings
-msg.NewVersionAvailable.recycling=["�6Update Available: �9[",{"text":"�2%s �ev%s�f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"�9]"]
+msg.NewVersionAvailable.recycling=["§6Mise à jour disponible: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
