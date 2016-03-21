@@ -1,4 +1,4 @@
-#Russian translation by Grom PE [15 Jun 2015]
+#Russian translation by Zonteg [21 Mar 2016]
 itemGroup.ThermalRecycling=Thermal Recycling
 itemGroup.TagLine=Разделяй и перерабатывай!
 
@@ -98,6 +98,12 @@ achievement.shearBeauty=Ножницы красоты
 achievement.shearBeauty.desc=Используя Садовые ножницы сделать Ухоженную траву
 achievement.dystopianFuture=Мрачное будущее
 achievement.dystopianFuture.desc=Употребить §2Зеленый Сойлент
+achievement.powerUp=Включайся!
+achievement.powerUp.desc=Создать RTG энергетическую ячейку
+
+# Enchantments
+recycling.enchantment.Vacuum=Вакуум
+recycling.enchantment.Recycle=Утилизация
 
 # ScrapValue for item lore
 msg.ItemScrapValue.none=§eЦенность лома: §7Нет
@@ -130,6 +136,12 @@ msg.BookTitle8.name=Еженедельная пародия
 msg.BookTitle8.desc=Не бойся крипера
 msg.BookTitle9.name=Лучше блоки и шахты
 msg.BookTitle9.desc=Гремящие черепа соседей!
+msg.BookTitle10.name=Журнал Blockstreet
+msg.BookTitle10.desc=Like a Boss!
+msg.BookTitle11.name=Чилтон: Поршни
+msg.BookTitle11.desc=Отклеить те поршни
+msg.BookTitle12.name=Каталог семян
+msg.BookTitle12.desc=Время сажать эти семена
 
 # Version checking strings
 msg.NewVersionAvailable.recycling=["§6Update Available: §9[",{"text":"§2%s §ev%s§f","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click for CurseForge Project Page","color":"aqua"}},"clickEvent":{"action":"open_url","value":"http://minecraft.curseforge.com/mc-mods/%s"}},"§9]"]
