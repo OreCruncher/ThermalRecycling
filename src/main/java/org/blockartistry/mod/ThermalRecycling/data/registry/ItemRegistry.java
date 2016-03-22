@@ -170,6 +170,17 @@ public final class ItemRegistry {
 		set(data);
 	}
 	
+	public static boolean isBlockedFromVacuum(final ItemStack stack) {
+		final ItemData data = get(stack);
+		return data.isBlockedFromVacuum;
+	}
+	
+	public static void setBlockedFromVacuum(final ItemStack stack, final boolean flag) {
+		final ItemData data = get(stack);
+		data.isBlockedFromVacuum = flag;
+		set(data);
+	}
+	
 	public static void ignoreMetaFilter(final ItemStack stack) {
 		getProfile(stack).ignoreMetaFilter();
 	}

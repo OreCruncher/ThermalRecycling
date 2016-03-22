@@ -76,7 +76,7 @@ public abstract class ModPlugin {
 	public ModPlugin(final SupportedMod m) {
 		this.mod = m;
 		this.MOD_CONFIG_SECTION = "recycle.recipe.control." + mod.getModId();
-		if(m == SupportedMod.VANILLA)
+		if (m == SupportedMod.VANILLA)
 			this.name = this.mod.getName() + " " + MinecraftForge.MC_VERSION;
 		else
 			this.name = this.mod.getName() + " " + this.mod.getArtifactVersion().getVersionString();
@@ -214,6 +214,14 @@ public abstract class ModPlugin {
 		for (final String subject : list) {
 			if ((stack = resolveItemStack(subject)) != null)
 				ItemRegistry.setCompostIngredientValue(stack, ingredient);
+		}
+	}
+
+	protected void registerBlockFromVacuum(final boolean flag, final String... list) {
+		ItemStack stack = null;
+		for (final String subject : list) {
+			if ((stack = resolveItemStack("^" + subject)) != null)
+				ItemRegistry.setBlockedFromVacuum(stack, flag);
 		}
 	}
 

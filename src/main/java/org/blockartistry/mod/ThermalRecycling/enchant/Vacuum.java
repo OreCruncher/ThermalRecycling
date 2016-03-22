@@ -26,6 +26,8 @@ package org.blockartistry.mod.ThermalRecycling.enchant;
 
 import java.util.List;
 
+import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -122,6 +124,10 @@ public class Vacuum extends EnchantmentBase {
 		nearbyItems.addAll(xpOrbs);
 
 		for (final Entity item : nearbyItems) {
+
+			if (item instanceof EntityItem && ItemRegistry.isBlockedFromVacuum(((EntityItem) item).getEntityItem()))
+				continue;
+
 			final double x = player.posX + 0.5D - item.posX;
 			final double y = player.posY + 1.0D - item.posY;
 			final double z = player.posZ + 0.5D - item.posZ;

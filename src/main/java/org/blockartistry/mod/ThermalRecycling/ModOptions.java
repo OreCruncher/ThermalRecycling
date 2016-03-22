@@ -32,7 +32,7 @@ import org.blockartistry.mod.ThermalRecycling.util.MyUtils;
 import net.minecraftforge.common.config.Configuration;
 
 public final class ModOptions {
-	
+
 	private static Configuration config;
 
 	private ModOptions() {
@@ -90,7 +90,7 @@ public final class ModOptions {
 	protected static final String CONFIG_VENDING_BLOCK_PIPE_CONNECTION = "Disallow Pipe Connection";
 	protected static final String CONFIG_BATTERY_RACK_TRANSFER = "RF Transfer per Tick";
 	protected static final String CONFIG_BONEMEAL_PRODUCED = "Bone Meal Produced";
-	
+
 	protected static final String CONFIG_ENERGY_PER_TICK = "RF per tick";
 	protected static final String CONFIG_SCRAP_TICKS = "Ticks to scrap";
 	protected static final String CONFIG_DECOMP_TICKS = "Ticks to decompose";
@@ -119,12 +119,14 @@ public final class ModOptions {
 	protected static final String CONFIG_POOR_XP_COST = "Poor Scrap Level Cost";
 	protected static final String CONFIG_STANDARD_XP_COST = "Standard Scrap Level Cost";
 	protected static final String CONFIG_SUPERIOR_XP_COST = "Superior Scrap Level Cost";
-	
+
 	protected static final String CATEGORY_ENCHANTMENTS = "Enchantments";
 	protected static final String CONFIG_ENABLE_VACUUM = "Vacuum Enable";
 	protected static boolean vacuumEnable = true;
 	protected static final String CONFIG_VACUUM_ID = "Vacuum ID";
 	protected static int vacuumId = 0;
+	protected static final String CONFIG_VACUUM_BLACKLIST = "Vacuum Item Blacklist";
+	protected static String[] vacuumItemBlacklist = { "appliedenergistics2:item.ItemCrystalSeed:*" };
 	protected static final String CONFIG_ENABLE_RECYCLE = "Recycle Enable";
 	protected static boolean recycleEnable = true;
 	protected static final String CONFIG_RECYCLE_ID = "Recycle ID";
@@ -194,12 +196,12 @@ public final class ModOptions {
 	protected static int scrapTicks = 20;
 	protected static int decompTicks = 40;
 	protected static int extractTicks = 80;
-	
+
 	public static void load(final Configuration cfg) {
 
 		// Save a reference
 		config = cfg;
-		
+
 		String comment = "Enables/disables debug logging of the mod";
 		enableDebugLogging = config.getBoolean(CONFIG_ENABLE_DEBUG_LOGGING, CATEGORY_LOGGING_CONTROL,
 				enableDebugLogging, comment);
@@ -421,44 +423,44 @@ public final class ModOptions {
 		comment = "Enable additional food items for animal breeding";
 		enableBreedingChanges = config.getBoolean(CONFIG_ENABLE_BREEDING_CHANGES, CATEGORY_GENERAL,
 				enableBreedingChanges, comment);
-		
+
 		comment = "RF/t to operate";
 		energyPerTick = config.getInt(CONFIG_ENERGY_PER_TICK, CATEGORY_MACHINES_RECYCLER, energyPerTick, 0,
 				Integer.MAX_VALUE, comment);
 
 		comment = "Number of ticks required to scrap an item without a decomposition core";
-		scrapTicks = config.getInt(CONFIG_SCRAP_TICKS, CATEGORY_MACHINES_RECYCLER, scrapTicks, 0,
-				Integer.MAX_VALUE, comment);
-		
+		scrapTicks = config.getInt(CONFIG_SCRAP_TICKS, CATEGORY_MACHINES_RECYCLER, scrapTicks, 0, Integer.MAX_VALUE,
+				comment);
+
 		comment = "Number of ticks required when using a decomposition core";
-		decompTicks = config.getInt(CONFIG_DECOMP_TICKS, CATEGORY_MACHINES_RECYCLER, decompTicks, 0,
-				Integer.MAX_VALUE, comment);
-		
+		decompTicks = config.getInt(CONFIG_DECOMP_TICKS, CATEGORY_MACHINES_RECYCLER, decompTicks, 0, Integer.MAX_VALUE,
+				comment);
+
 		comment = "Number of ticks required when using an extraction core";
 		extractTicks = config.getInt(CONFIG_EXTRACT_TICKS, CATEGORY_MACHINES_RECYCLER, extractTicks, 0,
 				Integer.MAX_VALUE, comment);
 
 		// Enchantment
 		comment = "Enable the Vacuum enchantment";
-		vacuumEnable = config.getBoolean(CONFIG_ENABLE_VACUUM, CATEGORY_ENCHANTMENTS,
-				vacuumEnable, comment);
-		
+		vacuumEnable = config.getBoolean(CONFIG_ENABLE_VACUUM, CATEGORY_ENCHANTMENTS, vacuumEnable, comment);
+
 		comment = "ID of the Vacuum enchantment";
-		vacuumId = config.getInt(CONFIG_VACUUM_ID, CATEGORY_ENCHANTMENTS, vacuumId, 0,
-				255, comment);
+		vacuumId = config.getInt(CONFIG_VACUUM_ID, CATEGORY_ENCHANTMENTS, vacuumId, 0, 255, comment);
 
 		comment = "Enable the Recycle enchantment";
-		recycleEnable = config.getBoolean(CONFIG_ENABLE_RECYCLE, CATEGORY_ENCHANTMENTS,
-				recycleEnable, comment);
-		
+		recycleEnable = config.getBoolean(CONFIG_ENABLE_RECYCLE, CATEGORY_ENCHANTMENTS, recycleEnable, comment);
+
+		comment = "Items to block from being sucked by Vacuum";
+		vacuumItemBlacklist = config.getStringList(CONFIG_VACUUM_BLACKLIST, CATEGORY_ENCHANTMENTS, vacuumItemBlacklist,
+				comment);
+
 		comment = "ID of the Recycle enchantment";
-		recycleId = config.getInt(CONFIG_RECYCLE_ID, CATEGORY_ENCHANTMENTS, recycleId, 0,
-				255, comment);
+		recycleId = config.getInt(CONFIG_RECYCLE_ID, CATEGORY_ENCHANTMENTS, recycleId, 0, 255, comment);
 
 		comment = "Chance Recycle enchant will trigger (1 in N)";
-		recycleChance = config.getInt(CONFIG_RECYCLE_CHANCE, CATEGORY_ENCHANTMENTS, recycleChance, 0,
-				Integer.MAX_VALUE, comment);
-}
+		recycleChance = config.getInt(CONFIG_RECYCLE_CHANCE, CATEGORY_ENCHANTMENTS, recycleChance, 0, Integer.MAX_VALUE,
+				comment);
+	}
 
 	public static boolean getEnableRecipeLogging() {
 		return enableRecipeLogging;
@@ -676,11 +678,11 @@ public final class ModOptions {
 	public static boolean getEnergeticRedstoneUraniumCrafting() {
 		return energeticRedstoneUraniumCrafting;
 	}
-	
+
 	public static int getBonemealProduced() {
 		return bonemealProduced;
 	}
-	
+
 	public static boolean getEnableBreedingChanges() {
 		return enableBreedingChanges;
 	}
@@ -688,15 +690,15 @@ public final class ModOptions {
 	public static int getEnergyPerTick() {
 		return energyPerTick;
 	}
-	
+
 	public static int getScrapTicks() {
 		return scrapTicks;
 	}
-	
+
 	public static int getDecompTicks() {
 		return decompTicks;
 	}
-	
+
 	public static int getExtractTicks() {
 		return extractTicks;
 	}
@@ -705,11 +707,11 @@ public final class ModOptions {
 	public static boolean getVacuumEnable() {
 		return vacuumEnable;
 	}
-	
+
 	public static int getVacuumId() {
 		return vacuumId;
 	}
-	
+
 	public static void setVacuumId(final int id) {
 		vacuumId = id;
 		config.getCategory(CATEGORY_ENCHANTMENTS.toLowerCase()).get(CONFIG_VACUUM_ID).set(id);
@@ -718,16 +720,20 @@ public final class ModOptions {
 	public static boolean getRecycleEnable() {
 		return recycleEnable;
 	}
-	
+
+	public static String[] getVacuumItemBlacklist() {
+		return vacuumItemBlacklist;
+	}
+
 	public static int getRecycleId() {
 		return recycleId;
 	}
-	
+
 	public static void setRecycleId(final int id) {
 		recycleId = id;
 		config.getCategory(CATEGORY_ENCHANTMENTS.toLowerCase()).get(CONFIG_RECYCLE_ID).set(id);
 	}
-	
+
 	public static int getRecycleChance() {
 		return recycleChance;
 	}

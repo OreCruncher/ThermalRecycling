@@ -52,6 +52,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -96,6 +97,14 @@ public final class ModThermalRecycling extends ModPlugin {
 
 	public ModThermalRecycling() {
 		super(SupportedMod.THERMAL_RECYCLING);
+	}
+	
+	@Override
+	public boolean preInit(final Configuration config) {
+		// Vacuum Enchant blocks
+		registerBlockFromVacuum(true, ModOptions.getVacuumItemBlacklist());
+		
+		return true;
 	}
 
 	@Override
@@ -242,7 +251,7 @@ public final class ModThermalRecycling extends ModPlugin {
 			for (final EnergeticRedstoneRecipes r : energeticUraniumRecipes)
 				r.register();
 		}
-
+		
 		return true;
 	}
 

@@ -50,6 +50,7 @@ public final class ItemData {
 	public boolean scrubFromOutput;
 	public boolean isBlockedFromScrapping;
 	public boolean isBlockedFromExtraction;
+	public boolean isBlockedFromVacuum;
 
 	// Auto evaluation of scrap value
 	public ScrapValue auto;
@@ -74,6 +75,7 @@ public final class ItemData {
 		this.scrubFromOutput = data.scrubFromOutput;
 		this.isBlockedFromExtraction = data.isBlockedFromExtraction;
 		this.isBlockedFromScrapping = data.isBlockedFromScrapping;
+		this.isBlockedFromVacuum = data.isBlockedFromVacuum;
 	}
 	
 	private static boolean exceptionalFood(final Item item) {
@@ -112,6 +114,7 @@ public final class ItemData {
 		builder.append("; isFood: ").append(Boolean.toString(this.isFood));
 		builder.append("; block scrap: ").append(Boolean.toString(this.isBlockedFromScrapping));
 		builder.append("; block extract: ").append(Boolean.toString(this.isBlockedFromExtraction));
+		builder.append("; block vacuum: ").append(Boolean.toString(this.isBlockedFromVacuum));
 		builder.append(']');
 		return builder.toString();
 	}
