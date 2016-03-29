@@ -98,7 +98,7 @@ public enum SupportedMod {
 
 	AGRICRAFT("AgriCraft", "AgriCraft", ModAgriCraft.class),
 
-	INDUSTRIAL_CRAFT("IndustrialCraft 2 Experimental", "IC2", ModIndustrialCraft.class),
+	INDUSTRIAL_CRAFT("IndustrialCraft 2", "IC2", ModIndustrialCraft.class),
 	
 	DEEP_RESONANCE("Deep Resonance", "deepresonance", SimplePlugin.class),
 	

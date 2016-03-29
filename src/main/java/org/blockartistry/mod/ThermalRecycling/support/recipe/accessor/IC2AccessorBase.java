@@ -30,6 +30,8 @@ import java.util.List;
 import org.blockartistry.mod.ThermalRecycling.util.ItemStackHelper;
 
 import com.google.common.base.Optional;
+
+import ic2.api.item.IC2Items;
 import ic2.api.recipe.RecipeInputFluidContainer;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
@@ -37,7 +39,7 @@ import net.minecraft.item.ItemStack;
 
 public abstract class IC2AccessorBase extends RecipeAccessorBase {
 	
-	private static final ItemStack emptyCell = ItemStackHelper.getItemStack("IC2:itemCellEmpty:0").get();
+	private static final ItemStack emptyCell = IC2Items.getItem("cell");
 	
 	private static ItemStack crackRecipeInputItemStack(final Object o) {
 		final RecipeInputItemStack r = (RecipeInputItemStack) o;
@@ -65,7 +67,9 @@ public abstract class IC2AccessorBase extends RecipeAccessorBase {
 	
 	private static void crackEntry(final Object o, final List<ItemStack> result) {
 		ItemStack stack = null;
-		if(o instanceof RecipeInputItemStack) {
+		if(o instanceof ItemStack) {
+			stack = ((ItemStack)o).copy();
+		} else if(o instanceof RecipeInputItemStack) {
 			stack = crackRecipeInputItemStack(o);
 		} else if(o instanceof RecipeInputOreDict) {
 			stack = crackRecipeInputOreDict(o);

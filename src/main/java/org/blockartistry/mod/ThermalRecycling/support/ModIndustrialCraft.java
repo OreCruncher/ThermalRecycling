@@ -30,6 +30,8 @@ import java.util.Map.Entry;
 import org.blockartistry.mod.ThermalRecycling.data.registry.ItemRegistry;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.RecipeDecomposition;
 import org.blockartistry.mod.ThermalRecycling.support.recipe.accessor.IC2MachineRecipeAdaptor;
+
+import cpw.mods.fml.common.Loader;
 import ic2.api.recipe.IMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.RecipeOutput;
@@ -37,9 +39,13 @@ import ic2.api.recipe.Recipes;
 import net.minecraft.item.ItemStack;
 
 public class ModIndustrialCraft extends ModPlugin {
+	
+	private final boolean isClassic;
 
 	public ModIndustrialCraft() {
 		super(SupportedMod.INDUSTRIAL_CRAFT);
+		
+		this.isClassic = Loader.isModLoaded("IC2-Classic-Spmod");
 	}
 
 	private void processRecipes(final IMachineRecipeManager manager) {
@@ -51,6 +57,13 @@ public class ModIndustrialCraft extends ModPlugin {
 				recycler.input(input).useRecipe(output).save();
 			}
 		}
+	}
+	
+	@Override
+	public void loadDefinitions() {
+		final String modId = getModId() + (this.isClassic ? "Classic" : "");
+		final ItemDefinitions definitions = ItemDefinitions.load(modId);
+		makeRegistrations(definitions);
 	}
 
 	@Override
