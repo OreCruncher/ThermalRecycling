@@ -39,7 +39,16 @@
 		"item.itemArmorRubBoots",
 		"item.itemScrapbox",
 		"rubberTrampoline",
-		"item.itemPartCarbonFibre"
+		"item.itemPartCarbonFibre",
+		"blockBarrel",
+		"constructionFoamWall",
+		"item.itemDustClay",
+		"constructionFoam",
+		"item.itemPartPellet",
+		"item.itemGrinPowder",
+		"item.itemFertilizer",
+		"item.itemBarrel",
+		"item.itemHarz"
 	],
 	"poor":[
 		"item.ic2cable:*",
@@ -56,7 +65,9 @@
 		"item.itemFoamSprayer",
 		"luminator",
 		"ironScaffold",
-		"item.itemCoin"		
+		"item.itemCoin",
+		"item.itemDynamite",
+		"item.itemDynamiteSticky"		
 	],
 	"standard":[
 	    "blockElectric:3",
